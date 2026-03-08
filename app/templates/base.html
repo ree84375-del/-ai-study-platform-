@@ -21,10 +21,12 @@
         <div class="navbar-nav">
             <a href="{{ url_for('main.home') }}" class="nav-link">首頁</a>
             <a href="{{ url_for('study.practice') }}" class="nav-link">開始刷題</a>
+            <a href="{{ url_for('study.generate_exam') }}" class="nav-link">模擬考</a>
             <a href="{{ url_for('study.mistakes') }}" class="nav-link">錯題本</a>
-            <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent); font-weight: bold;"><i class="fa-solid fa-wand-magic-sparkles"></i> 圖片解題</a>
-            <a href="{{ url_for('group.groups') }}" class="nav-link">我的群組</a>
+            <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i> 圖片解題</a>
+            <a href="{{ url_for('study.ai_docs') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-file-pdf"></i> 講義分析</a>
             <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> AI 聊天室</a>
+            <a href="{{ url_for('study.lofi_room') }}" class="nav-link"><i class="fa-solid fa-moon"></i> 深夜陪讀</a>
             {% if current_user.is_authenticated %}
                 <a href="{{ url_for('main.profile') }}" class="nav-link">個人檔案 (<i class="fa-solid fa-fire" style="color:#d89c9a"></i> {{ current_user.current_streak }})</a>
                 <a href="{{ url_for('auth.logout') }}" class="nav-link">登出</a>

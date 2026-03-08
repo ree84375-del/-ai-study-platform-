@@ -32,8 +32,17 @@ def create_app(config_class=None):
         db_path = os.path.join(basedir, 'app.db')
     
     db_uri = os.environ.get('DATABASE_URL', 'sqlite:///' + db_path)
-    if db_uri and db_uri.startswith("postgres://"):
-        db_uri = db_uri.replace("postgres://", "postgresql://", 1)
+    if db_uri:
+        if db_uri.startswith("postgres://"):
+            db_uri = db_uri.replace("postgres://", "postgresql://", 1)
+        
+        # Proactive fix for Supabase Pooler (port 6543)
+        # If it's port 6543 and the user is just 'postgres', it needs the project ref
+        if ":6543/" in db_uri and "postgres:" in db_uri and "@db." not in db_uri:
+            # Try to find project ref from hostname if it's a supabase pooler
+            # Note: The user's ref is 'nphrkuzhedlvgfagaujq'
+            if "nphrkuzhedlvgfagaujq" in db_uri and "postgres." not in db_uri:
+                db_uri = db_uri.replace("postgres:", "postgres.nphrkuzhedlvgfagaujq:", 1)
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

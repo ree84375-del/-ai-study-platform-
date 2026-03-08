@@ -25,9 +25,12 @@
             </div>
         </div>
 
-        <div id="input-area" style="display: flex; gap: 10px;">
+        <div id="input-area" style="display: flex; gap: 10px; align-items: center;">
+            <button id="voice-input-btn" title="語音輸入" style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
             <input type="text" id="chat-input" placeholder="輸入訊息..." style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none;">
-            <button id="send-chat-btn" style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold;">
+            <button id="send-chat-btn" style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
                 發送
             </button>
         </div>
@@ -35,13 +38,60 @@
 </div>
 
 <script>
-    let activeSessionId = null;
-    const sessionList = document.getElementById('session-list');
-    const messagesContainer = document.getElementById('messages');
-    const chatInput = document.getElementById('chat-input');
-    const chatTitle = document.getElementById('chat-title');
+    // --- Voice Tutor Logic ---
+    const voiceBtn = document.getElementById('voice-input-btn');
+    let isListening = false;
+    let autoSpeak = false;
+
+    // Speech Recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'zh-TW';
+        recognition.continuous = false;
+
+        recognition.onstart = () => {
+            isListening = true;
+            voiceBtn.style.color = '#ff6b6b';
+            voiceBtn.style.borderColor = '#ff6b6b';
+            voiceBtn.style.boxShadow = '0 0 10px rgba(255, 107, 107, 0.3)';
+        };
+
+        recognition.onend = () => {
+            isListening = false;
+            voiceBtn.style.color = 'var(--color-text_light)';
+            voiceBtn.style.borderColor = 'var(--color-border)';
+            voiceBtn.style.boxShadow = 'none';
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            chatInput.value = transcript;
+            autoSpeak = true;
+            sendMessage();
+        };
+
+        voiceBtn.onclick = () => {
+            if (isListening) recognition.stop();
+            else recognition.start();
+        };
+    } else {
+        voiceBtn.style.display = 'none';
+    }
+
+    // Text to Speech
+    function speak(text) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel(); // Stop current speech
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-TW';
+        utterance.rate = 1.0;
+        window.speechSynthesis.speak(utterance);
+    }
+    // --- End Voice Logic ---
 
     async function loadSessions() {
+        // ... (keep previous loadSessions)
         // Try server first
         try {
             const res = await fetch("{{ url_for('study.get_chat_sessions') }}");
@@ -151,6 +201,11 @@
                 }
                 addMessage('ai', data.reply);
                 
+                if (autoSpeak) {
+                    speak(data.reply);
+                    autoSpeak = false; // Reset after one turn or keep for continuous? Let's reset.
+                }
+
                 // Save to local backup
                 const updatedHistory = [...currentLocalHistory, {role: 'user', content: text}, {role: 'ai', content: data.reply}];
                 localStorage.setItem(`chat_history_${activeSessionId}`, JSON.stringify(updatedHistory));

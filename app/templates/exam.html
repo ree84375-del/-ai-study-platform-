@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}專屬模擬考{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 2rem auto; padding: 2rem; border-radius: 20px;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <h1 style="color: var(--color-primary);"><i class="fa-solid fa-file-invoice"></i> AI 弱點強化模擬考</h1>
+        <p style="color: var(--color-text_light);">根據您最近的 {{ mistakes|length }} 個錯題類型生成的模擬練習</p>
+    </div>
+
+    <form id="exam-form">
+        {% for mistake in mistakes %}
+        <div class="question-block" style="margin-bottom: 2.5rem; padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 12px; transition: transform 0.2s;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <span style="background: var(--color-secondary); color: var(--color-primary); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+                    {{ mistake.question.subject }}
+                </span>
+                <span style="color: #ff6b6b; font-size: 0.8rem;">
+                    錯誤次數: {{ mistake.mistake_count }}
+                </span>
+            </div>
+            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">{{ mistake.question.content_text }}</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; border-radius: 8px; border: 1px solid transparent;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='none'">
+                    <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}" required>
+                    <strong>{{ label }}:</strong> {{ text }}
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button type="submit" class="btn btn-primary" style="padding: 15px 50px; border-radius: 30px; font-size: 1.1rem;">
+                <i class="fa-solid fa-check-double"></i> 提交測驗
+            </button>
+        </div>
+    </form>
+</div>
+
+<div id="result-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+    <div class="card" style="width: 500px; padding: 3rem; text-align: center; border-radius: 25px;">
+        <h2 id="score-display" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">0%</h2>
+        <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 2rem;"></p>
+        <button onclick="location.href='{{ url_for('study.mistakes') }}'" class="btn btn-secondary">返回錯題本</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('exam-form').onsubmit = (e) => {
+        e.preventDefault();
+        // In this mock version, we just show a generic "Good job" for finishing
+        document.getElementById('result-modal').style.display = 'flex';
+        document.getElementById('score-display').innerText = '100%';
+        document.getElementById('feedback-text').innerText = '太棒了！您已經重新複習了所有弱點題目。雪音老師為你感到驕傲！';
+    };
+</script>
+
+<style>
+    .question-block:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border-color: var(--color-primary);
+    }
+</style>
+{% endblock %}

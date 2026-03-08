@@ -263,5 +263,9 @@ def get_chat_history(session_id):
     if session.user_id != current_user.id:
         return jsonify({'error': '權限不足'}), 403
     messages = [{'role': m.role, 'content': m.content} for m in session.messages]
-    return jsonify({'messages': messages})
+
+@study.route("/lofi")
+@login_required
+def lofi_room():
+    return render_template('lofi.html', title='深夜陪讀室')
 

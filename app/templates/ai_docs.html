@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}講義分析{% endblock %}
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 3rem auto; padding: 3rem; border-radius: 25px; text-align: center;">
+    <div style="font-size: 4rem; color: var(--color-primary); margin-bottom: 1.5rem;">
+        <i class="fa-solid fa-file-pdf"></i>
+    </div>
+    <h2 style="margin-bottom: 1rem;">AI 講義內容問答</h2>
+    <p style="color: var(--color-text_light); margin-bottom: 2.5rem;">上傳 PDF 講義，讓雪音老師幫您快速導讀、整理重點或解答疑惑。</p>
+
+    <div id="drop-area" style="border: 2px dashed var(--color-border); padding: 3rem; border-radius: 20px; cursor: pointer; transition: all 0.3s;">
+        <input type="file" id="pdf-input" accept="application/pdf" style="display: none;">
+        <p id="file-name" style="font-weight: bold; color: var(--color-text);">點擊或拖放 PDF 檔案到這裡</p>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 5px;">支援最多 5 頁內容分析</p>
+    </div>
+
+    <button id="upload-btn" class="btn btn-primary" style="margin-top: 2rem; width: 100%; padding: 15px; border-radius: 12px; display: none;">
+        開始分析講義
+    </button>
+
+    <div id="loading" style="display: none; margin-top: 2rem;">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--color-primary);"></i>
+        <p style="margin-top: 10px;">雪音正在翻閱講義中...</p>
+    </div>
+</div>
+
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const pdfInput = document.getElementById('pdf-input');
+    const fileNameDisplay = document.getElementById('file-name');
+    const uploadBtn = document.getElementById('upload-btn');
+    const loading = document.getElementById('loading');
+
+    dropArea.onclick = () => pdfInput.click();
+
+    pdfInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            fileNameDisplay.innerText = file.name;
+            uploadBtn.style.display = 'block';
+        }
+    };
+
+    uploadBtn.onclick = async () => {
+        const file = pdfInput.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        uploadBtn.style.display = 'none';
+        loading.style.display = 'block';
+
+        try {
+            const res = await fetch("{{ url_for('study.ai_docs') }}", {
+                method: 'POST',
+                body: formData,
+                headers: {'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content}
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                // Redirect to chat with the new session
+                window.location.href = "{{ url_for('main.chat') }}";
+            } else {
+                alert(data.error);
+                loading.style.display = 'none';
+                uploadBtn.style.display = 'block';
+            }
+        } catch (e) {
+            alert("伺服器繁忙，請稍後再試。");
+            loading.style.display = 'none';
+            uploadBtn.style.display = 'block';
+        }
+    };
+</script>
+
+<style>
+    #drop-area:hover {
+        border-color: var(--color-primary);
+        background: rgba(181, 155, 142, 0.05);
+    }
+</style>
+{% endblock %}
