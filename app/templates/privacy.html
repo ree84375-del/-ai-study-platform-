@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}用戶隱私宣告{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 2rem;">
+    <div class="washi-card">
+        <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-shield-halved"></i> 用戶隱私政策 (Privacy)</h2>
+        <div style="line-height: 1.8; color: var(--color-text_main);">
+            <p><strong>安全承諾：</strong>「AI 學習案內所」致力於保護所有使用者的隱私。您在平台上的個人資料、學習紀錄、錯題本與成績，均以加密方式安全儲存。</p>
+            
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">資料蒐集與使用</h3>
+            <ul style="padding-left: 1.5rem;">
+                <li><strong>帳戶資料</strong>：我們僅要求基本的 Email 與用戶名，以便為您提供個人化的學習服務與紀錄保存。即使是第三方登入 (如 Google 登入)，我們也僅獲取並儲存必要的基礎資訊。</li>
+                <li><strong>學習軌跡</strong>：系統搜集的「錯題」與「學習進度」，嚴格限定僅用於為您推薦合適的題目及呈現學習成效，並不會轉交給任何第三方商業平台使用。</li>
+                <li><strong>AI 對話紀錄</strong>：您與 AI 教師的對話紀錄與上傳之解題圖片將由 Google Gemini 或 Groq API 進行分析，這些資料傳輸過程皆受 SSL/TLS 憑證保護。</li>
+            </ul>
+
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">您的權益</h3>
+            <p>您可以隨時刪除您的帳號與所有學習紀錄。若您使用訪客模式登入，我們將定時自動清除閒置的匿名帳號與其資料。您的隱私權益是我們開發此平台時的最優先考量。</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

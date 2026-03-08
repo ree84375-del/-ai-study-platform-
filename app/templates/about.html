@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}關於本站{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 800px; margin-top: 2rem;">
+    <div class="washi-card">
+        <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-circle-info"></i> 關於本站 (About)</h2>
+        <div style="line-height: 1.8; color: var(--color-text_main);">
+            <p><strong>「AI 學習案內所」</strong> 是一個結合現代人工智慧技術與傳統日式美學的線上學習平台。我們的目標是打造一個寧靜、專注且能隨時解惑的個人化學習空間。</p>
+            
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">平台運作機制</h3>
+            <ul style="padding-left: 1.5rem;">
+                <li><strong>AI 輔助學習</strong>：我們整合了強大的 AI 模型 (如 Google Gemini 與 Groq Llama)，為您提供不間斷的家教服務與圖片解題支援。</li>
+                <li><strong>個人化題庫</strong>：透過「刷題」與「錯題本」機制，系統能幫助您追蹤學習盲點，有效率地克服弱科。</li>
+                <li><strong>社群與群組</strong>：教師或同學可以建立學習群組，輕鬆派發作業並透過留言板交流。</li>
+            </ul>
+
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">未來展望</h3>
+            <p>我們將致力於擴增題庫內容與升級 AI 引擎，帶給使用者更流暢的學習體驗。感謝您的使用與支持！</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
