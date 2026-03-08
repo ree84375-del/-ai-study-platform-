@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}個人檔案{% endblock %}
+
+{% block content %}
+<div class="container-small">
+    <div class="card profile-card" style="padding: 3rem; background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%); position: relative; overflow: hidden;">
+        <!-- Delicate background pattern/element -->
+        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background-color: rgba(216, 156, 154, 0.05); border-radius: 50%;"></div>
+        
+        <div class="profile-header" style="text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1;">
+            <div class="profile-avatar" style="width: 100px; height: 100px; background-color: var(--color-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 3rem; box-shadow: 0 8px 20px rgba(216, 156, 154, 0.2);">
+                {{ current_user.username[0] | upper }}
+            </div>
+            <h1 style="color: var(--color-text); font-weight: 500; margin-bottom: 0.5rem;">{{ current_user.username }}</h1>
+            <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
+            <span class="badge" style="background-color: var(--color-primary); color: white; display: inline-block; margin-top: 1rem; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 500;">
+                {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
+            </span>
+        </div>
+
+        <div class="profile-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3rem;">
+            <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
+                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-accent);">{{ current_user.current_streak }}</span>
+                <span style="font-size: 0.8rem; color: var(--color-text_light);">連續登入 (天)</span>
+            </div>
+            <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
+                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ current_user.highest_streak }}</span>
+                <span style="font-size: 0.8rem; color: var(--color-text_light);">最高紀錄</span>
+            </div>
+            <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
+                <span style="display: block; font-size: 2rem; font-weight: 700; color: #555;">{{ current_user.mistakes | length }}</span>
+                <span style="font-size: 0.8rem; color: var(--color-text_light);">待複習題目</span>
+            </div>
+        </div>
+
+        <div class="profile-actions" style="border-top: 1px solid var(--color-border); padding-top: 2rem;">
+            <h3 style="font-weight: 500; margin-bottom: 1.5rem; color: var(--color-text); display: flex; align-items: center;">
+                <i class="fa-solid fa-gear" style="margin-right: 10px; color: var(--color-text_light);"></i> 帳號設定
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <a href="#" class="btn btn-outline" style="text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; width: 100%; border-color: var(--color-border);">
+                    <span>修改個人資料</span>
+                    <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
+                </a>
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-outline" style="text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; width: 100%; border-color: rgba(216, 156, 154, 0.3); color: var(--color-accent);">
+                    <span>登出帳號</span>
+                    <i class="fa-solid fa-arrow-right-from-bracket" style="font-size: 1rem; opacity: 0.8;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .container-small {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+    .profile-card {
+        animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .stat-card:hover {
+        border-color: var(--color-primary) !important;
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+    }
+</style>
+{% endblock %}
