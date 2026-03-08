@@ -1,7 +1,8 @@
 {
-    "venvPath": ".",
+    "venvPath": "venv",
     "venv": "venv",
-    "include": ["app", "run.py"],
+    "include": ["."],
+    "exclude": ["**/__pycache__", "venv"],
     "analysisMode": "basic",
-    "pythonVersion": "3.14"
+    "pythonVersion": "3.12"
 }

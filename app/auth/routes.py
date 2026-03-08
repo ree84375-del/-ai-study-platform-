@@ -48,7 +48,7 @@ def login():
 @auth.route("/login/google")
 def google_login():
     scheme = 'https' if os.environ.get('VERCEL') or request.headers.get('x-forwarded-proto') == 'https' else 'http'
-    redirect_uri = url_for('google_auth', _external=True, _scheme=scheme)
+    redirect_uri = url_for('auth.google_auth', _external=True, _scheme=scheme)
     return google.authorize_redirect(redirect_uri)
 
 @auth.route('/auth/google/callback')
