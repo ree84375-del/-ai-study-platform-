@@ -43,7 +43,7 @@
     <div class="card" style="width: 500px; padding: 3rem; text-align: center; border-radius: 25px;">
         <h2 id="score-display" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">0%</h2>
         <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 2rem;"></p>
-        <button onclick="location.href='{{ url_for('study.mistakes') }}'" class="btn btn-secondary">返回錯題本</button>
+        <button onclick="window.location.href='{{ url_for('study.mistakes') }}';" class="btn btn-secondary">返回錯題本</button>
     </div>
 </div>
 

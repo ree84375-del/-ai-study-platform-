@@ -263,9 +263,46 @@ def get_chat_history(session_id):
     if session.user_id != current_user.id:
         return jsonify({'error': '權限不足'}), 403
     messages = [{'role': m.role, 'content': m.content} for m in session.messages]
+    return jsonify({'messages': messages})
 
 @study.route("/lofi")
 @login_required
 def lofi_room():
     return render_template('lofi.html', title='深夜陪讀室')
+
+@study.route("/generate_exam")
+@login_required
+def generate_exam():
+    mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
+    if not mistakes:
+        flash("目前沒有足夠的錯題來生成測驗。請先進行練習！", "info")
+        return redirect(url_for('study.practice'))
+    return render_template('exam.html', title='專屬模擬考', mistakes=mistakes)
+
+@study.route("/ai_docs", methods=['GET', 'POST'])
+@login_required
+def ai_docs():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return jsonify({'error': '沒有上傳檔案'}), 400
+        file = request.files['file']
+        if file.filename == '' or not file.filename.endswith('.pdf'):
+            return jsonify({'error': '請上傳 PDF 格式的講義'}), 400
+        import PyPDF2
+        import io
+        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
+        full_text = ""
+        for i in range(min(len(pdf_reader.pages), 5)):
+            full_text += pdf_reader.pages[i].extract_text() + "\n"
+        if not full_text.strip():
+            return jsonify({'error': '無法從 PDF 中讀取文字，可能是掃描圖檔？請改用圖片解題。'}), 400
+        session = ChatSession(user_id=current_user.id, title=f"講義分析: {file.filename}")
+        db.session.add(session)
+        db.session.commit()
+        context_msg = ChatMessage(session_id=session.id, role='ai', 
+                                content=f"我已經讀完您的講義「{file.filename}」了！您可以開始問我關於這份講義的問題。")
+        db.session.add(context_msg)
+        db.session.commit()
+        return jsonify({'status': 'success', 'session_id': session.id})
+    return render_template('ai_docs.html', title='講義分析')
 
