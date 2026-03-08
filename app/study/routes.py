@@ -223,19 +223,30 @@ def tutor_chat():
         if recent_mistakes:
             context = "學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes])
 
-    # Convert session messages to Gemini format
-    history = []
-    for m in session.messages:
-        history.append({'role': m.role, 'parts': [m.content]})
+    # Convert session messages to Gemini format or use override from frontend
+    history_override = request.json.get('history')
+    if history_override:
+        # Use history from browser if provided (resilient to DB failure)
+        recent_history = history_override
+    else:
+        # Fallback to database if possible
+        try:
+            history = []
+            for m in session.messages:
+                history.append({'role': m.role, 'parts': [m.content]})
+            recent_history = history[:-1] if len(history) > 1 else []
+        except Exception:
+            recent_history = []
 
-    # Slice history to remove the current user message (optional, but keep it if previous logic did)
-    recent_history = history[:-1] if len(history) > 1 else []
     reply = get_ai_tutor_response(recent_history, user_msg, personality_key=current_user.ai_personality, context_summary=context)
     
-    # Save AI response
-    ai_chat = ChatMessage(session_id=session.id, role='ai', content=reply)
-    db.session.add(ai_chat)
-    db.session.commit()
+    # Save AI response (Try-catch to prevent crash if DB is down)
+    try:
+        ai_chat = ChatMessage(session_id=session.id, role='ai', content=reply)
+        db.session.add(ai_chat)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
     
     return jsonify({'reply': reply, 'session_id': session.id})
 

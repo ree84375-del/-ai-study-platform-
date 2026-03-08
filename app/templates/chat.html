@@ -42,8 +42,24 @@
     const chatTitle = document.getElementById('chat-title');
 
     async function loadSessions() {
-        const res = await fetch("{{ url_for('study.get_chat_sessions') }}");
-        const sessions = await res.json();
+        // Try server first
+        try {
+            const res = await fetch("{{ url_for('study.get_chat_sessions') }}");
+            if (res.ok) {
+                const sessions = await res.json();
+                renderSessions(sessions);
+                // Backup to LocalStorage
+                localStorage.setItem('chat_sessions_backup', JSON.stringify(sessions));
+                return;
+            }
+        } catch (e) { console.log("Server session load failed, using local backup."); }
+        
+        // Fallback to LocalStorage
+        const localSessions = JSON.parse(localStorage.getItem('chat_sessions_backup') || '[]');
+        renderSessions(localSessions);
+    }
+
+    function renderSessions(sessions) {
         sessionList.innerHTML = '';
         sessions.forEach(s => {
             const btn = document.createElement('button');
@@ -64,10 +80,21 @@
         activeSessionId = id;
         chatTitle.innerText = title;
         messagesContainer.innerHTML = '';
-        const res = await fetch(`{{ url_for('study.get_chat_history', session_id=0) }}`.replace('0', id));
-        const data = await res.json();
-        data.messages.forEach(m => addMessage(m.role, m.content));
-        loadSessions();
+        
+        try {
+            const res = await fetch(`{{ url_for('study.get_chat_history', session_id=0) }}`.replace('0', id));
+            if (res.ok) {
+                const data = await res.json();
+                data.messages.forEach(m => addMessage(m.role, m.content));
+                // Backup messages
+                localStorage.setItem(`chat_history_${id}`, JSON.stringify(data.messages));
+                return;
+            }
+        } catch (e) { console.log("Server history load failed, using local backup."); }
+
+        // Fallback
+        const localHistory = JSON.parse(localStorage.getItem(`chat_history_${id}`) || '[]');
+        localHistory.forEach(m => addMessage(m.role, m.content));
     }
 
     function addMessage(role, text) {
@@ -98,20 +125,38 @@
         
         chatInput.value = '';
         addMessage('user', text);
+
+        // Prepare context from LocalStorage if session is unstable
+        const currentLocalHistory = JSON.parse(localStorage.getItem(`chat_history_${activeSessionId}`) || '[]');
+        const geminiHistory = currentLocalHistory.map(m => ({role: m.role, parts: [m.content]}));
         
-        const response = await fetch("{{ url_for('study.tutor_chat') }}", {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content},
-            body: JSON.stringify({message: text, session_id: activeSessionId})
-        });
-        
-        const data = await response.json();
-        if (data.reply) {
-            if (!activeSessionId) {
-                activeSessionId = data.session_id;
-                loadSessions();
+        const payload = {
+            message: text, 
+            session_id: activeSessionId,
+            history: geminiHistory // Sending full history as backup
+        };
+
+        try {
+            const response = await fetch("{{ url_for('study.tutor_chat') }}", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content},
+                body: JSON.stringify(payload)
+            });
+            
+            const data = await response.json();
+            if (data.reply) {
+                if (!activeSessionId) {
+                    activeSessionId = data.session_id;
+                    loadSessions();
+                }
+                addMessage('ai', data.reply);
+                
+                // Save to local backup
+                const updatedHistory = [...currentLocalHistory, {role: 'user', content: text}, {role: 'ai', content: data.reply}];
+                localStorage.setItem(`chat_history_${activeSessionId}`, JSON.stringify(updatedHistory));
             }
-            addMessage('ai', data.reply);
+        } catch (e) {
+            addMessage('ai', '對不起，連線似乎有點問題...但我會記住剛才的對話。');
         }
     }
 
