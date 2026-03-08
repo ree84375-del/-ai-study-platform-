@@ -1,7 +1,25 @@
 {% extends "base.html" %}
 {% block title %}深夜陪讀室{% endblock %}
 {% block content %}
-<div class="lofi-container" style="background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('{{ url_for('static', filename='img/yukine_lofi.png') }}'); background-size: cover; background-position: center; min-height: calc(100vh - 80px); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 2rem; border-radius: 20px; margin: 1rem; position: relative; overflow: hidden;">
+<style>
+    .lofi-container-bg {
+        background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('{{ url_for("static", filename="img/yukine_lofi.png") }}');
+        background-size: cover;
+        background-position: center;
+        min-height: calc(100vh - 80px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 1rem;
+        position: relative;
+        overflow: hidden;
+    }
+</style>
+<div class="lofi-container lofi-container-bg">
     
     <!-- Soft Glow Overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle, rgba(181, 155, 142, 0.1) 0%, rgba(0,0,0,0) 70%); pointer-events: none;"></div>

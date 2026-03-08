@@ -231,10 +231,11 @@ def tutor_chat():
     else:
         # Fallback to database if possible
         try:
-            history: list = []
-            for m in session.messages:
-                history.append({'role': m.role, 'parts': [m.content]})
-            recent_history = history[:-1] if len(history) > 0 else []
+            from typing import Any, Dict, List
+            history: List[Dict[str, Any]] = [{'role': str(m.role), 'parts': [str(m.content)]} for m in session.messages]
+            recent_history: List[Dict[str, Any]] = []
+            for i in range(len(history) - 1):
+                recent_history.append(history[i])
         except Exception:
             recent_history = []
 
