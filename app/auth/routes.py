@@ -1,16 +1,13 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request
-from app import db, bcrypt
+from app import db, bcrypt, oauth
 from app.auth.forms import RegistrationForm, LoginForm
 from app.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 import os
 import secrets
-from authlib.integrations.flask_client import OAuth
 
 auth = Blueprint('auth', __name__)
 
-oauth = OAuth()
-# The app and secret key must be set for oauth to work
 google = oauth.register(
     name='google',
     client_id=os.environ.get('GOOGLE_CLIENT_ID', ''),
@@ -67,13 +64,20 @@ def google_auth():
     
     user = User.query.filter_by(email=email).first()
     
+    is_admin = (email == 'ree84375@gmail.com')
+    assigned_role = 'admin' if is_admin else 'student'
+    
     if not user:
         random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
-        user = User(username=name, email=email, password=random_password, role='student')
+        user = User(username=name, email=email, password=random_password, role=assigned_role)
         db.session.add(user)
         db.session.commit()
         flash('成功透過 Google 註冊並登入系統！', 'success')
     else:
+        # Upgrade to admin if necessary
+        if is_admin and user.role != 'admin':
+            user.role = 'admin'
+            db.session.commit()
         flash(f'歡迎回來，{user.username}！', 'success')
         
     login_user(user)

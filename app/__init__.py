@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+from authlib.integrations.flask_client import OAuth
 
 load_dotenv()
 
@@ -14,6 +15,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
 migrate = Migrate()
+oauth = OAuth()
 
 def create_app(config_class=None):
     app = Flask(__name__)
@@ -29,6 +31,7 @@ def create_app(config_class=None):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
+    oauth.init_app(app)
 
     from app.main.routes import main
     from app.auth.routes import auth

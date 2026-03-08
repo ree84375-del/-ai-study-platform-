@@ -24,7 +24,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('該 Email 已被註冊。請使用其他 Email。')
 
 class LoginForm(FlaskForm):
-    email = StringField('Email',
+    email = StringField('帳戶',
                         validators=[DataRequired(), Email()])
     password = PasswordField('密碼', validators=[DataRequired()])
     remember = BooleanField('記住我')
