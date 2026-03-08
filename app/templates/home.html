@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}首頁{% endblock %}
+{% block content %}
+<div class="washi-card" style="text-align: center; padding: 4rem 2rem;">
+    <h1 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 1rem;">歡迎來到 AI 學習案內所</h1>
+    <p style="font-size: 1.2rem; color: var(--color-text_light); margin-bottom: 2rem;">
+        透過日系極簡體驗，結合強大 AI 輔助，讓學習不再枯燥。<br>
+        選擇科目、開始刷題，或者上傳題目讓 AI 家教為您解答。
+    </p>
+    <div style="display: flex; justify-content: center; gap: 1rem;">
+        <a href="{{ url_for('study.practice') }}" style="background-color: var(--color-primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            <i class="fa-solid fa-pen-nib"></i> 開始練習
+        </a>
+        <a href="{{ url_for('auth.login') }}" style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: all 0.3s;">
+            <i class="fa-solid fa-user"></i> 訪客登入
+        </a>
+    </div>
+</div>
+{% endblock %}

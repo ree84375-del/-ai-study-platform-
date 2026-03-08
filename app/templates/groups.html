@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}我的群組{% endblock %}
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;">
+        <h2 style="color: var(--color-primary); margin: 0;"><i class="fa-solid fa-users"></i> 學習群組</h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem;">
+        
+        <!-- Action Sidebar -->
+        <div>
+            <div class="washi-card" style="margin-bottom: 1.5rem;">
+                <h4 style="margin-top: 0; color: var(--color-accent);"><i class="fa-solid fa-right-to-bracket"></i> 加入群組</h4>
+                <form method="POST" action="">
+                    <input type="hidden" name="action" value="join">
+                    <input type="text" name="invite_code" placeholder="輸入 6 碼邀請碼" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box;">
+                    <button type="submit" style="width: 100%; padding: 10px; background-color: white; border: 1px solid var(--color-primary); color: var(--color-primary); border-radius: 4px; cursor: pointer; transition: all 0.3s;">加入</button>
+                </form>
+            </div>
+
+            <div class="washi-card">
+                <h4 style="margin-top: 0; color: var(--color-primary);"><i class="fa-solid fa-plus-circle"></i> 建立新群組</h4>
+                <p style="font-size: 0.85rem; color: var(--color-text_light); margin-bottom: 10px;">(展示功能：所有人皆可建立)</p>
+                <form method="POST" action="">
+                    <input type="hidden" name="action" value="create">
+                    <input type="text" name="group_name" placeholder="群組名稱 (例如: 日文特訓班)" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box;">
+                    <button type="submit" style="width: 100%; padding: 10px; background-color: var(--color-primary); border: none; color: white; border-radius: 4px; cursor: pointer; transition: all 0.3s;">建立</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Groups List -->
+        <div>
+            {% if not groups %}
+                <div class="washi-card" style="text-align: center; padding: 3rem;">
+                    <i class="fa-solid fa-users-slash" style="font-size: 3rem; color: var(--color-text_light); margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--color-text_main);">您目前沒有加入任何群組</h3>
+                    <p style="color: var(--color-text_light);">從左側輸入邀請碼加入，或是自己建立一個吧！</p>
+                </div>
+            {% else %}
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    {% for group in groups %}
+                        <div class="washi-card" style="position: relative;">
+                            {% if group.teacher_id == current_user.id %}
+                                <span style="position: absolute; top: 20px; right: 20px; background-color: var(--color-accent); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">管理員</span>
+                            {% endif %}
+                            
+                            <h3 style="margin-top: 0; color: var(--color-primary);">{{ group.name }}</h3>
+                            <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 5px;"><i class="fa-solid fa-hashtag"></i> 邀請碼: <strong style="color: var(--color-text_main); letter-spacing: 1px;">{{ group.invite_code }}</strong></p>
+                            <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 15px;"><i class="fa-solid fa-user-graduate"></i> 成員數: {{ group.members | length }}</p>
+                            
+                            <div style="border-top: 1px dashed var(--color-border); padding-top: 15px;">
+                                <button class="btn-group-action" style="background: none; border: 1px solid var(--color-border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: var(--color-text_main);">
+                                    <i class="fa-solid fa-comments"></i> 進入討論區 (開發中)
+                                </button>
+                                <button class="btn-group-action" style="background: none; border: 1px solid var(--color-border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: var(--color-text_main); margin-left: 10px;">
+                                    <i class="fa-solid fa-tasks"></i> 查看作業 (開發中)
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

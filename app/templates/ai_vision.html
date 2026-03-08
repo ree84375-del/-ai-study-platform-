@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}AI 圖片解題{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 800px;">
+    <h2 style="color: var(--color-primary); margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> AI 視覺解題助手</h2>
+    
+    <div class="washi-card" style="text-align: center;">
+        <p style="color: var(--color-text_light); margin-bottom: 2rem;">遇到不會的題目嗎？拍下來傳給雪音老師吧！</p>
+        
+        <form id="upload-form" style="margin-bottom: 2rem;">
+            <div style="border: 2px dashed var(--color-border); border-radius: 12px; padding: 3rem; background-color: var(--color-bg); margin-bottom: 1.5rem; transition: border-color 0.3s;" id="drop-zone">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; color: var(--color-text_light); margin-bottom: 1rem;"></i><br>
+                <label for="image-upload" style="cursor: pointer; color: var(--color-primary); font-weight: bold; text-decoration: underline;">點擊選擇圖片</label> 或拖曳圖片至此
+                <input type="file" id="image-upload" name="image" accept="image/*" style="display: none;">
+                <p id="file-name" style="margin-top: 10px; font-size: 0.9rem; color: var(--color-text_main);"></p>
+            </div>
+            
+            <button type="submit" id="analyze-btn" style="background-color: var(--color-primary); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 1.1rem; transition: opacity 0.3s;" disabled>
+                請 AI 老師解答 <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </button>
+        </form>
+
+        <div id="loading" style="display: none; color: var(--color-text_light);">
+            <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+            <p style="margin-top: 10px;">雪音老師正在詳閱您的題目...</p>
+        </div>
+
+        <div id="result-container" style="display: none; text-align: left; background-color: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 1.5rem; margin-top: 2rem; box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);">
+            <h4 style="color: var(--color-accent); margin-top: 0;"><i class="fa-solid fa-chalkboard-user"></i> 老師的解答：</h4>
+            <div id="ai-response" style="line-height: 1.8; white-space: pre-wrap; font-size: 1.05rem;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('image-upload');
+    const fileNameDisplay = document.getElementById('file-name');
+    const analyzeBtn = document.getElementById('analyze-btn');
+
+    fileInput.addEventListener('change', function() {
+        if(this.files && this.files.length > 0) {
+            fileNameDisplay.innerText = "已選取: " + this.files[0].name;
+            analyzeBtn.disabled = false;
+        }
+    });
+
+    document.getElementById('upload-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const submitBtn = document.getElementById('analyze-btn');
+        const loadingSection = document.getElementById('loading');
+        const resultContainer = document.getElementById('result-container');
+        const aiResponse = document.getElementById('ai-response');
+        
+        submitBtn.style.display = 'none';
+        resultContainer.style.display = 'none';
+        loadingSection.style.display = 'block';
+
+        fetch("{{ url_for('study.ai_vision') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            loadingSection.style.display = 'none';
+            submitBtn.style.display = 'inline-block';
+            submitBtn.innerText = "重新上傳";
+            
+            resultContainer.style.display = 'block';
+            
+            if(data.error) {
+                aiResponse.innerHTML = `<span style="color: red;">發生錯誤：${data.error}</span>`;
+            } else {
+                // simple markdown rendering fallback for line breaks
+                aiResponse.innerHTML = data.result.replace(/\n/g, '<br>');
+            }
+        })
+        .catch(err => {
+            loadingSection.style.display = 'none';
+            submitBtn.style.display = 'inline-block';
+            resultContainer.style.display = 'block';
+            aiResponse.innerHTML = `<span style="color: red;">網路連線錯誤。</span>`;
+        });
+    });
+</script>
+{% endblock %}

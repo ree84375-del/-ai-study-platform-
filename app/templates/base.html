@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts for Japanese/Traditional Chinese feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    <title>AI 學習案內所 | {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> AI 學習案內所</a>
+        <div class="navbar-nav">
+            <a href="{{ url_for('main.home') }}" class="nav-link">首頁</a>
+            <a href="{{ url_for('study.practice') }}" class="nav-link">開始刷題</a>
+            <a href="{{ url_for('study.mistakes') }}" class="nav-link">錯題本</a>
+            <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent); font-weight: bold;"><i class="fa-solid fa-wand-magic-sparkles"></i> 圖片解題</a>
+            <a href="{{ url_for('group.groups') }}" class="nav-link">我的群組</a>
+            {% if current_user.is_authenticated %}
+                <a href="#" class="nav-link">個人檔案 (<i class="fa-solid fa-fire" style="color:#d89c9a"></i> {{ current_user.current_streak }})</a>
+                <a href="#" class="nav-link">登出</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="nav-link">登入/註冊</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
