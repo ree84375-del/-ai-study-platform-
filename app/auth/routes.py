@@ -47,12 +47,20 @@ def login():
 
 @auth.route('/login/google')
 def google_login():
-    redirect_uri = url_for('auth.google_auth', _external=True)
+    # 在 Vercel 上 url_for 可能產生錯誤的 scheme/host，手動組合
+    if request.headers.get('x-forwarded-proto') == 'https':
+        redirect_uri = f"https://{request.host}/auth/google/callback"
+    else:
+        redirect_uri = url_for('auth.google_auth', _external=True)
     return google.authorize_redirect(redirect_uri)
 
 @auth.route('/auth/google/callback')
 def google_auth():
-    token = google.authorize_access_token()
+    try:
+        token = google.authorize_access_token()
+    except Exception as e:
+        flash(f'Google 登入失敗：{str(e)}', 'danger')
+        return redirect(url_for('auth.login'))
     user_info = token.get('userinfo')
     
     if not user_info:
