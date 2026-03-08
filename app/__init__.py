@@ -22,8 +22,14 @@ def create_app(config_class=None):
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_secret_key_12345')
     
     # Database Settings
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'app.db'))
+    # Vercel serverless 環境檔案系統為唯讀，只有 /tmp 可寫入
+    if os.environ.get('VERCEL'):
+        db_path = '/tmp/app.db'
+    else:
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        db_path = os.path.join(basedir, 'app.db')
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///' + db_path)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize extensions
@@ -42,5 +48,9 @@ def create_app(config_class=None):
     app.register_blueprint(auth)
     app.register_blueprint(study)
     app.register_blueprint(group)
+
+    # 在 Vercel 環境上，每次冷啟動時自動建立資料表
+    with app.app_context():
+        db.create_all()
 
     return app
