@@ -1,4 +1,7 @@
 {
     "venvPath": ".",
-    "venv": "venv"
+    "venv": "venv",
+    "include": ["app", "run.py"],
+    "analysisMode": "basic",
+    "pythonVersion": "3.14"
 }

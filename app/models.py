@@ -26,6 +26,7 @@ class User(db.Model, UserMixin):
     # 網站偏好設定
     preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic
     pomodoro_duration = db.Column(db.Integer, default=25)
+    last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     mistakes = db.relationship('Mistake', backref='student', lazy=True)
@@ -46,6 +47,8 @@ class Question(db.Model):
     option_d = db.Column(db.String(255), nullable=True)
     correct_answer = db.Column(db.String(5), nullable=False) # A, B, C, D
     explanation = db.Column(db.Text, nullable=True) # 詳解
+    tags = db.Column(db.String(100), nullable=True) # 標籤 (e.g. "語法,單字")
+    difficulty = db.Column(db.Integer, default=1) # 1-5 難度
     
     mistakes_records = db.relationship('Mistake', backref='question', lazy=True)
 
@@ -59,6 +62,11 @@ class Mistake(db.Model):
     mistake_count = db.Column(db.Integer, default=1)
     last_attempt_date = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     is_resolved = db.Column(db.Boolean, default=False) # 是否已經複習過了
+    
+    # SRS (Spaced Repetition System)
+    srs_level = db.Column(db.Integer, default=0) # 0-7 等級
+    next_review_date = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    last_interval = db.Column(db.Integer, default=0) # 上次間隔(天數)
 
     def __repr__(self):
         return f"Mistake(User: {self.user_id}, Question: {self.question_id}, Count: {self.mistake_count})"
@@ -91,3 +99,13 @@ class Assignment(db.Model):
     description = db.Column(db.Text, nullable=True)
     due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    
+    # Relationships
+    statuses = db.relationship('AssignmentStatus', backref='assignment', lazy=True)
+
+class AssignmentStatus(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    is_completed = db.Column(db.Boolean, default=False)
+    completed_at = db.Column(db.DateTime, nullable=True)

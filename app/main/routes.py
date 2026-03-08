@@ -1,8 +1,15 @@
 from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 from app import db
+from datetime import datetime, timezone
 
 main = Blueprint('main', __name__)
+
+@main.before_app_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_active_at = datetime.now(timezone.utc)
+        db.session.commit()
 
 @main.route("/")
 @main.route("/home")

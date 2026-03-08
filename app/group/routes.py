@@ -4,6 +4,7 @@ from app.models import Group, GroupMember
 from app import db
 import random
 import string
+from datetime import datetime, timedelta, timezone
 
 group = Blueprint('group', __name__)
 
@@ -54,3 +55,26 @@ def groups():
     
     return render_template('groups.html', title='我的群組', groups=user_groups)
 
+@group.route("/api/online_members/<int:group_id>")
+@login_required
+def online_members(group_id):
+    # Check if user is a member or teacher of this group
+    is_member = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
+    group_info = Group.query.get_or_404(group_id)
+    
+    if not is_member and group_info.teacher_id != current_user.id:
+        return jsonify({'error': 'Forbidden'}), 403
+        
+    # Get members active in the last 10 minutes
+    ten_minutes_ago = datetime.now(timezone.utc) - timedelta(minutes=10)
+    
+    memberships = GroupMember.query.filter_by(group_id=group_id).all()
+    user_ids = [m.user_id for m in memberships]
+    
+    # Query online users from the user IDs
+    from app.models import User
+    online_users = User.query.filter(User.id.in_(user_ids), User.last_active_at >= ten_minutes_ago).all()
+    
+    results = [{'id': u.id, 'username': u.username, 'last_active': u.last_active_at.isoformat()} for u in online_users]
+    
+    return jsonify({'online_members': results})
