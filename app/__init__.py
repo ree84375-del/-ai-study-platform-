@@ -49,8 +49,20 @@ def create_app(config_class=None):
     app.register_blueprint(study)
     app.register_blueprint(group)
 
+    # 確保在建立資料表前，models 已被載入
+    from app import models
+
     # 在 Vercel 環境上，每次冷啟動時自動建立資料表
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception as e:
+            app.logger.error(f"Database creation failed: {e}")
+
+    # 加入全域錯誤處理器，幫助除錯 Vercel 500 錯誤
+    @app.errorhandler(500)
+    def handle_500(error):
+        import traceback
+        return f"<h3>系統發生錯誤 (500)</h3><pre>{traceback.format_exc()}</pre>", 500
 
     return app

@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from app import db, login_manager
+from . import db, login_manager
 from flask_login import UserMixin
 
 @login_manager.user_loader
@@ -12,10 +12,11 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
-    role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest
+    role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
     experience_points = db.Column(db.Integer, default=0)
     current_streak = db.Column(db.Integer, default=0)
     last_study_date = db.Column(db.DateTime, nullable=True)
+    has_seen_tour = db.Column(db.Boolean, default=False)
     
     # Relationships
     mistakes = db.relationship('Mistake', backref='student', lazy=True)
