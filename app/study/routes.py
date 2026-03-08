@@ -175,7 +175,22 @@ def generate_question_api():
     if 'error' in quiz_data:
         return jsonify(quiz_data), 500
         
-    return jsonify(quiz_data)
+    # Save to database
+    new_q = Question(
+        subject=subject,
+        content_text=quiz_data.get('content_text'),
+        option_a=quiz_data.get('option_a'),
+        option_b=quiz_data.get('option_b'),
+        option_c=quiz_data.get('option_c'),
+        option_d=quiz_data.get('option_d'),
+        correct_answer=quiz_data.get('correct_answer'),
+        explanation=quiz_data.get('explanation'),
+        tags=quiz_data.get('tags')
+    )
+    db.session.add(new_q)
+    db.session.commit()
+    
+    return jsonify({'status': 'success', 'question_id': new_q.id, 'quiz': quiz_data})
 
 @study.route("/tutor_chat", methods=['POST'])
 @login_required
@@ -213,7 +228,9 @@ def tutor_chat():
     for m in session.messages:
         history.append({'role': m.role, 'parts': [m.content]})
 
-    reply = get_ai_tutor_response(history[:-1], user_msg, personality_key=current_user.ai_personality, context_summary=context)
+    # Slice history to remove the current user message (optional, but keep it if previous logic did)
+    recent_history = history[:-1] if len(history) > 1 else []
+    reply = get_ai_tutor_response(recent_history, user_msg, personality_key=current_user.ai_personality, context_summary=context)
     
     # Save AI response
     ai_chat = ChatMessage(session_id=session.id, role='ai', content=reply)

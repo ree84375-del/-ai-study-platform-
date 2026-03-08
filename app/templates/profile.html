@@ -8,17 +8,27 @@
         <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background-color: rgba(216, 156, 154, 0.05); border-radius: 50%;"></div>
         
         <div class="profile-header" style="text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1;">
-            <div class="profile-avatar" style="width: 100px; height: 100px; background-color: var(--color-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 3rem; box-shadow: 0 8px 20px rgba(216, 156, 154, 0.2);">
-                {{ current_user.username[0] | upper }}
+            <div class="profile-avatar-container" style="position: relative; display: inline-block;">
+                {% if current_user.avatar_url %}
+                    <img src="{{ current_user.avatar_url }}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                {% else %}
+                    <div class="profile-avatar" style="width: 120px; height: 120px; background-color: var(--color-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 3.5rem; box-shadow: 0 8px 25px rgba(216, 156, 154, 0.2);">
+                        {{ current_user.username[0] | upper }}
+                    </div>
+                {% endif %}
+                <div style="position: absolute; bottom: 0; right: 0; background: var(--color-primary); color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; cursor: pointer;" onclick="document.getElementById('avatar-modal').style.display='flex'">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
             </div>
-            <h1 style="color: var(--color-text); font-weight: 500; margin-bottom: 0.5rem;">{{ current_user.username }}</h1>
+            <h1 style="color: var(--color-text); font-weight: 500; margin-bottom: 0.5rem; margin-top: 1rem;">{{ current_user.username }}</h1>
             <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
-            <div style="margin-top: 1rem;">
-                <span class="badge" style="background-color: var(--color-primary); color: white; display: inline-block; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 500;">
-                    {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
+            <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 10px;">
+                <span class="badge" style="background-color: var(--color-primary); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
+                   LV.{{ (current_user.experience_points / 100) | int + 1 }} 
+                   {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}大考鬥士{% endif %}
                 </span>
-                <span class="badge" style="background-color: var(--color-accent); color: white; display: inline-block; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 500; margin-left: 0.5rem;">
-                    AI 性格：{{ current_user.ai_personality }}
+                <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
+                    指導：{{ current_user.ai_personality }}
                 </span>
             </div>
         </div>
@@ -41,14 +51,14 @@
         <div class="profile-info" style="margin-bottom: 3rem;">
             <div style="margin-bottom: 1.5rem;">
                 <h3 style="font-size: 1.1rem; color: var(--color-text); margin-bottom: 0.5rem;"><i class="fa-solid fa-pen-nib"></i> 個人簡介</h3>
-                <p style="color: var(--color-text_light); background: #fff; padding: 1rem; border-radius: 8px; border: 1px dashed var(--color-border);">
-                    {{ current_user.bio or '尚未填寫簡介...' }}
+                <p style="color: var(--color-text_light); background: #fff; padding: 1rem; border-radius: 8px; border: 1px dashed var(--color-border); min-height: 3rem;">
+                    {{ current_user.bio or '寫點什麼讓雪音老師更了解你吧...' }}
                 </p>
             </div>
             <div>
                 <h3 style="font-size: 1.1rem; color: var(--color-text); margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye"></i> 學習目標</h3>
-                <p style="color: var(--color-text_light); background: #fff; padding: 1rem; border-radius: 8px; border: 1px dashed var(--color-border);">
-                    {{ current_user.learning_goals or '尚未設定明確目標...' }}
+                <p style="color: var(--color-text_light); background: #fff; padding: 1rem; border-radius: 8px; border: 1px dashed var(--color-border); min-height: 3rem;">
+                    {{ current_user.learning_goals or '設定一個目標，讓學習更有動力！' }}
                 </p>
             </div>
         </div>
@@ -58,39 +68,84 @@
                 <i class="fa-solid fa-gear" style="margin-right: 10px; color: var(--color-text_light);"></i> 帳號設定
             </h3>
             
-            <form action="{{ url_for('main.update_profile') }}" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <form action="{{ url_for('main.update_profile') }}" method="POST" id="update-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="avatar_url" id="avatar-input" value="{{ current_user.avatar_url or '' }}"/>
+                
                 <div class="form-group">
                     <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">使用者名稱</label>
                     <input type="text" name="username" value="{{ current_user.username }}" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
                 </div>
                 
-                <div class="form-group">
-                    <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">AI 指導風格</label>
-                    <select name="ai_personality" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
-                        <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>雪音-溫柔型</option>
-                        <option value="嚴厲教練" {% if current_user.ai_personality == '嚴厲教練' %}selected{% endif %}>嚴厲教練</option>
-                        <option value="幽默學長" {% if current_user.ai_personality == '幽默學長' %}selected{% endif %}>幽默學長</option>
-                    </select>
+                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">AI 指導風格</label>
+                        <select name="ai_personality" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
+                            <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>雪音-溫柔型 (鼓勵)</option>
+                            <option value="嚴厲教練" {% if current_user.ai_personality == '嚴厲教練' %}selected{% endif %}>嚴厲教練 (專業)</option>
+                            <option value="幽默學長" {% if current_user.ai_personality == '幽默學長' %}selected{% endif %}>幽默學長 (輕鬆)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">介面風格</label>
+                        <select name="preferred_theme" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
+                            <option value="sakura" {% if current_user.preferred_theme == 'sakura' %}selected{% endif %}>櫻花粉</option>
+                            <option value="moon" {% if current_user.preferred_theme == 'moon' %}selected{% endif %}>月光藍</option>
+                            <option value="classic" {% if current_user.preferred_theme == 'classic' %}selected{% endif %}>經典灰</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">個人簡介</label>
-                    <textarea name="bio" class="form-control" rows="3" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">{{ current_user.bio or '' }}</textarea>
+                    <textarea name="bio" class="form-control" rows="3" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="關於我...">{{ current_user.bio or '' }}</textarea>
                 </div>
 
                 <div class="form-group">
                     <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">學習目標</label>
-                    <input type="text" name="learning_goals" value="{{ current_user.learning_goals or '' }}" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
+                    <input type="text" name="learning_goals" value="{{ current_user.learning_goals or '' }}" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="e.g. 考過 N1, 數學滿分...">
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; border-radius: 8px; font-weight: 500;">儲存變更</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; border-radius: 8px; font-weight: 500; background-color: var(--color-primary); color: white; border: none; cursor: pointer;">儲存變更</button>
             </form>
 
-            <a href="{{ url_for('auth.logout') }}" class="btn btn-outline" style="text-align: center; display: block; padding: 1rem; width: 100%; border-color: rgba(216, 156, 154, 0.3); color: var(--color-accent); margin-top: 1.5rem; text-decoration: none;">
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-outline" style="text-align: center; display: block; padding: 1rem; width: 100%; border: 1px solid rgba(216, 156, 154, 0.3); border-radius: 8px; color: var(--color-accent); margin-top: 1.5rem; text-decoration: none;">
                 登出帳號
             </a>
         </div>
+    </div>
+</div>
+
+<!-- Avatar Modal -->
+<div id="avatar-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
+    <div class="card" style="width: 90%; max-width: 500px; padding: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="margin: 0; color: var(--color-text);">選擇您的頭像</h3>
+            <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="document.getElementById('avatar-modal').style.display='none'"></i>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+            {% for i in range(1, 9) %}
+            <div class="avatar-option" onclick="selectAvatar('https://api.dicebear.com/7.x/adventurer/svg?seed=avatar{{ i }}')" style="cursor: pointer; border: 2px solid transparent; border-radius: 10px; padding: 5px; transition: all 0.2s;">
+                <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=avatar{{ i }}" style="width: 100%; border-radius: 5px;">
+            </div>
+            {% endfor %}
+            {% for i in range(1, 5) %}
+            <div class="avatar-option" onclick="selectAvatar('https://api.dicebear.com/7.x/micah/svg?seed=stud{{ i }}')" style="cursor: pointer; border: 2px solid transparent; border-radius: 10px; padding: 5px; transition: all 0.2s;">
+                <img src="https://api.dicebear.com/7.x/micah/svg?seed=stud{{ i }}" style="width: 100%; border-radius: 5px;">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectAvatar(url) {
+        document.getElementById('avatar-input').value = url;
+        document.getElementById('avatar-modal').style.display = 'none';
+        // Auto-submit or just show the change? Let's auto-submit for better UX
+        document.getElementById('update-form').submit();
+    }
+</script>
     </div>
 </div>
 

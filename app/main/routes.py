@@ -56,6 +56,8 @@ def update_profile():
     current_user.ai_personality = request.form.get('ai_personality', current_user.ai_personality)
     current_user.preferred_theme = request.form.get('preferred_theme', current_user.preferred_theme)
     
+    current_user.avatar_url = request.form.get('avatar_url', current_user.avatar_url)
+    
     db.session.commit()
     flash('您的個人檔案已更新！', 'success')
     return redirect(url_for('main.profile'))

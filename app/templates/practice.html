@@ -3,11 +3,14 @@
 {% block content %}
 <div class="container" style="max-width: 800px;">
     
-    <div style="margin-bottom: 1rem; display: flex; gap: 10px;">
+    <div style="margin-bottom: 1rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="{{ url_for('study.practice') }}" class="btn-filter" style="text-decoration:none; padding:5px 15px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:15px; color:var(--color-text_main);">全部</a>
         <a href="{{ url_for('study.practice', subject='國文') }}" class="btn-filter" style="text-decoration:none; padding:5px 15px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:15px; color:var(--color-text_main);">國文</a>
         <a href="{{ url_for('study.practice', subject='英文') }}" class="btn-filter" style="text-decoration:none; padding:5px 15px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:15px; color:var(--color-text_main);">英文</a>
         <a href="{{ url_for('study.practice', subject='數學') }}" class="btn-filter" style="text-decoration:none; padding:5px 15px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:15px; color:var(--color-text_main);">數學</a>
+        <button id="ai-generate-btn" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); color: white; border: none; padding: 6px 15px; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 0.9rem; margin-left: auto;">
+            <i class="fa-solid fa-wand-sparkles"></i> AI 產題
+        </button>
     </div>
 
     <div class="washi-card" id="question-card" style="position: relative;">
@@ -102,6 +105,33 @@
             labels.forEach(l => l.style.borderColor = 'var(--color-border)');
             this.style.borderColor = 'var(--color-primary)';
         });
+    });
+    // AI Question Generation
+    document.getElementById('ai-generate-btn').addEventListener('click', async function() {
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
+        
+        const params = new URLSearchParams(window.location.search);
+        const subject = params.get('subject') || '數學';
+        
+        try {
+            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${subject}`);
+            const data = await response.json();
+            if (data.status === 'success') {
+                // Redirect to the new question (Note: practice route needs to support id)
+                alert('AI 已為您出好題目！');
+                location.reload(); 
+            } else {
+                alert('AI 老師累了，請稍後再試。');
+            }
+        } catch (e) {
+            alert('網路連線不穩。');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
     });
 </script>
 {% endblock %}
