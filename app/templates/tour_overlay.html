@@ -113,7 +113,7 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token() }}' // Needs Flask-WTF CSRF enabled or just simple request if missing
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 }
             }).then(() => {
                 document.getElementById('site-tour-overlay').style.display = 'none';

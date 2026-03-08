@@ -12,6 +12,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>AI 學習案內所 | {% block title %}{% endblock %}</title>
 </head>
 <body>

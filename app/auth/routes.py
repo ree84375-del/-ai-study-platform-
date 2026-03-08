@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
+from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app
 from app import db, bcrypt, oauth
 from app.auth.forms import RegistrationForm, LoginForm
 from app.models import User
@@ -45,13 +45,10 @@ def login():
             flash('登入失敗。請檢查 Email 和密碼', 'danger')
     return render_template('login.html', title='登入', form=form)
 
-@auth.route('/login/google')
+@auth.route("/login/google")
 def google_login():
-    # 在 Vercel 上 url_for 可能產生錯誤的 scheme/host，手動組合
-    if request.headers.get('x-forwarded-proto') == 'https':
-        redirect_uri = f"https://{request.host}/auth/google/callback"
-    else:
-        redirect_uri = url_for('auth.google_auth', _external=True)
+    scheme = 'https' if os.environ.get('VERCEL') or request.headers.get('x-forwarded-proto') == 'https' else 'http'
+    redirect_uri = url_for('google_auth', _external=True, _scheme=scheme)
     return google.authorize_redirect(redirect_uri)
 
 @auth.route('/auth/google/callback')

@@ -7,6 +7,7 @@ main = Blueprint('main', __name__)
 @main.route("/")
 @main.route("/home")
 def home():
+    # Ensure CSRF is active for templates using hidden fields/JS
     return render_template('home.html')
 
 @main.route("/about")

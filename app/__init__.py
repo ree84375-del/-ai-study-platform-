@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
 
@@ -16,6 +17,7 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
 migrate = Migrate()
 oauth = OAuth()
+csrf = CSRFProtect()
 
 def create_app(config_class=None):
     app = Flask(__name__)
@@ -38,6 +40,7 @@ def create_app(config_class=None):
     login_manager.init_app(app)
     migrate.init_app(app, db)
     oauth.init_app(app)
+    csrf.init_app(app)
 
     from app.main.routes import main
     from app.auth.routes import auth
