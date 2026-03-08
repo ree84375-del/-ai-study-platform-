@@ -39,6 +39,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
+            current_app.logger.info(f"User {user.username} logged in successfully")
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
@@ -93,6 +94,7 @@ def google_auth():
 
 @auth.route("/logout")
 def logout():
+    current_app.logger.info(f"User {getattr(current_user, 'username', 'anonymous')} logged out")
     logout_user()
     return redirect(url_for('main.home'))
 

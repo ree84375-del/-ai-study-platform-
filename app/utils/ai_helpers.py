@@ -12,7 +12,8 @@ def get_gemini_model():
     api_key = os.environ.get('GEMINI_API_KEY')
     if api_key:
          genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemini-2.5-flash')
+    # Corrected model name: gemini-1.5-flash (2.5 doesn't exist yet)
+    return genai.GenerativeModel('gemini-1.5-flash')
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
@@ -62,7 +63,14 @@ def parse_question_from_image(image_bytes):
         請僅返回 JSON，不要包含任何 Markdown 標籤 (如 ```json)。
         """
         response = model.generate_content([prompt, image])
-        return json.loads(response.text.strip().replace('```json', '').replace('```', ''))
+        # Use robust parsing to handle cases where Gemini wraps JSON in markdown blocks
+        clean_text = response.text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        return json.loads(clean_text)
     except Exception as e:
         return {'error': str(e)}
 
@@ -98,7 +106,13 @@ def generate_ai_quiz(subject):
         請僅返回 JSON。
         """
         response = model.generate_content(prompt)
-        data = json.loads(response.text.strip().replace('```json', '').replace('```', ''))
+        clean_text = response.text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        data = json.loads(clean_text)
         
         # Generate image URL based on prompt
         if 'image_prompt' in data:

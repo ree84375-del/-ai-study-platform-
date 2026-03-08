@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from app import db
 from datetime import datetime, timezone
@@ -11,8 +11,9 @@ def before_request():
         try:
             current_user.last_active_at = datetime.now(timezone.utc)
             db.session.commit()
-        except Exception:
+        except Exception as e:
             db.session.rollback()
+            current_app.logger.error(f"Error in before_request: {e}")
 
 @main.route("/")
 @main.route("/home")
@@ -43,6 +44,7 @@ def complete_tour():
 @main.route("/profile")
 @login_required
 def profile():
+    current_app.logger.info(f"User {current_user.id} accessing profile page")
     return render_template('profile.html', title='個人檔案')
 
 @main.route("/chat")
