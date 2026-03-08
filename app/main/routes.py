@@ -42,6 +42,11 @@ def complete_tour():
 def profile():
     return render_template('profile.html', title='個人檔案')
 
+@main.route("/chat")
+@login_required
+def chat():
+    return render_template('chat.html', title='AI 聊天室')
+
 @main.route("/update_profile", methods=['POST'])
 @login_required
 def update_profile():

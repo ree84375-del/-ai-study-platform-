@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.models import Question, Mistake
+from app.models import Question, Mistake, ChatSession, ChatMessage
 from app import db
 from app.utils.ai_helpers import analyze_question_image, get_ai_tutor_response, AI_PERSONALITIES, auto_tag_question, detect_duplicate_question, get_knowledge_graph_recommendation
 import random
@@ -118,7 +118,17 @@ def ai_vision():
         
         # Default analysis mode
         analysis_result = analyze_question_image(image_bytes)
-        return jsonify({'result': analysis_result})
+        
+        # Create a chat session for the vision analysis
+        session = ChatSession(user_id=current_user.id, title="圖片解題分析")
+        db.session.add(session)
+        db.session.commit()
+        
+        ai_msg = ChatMessage(session_id=session.id, role='ai', content=analysis_result)
+        db.session.add(ai_msg)
+        db.session.commit()
+
+        return jsonify({'result': analysis_result, 'session_id': session.id})
         
     return render_template('ai_vision.html', title='圖片解題')
 
@@ -143,7 +153,17 @@ def analyze_mistake(mistake_id):
     """
     
     analysis = get_ai_tutor_response([], prompt, personality_key=current_user.ai_personality)
-    return jsonify({'analysis': analysis, 'recommendation': recommendation})
+    
+    # Optional: Automatically create a chat session for this analysis
+    session = ChatSession(user_id=current_user.id, title=f"分析錯題: {question.content_text[:15]}...")
+    db.session.add(session)
+    db.session.commit()
+    
+    ai_msg = ChatMessage(session_id=session.id, role='ai', content=analysis)
+    db.session.add(ai_msg)
+    db.session.commit()
+
+    return jsonify({'analysis': analysis, 'recommendation': recommendation, 'session_id': session.id})
 
 @study.route("/api/generate_ai_question")
 @login_required
@@ -161,15 +181,59 @@ def generate_question_api():
 @login_required
 def tutor_chat():
     user_msg = request.json.get('message', '')
+    session_id = request.json.get('session_id')
+    
     if not user_msg:
         return jsonify({'error': '空訊息'}), 400
         
-    # Get user's recent mistakes for context
-    recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(3).all()
-    context = ""
-    if recent_mistakes:
-        context = "學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes])
+    # Get or create session
+    if session_id:
+        session = ChatSession.query.get_or_404(session_id)
+        if session.user_id != current_user.id:
+            return jsonify({'error': '權限不足'}), 403
+    else:
+        # Create new session for the message
+        session = ChatSession(user_id=current_user.id, title=user_msg[:20])
+        db.session.add(session)
+        db.session.commit()
 
-    reply = get_ai_tutor_response([], user_msg, personality_key=current_user.ai_personality, context_summary=context)
-    return jsonify({'reply': reply})
+    # Save user message
+    user_chat = ChatMessage(session_id=session.id, role='user', content=user_msg)
+    db.session.add(user_chat)
+    
+    # Get recent mistakes for context if it's a new or general chat
+    context = ""
+    if not session_id:
+        recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(3).all()
+        if recent_mistakes:
+            context = "學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes])
+
+    # Convert session messages to Gemini format
+    history = []
+    for m in session.messages:
+        history.append({'role': m.role, 'parts': [m.content]})
+
+    reply = get_ai_tutor_response(history[:-1], user_msg, personality_key=current_user.ai_personality, context_summary=context)
+    
+    # Save AI response
+    ai_chat = ChatMessage(session_id=session.id, role='ai', content=reply)
+    db.session.add(ai_chat)
+    db.session.commit()
+    
+    return jsonify({'reply': reply, 'session_id': session.id})
+
+@study.route("/api/chat/sessions")
+@login_required
+def get_chat_sessions():
+    sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(ChatSession.created_at.desc()).all()
+    return jsonify([{'id': s.id, 'title': s.title, 'created_at': s.created_at.isoformat()} for s in sessions])
+
+@study.route("/api/chat/history/<int:session_id>")
+@login_required
+def get_chat_history(session_id):
+    session = ChatSession.query.get_or_404(session_id)
+    if session.user_id != current_user.id:
+        return jsonify({'error': '權限不足'}), 403
+    messages = [{'role': m.role, 'content': m.content} for m in session.messages]
+    return jsonify({'messages': messages})
 
