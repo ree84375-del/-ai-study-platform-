@@ -58,38 +58,41 @@ def google_login():
 def google_auth():
     try:
         token = google.authorize_access_token()
-    except Exception as e:
-        flash(f'Google 登入失敗：{str(e)}', 'danger')
-        return redirect(url_for('auth.login'))
-    user_info = token.get('userinfo')
-    
-    if not user_info:
-        flash('無法取得 Google 帳號資訊。', 'danger')
-        return redirect(url_for('auth.login'))
+        user_info = token.get('userinfo')
         
-    email = user_info.get('email')
-    name = user_info.get('name')
-    
-    user = User.query.filter_by(email=email).first()
-    
-    is_admin = (email == 'ree84375@gmail.com')
-    assigned_role = 'admin' if is_admin else 'student'
-    
-    if not user:
-        random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
-        user = User(username=name, email=email, password=random_password, role=assigned_role)
-        db.session.add(user)
-        db.session.commit()
-        flash('成功透過 Google 註冊並登入系統！', 'success')
-    else:
-        # Upgrade to admin if necessary
-        if is_admin and user.role != 'admin':
-            user.role = 'admin'
+        if not user_info:
+            flash('無法取得 Google 帳號資訊。', 'danger')
+            return redirect(url_for('auth.login'))
+            
+        email = user_info.get('email')
+        name = user_info.get('name')
+        
+        user = User.query.filter_by(email=email).first()
+        
+        is_admin = (email == 'ree84375@gmail.com')
+        assigned_role = 'admin' if is_admin else 'student'
+        
+        if not user:
+            random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
+            user = User(username=name, email=email, password=random_password, role=assigned_role)
+            db.session.add(user)
             db.session.commit()
-        flash(f'歡迎回來，{user.username}！', 'success')
-        
-    login_user(user)
-    return redirect(url_for('main.home'))
+            flash('成功透過 Google 註冊並登入系統！', 'success')
+        else:
+            # Upgrade to admin if necessary
+            if is_admin and user.role != 'admin':
+                user.role = 'admin'
+                db.session.commit()
+            flash(f'歡迎回來，{user.username}！', 'success')
+            
+        login_user(user)
+        return redirect(url_for('main.home'))
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        flash(f'Google 登入失敗：{str(e)}', 'danger')
+        # 暫時在頁面上顯示詳細錯誤以便除錯
+        return f'<h3>Google OAuth 錯誤</h3><pre>{error_details}</pre><br><a href="/login">返回登入頁</a>', 500
 
 @auth.route("/logout")
 def logout():
