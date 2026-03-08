@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app import db
 from datetime import datetime, timezone
@@ -41,3 +41,16 @@ def complete_tour():
 @login_required
 def profile():
     return render_template('profile.html', title='個人檔案')
+
+@main.route("/update_profile", methods=['POST'])
+@login_required
+def update_profile():
+    current_user.username = request.form.get('username', current_user.username)
+    current_user.bio = request.form.get('bio', current_user.bio)
+    current_user.learning_goals = request.form.get('learning_goals', current_user.learning_goals)
+    current_user.ai_personality = request.form.get('ai_personality', current_user.ai_personality)
+    current_user.preferred_theme = request.form.get('preferred_theme', current_user.preferred_theme)
+    
+    db.session.commit()
+    flash('您的個人檔案已更新！', 'success')
+    return redirect(url_for('main.profile'))

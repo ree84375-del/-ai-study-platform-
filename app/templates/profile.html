@@ -13,9 +13,14 @@
             </div>
             <h1 style="color: var(--color-text); font-weight: 500; margin-bottom: 0.5rem;">{{ current_user.username }}</h1>
             <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
-            <span class="badge" style="background-color: var(--color-primary); color: white; display: inline-block; margin-top: 1rem; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 500;">
-                {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
-            </span>
+            <div style="margin-top: 1rem;">
+                <span class="badge" style="background-color: var(--color-primary); color: white; display: inline-block; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 500;">
+                    {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
+                </span>
+                <span class="badge" style="background-color: var(--color-accent); color: white; display: inline-block; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 500; margin-left: 0.5rem;">
+                    AI 性格：{{ current_user.ai_personality }}
+                </span>
+            </div>
         </div>
 
         <div class="profile-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3rem;">
@@ -24,8 +29,8 @@
                 <span style="font-size: 0.8rem; color: var(--color-text_light);">連續登入 (天)</span>
             </div>
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
-                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ current_user.highest_streak }}</span>
-                <span style="font-size: 0.8rem; color: var(--color-text_light);">最高紀錄</span>
+                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ current_user.experience_points }}</span>
+                <span style="font-size: 0.8rem; color: var(--color-text_light);">累積經驗 (XP)</span>
             </div>
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
                 <span style="display: block; font-size: 2rem; font-weight: 700; color: #555;">{{ current_user.mistakes | length }}</span>
@@ -33,20 +38,58 @@
             </div>
         </div>
 
+        <div class="profile-info" style="margin-bottom: 3rem;">
+            <div style="margin-bottom: 1.5rem;">
+                <h3 style="font-size: 1.1rem; color: var(--color-text); margin-bottom: 0.5rem;"><i class="fa-solid fa-pen-nib"></i> 個人簡介</h3>
+                <p style="color: var(--color-text_light); background: #fff; padding: 1rem; border-radius: 8px; border: 1px dashed var(--color-border);">
+                    {{ current_user.bio or '尚未填寫簡介...' }}
+                </p>
+            </div>
+            <div>
+                <h3 style="font-size: 1.1rem; color: var(--color-text); margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye"></i> 學習目標</h3>
+                <p style="color: var(--color-text_light); background: #fff; padding: 1rem; border-radius: 8px; border: 1px dashed var(--color-border);">
+                    {{ current_user.learning_goals or '尚未設定明確目標...' }}
+                </p>
+            </div>
+        </div>
+
         <div class="profile-actions" style="border-top: 1px solid var(--color-border); padding-top: 2rem;">
             <h3 style="font-weight: 500; margin-bottom: 1.5rem; color: var(--color-text); display: flex; align-items: center;">
                 <i class="fa-solid fa-gear" style="margin-right: 10px; color: var(--color-text_light);"></i> 帳號設定
             </h3>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <a href="#" class="btn btn-outline" style="text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; width: 100%; border-color: var(--color-border);">
-                    <span>修改個人資料</span>
-                    <i class="fa-solid fa-chevron-right" style="font-size: 0.8rem; opacity: 0.5;"></i>
-                </a>
-                <a href="{{ url_for('auth.logout') }}" class="btn btn-outline" style="text-align: left; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; width: 100%; border-color: rgba(216, 156, 154, 0.3); color: var(--color-accent);">
-                    <span>登出帳號</span>
-                    <i class="fa-solid fa-arrow-right-from-bracket" style="font-size: 1rem; opacity: 0.8;"></i>
-                </a>
-            </div>
+            
+            <form action="{{ url_for('main.update_profile') }}" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div class="form-group">
+                    <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">使用者名稱</label>
+                    <input type="text" name="username" value="{{ current_user.username }}" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
+                </div>
+                
+                <div class="form-group">
+                    <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">AI 指導風格</label>
+                    <select name="ai_personality" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
+                        <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>雪音-溫柔型</option>
+                        <option value="嚴厲教練" {% if current_user.ai_personality == '嚴厲教練' %}selected{% endif %}>嚴厲教練</option>
+                        <option value="幽默學長" {% if current_user.ai_personality == '幽默學長' %}selected{% endif %}>幽默學長</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">個人簡介</label>
+                    <textarea name="bio" class="form-control" rows="3" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">{{ current_user.bio or '' }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size: 0.9rem; color: var(--color-text_light); display: block; margin-bottom: 0.5rem;">學習目標</label>
+                    <input type="text" name="learning_goals" value="{{ current_user.learning_goals or '' }}" class="form-control" style="width: 100%; padding: 0.8rem; border: 1px solid var(--color-border); border-radius: 8px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; border-radius: 8px; font-weight: 500;">儲存變更</button>
+            </form>
+
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-outline" style="text-align: center; display: block; padding: 1rem; width: 100%; border-color: rgba(216, 156, 154, 0.3); color: var(--color-accent); margin-top: 1.5rem; text-decoration: none;">
+                登出帳號
+            </a>
         </div>
     </div>
 </div>
@@ -58,6 +101,14 @@
     }
     .profile-card {
         animation: fadeIn 0.6s ease-out;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        border-radius: 20px;
+        border: none;
+    }
+    .form-control:focus {
+        border-color: var(--color-primary) !important;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(181, 155, 142, 0.1);
     }
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
