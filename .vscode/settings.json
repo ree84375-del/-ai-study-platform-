@@ -4,5 +4,6 @@
         "${workspaceFolder}"
     ],
     "python.analysis.typeCheckingMode": "basic",
-    "python.terminal.activateEnvInCurrentTerminal": true
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.languageServer": "Pylance"
 }
