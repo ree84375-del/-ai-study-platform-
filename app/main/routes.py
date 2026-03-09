@@ -10,20 +10,25 @@ main = Blueprint('main', __name__)
 def before_request():
     if current_user.is_authenticated:
         try:
-            # Use a direct UPDATE statement to avoid DetachedInstanceError
-            # or stale-session issues that cause logouts.
+            # Use a direct UPDATE statement to avoid DetachedInstanceError.
+            # This is best-effort: if it fails, we silently ignore it so
+            # the user's session is never invalidated by this update.
             db.session.execute(
                 db.update(User).where(User.id == current_user.id).values(
                     last_active_at=datetime.now(timezone.utc)
                 )
             )
             db.session.commit()
-        except Exception as e:
+        except Exception:
+            # CRITICAL: Do NOT rollback here. A rollback would expire
+            # the cached User object that Flask-Login loaded, causing
+            # @login_required to think the user is logged out.
+            # Instead, just remove the session so a fresh one is created
+            # for the actual route handler.
             try:
-                db.session.rollback()
+                db.session.remove()
             except Exception:
                 pass
-            current_app.logger.error(f"Error in before_request: {e}")
 
 @main.route("/")
 @main.route("/home")

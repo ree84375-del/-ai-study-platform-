@@ -6,25 +6,32 @@ from flask_login import UserMixin
 
 @login_manager.user_loader
 def load_user(user_id):
+    # Attempt 1: Normal query
     try:
-        # Ensure a clean session state before loading the user.
-        # A stale or errored session (e.g., from a failed before_request commit)
-        # can cause this query to fail, making Flask-Login think the user logged out.
-        try:
-            db.session.rollback()
-        except Exception:
-            pass
         user = db.session.get(User, int(user_id))
         if not user:
             logging.warning(f"User loader: User ID {user_id} not found.")
         return user
     except Exception as e:
-        logging.error(f"Error loading user {user_id}: {e}")
+        logging.error(f"Error loading user {user_id} (attempt 1): {e}")
+        # Connection is likely dead (e.g., Supabase timeout/encoding error).
+        # Close the session entirely to dispose the broken connection,
+        # then retry with a fresh connection from the pool.
         try:
-            db.session.rollback()
+            db.session.remove()
         except Exception:
             pass
-        return None
+        # Attempt 2: Retry with fresh connection
+        try:
+            user = db.session.get(User, int(user_id))
+            return user
+        except Exception as e2:
+            logging.error(f"Error loading user {user_id} (attempt 2): {e2}")
+            try:
+                db.session.remove()
+            except Exception:
+                pass
+            return None
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

@@ -46,6 +46,13 @@ def create_app(config_class=None):
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # Fix stale connections to Supabase PostgreSQL
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,    # Test connections before use
+        'pool_recycle': 300,      # Recycle connections every 5 min
+        'pool_size': 5,
+        'max_overflow': 10,
+    }
 
     # Initialize extensions
     db.init_app(app)
