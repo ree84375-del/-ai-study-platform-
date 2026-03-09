@@ -72,7 +72,7 @@ def google_auth():
         
         if not user:
             random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
-            user = User(username=name, email=email, password=random_password, role=assigned_role)
+            user = User(username=name, email=email, password=random_password, role=assigned_role, auth_provider='google')
             db.session.add(user)
             db.session.commit()
             flash('成功透過 Google 註冊並登入系統！', 'success')
@@ -108,7 +108,7 @@ def guest_login():
     guest_username = f"訪客_{random_suffix}"
     
     hashed_pw = bcrypt.generate_password_hash('guestpassword').decode('utf-8')
-    user = User(username=guest_username, email=f"{guest_username}@guest.local", password=hashed_pw, role='guest')
+    user = User(username=guest_username, email=f"{guest_username}@guest.local", password=hashed_pw, role='guest', auth_provider='guest')
     db.session.add(user)
     db.session.commit()
     

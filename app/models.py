@@ -40,6 +40,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     avatar_url = db.Column(db.String(255), nullable=True)
     password = db.Column(db.String(60), nullable=False)
+    auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
     experience_points = db.Column(db.Integer, default=0)
     current_streak = db.Column(db.Integer, default=0)

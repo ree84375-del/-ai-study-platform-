@@ -101,6 +101,11 @@ def update_profile():
 @main.route("/change_password", methods=['POST'])
 @login_required
 def change_password():
+    # Google/guest users cannot change password here
+    if current_user.auth_provider in ('google', 'guest'):
+        flash('此帳號類型無法在此變更密碼。', 'info')
+        return redirect(url_for('main.profile'))
+
     current_password = request.form.get('current_password', '')
     new_password = request.form.get('new_password', '')
     confirm_password = request.form.get('confirm_password', '')
