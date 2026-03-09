@@ -1,11 +1,30 @@
 from datetime import datetime, timezone
+import logging
 from app import db, login_manager
 from flask_login import UserMixin
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    try:
+        # Ensure a clean session state before loading the user.
+        # A stale or errored session (e.g., from a failed before_request commit)
+        # can cause this query to fail, making Flask-Login think the user logged out.
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        user = db.session.get(User, int(user_id))
+        if not user:
+            logging.warning(f"User loader: User ID {user_id} not found.")
+        return user
+    except Exception as e:
+        logging.error(f"Error loading user {user_id}: {e}")
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+        return None
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

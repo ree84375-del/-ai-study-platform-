@@ -9,10 +9,16 @@ main = Blueprint('main', __name__)
 def before_request():
     if current_user.is_authenticated:
         try:
-            current_user.last_active_at = datetime.now(timezone.utc)
+            # Safely merge the user back into the current session to avoid
+            # DetachedInstanceError or stale-session issues that cause logouts.
+            user = db.session.merge(current_user)
+            user.last_active_at = datetime.now(timezone.utc)
             db.session.commit()
         except Exception as e:
-            db.session.rollback()
+            try:
+                db.session.rollback()
+            except Exception:
+                pass
             current_app.logger.error(f"Error in before_request: {e}")
 
 @main.route("/")
