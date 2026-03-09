@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user
-from app import db
+from app import db, bcrypt
+from app.models import User, Mistake
 from datetime import datetime, timezone
 
 main = Blueprint('main', __name__)
@@ -9,10 +10,13 @@ main = Blueprint('main', __name__)
 def before_request():
     if current_user.is_authenticated:
         try:
-            # Safely merge the user back into the current session to avoid
-            # DetachedInstanceError or stale-session issues that cause logouts.
-            user = db.session.merge(current_user)
-            user.last_active_at = datetime.now(timezone.utc)
+            # Use a direct UPDATE statement to avoid DetachedInstanceError
+            # or stale-session issues that cause logouts.
+            db.session.execute(
+                db.update(User).where(User.id == current_user.id).values(
+                    last_active_at=datetime.now(timezone.utc)
+                )
+            )
             db.session.commit()
         except Exception as e:
             try:
@@ -51,7 +55,8 @@ def complete_tour():
 @login_required
 def profile():
     current_app.logger.info(f"User {current_user.id} accessing profile page")
-    return render_template('profile.html', title='個人檔案')
+    mistake_count = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
+    return render_template('profile.html', title='個人檔案', mistake_count=mistake_count)
 
 @main.route("/chat")
 @login_required
@@ -61,7 +66,6 @@ def chat():
 @main.route("/update_profile", methods=['POST'])
 @login_required
 def update_profile():
-    from app.models import User
 
     new_username = request.form.get('username', current_user.username)
 
@@ -85,5 +89,38 @@ def update_profile():
     except Exception:
         db.session.rollback()
         flash('更新失敗，請稍後再試。', 'danger')
+
+    return redirect(url_for('main.profile'))
+
+
+@main.route("/change_password", methods=['POST'])
+@login_required
+def change_password():
+    current_password = request.form.get('current_password', '')
+    new_password = request.form.get('new_password', '')
+    confirm_password = request.form.get('confirm_password', '')
+
+    # Validate current password
+    if not bcrypt.check_password_hash(current_user.password, current_password):
+        flash('目前密碼不正確，請重新輸入。', 'danger')
+        return redirect(url_for('main.profile'))
+
+    # Validate new password
+    if len(new_password) < 6:
+        flash('新密碼至少需要 6 個字元。', 'danger')
+        return redirect(url_for('main.profile'))
+
+    if new_password != confirm_password:
+        flash('兩次輸入的新密碼不一致，請重新輸入。', 'danger')
+        return redirect(url_for('main.profile'))
+
+    # Update password
+    try:
+        current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        db.session.commit()
+        flash('密碼已成功變更！', 'success')
+    except Exception:
+        db.session.rollback()
+        flash('密碼變更失敗，請稍後再試。', 'danger')
 
     return redirect(url_for('main.profile'))

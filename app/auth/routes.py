@@ -107,7 +107,8 @@ def guest_login():
     random_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
     guest_username = f"訪客_{random_suffix}"
     
-    user = User(username=guest_username, email=f"{guest_username}@guest.local", password='guestpassword', role='guest')
+    hashed_pw = bcrypt.generate_password_hash('guestpassword').decode('utf-8')
+    user = User(username=guest_username, email=f"{guest_username}@guest.local", password=hashed_pw, role='guest')
     db.session.add(user)
     db.session.commit()
     
