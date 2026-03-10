@@ -42,7 +42,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
-    experience_points = db.Column(db.Integer, default=0)
+
     current_streak = db.Column(db.Integer, default=0)
     last_study_date = db.Column(db.DateTime, nullable=True)
     has_seen_tour = db.Column(db.Boolean, default=False)
@@ -62,7 +62,7 @@ class User(db.Model, UserMixin):
     group_memberships = db.relationship('GroupMember', backref='member', lazy=True)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', Role: '{self.role}', XP: {self.experience_points})"
+        return f"User('{self.username}', '{self.email}', Role: '{self.role}')"
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)

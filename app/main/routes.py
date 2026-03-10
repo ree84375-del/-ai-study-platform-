@@ -10,23 +10,20 @@ main = Blueprint('main', __name__)
 def before_request():
     if current_user.is_authenticated:
         try:
-            # Use a direct UPDATE statement to avoid DetachedInstanceError.
-            # This is best-effort: if it fails, we silently ignore it so
-            # the user's session is never invalidated by this update.
-            db.session.execute(
-                db.update(User).where(User.id == current_user.id).values(
-                    last_active_at=datetime.now(timezone.utc)
+            # Only update last_active_at once per minute to reduce DB writes
+            now = datetime.now(timezone.utc)
+            if current_user.last_active_at is None or \
+               (now - current_user.last_active_at).total_seconds() > 60:
+                db.session.execute(
+                    db.update(User).where(User.id == current_user.id).values(
+                        last_active_at=now
+                    )
                 )
-            )
-            db.session.commit()
+                db.session.commit()
         except Exception:
-            # CRITICAL: Do NOT rollback here. A rollback would expire
-            # the cached User object that Flask-Login loaded, causing
-            # @login_required to think the user is logged out.
-            # Instead, just remove the session so a fresh one is created
-            # for the actual route handler.
+            # Silently ignore — NEVER let a tracking update break the user session
             try:
-                db.session.remove()
+                db.session.rollback()
             except Exception:
                 pass
 
