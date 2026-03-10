@@ -12,8 +12,8 @@ def get_gemini_model():
     api_key = os.environ.get('GEMINI_API_KEY')
     if api_key:
          genai.configure(api_key=api_key)
-    # Corrected model name: gemini-1.5-flash (2.5 doesn't exist yet)
-    return genai.GenerativeModel('gemini-1.5-flash')
+    # Corrected model name to use latest stable alias
+    return genai.GenerativeModel('gemini-1.5-flash-latest')
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
