@@ -357,7 +357,7 @@
         }
 
         50% {
-            transform: rotate(1.5deg) scale(1.04);
+            transform: rotate(1.5deg) scale(1.06);
         }
 
         100% {
@@ -378,30 +378,30 @@
     /* Simulated Eye Blinking */
     .blink-eye {
         position: absolute;
-        background-color: #fcece0;
-        /* approximate skin tone */
-        border-bottom: 2px solid #554433;
-        /* eyelash color */
+        background-color: #dfbaa5;
+        /* shaded skin tone to match lofi lighting */
+        border-bottom: 2px solid #3a2b25;
+        /* darker eyelash color */
         height: 0;
         border-radius: 0 0 50% 50%;
         opacity: 0;
         z-index: 10;
         pointer-events: none;
-        animation: blinkAnim 4s infinite;
-        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+        animation: blinkAnim 5s infinite;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     }
 
     .left-eye {
-        top: 40.5%;
-        left: 51.5%;
-        width: 14px;
+        top: 36%;
+        left: 49.5%;
+        width: 15px;
         transform: rotate(8deg);
     }
 
     .right-eye {
-        top: 41%;
-        left: 58.5%;
-        width: 13px;
+        top: 36.5%;
+        left: 56.5%;
+        width: 15px;
         transform: rotate(-5deg);
     }
 
@@ -414,7 +414,7 @@
         }
 
         96% {
-            height: 12px;
+            height: 14px;
             opacity: 1;
         }
 
