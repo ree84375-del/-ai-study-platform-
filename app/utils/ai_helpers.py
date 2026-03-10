@@ -26,10 +26,10 @@ def get_gemini_model():
         
         # Priority list of models
         preferred = [
-            'models/gemini-1.5-flash',
+            'models/gemini-2.0-flash',
+            'models/gemini-2.0-flash-lite',
             'models/gemini-1.5-pro',
-            'models/gemini-pro',
-            'models/gemini-1.0-pro'
+            'models/gemini-1.5-flash',
         ]
         
         for pref in preferred:
@@ -46,7 +46,7 @@ def get_gemini_model():
         print(f"Failed to auto-discover models: {e}")
         
     # Ultimate fallback if everything fails
-    _cached_gemini_model_name = 'gemini-1.5-flash'
+    _cached_gemini_model_name = 'gemini-2.0-flash'
     return genai.GenerativeModel(_cached_gemini_model_name)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
