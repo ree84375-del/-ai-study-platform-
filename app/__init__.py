@@ -36,22 +36,39 @@ def create_app(config_class=None):
         if db_uri.startswith("postgres://"):
             db_uri = db_uri.replace("postgres://", "postgresql://", 1)
         
-        # Proactive fix for Supabase Pooler (port 6543)
-        # If it's port 6543 and the user is just 'postgres', it needs the project ref
-        if ":6543/" in db_uri and "postgres:" in db_uri and "@db." not in db_uri:
-            # Try to find project ref from hostname if it's a supabase pooler
-            # Note: The user's ref is 'nphrkuzhedlvgfagaujq'
+        # FIX FOR VERCEL IPv6 ISSUE: 
+        # Supabase 'db.***.supabase.co' resolves to IPv6 which Vercel doesn't support.
+        # We must route connections through the Supabase connection pooler (IPv4 compatible).
+        if ".supabase.co" in db_uri and ":5432" in db_uri:
+            # Extract project ref from db.REFERENCE.supabase.co
+            import re
+            match = re.search(r'@db\.([a-z0-9-]+)\.supabase\.co:5432', db_uri)
+            if match:
+                project_ref = match.group(1)
+                # Rewrite host to Supabase IPv4 pooler and change port to 6543
+                db_uri = re.sub(r'@db\.[a-z0-9-]+\.supabase\.co:5432', f'@aws-0-ap-northeast-1.pooler.supabase.com:6543', db_uri)
+                # Ensure the user connection string contains the project ref (required by pgBouncer)
+                db_uri = db_uri.replace("postgres:", f"postgres.{project_ref}:", 1)
+        
+        # Proactive fix for Supabase Pooler (port 6543) if already using pooler
+        if ":6543/" in db_uri and "postgres:" in db_uri and "@aws-" not in db_uri and "@pooler." not in db_uri:
             if "nphrkuzhedlvgfagaujq" in db_uri and "postgres." not in db_uri:
                 db_uri = db_uri.replace("postgres:", "postgres.nphrkuzhedlvgfagaujq:", 1)
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # Fix stale connections to Supabase PostgreSQL
+    # Fix stale connections to Supabase PostgreSQL and handle Vercel IPv6 issues
     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
         'pool_pre_ping': True,    # Test connections before use
         'pool_recycle': 300,      # Recycle connections every 5 min
         'pool_size': 5,
         'max_overflow': 10,
+        'connect_args': {
+            'keepalives': 1,
+            'keepalives_idle': 30,
+            'keepalives_interval': 10,
+            'keepalives_count': 5,
+        }
     }
 
     # Initialize extensions
