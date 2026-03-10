@@ -14,21 +14,22 @@ def load_user(user_id):
         return user
     except Exception as e:
         logging.error(f"Error loading user {user_id} (attempt 1): {e}")
-        # Connection is likely dead (e.g., Supabase timeout/encoding error).
-        # Close the session entirely to dispose the broken connection,
-        # then retry with a fresh connection from the pool.
+        # IMPORTANT: Use rollback() instead of remove().
+        # remove() destroys the scoped session entirely, causing Flask-Login
+        # to lose track of the user on the next request → unexpected logout.
+        # rollback() only cancels the failed transaction but keeps the session alive.
         try:
-            db.session.remove()
+            db.session.rollback()
         except Exception:
             pass
-        # Attempt 2: Retry with fresh connection
+        # Attempt 2: Retry with a rolled-back (clean) session
         try:
             user = db.session.get(User, int(user_id))
             return user
         except Exception as e2:
             logging.error(f"Error loading user {user_id} (attempt 2): {e2}")
             try:
-                db.session.remove()
+                db.session.rollback()
             except Exception:
                 pass
             return None

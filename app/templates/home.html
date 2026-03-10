@@ -8,12 +8,21 @@
         選擇科目、開始刷題，或者上傳題目讓 AI 家教為您解答。
     </p>
     <div style="display: flex; justify-content: center; gap: 1rem;">
-        <a href="{{ url_for('study.practice') }}" style="background-color: var(--color-primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('study.practice') }}"
+            style="background-color: var(--color-primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
             <i class="fa-solid fa-pen-nib"></i> 開始練習
         </a>
-        <a href="{{ url_for('auth.login') }}" style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: all 0.3s;">
+        {% else %}
+        <a href="{{ url_for('auth.login') }}"
+            style="background-color: var(--color-primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
+            <i class="fa-solid fa-pen-nib"></i> 登入後開始練習
+        </a>
+        <a href="{{ url_for('auth.guest_login') }}"
+            style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: all 0.3s;">
             <i class="fa-solid fa-user"></i> 訪客登入
         </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
