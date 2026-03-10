@@ -216,29 +216,39 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
         system_prompt += f"\n\n背景資訊：{context_summary}"
     
     expression = random.choice(personality['expressions'])
+    gemini_err_msg = None
     
-    # Try Gemini first
-    try:
-        model = get_gemini_model()
-        gemini_history = []
-        for msg in chat_history:
-            msg_role = "user" if msg['role'] == 'user' else "model"
-            parts_val = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
-            gemini_history.append({"role": msg_role, "parts": [parts_val]})
+    # Check if Gemini API key is valid before trying
+    api_key = os.environ.get('GEMINI_API_KEY', '')
+    skip_gemini = not api_key or 'YOUR_' in api_key or len(api_key) < 10
+    
+    # Try Gemini first (only if key looks valid)
+    if not skip_gemini:
+        try:
+            model = get_gemini_model()
+            gemini_history = []
+            for msg in chat_history:
+                msg_role = "user" if msg['role'] == 'user' else "model"
+                parts_val = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
+                gemini_history.append({"role": msg_role, "parts": [parts_val]})
+                
+            chat = model.start_chat(history=gemini_history)
             
-        chat = model.start_chat(history=gemini_history)
-        
-        if not chat_history:
-             user_message_with_prompt = f"[系統提示：你是{personality['name']}。]{user_message}"
-        else:
-             user_message_with_prompt = user_message
-             
-        response = chat.send_message(user_message_with_prompt)
-        reply = response.text
-        
-        return f"{reply}\n\n{expression}"
-    except Exception as gemini_error:
-        print(f"Gemini failed: {gemini_error}, trying Groq fallback...")
+            if not chat_history:
+                 user_message_with_prompt = f"[系統提示：你是{personality['name']}。]{user_message}"
+            else:
+                 user_message_with_prompt = user_message
+                 
+            response = chat.send_message(user_message_with_prompt)
+            reply = response.text
+            
+            return f"{reply}\n\n{expression}"
+        except Exception as e:
+            gemini_err_msg = str(e)
+            print(f"Gemini failed: {gemini_err_msg}, trying Groq fallback...")
+    else:
+        gemini_err_msg = "API key not configured"
+        print("Gemini skipped (no valid API key), using Groq...")
     
     # Fallback to Groq
     try:
@@ -246,6 +256,8 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
         messages = [{"role": "system", "content": system_prompt}]
         for msg in chat_history:
             role = msg.get('role', 'user')
+            if role not in ('user', 'assistant', 'system'):
+                role = 'assistant'
             content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
             messages.append({"role": role, "content": content})
         messages.append({"role": "user", "content": user_message})
@@ -258,6 +270,8 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
         )
         reply = response.choices[0].message.content
         return f"{reply}\n\n{expression}"
-    except Exception as groq_error:
-        return f"AI 老師暫時離開了座位：Gemini 與 Groq 都無法使用。\nGemini: {gemini_error}\nGroq: {groq_error}"
+    except Exception as e:
+        groq_err_msg = str(e)
+        return f"AI 老師暫時離開了座位：\nGemini: {gemini_err_msg}\nGroq: {groq_err_msg}"
+
 
