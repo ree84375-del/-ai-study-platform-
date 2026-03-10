@@ -24,8 +24,7 @@
             <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
             <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 10px;">
                 <span class="badge" style="background-color: var(--color-primary); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
-                   LV.{{ (current_user.experience_points / 100) | int + 1 }} 
-                   {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}大考鬥士{% endif %}
+                   {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
                 </span>
                 <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
                     指導：{{ current_user.ai_personality }}
@@ -33,17 +32,13 @@
             </div>
         </div>
 
-        <div class="profile-stats" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3rem;">
+        <div class="profile-stats" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 3rem;">
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
                 <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-accent);">{{ current_user.current_streak }}</span>
                 <span style="font-size: 0.8rem; color: var(--color-text_light);">連續登入 (天)</span>
             </div>
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
-                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ current_user.experience_points }}</span>
-                <span style="font-size: 0.8rem; color: var(--color-text_light);">累積經驗 (XP)</span>
-            </div>
-            <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
-                <span style="display: block; font-size: 2rem; font-weight: 700; color: #555;">{{ mistake_count }}</span>
+                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ mistake_count }}</span>
                 <span style="font-size: 0.8rem; color: var(--color-text_light);">待複習題目</span>
             </div>
         </div>
