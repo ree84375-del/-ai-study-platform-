@@ -47,13 +47,19 @@ def create_app(config_class=None):
                 project_ref = match.group(1)
                 # Rewrite host to Supabase IPv4 pooler and change port to 6543
                 db_uri = re.sub(r'@db\.[a-z0-9-]+\.supabase\.co:5432', f'@aws-0-ap-northeast-1.pooler.supabase.com:6543', db_uri)
-                # Ensure the user connection string contains the project ref (required by pgBouncer)
-                db_uri = db_uri.replace("postgres:", f"postgres.{project_ref}:", 1)
+                
+                # Supabase Pooler requires username in format: username.project_ref
+                # E.g., postgres -> postgres.nphrkuzhedlvgfagaujq
+                # We use regex to find postgresql://<username>:<password> and insert the .project_ref
+                db_uri = re.sub(r'postgresql://([^:]+):', rf'postgresql://\1.{project_ref}:', db_uri, count=1)
         
-        # Proactive fix for Supabase Pooler (port 6543) if already using pooler
-        if ":6543/" in db_uri and "postgres:" in db_uri and "@aws-" not in db_uri and "@pooler." not in db_uri:
-            if "nphrkuzhedlvgfagaujq" in db_uri and "postgres." not in db_uri:
-                db_uri = db_uri.replace("postgres:", "postgres.nphrkuzhedlvgfagaujq:", 1)
+        # Proactive fix for Supabase Pooler (port 6543) if already using pooler directly
+        if ":6543/" in db_uri and "@aws-" not in db_uri and "@pooler." not in db_uri:
+            import re
+            match = re.search(r'postgresql://([^:]+):', db_uri)
+            if match and "." not in match.group(1):
+                # Hardcode project ref for this specific project if not found
+                db_uri = re.sub(r'postgresql://([^:]+):', r'postgresql://\1.nphrkuzhedlvgfagaujq:', db_uri, count=1)
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
