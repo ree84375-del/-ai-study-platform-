@@ -7,13 +7,47 @@ import urllib.parse
 import json
 
 # Setup Gemini API key
+_cached_gemini_model_name = None
+
 def get_gemini_model():
+    global _cached_gemini_model_name
+    
     # Use the first key provided by user, or allow it to fail gracefully if none is valid
     api_key = os.environ.get('GEMINI_API_KEY')
     if api_key:
          genai.configure(api_key=api_key)
-    # Corrected model name to use latest stable alias
-    return genai.GenerativeModel('gemini-1.5-flash-latest')
+         
+    if _cached_gemini_model_name:
+        return genai.GenerativeModel(_cached_gemini_model_name)
+        
+    # Auto-discover working model to prevent 404 errors
+    try:
+        valid_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+        
+        # Priority list of models
+        preferred = [
+            'models/gemini-1.5-flash',
+            'models/gemini-1.5-pro',
+            'models/gemini-pro',
+            'models/gemini-1.0-pro'
+        ]
+        
+        for pref in preferred:
+            if pref in valid_models:
+                _cached_gemini_model_name = pref
+                return genai.GenerativeModel(pref)
+                
+        # If preferred not found, just use the first valid one
+        if valid_models:
+            _cached_gemini_model_name = valid_models[0]
+            return genai.GenerativeModel(_cached_gemini_model_name)
+            
+    except Exception as e:
+        print(f"Failed to auto-discover models: {e}")
+        
+    # Ultimate fallback if everything fails
+    _cached_gemini_model_name = 'gemini-1.5-flash'
+    return genai.GenerativeModel(_cached_gemini_model_name)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
