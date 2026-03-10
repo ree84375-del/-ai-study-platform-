@@ -66,9 +66,8 @@
         style="display: flex; gap: 4rem; align-items: center; z-index: 1; flex-wrap: wrap; justify-content: center;">
 
         <!-- Yukine Study Image -->
-        <div class="yukine-frame"
-            style="width: 420px; height: 420px; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(181, 155, 142, 0.2); border: 1px solid rgba(255,255,255,0.05); position: relative;">
-
+        <div class="yukine-frame" id="yukine-frame"
+            style="width: 420px; height: 420px; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(181, 155, 142, 0.2); border: 1px solid rgba(255,255,255,0.05); position: relative; transform-style: preserve-3d; transition: transform 0.1s ease-out;">
             <div class="yukine-image-wrapper" style="width: 100%; height: 100%; position: relative;">
                 <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}"
                     style="width: 100%; height: 100%; object-fit: cover;">
@@ -76,40 +75,40 @@
                 <!-- Environmental Animations Overlay -->
                 <!-- Coffee Steam -->
                 <div class="coffee-steam"
-                    style="position: absolute; bottom: 18%; left: 34%; width: 30px; height: 50px; pointer-events: none;">
+                    style="position: absolute; bottom: 18%; left: 34%; width: 30px; height: 50px; pointer-events: none; transform: translateZ(20px);">
                     <div class="steam s1"></div>
                     <div class="steam s2"></div>
                 </div>
 
                 <!-- Cat Snoring Zzz -->
                 <div class="cat-zzz"
-                    style="position: absolute; bottom: 35%; left: 28%; pointer-events: none; color: rgba(255,255,255,0.8); font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 14px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8);">
+                    style="position: absolute; bottom: 35%; left: 28%; pointer-events: none; color: rgba(255,255,255,0.8); font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 14px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8); transform: translateZ(10px);">
                     z
                 </div>
                 <div class="cat-zzz z2"
-                    style="position: absolute; bottom: 35%; left: 28%; pointer-events: none; color: rgba(255,255,255,0.8); font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 12px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8);">
+                    style="position: absolute; bottom: 35%; left: 28%; pointer-events: none; color: rgba(255,255,255,0.8); font-family: 'Comic Sans MS', cursive, sans-serif; font-size: 12px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.8); transform: translateZ(10px);">
                     z
                 </div>
 
                 <!-- Lamp Glow Flicker -->
                 <div class="lamp-glow"
-                    style="position: absolute; top: 40%; left: 25%; width: 120px; height: 120px; background: radial-gradient(circle, rgba(255, 235, 160, 0.25) 0%, transparent 60%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); mix-blend-mode: screen;">
+                    style="position: absolute; top: 40%; left: 25%; width: 120px; height: 120px; background: radial-gradient(circle, rgba(255, 235, 160, 0.25) 0%, transparent 60%); border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%) translateZ(30px); mix-blend-mode: screen;">
                 </div>
 
                 <!-- Window Shooting Star -->
                 <div
-                    style="position: absolute; top: 5%; left: 35%; width: 120px; height: 120px; overflow: hidden; pointer-events: none; border-radius: 10px;">
+                    style="position: absolute; top: 5%; left: 35%; width: 120px; height: 120px; overflow: hidden; pointer-events: none; border-radius: 10px; transform: translateZ(-10px);">
                     <div class="shooting-star"></div>
                 </div>
             </div>
 
             <!-- Dynamic Overlay on Image -->
             <div
-                style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,0.9)); pointer-events: none;">
+                style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,0.9)); pointer-events: none; transform: translateZ(40px);">
             </div>
 
             <div
-                style="position: absolute; bottom: 25px; right: 25px; background: rgba(0,0,0,0.6); padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); color: #e0e0e0;">
+                style="position: absolute; bottom: 25px; right: 25px; background: rgba(0,0,0,0.6); padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); color: #e0e0e0; transform: translateZ(50px);">
                 <i class="fa-solid fa-moon"></i> 保持專注，晚安
             </div>
         </div>
@@ -214,6 +213,46 @@
         Object.values(audios).forEach(a => {
             if (a) a.volume = e.target.value;
         });
+    });
+
+    // 3D Parallax Tilt Effect
+    const container = document.querySelector('.lofi-container');
+    const frame = document.getElementById('yukine-frame');
+
+    container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        // Calculate mouse position relative to center of the container
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Calculate rotation percentage (-1 to 1)
+        const percentX = (x - centerX) / centerX;
+        const percentY = (y - centerY) / centerY;
+
+        // Max rotation degrees
+        const maxTilt = 12;
+
+        // Note: rotateX corresponds to moving mouse up/down (Y axis), rotateY is left/right (X axis)
+        // We invert percentY so moving mouse UP tilts image UP
+        const tiltX = -(percentY * maxTilt);
+        const tiltY = (percentX * maxTilt);
+
+        frame.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        frame.style.transition = 'transform 0.1s ease-out'; // Fast follow
+
+        // Pause "breathing" animation while interacting
+        frame.style.animationPlayState = 'paused';
+    });
+
+    container.addEventListener('mouseleave', () => {
+        // Reset to original position
+        frame.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        frame.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+
+        // Resume breathing animation
+        frame.style.animationPlayState = 'running';
     });
 </script>
 
