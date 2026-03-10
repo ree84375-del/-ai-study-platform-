@@ -195,61 +195,64 @@ def generate_question_api():
 @study.route("/tutor_chat", methods=['POST'])
 @login_required
 def tutor_chat():
-    user_msg = request.json.get('message', '')
-    session_id = request.json.get('session_id')
-    
-    if not user_msg:
-        return jsonify({'error': '空訊息'}), 400
-        
-    # Get or create session
-    if session_id:
-        session = ChatSession.query.get_or_404(session_id)
-        if session.user_id != current_user.id:
-            return jsonify({'error': '權限不足'}), 403
-    else:
-        # Create new session for the message
-        session = ChatSession(user_id=current_user.id, title=user_msg[:20])
-        db.session.add(session)
-        db.session.commit()
-
-    # Save user message
-    user_chat = ChatMessage(session_id=session.id, role='user', content=user_msg)
-    db.session.add(user_chat)
-    
-    # Get recent mistakes for context if it's a new or general chat
-    context = ""
-    if not session_id:
-        recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(3).all()
-        if recent_mistakes:
-            context = "學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes])
-
-    # Convert session messages to Gemini format or use override from frontend
-    history_override = request.json.get('history')
-    if history_override:
-        # Use history from browser if provided (resilient to DB failure)
-        recent_history = history_override
-    else:
-        # Fallback to database if possible
-        try:
-            from typing import Any, Dict, List
-            history: List[Dict[str, Any]] = [{'role': str(m.role), 'parts': [str(m.content)]} for m in session.messages]
-            recent_history: List[Dict[str, Any]] = []
-            for i in range(len(history) - 1):
-                recent_history.append(history[i])
-        except Exception:
-            recent_history = []
-
-    reply = get_ai_tutor_response(recent_history, user_msg, personality_key=current_user.ai_personality, context_summary=context)
-    
-    # Save AI response (Try-catch to prevent crash if DB is down)
     try:
-        ai_chat = ChatMessage(session_id=session.id, role='ai', content=reply)
-        db.session.add(ai_chat)
-        db.session.commit()
-    except Exception:
+        user_msg = request.json.get('message', '')
+        session_id = request.json.get('session_id')
+        
+        if not user_msg:
+            return jsonify({'error': '空訊息'}), 400
+            
+        # Get or create session
+        if session_id:
+            session = ChatSession.query.get_or_404(session_id)
+            if session.user_id != current_user.id:
+                return jsonify({'error': '權限不足'}), 403
+        else:
+            session = ChatSession(user_id=current_user.id, title=user_msg[:20])
+            db.session.add(session)
+            db.session.commit()
+
+        # Save user message
+        user_chat = ChatMessage(session_id=session.id, role='user', content=user_msg)
+        db.session.add(user_chat)
+        
+        # Get recent mistakes for context
+        context = ""
+        if not session_id:
+            try:
+                recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(3).all()
+                if recent_mistakes:
+                    context = "學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes])
+            except Exception:
+                pass
+
+        # Convert session messages to Gemini format
+        history_override = request.json.get('history')
+        if history_override:
+            recent_history = history_override
+        else:
+            try:
+                history = [{'role': str(m.role), 'parts': [str(m.content)]} for m in session.messages]
+                recent_history = history[:-1] if len(history) > 0 else []
+            except Exception:
+                recent_history = []
+
+        reply = get_ai_tutor_response(recent_history, user_msg, personality_key=current_user.ai_personality, context_summary=context)
+        
+        # Save AI response
+        try:
+            ai_chat = ChatMessage(session_id=session.id, role='ai', content=reply)
+            db.session.add(ai_chat)
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+        
+        return jsonify({'reply': reply, 'session_id': session.id})
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         db.session.rollback()
-    
-    return jsonify({'reply': reply, 'session_id': session.id})
+        return jsonify({'reply': f'AI 老師暫時離開了座位：{str(e)}', 'error': str(e)}), 200
 
 @study.route("/api/chat/sessions")
 @login_required
