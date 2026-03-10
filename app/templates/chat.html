@@ -5,7 +5,8 @@
     <!-- Sidebar for Sessions -->
     <div class="card" style="flex: 1; border-radius: 12px; padding: 1.5rem; overflow-y: auto;">
         <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);"><i class="fa-solid fa-comments"></i> 歷史記錄</h3>
-        <button id="new-chat-btn" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px dashed var(--color-primary); background: none; color: var(--color-primary); cursor: pointer; margin-bottom: 1rem;">
+        <button id="new-chat-btn"
+            style="width: 100%; padding: 10px; border-radius: 8px; border: 1px dashed var(--color-primary); background: none; color: var(--color-primary); cursor: pointer; margin-bottom: 1rem;">
             + 開啟新對話
         </button>
         <div id="session-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
@@ -15,22 +16,27 @@
 
     <!-- Chat Area -->
     <div class="card" style="flex: 2; border-radius: 12px; padding: 2rem; display: flex; flex-direction: column;">
-        <div id="chat-header" style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem;">
+        <div id="chat-header"
+            style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem;">
             <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text);">請選擇一個對話或開始新對話</h2>
         </div>
 
-        <div id="chat-window" style="flex-grow: 1; overflow-y: auto; padding: 1rem; background: #fafafa; border-radius: 12px; margin-bottom: 1.5rem;">
+        <div id="chat-window"
+            style="flex-grow: 1; overflow-y: auto; padding: 1rem; background: #fafafa; border-radius: 12px; margin-bottom: 1.5rem;">
             <div id="messages" style="display: flex; flex-direction: column; gap: 1rem;">
                 <p style="text-align: center; color: var(--color-text_light);">快來跟雪音老師聊天吧！(๑•̀ㅂ•́)و✧</p>
             </div>
         </div>
 
         <div id="input-area" style="display: flex; gap: 10px; align-items: center;">
-            <button id="voice-input-btn" title="語音輸入" style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
+            <button id="voice-input-btn" title="語音輸入"
+                style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
                 <i class="fa-solid fa-microphone"></i>
             </button>
-            <input type="text" id="chat-input" placeholder="輸入訊息..." style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none;">
-            <button id="send-chat-btn" style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
+            <input type="text" id="chat-input" placeholder="輸入訊息..."
+                style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none;">
+            <button id="send-chat-btn"
+                style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
                 發送
             </button>
         </div>
@@ -40,8 +46,13 @@
 <script>
     // --- Voice Tutor Logic ---
     const voiceBtn = document.getElementById('voice-input-btn');
+    const chatInput = document.getElementById('chat-input');
     let isListening = false;
     let autoSpeak = false;
+    let activeSessionId = null;
+    const sessionList = document.getElementById('session-list');
+    const chatTitle = document.getElementById('chat-title');
+    const messagesContainer = document.getElementById('messages');
 
     // Speech Recognition
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -52,16 +63,20 @@
 
         recognition.onstart = () => {
             isListening = true;
-            voiceBtn.style.color = '#ff6b6b';
+            voiceBtn.style.color = 'white';
+            voiceBtn.style.backgroundColor = '#ff6b6b';
             voiceBtn.style.borderColor = '#ff6b6b';
-            voiceBtn.style.boxShadow = '0 0 10px rgba(255, 107, 107, 0.3)';
+            voiceBtn.style.boxShadow = '0 0 15px rgba(255, 107, 107, 0.5)';
+            voiceBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
         };
 
         recognition.onend = () => {
             isListening = false;
             voiceBtn.style.color = 'var(--color-text_light)';
+            voiceBtn.style.backgroundColor = 'transparent';
             voiceBtn.style.borderColor = 'var(--color-border)';
             voiceBtn.style.boxShadow = 'none';
+            voiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
         };
 
         recognition.onresult = (event) => {
@@ -82,7 +97,7 @@
     // Text to Speech
     function speak(text) {
         if (!window.speechSynthesis) return;
-        window.speechSynthesis.cancel(); // Stop current speech
+        window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'zh-TW';
         utterance.rate = 1.0;
@@ -91,20 +106,16 @@
     // --- End Voice Logic ---
 
     async function loadSessions() {
-        // ... (keep previous loadSessions)
-        // Try server first
         try {
             const res = await fetch("{{ url_for('study.get_chat_sessions') }}");
             if (res.ok) {
                 const sessions = await res.json();
                 renderSessions(sessions);
-                // Backup to LocalStorage
                 localStorage.setItem('chat_sessions_backup', JSON.stringify(sessions));
                 return;
             }
         } catch (e) { console.log("Server session load failed, using local backup."); }
-        
-        // Fallback to LocalStorage
+
         const localSessions = JSON.parse(localStorage.getItem('chat_sessions_backup') || '[]');
         renderSessions(localSessions);
     }
@@ -113,14 +124,15 @@
         sessionList.innerHTML = '';
         sessions.forEach(s => {
             const btn = document.createElement('button');
-            btn.className = 'session-item';
-            btn.style.textAlign = 'left';
-            btn.style.padding = '10px';
-            btn.style.border = '1px solid var(--color-border)';
-            btn.style.background = s.id === activeSessionId ? '#eee' : 'white';
-            btn.style.borderRadius = '8px';
-            btn.style.cursor = 'pointer';
-            btn.innerHTML = `<div style="font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${s.title}</div><div style="font-size: 0.7rem; color: #999;">${new Date(s.created_at).toLocaleString()}</div>`;
+            btn.className = `session-item ${s.id === activeSessionId ? 'active' : ''}`;
+            btn.innerHTML = `
+                <div style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${s.id === activeSessionId ? 'white' : 'var(--color-text)'};">
+                    ${s.title}
+                </div>
+                <div style="font-size: 0.75rem; color: ${s.id === activeSessionId ? 'rgba(255,255,255,0.8)' : '#999'}; margin-top: 4px;">
+                    ${new Date(s.created_at).toLocaleString([], { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                </div>
+            `;
             btn.onclick = () => loadHistory(s.id, s.title);
             sessionList.appendChild(btn);
         });
@@ -128,109 +140,293 @@
 
     async function loadHistory(id, title) {
         activeSessionId = id;
-        chatTitle.innerText = title;
+        chatTitle.innerHTML = `<i class="fa-solid fa-robot" style="color: var(--color-primary); margin-right: 8px;"></i> ${title}`;
         messagesContainer.innerHTML = '';
-        
+        loadSessions(); // Update active state in sidebar
+
         try {
             const res = await fetch(`{{ url_for('study.get_chat_history', session_id=0) }}`.replace('0', id));
             if (res.ok) {
                 const data = await res.json();
-                data.messages.forEach(m => addMessage(m.role, m.content));
-                // Backup messages
+                data.messages.forEach(m => addMessage(m.role, m.content, false));
                 localStorage.setItem(`chat_history_${id}`, JSON.stringify(data.messages));
+                scrollToBottom();
                 return;
             }
         } catch (e) { console.log("Server history load failed, using local backup."); }
 
-        // Fallback
         const localHistory = JSON.parse(localStorage.getItem(`chat_history_${id}`) || '[]');
-        localHistory.forEach(m => addMessage(m.role, m.content));
+        localHistory.forEach(m => addMessage(m.role, m.content, false));
+        scrollToBottom();
     }
 
-    function addMessage(role, text) {
+    function addMessage(role, text, animate = true) {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.flexDirection = 'column';
+        wrapper.style.marginBottom = '1.2rem';
+        wrapper.style.alignItems = role === 'ai' ? 'flex-start' : 'flex-end';
+
         const div = document.createElement('div');
-        div.style.padding = '12px 18px';
-        div.style.borderRadius = '15px';
-        div.style.maxWidth = '85%';
-        div.style.lineHeight = '1.6';
-        
+        div.className = `chat-bubble ${role}`;
+        if (animate) {
+            div.style.animation = 'popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards';
+        }
+
         if (role === 'ai') {
-            div.style.backgroundColor = '#fff';
-            div.style.border = '1px solid var(--color-border)';
-            div.style.alignSelf = 'flex-start';
-            div.innerHTML = `<small style="color: var(--color-accent);">雪音老師</small><br>${text.replace(/\n/g, '<br>')}`;
+            const label = document.createElement('div');
+            label.innerHTML = '<i class="fa-solid fa-sparkles"></i> 雪音老師';
+            label.style.fontSize = '0.75rem';
+            label.style.color = '#888';
+            label.style.marginBottom = '4px';
+            label.style.marginLeft = '12px';
+            wrapper.appendChild(label);
+
+            // Format line breaks
+            div.innerHTML = text.replace(/\n/g, '<br>');
         } else {
-            div.style.backgroundColor = 'var(--color-primary)';
-            div.style.color = 'white';
-            div.style.alignSelf = 'flex-end';
             div.innerHTML = text;
         }
-        messagesContainer.appendChild(div);
-        messagesContainer.parentElement.scrollTop = messagesContainer.parentElement.scrollHeight;
+
+        wrapper.appendChild(div);
+        messagesContainer.appendChild(wrapper);
+        scrollToBottom();
+        return wrapper;
+    }
+
+    function showTypingIndicator() {
+        const wrapper = document.createElement('div');
+        wrapper.id = 'typing-indicator';
+        wrapper.style.display = 'flex';
+        wrapper.style.flexDirection = 'column';
+        wrapper.style.alignItems = 'flex-start';
+        wrapper.style.marginBottom = '1.2rem';
+
+        const label = document.createElement('div');
+        label.innerHTML = '<i class="fa-solid fa-pen-fancy"></i> 雪音正在輸入...';
+        label.style.fontSize = '0.75rem';
+        label.style.color = '#888';
+        label.style.marginBottom = '4px';
+        label.style.marginLeft = '12px';
+
+        const div = document.createElement('div');
+        div.className = 'chat-bubble ai typing';
+        div.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(div);
+        messagesContainer.appendChild(wrapper);
+        scrollToBottom();
+    }
+
+    function removeTypingIndicator() {
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
+    }
+
+    function scrollToBottom() {
+        const chatWindow = document.getElementById('chat-window');
+        chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
     }
 
     async function sendMessage() {
         const text = chatInput.value.trim();
         if (!text) return;
-        
+
         chatInput.value = '';
         addMessage('user', text);
+        showTypingIndicator();
 
-        // Prepare context from LocalStorage if session is unstable
         const currentLocalHistory = JSON.parse(localStorage.getItem(`chat_history_${activeSessionId}`) || '[]');
-        const geminiHistory = currentLocalHistory.map(m => ({role: m.role, parts: [m.content]}));
-        
+        const geminiHistory = currentLocalHistory.map(m => ({ role: m.role, parts: [m.content] }));
+
         const payload = {
-            message: text, 
+            message: text,
             session_id: activeSessionId,
-            history: geminiHistory // Sending full history as backup
+            history: geminiHistory
         };
 
         try {
             const response = await fetch("{{ url_for('study.tutor_chat') }}", {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json', 'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content},
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+                },
                 body: JSON.stringify(payload)
             });
-            
+
             const data = await response.json();
+            removeTypingIndicator();
+
             if (data.reply) {
                 if (!activeSessionId) {
                     activeSessionId = data.session_id;
                     loadSessions();
+                    chatTitle.innerHTML = `<i class="fa-solid fa-robot" style="color: var(--color-primary); margin-right: 8px;"></i> 新對話`;
                 }
                 addMessage('ai', data.reply);
-                
+
                 if (autoSpeak) {
                     speak(data.reply);
-                    autoSpeak = false; // Reset after one turn or keep for continuous? Let's reset.
+                    autoSpeak = false;
                 }
 
-                // Save to local backup
-                const updatedHistory = [...currentLocalHistory, {role: 'user', content: text}, {role: 'ai', content: data.reply}];
+                const updatedHistory = [...currentLocalHistory, { role: 'user', content: text }, { role: 'ai', content: data.reply }];
                 localStorage.setItem(`chat_history_${activeSessionId}`, JSON.stringify(updatedHistory));
             }
         } catch (e) {
+            removeTypingIndicator();
+            console.error("Chat Error:", e);
             addMessage('ai', '對不起，連線似乎有點問題...但我會記住剛才的對話。');
         }
     }
 
     document.getElementById('send-chat-btn').addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {if (e.key === 'Enter') sendMessage();});
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
     document.getElementById('new-chat-btn').addEventListener('click', () => {
         activeSessionId = null;
         chatTitle.innerText = "新對話";
-        messagesContainer.innerHTML = '<p style="text-align: center; color: var(--color-text_light);">請輸入第一則訊息...</p>';
+        messagesContainer.innerHTML = `
+            <div style="text-align: center; margin-top: 50px; animation: popIn 0.5s ease;">
+                <img src="{{ url_for('static', filename='img/mascot.png') }}" style="width: 120px; opacity: 0.8; margin-bottom: 20px;" onerror="this.style.display='none'">
+                <h3 style="color: var(--color-primary); margin-bottom: 10px;">你好，我是雪音！</h3>
+                <p style="color: var(--color-text_light);">有任何課業問題、想聊聊讀書心法，或單純想找人說說話，都可以告訴我喔！(๑•̀ㅂ•́)و✧</p>
+            </div>
+        `;
+        loadSessions(); // update sidebar selection
     });
 
+    // Initial setup
+    chatInput.focus();
     loadSessions();
 </script>
 
 <style>
+    /* Sidebar styling */
+    .session-item {
+        padding: 12px 15px;
+        border: 2px solid transparent;
+        background: white;
+        border-radius: 12px;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.2s ease;
+        margin-bottom: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    }
+
     .session-item:hover {
+        border-color: rgba(67, 97, 238, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .session-item.active {
+        background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+        border-color: transparent;
+        color: white;
+        box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    /* Chat Bubble Styling */
+    .chat-bubble {
+        padding: 14px 20px;
+        border-radius: 20px;
+        max-width: 80%;
+        line-height: 1.6;
+        position: relative;
+        font-size: 1.05rem;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    .chat-bubble.user {
+        background: linear-gradient(135deg, var(--color-primary), #3a56d4);
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+
+    .chat-bubble.ai {
+        background: white;
+        color: var(--color-text);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom-left-radius: 4px;
+    }
+
+    /* Typing Animation */
+    .typing .dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--color-primary);
+        margin: 0 3px;
+        animation: typingBounce 1.4s infinite ease-in-out both;
+    }
+
+    .typing .dot:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .typing .dot:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @keyframes typingBounce {
+
+        0%,
+        80%,
+        100% {
+            transform: scale(0);
+            opacity: 0.5;
+        }
+
+        40% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes popIn {
+        0% {
+            transform: scale(0.95) translateY(10px);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* Input Area Focus Effect */
+    #chat-input:focus {
         border-color: var(--color-primary) !important;
-        transform: scale(1.02);
-        transition: all 0.2s;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+
+    /* Scrollbar for chat window */
+    #chat-window::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #chat-window::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    #chat-window::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    #chat-window::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.2);
     }
 </style>
 {% endblock %}
