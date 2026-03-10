@@ -217,25 +217,47 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     
     expression = random.choice(personality['expressions'])
     
+    # Try Gemini first
     try:
         model = get_gemini_model()
-        # Format chat history for Gemini
         gemini_history = []
         for msg in chat_history:
             msg_role = "user" if msg['role'] == 'user' else "model"
-            # Ensure parts[0] is accessable and correct
             parts_val = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
             gemini_history.append({"role": msg_role, "parts": [parts_val]})
             
         chat = model.start_chat(history=gemini_history)
         
-        # Initial instruction if chat is empty
         if not chat_history:
-             user_message = f"[系統提示：你是{personality['name']}。]{user_message}"
+             user_message_with_prompt = f"[系統提示：你是{personality['name']}。]{user_message}"
+        else:
+             user_message_with_prompt = user_message
              
-        response = chat.send_message(user_message)
+        response = chat.send_message(user_message_with_prompt)
         reply = response.text
         
         return f"{reply}\n\n{expression}"
-    except Exception as e:
-        return f"AI 老師暫時離開了座位：{str(e)}"
+    except Exception as gemini_error:
+        print(f"Gemini failed: {gemini_error}, trying Groq fallback...")
+    
+    # Fallback to Groq
+    try:
+        client = get_groq_client()
+        messages = [{"role": "system", "content": system_prompt}]
+        for msg in chat_history:
+            role = msg.get('role', 'user')
+            content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
+            messages.append({"role": role, "content": content})
+        messages.append({"role": "user", "content": user_message})
+        
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=messages,
+            temperature=0.7,
+            max_tokens=2048,
+        )
+        reply = response.choices[0].message.content
+        return f"{reply}\n\n{expression}"
+    except Exception as groq_error:
+        return f"AI 老師暫時離開了座位：Gemini 與 Groq 都無法使用。\nGemini: {gemini_error}\nGroq: {groq_error}"
+
