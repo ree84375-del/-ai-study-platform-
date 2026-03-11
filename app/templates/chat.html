@@ -140,7 +140,7 @@
 
     async function loadHistory(id, title) {
         activeSessionId = id;
-        chatTitle.innerHTML = `<i class="fa-solid fa-robot" style="color: var(--color-primary); margin-right: 8px;"></i> ${title}`;
+        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${title}`;
         messagesContainer.innerHTML = '';
         loadSessions(); // Update active state in sidebar
 
@@ -294,7 +294,7 @@
                 if (!activeSessionId) {
                     activeSessionId = data.session_id;
                     loadSessions();
-                    chatTitle.innerHTML = `<i class="fa-solid fa-robot" style="color: var(--color-primary); margin-right: 8px;"></i> 新對話`;
+                    chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> 新對話`;
                 }
                 addMessage('ai', data.reply);
 
@@ -329,7 +329,7 @@
 
     document.getElementById('new-chat-btn').addEventListener('click', () => {
         activeSessionId = null;
-        chatTitle.innerText = "新對話";
+        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> 新對話`;
         messagesContainer.innerHTML = `
             <div style="text-align: center; margin-top: 50px; animation: popIn 0.5s ease;">
                 <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 120px; border-radius: 50%; object-fit: cover; opacity: 0.9; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
