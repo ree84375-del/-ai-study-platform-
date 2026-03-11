@@ -277,6 +277,19 @@
                     root.style.setProperty('--color-secondary', '#fdf3eb');
                     root.style.setProperty('--color-bg', '#fffbf8');
                 }
+
+                // Auto-save the theme in the background so it reflects site-wide immediately
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                const formData = new FormData();
+                formData.append('preferred_theme', theme);
+                if (csrfToken) {
+                    formData.append('csrf_token', csrfToken);
+                    // Note: Update profile route ignores fields not passed and keeps existing defaults
+                    fetch("{{ url_for('main.update_profile') }}", {
+                        method: 'POST',
+                        body: formData
+                    }).catch(err => console.error("Theme background save failed:", err));
+                }
             });
         }
     });
