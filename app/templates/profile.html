@@ -3,16 +3,16 @@
 
 {% block content %}
 <div class="container-small">
-    <div class="card profile-card" style="padding: 3rem; background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%); position: relative; overflow: hidden;">
+    <div class="card profile-card" style="padding: 3rem; background: var(--color-bg); position: relative; overflow: hidden; border: 1px solid var(--color-border);">
         <!-- Delicate background pattern/element -->
-        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background-color: rgba(216, 156, 154, 0.05); border-radius: 50%;"></div>
+        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background-color: color-mix(in srgb, var(--color-accent) 5%, transparent); border-radius: 50%;"></div>
         
         <div class="profile-header" style="text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1;">
             <div class="profile-avatar-container" style="position: relative; display: inline-block;">
                 {% if current_user.avatar_url %}
                     <img src="{{ current_user.avatar_url }}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
                 {% else %}
-                    <div class="profile-avatar" style="width: 120px; height: 120px; background-color: var(--color-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 3.5rem; box-shadow: 0 8px 25px rgba(216, 156, 154, 0.2);">
+                    <div class="profile-avatar" style="width: 120px; height: 120px; background-color: var(--color-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 3.5rem; box-shadow: 0 8px 25px color-mix(in srgb, var(--color-accent) 20%, transparent);">
                         {{ current_user.username[0] | upper }}
                     </div>
                 {% endif %}
@@ -48,7 +48,7 @@
             <input type="hidden" name="avatar_url" id="avatar-input" value="{{ current_user.avatar_url or '' }}"/>
 
             <!-- ⛄ 雪音老師專屬設定區 (AI Readable) -->
-            <div class="ai-profile-section" style="margin-bottom: 2rem; background: rgba(216, 156, 154, 0.05); padding: 2rem; border-radius: 12px; border: 2px dashed var(--color-accent); box-shadow: inset 0 0 20px rgba(255,255,255,0.5);">
+            <div class="ai-profile-section" style="margin-bottom: 2rem; background: color-mix(in srgb, var(--color-accent) 5%, transparent); padding: 2rem; border-radius: 12px; border: 2px dashed var(--color-accent); box-shadow: inset 0 0 20px rgba(255,255,255,0.2);">
                 <h3 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-accent); display: flex; align-items: center; font-size: 1.25rem;">
                     <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 12px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); object-fit: cover;"> 
                     給 AI 老師的專屬設定
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; border-radius: 12px; font-weight: 600; font-size: 1.1rem; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(216, 156, 154, 0.4); margin-bottom: 3rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; border-radius: 12px; font-weight: 600; font-size: 1.1rem; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; border: none; cursor: pointer; box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary) 30%, transparent); margin-bottom: 3rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                 <i class="fa-solid fa-floppy-disk" style="margin-right: 8px;"></i> 儲存以上所有設定
             </button>
         </form>
@@ -130,8 +130,8 @@
             </p>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
                 <!-- 電子信箱 -->
-                <div style="display: flex; align-items: center; padding: 1rem; background: #fff; border-radius: 10px; border: 1px solid var(--color-border);">
-                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #6a9bd8, #4a7fb5); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                <div style="display: flex; align-items: center; padding: 1rem; background: var(--color-bg); border-radius: 10px; border: 1px solid var(--color-border);">
+                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                         <i class="fa-solid fa-envelope" style="color: white; font-size: 0.9rem;"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
@@ -140,8 +140,8 @@
                     </div>
                 </div>
                 <!-- 密碼 -->
-                <div style="display: flex; align-items: center; padding: 1rem; background: #fff; border-radius: 10px; border: 1px solid var(--color-border);">
-                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #e8a87c, #d4956b); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                <div style="display: flex; align-items: center; padding: 1rem; background: var(--color-bg); border-radius: 10px; border: 1px solid var(--color-border);">
+                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-accent), var(--color-primary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                         <i class="fa-solid fa-lock" style="color: white; font-size: 0.9rem;"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
@@ -296,7 +296,7 @@
     .form-control:focus {
         border-color: var(--color-primary) !important;
         outline: none;
-        box-shadow: 0 0 0 3px rgba(181, 155, 142, 0.1);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 10%, transparent);
     }
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
