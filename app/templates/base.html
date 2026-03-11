@@ -80,7 +80,7 @@
             <a href="{{ url_for('study.ai_docs') }}" class="nav-link" style="color: var(--color-accent);"><i
                     class="fa-solid fa-file-pdf"></i> 講義分析</a>
             <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> AI 聊天室</a>
-            <a href="{{ url_for('group.index') }}" class="nav-link"><i class="fa-solid fa-moon"></i> 深夜夜讀</a>
+            <a href="{{ url_for('study.lofi_room') }}" class="nav-link"><i class="fa-solid fa-moon"></i> 深夜夜讀</a>
             
             {% if current_user.is_admin %}
             <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: #ff7b72; font-weight: bold;"><i class="fa-solid fa-crown"></i> 後台管理</a>

@@ -1,8 +1,8 @@
 {
     "venvPath": ".",
-    "venv": "venv",
+    "venv": "venv_312",
     "include": ["."],
-    "exclude": ["**/__pycache__", "venv"],
+    "exclude": ["**/__pycache__", "venv", "venv_312"],
     "analysisMode": "basic",
     "pythonVersion": "3.12"
 }
