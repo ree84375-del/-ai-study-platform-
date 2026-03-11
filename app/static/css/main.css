@@ -87,3 +87,11 @@ body {
 .alert-info { border-color: #7b9acc; }
 .alert-warning { border-color: #e2b764; }
 .alert-danger { border-color: var(--color-accent); }
+
+/* Custom Admin Alert */
+.alert-admin-gold {
+    border-color: #ffd700;
+    background-color: #fffacd;
+    color: #b8860b;
+    font-weight: bold;
+}

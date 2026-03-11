@@ -40,6 +40,10 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             current_app.logger.info(f"User {user.username} logged in successfully")
+            if user.role == 'admin':
+                flash(f'歡迎回來，{user.username} 👑 管理員！', 'admin-gold')
+            else:
+                flash(f'歡迎回來，{user.username}！', 'success')
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
@@ -81,7 +85,10 @@ def google_auth():
             if is_admin and user.role != 'admin':
                 user.role = 'admin'
                 db.session.commit()
-            flash(f'歡迎回來，{user.username}！', 'success')
+            if user.role == 'admin':
+                flash(f'歡迎回來，{user.username} 👑 管理員！', 'admin-gold')
+            else:
+                flash(f'歡迎回來，{user.username}！', 'success')
             
         login_user(user)
         return redirect(url_for('main.home'))
