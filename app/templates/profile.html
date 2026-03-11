@@ -234,6 +234,34 @@
             form.style.display = 'none';
         }
     }
+
+    // Live theme preview
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeSelect = document.querySelector('select[name="preferred_theme"]');
+        if (themeSelect) {
+            themeSelect.addEventListener('change', (e) => {
+                const theme = e.target.value;
+                const root = document.documentElement;
+                
+                if (theme === 'sakura') {
+                    root.style.setProperty('--color-primary', '#d89c9a');
+                    root.style.setProperty('--color-accent', '#85a392');
+                    root.style.setProperty('--color-secondary', '#fff0f5');
+                    root.style.setProperty('--color-bg', '#fffdfd');
+                } else if (theme === 'moon') {
+                    root.style.setProperty('--color-primary', '#5b7b9e');
+                    root.style.setProperty('--color-accent', '#d4c27b');
+                    root.style.setProperty('--color-secondary', '#eef2f5');
+                    root.style.setProperty('--color-bg', '#f4f6f8');
+                } else if (theme === 'classic') {
+                    root.style.setProperty('--color-primary', '#666666');
+                    root.style.setProperty('--color-accent', '#999999');
+                    root.style.setProperty('--color-secondary', '#eaeaea');
+                    root.style.setProperty('--color-bg', '#f9f9f9');
+                }
+            });
+        }
+    });
 </script>
 
 <style>
