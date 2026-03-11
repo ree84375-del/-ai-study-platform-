@@ -3,9 +3,35 @@
 
 {% block content %}
 <div class="container" style="max-width: 900px; margin: 0 auto;">
-    <h1 style="color: #ff7b72; margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
-        <i class="fa-solid fa-crown"></i> 管理員後台
-    </h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-crown"></i> 管理員後台
+        </h1>
+        <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: #7b9acc; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-book"></i> 題庫管理</a>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="washi-card" style="text-align: center; padding: 1.5rem;">
+            <i class="fa-solid fa-users" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 0.5rem;"></i>
+            <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_users }}</h3>
+            <p style="margin: 0; color: var(--color-text_light);">總註冊用戶</p>
+        </div>
+        <div class="washi-card" style="text-align: center; padding: 1.5rem;">
+            <i class="fa-solid fa-book-open" style="font-size: 2rem; color: #7b9acc; margin-bottom: 0.5rem;"></i>
+            <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_questions }}</h3>
+            <p style="margin: 0; color: var(--color-text_light);">總題庫數量</p>
+        </div>
+        <div class="washi-card" style="text-align: center; padding: 1.5rem;">
+            <i class="fa-solid fa-comments" style="font-size: 2rem; color: #e2b764; margin-bottom: 0.5rem;"></i>
+            <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_chats }}</h3>
+            <p style="margin: 0; color: var(--color-text_light);">AI 對話總數</p>
+        </div>
+        <div class="washi-card" style="text-align: center; padding: 1.5rem;">
+            <i class="fa-solid fa-people-group" style="font-size: 2rem; color: #d89c9a; margin-bottom: 0.5rem;"></i>
+            <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_groups }}</h3>
+            <p style="margin: 0; color: var(--color-text_light);">學習群組數</p>
+        </div>
+    </div>
     
     <div class="washi-card" style="margin-bottom: 2rem;">
         <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> 用戶管理 (共有 {{ users|length }} 名)</h3>
@@ -16,6 +42,7 @@
                 <th style="padding: 10px;">名稱</th>
                 <th style="padding: 10px;">角色</th>
                 <th style="padding: 10px;">最後上線</th>
+                <th style="padding: 10px; width: 280px;">操作</th>
             </tr>
             {% for u in users %}
             <tr style="border-bottom: 1px solid var(--color-border);">
@@ -26,6 +53,22 @@
                     {% if u.is_admin %}<span style="color: white; background: #ff7b72; border-radius: 5px; padding: 3px 8px; font-size: 0.8rem; font-weight: bold;">管理員</span>{% else %}{{ u.role }}{% endif %}
                 </td>
                 <td style="padding: 10px; font-size: 0.9rem; color: var(--color-text_light);">{% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}從未登入{% endif %}</td>
+                <td style="padding: 10px; display: flex; gap: 5px;">
+                    <form action="{{ url_for('admin.change_user_role', user_id=u.id) }}" method="POST" style="display: flex; gap: 5px; margin: 0;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <select name="role" style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-border);" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>
+                            <option value="student" {% if u.role == 'student' %}selected{% endif %}>學生</option>
+                            <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>老師</option>
+                            <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>訪客</option>
+                            <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>管理員</option>
+                        </select>
+                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>更改</button>
+                    </form>
+                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('確定要刪除用戶 {{ u.username }} 嗎？這將會刪除其所有相關資料且無法復原！');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </table>
