@@ -21,20 +21,6 @@ def dashboard():
     groq_keys = os.environ.get('GROQ_API_KEYS', '')
     return render_template('admin/dashboard.html', title="管理員後台", users=users, gemini_keys=gemini_keys, groq_keys=groq_keys)
 
-@admin.route('/antigravity_command', methods=['POST'])
-def antigravity_command():
-    message = request.form.get('message', '')
-    if message:
-        # We can just write it to a text file that the agent can read, or just flash it 
-        # as a mock for now, because the agent relies on the web chat or tasks
-        try:
-            with open('antigravity_admin_log.txt', 'a', encoding='utf-8') as f:
-                f.write(f"Admin Said: {message}\n")
-        except:
-            pass
-        flash(f'已發送訊息給 Antigravity：「{message}」', 'success')
-    return redirect(url_for('admin.dashboard'))
-
 @admin.route('/yukine_command', methods=['POST'])
 def yukine_command():
     command = request.form.get('command', '')
