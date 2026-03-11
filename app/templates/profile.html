@@ -24,7 +24,7 @@
             <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
             <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 10px;">
                 <span class="badge" style="background-color: var(--color-primary); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
-                   {% if current_user.role == 'admin' %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
+                   {% if current_user.is_admin %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
                 </span>
                 <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
                     指導：{{ current_user.ai_personality }}

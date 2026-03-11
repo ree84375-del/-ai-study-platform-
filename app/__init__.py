@@ -82,11 +82,13 @@ def create_app(config_class=None):
     from app.auth.routes import auth
     from app.study.routes import study
     from app.group.routes import group
+    from app.admin.routes import admin
     
     app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(study)
     app.register_blueprint(group)
+    app.register_blueprint(admin)
 
     # 確保在建立資料表前，models 已被載入
     from app import models

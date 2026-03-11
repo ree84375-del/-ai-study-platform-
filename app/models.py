@@ -44,6 +44,10 @@ class User(db.Model, UserMixin):
     auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
 
+    @property
+    def is_admin(self):
+        return self.role == 'admin' or self.email == 'ree84375@gmail.com'
+
     current_streak = db.Column(db.Integer, default=0)
     last_study_date = db.Column(db.DateTime, nullable=True)
     has_seen_tour = db.Column(db.Boolean, default=False)
