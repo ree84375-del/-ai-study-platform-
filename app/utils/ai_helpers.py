@@ -9,16 +9,20 @@ import json
 # Setup Gemini API key
 _cached_gemini_model_name = None
 
-def get_gemini_model(system_instruction=None):
+def get_gemini_keys():
+    keys_str = os.environ.get('GEMINI_API_KEYS', os.environ.get('GEMINI_API_KEY', ''))
+    if not keys_str: return []
+    return [k.strip() for k in keys_str.split(',') if k.strip()]
+
+def get_gemini_model(system_instruction=None, tools=None):
     global _cached_gemini_model_name
     
-    # Use the first key provided by user, or allow it to fail gracefully if none is valid
-    api_key = os.environ.get('GEMINI_API_KEY')
-    if api_key:
-         genai.configure(api_key=api_key)
+    keys = get_gemini_keys()
+    if keys:
+         genai.configure(api_key=random.choice(keys))
          
     if _cached_gemini_model_name:
-        return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction)
+        return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction, tools=tools)
         
     # Auto-discover working model to prevent 404 errors
     try:
@@ -35,19 +39,19 @@ def get_gemini_model(system_instruction=None):
         for pref in preferred:
             if pref in valid_models:
                 _cached_gemini_model_name = pref
-                return genai.GenerativeModel(pref, system_instruction=system_instruction)
+                return genai.GenerativeModel(pref, system_instruction=system_instruction, tools=tools)
                 
         # If preferred not found, just use the first valid one
         if valid_models:
             _cached_gemini_model_name = valid_models[0]
-            return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction)
+            return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction, tools=tools)
             
     except Exception as e:
         print(f"Failed to auto-discover models: {e}")
         
     # Ultimate fallback if everything fails
     _cached_gemini_model_name = 'gemini-2.0-flash'
-    return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction)
+    return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction, tools=tools)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
@@ -63,16 +67,18 @@ def get_groq_client():
 
 def analyze_question_image(image_bytes):
     try:
-        model = get_gemini_model()
+        model = get_gemini_model(tools='code_execution')
         image = Image.open(io.BytesIO(image_bytes))
         prompt = """
-        你是一個充滿智慧且親切的家教老師。請分析這張圖片內容：
-        1. 如果這不是學習相關的題目（例如風景照片、亂拍、無意義內容），請客氣地告訴學生你只能處理學習問題，並給予一些有趣的簡單回應。
-        2. 如果是學習題目，請克服可能模糊的手寫字，詳盡地：
-           - 辨識題目內容與選項。
-           - 提供正確答案與核心觀念。
-           - 給予詳細的解題過程與鼓勵。
-        請用繁體中文回答。
+        你是一個充滿智慧且親切的家教老師雪音。請分析這張圖片內容：
+        1. 圖片解題模式：請專注辨識「印刷文字」的題目，盡量「忽略使用者自己的手寫算式或塗鴉」，以防被錯誤的計算干擾。
+        2. 如果這不是學習相關的題目（例如風景照片、亂拍、無意義內容），請客氣地告訴學生你只能處理學習問題，並給予一些有趣的簡單回應。
+        3. 如果是學習題目，請詳盡地：
+           - 原文辨識：辨識完整的題目內容與選項。
+           - 提供解答：提供正確答案與核心觀念。
+           - 過程解析：給予詳細的、逐步推導的解題過程與鼓勵。
+           - 若遇到複雜數學或數據，請利用你會寫程式的特長來計算，確保結果精準。
+        請用繁體中文回答，並且排版清晰易讀。
         """
         response = model.generate_content([prompt, image])
         return response.text
@@ -107,6 +113,25 @@ def parse_question_from_image(image_bytes):
         return json.loads(clean_text)
     except Exception as e:
         return {'error': str(e)}
+
+def generate_study_guide(filename, full_text):
+    try:
+        model = get_gemini_model()
+        prompt = f"""
+        你是一位名為「雪音」的 AI 學習導師。你的學生剛剛上傳了一份名為「{filename}」的講義重點。
+        請根據以下講義內容，重新整理並輸出一份「雪音專屬講義」：
+        1. 用溫柔、鼓勵的語氣開頭。
+        2. 條列式整理出這份講義的「核心觀念與重點」。
+        3. 針對重點給予簡單的學習建議或記憶口訣。
+        4. 排版要美觀清晰（善用 Markdown 的標題、粗體、清單）。
+
+        講義內容如下：
+        {full_text}
+        """
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        return f"嗨！我是雪音！我已經收到你的講義「{filename}」了，但我在整理重點時遇到一點小問題（{str(e)}）。不過沒關係，你隨時可以開始問我關於這份講義的問題喔！"
 
 def auto_tag_question(content):
     try:

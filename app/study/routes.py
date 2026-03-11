@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 from flask_login import login_required, current_user
 from app.models import Question, Mistake, ChatSession, ChatMessage
 from app import db
-from app.utils.ai_helpers import analyze_question_image, get_ai_tutor_response, AI_PERSONALITIES, auto_tag_question, detect_duplicate_question, get_knowledge_graph_recommendation
+from app.utils.ai_helpers import analyze_question_image, parse_question_from_image, get_ai_tutor_response, AI_PERSONALITIES, auto_tag_question, detect_duplicate_question, get_knowledge_graph_recommendation, generate_study_guide
 import random
 from datetime import datetime, timedelta, timezone
 
@@ -317,8 +317,12 @@ def ai_docs():
         session = ChatSession(user_id=current_user.id, title=f"講義分析: {file.filename}")
         db.session.add(session)
         db.session.commit()
+        
+        # Generate the dynamic study guide from the pdf text!
+        study_guide = generate_study_guide(file.filename, full_text)
+        
         context_msg = ChatMessage(session_id=session.id, role='ai', 
-                                content=f"我已經讀完您的講義「{file.filename}」了！您可以開始問我關於這份講義的問題。")
+                                content=study_guide)
         db.session.add(context_msg)
         db.session.commit()
         return jsonify({'status': 'success', 'session_id': session.id})
