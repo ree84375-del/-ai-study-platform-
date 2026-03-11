@@ -152,7 +152,14 @@ def analyze_mistake(mistake_id):
     請用{current_user.ai_personality or '雪音-溫柔型'}的語氣來給予建議。
     """
     
-    analysis = get_ai_tutor_response([], prompt, personality_key=current_user.ai_personality)
+    context_parts = []
+    if current_user.bio:
+        context_parts.append(f"學生個人簡介：{current_user.bio}")
+    if current_user.learning_goals:
+        context_parts.append(f"學生學習目標：{current_user.learning_goals}")
+    context = "\n".join(context_parts)
+    
+    analysis = get_ai_tutor_response([], prompt, personality_key=current_user.ai_personality, context_summary=context)
     
     # Optional: Automatically create a chat session for this analysis
     session = ChatSession(user_id=current_user.id, title=f"分析錯題: {question.content_text[:15]}...")
@@ -216,15 +223,22 @@ def tutor_chat():
         user_chat = ChatMessage(session_id=session.id, role='user', content=user_msg)
         db.session.add(user_chat)
         
-        # Get recent mistakes for context
-        context = ""
+        # Build comprehensive context
+        context_parts = []
+        if current_user.bio:
+            context_parts.append(f"學生個人簡介：{current_user.bio}")
+        if current_user.learning_goals:
+            context_parts.append(f"學生學習目標：{current_user.learning_goals}")
+            
         if not session_id:
             try:
                 recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(3).all()
                 if recent_mistakes:
-                    context = "學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes])
+                    context_parts.append("學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes]))
             except Exception:
                 pass
+                
+        context = "\n".join(context_parts)
 
         # Convert session messages to Gemini format
         history_override = request.json.get('history')

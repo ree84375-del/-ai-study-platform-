@@ -9,7 +9,7 @@ import json
 # Setup Gemini API key
 _cached_gemini_model_name = None
 
-def get_gemini_model():
+def get_gemini_model(system_instruction=None):
     global _cached_gemini_model_name
     
     # Use the first key provided by user, or allow it to fail gracefully if none is valid
@@ -18,7 +18,7 @@ def get_gemini_model():
          genai.configure(api_key=api_key)
          
     if _cached_gemini_model_name:
-        return genai.GenerativeModel(_cached_gemini_model_name)
+        return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction)
         
     # Auto-discover working model to prevent 404 errors
     try:
@@ -35,19 +35,19 @@ def get_gemini_model():
         for pref in preferred:
             if pref in valid_models:
                 _cached_gemini_model_name = pref
-                return genai.GenerativeModel(pref)
+                return genai.GenerativeModel(pref, system_instruction=system_instruction)
                 
         # If preferred not found, just use the first valid one
         if valid_models:
             _cached_gemini_model_name = valid_models[0]
-            return genai.GenerativeModel(_cached_gemini_model_name)
+            return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction)
             
     except Exception as e:
         print(f"Failed to auto-discover models: {e}")
         
     # Ultimate fallback if everything fails
     _cached_gemini_model_name = 'gemini-2.0-flash'
-    return genai.GenerativeModel(_cached_gemini_model_name)
+    return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
@@ -225,7 +225,7 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     # Try Gemini first (only if key looks valid)
     if not skip_gemini:
         try:
-            model = get_gemini_model()
+            model = get_gemini_model(system_instruction=system_prompt)
             gemini_history = []
             for msg in chat_history:
                 msg_role = "user" if msg['role'] == 'user' else "model"
@@ -233,13 +233,7 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
                 gemini_history.append({"role": msg_role, "parts": [parts_val]})
                 
             chat = model.start_chat(history=gemini_history)
-            
-            if not chat_history:
-                 user_message_with_prompt = f"[系統提示：你是{personality['name']}。]{user_message}"
-            else:
-                 user_message_with_prompt = user_message
-                 
-            response = chat.send_message(user_message_with_prompt)
+            response = chat.send_message(user_message)
             reply = response.text
             
             return f"{reply}\n\n{expression}"
