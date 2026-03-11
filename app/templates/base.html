@@ -19,24 +19,28 @@
 
     {% if current_user.is_authenticated and current_user.preferred_theme %}
     <style>
+        {% if current_user.preferred_theme == 'sakura' %}
         :root {
-            {% if current_user.preferred_theme == 'sakura' %}
             --color-primary: #d89c9a;      /* Sakura Pink */
             --color-accent: #85a392;       /* Matcha Green */
             --color-secondary: #fff0f5;    /* Lavender blush */
             --color-bg: #fffdfd;
-            {% elif current_user.preferred_theme == 'moon' %}
+        }
+        {% elif current_user.preferred_theme == 'moon' %}
+        :root {
             --color-primary: #5b7b9e;      /* Moonlight Blue */
             --color-accent: #d4c27b;       /* Moon Yellow */
             --color-secondary: #eef2f5;
             --color-bg: #f4f6f8;
-            {% elif current_user.preferred_theme == 'classic' %}
+        }
+        {% elif current_user.preferred_theme == 'classic' %}
+        :root {
             --color-primary: #666666;      /* Slate Gray */
             --color-accent: #999999;       /* Light Gray */
             --color-secondary: #eaeaea;
             --color-bg: #f9f9f9;
-            {% endif %}
         }
+        {% endif %}
     </style>
     {% endif %}
 </head>
