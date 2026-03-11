@@ -174,13 +174,31 @@
         }
 
         if (role === 'ai') {
+            const labelContainer = document.createElement('div');
+            labelContainer.style.display = 'flex';
+            labelContainer.style.alignItems = 'center';
+            labelContainer.style.marginBottom = '6px';
+            labelContainer.style.marginLeft = '8px';
+            
+            const avatar = document.createElement('img');
+            avatar.src = "{{ url_for('static', filename='img/yukine_lofi.png') }}";
+            avatar.style.width = '24px';
+            avatar.style.height = '24px';
+            avatar.style.borderRadius = '50%';
+            avatar.style.objectFit = 'cover';
+            avatar.style.marginRight = '8px';
+            avatar.style.border = '1px solid rgba(0,0,0,0.1)';
+            avatar.onerror = function() { this.style.display='none'; };
+
             const label = document.createElement('div');
             label.innerHTML = '<i class="fa-solid fa-sparkles"></i> 雪音老師';
-            label.style.fontSize = '0.75rem';
-            label.style.color = '#888';
-            label.style.marginBottom = '4px';
-            label.style.marginLeft = '12px';
-            wrapper.appendChild(label);
+            label.style.fontSize = '0.8rem';
+            label.style.color = '#666';
+            label.style.fontWeight = 'bold';
+            
+            labelContainer.appendChild(avatar);
+            labelContainer.appendChild(label);
+            wrapper.appendChild(labelContainer);
 
             // Format line breaks
             div.innerHTML = text.replace(/\n/g, '<br>');
