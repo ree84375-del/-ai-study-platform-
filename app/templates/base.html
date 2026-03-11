@@ -40,6 +40,27 @@
             --color-secondary: #eaeaea;
             --color-bg: #f9f9f9;
         }
+        {% elif current_user.preferred_theme == 'matcha' %}
+        :root {
+            --color-primary: #7d906a;      /* Matcha Green */
+            --color-accent: #8b7355;       /* Wood Brown */
+            --color-secondary: #f4faeb;    
+            --color-bg: #fdfdf9;
+        }
+        {% elif current_user.preferred_theme == 'lavender' %}
+        :root {
+            --color-primary: #9b89b3;      /* Lavender */
+            --color-accent: #d8b4e2;       /* Light Purple */
+            --color-secondary: #f8f0fc;    
+            --color-bg: #fdfbfe;
+        }
+        {% elif current_user.preferred_theme == 'sunset' %}
+        :root {
+            --color-primary: #dd7a56;      /* Sunset Orange */
+            --color-accent: #e6a762;       /* Warm Yellow */
+            --color-secondary: #fdf3eb;    
+            --color-bg: #fffbf8;
+        }
         {% endif %}
     </style>
     {% endif %}

@@ -103,9 +103,12 @@
                         <div>
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格</label>
                             <select name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
-                                <option value="sakura" {% if current_user.preferred_theme == 'sakura' %}selected{% endif %}>櫻花粉</option>
-                                <option value="moon" {% if current_user.preferred_theme == 'moon' %}selected{% endif %}>月光藍</option>
-                                <option value="classic" {% if current_user.preferred_theme == 'classic' %}selected{% endif %}>經典灰</option>
+                                <option value="sakura" {% if current_user.preferred_theme == 'sakura' %}selected{% endif %}>🌸 櫻花粉</option>
+                                <option value="moon" {% if current_user.preferred_theme == 'moon' %}selected{% endif %}>🌙 月光藍</option>
+                                <option value="classic" {% if current_user.preferred_theme == 'classic' %}selected{% endif %}>📓 經典灰</option>
+                                <option value="matcha" {% if current_user.preferred_theme == 'matcha' %}selected{% endif %}>🍵 宇治抹茶</option>
+                                <option value="lavender" {% if current_user.preferred_theme == 'lavender' %}selected{% endif %}>🪻 薰衣草紫</option>
+                                <option value="sunset" {% if current_user.preferred_theme == 'sunset' %}selected{% endif %}>🌅 夕陽橘紅</option>
                             </select>
                         </div>
                     </div>
@@ -258,6 +261,21 @@
                     root.style.setProperty('--color-accent', '#999999');
                     root.style.setProperty('--color-secondary', '#eaeaea');
                     root.style.setProperty('--color-bg', '#f9f9f9');
+                } else if (theme === 'matcha') {
+                    root.style.setProperty('--color-primary', '#7d906a');
+                    root.style.setProperty('--color-accent', '#8b7355');
+                    root.style.setProperty('--color-secondary', '#f4faeb');
+                    root.style.setProperty('--color-bg', '#fdfdf9');
+                } else if (theme === 'lavender') {
+                    root.style.setProperty('--color-primary', '#9b89b3');
+                    root.style.setProperty('--color-accent', '#d8b4e2');
+                    root.style.setProperty('--color-secondary', '#f8f0fc');
+                    root.style.setProperty('--color-bg', '#fdfbfe');
+                } else if (theme === 'sunset') {
+                    root.style.setProperty('--color-primary', '#dd7a56');
+                    root.style.setProperty('--color-accent', '#e6a762');
+                    root.style.setProperty('--color-secondary', '#fdf3eb');
+                    root.style.setProperty('--color-bg', '#fffbf8');
                 }
             });
         }
