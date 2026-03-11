@@ -252,26 +252,41 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     
     # Fallback to Groq
     try:
-        client = get_groq_client()
-        messages = [{"role": "system", "content": system_prompt}]
-        for msg in chat_history:
-            role = msg.get('role', 'user')
-            if role not in ('user', 'assistant', 'system'):
-                role = 'assistant'
-            content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
-            messages.append({"role": role, "content": content})
-        messages.append({"role": "user", "content": user_message})
+        from groq import Groq
+        keys = get_groq_keys()
+        if not keys: raise ValueError("Missing GROQ_API_KEYS environment variable")
         
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=messages,
-            temperature=0.7,
-            max_tokens=2048,
-        )
-        reply = response.choices[0].message.content
-        return f"{reply}\n\n{expression}"
+        random.shuffle(keys)
+        groq_err_msg = "All tried Groq keys failed."
+        
+        for key in keys[:3]:
+            try:
+                client = Groq(api_key=key)
+                messages = [{"role": "system", "content": system_prompt}]
+                for msg in chat_history:
+                    role = msg.get('role', 'user')
+                    if role not in ('user', 'assistant', 'system'):
+                        role = 'assistant'
+                    content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
+                    messages.append({"role": role, "content": content})
+                messages.append({"role": "user", "content": user_message})
+                
+                response = client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=2048,
+                )
+                reply = response.choices[0].message.content
+                return f"{reply}\n\n{expression}"
+            except Exception as e:
+                groq_err_msg = str(e)
+                print(f"Groq retry failed for key {key[:5]}... Error: {e}")
+                continue
+                
+        raise Exception(groq_err_msg)
+        
     except Exception as e:
         groq_err_msg = str(e)
         return f"AI 老師暫時離開了座位：\nGemini: {gemini_err_msg}\nGroq: {groq_err_msg}"
-
 
