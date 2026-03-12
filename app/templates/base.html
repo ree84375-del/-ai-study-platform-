@@ -87,7 +87,7 @@
             <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: #ff7b72; font-weight: bold;"><i class="fa-solid fa-crown"></i> 後台管理</a>
             {% endif %}
             
-            <a href="{{ url_for('main.profile') }}" class="nav-link">個人檔案 (<i class="fa-solid fa-fire" style="color: #ff6b6b"></i> {{ current_user.current_streak }})</a>
+            <a href="{{ url_for('main.profile') }}" class="nav-link">AI 老師設定 (<i class="fa-solid fa-fire" style="color: #ff6b6b"></i> {{ current_user.current_streak }})</a>
             <a href="{{ url_for('auth.logout') }}" class="nav-link">登出</a>
             {% else %}
             <a href="{{ url_for('auth.login') }}" class="nav-link">登入/註冊</a>

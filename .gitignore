@@ -5,3 +5,13 @@ __pycache__/
 instance/
 .vscode/
 app.db
+
+# Environments
+venv_312/
+.agent/
+backups/
+
+# Test and local files
+test_*.py
+test_result.txt
+valid_keys.txt

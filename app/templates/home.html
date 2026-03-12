@@ -56,17 +56,13 @@
             
             <!-- Zen Bonsai Graphic -->
             <div style="text-align: center; z-index: 1; min-width: 150px;">
+                <!-- Dynamic Animated Bonsai -->
+                <div id="home-bonsai-container" style="width: 150px; height: 180px; margin: 0 auto;"></div>
                 {% if current_user.current_streak >= 7 %}
-                    <!-- Blooming Sakura Bonsai -->
-                    <div style="font-size: 5rem; line-height: 1; text-shadow: 0 5px 15px rgba(255,183,197,0.5);">🌸</div>
                     <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">花開滿枝<br>(連勝 7+ 天)</div>
                 {% elif current_user.current_streak > 0 %}
-                    <!-- Green Bonsai -->
-                    <div style="font-size: 5rem; line-height: 1; text-shadow: 0 5px 15px rgba(100,200,100,0.3);">🌲</div>
                     <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">常綠盆景<br>(連勝中)</div>
                 {% else %}
-                    <!-- Karesansui / Dry stone -->
-                    <div style="font-size: 5rem; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.1);">🪨</div>
                     <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">枯山水<br>(休養生息)</div>
                 {% endif %}
             </div>
@@ -120,24 +116,8 @@
             
             {% if not active_daruma %}
                 <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">設定一個長期目標，為達磨畫上左眼。</p>
-                <!-- Blank Daruma SVG -->
-                <div style="width: 100px; height: 100px; margin: 0 auto 1rem;">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Body -->
-                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="#eb4d4b"/>
-                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="none" stroke="#c23616" stroke-width="3"/>
-                        <!-- White Face -->
-                        <ellipse cx="50" cy="45" rx="35" ry="30" fill="#f5f6fa" stroke="#c23616" stroke-width="2"/>
-                        <!-- Golden decorations -->
-                        <path d="M30 80 Q50 90 70 80" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="50" cy="82" r="4" fill="#f1c40f"/>
-                        <!-- Blank Eyes (White circles with red outlines) -->
-                        <!-- Left Eye -->
-                        <circle cx="35" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
-                        <!-- Right Eye -->
-                        <circle cx="65" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
-                    </svg>
-                </div>
+                <!-- Blank Daruma Animated -->
+                <div id="home-daruma-container-0" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="text" name="goal" placeholder="輸入您的目標 (例如：多益 900分)" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
@@ -146,25 +126,8 @@
             {% elif not active_daruma.is_completed %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;">{{ active_daruma.goal }}</p>
                 <p style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 1rem;">進行中...</p>
-                <!-- Half-eyed Daruma (Left eye open) -->
-                <div style="width: 100px; height: 100px; margin: 0 auto 1rem;">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Body -->
-                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="#eb4d4b"/>
-                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="none" stroke="#c23616" stroke-width="3"/>
-                        <!-- White Face -->
-                        <ellipse cx="50" cy="45" rx="35" ry="30" fill="#f5f6fa" stroke="#c23616" stroke-width="2"/>
-                        <!-- Golden decorations -->
-                        <path d="M30 80 Q50 90 70 80" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="50" cy="82" r="4" fill="#f1c40f"/>
-                        <!-- Eyes -->
-                        <!-- Left Eye (Painted Black) -->
-                        <circle cx="35" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
-                        <circle cx="35" cy="45" r="5" fill="#2f3640"/>
-                        <!-- Right Eye (Blank) -->
-                        <circle cx="65" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
-                    </svg>
-                </div>
+                <!-- Half-eyed Daruma (Left eye open) Animated -->
+                <div id="home-daruma-container-1" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm('確定已經達成目標了嗎？');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <button type="submit" class="btn" style="background-color: var(--color-success); width: 100%;"><i class="fa-solid fa-check"></i> 達成還願 (畫右眼)</button>
@@ -172,26 +135,8 @@
             {% else %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;"><del>{{ active_daruma.goal }}</del></p>
                 <p style="font-size: 0.8rem; color: var(--color-success); margin-bottom: 1rem;">已於 {{ active_daruma.completed_at.strftime('%Y-%m-%d') }} 達成</p>
-                <!-- Full-eyed Daruma -->
-                <div style="width: 100px; height: 100px; margin: 0 auto 1rem;">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Body -->
-                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="#eb4d4b"/>
-                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="none" stroke="#c23616" stroke-width="3"/>
-                        <!-- White Face -->
-                        <ellipse cx="50" cy="45" rx="35" ry="30" fill="#f5f6fa" stroke="#c23616" stroke-width="2"/>
-                        <!-- Golden decorations -->
-                        <path d="M30 80 Q50 90 70 80" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="50" cy="82" r="4" fill="#f1c40f"/>
-                        <!-- Eyes -->
-                        <!-- Left Eye (Painted Black) -->
-                        <circle cx="35" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
-                        <circle cx="35" cy="45" r="5" fill="#2f3640"/>
-                        <!-- Right Eye (Painted Black) -->
-                        <circle cx="65" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
-                        <circle cx="65" cy="45" r="5" fill="#2f3640"/>
-                    </svg>
-                </div>
+                <!-- Full-eyed Daruma Animated -->
+                <div id="home-daruma-container-2" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="text" name="goal" placeholder="設立下一個新目標" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
@@ -286,6 +231,9 @@
         }
     </style>
     
+    <!-- Insert Custom Animations Macros -->
+    {% include '_animations.html' %}
+    
     <script>
         document.querySelectorAll('a.washi-card').forEach(card => {
             card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-5px)');
@@ -312,6 +260,17 @@
             if(document.getElementById('omikuji-animation')) {
                 document.getElementById('omikuji-animation').style.display = 'none';
             }
+            
+            // Initialize Interactive Canvas Animations 
+            renderBonsai({{ current_user.current_streak }}, 'home-bonsai-container');
+            
+            {% if not active_daruma %}
+                renderDaruma(0, 'home-daruma-container-0');
+            {% elif not active_daruma.is_completed %}
+                renderDaruma(1, 'home-daruma-container-1');
+            {% else %}
+                renderDaruma(2, 'home-daruma-container-2');
+            {% endif %}
         });
     </script>
     

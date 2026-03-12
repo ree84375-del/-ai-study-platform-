@@ -1,7 +1,8 @@
 {
     "python.defaultInterpreterPath": "venv_312/Scripts/python.exe",
     "python.analysis.extraPaths": [
-        "."
+        ".",
+        "venv_312/Lib/site-packages"
     ],
     "python.analysis.autoSearchPaths": true,
     "python.analysis.useLibraryCodeForTypes": true,
