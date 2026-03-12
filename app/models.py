@@ -181,3 +181,31 @@ class GroupMessage(db.Model):
     # Relationships
     author = db.relationship('User', backref=db.backref('group_messages', lazy=True))
     group_ref = db.relationship('Group', backref=db.backref('messages', lazy=True))
+
+class Omikuji(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    fortune_level = db.Column(db.String(20), nullable=False) # 大吉, 吉, 小吉, 凶, etc.
+    message = db.Column(db.Text, nullable=False) # AI generated message
+    drawn_date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(timezone.utc).date())
+    
+    user = db.relationship('User', backref=db.backref('omikujis', lazy=True))
+
+class Ema(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.String(100), nullable=False)
+    is_public = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    user = db.relationship('User', backref=db.backref('emas', lazy=True))
+    
+class Daruma(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    goal = db.Column(db.String(100), nullable=False)
+    is_completed = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    completed_at = db.Column(db.DateTime, nullable=True)
+    
+    user = db.relationship('User', backref=db.backref('darumas', lazy=True))

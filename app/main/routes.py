@@ -30,10 +30,33 @@ def before_request():
 @main.route("/")
 @main.route("/home")
 def home():
-    from app.models import Announcement
+    from app.models import Announcement, Omikuji, Ema, Daruma, Mistake
     # Fetch latest 3 announcements
     announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(3).all()
-    return render_template('home.html', announcements=announcements)
+    
+    # Check Japanese Features if user is logged in
+    today_omikuji = None
+    recent_emas = []
+    active_daruma = None
+    mistakes_to_review = 0
+    
+    if current_user.is_authenticated:
+        today = datetime.now(timezone.utc).date()
+        today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
+        recent_emas = Ema.query.filter_by(is_public=True).order_by(Ema.created_at.desc()).limit(10).all()
+        # Find the most recent uncompleted Daruma, or the most recent completed one
+        active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()).first()
+        if not active_daruma:
+            active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=True).order_by(Daruma.completed_at.desc()).first()
+            
+        mistakes_to_review = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
+        
+    return render_template('home.html', 
+                           announcements=announcements, 
+                           today_omikuji=today_omikuji,
+                           recent_emas=recent_emas,
+                           active_daruma=active_daruma,
+                           mistakes_to_review=mistakes_to_review)
 
 @main.route("/about")
 def about():
@@ -133,3 +156,92 @@ def change_password():
         flash('密碼變更失敗，請稍後再試。', 'danger')
 
     return redirect(url_for('main.profile'))
+
+# --- Japanese-Themed Home Page Features ---
+
+@main.route("/api/omikuji/draw", methods=['POST'])
+@login_required
+def draw_omikuji():
+    from app.models import Omikuji
+    from app.utils.ai_helpers import get_gemini_model
+    import random
+    import json
+    
+    today = datetime.now(timezone.utc).date()
+    # Check if already drawn today
+    existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
+    if existing:
+        return jsonify({'status': 'error', 'message': '今天已經抽過御神籤了喔！'}), 400
+        
+    fortunes = ['大吉', '吉', '吉', '中吉', '小吉', '末吉'] # Adjusted probabilities
+    drawn_fortune = random.choice(fortunes)
+    
+    try:
+        prompt = f"學生抽到了「{drawn_fortune}」。請以溫柔的日式神職人員或巫女的語氣，為他寫一段大約 30 字的今日學習箴言。回傳 JSON 格式：{{\"message\": \"你的箴言\"}}。除了 JSON 之外不要有其他字。"
+        model = get_gemini_model()
+        res = model.generate_content(prompt)
+        text = res.text.strip()
+        if text.startswith('```json'):
+            text = text[7:]
+        if text.endswith('```'):
+            text = text[:-3]
+        data = json.loads(text)
+        message = data.get('message', '今天也是充滿希望的一天，跟著雪音一起努力吧！')
+        
+        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=message, drawn_date=today)
+        db.session.add(omikuji)
+        db.session.commit()
+        
+        return jsonify({'status': 'success', 'fortune': drawn_fortune, 'message': message})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@main.route("/api/ema/create", methods=['POST'])
+@login_required
+def create_ema():
+    from app.models import Ema
+    content = request.form.get('content')
+    is_public = request.form.get('is_public') == 'true'
+    
+    if not content or len(content) > 100:
+        flash('繪馬內容不可空白或超過 100 字。', 'danger')
+        return redirect(url_for('main.home'))
+        
+    ema = Ema(user_id=current_user.id, content=content, is_public=is_public)
+    db.session.add(ema)
+    db.session.commit()
+    flash('祈願繪馬已掛上！', 'success')
+    return redirect(url_for('main.home'))
+
+@main.route("/api/daruma/create", methods=['POST'])
+@login_required
+def create_daruma():
+    from app.models import Daruma
+    goal = request.form.get('goal')
+    
+    if not goal or len(goal) > 100:
+        flash('達磨目標不可空白或超過 100 字。', 'danger')
+        return redirect(url_for('main.home'))
+        
+    daruma = Daruma(user_id=current_user.id, goal=goal)
+    db.session.add(daruma)
+    db.session.commit()
+    flash('新的達磨不倒翁已為您準備好，請努力達成目標為它開眼！', 'success')
+    return redirect(url_for('main.home'))
+
+@main.route("/api/daruma/<int:daruma_id>/complete", methods=['POST'])
+@login_required
+def complete_daruma(daruma_id):
+    from app.models import Daruma
+    daruma = Daruma.query.get_or_404(daruma_id)
+    if daruma.user_id != current_user.id:
+        return jsonify({'status': 'error', 'message': '權限不足'}), 403
+        
+    if daruma.is_completed:
+        return jsonify({'status': 'error', 'message': '達磨已經開眼囉！'}), 400
+        
+    daruma.is_completed = True
+    daruma.completed_at = datetime.now(timezone.utc)
+    db.session.commit()
+    return jsonify({'status': 'success', 'message': '恭喜達成目標！達磨已成功開眼。'})
