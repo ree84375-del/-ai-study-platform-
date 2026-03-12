@@ -25,6 +25,8 @@
             --color-accent: #85a392;       /* Matcha Green */
             --color-secondary: #fff0f5;    /* Lavender blush */
             --color-bg: #fffdfd;
+            --color-bg-gradient-1: #ffe6e6;
+            --color-bg-gradient-2: #fff0f5;
         }
         {% elif current_user.preferred_theme == 'moon' %}
         :root {
@@ -32,6 +34,8 @@
             --color-accent: #d4c27b;       /* Moon Yellow */
             --color-secondary: #eef2f5;
             --color-bg: #f4f6f8;
+            --color-bg-gradient-1: #e6ebf2;
+            --color-bg-gradient-2: #f4f6f8;
         }
         {% elif current_user.preferred_theme == 'classic' %}
         :root {
@@ -39,6 +43,8 @@
             --color-accent: #999999;       /* Light Gray */
             --color-secondary: #eaeaea;
             --color-bg: #f9f9f9;
+            --color-bg-gradient-1: #ececec;
+            --color-bg-gradient-2: #f4f4f4;
         }
         {% elif current_user.preferred_theme == 'matcha' %}
         :root {
@@ -46,6 +52,8 @@
             --color-accent: #8b7355;       /* Wood Brown */
             --color-secondary: #f4faeb;    
             --color-bg: #fdfdf9;
+            --color-bg-gradient-1: #f0f5e6;
+            --color-bg-gradient-2: #e8f0d8;
         }
         {% elif current_user.preferred_theme == 'lavender' %}
         :root {
@@ -53,6 +61,8 @@
             --color-accent: #d8b4e2;       /* Light Purple */
             --color-secondary: #f8f0fc;    
             --color-bg: #fdfbfe;
+            --color-bg-gradient-1: #f3e6f5;
+            --color-bg-gradient-2: #e6e6fa;
         }
         {% elif current_user.preferred_theme == 'sunset' %}
         :root {
@@ -60,35 +70,44 @@
             --color-accent: #e6a762;       /* Warm Yellow */
             --color-secondary: #fdf3eb;    
             --color-bg: #fffbf8;
+            --color-bg-gradient-1: #fde8dd;
+            --color-bg-gradient-2: #fff5e6;
         }
         {% endif %}
+    </style>
+    {% else %}
+    <style>
+        :root {
+            --color-bg-gradient-1: #fff1f0;
+            --color-bg-gradient-2: #e6f7ff;
+        }
     </style>
     {% endif %}
 </head>
 
 <body>
     <nav class="navbar">
-        <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> AI 學習案內所</a>
+        <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> 學習案內所</a>
         <div class="navbar-nav">
-            <a href="{{ url_for('main.home') }}" class="nav-link">首頁</a>
+            <a href="{{ url_for('main.home') }}" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
             {% if current_user.is_authenticated %}
-            <a href="{{ url_for('study.practice') }}" class="nav-link">開始刷題</a>
-            <a href="{{ url_for('study.generate_exam') }}" class="nav-link">模擬考</a>
-            <a href="{{ url_for('study.mistakes') }}" class="nav-link">錯題本</a>
+            <a href="{{ url_for('study.practice') }}" class="nav-link"><i class="fa-solid fa-pen-clip"></i> 開始刷題</a>
+            <a href="{{ url_for('study.generate_exam') }}" class="nav-link"><i class="fa-solid fa-file-contract"></i> 模擬考</a>
+            <a href="{{ url_for('study.mistakes') }}" class="nav-link"><i class="fa-solid fa-book-journal-whills"></i> 錯題本</a>
             <a href="{{ url_for('group.groups') }}" class="nav-link"><i class="fa-solid fa-users"></i> 學習群組</a>
-            <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent);"><i
-                    class="fa-solid fa-wand-magic-sparkles"></i> 圖片解題</a>
-            <a href="{{ url_for('study.ai_docs') }}" class="nav-link" style="color: var(--color-accent);"><i
-                    class="fa-solid fa-file-pdf"></i> 講義分析</a>
-            <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> AI 聊天室</a>
-            <a href="{{ url_for('study.lofi_room') }}" class="nav-link"><i class="fa-solid fa-moon"></i> 深夜夜讀</a>
+            <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i> 圖片解題</a>
+            <a href="{{ url_for('study.ai_docs') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-file-pdf"></i> 講義分析</a>
+            <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> 聊天室</a>
+            <a href="{{ url_for('study.lofi_room') }}" class="nav-link"><i class="fa-solid fa-moon"></i> 深夜陪讀</a>
             
             {% if current_user.is_admin %}
-            <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: #ff7b72; font-weight: bold;"><i class="fa-solid fa-crown"></i> 後台管理</a>
+            <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: #ff7b72; font-weight: bold;"><i class="fa-solid fa-crown"></i> 後台</a>
             {% endif %}
             
-            <a href="{{ url_for('main.profile') }}" class="nav-link">AI 老師設定 (<i class="fa-solid fa-fire" style="color: #ff6b6b"></i> {{ current_user.current_streak }})</a>
-            <a href="{{ url_for('auth.logout') }}" class="nav-link">登出</a>
+            <a href="{{ url_for('main.profile') }}" class="nav-link" style="background-color: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 30px; padding: 0.5rem 1.2rem;">
+                <i class="fa-solid fa-user-gear"></i> 個人/AI設定
+                <span style="color: #ff6b6b; font-weight: bold; margin-left: 5px;"><i class="fa-solid fa-fire"></i> {{ current_user.current_streak }}</span>
+            </a>
             {% else %}
             <a href="{{ url_for('auth.login') }}" class="nav-link">登入/註冊</a>
             {% endif %}

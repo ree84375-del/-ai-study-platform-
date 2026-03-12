@@ -164,6 +164,36 @@
             </div>
         </div>
 
+        <!-- Right Side Controls (Music + Timer) -->
+        <div style="display: flex; flex-direction: column; gap: 2rem; z-index: 10;">
+            
+            <!-- Pomodoro Timer -->
+            <div class="pomodoro-card"
+                style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); width: 380px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                <h3 style="margin-bottom: 1.5rem; font-weight: 400; letter-spacing: 1px; color: #f0f0f0;">
+                    <i class="fa-regular fa-clock" style="margin-right: 8px; color: #ff7b72;"></i>
+                    極致番茄鐘
+                </h3>
+                
+                <div style="font-size: 4.5rem; font-weight: 300; font-family: 'Courier New', Courier, monospace; color: white; letter-spacing: 5px; margin-bottom: 1rem; text-shadow: 0 0 20px rgba(255,255,255,0.3);" id="timer-display">
+                    25:00
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 1.5rem;">
+                    <button onclick="setTimer(25)" class="pomo-mode-btn active" id="mode-focus" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 5px 15px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;">專注 (25)</button>
+                    <button onclick="setTimer(5)" class="pomo-mode-btn" id="mode-break" style="background: transparent; color: rgba(255,255,255,0.6); border: 1px solid transparent; border-radius: 20px; padding: 5px 15px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;">短休息 (5)</button>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 20px;">
+                    <button onclick="toggleTimer()" id="timer-toggle-btn" style="width: 50px; height: 50px; border-radius: 50%; background: #ff7b72; color: white; border: none; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(255, 123, 114, 0.4); transition: transform 0.2s;">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button onclick="resetTimer()" style="width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">
+                        <i class="fa-solid fa-rotate-right"></i>
+                    </button>
+                </div>
+            </div>
+
         <!-- Music Controller -->
         <div class="music-card"
             style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); width: 380px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
@@ -220,6 +250,8 @@
                 <i class="fa-solid fa-arrow-left"></i> 離開房間
             </a>
         </div>
+        
+        </div> <!-- End Right Side Controls -->
     </div>
 </div>
 
@@ -249,35 +281,107 @@
                 }
             });
 
+            audio.play().then(() => {
+                btn.classList.add('active');
+                audio.volume = document.getElementById('volume-slider').value;
+                btn.querySelector('i').style.animation = 'pulse 2s infinite ease-in-out';
+            }).catch(e => console.error("Audio playback failed:", e));
+        } else {
+            audio.pause();
+            btn.classList.remove('active');
+            btn.querySelector('i').style.animation = 'none';
+        }
+    }
+
+    document.getElementById('volume-slider').addEventListener('input', (e) => {
+        const vol = e.target.value;
+        Object.values(audios).forEach(audio => {
+            audio.volume = vol;
+        });
+    });
+
+    // --- Pomodoro Timer Logic ---
+    let timerInterval;
+    let timeLeft = 25 * 60; // 25 minutes default
+    let isRunning = false;
+    let currentMode = 25;
+
+    const display = document.getElementById('timer-display');
+    const toggleBtn = document.getElementById('timer-toggle-btn');
+    const focusBtn = document.getElementById('mode-focus');
+    const breakBtn = document.getElementById('mode-break');
+
+    function updateDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function setTimer(minutes) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        currentMode = minutes;
+        timeLeft = minutes * 60;
+        updateDisplay();
+        toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        
+        // Update styling
+        if(minutes === 25) {
+            focusBtn.style.background = 'rgba(255,255,255,0.1)';
+            focusBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+            focusBtn.style.color = 'white';
+            breakBtn.style.background = 'transparent';
+            breakBtn.style.border = '1px solid transparent';
+            breakBtn.style.color = 'rgba(255,255,255,0.6)';
+        } else {
+            breakBtn.style.background = 'rgba(255,255,255,0.1)';
+            breakBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+            breakBtn.style.color = 'white';
+            focusBtn.style.background = 'transparent';
+            focusBtn.style.border = '1px solid transparent';
+            focusBtn.style.color = 'rgba(255,255,255,0.6)';
+        }
+    }
+
+    function toggleTimer() {
+        if(isRunning) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        } else {
+            isRunning = true;
+            toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    isRunning = false;
+                    toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    // Optional: play an alert bell here
+                    if ('speechSynthesis' in window) {
+                        let msg = new SpeechSynthesisUtterance('時間到囉！辛苦了！');
+                        msg.lang = 'zh-TW';
+                        window.speechSynthesis.speak(msg);
+                    }
+                    timeLeft = currentMode * 60; // Auto reset text
+                    updateDisplay();
+                }
+            }, 1000);
+        }
+    }
+
+    function resetTimer() {
+        setTimer(currentMode);
+    }
+    // Set initial display
+    updateDisplay();
+
             audio.play().catch(e => {
                 console.warn("Audio playback prevented by auto-play policy until interaction:", e);
                 // Removed alert() to prevent annoying popups on browser blocks
             });
             btn.classList.add('active');
-
-            // Add playing animation to icon
-            const icon = btn.querySelector('i');
-            icon.style.animation = 'iconBounce 1s infinite alternate';
-        } else {
-            audio.pause();
-            btn.classList.remove('active');
-            const icon = btn.querySelector('i');
-            icon.style.animation = 'none';
-        }
-    }
-
-    // Set initial volume
-    const defaultVolume = 0.5;
-    Object.values(audios).forEach(a => {
-        if (a) a.volume = defaultVolume;
-    });
-
-    document.getElementById('volume-slider').addEventListener('input', (e) => {
-        Object.values(audios).forEach(a => {
-            if (a) a.volume = e.target.value;
-        });
-    });
-
     // 3D Parallax Tilt Effect
     const container = document.querySelector('.lofi-container');
     const frame = document.getElementById('yukine-frame');

@@ -63,8 +63,12 @@
 
     // Load available voices
     function initVoices() {
+        // Find cute Japanese or Chinese voices
         const voices = window.speechSynthesis.getVoices();
-        selectedVoice = voices.find(v => v.lang.includes('zh') && (v.name.includes('Hsiao') || v.name.includes('Yating') || v.name.includes('Hanhan') || v.name.includes('female'))) 
+        // Priority: Microsoft Xiaoxiao (Very natural Chinese/English), then Haruka/Nanami (Japanese), then fallbacks
+        selectedVoice = voices.find(v => v.name.includes('Xiaoxiao') || v.name.includes('Hsiao'))
+                     || voices.find(v => v.lang.includes('ja-JP') && v.name.includes('Female'))
+                     || voices.find(v => v.lang.includes('zh') && (v.name.includes('Yating') || v.name.includes('female'))) 
                      || voices.find(v => v.lang.includes('zh-TW'));
     }
     if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
@@ -138,10 +142,17 @@
                             .replace(/\(^_^\)b|\(\*\^▽\^\*\)|\(๑•̀ㅂ•́\)و✧/g, ''); 
 
         const utterance = new SpeechSynthesisUtterance(cleanText);
-        utterance.lang = 'zh-TW';
-        utterance.rate = 1.1;
-        utterance.pitch = 1.2;
-        if(selectedVoice) utterance.voice = selectedVoice;
+        // Multilingual cute girl aura (pitch up, speed slightly up)
+        utterance.pitch = 1.6;
+        utterance.rate = 1.1; 
+        
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
+            utterance.lang = selectedVoice.lang; // Match the selected voice's engine
+        } else {
+            utterance.lang = 'zh-TW';
+        }
+        
         window.speechSynthesis.speak(utterance);
     }
     // --- End Voice Logic ---
