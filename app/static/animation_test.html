@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HD Animation Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:linear-gradient(135deg,#fdf6ec,#f5ebe0,#f0e1d0);min-height:100vh;padding:2rem}
+h1{text-align:center;color:#8B4513;font-size:1.6rem;margin-bottom:1.5rem;font-family:'Noto Serif TC',serif;letter-spacing:3px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1200px;margin:0 auto}
+.card{background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-radius:16px;padding:1.2rem;text-align:center;box-shadow:0 6px 24px rgba(100,70,40,.1);border:1px solid rgba(200,180,150,.3)}
+.card h3{color:#6B3A2A;font-size:.95rem;margin-bottom:.25rem}
+.card p{color:#999;font-size:.75rem;margin-bottom:.8rem}
+.box{margin:0 auto}
+</style>
+</head>
+<body>
+<h1>🌸 高精細動態生長動畫 🎯</h1>
+<div class="grid">
+<div class="card"><h3>枯山水 (streak=0)</h3><p>禪意石庭</p><div id="b0" class="box" style="width:300px;height:340px"></div></div>
+<div class="card"><h3>常綠盆景 (streak=3)</h3><p>綠意盎然</p><div id="b3" class="box" style="width:300px;height:340px"></div></div>
+<div class="card"><h3>🌸 滿開櫻花 (streak=10)</h3><p>櫻花飄落</p><div id="b10" class="box" style="width:300px;height:340px"></div></div>
+<div class="card"><h3>空白達摩 (state=0)</h3><p>無眼</p><div id="d0" class="box" style="width:240px;height:270px"></div></div>
+<div class="card"><h3>祈願達摩 (state=1)</h3><p>左眼開</p><div id="d1" class="box" style="width:240px;height:270px"></div></div>
+<div class="card"><h3>🎉 圓滿達摩 (state=2)</h3><p>雙眼 + 慶祝</p><div id="d2" class="box" style="width:240px;height:270px"></div></div>
+</div>
+<style>
+.anim-canvas-wrap{width:100%;height:100%;display:flex;justify-content:center;align-items:center;position:relative}
+.anim-canvas-wrap canvas{display:block}
+.petal-overlay{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:10}
+.spetal{position:absolute;pointer-events:none;opacity:0;animation:pdrift linear forwards}
+.spetal::before{content:'';display:block;width:100%;height:100%;background:radial-gradient(ellipse at 30% 30%,#ffd6e0,#ffb7c5 40%,#ff9cb0);border-radius:50% 0 50% 0;box-shadow:0 0 3px rgba(255,183,197,.6)}
+@keyframes pdrift{0%{transform:translateY(-10px) rotate(0) scale(.6);opacity:0}8%{opacity:.9}50%{transform:translateY(110px) rotate(360deg) translateX(25px) scale(1);opacity:.85}100%{transform:translateY(240px) rotate(720deg) translateX(-15px) scale(.7);opacity:0}}
+</style>
+<script>
+// Load animation JS from Flask server, then init
+fetch('/static/js/animations.js').then(r=>r.ok?r.text():Promise.reject('JS load failed')).then(js=>{
+  const s=document.createElement('script');s.textContent=js;document.head.appendChild(s);
+  renderBonsai(0,'b0');renderBonsai(3,'b3');renderBonsai(10,'b10');
+  renderDaruma(0,'d0');renderDaruma(1,'d1');renderDaruma(2,'d2');
+}).catch(e=>{
+  console.error('Animation load error:',e);
+  // Fallback: load via script tag
+  const s=document.createElement('script');s.src='/static/js/animations.js';
+  s.onload=()=>{renderBonsai(0,'b0');renderBonsai(3,'b3');renderBonsai(10,'b10');renderDaruma(0,'d0');renderDaruma(1,'d1');renderDaruma(2,'d2');};
+  document.head.appendChild(s);
+});
+</script>
+</body>
+</html>

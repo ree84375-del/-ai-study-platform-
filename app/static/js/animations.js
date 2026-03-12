@@ -1,12 +1,4 @@
-<style>
-.anim-canvas-wrap{width:100%;height:100%;display:flex;justify-content:center;align-items:center;position:relative}
-.anim-canvas-wrap canvas{display:block}
-.petal-overlay{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;pointer-events:none;z-index:10}
-.spetal{position:absolute;pointer-events:none;opacity:0;animation:pdrift linear forwards}
-.spetal::before{content:'';display:block;width:100%;height:100%;background:radial-gradient(ellipse at 30% 30%,#ffd6e0,#ffb7c5 40%,#ff9cb0);border-radius:50% 0 50% 0;box-shadow:0 0 3px rgba(255,183,197,.6)}
-@keyframes pdrift{0%{transform:translateY(-10px) rotate(0) scale(.6);opacity:0}8%{opacity:.9}50%{transform:translateY(110px) rotate(360deg) translateX(25px) scale(1);opacity:.85}100%{transform:translateY(240px) rotate(720deg) translateX(-15px) scale(.7);opacity:0}}
-</style>
-<script>
+
 /* ══════════════════════════════════════════════════════
    PREMIUM PROCEDURAL ANIMATIONS — 日本水墨 × 工芸 Style
    Sakura Tree + Daruma — Canvas 2D @ 2× Retina
@@ -492,4 +484,3 @@ function dIdle(ctx,W,H,cx,cy,bw,bh,state){
 }
 
 function createPetals(id){const el=document.getElementById(id);if(el)petalRain(el);}
-</script>
