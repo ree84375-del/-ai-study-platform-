@@ -171,7 +171,8 @@ def draw_omikuji():
     # Check if already drawn today
     existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
     if existing:
-        return jsonify({'status': 'error', 'message': '今天已經抽過御神籤了喔！'}), 400
+        flash('今天已經抽過御神籤了喔！', 'info')
+        return redirect(url_for('main.home'))
         
     fortunes = ['大吉', '吉', '吉', '中吉', '小吉', '末吉'] # Adjusted probabilities
     drawn_fortune = random.choice(fortunes)
@@ -192,10 +193,13 @@ def draw_omikuji():
         db.session.add(omikuji)
         db.session.commit()
         
-        return jsonify({'status': 'success', 'fortune': drawn_fortune, 'message': message})
+        flash(f'抽到了【{drawn_fortune}】神籤！', 'success')
+        return redirect(url_for('main.home'))
     except Exception as e:
         db.session.rollback()
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        current_app.logger.error(f"Omikuji Error: {str(e)}")
+        flash('神明目前太過忙碌 (API 呼叫次數達上限)，請稍後再試一次！', 'danger')
+        return redirect(url_for('main.home'))
 
 @main.route("/api/ema/create", methods=['POST'])
 @login_required
@@ -236,12 +240,15 @@ def complete_daruma(daruma_id):
     from app.models import Daruma
     daruma = Daruma.query.get_or_404(daruma_id)
     if daruma.user_id != current_user.id:
-        return jsonify({'status': 'error', 'message': '權限不足'}), 403
+        flash('權限不足', 'danger')
+        return redirect(url_for('main.home'))
         
     if daruma.is_completed:
-        return jsonify({'status': 'error', 'message': '達磨已經開眼囉！'}), 400
+        flash('達磨已經開眼囉！', 'info')
+        return redirect(url_for('main.home'))
         
     daruma.is_completed = True
     daruma.completed_at = datetime.now(timezone.utc)
     db.session.commit()
-    return jsonify({'status': 'success', 'message': '恭喜達成目標！達磨已成功開眼。'})
+    flash('恭喜達成目標！達磨已成功開眼。', 'success')
+    return redirect(url_for('main.home'))
