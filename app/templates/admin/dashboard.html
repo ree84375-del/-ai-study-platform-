@@ -7,7 +7,10 @@
         <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
             <i class="fa-solid fa-crown"></i> 管理員後台
         </h1>
-        <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: #7b9acc; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-book"></i> 題庫管理</a>
+        <div>
+            <a href="{{ url_for('admin.announcements') }}" class="btn" style="padding: 10px 20px; background-color: #64b5f6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 10px;"><i class="fa-solid fa-bullhorn"></i> 公告管理</a>
+            <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: #7b9acc; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-book"></i> 題庫管理</a>
+        </div>
     </div>
     
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">

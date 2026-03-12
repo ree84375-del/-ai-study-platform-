@@ -157,3 +157,16 @@ class ChatMessage(db.Model):
     role = db.Column(db.String(20), nullable=False) # 'user' or 'ai'
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+class Announcement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    is_ai_generated = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    created_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    
+    author = db.relationship('User', foreign_keys=[created_by_id])
+    
+    def __repr__(self):
+        return f"Announcement('{self.title}', '{self.created_at}')"

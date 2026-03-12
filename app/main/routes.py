@@ -30,8 +30,10 @@ def before_request():
 @main.route("/")
 @main.route("/home")
 def home():
-    # Ensure CSRF is active for templates using hidden fields/JS
-    return render_template('home.html')
+    from app.models import Announcement
+    # Fetch latest 3 announcements
+    announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(3).all()
+    return render_template('home.html', announcements=announcements)
 
 @main.route("/about")
 def about():

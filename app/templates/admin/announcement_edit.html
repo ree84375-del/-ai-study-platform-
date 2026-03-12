@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}新增公告{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-bullhorn"></i> 新增全站公告
+        </h1>
+        <a href="{{ url_for('admin.announcements') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-secondary); color: var(--color-text_main); text-decoration: none; border-radius: 8px;">返回列表</a>
+    </div>
+
+    <!-- AI Generation Section -->
+    <div class="washi-card" style="margin-bottom: 2rem; border: 2px dashed var(--color-primary); background-color: color-mix(in srgb, var(--color-primary) 5%, transparent);">
+        <h3 style="color: var(--color-primary); margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> 讓雪音幫你寫公告
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">輸入一句話綱要或重點，AI 將自動幫您潤飾、擴充並直接發布成一篇正式公告。 (例如：下週一系統停機維護兩小時)</p>
+        
+        <form action="{{ url_for('admin.ai_generate_announcement') }}" method="POST" id="ai-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" name="prompt" id="ai-prompt" class="form-control" style="flex-grow: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--color-primary);" placeholder="請輸入公告綱要..." required>
+                <button type="submit" id="ai-submit-btn" class="btn" style="padding: 0 25px; background-color: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; white-space: nowrap;">
+                    <i class="fa-solid fa-sparkles"></i> 魔法生成並發布
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 2rem; position: relative;">
+        <hr style="border: none; border-top: 1px solid var(--color-border);">
+        <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--color-bg); padding: 0 15px; color: var(--color-text_light); font-size: 0.9rem;">或自己手動撰寫</span>
+    </div>
+
+    <!-- Manual Form -->
+    <div class="washi-card">
+        <form method="POST" action="{{ url_for('admin.new_announcement') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">公告標題 (必填)</label>
+                <input type="text" name="title" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">公告內容 (支援換行)</label>
+                <textarea name="content" rows="8" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required></textarea>
+            </div>
+
+            <div style="text-align: right;">
+                <button type="submit" class="btn" style="padding: 10px 30px; background-color: var(--color-text_main); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer;">手動推播送出</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('ai-form').addEventListener('submit', function() {
+        const btn = document.getElementById('ai-submit-btn');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
+        btn.disabled = true;
+        btn.style.opacity = '0.7';
+    });
+</script>
+{% endblock %}

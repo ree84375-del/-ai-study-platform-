@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}公告管理{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-bullhorn"></i> 公告管理
+        </h1>
+        <div>
+            <a href="{{ url_for('admin.dashboard') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-secondary); color: var(--color-text_main); text-decoration: none; border-radius: 8px; margin-right: 10px;">返回後台</a>
+            <a href="{{ url_for('admin.new_announcement') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-plus"></i> 新增公告</a>
+        </div>
+    </div>
+
+    <div class="washi-card">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+            <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
+                <th style="padding: 10px; width: 60px;">ID</th>
+                <th style="padding: 10px; width: 250px;">標題</th>
+                <th style="padding: 10px;">內容預覽</th>
+                <th style="padding: 10px; width: 150px;">發布時間</th>
+                <th style="padding: 10px; width: 100px;">操作</th>
+            </tr>
+            {% for a in announcements %}
+            <tr style="border-bottom: 1px solid var(--color-border);">
+                <td style="padding: 10px; color: var(--color-text_light);">#{{ a.id }}</td>
+                <td style="padding: 10px; font-weight: bold;">
+                    {% if a.is_ai_generated %}
+                    <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--color-primary);" title="AI 生成"></i> 
+                    {% endif %}
+                    {{ a.title }}
+                </td>
+                <td style="padding: 10px; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-text_light);">{{ a.content }}</td>
+                <td style="padding: 10px; font-size: 0.9rem; color: var(--color-text_light);">{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td style="padding: 10px; display: flex; gap: 5px;">
+                    <form action="{{ url_for('admin.delete_announcement', obj_id=a.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('確定要刪除這則公告嗎？');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;"><i class="fa-solid fa-trash"></i> 刪除</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="padding: 20px; text-align: center; color: var(--color-text_light);">目前沒有任何公告。</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

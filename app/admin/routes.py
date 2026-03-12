@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from app.models import User, Question, ChatSession, Group
+from app.models import User, Question, ChatSession, Group, Announcement
 from app import db
 from app.utils.ai_helpers import get_gemini_model
 
