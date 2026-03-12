@@ -183,7 +183,16 @@ def draw_omikuji():
     drawn_fortune = random.choice(fortunes)
     
     try:
-        prompt = f"學生抽到了「{drawn_fortune}」。請以溫柔的日式神職人員或巫女的語氣，為他寫一段大約 30 字的今日學習箴言。回傳 JSON 格式：{{\"message\": \"你的箴言\"}}。除了 JSON 之外不要有其他字。"
+        prompt = f"""學生抽到了「{drawn_fortune}」。請以溫柔的日式神職人員或巫女的語氣，為他寫一段祈福。
+        請回傳 JSON 格式：
+        {{
+            "lucky_color": "今天幸運色",
+            "lucky_item": "今天幸運小物",
+            "lucky_subject": "推薦學習科目",
+            "advice": "神明給你的 30 字箴言"
+        }}
+        除了上述 JSON 之外，請不要包含任何多餘的字（像是 ```json標籤）。"""
+        
         from app.utils.ai_helpers import generate_text_with_fallback
         text = generate_text_with_fallback(prompt).strip()
         if text.startswith('```json'):
@@ -191,9 +200,18 @@ def draw_omikuji():
         if text.endswith('```'):
             text = text[:-3]
         data = json.loads(text)
-        message = data.get('message', '今天也是充滿希望的一天，跟著雪音一起努力吧！')
         
-        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=message, drawn_date=today)
+        # Pre-format as HTML string so it fits safely into the string field "message"
+        rich_message = f"""
+        <div class="omikuji-result">
+            <p><strong>幸運色：</strong>{data.get('lucky_color', '白色')}</p>
+            <p><strong>幸運小物：</strong>{data.get('lucky_item', '微笑')}</p>
+            <p><strong>推薦科目：</strong>{data.get('lucky_subject', '全科制霸')}</p>
+            <p class="mt-2" style="font-style: italic; color: var(--color-primary);">「{data.get('advice', '今天也是充滿希望的一天！')}」</p>
+        </div>
+        """
+        
+        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=rich_message, drawn_date=today)
         db.session.add(omikuji)
         db.session.commit()
         

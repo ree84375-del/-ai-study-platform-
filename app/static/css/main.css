@@ -9,12 +9,17 @@
     --color-border: #e0dcd3;
 }
 
+/* Dynamic Gradient Background */
+@keyframes breathingGradient {
+    0% { background-position: 0% 50%; border-color: rgba(255,255,255,0.1); }
+    50% { background-position: 100% 50%; border-color: rgba(255,255,255,0.4); }
+    100% { background-position: 0% 50%; border-color: rgba(255,255,255,0.1); }
+}
+
 body {
-    font-family: 'Noto Sans TC', sans-serif;
-    background-color: var(--color-bg);
     background: linear-gradient(-45deg, var(--color-bg), #fff1f0, #e6f7ff, var(--color-bg));
     background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    animation: breathingGradient 20s ease-in-out infinite;
     color: var(--color-text_main);
     display: flex;
     flex-direction: column;
@@ -22,19 +27,20 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    background-attachment: fixed;
 }
 
-/* Glassmorphism Navbar */
+/* Glassmorphism Premium Navbar */
 .navbar {
     background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px -1px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -53,15 +59,35 @@ body {
     gap: 1.5rem;
 }
 
+/* Nav Links Color Coding */
 .nav-link {
-    text-decoration: none;
     color: var(--color-text_main);
-    transition: color 0.3s ease;
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .nav-link:hover {
-    color: var(--color-accent);
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
+
+/* Specific Nav Item Colors */
+.nav-link[href*="practice"] { color: #4361ee; }
+.nav-link[href*="exam"] { color: #f72585; }
+.nav-link[href*="mistakes"] { color: #eebb4d; }
+.nav-link[href*="groups"] { color: #4cc9f0; }
+.nav-link[href*="ai_vision"] { color: #7209b7; }
+.nav-link[href*="ai_docs"] { color: #ff9f1c; }
+.nav-link[href*="chat"] { color: #f3722c; }
+.nav-link[href*="lofi_room"] { color: #480ca8; }
 
 .container {
     max-width: 1200px;

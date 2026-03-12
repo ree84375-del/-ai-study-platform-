@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% block title %}AI 聊天室{% endblock %}
 {% block content %}
-<div class="container" style="max-width: 1000px; display: flex; gap: 2rem; height: calc(100vh - 200px);">
+<div class="chat-container">
     <!-- Sidebar for Sessions -->
-    <div class="card" style="flex: 1; border-radius: 12px; padding: 1.5rem; overflow-y: auto;">
+    <div class="chat-sidebar card">
         <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);"><i class="fa-solid fa-comments"></i> 歷史記錄</h3>
         <button id="new-chat-btn"
-            style="width: 100%; padding: 10px; border-radius: 8px; border: 1px dashed var(--color-primary); background: none; color: var(--color-primary); cursor: pointer; margin-bottom: 1rem;">
+            style="width: 100%; padding: 10px; border-radius: 8px; border: 1px dashed var(--color-primary); background: none; color: var(--color-primary); cursor: pointer; margin-bottom: 1rem; transition: all 0.2s;">
             + 開啟新對話
         </button>
-        <div id="session-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div id="session-list" style="display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto;">
             <!-- Sessions will be loaded here -->
         </div>
     </div>
 
     <!-- Chat Area -->
-    <div class="card" style="flex: 2; border-radius: 12px; padding: 2rem; display: flex; flex-direction: column;">
+    <div class="chat-main card">
         <div id="chat-header"
-            style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem;">
-            <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center;">
+            style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center; margin: 0;">
                 <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> 請選擇一個對話或開始新對話
             </h2>
+            <button id="toggle-voice-btn" class="btn btn-sm" style="background: rgba(133, 163, 146, 0.1); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: 20px; transition: all 0.3s;">
+                <i class="fa-solid fa-volume-xmark"></i> 語音朗讀關閉
+            </button>
         </div>
 
         <div id="chat-window"
@@ -48,13 +51,41 @@
 <script>
     // --- Voice Tutor Logic ---
     const voiceBtn = document.getElementById('voice-input-btn');
+    const toggleVoiceBtn = document.getElementById('toggle-voice-btn');
     const chatInput = document.getElementById('chat-input');
     let isListening = false;
-    let autoSpeak = false;
+    let autoSpeak = false; // Tracks if voice output is globally enabled by user
     let activeSessionId = null;
     const sessionList = document.getElementById('session-list');
     const chatTitle = document.getElementById('chat-title');
     const messagesContainer = document.getElementById('messages');
+    let selectedVoice = null;
+
+    // Load available voices
+    function initVoices() {
+        const voices = window.speechSynthesis.getVoices();
+        selectedVoice = voices.find(v => v.lang.includes('zh') && (v.name.includes('Hsiao') || v.name.includes('Yating') || v.name.includes('Hanhan') || v.name.includes('female'))) 
+                     || voices.find(v => v.lang.includes('zh-TW'));
+    }
+    if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = initVoices;
+    }
+    initVoices();
+
+    // Toggle Voice Output
+    toggleVoiceBtn.addEventListener('click', () => {
+        autoSpeak = !autoSpeak;
+        if (autoSpeak) {
+            toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> 語音朗讀開啟';
+            toggleVoiceBtn.style.background = 'var(--color-accent)';
+            toggleVoiceBtn.style.color = 'white';
+        } else {
+            toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> 語音朗讀關閉';
+            toggleVoiceBtn.style.background = 'rgba(133, 163, 146, 0.1)';
+            toggleVoiceBtn.style.color = 'var(--color-accent)';
+            window.speechSynthesis.cancel();
+        }
+    });
 
     // Speech Recognition
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -84,7 +115,6 @@
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             chatInput.value = transcript;
-            autoSpeak = true;
             sendMessage();
         };
 
@@ -98,11 +128,20 @@
 
     // Text to Speech
     function speak(text) {
-        if (!window.speechSynthesis) return;
+        if (!window.speechSynthesis || !autoSpeak) return;
         window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
+        
+        let cleanText = text.replace(/\[DRAW:.*?\]/g, '')
+                            .replace(/\*\*/g, '')
+                            .replace(/\*/g, '')
+                            .replace(/#/g, '')
+                            .replace(/\(^_^\)b|\(\*\^▽\^\*\)|\(๑•̀ㅂ•́\)و✧/g, ''); 
+
+        const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.lang = 'zh-TW';
-        utterance.rate = 1.0;
+        utterance.rate = 1.1;
+        utterance.pitch = 1.2;
+        if(selectedVoice) utterance.voice = selectedVoice;
         window.speechSynthesis.speak(utterance);
     }
     // --- End Voice Logic ---
@@ -302,7 +341,6 @@
 
                 if (autoSpeak) {
                     speak(data.reply);
-                    autoSpeak = false;
                 }
 
                 const updatedHistory = [...currentLocalHistory, { role: 'user', content: text }, { role: 'ai', content: data.reply }];
@@ -471,6 +509,57 @@
 
     #chat-window::-webkit-scrollbar-thumb:hover {
         background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive Chat Layout */
+    .chat-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        display: flex;
+        gap: 2rem;
+        height: calc(100vh - 120px);
+    }
+
+    .chat-sidebar {
+        flex: 1;
+        min-width: 280px;
+        max-width: 350px;
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255,255,255,0.6);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+    }
+
+    .chat-main {
+        flex: 3;
+        border-radius: 12px;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgba(255,255,255,0.6);
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    @media (max-width: 992px) {
+        .chat-container {
+            flex-direction: column;
+            height: auto;
+            min-height: calc(100vh - 120px);
+        }
+        .chat-sidebar {
+            flex: none;
+            max-width: 100%;
+            height: 250px; /* Constrain height on mobile */
+        }
+        .chat-main {
+            height: 600px; /* Fixed height for chat area on mobile to enable scrolling within */
+        }
     }
 </style>
 {% endblock %}
