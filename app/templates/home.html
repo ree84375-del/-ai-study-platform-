@@ -81,10 +81,22 @@
             
             {% if not today_omikuji %}
                 <p style="color: var(--color-text_light); margin-bottom: 1.5rem; font-size: 0.9rem;">抽取今天的學習運程與專屬箴言吧！</p>
-                <form method="POST" action="{{ url_for('main.draw_omikuji') }}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <button type="submit" class="btn" style="background-color: var(--color-accent); width: 100%;"><i class="fa-solid fa-hand-holding-magic"></i> 抽取神籤</button>
-                </form>
+                <div id="omikuji-container">
+                    <form id="omikuji-form" method="POST" action="{{ url_for('main.draw_omikuji') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <button type="button" onclick="startOmikujiAnimation()" class="btn" style="background-color: var(--color-accent); width: 100%;"><i class="fa-solid fa-hand-holding-magic"></i> 抽取神籤</button>
+                    </form>
+                </div>
+                
+                <!-- Animation Wrapper (Hidden by default) -->
+                <div id="omikuji-animation" style="display: none; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                    <div style="font-size: 3rem; animation: shake-omikuji 0.5s infinite; transform-origin: center bottom;">
+                        <i class="fa-solid fa-prescription-bottle" style="color: #d35400;"></i>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--color-text_light); margin-top: 10px; animation: pulse-text 1s infinite;">
+                        神明賜籤中...
+                    </div>
+                </div>
             {% else %}
                 <div style="margin: 1rem 0;">
                     <span style="font-size: 2.5rem; font-weight: bold; color: {% if today_omikuji.fortune_level == '凶' %}#ff7b72{% elif '吉' in today_omikuji.fortune_level %}var(--color-primary){% else %}var(--color-text_main){% endif %}; letter-spacing: 5px;">
@@ -217,12 +229,48 @@
         </a>
     </div>
 
-    <!-- Hover effects script for cards -->
+    <!-- Scripts for animations and interactions -->
+    <style>
+        @keyframes shake-omikuji {
+            0% { transform: rotate(0deg) translateY(0); }
+            25% { transform: rotate(-15deg) translateY(-5px); }
+            50% { transform: rotate(15deg) translateY(-5px); }
+            75% { transform: rotate(-15deg) translateY(-5px); }
+            100% { transform: rotate(0deg) translateY(0); }
+        }
+        @keyframes pulse-text {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+    </style>
+    
     <script>
         document.querySelectorAll('a.washi-card').forEach(card => {
             card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-5px)');
             card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
             card.style.boxShadow = '0 4px 6px rgba(0,0,0,0.05)';
+        });
+        
+        function startOmikujiAnimation() {
+            // Hide the form/button
+            document.getElementById('omikuji-container').style.display = 'none';
+            
+            // Show the shaking animation
+            const animationDiv = document.getElementById('omikuji-animation');
+            animationDiv.style.display = 'flex'; // Override inline display: none to flex
+            
+            // After 2.5 seconds, submit the form
+            setTimeout(() => {
+                document.getElementById('omikuji-form').submit();
+            }, 2500);
+        }
+        
+        // Ensure animation div initially respects display:none properly handled by the template engine
+        document.addEventListener("DOMContentLoaded", function() {
+            if(document.getElementById('omikuji-animation')) {
+                document.getElementById('omikuji-animation').style.display = 'none';
+            }
         });
     </script>
     
