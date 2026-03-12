@@ -148,6 +148,74 @@ def delete_question(question_id):
     except Exception as e:
         db.session.rollback()
         flash(f'刪除題目失敗：{str(e)}', 'danger')
-        
     return redirect(url_for('admin.questions'))
 
+@admin.route('/announcements')
+def announcements():
+    announcements_list = Announcement.query.order_by(Announcement.id.desc()).all()
+    return render_template('admin/announcements.html', announcements=announcements_list)
+
+@admin.route('/announcements/new', methods=['GET', 'POST'])
+def new_announcement():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        content = request.form.get('content')
+        if title and content:
+            announcement = Announcement(title=title, content=content, created_by_id=current_user.id)
+            db.session.add(announcement)
+            db.session.commit()
+            flash('系統公告發布成功！', 'success')
+            return redirect(url_for('admin.announcements'))
+        else:
+            flash('標題與內容不能為空。', 'danger')
+            
+    return render_template('admin/announcement_edit.html')
+
+@admin.route('/announcements/ai_generate', methods=['POST'])
+def ai_generate_announcement():
+    prompt = request.form.get('prompt')
+    if not prompt:
+        flash('請輸入公告綱要。', 'danger')
+        return redirect(url_for('admin.new_announcement'))
+        
+    try:
+        model = get_gemini_model(system_instruction="你是「雪音」，AI 學習平台的系統管理員助理。請根據使用者提供的綱要，撰寫一篇生動、友善且帶有溫度的全站公告。語氣要活潑專業，可以適度使用 emoji。回傳必須為 JSON 格式：{\"title\": \"公告標題\", \"content\": \"公告內容（請包含對平台學生的問候）\"}。除了 JSON 之外，請勿回傳任何其他多餘的字或 Markdown syntax。")
+        res = model.generate_content(prompt)
+        text = res.text.strip()
+        
+        if text.startswith('```json'):
+            text = text[7:]
+        if text.endswith('```'):
+            text = text[:-3]
+            
+        import json
+        data = json.loads(text)
+        
+        announcement = Announcement(
+            title=data.get('title', '系統公告'), 
+            content=data.get('content', prompt), 
+            is_ai_generated=True,
+            created_by_id=current_user.id
+        )
+        db.session.add(announcement)
+        db.session.commit()
+        
+        flash('✨ 雪音已成功幫您發布了一篇新公告！', 'success')
+        return redirect(url_for('admin.announcements'))
+        
+    except Exception as e:
+        flash(f'雪音生成失敗，請稍後再試或使用手動發布。錯誤：{str(e)}', 'danger')
+        return redirect(url_for('admin.new_announcement'))
+
+@admin.route('/announcements/delete/<int:obj_id>', methods=['POST'])
+def delete_announcement(obj_id):
+    announcement = Announcement.query.get_or_404(obj_id)
+    try:
+        db.session.delete(announcement)
+        db.session.commit()
+        flash('公告已成功刪除！', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'刪除失敗：{str(e)}', 'danger')
+        
+    return redirect(url_for('admin.announcements'))
