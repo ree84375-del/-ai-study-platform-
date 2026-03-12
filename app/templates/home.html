@@ -120,9 +120,23 @@
             
             {% if not active_daruma %}
                 <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">設定一個長期目標，為達磨畫上左眼。</p>
-                <!-- Blank Daruma -->
-                <div style="font-size: 4rem; color: #ffebed; text-shadow: 2px 2px 0 #ff7b72, -1px -1px 0 #ff7b72, 1px -1px 0 #ff7b72, -1px 1px 0 #ff7b72, 1px 1px 0 #ff7b72; margin-bottom: 1rem;">
-                    <i class="fa-solid fa-user-ninja"></i>
+                <!-- Blank Daruma SVG -->
+                <div style="width: 100px; height: 100px; margin: 0 auto 1rem;">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Body -->
+                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="#eb4d4b"/>
+                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="none" stroke="#c23616" stroke-width="3"/>
+                        <!-- White Face -->
+                        <ellipse cx="50" cy="45" rx="35" ry="30" fill="#f5f6fa" stroke="#c23616" stroke-width="2"/>
+                        <!-- Golden decorations -->
+                        <path d="M30 80 Q50 90 70 80" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="50" cy="82" r="4" fill="#f1c40f"/>
+                        <!-- Blank Eyes (White circles with red outlines) -->
+                        <!-- Left Eye -->
+                        <circle cx="35" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
+                        <!-- Right Eye -->
+                        <circle cx="65" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
+                    </svg>
                 </div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -133,10 +147,23 @@
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;">{{ active_daruma.goal }}</p>
                 <p style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 1rem;">進行中...</p>
                 <!-- Half-eyed Daruma (Left eye open) -->
-                <div style="font-size: 4rem; color: #ff7b72; margin-bottom: 1rem; position: relative; display: inline-block;">
-                    <i class="fa-solid fa-user-ninja"></i>
-                    <!-- Simulate left eye with absolute positioning -->
-                    <div style="position: absolute; width: 12px; height: 12px; background: black; border-radius: 50%; top: 35%; left: 30%;"></div>
+                <div style="width: 100px; height: 100px; margin: 0 auto 1rem;">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Body -->
+                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="#eb4d4b"/>
+                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="none" stroke="#c23616" stroke-width="3"/>
+                        <!-- White Face -->
+                        <ellipse cx="50" cy="45" rx="35" ry="30" fill="#f5f6fa" stroke="#c23616" stroke-width="2"/>
+                        <!-- Golden decorations -->
+                        <path d="M30 80 Q50 90 70 80" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="50" cy="82" r="4" fill="#f1c40f"/>
+                        <!-- Eyes -->
+                        <!-- Left Eye (Painted Black) -->
+                        <circle cx="35" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
+                        <circle cx="35" cy="45" r="5" fill="#2f3640"/>
+                        <!-- Right Eye (Blank) -->
+                        <circle cx="65" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
+                    </svg>
                 </div>
                 <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm('確定已經達成目標了嗎？');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -146,10 +173,24 @@
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;"><del>{{ active_daruma.goal }}</del></p>
                 <p style="font-size: 0.8rem; color: var(--color-success); margin-bottom: 1rem;">已於 {{ active_daruma.completed_at.strftime('%Y-%m-%d') }} 達成</p>
                 <!-- Full-eyed Daruma -->
-                <div style="font-size: 4rem; color: #ff7b72; margin-bottom: 1rem; position: relative; display: inline-block;">
-                    <i class="fa-solid fa-user-ninja"></i>
-                    <div style="position: absolute; width: 12px; height: 12px; background: black; border-radius: 50%; top: 35%; left: 30%;"></div>
-                    <div style="position: absolute; width: 12px; height: 12px; background: black; border-radius: 50%; top: 35%; right: 30%;"></div>
+                <div style="width: 100px; height: 100px; margin: 0 auto 1rem;">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Body -->
+                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="#eb4d4b"/>
+                        <path d="M50 5 C75 5 95 30 95 60 C95 85 75 95 50 95 C25 95 5 85 5 60 C5 30 25 5 50 5 Z" fill="none" stroke="#c23616" stroke-width="3"/>
+                        <!-- White Face -->
+                        <ellipse cx="50" cy="45" rx="35" ry="30" fill="#f5f6fa" stroke="#c23616" stroke-width="2"/>
+                        <!-- Golden decorations -->
+                        <path d="M30 80 Q50 90 70 80" fill="none" stroke="#f1c40f" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="50" cy="82" r="4" fill="#f1c40f"/>
+                        <!-- Eyes -->
+                        <!-- Left Eye (Painted Black) -->
+                        <circle cx="35" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
+                        <circle cx="35" cy="45" r="5" fill="#2f3640"/>
+                        <!-- Right Eye (Painted Black) -->
+                        <circle cx="65" cy="45" r="8" fill="white" stroke="#c23616" stroke-width="1.5"/>
+                        <circle cx="65" cy="45" r="5" fill="#2f3640"/>
+                    </svg>
                 </div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
