@@ -179,9 +179,8 @@ def draw_omikuji():
     
     try:
         prompt = f"學生抽到了「{drawn_fortune}」。請以溫柔的日式神職人員或巫女的語氣，為他寫一段大約 30 字的今日學習箴言。回傳 JSON 格式：{{\"message\": \"你的箴言\"}}。除了 JSON 之外不要有其他字。"
-        model = get_gemini_model()
-        res = model.generate_content(prompt)
-        text = res.text.strip()
+        from app.utils.ai_helpers import generate_text_with_fallback
+        text = generate_text_with_fallback(prompt).strip()
         if text.startswith('```json'):
             text = text[7:]
         if text.endswith('```'):

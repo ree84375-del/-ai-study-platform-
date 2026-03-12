@@ -66,10 +66,98 @@ def get_groq_client():
     if not keys: raise ValueError("Missing GROQ_API_KEYS environment variable")
     return Groq(api_key=random.choice(keys))
 
+def generate_text_with_fallback(prompt, system_instruction=None):
+    """Unified wrapper for text generation with Gemini -> Groq fallback"""
+    gemini_keys = get_gemini_keys()
+    if gemini_keys:
+        try:
+            model = get_gemini_model(system_instruction=system_instruction)
+            response = model.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            print(f"[Fallback] Gemini text generation failed: {e}")
+            pass # Fallthrough to Groq
+            
+    groq_keys = get_groq_keys()
+    if groq_keys:
+        try:
+            from groq import Groq
+            client = Groq(api_key=random.choice(groq_keys))
+            messages = []
+            if system_instruction:
+                messages.append({"role": "system", "content": system_instruction})
+            messages.append({"role": "user", "content": prompt})
+            
+            response = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=messages,
+                temperature=0.7,
+                max_tokens=2048,
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"[Fallback] Groq text generation failed: {e}")
+            raise Exception("所有的 AI 模型 (Gemini/Groq) 皆已達連線上限，請稍後再試。")
+            
+    raise Exception("伺服器未設定任何 AI API Key。")
+
+def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
+    """Unified wrapper for vision generation with Gemini -> Groq fallback"""
+    import base64
+    
+    gemini_keys = get_gemini_keys()
+    if gemini_keys:
+        try:
+            # We must use 'code_execution' tools if we want, but for generic vision, vanilla is safer
+            model = get_gemini_model()
+            image = Image.open(io.BytesIO(image_bytes))
+            
+            # If system instructions are needed, gemini combines it in its config.
+            # But the existing `get_gemini_model` handles caching poorly if tools vary.
+            inputs = [prompt, image]
+            if system_instruction:
+                model = get_gemini_model(system_instruction=system_instruction)
+                
+            response = model.generate_content(inputs)
+            return response.text
+        except Exception as e:
+            print(f"[Fallback] Gemini vision failed: {e}")
+            pass # Fallthrough to Groq
+            
+    groq_keys = get_groq_keys()
+    if groq_keys:
+        try:
+            from groq import Groq
+            client = Groq(api_key=random.choice(groq_keys))
+            base64_image = base64.b64encode(image_bytes).decode('utf-8')
+            
+            messages = []
+            if system_instruction:
+                messages.append({"role": "system", "content": system_instruction})
+                
+            messages.append({
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                ],
+            })
+            
+            response = client.chat.completions.create(
+                model="llama-3.2-11b-vision-preview",
+                messages=messages,
+                temperature=0.7,
+                max_tokens=2048,
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"[Fallback] Groq vision failed: {e}")
+            raise Exception("所有的 AI 模型 (Gemini/Groq) 皆已達連線上限，請稍後再試。")
+            
+    raise Exception("伺服器未設定任何 AI API Key。")
+
 def analyze_question_image(image_bytes):
     try:
-        model = get_gemini_model(tools='code_execution')
-        image = Image.open(io.BytesIO(image_bytes))
         prompt = """
         你是一個充滿智慧且親切的家教老師雪音。請分析這張圖片內容：
         1. 圖片解題模式：請專注辨識「印刷文字」的題目，盡量「忽略使用者自己的手寫算式或塗鴉」，以防被錯誤的計算干擾。
@@ -81,15 +169,12 @@ def analyze_question_image(image_bytes):
            - 若遇到複雜數學或數據，請利用你會寫程式的特長來計算，確保結果精準。
         請用繁體中文回答，並且排版清晰易讀。
         """
-        response = model.generate_content([prompt, image])
-        return response.text
+        return generate_vision_with_fallback(prompt, image_bytes)
     except Exception as e:
         return f"解析時發生錯誤：{str(e)}"
 
 def parse_question_from_image(image_bytes):
     try:
-        model = get_gemini_model()
-        image = Image.open(io.BytesIO(image_bytes))
         prompt = """
         請辨識圖片中的這道題目，並將其轉換為 JSON 格式。
         JSON 欄位必須包含：
@@ -103,9 +188,9 @@ def parse_question_from_image(image_bytes):
         - explanation: 詳解
         請僅返回 JSON，不要包含任何 Markdown 標籤 (如 ```json)。
         """
-        response = model.generate_content([prompt, image])
+        response_text = generate_vision_with_fallback(prompt, image_bytes)
         # Use robust parsing to handle cases where Gemini wraps JSON in markdown blocks
-        clean_text = response.text.strip()
+        clean_text = response_text.strip()
         if '```json' in clean_text:
             clean_text = clean_text.split('```json')[1].split('```')[0].strip()
         elif '```' in clean_text:
@@ -117,7 +202,6 @@ def parse_question_from_image(image_bytes):
 
 def generate_study_guide(filename, full_text):
     try:
-        model = get_gemini_model()
         prompt = f"""
         你是一位名為「雪音」的 AI 學習導師。你的學生剛剛上傳了一份名為「{filename}」的講義重點。
         請根據以下講義內容，重新整理並輸出一份「雪音專屬講義」：
@@ -129,17 +213,14 @@ def generate_study_guide(filename, full_text):
         講義內容如下：
         {full_text}
         """
-        response = model.generate_content(prompt)
-        return response.text
+        return generate_text_with_fallback(prompt)
     except Exception as e:
         return f"嗨！我是雪音！我已經收到你的講義「{filename}」了，但我在整理重點時遇到一點小問題（{str(e)}）。不過沒關係，你隨時可以開始問我關於這份講義的問題喔！"
 
 def auto_tag_question(content):
     try:
-        model = get_gemini_model()
         prompt = f"請針對以下題目內容，提供 2-3 個繁體中文標籤（以逗號隔開），例如「二次函數,代數」或「過去分詞,文法」。\n題目：{content}"
-        response = model.generate_content(prompt)
-        return response.text.strip()
+        return generate_text_with_fallback(prompt).strip()
     except:
         return ""
 
@@ -153,7 +234,6 @@ def detect_duplicate_question(new_content, existing_contents):
 
 def generate_ai_quiz(subject):
     try:
-        model = get_gemini_model()
         prompt = f"""
         請為我出一道關於「{subject}」的題目，並回傳 JSON 格式。
         JSON 欄位：
@@ -165,8 +245,8 @@ def generate_ai_quiz(subject):
         - image_prompt: 適合這題目的插圖描述(英文，用於 AI 繪圖)
         請僅返回 JSON。
         """
-        response = model.generate_content(prompt)
-        clean_text = response.text.strip()
+        response_text = generate_text_with_fallback(prompt)
+        clean_text = response_text.strip()
         if '```json' in clean_text:
             clean_text = clean_text.split('```json')[1].split('```')[0].strip()
         elif '```' in clean_text:

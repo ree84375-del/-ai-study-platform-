@@ -77,9 +77,9 @@ def yukine_command():
     command = request.form.get('command', '')
     if command:
         try:
-            model = get_gemini_model(system_instruction="你是雪音，目前是後台管理員正在對你下達專屬測試與系統指令，請絕對服從並精確回答。")
-            res = model.generate_content(command)
-            flash(f'雪音後台回應：{res.text}', 'info')
+            from app.utils.ai_helpers import generate_text_with_fallback
+            reply = generate_text_with_fallback(command, system_instruction="你是雪音，目前是後台管理員正在對你下達專屬測試與系統指令，請絕對服從並精確回答。")
+            flash(f'雪音後台回應：{reply}', 'info')
         except Exception as e:
             flash(f'雪音連線失敗：{str(e)}', 'danger')
             
@@ -179,9 +179,8 @@ def ai_generate_announcement():
         return redirect(url_for('admin.new_announcement'))
         
     try:
-        model = get_gemini_model(system_instruction="你是「雪音」，AI 學習平台的系統管理員助理。請根據使用者提供的綱要，撰寫一篇生動、友善且帶有溫度的全站公告。語氣要活潑專業，可以適度使用 emoji。回傳必須為 JSON 格式：{\"title\": \"公告標題\", \"content\": \"公告內容（請包含對平台學生的問候）\"}。除了 JSON 之外，請勿回傳任何其他多餘的字或 Markdown syntax。")
-        res = model.generate_content(prompt)
-        text = res.text.strip()
+        from app.utils.ai_helpers import generate_text_with_fallback
+        text = generate_text_with_fallback(prompt, system_instruction="你是「雪音」，AI 學習平台的系統管理員助理。請根據使用者提供的綱要，撰寫一篇生動、友善且帶有溫度的全站公告。語氣要活潑專業，可以適度使用 emoji。回傳必須為 JSON 格式：{\"title\": \"公告標題\", \"content\": \"公告內容（請包含對平台學生的問候）\"}。除了 JSON 之外，請勿回傳任何其他多餘的字或 Markdown syntax。").strip()
         
         if text.startswith('```json'):
             text = text[7:]
