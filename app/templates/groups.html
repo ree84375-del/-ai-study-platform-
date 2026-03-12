@@ -13,6 +13,7 @@
             <div class="washi-card" style="margin-bottom: 1.5rem;">
                 <h4 style="margin-top: 0; color: var(--color-accent);"><i class="fa-solid fa-right-to-bracket"></i> 加入群組</h4>
                 <form method="POST" action="">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="join">
                     <input type="text" name="invite_code" placeholder="輸入 6 碼邀請碼" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box;">
                     <button type="submit" style="width: 100%; padding: 10px; background-color: white; border: 1px solid var(--color-primary); color: var(--color-primary); border-radius: 4px; cursor: pointer; transition: all 0.3s;">加入</button>
@@ -23,6 +24,7 @@
                 <h4 style="margin-top: 0; color: var(--color-primary);"><i class="fa-solid fa-plus-circle"></i> 建立新群組</h4>
                 <p style="font-size: 0.85rem; color: var(--color-text_light); margin-bottom: 10px;">(展示功能：所有人皆可建立)</p>
                 <form method="POST" action="">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="create">
                     <input type="text" name="group_name" placeholder="群組名稱 (例如: 日文特訓班)" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box;">
                     <button type="submit" style="width: 100%; padding: 10px; background-color: var(--color-primary); border: none; color: white; border-radius: 4px; cursor: pointer; transition: all 0.3s;">建立</button>
@@ -51,12 +53,19 @@
                             <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 15px;"><i class="fa-solid fa-user-graduate"></i> 成員數: {{ group.members | length }}</p>
                             
                             <div style="border-top: 1px dashed var(--color-border); padding-top: 15px;">
-                                <button class="btn-group-action" style="background: none; border: 1px solid var(--color-border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: var(--color-text_main);">
-                                    <i class="fa-solid fa-comments"></i> 進入討論區 (開發中)
-                                </button>
+                                <a href="{{ url_for('group.group_chat', group_id=group.id) }}" class="btn-group-action" style="display: inline-block; background: none; border: 1px solid var(--color-primary); padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; color: var(--color-primary); transition: all 0.2s;">
+                                    <i class="fa-solid fa-comments"></i> 進入討論區
+                                </a>
                                 <button class="btn-group-action" style="background: none; border: 1px solid var(--color-border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: var(--color-text_main); margin-left: 10px;">
                                     <i class="fa-solid fa-tasks"></i> 查看作業 (開發中)
                                 </button>
+                                
+                                <form method="POST" action="{{ url_for('group.leave_group', group_id=group.id) }}" style="display: inline; margin-left: 10px;" onsubmit="return confirm('確定要{% if group.teacher_id == current_user.id %}解散此群組（所有資料將無法恢復）{% else %}退出此群組{% endif %}嗎？');">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <button type="submit" class="btn-group-action" style="background: none; border: 1px solid #ff7b72; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: #ff7b72;">
+                                        <i class="fa-solid fa-door-open"></i> {% if group.teacher_id == current_user.id %}解散群組{% else %}退出群組{% endif %}
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     {% endfor %}

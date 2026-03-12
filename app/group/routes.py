@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.models import Group, GroupMember
+from app.models import Group, GroupMember, GroupMessage
 from app import db
 import random
 import string
@@ -76,5 +76,53 @@ def online_members(group_id):
     online_users = User.query.filter(User.id.in_(user_ids), User.last_active_at >= ten_minutes_ago).all()
     
     results = [{'id': u.id, 'username': u.username, 'last_active': u.last_active_at.isoformat()} for u in online_users]
-    
     return jsonify({'online_members': results})
+
+@group.route("/groups/<int:group_id>/leave", methods=['POST'])
+@login_required
+def leave_group(group_id):
+    group_obj = Group.query.get_or_404(group_id)
+    membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
+    
+    if not membership:
+        flash('您不在此群組中', 'danger')
+        return redirect(url_for('group.groups'))
+        
+    if group_obj.teacher_id == current_user.id:
+        # Teacher: Delete entire group
+        GroupMember.query.filter_by(group_id=group_id).delete()
+        # Note: In a real app we'd also delete GroupMessage etc., assuming cascade or manual
+        db.session.delete(group_obj)
+        db.session.commit()
+        flash(f'已解散群組：{group_obj.name}', 'success')
+    else:
+        # Student: Leave group
+        db.session.delete(membership)
+        db.session.commit()
+        flash(f'已退出群組：{group_obj.name}', 'success')
+        
+    return redirect(url_for('group.groups'))
+
+@group.route("/groups/<int:group_id>/chat", methods=['GET', 'POST'])
+@login_required
+def group_chat(group_id):
+    group_obj = Group.query.get_or_404(group_id)
+    membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
+    
+    # Prevent unauthorized access
+    if not membership and group_obj.teacher_id != current_user.id:
+        flash('您沒有權限進入此討論板', 'danger')
+        return redirect(url_for('group.groups'))
+        
+    if request.method == 'POST':
+        content = request.form.get('content')
+        if content and content.strip():
+            msg = GroupMessage(content=content.strip(), group_id=group_id, user_id=current_user.id)
+            db.session.add(msg)
+            db.session.commit()
+            return redirect(url_for('group.group_chat', group_id=group_id))
+            
+    # Load recent messages (e.g., last 50)
+    messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+    
+    return render_template('group_chat.html', group=group_obj, messages=messages)

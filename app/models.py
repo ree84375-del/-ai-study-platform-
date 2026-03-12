@@ -170,3 +170,14 @@ class Announcement(db.Model):
     
     def __repr__(self):
         return f"Announcement('{self.title}', '{self.created_at}')"
+
+class GroupMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    # Relationships
+    author = db.relationship('User', backref=db.backref('group_messages', lazy=True))
+    group_ref = db.relationship('Group', backref=db.backref('messages', lazy=True))
