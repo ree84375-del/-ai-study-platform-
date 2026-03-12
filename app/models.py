@@ -144,6 +144,14 @@ class AssignmentStatus(db.Model):
     is_completed = db.Column(db.Boolean, default=False)
     completed_at = db.Column(db.DateTime, nullable=True)
 
+class GroupAnnouncement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    
+    group_ref = db.relationship('Group', backref=db.backref('group_announcements', lazy=True, order_by="desc(GroupAnnouncement.created_at)"))
+
 class ChatSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -117,7 +117,10 @@ def ai_vision():
             return jsonify({'status': 'success', 'question_id': new_q.id, 'data': data})
         
         # Default analysis mode
-        analysis_result = analyze_question_image(image_bytes)
+        analysis_result = analyze_question_image(image_bytes, user=current_user)
+        
+        if "[ERROR_INVALID_CONTENT]" in analysis_result:
+             return jsonify({'error': '這看起來不太像是題目或講義喔！請上傳正確的學習內容讓雪音幫你解析～'}), 400
         
         # Create a chat session for the vision analysis
         session = ChatSession(user_id=current_user.id, title="圖片解題分析")
@@ -319,8 +322,12 @@ def ai_docs():
         db.session.commit()
         
         # Generate the dynamic study guide from the pdf text!
-        study_guide = generate_study_guide(file.filename, full_text)
+        study_guide = generate_study_guide(file.filename, full_text, user=current_user)
         
+        if "[ERROR_INVALID_CONTENT]" in study_guide:
+             db.session.rollback()
+             return jsonify({'error': '這份講義內容似乎無法讀取，或者與學習無關喔！請檢查後重新上傳～'}), 400
+             
         context_msg = ChatMessage(session_id=session.id, role='ai', 
                                 content=study_guide)
         db.session.add(context_msg)

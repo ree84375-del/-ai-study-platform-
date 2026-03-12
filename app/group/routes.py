@@ -103,9 +103,10 @@ def leave_group(group_id):
         
     return redirect(url_for('group.groups'))
 
-@group.route("/groups/<int:group_id>/chat", methods=['GET', 'POST'])
+@group.route("/groups/<int:group_id>/dashboard", methods=['GET', 'POST'])
 @login_required
-def group_chat(group_id):
+def group_dashboard(group_id):
+    from app.models import GroupAnnouncement
     group_obj = Group.query.get_or_404(group_id)
     membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
     
@@ -115,14 +116,24 @@ def group_chat(group_id):
         return redirect(url_for('group.groups'))
         
     if request.method == 'POST':
+        action = request.form.get('action')
         content = request.form.get('content')
+        
         if content and content.strip():
-            msg = GroupMessage(content=content.strip(), group_id=group_id, user_id=current_user.id)
-            db.session.add(msg)
-            db.session.commit()
-            return redirect(url_for('group.group_chat', group_id=group_id))
+            if action == 'post_announcement' and group_obj.teacher_id == current_user.id:
+                ann = GroupAnnouncement(content=content.strip(), group_id=group_id)
+                db.session.add(ann)
+                db.session.commit()
+                flash('已發布群組公告', 'success')
+            elif action == 'post_message':
+                msg = GroupMessage(content=content.strip(), group_id=group_id, user_id=current_user.id)
+                db.session.add(msg)
+                db.session.commit()
+                
+            return redirect(url_for('group.group_dashboard', group_id=group_id))
             
-    # Load recent messages (e.g., last 50)
+    # Load recent messages (e.g., last 100)
     messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+    announcements = GroupAnnouncement.query.filter_by(group_id=group_id).order_by(GroupAnnouncement.created_at.desc()).limit(5).all()
     
-    return render_template('group_chat.html', group=group_obj, messages=messages)
+    return render_template('group_dashboard.html', group=group_obj, messages=messages, announcements=announcements)

@@ -156,12 +156,23 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
             
     raise Exception("伺服器未設定任何 AI API Key。")
 
-def analyze_question_image(image_bytes):
+def analyze_question_image(image_bytes, user=None):
     try:
-        prompt = """
-        你是一個充滿智慧且親切的家教老師雪音。請分析這張圖片內容：
+        tutor_name = "雪音"
+        tutor_prompt = "充滿智慧且親切的家教老師雪音"
+        
+        if user and user.ai_personality:
+            personality = AI_PERSONALITIES.get(user.ai_personality)
+            if personality:
+                tutor_name = personality['name']
+                tutor_prompt = personality['system_prompt']
+
+        prompt = f"""
+        {tutor_prompt}
+
+        請分析這張圖片內容：
         1. 圖片解題模式：請專注辨識「印刷文字」的題目，盡量「忽略使用者自己的手寫算式或塗鴉」，以防被錯誤的計算干擾。
-        2. 如果這不是學習相關的題目（例如風景照片、亂拍、無意義內容），請客氣地告訴學生你只能處理學習問題，並給予一些有趣的簡單回應。
+        2. 防呆機制：如果圖片內容與學科學習、考試完全無關（例如：一般風景照、自拍、無意義塗鴉、遊戲截圖），請務必僅回覆這段錯誤代碼：「[ERROR_INVALID_CONTENT]」，不要給予其他回覆。
         3. 如果是學習題目，請詳盡地：
            - 原文辨識：辨識完整的題目內容與選項。
            - 提供解答：提供正確答案與核心觀念。
@@ -200,12 +211,26 @@ def parse_question_from_image(image_bytes):
     except Exception as e:
         return {'error': str(e)}
 
-def generate_study_guide(filename, full_text):
+def generate_study_guide(filename, full_text, user=None):
     try:
+        tutor_name = "雪音"
+        tutor_prompt = "充滿智慧且親切的家教老師雪音"
+        
+        if user and user.ai_personality:
+            personality = AI_PERSONALITIES.get(user.ai_personality)
+            if personality:
+                tutor_name = personality['name']
+                tutor_prompt = personality['system_prompt']
+
         prompt = f"""
-        你是一位名為「雪音」的 AI 學習導師。你的學生剛剛上傳了一份名為「{filename}」的講義重點。
-        請根據以下講義內容，重新整理並輸出一份「雪音專屬講義」：
-        1. 用溫柔、鼓勵的語氣開頭。
+        {tutor_prompt}
+
+        你的學生剛剛上傳了一份名為「{filename}」的講義重點。
+        
+        防呆機制：如果講義內容根本無法辨識，或者是亂碼、與學習無關的內容，請務必僅回覆錯誤代碼：「[ERROR_INVALID_CONTENT]」。
+
+        如果確認是學習講義，請重新整理並輸出一份「{tutor_name}專屬講義」：
+        1. 依照你的人物設定，用符合的語氣開頭。
         2. 條列式整理出這份講義的「核心觀念與重點」。
         3. 針對重點給予簡單的學習建議或記憶口訣。
         4. 排版要美觀清晰（善用 Markdown 的標題、粗體、清單）。
@@ -215,7 +240,7 @@ def generate_study_guide(filename, full_text):
         """
         return generate_text_with_fallback(prompt)
     except Exception as e:
-        return f"嗨！我是雪音！我已經收到你的講義「{filename}」了，但我在整理重點時遇到一點小問題（{str(e)}）。不過沒關係，你隨時可以開始問我關於這份講義的問題喔！"
+        return f"嗨！我已經收到你的講義了，但我在整理重點時遇到小問題（{str(e)}）。不過沒關係，隨時可以問我問題喔！"
 
 def auto_tag_question(content):
     try:

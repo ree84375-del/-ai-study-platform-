@@ -109,15 +109,76 @@
     <div class="lofi-main"
         style="display: flex; gap: 4rem; align-items: center; z-index: 1; flex-wrap: wrap; justify-content: center;">
 
-        <!-- Yukine Study Image -->
-        <div class="yukine-frame" id="yukine-frame"
-            style="width: 420px; height: 420px; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(181, 155, 142, 0.2); border: 1px solid rgba(255,255,255,0.05); position: relative; transform-style: preserve-3d; transition: transform 0.1s ease-out;">
-            <div class="yukine-image-wrapper" style="width: 100%; height: 100%; position: relative;">
-                <!-- Floating Background Dust/Stars -->
-                <div class="ambient-dust"
-                    style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.5) 0%, transparent 2%); background-size: 50px 50px; animation: floatDust 20s linear infinite; mix-blend-mode: screen; opacity: 0.2; transform: translateZ(-20px);">
-                </div>
+        <!-- Dynamic and Premium Background Elements -->
+<div class="lofi-bg-container">
+    <div class="lofi-bg"></div>
+    <div class="lofi-stars"></div>
+    <div class="lofi-particles" id="particles-js"></div>
+    <div class="lofi-overlay"></div>
+</div>
 
+<div class="container lofi-container" style="position: relative; z-index: 10;">
+    <h1 class="lofi-title" style="text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);"><i class="fa-solid fa-moon"></i> 深夜陪讀室</h1>
+    <p class="lofi-subtitle" style="opacity: 0.9;">在靜謐的音樂中，我們一起專注。</p>
+
+    <!-- Music Player Card (Glassmorphism) -->
+    <div class="lofi-player washi-card" style="background: rgba(30, 30, 40, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);">
+        <div class="vinyl-record">
+            <div class="vinyl-center"></div>
+        </div>
+        
+        <div class="player-controls">
+            <h3 class="track-title" style="color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3);">Lofi Hip Hop - Beats to Relax/Study to</h3>
+            
+            <div class="audio-controls">
+                <button id="playBtn" class="btn btn-lofi glowing-btn">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+                
+                <div class="volume-control">
+                    <i class="fa-solid fa-volume-high" style="color: #ddd;"></i>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+                </div>
+            </div>
+            
+            <div class="now-playing-eq">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+        
+        <!-- Hidden audio element. Ensure the file exists in static/audio/ -->
+        <audio id="lofiAudio" loop>
+            <source src="{{ url_for('static', filename='audio/lofi_study.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <!-- Productivity Tools Area -->
+    <div class="lofi-tools">
+        <!-- Pomodoro Timer -->
+        <div class="lofi-card pomodoro-card" style="background: rgba(30, 30, 40, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <h3 style="color: #fff;"><i class="fa-solid fa-clock"></i> 專注時鐘</h3>
+            <div class="timer-display" id="timeDisplay" style="text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);">25:00</div>
+            <div class="timer-controls">
+                <button id="startTimerBtn" class="btn btn-lofi-small"><i class="fa-solid fa-play"></i></button>
+                <button id="pauseTimerBtn" class="btn btn-lofi-small"><i class="fa-solid fa-pause"></i></button>
+                <button id="resetTimerBtn" class="btn btn-lofi-small"><i class="fa-solid fa-rotate-right"></i></button>
+            </div>
+        </div>
+        
+        <!-- Mini Note / Goal -->
+        <div class="lofi-card note-card" style="background: rgba(30, 30, 40, 0.6); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <h3 style="color: #fff;"><i class="fa-solid fa-thumbtack"></i> 今晚目標</h3>
+            <textarea placeholder="寫下今晚必須完成的一件事..." class="lofi-textarea" style="background: rgba(0,0,0,0.2)"></textarea>
+        </div>
+    </div>
+</div>
+<!-- Load particle.js for the requested dynamic dust/stars effect -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
                 <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}"
                     style="width: 100%; height: 100%; object-fit: cover;">
 

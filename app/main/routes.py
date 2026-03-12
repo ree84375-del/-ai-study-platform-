@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, flash, redirect,
 from flask_login import login_required, current_user
 from app import db, bcrypt
 from app.models import User, Mistake
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 main = Blueprint('main', __name__)
 
@@ -41,7 +41,9 @@ def home():
     mistakes_to_review = 0
     
     if current_user.is_authenticated:
-        today = datetime.now(timezone.utc).date()
+        # Taiwan is UTC+8
+        tw_tz = timezone(timedelta(hours=8))
+        today = datetime.now(tw_tz).date()
         today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
         recent_emas = Ema.query.filter_by(is_public=True).order_by(Ema.created_at.desc()).limit(10).all()
         # Find the most recent uncompleted Daruma, or the most recent completed one
@@ -166,8 +168,11 @@ def draw_omikuji():
     from app.utils.ai_helpers import get_gemini_model
     import random
     import json
+    from datetime import timedelta
     
-    today = datetime.now(timezone.utc).date()
+    # Taiwan is UTC+8
+    tw_tz = timezone(timedelta(hours=8))
+    today = datetime.now(tw_tz).date()
     # Check if already drawn today
     existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
     if existing:
