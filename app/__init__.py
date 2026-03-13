@@ -97,8 +97,13 @@ def create_app(config_class=None):
     with app.app_context():
         try:
             db.create_all()
+            # Proactive Migration: Add has_ai column if missing
+            from sqlalchemy import text
+            db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;"))
+            db.session.commit()
         except Exception as e:
-            app.logger.error(f"Database creation failed: {e}")
+            app.logger.error(f"Database initialization/migration failed: {e}")
+            db.session.rollback()
 
     # 加入全域錯誤處理器，幫助除錯 Vercel 500 錯誤
     @app.errorhandler(500)
