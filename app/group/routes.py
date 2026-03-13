@@ -130,6 +130,48 @@ def group_dashboard(group_id):
                 msg = GroupMessage(content=content.strip(), group_id=group_id, user_id=current_user.id)
                 db.session.add(msg)
                 db.session.commit()
+            elif action == 'update_settings' and group_obj.teacher_id == current_user.id:
+                new_name = request.form.get('group_name')
+                has_ai = request.form.get('has_ai') == 'on'
+                if new_name:
+                    group_obj.name = new_name.strip()
+                group_obj.has_ai = has_ai
+                db.session.commit()
+                flash('群組設定已更新', 'success')
+            elif action == 'publish_assignment' and group_obj.teacher_id == current_user.id:
+                from app.models import Assignment
+                title = request.form.get('title')
+                desc = request.form.get('description')
+                due_days = int(request.form.get('due_days', 7))
+                if title:
+                    due_date = datetime.now(timezone.utc) + timedelta(days=due_days)
+                    new_assign = Assignment(title=title.strip(), description=desc, group_id=group_id, due_date=due_date)
+                    db.session.add(new_assign)
+                    db.session.commit()
+                    flash(f'作業「{title}」已發布', 'success')
+            elif action == 'submit_assignment':
+                from app.models import AssignmentStatus
+                assign_id = request.form.get('assignment_id')
+                content = request.form.get('content')
+                if assign_id and content:
+                    status = AssignmentStatus.query.filter_by(assignment_id=assign_id, user_id=current_user.id).first()
+                    if not status:
+                        status = AssignmentStatus(assignment_id=assign_id, user_id=current_user.id)
+                        db.session.add(status)
+                    status.content = content
+                    status.is_completed = True
+                    status.completed_at = datetime.now(timezone.utc)
+                    db.session.commit()
+                    
+                    # Immediate AI Grading
+                    from app.models import Assignment
+                    assign_obj = Assignment.query.get(assign_id)
+                    from app.utils.ai_helpers import get_yukine_feedback
+                    feedback, score = get_yukine_feedback(content, assign_obj.title, assign_obj.description)
+                    status.ai_feedback = feedback
+                    status.score = score
+                    db.session.commit()
+                    flash(f'作業已繳交！雪音老師已完成批改。', 'success')
                 
             return redirect(url_for('group.group_dashboard', group_id=group_id))
             

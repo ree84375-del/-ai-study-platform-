@@ -142,6 +142,9 @@ class AssignmentStatus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text, nullable=True) # Student submission
+    ai_feedback = db.Column(db.Text, nullable=True) # Yukine's comments
+    score = db.Column(db.Integer, nullable=True) # 0-100
     is_completed = db.Column(db.Boolean, default=False)
     completed_at = db.Column(db.DateTime, nullable=True)
 

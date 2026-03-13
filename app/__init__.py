@@ -100,6 +100,10 @@ def create_app(config_class=None):
             # Proactive Migration: Add has_ai column if missing
             from sqlalchemy import text
             db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;"))
+            # AssignmentStatus extensions
+            db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;"))
+            db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;"))
+            db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;"))
             db.session.commit()
         except Exception as e:
             app.logger.error(f"Database initialization/migration failed: {e}")

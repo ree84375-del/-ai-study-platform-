@@ -16,7 +16,7 @@
             <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <div>
-            <h4 style="margin: 0; color: var(--color-primary);">雪音助教 已就緒 (๑•̀ㅂ•́)و✧</h4>
+            <h4 style="margin: 0; color: var(--color-primary);">雪音老師 已就緒 (๑•̀ㅂ•́)و✧</h4>
             <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: var(--color-text_light);">我会適時給予大家學習建議喔！加油！</p>
         </div>
     </div>
@@ -103,11 +103,120 @@
         </form>
     </div>
 
-    <!-- Member Management (Only for Group Creator/Teacher) -->
-    {% if group.teacher_id == current_user.id %}
-    <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-primary);">
+    <!-- Active Assignments Section -->
+    <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 2rem; border-top: 4px solid var(--color-accent);">
         <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-user-shield" style="color: var(--color-primary);"></i> 成員管理 (群主設定)
+            <i class="fa-solid fa-file-signature" style="color: var(--color-accent);"></i> 我的作業與挑戰
+        </h3>
+        
+        {% if not group.assignments %}
+            <p style="color: var(--color-text_light); text-align: center; padding: 20px; font-style: italic;">目前還沒有發布作業喔！</p>
+        {% else %}
+            <div style="display: grid; gap: 1rem;">
+                {% for assignment in group.assignments | sort(attribute='due_date') %}
+                    {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
+                    <div style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 15px; transition: transform 0.2s; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; color: var(--color-primary);">{{ assignment.title }}</h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--color-text_light);">{{ assignment.description }}</p>
+                                <div style="margin-top: 8px; font-size: 0.75rem; color: #999;">
+                                    <i class="fa-regular fa-calendar-check"></i> 截止日期: {{ assignment.due_date.strftime('%Y-%m-%d') }}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                {% if user_status and user_status.is_completed %}
+                                    <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">
+                                        已完成 ({{ user_status.score }}分)
+                                    </span>
+                                {% else %}
+                                    <span style="background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">
+                                        待完成
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if user_status and user_status.is_completed %}
+                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--color-border);">
+                                <div style="font-size: 0.85rem; color: var(--color-text_main); background: #fafafa; padding: 10px; border-radius: 8px;">
+                                    <strong>雪音老師的反饋：</strong><br>
+                                    {{ user_status.ai_feedback }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <button onclick="document.getElementById('submit-form-{{ assignment.id }}').style.display='block'; this.style.display='none';" class="btn" style="margin-top: 15px; width: 100%; border: 1px solid var(--color-accent); color: var(--color-accent); background: transparent;">繳交作業</button>
+                            
+                            <form id="submit-form-{{ assignment.id }}" method="POST" action="" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--color-border);">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <input type="hidden" name="action" value="submit_assignment"/>
+                                <input type="hidden" name="assignment_id" value="{{ assignment.id }}"/>
+                                <textarea name="content" placeholder="在此輸入你的作業內容..." required style="width: 100%; min-height: 100px; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 10px; box-sizing: border-box;"></textarea>
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" style="flex: 1; padding: 8px; background-color: var(--color-accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">確認繳交</button>
+                                    <button type="button" onclick="document.getElementById('submit-form-{{ assignment.id }}').style.display='none'; this.parentElement.previousElementSibling.style.display='block';" style="padding: 8px 15px; background: #eee; border: none; border-radius: 6px; cursor: pointer;">取消</button>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Member & Group Management (Only for Group Creator/Teacher) -->
+    {% if group.teacher_id == current_user.id %}
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+        
+        <!-- Group Settings -->
+        <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-primary);">
+            <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-gear" style="color: var(--color-primary);"></i> 群組設定
+            </h3>
+            <form method="POST" action="">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="action" value="update_settings"/>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 0.85rem; color: var(--color-text_light); margin-bottom: 5px;">群組名稱</label>
+                    <input type="text" name="group_name" value="{{ group.name }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; box-sizing: border-box;">
+                </div>
+                
+                <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                    <input type="checkbox" name="has_ai" id="has_ai_edit" {% if group.has_ai %}checked{% endif %} style="cursor: pointer;">
+                    <label for="has_ai_edit" style="cursor: pointer;">啟用雪音老師 (AI 協助)</label>
+                </div>
+                
+                <button type="submit" style="width: 100%; padding: 8px; background-color: white; border: 1px solid var(--color-primary); color: var(--color-primary); border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;">儲存設定</button>
+            </form>
+        </div>
+
+        <!-- Publish Assignment -->
+        <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-accent);">
+            <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-clipboard-question" style="color: var(--color-accent);"></i> 發布新作業
+            </h3>
+            <form method="POST" action="">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="action" value="publish_assignment"/>
+                
+                <input type="text" name="title" placeholder="作業標題 ( e.g. 日本職人精神心得 )" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; box-sizing: border-box;">
+                <textarea name="description" placeholder="作業說明內容..." style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; min-height: 60px; resize: vertical; box-sizing: border-box;"></textarea>
+                
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                    <label style="font-size: 0.85rem; color: var(--color-text_light);">期限 (天):</label>
+                    <input type="number" name="due_days" value="7" min="1" max="30" style="width: 60px; padding: 5px; border: 1px solid var(--color-border); border-radius: 6px;">
+                </div>
+                
+                <button type="submit" style="width: 100%; padding: 8px; background-color: var(--color-accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">發布作業</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-primary); margin-top: 1.5rem;">
+        <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-user-shield" style="color: var(--color-primary);"></i> 成員管理 (身分設定)
         </h3>
         <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">身為群組創建者，您可以設定成員在平台上的角色身分。</p>
         
