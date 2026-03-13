@@ -179,6 +179,22 @@
 
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Auto-hide luxury alerts after 1.5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.luxury-alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.style.transition = 'all 0.5s ease';
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'scale(0.95) translateY(-10px)';
+                    setTimeout(function() {
+                        alert.remove();
+                    }, 500);
+                }, 1500); // 1.5 seconds
+            });
+        });
+    </script>
 </body>
 
 </html>
