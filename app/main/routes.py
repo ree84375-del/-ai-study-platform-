@@ -37,19 +37,30 @@ def home():
     
     # Check Japanese Features if user is logged in
     today_omikuji = None
-    recent_emas = []
-    active_daruma = None
     mistakes_to_review = 0
     study_plan = []
     
     if current_user.is_authenticated:
-        if current_user.study_plan_json:
+        # Taiwan is UTC+8
+        tw_tz = timezone(timedelta(hours=8))
+        today = datetime.now(tw_tz).date()
+        today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
+        recent_emas = Ema.query.filter_by(is_public=True).order_by(Ema.created_at.desc()).limit(10).all()
+        # Find the most recent uncompleted Daruma, or the most recent completed one
+        active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()).first()
+        if not active_daruma:
+            active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=True).order_by(Daruma.completed_at.desc()).first()
+            
+        mistakes_to_review = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
+        
+        # Parse study plan
+        if hasattr(current_user, 'study_plan_json') and current_user.study_plan_json:
             import json
             try:
                 study_plan = json.loads(current_user.study_plan_json)
             except Exception:
                 pass
-        
+    
     return render_template('home.html', 
                            announcements=announcements, 
                            today_omikuji=today_omikuji,

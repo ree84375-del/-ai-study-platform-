@@ -58,8 +58,13 @@ class User(db.Model, UserMixin):
     ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
     
     # 網站偏好設定
-    preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic
+    preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.
     pomodoro_duration = db.Column(db.Integer, default=25)
+    
+    # Study Roadmap
+    exam_date = db.Column(db.Date, nullable=True)
+    study_plan_json = db.Column(db.Text, nullable=True)
+    
     last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
@@ -112,6 +117,10 @@ class Group(db.Model):
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     has_ai = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+    
+    # Collaborative Zen Garden
+    garden_exp = db.Column(db.Integer, default=0)
+    garden_level = db.Column(db.Integer, default=1)
     
     # Teacher relationship is handled directly by teacher_id, but we can access teacher
     teacher = db.relationship('User', foreign_keys=[teacher_id], backref=db.backref('owned_groups', lazy=True))
