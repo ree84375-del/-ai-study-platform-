@@ -79,7 +79,7 @@
     </div>
 
     <!-- Input Area -->
-    <div class="washi-card" style="padding: 1rem;">
+    <div class="washi-card" style="padding: 1rem; margin-bottom: 2rem;">
         <form method="POST" action="" style="display: flex; gap: 10px;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="action" value="post_message"/>
@@ -89,6 +89,51 @@
             </button>
         </form>
     </div>
+
+    <!-- Member Management (Only for Group Creator/Teacher) -->
+    {% if group.teacher_id == current_user.id %}
+    <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-primary);">
+        <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-user-shield" style="color: var(--color-primary);"></i> 成員管理 (群主設定)
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">身為群組創建者，您可以設定成員在平台上的角色身分。</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+            {% for membership in group.members %}
+            {% set member_user = membership.member %}
+            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 12px 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold;">
+                        {{ member_user.username[0] | upper }}
+                    </div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 0.95rem;">{{ member_user.username }}</div>
+                        <div style="font-size: 0.75rem; color: #888;">目前身分: 
+                            <span style="color: var(--color-primary); font-weight: bold;">
+                                {% if member_user.role == 'admin' %}管理員
+                                {% elif member_user.role == 'teacher' %}老師
+                                {% elif member_user.role == 'student' %}學生
+                                {% else %}訪客{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST" action="{{ url_for('group.update_member_role', group_id=group.id, user_id=member_user.id) }}" style="display: flex; gap: 5px;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <select name="new_role" style="padding: 5px; border-radius: 6px; border: 1px solid var(--color-border); font-size: 0.85rem;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
+                        <option value="student" {% if member_user.role == 'student' %}selected{% endif %}>變更為: 學生</option>
+                        <option value="teacher" {% if member_user.role == 'teacher' %}selected{% endif %}>變更為: 老師</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm" style="padding: 5px 12px; font-size: 0.8rem; background: var(--color-primary); color: white; border: none; border-radius: 6px; cursor: pointer;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
+                        更新
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <script>

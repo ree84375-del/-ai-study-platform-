@@ -65,11 +65,13 @@
     function initVoices() {
         // Find cute Japanese or Chinese voices
         const voices = window.speechSynthesis.getVoices();
-        // Priority: Microsoft Xiaoxiao (Very natural Chinese/English), then Haruka/Nanami (Japanese), then fallbacks
+        // Priority: Microsoft Xiaoxiao (Very natural Chinese/English), then specific Japanese female voices, then generic Japanese
         selectedVoice = voices.find(v => v.name.includes('Xiaoxiao') || v.name.includes('Hsiao'))
-                     || voices.find(v => v.lang.includes('ja-JP') && v.name.includes('Female'))
+                     || voices.find(v => v.name.includes('Haruka') || v.name.includes('Nanami') || v.name.includes('Sayaka'))
+                     || voices.find(v => v.lang.includes('ja-JP') && (v.name.includes('Female') || v.name.includes('Google')))
                      || voices.find(v => v.lang.includes('zh') && (v.name.includes('Yating') || v.name.includes('female'))) 
-                     || voices.find(v => v.lang.includes('zh-TW'));
+                     || voices.find(v => v.lang.includes('zh-TW'))
+                     || voices.find(v => v.lang.includes('ja-JP'));
     }
     if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = initVoices;

@@ -137,3 +137,29 @@ def group_dashboard(group_id):
     announcements = GroupAnnouncement.query.filter_by(group_id=group_id).order_by(GroupAnnouncement.created_at.desc()).limit(5).all()
     
     return render_template('group_dashboard.html', group=group_obj, messages=messages, announcements=announcements)
+@group.route("/groups/<int:group_id>/update_member_role/<int:user_id>", methods=['POST'])
+@login_required
+def update_member_role(group_id, user_id):
+    from app.models import User
+    group_obj = Group.query.get_or_404(group_id)
+    
+    # Permission check: Only group creator can change roles
+    if group_obj.teacher_id != current_user.id:
+        flash('您沒有權限執行此操作', 'danger')
+        return redirect(url_for('group.group_dashboard', group_id=group_id))
+    
+    user_to_update = User.query.get_or_404(user_id)
+    new_role = request.form.get('new_role')
+    
+    if new_role in ['student', 'teacher']:
+        # prevent self-demotion or updating admin via group dashboard
+        if user_to_update.id != current_user.id and user_to_update.email != 'ree84375@gmail.com':
+            user_to_update.role = new_role
+            db.session.commit()
+            flash(f'已將 {user_to_update.username} 的角色更新為 {new_role}', 'success')
+        else:
+            flash('您無法更改此使用者的角色', 'warning')
+    else:
+        flash('無效的角色選擇', 'danger')
+        
+    return redirect(url_for('group.group_dashboard', group_id=group_id))
