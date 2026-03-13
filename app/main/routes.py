@@ -274,3 +274,18 @@ def complete_daruma(daruma_id):
     db.session.commit()
     flash('恭喜達成目標！達磨已成功開眼。', 'success')
     return redirect(url_for('main.home'))
+
+@main.route("/debug/fix_group_db")
+@login_required
+def fix_group_db():
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+    from sqlalchemy import text
+    try:
+        # Check if table is "group" or "groups"
+        db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;"))
+        db.session.commit()
+        return "SUCCESS: Column 'has_ai' added to table 'group'. <a href='/groups'>Back to Groups</a>", 200
+    except Exception as e:
+        db.session.rollback()
+        return f"ERROR: {str(e)}", 500
