@@ -41,7 +41,15 @@
             <input type="text" id="chat-input" placeholder="輸入訊息..."
                 style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none;">
             <button id="send-chat-btn"
-                style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-w    // --- Voice Tutor Logic (Robust Windows Version) ---
+                style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
+                發送
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Voice Tutor Logic (Robust Windows Version) ---
     const voiceBtn = document.getElementById('voice-input-btn');
     const toggleVoiceBtn = document.getElementById('toggle-voice-btn');
     const chatInput = document.getElementById('chat-input');
@@ -631,15 +639,34 @@
         .chat-container {
             flex-direction: column;
             height: auto;
-            min-height: calc(100vh - 120px);
+            min-height: calc(100vh - 150px);
+            padding: 0 0.5rem;
+            gap: 1rem;
         }
         .chat-sidebar {
             flex: none;
             max-width: 100%;
-            height: 250px; /* Constrain height on mobile */
+            height: auto;
+            max-height: 200px;
+            padding: 1rem;
         }
         .chat-main {
-            height: 600px; /* Fixed height for chat area on mobile to enable scrolling within */
+            height: 550px;
+            padding: 1.2rem;
+        }
+        .navbar {
+            padding: 0.5rem !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .chat-main {
+            height: calc(100vh - 380px); /* Dynamic height for very small screens */
+        }
+        .chat-bubble {
+            max-width: 90%;
+            font-size: 0.95rem;
+            padding: 10px 15px;
         }
     }
 </style>

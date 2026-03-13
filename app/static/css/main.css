@@ -63,6 +63,36 @@ body {
 .navbar-nav {
     display: flex;
     gap: 1.5rem;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .navbar .brand {
+        font-size: 1.2rem;
+    }
+    .navbar-nav {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 5px;
+        gap: 0.8rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Hide scrollbar Firefox */
+    }
+    .navbar-nav::-webkit-scrollbar {
+        display: none; /* Hide scrollbar Chrome/Safari */
+    }
+    .nav-link {
+        margin-left: 0;
+        white-space: nowrap;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.6rem;
+    }
 }
 
 /* Nav Links Color Coding */
