@@ -125,6 +125,80 @@ body {
 .nav-link[href*="chat"] { color: #f3722c; }
 .nav-link[href*="lofi_room"] { color: #480ca8; }
 
+.profile-link {
+    background-color: var(--color-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 30px;
+    padding: 0.5rem 1.2rem;
+}
+.streak-badge {
+    color: #ff6b6b;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+/* Mobile Bottom Navigation Bar */
+.mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
+    z-index: 2000;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 20px 20px 0 0;
+}
+
+.mob-nav-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-text_light);
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.mob-nav-item i {
+    font-size: 1.4rem;
+}
+
+.mob-nav-item span {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.mob-nav-item:hover, .mob-nav-item.active {
+    color: var(--color-primary);
+    transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+    .mobile-bottom-nav {
+        display: flex;
+    }
+    .container {
+        padding: 1rem;
+        padding-bottom: 90px; /* Space for bottom nav */
+    }
+    .navbar {
+        height: 60px;
+        padding: 0 1.2rem;
+        justify-content: center;
+    }
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;

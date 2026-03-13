@@ -88,7 +88,7 @@
 <body>
     <nav class="navbar">
         <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> 學習案內所</a>
-        <div class="navbar-nav">
+        <div class="navbar-nav desktop-only">
             <a href="{{ url_for('main.home') }}" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
             {% if current_user.is_authenticated %}
             <a href="{{ url_for('study.practice') }}" class="nav-link"><i class="fa-solid fa-pen-clip"></i> 開始刷題</a>
@@ -104,15 +104,36 @@
             <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: #ff7b72; font-weight: bold;"><i class="fa-solid fa-crown"></i> 後台</a>
             {% endif %}
             
-            <a href="{{ url_for('main.profile') }}" class="nav-link" style="background-color: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 30px; padding: 0.5rem 1.2rem;">
+            <a href="{{ url_for('main.profile') }}" class="nav-link profile-link">
                 <i class="fa-solid fa-user-gear"></i> 個人/AI設定
-                <span style="color: #ff6b6b; font-weight: bold; margin-left: 5px;"><i class="fa-solid fa-fire"></i> {{ current_user.current_streak }}</span>
+                <span class="streak-badge"><i class="fa-solid fa-fire"></i> {{ current_user.current_streak }}</span>
             </a>
             {% else %}
             <a href="{{ url_for('auth.login') }}" class="nav-link">登入/註冊</a>
             {% endif %}
         </div>
     </nav>
+
+    {% if current_user.is_authenticated %}
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav">
+        <a href="{{ url_for('main.home') }}" class="mob-nav-item">
+            <i class="fa-solid fa-house"></i><span>首頁</span>
+        </a>
+        <a href="{{ url_for('study.practice') }}" class="mob-nav-item">
+            <i class="fa-solid fa-pen-clip"></i><span>刷題</span>
+        </a>
+        <a href="{{ url_for('main.chat') }}" class="mob-nav-item">
+            <i class="fa-solid fa-comments"></i><span>雪音</span>
+        </a>
+        <a href="{{ url_for('group.groups') }}" class="mob-nav-item">
+            <i class="fa-solid fa-users"></i><span>群組</span>
+        </a>
+        <a href="{{ url_for('main.profile') }}" class="mob-nav-item">
+            <i class="fa-solid fa-user-gear"></i><span>設定</span>
+        </a>
+    </div>
+    {% endif %}
 
     <main class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
