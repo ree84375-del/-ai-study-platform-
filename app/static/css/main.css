@@ -16,6 +16,7 @@
     100% { background-position: 0% 50%; border-color: rgba(255,255,255,0.1); }
 }
 
+body {
     background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
     background-size: 400% 400%;
     animation: breathingGradient 15s ease-in-out infinite;
