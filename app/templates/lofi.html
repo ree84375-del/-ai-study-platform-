@@ -184,6 +184,32 @@
 
         <!-- Right Side Controls (Music + Timer) -->
         <div style="display: flex; flex-direction: column; gap: 2rem; z-index: 10;">
+
+            <!-- Time-of-Day Switcher -->
+            <div class="switcher-card"
+                style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); width: 380px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                <h3 style="margin-bottom: 1rem; font-weight: 400; letter-spacing: 1px; color: #f0f0f0; font-size: 1.1rem;">
+                    <i class="fa-solid fa-cloud-moon" style="margin-right: 8px; color: #a5d6ff;"></i>
+                    切換時段氛圍
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                    <button onclick="setManualTheme('morning')" class="time-btn" id="btn-morning">
+                        <i class="fa-solid fa-sun" style="color: #ffde6a;"></i> 早上
+                    </button>
+                    <button onclick="setManualTheme('afternoon')" class="time-btn" id="btn-afternoon">
+                        <i class="fa-solid fa-cloud-sun" style="color: #ff9e6a;"></i> 下午
+                    </button>
+                    <button onclick="setManualTheme('dusk')" class="time-btn" id="btn-dusk">
+                        <i class="fa-solid fa-mountain-sun" style="color: #ff7b72;"></i> 黃昏
+                    </button>
+                    <button onclick="setManualTheme('night')" class="time-btn" id="btn-night">
+                        <i class="fa-solid fa-moon" style="color: #d2a8ff;"></i> 晚上
+                    </button>
+                </div>
+                <button onclick="resetAutoTheme()" style="margin-top: 15px; background: none; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); padding: 5px 15px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> 回復自動切換
+                </button>
+            </div>
             
             <!-- Pomodoro Timer -->
             <div class="pomodoro-card"
@@ -274,8 +300,37 @@
 </div>
 
     // --- Dynamic Time-of-Day Logic ---
+    let isManualOverride = false;
+
+    function setManualTheme(theme) {
+        isManualOverride = true;
+        applyTheme(theme);
+        
+        // Highlight active button
+        document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + theme).classList.add('active');
+    }
+
+    function resetAutoTheme() {
+        isManualOverride = false;
+        document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+        updateTimeTheme();
+    }
+
     function updateTimeTheme() {
+        if (isManualOverride) return;
         const hour = new Date().getHours();
+        let theme;
+
+        if (hour >= 6 && hour < 12) theme = 'morning';
+        else if (hour >= 12 && hour < 17) theme = 'afternoon';
+        else if (hour >= 17 && hour < 19) theme = 'dusk';
+        else theme = 'night';
+
+        applyTheme(theme);
+    }
+
+    function applyTheme(theme) {
         const container = document.querySelector('.lofi-container-bg');
         const mainImg = document.getElementById('yukine-main-img');
         const title = document.getElementById('study-room-title');
@@ -283,31 +338,27 @@
         const badge = document.getElementById('time-status-badge');
         const starsLayer = document.querySelector('.bg-stars-layer');
         
-        let theme, imageSrc, titleText, subtitleText, badgeHTML;
+        let imageSrc, titleText, subtitleText, badgeHTML;
 
-        if (hour >= 6 && hour < 12) {
-            theme = 'morning';
+        if (theme === 'morning') {
             imageSrc = "{{ url_for('static', filename='img/yukine_scene_morning.png') }}";
             titleText = "早安陪讀室";
             subtitleText = "早晨的陽光真好，雪音老師陪你開啟新的一天！ (☀️^‿^)";
             badgeHTML = '<i class="fa-solid fa-sun"></i> 每日計畫，加油';
             starsLayer.style.display = 'none';
-        } else if (hour >= 12 && hour < 17) {
-            theme = 'afternoon';
+        } else if (theme === 'afternoon') {
             imageSrc = "{{ url_for('static', filename='img/yukine_scene_afternoon.png') }}";
             titleText = "午後陪讀室";
             subtitleText = "稍微休息一下，喝杯茶再繼續努力吧。 (🍵´ω`)";
             badgeHTML = '<i class="fa-solid fa-cloud-sun"></i> 專注時光，午安';
             starsLayer.style.display = 'none';
-        } else if (hour >= 17 && hour < 19) {
-            theme = '黃昏陪讀室';
+        } else if (theme === 'dusk') {
             imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}";
             titleText = "黃昏陪讀室";
             subtitleText = "夕陽好美，今天的你也辛苦了呢。 (🌇´∀`)";
             badgeHTML = '<i class="fa-solid fa-mountain-sun"></i> 溫暖晚霞，舒心';
             starsLayer.style.display = 'block';
         } else {
-            theme = 'night';
             imageSrc = "{{ url_for('static', filename='img/yukine_scene_night.png') }}";
             titleText = "深夜陪讀室";
             subtitleText = "雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶";
@@ -584,6 +635,28 @@
 
     .yukine-frame {
         animation: breathing 8s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    }
+
+    .time-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        padding: 10px;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+    }
+
+    .time-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .time-btn.active {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: var(--color-accent);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
     }
 
     .yukine-image-wrapper {
