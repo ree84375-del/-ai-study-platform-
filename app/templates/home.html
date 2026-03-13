@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}首頁{% endblock %}
 {% block content %}
-<div class="container" style="max-width: 1000px; margin: 0 auto; padding-bottom: 2rem;">
+<div class="container" style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
 
     <!-- Announcements -->
     {% if announcements %}
@@ -51,7 +51,9 @@
                         <div style="font-size: 0.8rem; color: var(--color-text_light);">待複習錯題</div>
                     </div>
                 </div>
+                {% if current_user.is_admin %}
                 <a href="{{ url_for('study.practice') }}" class="btn" style="padding: 10px 20px;"><i class="fa-solid fa-pen-nib"></i> 開始今日修練</a>
+                {% endif %}
             </div>
             
             <!-- Zen Bonsai Graphic -->
@@ -193,11 +195,13 @@
     <!-- Feature Grid -->
     <h3 class="section-title"><i class="fa-solid fa-map"></i> 案內所設施</h3>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem;">
+        {% if current_user.is_admin %}
         <a href="{{ url_for('study.practice') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
             <i class="fa-solid fa-book-open" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
             <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">自主修行</h4>
             <p style="font-size: 0.85rem; color: var(--color-text_light); margin: 0;">從各科題庫中進行練習，累積經驗值。</p>
         </a>
+        {% endif %}
         <a href="{{ url_for('study.mistakes') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
             <i class="fa-solid fa-book-skull" style="font-size: 2rem; color: var(--color-accent); margin-bottom: 1rem;"></i>
             <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">錯題本</h4>
