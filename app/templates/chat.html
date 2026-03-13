@@ -41,20 +41,12 @@
             <input type="text" id="chat-input" placeholder="輸入訊息..."
                 style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none;">
             <button id="send-chat-btn"
-                style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
-                發送
-            </button>
-        </div>
-    </div>
-</div>
-
-<script>
-    // --- Voice Tutor Logic ---
+                style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-w    // --- Voice Tutor Logic (Robust Windows Version) ---
     const voiceBtn = document.getElementById('voice-input-btn');
     const toggleVoiceBtn = document.getElementById('toggle-voice-btn');
     const chatInput = document.getElementById('chat-input');
     let isListening = false;
-    let autoSpeak = false; // Tracks if voice output is globally enabled by user
+    let autoSpeak = false; 
     let activeSessionId = null;
     const sessionList = document.getElementById('session-list');
     const chatTitle = document.getElementById('chat-title');
@@ -63,16 +55,44 @@
 
     // Load available voices
     function initVoices() {
-        // Find cute Japanese or Chinese voices
+        if (!window.speechSynthesis) return;
         const voices = window.speechSynthesis.getVoices();
-        // Priority: Microsoft Xiaoxiao (Very natural Chinese/English), then specific Japanese female voices, then generic Japanese
-        selectedVoice = voices.find(v => v.name.includes('Xiaoxiao') || v.name.includes('Hsiao'))
-                     || voices.find(v => v.name.includes('Haruka') || v.name.includes('Nanami') || v.name.includes('Sayaka'))
-                     || voices.find(v => v.lang.includes('ja-JP') && (v.name.includes('Female') || v.name.includes('Google')))
-                     || voices.find(v => v.lang.includes('zh') && (v.name.includes('Yating') || v.name.includes('female'))) 
-                     || voices.find(v => v.lang.includes('zh-TW'))
-                     || voices.find(v => v.lang.includes('ja-JP'));
+        if (voices.length === 0) return;
+        
+        console.log("發現可用語音:", voices.length);
+
+        // Priority list for cute Japanese/Chinese girl voices on Windows/Mobile
+        const preferredVoices = [
+            // Natural Japanese
+            { name: 'Haruka', lang: 'ja-JP' },
+            { name: 'Ayumi', lang: 'ja-JP' },
+            { name: 'Sayaka', lang: 'ja-JP' },
+            { name: 'Nanami', lang: 'ja-JP' },
+            { name: 'Ichiro', lang: 'ja-JP' }, // Sometimes male but good for fallback
+            { name: 'Google 日本語', lang: 'ja-JP' },
+            // Natural Chinese
+            { name: 'Xiaoxiao', lang: 'zh-CN' },
+            { name: 'Hsiao', lang: 'zh-TW' },
+            { name: 'Yating', lang: 'zh-TW' },
+            { name: 'Hanhan', lang: 'zh-TW' }
+        ];
+
+        for (const pref of preferredVoices) {
+            const found = voices.find(v => v.name.includes(pref.name) && v.lang.toLowerCase().includes(pref.lang.toLowerCase()));
+            if (found) {
+                selectedVoice = found;
+                console.log("已自動選擇最優語音:", selectedVoice.name);
+                break;
+            }
+        }
+
+        // Final fallback to any Japanese or Chinese
+        if (!selectedVoice) {
+            selectedVoice = voices.find(v => v.lang.includes('ja-JP')) || voices.find(v => v.lang.includes('zh'));
+            if (selectedVoice) console.log("使用備選語音:", selectedVoice.name);
+        }
     }
+
     if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = initVoices;
     }
@@ -82,19 +102,20 @@
     toggleVoiceBtn.addEventListener('click', () => {
         autoSpeak = !autoSpeak;
         updateVoiceBtnState();
-        if (!autoSpeak) window.speechSynthesis.cancel();
-        else {
-            // Browsers need a user gesture to start audio
-            speak("語音朗讀已開啟");
+        if (!autoSpeak) {
+            window.speechSynthesis.cancel();
+        } else {
+            initVoices();
+            speak("語音朗讀已開啟！雪音老師現在可以說話給你聽囉！(๑•̀ㅂ•́)و✧");
         }
     });
 
     function updateVoiceBtnState() {
         if (autoSpeak) {
-            toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-volume-high fa-beat"></i> 語音朗讀中...';
+            toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-microphone-lines fa-beat"></i> 語音朗讀中';
             toggleVoiceBtn.style.background = 'var(--color-primary)';
             toggleVoiceBtn.style.color = 'white';
-            toggleVoiceBtn.style.boxShadow = '0 0 10px rgba(67,97,238,0.4)';
+            toggleVoiceBtn.style.boxShadow = '0 0 12px rgba(67,97,238,0.5)';
         } else {
             toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i> 語音朗讀關閉';
             toggleVoiceBtn.style.background = 'rgba(133, 163, 146, 0.1)';
@@ -114,8 +135,6 @@
             isListening = true;
             voiceBtn.style.color = 'white';
             voiceBtn.style.backgroundColor = '#ff6b6b';
-            voiceBtn.style.borderColor = '#ff6b6b';
-            voiceBtn.style.boxShadow = '0 0 15px rgba(255, 107, 107, 0.5)';
             voiceBtn.innerHTML = '<i class="fa-solid fa-stop"></i>';
         };
 
@@ -123,8 +142,6 @@
             isListening = false;
             voiceBtn.style.color = 'var(--color-text_light)';
             voiceBtn.style.backgroundColor = 'transparent';
-            voiceBtn.style.borderColor = 'var(--color-border)';
-            voiceBtn.style.boxShadow = 'none';
             voiceBtn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
         };
 
@@ -144,17 +161,16 @@
 
     // Text to Speech
     function speak(text) {
-        if (!window.speechSynthesis) {
-            console.error("Browser does not support Speech Synthesis");
-            return;
-        }
-        if (!autoSpeak) return;
+        if (!window.speechSynthesis || !autoSpeak) return;
         
         window.speechSynthesis.cancel();
+        window.speechSynthesis.resume(); // Unstick the speech queue
         
+        // Deep clean text for TTS
         let cleanText = text.replace(/\[DRAW:.*?\]/g, '')
                             .replace(/\(用.*?\)/g, '')
                             .replace(/\(.*?\)/g, '')
+                            .replace(/\（.*?\）/g, '')
                             .replace(/\*\*/g, '')
                             .replace(/\*/g, '')
                             .replace(/#/g, '')
@@ -166,7 +182,8 @@
         const utterance = new SpeechSynthesisUtterance(cleanText);
         const hasJapanese = /[\u3040-\u30ff\u31f0-\u31ff]/.test(cleanText);
         
-        utterance.pitch = 1.6;
+        // Japanese girl profile (Higher pitch, slightly faster)
+        utterance.pitch = 1.4;
         utterance.rate = 1.1; 
         
         if (selectedVoice) {
@@ -177,8 +194,7 @@
         }
         
         utterance.onstart = () => { 
-            toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-comment-dots fa-beat-fade"></i> 雪音說話中...';
-            toggleVoiceBtn.style.background = 'var(--color-accent)';
+            toggleVoiceBtn.innerHTML = '<i class="fa-solid fa-comment-dots fa-beat-fade"></i> 雪音朗讀中...';
             toggleVoiceBtn.classList.add('speaking-pulse');
         };
         utterance.onend = () => { 
@@ -186,7 +202,13 @@
             updateVoiceBtnState(); 
         };
         utterance.onerror = (e) => { 
-            console.error("Speech Synthesis Error:", e);
+            console.error("TTS 朗讀發生錯誤:", e);
+            toggleVoiceBtn.classList.remove('speaking-pulse');
+            updateVoiceBtnState(); 
+        };
+
+        window.speechSynthesis.speak(utterance);
+    }s Error:", e);
             toggleVoiceBtn.classList.remove('speaking-pulse');
             updateVoiceBtnState(); 
         };
