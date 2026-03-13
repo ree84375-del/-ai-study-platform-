@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app import db, bcrypt
 from app.models import User, Mistake
 from datetime import datetime, timezone, timedelta
+import re
 
 main = Blueprint('main', __name__)
 
@@ -53,12 +54,22 @@ def home():
             
         mistakes_to_review = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
         
+        # Parse study plan
+        study_plan = []
+        if current_user.study_plan_json:
+            import json
+            try:
+                study_plan = json.loads(current_user.study_plan_json)
+            except Exception:
+                pass
+        
     return render_template('home.html', 
                            announcements=announcements, 
                            today_omikuji=today_omikuji,
                            recent_emas=recent_emas,
                            active_daruma=active_daruma,
-                           mistakes_to_review=mistakes_to_review)
+                           mistakes_to_review=mistakes_to_review,
+                           study_plan=study_plan)
 
 @main.route("/about")
 def about():
@@ -195,19 +206,23 @@ def draw_omikuji():
         
         from app.utils.ai_helpers import generate_text_with_fallback
         text = generate_text_with_fallback(prompt).strip()
-        if text.startswith('```json'):
-            text = text[7:]
-        if text.endswith('```'):
-            text = text[:-3]
+        if '```' in text:
+            # Handle markdown blocks more robustly
+            match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', text, re.DOTALL)
+            if match:
+                text = match.group(1)
+            else:
+                text = text.replace('```json', '').replace('```', '').strip()
+        
         data = json.loads(text)
         
-        # Pre-format as HTML string so it fits safely into the string field "message"
+        # Pre-format as HTML string
         rich_message = f"""
-        <div class="omikuji-result">
-            <p><strong>幸運色：</strong>{data.get('lucky_color', '白色')}</p>
-            <p><strong>幸運小物：</strong>{data.get('lucky_item', '微笑')}</p>
-            <p><strong>推薦科目：</strong>{data.get('lucky_subject', '全科制霸')}</p>
-            <p class="mt-2" style="font-style: italic; color: var(--color-primary);">「{data.get('advice', '今天也是充滿希望的一天！')}」</p>
+        <div class="omikuji-result" style="text-align: left; max-width: 250px; margin: 0 auto;">
+            <p style="margin-bottom: 5px;"><strong>幸運色：</strong>{data.get('lucky_color', '白色')}</p>
+            <p style="margin-bottom: 5px;"><strong>幸運小物：</strong>{data.get('lucky_item', '微笑')}</p>
+            <p style="margin-bottom: 5px;"><strong>推薦科目：</strong>{data.get('lucky_subject', '全科制霸')}</p>
+            <p class="mt-2" style="font-style: italic; color: var(--color-primary); border-top: 1px solid var(--color-border); padding-top: 10px; margin-top: 10px;">「{data.get('advice', '今天也是充滿希望的一天！')}」</p>
         </div>
         """
         
@@ -255,6 +270,21 @@ def create_daruma():
     db.session.commit()
     flash('新的達磨不倒翁已為您準備好，請努力達成目標為它開眼！', 'success')
     return redirect(url_for('main.home'))
+
+@main.route("/api/toggle_dark_mode", methods=['POST'])
+@login_required
+def toggle_dark_mode():
+    if current_user.preferred_theme == 'midnight':
+        current_user.preferred_theme = 'sakura' # Default back to sakura or previous
+    else:
+        current_user.preferred_theme = 'midnight'
+    
+    try:
+        db.session.commit()
+        return jsonify({"status": "success", "new_theme": current_user.preferred_theme})
+    except Exception:
+        db.session.rollback()
+        return jsonify({"status": "error"}), 500
 
 @main.route("/api/daruma/<int:daruma_id>/complete", methods=['POST'])
 @login_required

@@ -101,11 +101,55 @@
                         {{ today_omikuji.fortune_level }}
                     </span>
                 </div>
-                <p style="font-size: 0.95rem; color: var(--color-text); line-height: 1.6; font-style: italic;">
-                    「{{ today_omikuji.message }}」
-                </p>
+                <div style="font-size: 0.95rem; color: var(--color-text); line-height: 1.6;">
+                    {{ today_omikuji.message|safe }}
+                </div>
                 <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--color-text_light);">明日可再次抽取</div>
             {% endif %}
+        </div>
+    </div>
+    <!-- AI Study Roadmap Section -->
+    <div class="washi-card" style="padding: 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(210,168,255,0.1) 100%);">
+        <h3 class="section-title">
+            <i class="fa-solid fa-calendar-check"></i> 雪音的學習進度表
+        </h3>
+        
+        <div id="roadmap-container">
+        {% if study_plan %}
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                {% for item in study_plan %}
+                    <div style="display: flex; gap: 15px; align-items: flex-start; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.5);">
+                        <div style="min-width: 100px; font-weight: bold; color: var(--color-primary);">{{ item.date }}</div>
+                        <div>
+                            <div style="font-weight: 500;">{{ item.task }}</div>
+                            <div style="font-size: 0.85rem; color: var(--color-text_light);">💡 {{ item.tip }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
+                    <button onclick="showRoadmapForm()" class="btn" style="padding: 5px 15px; font-size: 0.8rem; opacity: 0.7;">重新生成計畫</button>
+                    <span style="font-size: 0.8rem; color: var(--color-text_light);">考試日期：{{ current_user.exam_date }}</span>
+                </div>
+            </div>
+        {% else %}
+            <div style="text-align: center; padding: 1rem;">
+                <p style="color: var(--color-text_light); margin-bottom: 1.5rem;">目前還沒有進度表喔。輸入您的考試日期，讓雪音為您規劃吧！</p>
+                <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+                    <input type="text" id="exam_name_input" placeholder="考試名稱 (如：期末考)" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; flex: 1; min-width: 200px; font-family: inherit;">
+                    <input type="date" id="exam_date_input" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; font-family: inherit;">
+                    <button onclick="generateRoadmap()" id="roadmap-btn" class="btn">生成今日計畫</button>
+                </div>
+            </div>
+        {% endif %}
+        </div>
+        
+        <!-- Hidden Reschedule Form -->
+        <div id="roadmap-form" style="display: none; text-align: center; padding: 1rem;">
+            <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+                <input type="text" id="exam_name_input_alt" placeholder="考試名稱" value="更新計畫" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; flex: 1; min-width: 200px; font-family: inherit;">
+                <input type="date" id="exam_date_input_alt" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; font-family: inherit;">
+                <button onclick="generateRoadmap(true)" id="roadmap-btn-alt" class="btn">確認重新生成</button>
+            </div>
         </div>
     </div>
 
@@ -192,31 +236,43 @@
         </div>
     </div>
     
-    <!-- Feature Grid -->
-    <h3 class="section-title"><i class="fa-solid fa-map"></i> 案內所設施</h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem;">
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('study.practice') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
-            <i class="fa-solid fa-book-open" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
-            <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">自主修行</h4>
-            <p style="font-size: 0.85rem; color: var(--color-text_light); margin: 0;">從各科題庫中進行練習，累積經驗值。</p>
-        </a>
-        {% endif %}
-        <a href="{{ url_for('study.mistakes') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
-            <i class="fa-solid fa-book-skull" style="font-size: 2rem; color: var(--color-accent); margin-bottom: 1rem;"></i>
-            <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">錯題本</h4>
-            <p style="font-size: 0.85rem; color: var(--color-text_light); margin: 0;">複習曾經寫錯的題目，由 AI 抓出盲點。</p>
-        </a>
-        <a href="{{ url_for('study.lofi_room') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
-            <i class="fa-solid fa-headphones" style="font-size: 2rem; color: #4b6bA3; margin-bottom: 1rem;"></i>
-            <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">深夜夜讀</h4>
-            <p style="font-size: 0.85rem; color: var(--color-text_light); margin: 0;">結合番茄鐘與白噪音的專注空間。</p>
-        </a>
-        <a href="{{ url_for('main.chat') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
-            <i class="fa-solid fa-comment-dots" style="font-size: 2rem; color: #ff9f43; margin-bottom: 1rem;"></i>
-            <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">雪音老師</h4>
-            <p style="font-size: 0.85rem; color: var(--color-text_light); margin: 0;">解決不了的問題，隨時上傳照片或文字發問。</p>
-        </a>
+    <!-- Collaborative Zen Garden Section -->
+    <div class="washi-card" style="padding: 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, var(--color-bg) 0%, rgba(133, 163, 146, 0.1) 100%); border: 1px solid rgba(133, 163, 146, 0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-mountain-sun"></i> 協作禪意花園
+            </h3>
+            <span style="font-size: 0.9rem; color: var(--color-text_light);">
+                此區域由所有修行者共同灌溉
+            </span>
+        </div>
+        
+        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span style="font-weight: 500;">花園等級：Lv. 4</span>
+                    <span style="color: var(--color-text_light);">目前修行值：3,450 / 5,000</span>
+                </div>
+                <div style="height: 12px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden;">
+                    <div style="width: 69%; height: 100%; background: linear-gradient(90deg, var(--color-primary), #a8e6cf); border-radius: 10px; animation: progress-glow 2s infinite alternate;"></div>
+                </div>
+                <p style="font-size: 0.8rem; color: var(--color-text_light); margin-top: 10px;">
+                    <i class="fa-solid fa-circle-info"></i> 每完成一次練習或複習錯題，全服修行值都會增加喔！當等級提升，花園裡的櫻花會開得更燦爛。
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div style="text-align: center; padding: 1rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                    <i class="fa-solid fa-cloud-sun" style="font-size: 1.5rem; color: #ffbc42;"></i>
+                    <div style="font-size: 0.8rem; color: var(--color-text_light);">今日氣候</div>
+                    <div style="font-weight: bold;">晴朗</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                    <i class="fa-solid fa-seedling" style="font-size: 1.5rem; color: #72b01d;"></i>
+                    <div style="font-size: 0.8rem; color: var(--color-text_light);">植被狀態</div>
+                    <div style="font-weight: bold;">繁茂</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts for animations and interactions -->
@@ -233,11 +289,21 @@
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
+        @keyframes progress-glow {
+            0% { box-shadow: 0 0 5px rgba(133, 163, 146, 0.2); }
+            100% { box-shadow: 0 0 15px rgba(133, 163, 146, 0.5); }
+        }
     </style>
     
     <!-- Insert Custom Animations Macros -->
     {% include '_animations.html' %}
     
+    <!-- State Metadata for JS -->
+    <div id="js-state-metadata" 
+         data-streak="{{ current_user.current_streak }}"
+         data-daruma-state="{% if not active_daruma %}0{% elif not active_daruma.is_completed %}1{% else %}2{% endif %}"
+         style="display: none;"></div>
+
     <script>
         document.querySelectorAll('a.washi-card').forEach(card => {
             card.style.boxShadow = '0 8px 32px 0 rgba(31, 38, 135, 0.05)';
@@ -257,23 +323,68 @@
             }, 2500);
         }
         
-        // Ensure animation div initially respects display:none properly handled by the template engine
         document.addEventListener("DOMContentLoaded", function() {
+            const metadata = document.getElementById('js-state-metadata');
+            const streak = parseInt(metadata.dataset.streak || '0');
+            const darumaState = parseInt(metadata.dataset.darumaState || '0');
+
+            // Initialize Interactive Canvas Animations 
+            if (typeof renderBonsai === 'function') {
+                renderBonsai(streak, 'home-bonsai-container');
+            }
+            
+            if (typeof renderDaruma === 'function') {
+                renderDaruma(darumaState, `home-daruma-container-${darumaState}`);
+            }
+
+            // Ensure animation div initially respects display:none
             if(document.getElementById('omikuji-animation')) {
                 document.getElementById('omikuji-animation').style.display = 'none';
             }
-            
-            // Initialize Interactive Canvas Animations 
-            renderBonsai({{ current_user.current_streak }}, 'home-bonsai-container');
-            
-            {% if not active_daruma %}
-                renderDaruma(0, 'home-daruma-container-0');
-            {% elif not active_daruma.is_completed %}
-                renderDaruma(1, 'home-daruma-container-1');
-            {% else %}
-                renderDaruma(2, 'home-daruma-container-2');
-            {% endif %}
         });
+
+        function showRoadmapForm() {
+            document.getElementById('roadmap-container').style.display = 'none';
+            document.getElementById('roadmap-form').style.display = 'block';
+        }
+
+        async function generateRoadmap(isAlt = false) {
+            const suffix = isAlt ? '_alt' : '';
+            const exam_name = document.getElementById('exam_name_input' + suffix).value;
+            const exam_date = document.getElementById('exam_date_input' + suffix).value;
+            const btn = document.getElementById('roadmap-btn' + suffix);
+            
+            if (!exam_date) {
+                alert('請先選擇考試日期喔！');
+                return;
+            }
+            
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 雪音規劃中...';
+            
+            try {
+                const response = await fetch('/generate_roadmap', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ exam_name, exam_date })
+                });
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Success! Refresh the page to show the new roadmap
+                    location.reload();
+                } else {
+                    alert('失敗了：' + (data.error || '可能是 AI 老師休息中。'));
+                }
+            } catch (err) {
+                console.error(err);
+                alert('連線出錯，請檢查網路環境。');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        }
     </script>
     
     {% else %}
