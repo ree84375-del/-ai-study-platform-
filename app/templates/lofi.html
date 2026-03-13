@@ -299,251 +299,254 @@
     </div>
 </div>
 
-    // --- Dynamic Time-of-Day Logic ---
-    let isManualOverride = false;
+    <script>
+        // --- Dynamic Time-of-Day Logic ---
+        let isManualOverride = false;
 
-    function setManualTheme(theme) {
-        isManualOverride = true;
-        applyTheme(theme);
-        
-        // Highlight active button
-        document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById('btn-' + theme).classList.add('active');
-    }
+        function setManualTheme(theme) {
+            isManualOverride = true;
+            applyTheme(theme);
+            
+            // Highlight active button
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + theme);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
 
-    function resetAutoTheme() {
-        isManualOverride = false;
-        document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+        function resetAutoTheme() {
+            isManualOverride = false;
+            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            updateTimeTheme();
+        }
+
+        function updateTimeTheme() {
+            if (isManualOverride) return;
+            const hour = new Date().getHours();
+            let theme;
+
+            if (hour >= 6 && hour < 12) theme = 'morning';
+            else if (hour >= 12 && hour < 17) theme = 'afternoon';
+            else if (hour >= 17 && hour < 19) theme = 'dusk';
+            else theme = 'night';
+
+            applyTheme(theme);
+        }
+
+        function applyTheme(theme) {
+            const container = document.querySelector('.lofi-container-bg');
+            const mainImg = document.getElementById('yukine-main-img');
+            const title = document.getElementById('study-room-title');
+            const subtitle = document.getElementById('study-room-subtitle');
+            const badge = document.getElementById('time-status-badge');
+            const starsLayer = document.querySelector('.bg-stars-layer');
+            
+            let imageSrc, titleText, subtitleText, badgeHTML;
+
+            if (theme === 'morning') {
+                imageSrc = "{{ url_for('static', filename='img/yukine_scene_morning.png') }}";
+                titleText = "早安陪讀室";
+                subtitleText = "早晨的陽光真好，雪音老師陪你開啟新的一天！ (☀️^‿^)";
+                badgeHTML = '<i class="fa-solid fa-sun"></i> 每日計畫，加油';
+                if (starsLayer) starsLayer.style.display = 'none';
+            } else if (theme === 'afternoon') {
+                imageSrc = "{{ url_for('static', filename='img/yukine_scene_afternoon.png') }}";
+                titleText = "午後陪讀室";
+                subtitleText = "稍微休息一下，喝杯茶再繼續努力吧。 (🍵´ω`)";
+                badgeHTML = '<i class="fa-solid fa-cloud-sun"></i> 專注時光，午安';
+                if (starsLayer) starsLayer.style.display = 'none';
+            } else if (theme === 'dusk') {
+                imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}";
+                titleText = "黃昏陪讀室";
+                subtitleText = "夕陽好美，今天的你也辛苦了呢。 (🌇´∀`)";
+                badgeHTML = '<i class="fa-solid fa-mountain-sun"></i> 溫溫晚霞，舒心';
+                if (starsLayer) starsLayer.style.display = 'block';
+            } else {
+                imageSrc = "{{ url_for('static', filename='img/yukine_scene_night.png') }}";
+                titleText = "深夜陪讀室";
+                subtitleText = "雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶";
+                badgeHTML = '<i class="fa-solid fa-moon"></i> 保持專注，晚安';
+                if (starsLayer) starsLayer.style.display = 'block';
+            }
+
+            if (container) container.className = 'lofi-container lofi-container-bg ' + theme;
+            if (mainImg) mainImg.src = imageSrc;
+            if (title) title.innerText = titleText;
+            if (subtitle) subtitle.innerText = subtitleText;
+            if (badge) badge.innerHTML = badgeHTML;
+        }
+
         updateTimeTheme();
-    }
+        // Check every minute
+        setInterval(updateTimeTheme, 60000);
 
-    function updateTimeTheme() {
-        if (isManualOverride) return;
-        const hour = new Date().getHours();
-        let theme;
+        // --- Audio Controls ---
+        const audios = {
+            lofi: document.getElementById('audio-lofi'),
+            rain: document.getElementById('audio-rain'),
+            cafe: document.getElementById('audio-cafe'),
+            forest: document.getElementById('audio-forest')
+        };
 
-        if (hour >= 6 && hour < 12) theme = 'morning';
-        else if (hour >= 12 && hour < 17) theme = 'afternoon';
-        else if (hour >= 17 && hour < 19) theme = 'dusk';
-        else theme = 'night';
+        function toggleAudio(type) {
+            const audio = audios[type];
+            if (!audio) return;
 
-        applyTheme(theme);
-    }
-
-    function applyTheme(theme) {
-        const container = document.querySelector('.lofi-container-bg');
-        const mainImg = document.getElementById('yukine-main-img');
-        const title = document.getElementById('study-room-title');
-        const subtitle = document.getElementById('study-room-subtitle');
-        const badge = document.getElementById('time-status-badge');
-        const starsLayer = document.querySelector('.bg-stars-layer');
-        
-        let imageSrc, titleText, subtitleText, badgeHTML;
-
-        if (theme === 'morning') {
-            imageSrc = "{{ url_for('static', filename='img/yukine_scene_morning.png') }}";
-            titleText = "早安陪讀室";
-            subtitleText = "早晨的陽光真好，雪音老師陪你開啟新的一天！ (☀️^‿^)";
-            badgeHTML = '<i class="fa-solid fa-sun"></i> 每日計畫，加油';
-            starsLayer.style.display = 'none';
-        } else if (theme === 'afternoon') {
-            imageSrc = "{{ url_for('static', filename='img/yukine_scene_afternoon.png') }}";
-            titleText = "午後陪讀室";
-            subtitleText = "稍微休息一下，喝杯茶再繼續努力吧。 (🍵´ω`)";
-            badgeHTML = '<i class="fa-solid fa-cloud-sun"></i> 專注時光，午安';
-            starsLayer.style.display = 'none';
-        } else if (theme === 'dusk') {
-            imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}";
-            titleText = "黃昏陪讀室";
-            subtitleText = "夕陽好美，今天的你也辛苦了呢。 (🌇´∀`)";
-            badgeHTML = '<i class="fa-solid fa-mountain-sun"></i> 溫暖晚霞，舒心';
-            starsLayer.style.display = 'block';
-        } else {
-            imageSrc = "{{ url_for('static', filename='img/yukine_scene_night.png') }}";
-            titleText = "深夜陪讀室";
-            subtitleText = "雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶";
-            badgeHTML = '<i class="fa-solid fa-moon"></i> 保持專注，晚安';
-            starsLayer.style.display = 'block';
-        }
-
-        container.className = 'lofi-container lofi-container-bg ' + theme;
-        mainImg.src = imageSrc;
-        title.innerText = titleText;
-        subtitle.innerText = subtitleText;
-        badge.innerHTML = badgeHTML;
-    }
-
-    updateTimeTheme();
-    // Check every minute
-    setInterval(updateTimeTheme, 60000);
-
-<script>
-    const audios = {
-        lofi: document.getElementById('audio-lofi'),
-        rain: document.getElementById('audio-rain'),
-        cafe: document.getElementById('audio-cafe'),
-        forest: document.getElementById('audio-forest')
-    };
-
-    function toggleAudio(type) {
-        const audio = audios[type];
-        if (!audio) return;
-
-        const btn = document.getElementById(type + '-btn');
-        if (audio.paused) {
-            // Exclusive playback: Stop other audios if playing
-            Object.keys(audios).forEach(key => {
-                if (key !== type) {
-                    audios[key].pause();
-                    const otherBtn = document.getElementById(key + '-btn');
-                    if (otherBtn) {
-                        otherBtn.classList.remove('active');
-                        otherBtn.querySelector('i').style.animation = 'none';
+            const btn = document.getElementById(type + '-btn');
+            if (audio.paused) {
+                // Exclusive playback: Stop other audios if playing
+                Object.keys(audios).forEach(key => {
+                    if (key !== type) {
+                        audios[key].pause();
+                        const otherBtn = document.getElementById(key + '-btn');
+                        if (otherBtn) {
+                            otherBtn.classList.remove('active');
+                            const icon = otherBtn.querySelector('i');
+                            if (icon) icon.style.animation = 'none';
+                        }
                     }
-                }
+                });
+
+                audio.play().then(() => {
+                    btn.classList.add('active');
+                    audio.volume = document.getElementById('volume-slider').value;
+                    const icon = btn.querySelector('i');
+                    if (icon) icon.style.animation = 'pulse 2s infinite ease-in-out';
+                }).catch(e => {
+                    console.warn("Audio playback prevented by auto-play policy until interaction:", e);
+                });
+            } else {
+                audio.pause();
+                btn.classList.remove('active');
+                const icon = btn.querySelector('i');
+                if (icon) icon.style.animation = 'none';
+            }
+        }
+
+        document.getElementById('volume-slider').addEventListener('input', (e) => {
+            const vol = e.target.value;
+            Object.values(audios).forEach(audio => {
+                if (audio) audio.volume = vol;
             });
-
-            audio.play().then(() => {
-                btn.classList.add('active');
-                audio.volume = document.getElementById('volume-slider').value;
-                btn.querySelector('i').style.animation = 'pulse 2s infinite ease-in-out';
-            }).catch(e => console.error("Audio playback failed:", e));
-        } else {
-            audio.pause();
-            btn.classList.remove('active');
-            btn.querySelector('i').style.animation = 'none';
-        }
-    }
-
-    document.getElementById('volume-slider').addEventListener('input', (e) => {
-        const vol = e.target.value;
-        Object.values(audios).forEach(audio => {
-            audio.volume = vol;
         });
-    });
 
-    // --- Pomodoro Timer Logic ---
-    let timerInterval;
-    let timeLeft = 25 * 60; // 25 minutes default
-    let isRunning = false;
-    let currentMode = 25;
+        // --- Pomodoro Timer Logic ---
+        let timerInterval;
+        let timeLeft = 25 * 60; // 25 minutes default
+        let isRunning = false;
+        let currentMode = 25;
 
-    const display = document.getElementById('timer-display');
-    const toggleBtn = document.getElementById('timer-toggle-btn');
-    const focusBtn = document.getElementById('mode-focus');
-    const breakBtn = document.getElementById('mode-break');
+        const display = document.getElementById('timer-display');
+        const toggleBtn = document.getElementById('timer-toggle-btn');
+        const focusBtn = document.getElementById('mode-focus');
+        const breakBtn = document.getElementById('mode-break');
 
-    function updateDisplay() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    function setTimer(minutes) {
-        clearInterval(timerInterval);
-        isRunning = false;
-        currentMode = minutes;
-        timeLeft = minutes * 60;
-        updateDisplay();
-        toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-        
-        // Update styling
-        if(minutes === 25) {
-            focusBtn.style.background = 'rgba(255,255,255,0.1)';
-            focusBtn.style.border = '1px solid rgba(255,255,255,0.2)';
-            focusBtn.style.color = 'white';
-            breakBtn.style.background = 'transparent';
-            breakBtn.style.border = '1px solid transparent';
-            breakBtn.style.color = 'rgba(255,255,255,0.6)';
-        } else {
-            breakBtn.style.background = 'rgba(255,255,255,0.1)';
-            breakBtn.style.border = '1px solid rgba(255,255,255,0.2)';
-            breakBtn.style.color = 'white';
-            focusBtn.style.background = 'transparent';
-            focusBtn.style.border = '1px solid transparent';
-            focusBtn.style.color = 'rgba(255,255,255,0.6)';
+        function updateDisplay() {
+            if (!display) return;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
-    }
 
-    function toggleTimer() {
-        if(isRunning) {
+        function setTimer(minutes) {
             clearInterval(timerInterval);
             isRunning = false;
-            toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-        } else {
-            isRunning = true;
-            toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
-                if(timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    isRunning = false;
-                    toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                    // Optional: play an alert bell here
-                    if ('speechSynthesis' in window) {
-                        let msg = new SpeechSynthesisUtterance('時間到囉！辛苦了！');
-                        msg.lang = 'zh-TW';
-                        window.speechSynthesis.speak(msg);
-                    }
-                    timeLeft = currentMode * 60; // Auto reset text
-                    updateDisplay();
+            currentMode = minutes;
+            timeLeft = minutes * 60;
+            updateDisplay();
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            
+            // Update styling
+            if(minutes === 25) {
+                if (focusBtn) {
+                    focusBtn.style.background = 'rgba(255,255,255,0.1)';
+                    focusBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+                    focusBtn.style.color = 'white';
                 }
-            }, 1000);
+                if (breakBtn) {
+                    breakBtn.style.background = 'transparent';
+                    breakBtn.style.border = '1px solid transparent';
+                    breakBtn.style.color = 'rgba(255,255,255,0.6)';
+                }
+            } else {
+                if (breakBtn) {
+                    breakBtn.style.background = 'rgba(255,255,255,0.1)';
+                    breakBtn.style.border = '1px solid rgba(255,255,255,0.2)';
+                    breakBtn.style.color = 'white';
+                }
+                if (focusBtn) {
+                    focusBtn.style.background = 'transparent';
+                    focusBtn.style.border = '1px solid transparent';
+                    focusBtn.style.color = 'rgba(255,255,255,0.6)';
+                }
+            }
         }
-    }
 
-    function resetTimer() {
-        setTimer(currentMode);
-    }
-    // Set initial display
-    updateDisplay();
+        function toggleTimer() {
+            if(isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            } else {
+                isRunning = true;
+                if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    if(timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                        // Optional: play an alert bell here
+                        if ('speechSynthesis' in window) {
+                            let msg = new SpeechSynthesisUtterance('時間到囉！辛苦了！');
+                            msg.lang = 'zh-TW';
+                            window.speechSynthesis.speak(msg);
+                        }
+                        timeLeft = currentMode * 60; // Auto reset text
+                        updateDisplay();
+                    }
+                }, 1000);
+            }
+        }
 
-            audio.play().catch(e => {
-                console.warn("Audio playback prevented by auto-play policy until interaction:", e);
-                // Removed alert() to prevent annoying popups on browser blocks
-            });
-            btn.classList.add('active');
-    // 3D Parallax Tilt Effect
-    const container = document.querySelector('.lofi-container');
-    const frame = document.getElementById('yukine-frame');
+        function resetTimer() {
+            setTimer(currentMode);
+        }
+        
+        // --- 3D Parallax Tilt Effect ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateDisplay();
+            const container = document.querySelector('.lofi-container');
+            const frame = document.getElementById('yukine-frame');
 
-    container.addEventListener('mousemove', (e) => {
-        const rect = container.getBoundingClientRect();
-        // Calculate mouse position relative to center of the container
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
+            if (container && frame) {
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
 
-        // Calculate rotation percentage (-1 to 1)
-        const percentX = (x - centerX) / centerX;
-        const percentY = (y - centerY) / centerY;
+                    const percentX = (x - centerX) / centerX;
+                    const percentY = (y - centerY) / centerY;
 
-        // Max rotation degrees
-        const maxTilt = 12;
+                    const maxTilt = 12;
+                    const tiltX = -(percentY * maxTilt);
+                    const tiltY = (percentX * maxTilt);
 
-        // Note: rotateX corresponds to moving mouse up/down (Y axis), rotateY is left/right (X axis)
-        // We invert percentY so moving mouse UP tilts image UP
-        const tiltX = -(percentY * maxTilt);
-        const tiltY = (percentX * maxTilt);
+                    frame.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    frame.style.transition = 'transform 0.1s ease-out';
+                    frame.style.animationPlayState = 'paused';
+                });
 
-        frame.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
-        frame.style.transition = 'transform 0.1s ease-out'; // Fast follow
-
-        // Pause "breathing" animation while interacting
-        frame.style.animationPlayState = 'paused';
-    });
-
-    container.addEventListener('mouseleave', () => {
-        // Reset to original position
-        frame.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        frame.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
-
-        // Resume breathing animation
-        frame.style.animationPlayState = 'running';
-    });
-</script>
+                container.addEventListener('mouseleave', () => {
+                    frame.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    frame.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                    frame.style.animationPlayState = 'running';
+                });
+            }
+        });
+    </script>
 
 <style>
     /* Premium Button Styling */
