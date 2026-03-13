@@ -5,8 +5,8 @@
 
     <!-- Announcements -->
     {% if announcements %}
-    <div style="margin-bottom: 2rem;">
-        <h3 style="color: var(--color-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+    <div style="margin-bottom: 3rem;">
+        <h3 class="section-title">
             <i class="fa-solid fa-scroll"></i> 案內所佈告欄
         </h3>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
@@ -33,10 +33,10 @@
     {% if current_user.is_authenticated %}
     
     <!-- Row 1: Hero & Zen Bonsai + Omikuji -->
-    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+    <div style="display: grid; grid-template-columns: 1.8fr 1fr; gap: 2rem; margin-bottom: 3rem;">
         
         <!-- Welcome Hero & Zen Bonsai -->
-        <div class="washi-card" style="padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden;">
+        <div class="washi-card" style="padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
             <div style="z-index: 1;">
                 <h1 style="color: var(--color-primary); font-size: 2.2rem; margin-bottom: 0.5rem;">歡迎回來，{{ current_user.username }}</h1>
                 <p style="color: var(--color-text_light); font-size: 1.1rem; margin-bottom: 2rem;">保持內心的平靜，今天也一步一腳印地學習吧。</p>
@@ -72,8 +72,8 @@
         </div>
         
         <!-- Omikuji (Daily Fortune) -->
-        <div class="washi-card" style="padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center; position: relative;">
-            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-om"></i> 每日御神籤</h3>
+        <div class="washi-card" style="padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;"><i class="fa-solid fa-om"></i> 每日御神籤</h3>
             
             {% if not today_omikuji %}
                 <p style="color: var(--color-text_light); margin-bottom: 1.5rem; font-size: 0.9rem;">抽取今天的學習運程與專屬箴言吧！</p>
@@ -108,11 +108,11 @@
     </div>
 
     <!-- Row 2: Daruma & Ema Board -->
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 2rem;">
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 3rem;">
         
         <!-- Daruma Goal -->
-        <div class="washi-card" style="padding: 2rem; position: relative; text-align: center;">
-            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-bullseye"></i> 達磨祈願</h3>
+        <div class="washi-card" style="padding: 2rem; text-align: center;">
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;"><i class="fa-solid fa-bullseye"></i> 達磨祈願</h3>
             
             {% if not active_daruma %}
                 <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">設定一個長期目標，為達磨畫上左眼。</p>
@@ -148,7 +148,7 @@
         <!-- Ema Board -->
         <div class="washi-card" style="padding: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <h3 style="color: var(--color-primary); margin: 0;"><i class="fa-solid fa-clipboard-list"></i> 祈願繪馬掛架</h3>
+                <h3 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clipboard-list"></i> 祈願繪馬掛架</h3>
                 <button onclick="document.getElementById('ema-form').style.display='block'" class="btn" style="padding: 5px 10px; font-size: 0.8rem;"><i class="fa-solid fa-pen"></i> 寫繪馬</button>
             </div>
             
@@ -191,8 +191,8 @@
     </div>
     
     <!-- Feature Grid -->
-    <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-map"></i> 案內所設施</h3>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+    <h3 class="section-title"><i class="fa-solid fa-map"></i> 案內所設施</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem;">
         <a href="{{ url_for('study.practice') }}" class="washi-card" style="padding: 1.5rem; text-align: center; text-decoration: none; display: block; transition: transform 0.2s;">
             <i class="fa-solid fa-book-open" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
             <h4 style="color: var(--color-text_main); margin-bottom: 0.5rem;">自主修行</h4>
@@ -236,9 +236,7 @@
     
     <script>
         document.querySelectorAll('a.washi-card').forEach(card => {
-            card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-5px)');
-            card.addEventListener('mouseleave', () => card.style.transform = 'translateY(0)');
-            card.style.boxShadow = '0 4px 6px rgba(0,0,0,0.05)';
+            card.style.boxShadow = '0 8px 32px 0 rgba(31, 38, 135, 0.05)';
         });
         
         function startOmikujiAnimation() {
