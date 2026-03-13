@@ -39,33 +39,33 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    avatar_url = db.Column(db.String(255), nullable=True)
+    # avatar_url = db.Column(db.String(255), nullable=True)
     password = db.Column(db.String(60), nullable=False)
-    auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
+    # auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
-
+ 
     @property
     def is_admin(self):
         return self.role == 'admin' or self.email == 'ree84375@gmail.com'
-
-    current_streak = db.Column(db.Integer, default=0)
-    last_study_date = db.Column(db.DateTime, nullable=True)
+ 
+    # current_streak = db.Column(db.Integer, default=0)
+    # last_study_date = db.Column(db.DateTime, nullable=True)
     has_seen_tour = db.Column(db.Boolean, default=False)
     
     # 個人簡介與 AI 性格設定
-    bio = db.Column(db.Text, nullable=True)
-    learning_goals = db.Column(db.Text, nullable=True)
-    ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
+    # bio = db.Column(db.Text, nullable=True)
+    # learning_goals = db.Column(db.Text, nullable=True)
+    # ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
     
     # 網站偏好設定
-    preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.
-    pomodoro_duration = db.Column(db.Integer, default=25)
+    # preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.
+    # pomodoro_duration = db.Column(db.Integer, default=25)
     
     # Study Roadmap
-    exam_date = db.Column(db.Date, nullable=True)
-    study_plan_json = db.Column(db.Text, nullable=True)
+    # exam_date = db.Column(db.Date, nullable=True)
+    # study_plan_json = db.Column(db.Text, nullable=True)
     
-    last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    # last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     mistakes = db.relationship('Mistake', backref='student', lazy=True)

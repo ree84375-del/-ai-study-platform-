@@ -11,16 +11,17 @@ main = Blueprint('main', __name__)
 def before_request():
     if current_user.is_authenticated:
         try:
-            # Only update last_active_at once per minute to reduce DB writes
-            now = datetime.now(timezone.utc)
-            if current_user.last_active_at is None or \
-               (now - current_user.last_active_at).total_seconds() > 60:
-                db.session.execute(
-                    db.update(User).where(User.id == current_user.id).values(
-                        last_active_at=now
-                    )
-                )
-                db.session.commit()
+            # Temporarily disabled until DB column 'last_active_at' is added
+            pass
+            # now = datetime.now(timezone.utc)
+            # if getattr(current_user, 'last_active_at', None) is None or \
+            #    (now - current_user.last_active_at).total_seconds() > 60:
+            #     db.session.execute(
+            #         db.update(User).where(User.id == current_user.id).values(
+            #             last_active_at=now
+            #         )
+            #     )
+            #     db.session.commit()
         except Exception:
             # Silently ignore — NEVER let a tracking update break the user session
             try:
