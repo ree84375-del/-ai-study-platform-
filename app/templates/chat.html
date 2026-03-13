@@ -19,7 +19,7 @@
         <div id="chat-header"
             style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
             <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center; margin: 0;">
-                <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> 請選擇一個對話或開始新對話
+                <img src="{{ url_for('static', filename='img/yukine_avatar_v2.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> 請選擇一個對話或開始新對話
             </h2>
             <div style="display: flex; gap: 8px; align-items: center;">
                 <select id="voice-select" class="btn btn-sm" style="display: none; background: rgba(133, 163, 146, 0.05); border: 1px solid var(--color-border); border-radius: 20px; font-size: 0.8rem; padding: 2px 10px; max-width: 120px;">
@@ -292,7 +292,7 @@
 
     async function loadHistory(id, title) {
         activeSessionId = id;
-        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${title}`;
+        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_avatar_v2.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${title}`;
         messagesContainer.innerHTML = '';
         loadSessions(); // Update active state in sidebar
 
@@ -333,7 +333,7 @@
             labelContainer.style.marginLeft = '8px';
             
             const avatar = document.createElement('img');
-            avatar.src = "{{ url_for('static', filename='img/yukine_lofi.png') }}";
+            avatar.src = "{{ url_for('static', filename='img/yukine_avatar_v2.png') }}";
             avatar.className = 'breathing-avatar';
             avatar.style.width = '24px';
             avatar.style.height = '24px';
@@ -447,7 +447,7 @@
                 if (!activeSessionId) {
                     activeSessionId = data.session_id;
                     loadSessions();
-                    chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> 新對話`;
+                    chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_avatar_v2.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> 新對話`;
                 }
                 addMessage('ai', data.reply);
 
@@ -481,10 +481,10 @@
 
     document.getElementById('new-chat-btn').addEventListener('click', () => {
         activeSessionId = null;
-        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> 新對話`;
+        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_avatar_v2.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> 新對話`;
         messagesContainer.innerHTML = `
             <div style="text-align: center; margin-top: 50px; animation: popIn 0.5s ease;">
-                <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 120px; border-radius: 50%; object-fit: cover; opacity: 0.9; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename='img/yukine_avatar_v2.png') }}" style="width: 120px; border-radius: 50%; object-fit: cover; opacity: 0.9; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
                 <h3 style="color: var(--color-primary); margin-bottom: 10px;">你好 {{ current_user.username }}，我是雪音！</h3>
                 <p style="color: var(--color-text_light);">
                     {% if current_user.learning_goals %}
