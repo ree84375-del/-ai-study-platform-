@@ -21,9 +21,14 @@
             <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center; margin: 0;">
                 <img src="{{ url_for('static', filename='img/yukine_lofi.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> 請選擇一個對話或開始新對話
             </h2>
-            <button id="toggle-voice-btn" class="btn btn-sm" style="background: rgba(133, 163, 146, 0.1); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: 20px; transition: all 0.3s;">
-                <i class="fa-solid fa-volume-xmark"></i> 語音朗讀關閉
-            </button>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <select id="voice-select" class="btn btn-sm" style="display: none; background: rgba(133, 163, 146, 0.05); border: 1px solid var(--color-border); border-radius: 20px; font-size: 0.8rem; padding: 2px 10px; max-width: 120px;">
+                    <option value="">預設語音</option>
+                </select>
+                <button id="toggle-voice-btn" class="btn btn-sm" style="background: rgba(133, 163, 146, 0.1); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: 20px; transition: all 0.3s; white-space: nowrap;">
+                    <i class="fa-solid fa-volume-xmark"></i> 語音朗讀關閉
+                </button>
+            </div>
         </div>
 
         <div id="chat-window"
@@ -59,6 +64,7 @@
     const sessionList = document.getElementById('session-list');
     const chatTitle = document.getElementById('chat-title');
     const messagesContainer = document.getElementById('messages');
+    const voiceSelect = document.getElementById('voice-select');
     let selectedVoice = null;
 
     // Load available voices
@@ -85,10 +91,20 @@
             { name: 'Hanhan', lang: 'zh-TW' }
         ];
 
+        voiceSelect.innerHTML = '<option value="">預設語音</option>';
+        voices.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v.name;
+            opt.textContent = `${v.name} (${v.lang})`;
+            voiceSelect.appendChild(opt);
+        });
+        voiceSelect.style.display = autoSpeak ? 'block' : 'none';
+
         for (const pref of preferredVoices) {
             const found = voices.find(v => v.name.includes(pref.name) && v.lang.toLowerCase().includes(pref.lang.toLowerCase()));
             if (found) {
                 selectedVoice = found;
+                voiceSelect.value = found.name;
                 console.log("已自動選擇最優語音:", selectedVoice.name);
                 break;
             }
@@ -97,9 +113,17 @@
         // Final fallback to any Japanese or Chinese
         if (!selectedVoice) {
             selectedVoice = voices.find(v => v.lang.includes('ja-JP')) || voices.find(v => v.lang.includes('zh'));
-            if (selectedVoice) console.log("使用備選語音:", selectedVoice.name);
+            if (selectedVoice) {
+                voiceSelect.value = selectedVoice.name;
+                console.log("使用備選語音:", selectedVoice.name);
+            }
         }
     }
+
+    voiceSelect.onchange = () => {
+        const voices = window.speechSynthesis.getVoices();
+        selectedVoice = voices.find(v => v.name === voiceSelect.value);
+    };
 
     if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
         window.speechSynthesis.onvoiceschanged = initVoices;
@@ -130,6 +154,7 @@
             toggleVoiceBtn.style.color = 'var(--color-accent)';
             toggleVoiceBtn.style.boxShadow = 'none';
         }
+        voiceSelect.style.display = autoSpeak ? 'block' : 'none';
     }
 
     // Speech Recognition
@@ -190,9 +215,9 @@
         const utterance = new SpeechSynthesisUtterance(cleanText);
         const hasJapanese = /[\u3040-\u30ff\u31f0-\u31ff]/.test(cleanText);
         
-        // Japanese girl profile (Higher pitch, slightly faster)
-        utterance.pitch = 1.4;
-        utterance.rate = 1.1; 
+        // Japanese girl profile (Higher pitch for Kawaii feel)
+        utterance.pitch = 1.7;
+        utterance.rate = 1.0; 
         
         if (selectedVoice) {
             utterance.voice = selectedVoice;
@@ -296,6 +321,7 @@
             
             const avatar = document.createElement('img');
             avatar.src = "{{ url_for('static', filename='img/yukine_lofi.png') }}";
+            avatar.className = 'breathing-avatar';
             avatar.style.width = '24px';
             avatar.style.height = '24px';
             avatar.style.borderRadius = '50%';
@@ -512,6 +538,41 @@
         color: var(--color-text);
         border: 1px solid rgba(0, 0, 0, 0.05);
         border-bottom-left-radius: 4px;
+    }
+
+    /* Bubble Tails */
+    .chat-bubble.user::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: -8px;
+        width: 15px;
+        height: 15px;
+        background: #3a56d4;
+        clip-path: polygon(0 0, 0% 100%, 100% 100%);
+    }
+
+    .chat-bubble.ai::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: -8px;
+        width: 15px;
+        height: 15px;
+        background: white;
+        border-right: 1px solid rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+    }
+
+    /* Avatar Breathing Animation */
+    @keyframes breathing {
+        0% { transform: scale(1); opacity: 0.9; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.9; }
+    }
+    .breathing-avatar {
+        animation: breathing 3s ease-in-out infinite;
     }
 
     /* Typing Animation */

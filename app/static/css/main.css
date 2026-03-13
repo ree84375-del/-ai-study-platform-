@@ -179,6 +179,11 @@ body {
 .mob-nav-item:hover, .mob-nav-item.active {
     color: var(--color-primary);
     transform: translateY(-5px);
+    text-shadow: 0 0 10px rgba(133, 163, 146, 0.4);
+}
+
+.mob-nav-item.active i {
+    filter: drop-shadow(0 0 8px rgba(133, 163, 146, 0.6));
 }
 
 @media (max-width: 768px) {
@@ -189,13 +194,13 @@ body {
         display: flex;
     }
     .container {
-        padding: 1rem;
-        padding-bottom: 90px; /* Space for bottom nav */
+        padding: 0.8rem;
+        padding-bottom: 90px;
     }
     .navbar {
         height: 60px;
         padding: 0 1.2rem;
-        justify-content: center;
+        justify-content: space-between;
     }
 }
 
