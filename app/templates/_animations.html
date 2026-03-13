@@ -7,615 +7,255 @@
 @keyframes pdrift{0%{transform:translateY(-10px) rotate(0) scale(.6);opacity:0}10%{opacity:1}50%{transform:translateY(110px) rotate(360deg) translateX(30px) scale(1.2);opacity:.9}100%{transform:translateY(240px) rotate(720deg) translateX(-20px) scale(.7);opacity:0}}
 </style>
 <script>
-// Exquisite Procedural Animations - Ukiyo-e / Nihonga Style
-const _perm=[];for(let i=0;i<512;i++)_perm[i]=Math.floor(Math.random()*256);
-function noise2d(x,y){const X=Math.floor(x)&255,Y=Math.floor(y)&255;x-=Math.floor(x);y-=Math.floor(y);const u=x*x*(3-2*x),v=y*y*(3-2*y);const lerp=(t,a,b)=>a+t*(b-a);const grad2=(h,x,y)=>{const v=h&3;return(v===0?x+y:v===1?-x+y:v===2?x-y:-x-y);};const a=_perm[X]+Y,b=_perm[X+1]+Y;return lerp(v,lerp(u,grad2(_perm[a],x,y),grad2(_perm[b],x-1,y)),lerp(u,grad2(_perm[a+1],x,y-1),grad2(_perm[b+1],x-1,y-1)));}
+// --- REFINED ZEN VISUALS (枯山水 & 達磨) ---
+// Premium hybrid system: HQ image assets + Procedural watercolor growth
 
-// ━━━ ZEN GARDEN (枯山水) ━━━
-function renderBonsai(streak,containerId){
-  const c=document.getElementById(containerId);if(!c)return;
-  const dW=c.clientWidth||280,dH=c.clientHeight||320,S=window.devicePixelRatio||2,W=dW*S,H=dH*S;
-  c.innerHTML=`<div class="anim-canvas-wrap" style="background: #f7f4eb"><canvas id="cv-${containerId}" width="${W}" height="${H}" style="width:${dW}px;height:${dH}px"></canvas><div class="petal-overlay" id="pl-${containerId}" style="display:none"></div></div>`;
-  const ctx=document.getElementById(`cv-${containerId}`).getContext('2d', {alpha: false});
-  
-  if(streak===0){
-    animateZenGarden(ctx,W,H);
-  }else{
-    const pl=document.getElementById(`pl-${containerId}`);
-    if(pl&&streak>=7){pl.style.display='block';petalRain(pl);}
-    animateBonsai(ctx,W,H,streak);
-  }
-}
+const _IMAGES = {
+    karesansui: "{{ url_for('static', filename='img/karesansui_base.png') }}",
+    darumaEmpty: "{{ url_for('static', filename='img/daruma_empty.png') }}",
+    darumaLeft: "{{ url_for('static', filename='img/daruma_left_eye.png') }}",
+    darumaFull: "{{ url_for('static', filename='img/daruma_full_eyes.png') }}"
+};
 
-function drawZenBackground(ctx,W,H, time) {
-    ctx.fillStyle = '#f2e8d5'; // warm sand
-    ctx.fillRect(0,0,W,H);
-
-    // Sand texture
-    ctx.fillStyle = 'rgba(200, 180, 150, 0.05)';
-    for(let i=0; i<W*H*0.05; i++){
-        let x = Math.random()*W, y = Math.random()*H;
-        ctx.fillRect(x,y,1.5,1.5);
-    }
-}
-
-function animateZenGarden(ctx,W,H){
-  let time=0;
-  
-  // Static rendering for performance, but with subtle atmospheric animation
-  // Pre-render the static background and rocks
-  const bgCv = document.createElement('canvas'); bgCv.width=W; bgCv.height=H;
-  const bx = bgCv.getContext('2d');
-  
-  drawZenBackground(bx, W, H, 0);
-  
-  const cx = W/2, cy = H*0.55;
-  
-  // Draw exquisite 3D sand ripples (Karesansui patterns)
-  bx.lineWidth = 2.5;
-  for(let r=9; r>=1; r--) {
-      bx.beginPath();
-      for(let a=0; a<=360; a++) {
-          let rad = a * Math.PI/180;
-          let rx = 40 + r * 22 + noise2d(a*0.02, r)*5;
-          let ry = 20 + r * 11 + noise2d(a*0.02+10, r)*3;
-          let px = cx + Math.cos(rad)*rx, py = cy + Math.sin(rad)*ry;
-          a===0?bx.moveTo(px,py):bx.lineTo(px,py);
-      }
-      bx.closePath();
-      // Drop shadow for ripple
-      bx.strokeStyle = 'rgba(242, 232, 213, 0.9)'; // inner peak
-      bx.stroke();
-      
-      bx.lineWidth = 1.5;
-      bx.strokeStyle = 'rgba(190, 175, 150, 0.6)'; // shadow side
-      bx.stroke();
-  }
-
-  // Draw highly detailed realistic rocks
-  drawRealisticRock(bx, cx-15, cy-8, 65, 45, 0);
-  drawRealisticRock(bx, cx+35, cy+15, 30, 22, 1);
-  drawRealisticRock(bx, cx+50, cy-5, 20, 15, 2);
-
-  // Exquisite Moss
-  drawMoss(bx, cx-40, cy+18, 35);
-  drawMoss(bx, cx+20, cy+25, 20);
-
-  // Title
-  bx.fillStyle='rgba(140, 120, 100, 0.8)';
-  bx.font=`400 ${W*0.045}px "Noto Serif TC", "Yu Mincho", serif`;
-  bx.textAlign='center';
-  bx.letterSpacing = '4px';
-  bx.fillText('枯山水',cx,H-30);
-  bx.font=`${W*0.03}px "Noto Serif TC", "Yu Mincho", serif`;
-  bx.fillText('(休養生息)',cx,H-10);
-
-  // Motes / Dust animation
-  const motes = Array.from({length: 30}).map(() => ({
-      x: Math.random()*W, y: Math.random()*H,
-      s: Math.random()*2+1, 
-      p: Math.random()*Math.PI*2,
-      v: Math.random()*0.3 + 0.1
-  }));
-
-  function anim() {
-      time += 0.016;
-      ctx.drawImage(bgCv, 0, 0);
-      
-      // Floating light motes
-      motes.forEach(m => {
-          m.y -= m.v;
-          m.x += Math.sin(time + m.p)*0.5;
-          if(m.y < -10) { m.y = H+10; m.x = Math.random()*W; }
-          const alpha = (Math.sin(time*2 + m.p)+1)/2 * 0.4;
-          ctx.beginPath();
-          ctx.arc(m.x, m.y, m.s, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(255, 250, 220, ${alpha})`;
-          ctx.fill();
-      });
-      requestAnimationFrame(anim);
-  }
-  requestAnimationFrame(anim);
-}
-
-function drawRealisticRock(ctx, x, y, w, h, seed) {
-    ctx.save();
-    // Ambient Occlusion shadow under the rock
-    ctx.beginPath();
-    ctx.ellipse(x, y+h*0.4, w*1.1, h*0.5, 0, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(120, 100, 80, 0.4)';
-    ctx.filter = 'blur(6px)';
-    ctx.fill();
-    ctx.filter = 'none';
-
-    // Base rock shape
-    ctx.beginPath();
-    const pts = 30;
-    const shape = [];
-    for(let i=0; i<pts; i++) {
-        let a = i/pts * Math.PI*2;
-        let r = 0.8 + noise2d(Math.cos(a)*1.5 + seed*10, Math.sin(a)*1.5 + seed*10)*0.3;
-        shape.push({x: x + Math.cos(a)*w*r, y: y + Math.sin(a)*h*r});
-    }
-    ctx.moveTo(shape[0].x, shape[0].y);
-    shape.forEach(p => ctx.lineTo(p.x, p.y));
-    ctx.closePath();
-    ctx.clip(); // Clip to shape to draw facets
-
-    // Gradients for facets
-    const baseGrd = ctx.createLinearGradient(x-w, y-h, x+w, y+h);
-    baseGrd.addColorStop(0, '#757b82'); // illuminated top-left
-    baseGrd.addColorStop(1, '#2c2f33'); // shadow bottom-right
-    ctx.fillStyle = baseGrd;
-    ctx.fillRect(x-w*1.5, y-h*1.5, w*3, h*3);
-
-    // Facet lines and highlights using noise
-    for(let i=0; i<60; i++) {
-        let px = x + (Math.random()-0.5)*w*2;
-        let py = y + (Math.random()-0.5)*h*2;
-        ctx.beginPath();
-        let r = Math.random()*15 + 5;
-        ctx.moveTo(px,py);
-        ctx.lineTo(px+Math.cos(Math.random()*Math.PI*2)*r, py+Math.sin(Math.random()*Math.PI*2)*r);
-        ctx.lineTo(px+Math.cos(Math.random()*Math.PI*2)*r, py+Math.sin(Math.random()*Math.PI*2)*r);
-        ctx.fillStyle = Math.random()>0.5 ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.15)';
-        ctx.fill();
-    }
-
-    // Specular highlight on top-left edge
-    const edgeGrd = ctx.createRadialGradient(x-w*0.5, y-h*0.5, 0, x-w*0.5, y-h*0.5, w*0.8);
-    edgeGrd.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
-    edgeGrd.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    ctx.fillStyle = edgeGrd;
-    ctx.fillRect(x-w*1.5, y-h*1.5, w*3, h*3);
-
-    ctx.restore();
-}
-
-function drawMoss(ctx, x, y, r) {
-    ctx.save();
-    // Moss drop shadow
-    ctx.beginPath(); ctx.arc(x, y+r*0.2, r*1.1, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(60, 80, 40, 0.3)'; ctx.filter='blur(4px)'; ctx.fill(); ctx.filter='none';
+function renderBonsai(streak, containerId) {
+    const c = document.getElementById(containerId); if (!c) return;
+    const dW = c.clientWidth || 280, dH = c.clientHeight || 320, S = window.devicePixelRatio || 2, W = dW * S, H = dH * S;
+    c.innerHTML = `<div class="anim-canvas-wrap" style="background: #fdfaf4"><canvas id="cv-${containerId}" width="${W}" height="${H}" style="width:${dW}px;height:${dH}px"></canvas><div class="petal-overlay" id="pl-${containerId}"></div></div>`;
+    const ctx = document.getElementById(`cv-${containerId}`).getContext('2d');
     
-    // Fuzzy moss clumps
-    for(let i=0; i<150; i++) {
-        let px = x + (Math.random()-0.5)*r*2, py = y + (Math.random()-0.5)*r*2;
-        if(Math.pow(px-x,2) + Math.pow(py-y,2) < r*r) {
-            ctx.beginPath();
-            let cr = Math.random()*4 + 2;
-            ctx.arc(px, py, cr, 0, Math.PI*2);
-            let hue = 80 + noise2d(px*0.1, py*0.1)*20; // 60-100 (green-yellowish)
-            let light = 30 + Math.random()*20 + (y-py)*0.5; // Top lighter
-            ctx.fillStyle = `hsla(${hue}, 60%, ${light}%, 0.85)`;
-            ctx.fill();
-        }
-    }
-    ctx.restore();
+    const bgImg = new Image(); 
+    bgImg.src = _IMAGES.karesansui;
+    bgImg.onload = () => animateZenScene(ctx, W, H, streak, bgImg, containerId);
+    bgImg.onerror = () => {
+        // Fallback to solid color if image fails
+        ctx.fillStyle = '#fdfaf4';
+        ctx.fillRect(0, 0, W, H);
+        animateZenScene(ctx, W, H, streak, null, containerId);
+    };
 }
 
-// Sakura/Bonsai growth is handled carefully with exquisite textures
-function animateBonsai(ctx, W, H, streak) {
-    drawZenBackground(ctx, W, H, 0);
-    // Draw majestic stylized bonsai tree...
-    let sd=12345; function sr(){sd=(sd*48271)%2147483647;return(sd&0x7fffffff)/2147483647;}
-    const sx=W/2,sy=H-60,tLen=H*0.25,sakura=streak>=7;
-    const branches = []; const flowers = []; const leaves = [];
-
-    // Soil mound
-    drawMoss(ctx, sx, sy+15, 60);
-
-    function grow(x,y,ang,len,d,tw){
-        if(d>11||len<2)return;
-        const bend=(sr()-0.5)*0.3;const ma=ang+bend;
-        const ex=x+Math.cos(ma)*len,ey=y+Math.sin(ma)*len;
-        const cpx=x+Math.cos(ma-bend)*len*0.5,cpy=y+Math.sin(ma-bend)*len*0.5;
-        branches.push({x1:x,y1:y,cx:cpx,cy:cpy,x2:ex,y2:ey,d,tw:Math.max(0.5,tw)});
-        
-        if(d>=6) {
-            if(sakura) {
-                if(sr()>0.3) {
-                    flowers.push({x:ex, y:ey, r: sr()*6+5, np: 5, rot: sr()*Math.PI*2});
-                }
-            } else {
-                if(sr()>0.4) leaves.push({x:ex, y:ey, r: sr()*8+4, rot: sr()*Math.PI*2, c: `hsl(${100+sr()*40}, 60%, ${30+sr()*20}%)`});
-            }
-        }
-        const bf=0.7+sr()*0.1,sp=0.3+sr()*0.3;
-        grow(ex,ey,ma-sp,len*bf,d+1,tw*0.65);
-        grow(ex,ey,ma+sp,len*bf,d+1,tw*0.65);
-        if(sr()>0.6&&d<8)grow(ex,ey,ma+(sr()-0.5)*0.8,len*bf*0.6,d+1,tw*0.5);
-    }
-    grow(sx,sy,-Math.PI/2,tLen,0,W*0.05);
-    branches.sort((a,b)=>a.d-b.d);
-
-    let time=0;
+function animateZenScene(ctx, W, H, streak, bgImg, containerId) {
+    let time = 0;
+    let growth = 0; 
+    const isSakura = streak >= 7;
+    const pl = document.getElementById(`pl-${containerId}`);
+    
+    const growthSpeed = 0.006;
+    
     function anim() {
         time += 0.016;
-        drawZenBackground(ctx, W, H, time);
-        drawMoss(ctx, sx-20, sy+15, 50);
-        drawMoss(ctx, sx+30, sy+20, 35);
-
-        // Draw branches
-        branches.forEach(b => {
-             // Sway
-             let sway = Math.sin(time*2 + b.d)*b.d*0.4;
-             let x2 = b.x2 + sway;
-             
-             ctx.beginPath(); ctx.moveTo(b.x1, b.y1); ctx.quadraticCurveTo(b.cx, b.cy, x2, b.y2);
-             // Beautiful branch gradient
-             let grad = ctx.createLinearGradient(b.x1-b.tw, b.y1, b.x1+b.tw, b.y1);
-             grad.addColorStop(0, '#2e1c12'); grad.addColorStop(0.3, '#4a3020'); grad.addColorStop(0.8, '#1f110a');
-             ctx.strokeStyle = grad;
-             ctx.lineWidth = b.tw; ctx.lineCap='round'; ctx.stroke();
-             
-             // Branch texture
-             if(b.d < 3) {
-                 ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-                 ctx.lineWidth = 1;
-                 ctx.beginPath(); ctx.moveTo(b.x1-b.tw*0.2, b.y1); ctx.lineTo(x2-b.tw*0.2, b.y2); ctx.stroke();
-             }
-        });
-
-        // Draw leaves/flowers
-        if(sakura) {
-            flowers.forEach((f, i) => {
-                let swayX = Math.sin(time*1.5 + f.x*0.1)*3;
-                let swayY = Math.cos(time*1.5 + f.y*0.1)*2;
-                drawSakuraFlower(ctx, f.x+swayX, f.y+swayY, f.r, f.rot + time*0.1);
-            });
-        } else {
-            leaves.forEach(l => {
-                let swayX = Math.sin(time*2 + l.x*0.1)*4;
-                ctx.save(); ctx.translate(l.x+swayX, l.y); ctx.rotate(l.rot + Math.sin(time+l.x)*0.2);
-                ctx.beginPath(); ctx.ellipse(0,0, l.r, l.r*0.4, 0, 0, Math.PI*2);
-                ctx.fillStyle = l.c; ctx.fill();
-                ctx.filter = 'drop-shadow(0 2px 2px rgba(0,0,0,0.3))';
-                ctx.restore();
-            });
-        }
+        if (growth < 1) growth += growthSpeed;
         
+        ctx.clearRect(0, 0, W, H);
+        
+        // 1. HQ Background Base
+        if (bgImg) {
+            ctx.save();
+            ctx.globalAlpha = Math.min(1, growth * 1.8);
+            ctx.drawImage(bgImg, 0, 0, W, H);
+            ctx.restore();
+        }
+
+        // 2. Sand Raking Animation
+        if (streak === 0) {
+            drawSandRipples(ctx, W, H, growth, time);
+        }
+
+        // 3. Lively Tree Growth (Watercolor Style)
+        if (streak > 0) {
+            drawWaterColorTree(ctx, W, H, growth, isSakura, time);
+        }
+
+        // 4. Sakura Blooming Rain
+        if (isSakura && growth > 0.85 && pl && pl.innerHTML === '') {
+            pl.style.display = 'block';
+            petalRain(pl);
+        }
+
         requestAnimationFrame(anim);
     }
     anim();
 }
 
-function drawSakuraFlower(ctx, x, y, r, rot) {
-    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
-    for(let i=0; i<5; i++) {
-        ctx.save(); ctx.rotate((i/5)*Math.PI*2);
-        ctx.beginPath(); ctx.moveTo(0,0);
-        ctx.bezierCurveTo(r*0.5, -r*0.6, r*1.2, -r*0.3, r, 0);
-        ctx.bezierCurveTo(r*1.2, r*0.3, r*0.5, r*0.6, 0, 0);
-        let grad = ctx.createRadialGradient(0,0,0, r,0, r);
-        grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-        grad.addColorStop(0.5, 'rgba(255, 215, 230, 0.9)');
-        grad.addColorStop(1, 'rgba(255, 140, 180, 0.8)');
-        ctx.fillStyle = grad; ctx.fill();
-        ctx.strokeStyle = 'rgba(255, 120, 160, 0.5)';
-        ctx.lineWidth = 0.5; ctx.stroke();
-        ctx.restore();
-    }
-    // Stamen
-    ctx.beginPath(); ctx.arc(0,0, r*0.2, 0, Math.PI*2);
-    ctx.fillStyle = '#fceabb'; ctx.fill();
-    for(let i=0; i<5; i++){
-        let a = (i/5)*Math.PI*2;
-        ctx.beginPath(); ctx.arc(Math.cos(a)*r*0.3, Math.sin(a)*r*0.3, r*0.06, 0, Math.PI*2);
-        ctx.fillStyle = '#e8a13a'; ctx.fill();
-    }
-    ctx.restore();
-}
-
-function petalRain(el){setInterval(()=>{const p=document.createElement('div');p.className='spetal';const s=10+Math.random()*15;p.style.width=s+'px';p.style.height=s+'px';p.style.left=Math.random()*90+5+'%';p.style.top='-5%';p.style.animationDuration=5+Math.random()*6+'s';el.appendChild(p);setTimeout(()=>p.remove(),11000);},400);}
-
-
-// ━━━ DARUMA (達磨) ━━━
-function renderDaruma(state,containerId){
-  const c=document.getElementById(containerId);if(!c)return;
-  const dW=c.clientWidth||200,dH=c.clientHeight||220,S=window.devicePixelRatio||2,W=dW*S,H=dH*S;
-  c.innerHTML=`<div class="anim-canvas-wrap" style="background:transparent;"><canvas id="cv-${containerId}" width="${W}" height="${H}" style="width:${dW}px;height:${dH}px"></canvas></div>`;
-  const ctx=document.getElementById(`cv-${containerId}`).getContext('2d');
-  
-  // Real spring physics for wobbling
-  let physics = { tilt: 0, vel: 0, targetTilt: 0, blink: 0, eyeLookX: 0, eyeLookY: 0 };
-  let time = 0;
-  
-  function anim() {
-      time += 0.016;
-      
-      // Update physics
-      let force = (physics.targetTilt - physics.tilt) * 0.06; // Spring stiffness
-      physics.vel = (physics.vel + force) * 0.90; // Damping
-      physics.tilt += physics.vel;
-      
-      // Random wobble triggers
-      if(Math.random()<0.01) physics.targetTilt = (Math.random()-0.5)*0.3;
-      if(Math.random()<0.02) physics.targetTilt = 0;
-      
-      // Random blinking
-      if(Math.random()<0.005) physics.blink = 1.0;
-      if(physics.blink > 0) physics.blink -= 0.15;
-      
-      // Random glancing
-      if(Math.random()<0.02) {
-          physics.eyeLookX = (Math.random()-0.5)*0.4;
-          physics.eyeLookY = (Math.random()-0.5)*0.2;
-      }
-      if(Math.random()<0.04) { physics.eyeLookX *= 0.8; physics.eyeLookY *= 0.8; }
-
-      ctx.clearRect(0,0,W,H);
-      
-      const cx = W/2, cy = H*0.5, bw=W*0.4, bh=H*0.45;
-      
-      // Ambient shadow
-      ctx.beginPath();
-      ctx.ellipse(cx + physics.tilt*100, cy+bh*0.95, bw*0.8, bh*0.15, 0, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(0,0,0,0.15)';
-      ctx.filter = 'blur(5px)';
-      ctx.fill();
-      ctx.filter = 'none';
-      
-      ctx.save();
-      // Pivot around the bottom
-      ctx.translate(cx, cy+bh*0.9);
-      ctx.rotate(physics.tilt);
-      ctx.translate(-cx, -(cy+bh*0.9));
-
-      drawExquisiteDaruma(ctx, cx, cy, bw, bh, state, physics, time);
-      ctx.restore();
-      
-      requestAnimationFrame(anim);
-  }
-  requestAnimationFrame(anim);
-}
-
-function drawExquisiteDaruma(ctx, cx, cy, bw, bh, state, physics, time) {
-    // Highly detailed Daruma shape
-    ctx.beginPath();
-    ctx.moveTo(cx, cy-bh*0.9);
-    ctx.bezierCurveTo(cx+bw*0.8, cy-bh, cx+bw*1.05, cy-bh*0.2, cx+bw*1.0, cy+bh*0.4);
-    ctx.bezierCurveTo(cx+bw*0.8, cy+bh*1.05, cx+bw*0.3, cy+bh, cx, cy+bh);
-    ctx.bezierCurveTo(cx-bw*0.3, cy+bh, cx-bw*0.8, cy+bh*1.05, cx-bw*1.0, cy+bh*0.4);
-    ctx.bezierCurveTo(cx-bw*1.05, cy-bh*0.2, cx-bw*0.8, cy-bh, cx, cy-bh*0.9);
-    ctx.closePath();
-    
-    // Volumetric Red Papier-mâché Base
-    const redGrd = ctx.createRadialGradient(cx-bw*0.3, cy-bh*0.3, bw*0.1, cx, cy, bw*1.5);
-    redGrd.addColorStop(0, '#ff4747'); // vibrant highlight
-    redGrd.addColorStop(0.3, '#d31515'); // mid-tone
-    redGrd.addColorStop(0.8, '#700000'); // deep shadow
-    redGrd.addColorStop(1, '#3b0000'); // rim darkening
-    ctx.fillStyle = redGrd;
-    ctx.fill();
-    
-    // Texture overlay (Papier-mâché roughness)
+function drawSandRipples(ctx, W, H, growth, time) {
+    const cx = W / 2, cy = H * 0.55;
     ctx.save();
-    ctx.clip(); // clip to body
-    ctx.globalCompositeOperation = 'overlay';
-    for(let i=0; i<300; i++){
-        ctx.fillStyle = Math.random()>0.5 ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.06)';
+    ctx.lineWidth = 2.0;
+    ctx.strokeStyle = `rgba(160, 140, 110, ${0.4 * growth})`;
+    
+    for (let r = 1; r < 7; r++) {
         ctx.beginPath();
-        let r = Math.random()*2+1;
-        ctx.arc(cx+(Math.random()-0.5)*W, cy+(Math.random()-0.5)*H, r, 0, Math.PI*2);
-        ctx.fill();
-    }
-    // Deep core shadow at the bottom
-    const shadowGrd = ctx.createLinearGradient(cx, cy, cx, cy+bh);
-    shadowGrd.addColorStop(0, 'rgba(0,0,0,0)');
-    shadowGrd.addColorStop(1, 'rgba(0,0,0,0.6)');
-    ctx.fillStyle = shadowGrd;
-    ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation = 'source-over';
-    
-    // Specular highlight gloss
-    ctx.beginPath();
-    ctx.ellipse(cx-bw*0.4, cy-bh*0.4, bw*0.3, bh*0.25, -Math.PI/4, 0, Math.PI*2);
-    const spec = ctx.createRadialGradient(cx-bw*0.4, cy-bh*0.4, 0, cx-bw*0.4, cy-bh*0.4, bw*0.3);
-    spec.addColorStop(0, 'rgba(255, 230, 230, 0.4)');
-    spec.addColorStop(1, 'rgba(255, 230, 230, 0)');
-    ctx.fillStyle = spec;
-    ctx.fill();
-    ctx.restore();
-    
-    // Outline
-    ctx.strokeStyle = '#260000';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    // Gold embellishments (Pine needles / crane patterns)
-    drawGoldPatterns(ctx, cx, cy, bw, bh);
-
-    // Face Canvas
-    const fW = bw*0.75, fH = bh*0.65, fY = cy-bh*0.1;
-    drawDarumaFaceArea(ctx, cx, fY, fW, fH, state, physics);
-    
-    // Kanji 福 (Fortune)
-    const kY = cy+bh*0.6, kS = bw*0.5;
-    ctx.font = `900 ${kS}px "Yu Mincho", "Noto Serif TC", serif`;
-    ctx.textAlign = 'center'; ctx.textBaseline='middle';
-    
-    // 3D Gold text effect
-    ctx.fillStyle = '#6a4700'; ctx.fillText('福', cx, kY+2); // drop shadow
-    const goldGrd = ctx.createLinearGradient(cx, kY-kS/2, cx, kY+kS/2);
-    goldGrd.addColorStop(0, '#f9d976');
-    goldGrd.addColorStop(0.5, '#e5b222');
-    goldGrd.addColorStop(1, '#9b700f');
-    ctx.fillStyle = goldGrd; ctx.fillText('福', cx, kY);
-    ctx.strokeStyle = '#382000'; ctx.lineWidth=1; ctx.strokeText('福', cx, kY);
-}
-
-function drawGoldPatterns(ctx, cx, cy, bw, bh) {
-    ctx.save();
-    ctx.strokeStyle = '#deb638';
-    ctx.lineCap = 'round';
-    
-    // Swirls on the sides
-    [-1, 1].forEach(dir => {
-        ctx.beginPath();
-        let ox = cx + dir * bw*0.7, oy = cy + bh*0.4;
-        ctx.lineWidth = 4;
-        ctx.moveTo(ox, oy);
-        ctx.bezierCurveTo(ox+dir*bw*0.2, oy-bh*0.2, ox-dir*bw*0.1, oy-bh*0.3, ox+dir*bw*0.1, oy-bh*0.4);
+        const radius = 50 + r * 28;
+        for (let a = 0; a <= 360; a += 5) {
+            let rad = a * Math.PI / 180;
+            let currentP = (a / 360);
+            if (currentP < growth) {
+                let x = cx + Math.cos(rad) * radius * 1.5;
+                let y = cy + Math.sin(rad) * radius * 0.8;
+                a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+        }
         ctx.stroke();
-        
-        // Leaf/petal marks
-        for(let i=0; i<3; i++){
-            ctx.beginPath();
-            ctx.ellipse(ox + dir*bw*(0.1 + i*0.05), oy + bh*(0.1 + i*0.08), 8, 3, dir*Math.PI/4 + i*0.2, 0, Math.PI*2);
-            ctx.fillStyle = '#deb638'; ctx.fill();
-        }
-    });
-
-    // Gold rim around the face
-    ctx.beginPath();
-    ctx.ellipse(cx, cy-bh*0.1, bw*0.75 + 12, bh*0.65 + 12, 0, 0, Math.PI*2);
-    ctx.strokeStyle = '#800000'; ctx.lineWidth=6; ctx.stroke();
-    ctx.beginPath();
-    ctx.ellipse(cx, cy-bh*0.1, bw*0.75 + 6, bh*0.65 + 6, 0, 0, Math.PI*2);
-    ctx.strokeStyle = '#deb638'; ctx.lineWidth=4; ctx.stroke();
+    }
     ctx.restore();
 }
 
-function drawDarumaFaceArea(ctx, cx, fY, fW, fH, state, physics) {
+function drawWaterColorTree(ctx, W, H, growth, isSakura, time) {
+    const cx = W / 2, cy = H - 55;
+    const branches = [];
+    let sd = 8888; 
+    function sr() { sd = (sd * 48271) % 2147483647; return (sd & 0x7fffffff) / 2147483647; }
+    
+    function generate(x, y, ang, len, d) {
+        if (d > 10 || len < 4) return;
+        const ex = x + Math.cos(ang) * len;
+        const ey = y + Math.sin(ang) * len;
+        branches.push({ x1: x, y1: y, x2: ex, y2: ey, d, len });
+        
+        const gLimit = growth * 10;
+        if (d < gLimit) {
+            const split = 0.35 + sr() * 0.3;
+            generate(ex, ey, ang - split, len * 0.77, d + 1);
+            generate(ex, ey, ang + split, len * 0.77, d + 1);
+            if(sr() > 0.82 && d < 7) generate(ex, ey, ang + (sr()-0.5), len * 0.55, d + 1);
+        }
+    }
+    generate(cx, cy, -Math.PI / 2, H * 0.23, 0);
+
     ctx.save();
-    
-    // Base face color (warm skin tone)
-    ctx.beginPath();
-    ctx.ellipse(cx, fY, fW, fH, 0, 0, Math.PI*2);
-    const skinGrd = ctx.createRadialGradient(cx-fW*0.2, fY-fH*0.2, fW*0.1, cx, fY, fW);
-    skinGrd.addColorStop(0, '#fffdfa');
-    skinGrd.addColorStop(0.5, '#fde6cd');
-    skinGrd.addColorStop(1, '#dca971');
-    ctx.fillStyle = skinGrd;
-    ctx.fill();
-    ctx.clip(); // Ensure drawing stays within face
+    branches.forEach(b => {
+        const branchGrowth = Math.max(0, Math.min(1, (growth * 10 - b.d)));
+        if (branchGrowth <= 0) return;
 
-    // Blush
-    [-1, 1].forEach(dir => {
         ctx.beginPath();
-        ctx.ellipse(cx + dir * fW*0.6, fY + fH*0.3, fW*0.25, fH*0.15, 0, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(230, 80, 80, 0.25)';
-        ctx.fill();
-    });
-
-    const eY = fY - fH*0.05, eOff = fW*0.35, sR = fW*0.22;
-
-    // Eyebrows (Crane / 鶴 pattern) - thick, dramatic brush strokes
-    ctx.fillStyle = '#111';
-    [-1, 1].forEach(dir => {
-        ctx.beginPath();
-        let bx = cx + dir * eOff, by = eY - sR - 10;
-        ctx.moveTo(bx - dir*sR*1.2, by + 10);
-        ctx.quadraticCurveTo(bx, by - 25, bx + dir*sR*1.2, by); // arch up
-        ctx.quadraticCurveTo(bx + dir*sR*0.8, by - 10, bx - dir*sR*0.5, by + 18); // arch down thick
-        ctx.fill();
+        ctx.lineWidth = (11 - b.d) * 2 * branchGrowth;
+        ctx.lineCap = 'round';
         
-        // Feathery details
-        ctx.beginPath(); ctx.moveTo(bx + dir*sR*0.6, by - 8); ctx.lineTo(bx + dir*sR*1.1, by - 12); ctx.lineWidth=3; ctx.strokeStyle='#111'; ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(bx + dir*sR*0.4, by - 12); ctx.lineTo(bx + dir*sR*0.9, by - 18); ctx.stroke();
-    });
-
-    // Cheek hair / Beard (Turtle / 亀 pattern)
-    ctx.fillStyle = '#111';
-    [-1, 1].forEach(dir => {
-        ctx.beginPath();
-        let bx = cx + dir * fW*0.8, by = fY + fH*0.3;
-        ctx.moveTo(bx, by - fH*0.2);
-        ctx.quadraticCurveTo(bx - dir*fW*0.2, by, bx - dir*fW*0.4, by + fH*0.4);
-        ctx.quadraticCurveTo(bx + dir*fW*0.1, by + fH*0.2, bx, by - fH*0.2);
-        ctx.fill();
+        // Exquisite Ink Bleed logic
+        const barkAlpha = 0.9 * branchGrowth;
+        const barkColor = isSakura ? `rgba(60, 45, 30, ${barkAlpha})` : `rgba(40, 55, 30, ${barkAlpha})`;
+        ctx.strokeStyle = barkColor;
         
-        ctx.beginPath();
-        ctx.moveTo(cx + dir*fW*0.5, fY + fH*0.5);
-        ctx.lineTo(cx + dir*fW*0.2, fY + fH*0.8);
-        ctx.lineWidth = 4; ctx.stroke();
-    });
-
-    // Eyes sockets
-    [-1, 1].forEach(dir => {
-        let ex = cx + dir * eOff;
-        ctx.beginPath();
-        ctx.arc(ex, eY, sR, 0, Math.PI*2);
-        // Sclera with slight spherical shading
-        let scleraGrd = ctx.createRadialGradient(ex, eY, sR*0.3, ex, eY, sR);
-        scleraGrd.addColorStop(0, '#ffffff');
-        scleraGrd.addColorStop(1, '#e0d6cd');
-        ctx.fillStyle = scleraGrd; ctx.fill();
-        ctx.strokeStyle = '#333'; ctx.lineWidth = 3; ctx.stroke();
+        const curX = b.x1 + (b.x2 - b.x1) * branchGrowth;
+        const curY = b.y1 + (b.y2 - b.y1) * branchGrowth;
         
-        // Shadow inside socket
-        ctx.beginPath(); ctx.arc(ex, eY, sR, 0, Math.PI);
-        ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.fill();
+        ctx.moveTo(b.x1, b.y1);
+        ctx.lineTo(curX, curY);
+        ctx.stroke();
 
-        // Pupils logic based on state
-        // state 0: no eyes
-        // state 1: left eye (viewer's left, so dir === -1)
-        // state 2: both eyes
-        if( (state >= 1 && dir === -1) || (state >= 2 && dir === 1) ) {
-            drawLivelyPupil(ctx, ex, eY, sR, physics);
-        }
-        
-        // Eyelid / blinking
-        if(physics.blink > 0) {
+        // Blooming Watercolor Textures
+        if (b.d > 6 && branchGrowth > 0.45) {
+            const bloomAlpha = (branchGrowth - 0.45) / 0.55;
+            const r = (12 - b.d) * 8 * bloomAlpha;
+            const sway = Math.sin(time + b.x2) * 3;
+            
             ctx.beginPath();
-            ctx.ellipse(ex, eY, sR*1.05, sR * physics.blink, 0, 0, Math.PI, true);
-            ctx.fillStyle = '#dca971'; ctx.fill(); // skin color eyelid coming down
-            ctx.lineWidth = 2; ctx.strokeStyle='#111'; ctx.stroke();
+            const grad = ctx.createRadialGradient(curX + sway, curY, 0, curX + sway, curY, r);
+            if(isSakura) {
+                grad.addColorStop(0, `rgba(255, 185, 200, ${0.75 * bloomAlpha})`);
+                grad.addColorStop(1, `rgba(255, 105, 180, 0)`);
+            } else {
+                grad.addColorStop(0, `rgba(144, 238, 144, ${0.75 * bloomAlpha})`);
+                grad.addColorStop(1, `rgba(34, 139, 34, 0)`);
+            }
+            ctx.fillStyle = grad;
+            ctx.arc(curX + sway, curY, r, 0, Math.PI * 2);
+            ctx.fill();
         }
     });
-
-    // Nose
-    ctx.beginPath();
-    ctx.moveTo(cx - fW*0.1, fY + fH*0.1);
-    ctx.quadraticCurveTo(cx, fY + fH*0.25, cx + fW*0.1, fY + fH*0.1);
-    ctx.quadraticCurveTo(cx, fY + fH*0.15, cx - fW*0.1, fY + fH*0.1);
-    ctx.fillStyle = '#a66a38'; ctx.fill();
-    
-    // Mouth (Stern, frowning)
-    ctx.beginPath();
-    ctx.moveTo(cx - fW*0.3, fY + fH*0.4);
-    ctx.quadraticCurveTo(cx, fY + fH*0.25, cx + fW*0.3, fY + fH*0.4);
-    ctx.lineWidth = 5; ctx.strokeStyle = '#5a1d1d'; ctx.stroke();
-    ctx.lineWidth = 2; ctx.strokeStyle = '#222'; ctx.stroke();
-
     ctx.restore();
 }
 
-function drawLivelyPupil(ctx, ex, eY, sR, physics) {
-    ctx.save();
-    // Use eye tracking
-    let pr = sR * 0.55;
+// --- DARUMA ---
+function renderDaruma(state, containerId) {
+    const c = document.getElementById(containerId); if (!c) return;
+    const dW = c.clientWidth || 200, dH = c.clientHeight || 220, S = window.devicePixelRatio || 2, W = dW * S, H = dH * S;
+    c.innerHTML = `<div class="anim-canvas-wrap" style="background:transparent;"><canvas id="cv-${containerId}" width="${W}" height="${H}" style="width:${dW}px;height:${dH}px"></canvas></div>`;
+    const ctx = document.getElementById(`cv-${containerId}`).getContext('2d');
     
-    // Smooth damp the eye looking offset
-    let px = ex + physics.eyeLookX * sR * 0.4;
-    let py = eY + physics.eyeLookY * sR * 0.4;
+    const img = new Image();
+    img.src = state === 0 ? _IMAGES.darumaEmpty : (state === 1 ? _IMAGES.darumaLeft : _IMAGES.darumaFull);
     
-    // Clip pupil inside the eye
-    ctx.beginPath(); ctx.arc(ex, eY, sR, 0, Math.PI*2); ctx.clip();
-    
-    // Pupil Base (deep black/brown)
-    ctx.beginPath();
-    ctx.arc(px, py, pr, 0, Math.PI*2);
-    let pg = ctx.createRadialGradient(px-pr*0.2, py-pr*0.2, 0, px, py, pr);
-    pg.addColorStop(0, '#3a2a2a');
-    pg.addColorStop(0.5, '#111');
-    pg.addColorStop(1, '#000');
-    ctx.fillStyle = pg; ctx.fill();
-    
-    // Iris reflection (anime / realistic style)
-    ctx.beginPath();
-    ctx.arc(px, py, pr, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(200, 150, 50, 0.1)'; ctx.fill(); // subtle golden hue
-    
-    // Main specular highlight (catchlight)
-    ctx.beginPath(); ctx.arc(px - pr*0.35, py - pr*0.35, pr*0.25, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fill();
-    ctx.beginPath(); ctx.arc(px + pr*0.2, py + pr*0.2, pr*0.1, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fill();
+    let physics = { tilt: 0, vel: 0, targetTilt: 0 };
+    let mouseX = 0, mouseY = 0;
 
-    ctx.restore();
+    document.addEventListener('mousemove', (e) => {
+        const rect = c.getBoundingClientRect();
+        mouseX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+        mouseY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+    });
+
+    function anim() {
+        // High-Quality Balance Physics
+        let force = (physics.targetTilt - physics.tilt) * 0.05;
+        physics.vel = (physics.vel + force) * 0.93;
+        physics.tilt += physics.vel;
+        
+        if (Math.random() < 0.01) physics.targetTilt = (Math.random() - 0.5) * 0.3;
+        if (Math.random() < 0.02) physics.targetTilt = 0;
+
+        ctx.clearRect(0, 0, W, H);
+        
+        const cx = W / 2, cy = H / 2;
+        const iw = W * 0.88, ih = H * 0.98;
+
+        ctx.save();
+        ctx.translate(cx, cy + ih / 2.3);
+        ctx.rotate(physics.tilt);
+        
+        // Soft Dynamic Shadow
+        ctx.beginPath();
+        ctx.ellipse(0, 0, iw * 0.48, ih * 0.14, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,0,0,0.06)';
+        ctx.fill();
+
+        ctx.drawImage(img, -iw / 2, -ih, iw, ih);
+        
+        // Interactive Glow / Eye Glint
+        if (state > 0) {
+            const isBoth = state === 2;
+            const eyeCenters = isBoth ? [-0.14, 0.14] : [-0.14];
+            
+            eyeCenters.forEach(pos => {
+                const ex = iw * pos + mouseX * 8;
+                const ey = -ih * 0.5 + mouseY * 6;
+                
+                // Draw specular highlight
+                ctx.beginPath();
+                ctx.arc(ex, ey, 6, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,0.45)';
+                ctx.fill();
+
+                // Mouse proximity glow
+                const dist = Math.sqrt(mouseX*mouseX + mouseY*mouseY);
+                if(dist < 0.4) {
+                    ctx.beginPath();
+                    ctx.arc(ex, ey, 14, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 * (1 - dist*2.5)})`;
+                    ctx.stroke();
+                }
+            });
+        }
+        
+        ctx.restore();
+        requestAnimationFrame(anim);
+    }
+    img.onload = anim;
 }
 
-function createPetals(id){const el=document.getElementById(id);if(el)petalRain(el);}
+function petalRain(el) {
+    if (!el) return;
+    setInterval(() => {
+        const p = document.createElement('div');
+        p.className = 'spetal';
+        const s = 12 + Math.random() * 16;
+        p.style.width = s + 'px';
+        p.style.height = s + 'px';
+        p.style.left = Math.random() * 95 + '%';
+        p.style.top = '-5%';
+        p.style.animationDuration = 6 + Math.random() * 6 + 's';
+        el.appendChild(p);
+        setTimeout(() => p.remove(), 12000);
+    }, 700);
+}
 </script>

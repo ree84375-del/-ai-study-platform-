@@ -843,6 +843,24 @@
         }
     }
 
+    /* Sparkling Animation */
+    .sparkle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #fff;
+        border-radius: 50%;
+        filter: blur(1px);
+        box-shadow: 0 0 10px #fff, 0 0 20px #fff;
+        animation: sparkleAnim 3s infinite ease-in-out;
+        opacity: 0;
+    }
+
+    @keyframes sparkleAnim {
+        0%, 100% { transform: scale(0); opacity: 0; }
+        50% { transform: scale(1.5); opacity: 0.8; }
+    }
+
     /* ===== Background Shooting Stars & Twinkling ===== */
     .bg-stars-layer {
         position: absolute;
