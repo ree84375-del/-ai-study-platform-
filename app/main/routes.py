@@ -37,6 +37,8 @@ def home():
     
     # Check Japanese Features if user is logged in
     today_omikuji = None
+    recent_emas = []
+    active_daruma = None
     mistakes_to_review = 0
     study_plan = []
     
