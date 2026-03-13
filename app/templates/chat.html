@@ -3,7 +3,7 @@
 {% block content %}
 <div class="chat-container">
     <!-- Sidebar for Sessions -->
-    <div class="chat-sidebar card">
+    <div class="chat-sidebar glass-panel">
         <h3 style="margin-bottom: 1.5rem; color: var(--color-primary);"><i class="fa-solid fa-comments"></i> 歷史記錄</h3>
         <button id="new-chat-btn"
             style="width: 100%; padding: 10px; border-radius: 8px; border: 1px dashed var(--color-primary); background: none; color: var(--color-primary); cursor: pointer; margin-bottom: 1rem; transition: all 0.2s;">
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Chat Area -->
-    <div class="chat-main card">
+    <div class="chat-main glass-panel">
         <div id="chat-header"
             style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
             <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center; margin: 0;">
@@ -27,6 +27,9 @@
                 </select>
                 <button id="toggle-voice-btn" class="btn btn-sm" style="background: rgba(133, 163, 146, 0.1); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: 20px; transition: all 0.3s; white-space: nowrap;">
                     <i class="fa-solid fa-volume-xmark"></i> 語音朗讀關閉
+                </button>
+                <button id="test-voice-btn" class="btn btn-sm" title="測試音色" style="background: none; border: 1px solid var(--color-border); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--color-text_light);">
+                    <i class="fa-solid fa-play" style="font-size: 0.8rem;"></i>
                 </button>
             </div>
         </div>
@@ -75,20 +78,15 @@
         
         console.log("發現可用語音:", voices.length);
 
-        // Priority list for cute Japanese/Chinese girl voices on Windows/Mobile
+        // High-end Neural/Natural voices priority
         const preferredVoices = [
-            // Natural Japanese
+            { name: 'Nanami Online (Natural)', lang: 'ja-JP' },
+            { name: 'Keita Online (Natural)', lang: 'ja-JP' }, 
+            { name: 'Xiaoxiao Online (Natural)', lang: 'zh-CN' },
+            { name: 'Yunxi Online (Natural)', lang: 'zh-CN' },
             { name: 'Haruka', lang: 'ja-JP' },
             { name: 'Ayumi', lang: 'ja-JP' },
-            { name: 'Sayaka', lang: 'ja-JP' },
-            { name: 'Nanami', lang: 'ja-JP' },
-            { name: 'Ichiro', lang: 'ja-JP' }, // Sometimes male but good for fallback
-            { name: 'Google 日本語', lang: 'ja-JP' },
-            // Natural Chinese
-            { name: 'Xiaoxiao', lang: 'zh-CN' },
-            { name: 'Hsiao', lang: 'zh-TW' },
-            { name: 'Yating', lang: 'zh-TW' },
-            { name: 'Hanhan', lang: 'zh-TW' }
+            { name: 'Google 日本語', lang: 'ja-JP' }
         ];
 
         voiceSelect.innerHTML = '<option value="">預設語音</option>';
@@ -123,6 +121,13 @@
     voiceSelect.onchange = () => {
         const voices = window.speechSynthesis.getVoices();
         selectedVoice = voices.find(v => v.name === voiceSelect.value);
+    };
+
+    document.getElementById('test-voice-btn').onclick = () => {
+        const wasAuto = autoSpeak;
+        autoSpeak = true;
+        speak("あのね、新しい声はどうかな？気に入ってくれると嬉しいな！");
+        autoSpeak = wasAuto;
     };
 
     if (window.speechSynthesis && window.speechSynthesis.onvoiceschanged !== undefined) {
@@ -197,10 +202,18 @@
         if (!window.speechSynthesis || !autoSpeak) return;
         
         window.speechSynthesis.cancel();
-        window.speechSynthesis.resume(); // Unstick the speech queue
         
-        // Deep clean text for TTS
-        let cleanText = text.replace(/\[DRAW:.*?\]/g, '')
+        // Luxury Emotion Simulation: Add filler words randomly if ja-JP
+        let processedText = text;
+        if (selectedVoice && selectedVoice.lang.startsWith('ja')) {
+            const fillers = ["あのね、", "えーっと、", "そういえば、"];
+            if (Math.random() > 0.7) {
+                processedText = fillers[Math.floor(Math.random() * fillers.length)] + processedText;
+            }
+        }
+
+        // Deep clean text
+        let cleanText = processedText.replace(/\[DRAW:.*?\]/g, '')
                             .replace(/\(用.*?\)/g, '')
                             .replace(/\(.*?\)/g, '')
                             .replace(/\（.*?\）/g, '')
@@ -680,14 +693,11 @@
 
     .chat-main {
         flex: 3;
-        border-radius: 12px;
+        border-radius: 24px;
         padding: 2rem;
         display: flex;
         flex-direction: column;
-        border: 1px solid rgba(255,255,255,0.6);
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.05);
     }
 
     @media (max-width: 992px) {

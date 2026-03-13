@@ -16,16 +16,9 @@
     100% { background-position: 0% 50%; border-color: rgba(255,255,255,0.1); }
 }
 
-body {
-    /* Uses the dynamic variables or fallbacks to previous hardcoded values */
-    background: linear-gradient(-45deg, 
-        var(--color-bg), 
-        var(--color-bg-gradient-1, #fff1f0), 
-        var(--color-bg-gradient-2, #e6f7ff), 
-        var(--color-bg)
-    );
+    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
     background-size: 400% 400%;
-    animation: breathingGradient 20s ease-in-out infinite;
+    animation: breathingGradient 15s ease-in-out infinite;
     color: var(--color-text_main);
     display: flex;
     flex-direction: column;
@@ -145,15 +138,15 @@ body {
     left: 0;
     right: 0;
     height: 70px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-top: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.03);
     z-index: 2000;
     justify-content: space-around;
     align-items: center;
-    border-radius: 20px 20px 0 0;
+    border-radius: 30px 30px 0 0;
 }
 
 .mob-nav-item {
@@ -204,44 +197,36 @@ body {
     }
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+/* Glassmorphism 2.0 Base */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    border-radius: 20px;
 }
 
-/* Card Style for Japanese feel */
-.washi-card {
-    background-color: var(--color-bg);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    border: 1px solid var(--color-border);
-    transition: transform 0.3s ease;
+/* Bento Grid System */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
-.washi-card:hover {
-    transform: translateY(-5px);
+.bento-item {
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Alert Flashes */
-.alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    background-color: var(--color-secondary);
-    border-left: 4px solid var(--color-primary);
+.bento-item:hover {
+    transform: translateY(-5px) scale(1.01);
+    background: rgba(255, 255, 255, 0.6);
 }
 
-.alert-success { border-color: var(--color-primary); }
-.alert-info { border-color: #7b9acc; }
-.alert-warning { border-color: #e2b764; }
-.alert-danger { border-color: var(--color-accent); }
+/* Luxury Typography */
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
 
-/* Custom Admin Alert */
-.alert-admin-gold {
-    border-color: #ffd700;
-    background-color: #fffacd;
-    color: #b8860b;
-    font-weight: bold;
+body {
+    font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
 }
