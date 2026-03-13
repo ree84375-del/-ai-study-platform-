@@ -48,15 +48,19 @@ function animateZenScene(ctx, W, H, streak, bgImg, containerId) {
         
         ctx.clearRect(0, 0, W, H);
         
-        // 1. HQ Background Base
+        // 1. HQ Background Base with subtle Breathing
         if (bgImg) {
             ctx.save();
+            const breath = 1 + Math.sin(time * 0.5) * 0.01;
+            ctx.translate(W/2, H/2);
+            ctx.scale(breath, breath);
+            ctx.translate(-W/2, -H/2);
             ctx.globalAlpha = Math.min(1, growth * 1.8);
             ctx.drawImage(bgImg, 0, 0, W, H);
             ctx.restore();
         }
 
-        // 2. Sand Raking Animation
+        // 2. Sand Raking Animation (Continuous)
         if (streak === 0) {
             drawSandRipples(ctx, W, H, growth, time);
         }
@@ -66,7 +70,10 @@ function animateZenScene(ctx, W, H, streak, bgImg, containerId) {
             drawWaterColorTree(ctx, W, H, growth, isSakura, time);
         }
 
-        // 4. Sakura Blooming Rain
+        // 4. Ambient Floating Motes (Always active)
+        drawAmbientMotes(ctx, W, H, growth, time);
+
+        // 5. Sakura Blooming Rain
         if (isSakura && growth > 0.85 && pl && pl.innerHTML === '') {
             pl.style.display = 'block';
             petalRain(pl);
@@ -77,25 +84,60 @@ function animateZenScene(ctx, W, H, streak, bgImg, containerId) {
     anim();
 }
 
+const _motes = Array.from({length: 25}).map(() => ({
+    x: Math.random(), y: Math.random(), s: Math.random()*2+1, 
+    p: Math.random()*6.28, v: Math.random()*0.001 + 0.0005
+}));
+
+function drawAmbientMotes(ctx, W, H, growth, time) {
+    if (growth < 0.2) return;
+    ctx.save();
+    _motes.forEach(m => {
+        m.y -= m.v;
+        if (m.y < -0.05) m.y = 1.05;
+        const x = (m.x + Math.sin(time * 0.8 + m.p) * 0.02) * W;
+        const y = m.y * H;
+        const alpha = (Math.sin(time + m.p) + 1) * 0.5 * 0.4 * growth;
+        ctx.beginPath();
+        ctx.arc(x, y, m.s, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 250, 210, ${alpha})`;
+        ctx.fill();
+    });
+    ctx.restore();
+}
+
 function drawSandRipples(ctx, W, H, growth, time) {
     const cx = W / 2, cy = H * 0.55;
     ctx.save();
-    ctx.lineWidth = 2.0;
-    ctx.strokeStyle = `rgba(160, 140, 110, ${0.4 * growth})`;
+    ctx.lineWidth = 1.5;
     
     for (let r = 1; r < 7; r++) {
         ctx.beginPath();
         const radius = 50 + r * 28;
+        const dashOffset = time * 0.1;
+        ctx.strokeStyle = `rgba(160, 140, 110, ${0.4 * growth})`;
+        
         for (let a = 0; a <= 360; a += 5) {
             let rad = a * Math.PI / 180;
             let currentP = (a / 360);
+            
+            // Continuous flow effect using sine wave on opacity/width
+            const flow = Math.sin(currentP * 12 + time * 2) * 0.5 + 0.5;
+            ctx.lineWidth = 1 + flow * 1.5 * growth;
+            ctx.strokeStyle = `rgba(160, 140, 110, ${(0.2 + flow * 0.3) * growth})`;
+
             if (currentP < growth) {
                 let x = cx + Math.cos(rad) * radius * 1.5;
                 let y = cy + Math.sin(rad) * radius * 0.8;
-                a === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                if (a === 0) ctx.moveTo(x, y);
+                else {
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                }
             }
         }
-        ctx.stroke();
     }
     ctx.restore();
 }
