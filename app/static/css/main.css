@@ -30,6 +30,14 @@ body {
     background-attachment: fixed;
 }
 
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+}
+
 /* Glassmorphism Premium Navbar */
 .navbar {
     background-color: rgba(255, 255, 255, 0.7);
@@ -105,7 +113,7 @@ body {
 
 .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.9);
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
@@ -269,10 +277,33 @@ body {
 }
 
 /* Luxury Typography */
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
-
 body {
     font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+}
+
+h1, h2, h3, .luxury-header {
+    font-family: 'Kaisei Tokumin', 'Noto Sans TC', serif;
+    font-weight: 700;
+}
+
+/* Micro-interactions */
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    background-color: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    opacity: 0.9;
 }
 /* Luxury Alert Styling */
 .luxury-alert {
