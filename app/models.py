@@ -110,6 +110,7 @@ class Group(db.Model):
     name = db.Column(db.String(100), nullable=False)
     invite_code = db.Column(db.String(20), unique=True, nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    has_ai = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
     # Teacher relationship is handled directly by teacher_id, but we can access teacher

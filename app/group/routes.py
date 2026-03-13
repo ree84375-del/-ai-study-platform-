@@ -33,10 +33,11 @@ def groups():
         # Create a group (Simulating teacher role for demo)
         elif action == 'create':
             group_name = request.form.get('group_name')
+            has_ai = request.form.get('has_ai') == 'on'
             new_invite_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
             
             # For demo, allow anyone to create group, but logically only teacher should
-            new_group = Group(name=group_name, invite_code=new_invite_code, teacher_id=current_user.id)
+            new_group = Group(name=group_name, invite_code=new_invite_code, teacher_id=current_user.id, has_ai=has_ai)
             db.session.add(new_group)
             db.session.flush() # get id
             

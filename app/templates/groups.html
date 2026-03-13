@@ -27,6 +27,10 @@
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="create">
                     <input type="text" name="group_name" placeholder="群組名稱 (例如: 日文特訓班)" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box;">
+                    <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--color-text_main);">
+                        <input type="checkbox" name="has_ai" id="has_ai" checked style="cursor: pointer;">
+                        <label for="has_ai" style="cursor: pointer;">加入雪音 (AI 助教)</label>
+                    </div>
                     <button type="submit" style="width: 100%; padding: 10px; background-color: var(--color-primary); border: none; color: white; border-radius: 4px; cursor: pointer; transition: all 0.3s;">建立</button>
                 </form>
             </div>
@@ -53,7 +57,7 @@
                             <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 15px;"><i class="fa-solid fa-user-graduate"></i> 成員數: {{ group.members | length }}</p>
                             
                             <div style="border-top: 1px dashed var(--color-border); padding-top: 15px;">
-                                <a href="{{ url_for('group.group_chat', group_id=group.id) }}" class="btn-group-action" style="display: inline-block; background: none; border: 1px solid var(--color-primary); padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; color: var(--color-primary); transition: all 0.2s;">
+                                <a href="{{ url_for('group.group_dashboard', group_id=group.id) }}" class="btn-group-action" style="display: inline-block; background: none; border: 1px solid var(--color-primary); padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; color: var(--color-primary); transition: all 0.2s;">
                                     <i class="fa-solid fa-comments"></i> 進入討論區
                                 </a>
                                 <button class="btn-group-action" style="background: none; border: 1px solid var(--color-border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: var(--color-text_main); margin-left: 10px;">
