@@ -139,8 +139,15 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">
-            {{ message }}
+        <div class="luxury-alert alert-{{ category }} glass-panel" style="animation: popIn 0.5s ease forwards;">
+            <div class="alert-icon">
+                {% if category == 'success' %}<i class="fa-solid fa-circle-check"></i>
+                {% elif category == 'danger' %}<i class="fa-solid fa-circle-exclamation"></i>
+                {% elif category == 'warning' %}<i class="fa-solid fa-triangle-exclamation"></i>
+                {% else %}<i class="fa-solid fa-circle-info"></i>
+                {% endif %}
+            </div>
+            <div class="alert-message">{{ message }}</div>
         </div>
         {% endfor %}
         {% endif %}

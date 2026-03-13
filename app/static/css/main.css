@@ -231,3 +231,50 @@ body {
 body {
     font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
 }
+/* Luxury Alert Styling */
+.luxury-alert {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 1.2rem 1.8rem;
+    margin-bottom: 1.5rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 1.05rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.alert-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.alert-success { 
+    background: rgba(133, 163, 146, 0.15); 
+    color: #4a6757; 
+    border-left: 5px solid var(--color-primary);
+}
+.alert-info { 
+    background: rgba(67, 97, 238, 0.1); 
+    color: #3b5bdb; 
+    border-left: 5px solid #4361ee;
+}
+.alert-warning { 
+    background: rgba(226, 183, 100, 0.15); 
+    color: #a67c00; 
+    border-left: 5px solid #eebb4d;
+}
+.alert-danger { 
+    background: rgba(216, 156, 154, 0.15); 
+    color: #b05a58; 
+    border-left: 5px solid var(--color-accent);
+}
+
+/* Animations from base */
+@keyframes popIn {
+    0% { transform: scale(0.9) translateY(-10px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
