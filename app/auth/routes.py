@@ -5,20 +5,23 @@ import secrets
 
 auth = Blueprint('auth', __name__)
 
-@auth.before_app_first_request
-def setup_oauth():
-    # OAuth configuration can happen inside a setup function or lazily
-    pass
+# Google OAuth registration logic should be here or inside create_app
+# But we'll use a lazily-initialized helper for maximum stability
+_google_client = None
 
 def get_google_client():
+    global _google_client
+    if _google_client: return _google_client
+    
     from app import oauth
-    return oauth.register(
+    _google_client = oauth.register(
         name='google',
         client_id=os.environ.get('GOOGLE_CLIENT_ID', ''),
         client_secret=os.environ.get('GOOGLE_CLIENT_SECRET', ''),
         server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
         client_kwargs={'scope': 'openid email profile'}
     )
+    return _google_client
 
 @auth.route("/register", methods=['GET', 'POST'])
 def register():
@@ -47,7 +50,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-叠
+        
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             current_app.logger.info(f"User {user.username} logged in successfully")

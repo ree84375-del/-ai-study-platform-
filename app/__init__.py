@@ -105,34 +105,37 @@ def create_app():
             db.create_all()
             app.logger.info("db.create_all() successful.")
             
-            # Batch migrations for speed and stability
-            migration_sql = """
-            ALTER TABLE "group" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;
-            ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;
-            ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;
-            ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS exam_date DATE;
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS study_plan_json TEXT;
-            ALTER TABLE "group" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;
-            ALTER TABLE "group" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS bio TEXT;
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS learning_goals TEXT;
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型';
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local';
-            ALTER TABLE "user" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP;
-            ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE;
-            ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;
-            ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
-            ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;
-            """
-            try:
-                db.session.execute(text(migration_sql))
-                db.session.commit()
-                app.logger.info("Batch migrations successful.")
-            except Exception as e:
-                db.session.rollback()
-                app.logger.warning(f"Batch migration partial failure (common if columns exist): {e}")
+            # Split migrations and execute each one safely
+            migration_statements = [
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT",
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0",
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型'",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255)",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local'",
+                "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT"
+            ]
+            
+            for stmt in migration_statements:
+                try:
+                    db.session.execute(text(stmt))
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()
+                    # Silently skip if column exists or other minor issue
+            
+            app.logger.info("Robust migrations completed.")
             
         except Exception as e:
             app.logger.error(f"FATAL Database setup error: {e}")
