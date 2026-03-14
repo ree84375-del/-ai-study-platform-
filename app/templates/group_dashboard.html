@@ -152,15 +152,22 @@
                 <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
                     {% for membership in group.members %}
                     {% set member_user = membership.member %}
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px; border-radius: 8px; border: 1px solid #eee;">
-                        <span style="font-weight: bold; font-size: 0.85rem;">{{ member_user.username }}</span>
-                        <form method="POST" action="{{ url_for('group.update_member_role', group_id=group.id, user_id=member_user.id) }}" style="display: flex; gap: 3px;">
+                    <div style="display: flex; align-items: center; padding: 10px 12px; background: white; border-radius: 12px; border: 1px solid #f0f0f0; gap: 12px; transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                        <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; flex-shrink: 0;">
+                            {{ (member_user.username | first | upper) }}
+                        </div>
+                        <div style="flex: 1; min-width: 0;">
+                            <div style="font-weight: 700; font-size: 0.85rem; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ member_user.username }}</div>
+                        </div>
+                        <form method="POST" action="{{ url_for('group.update_member_role', group_id=group.id, user_id=member_user.id) }}" style="display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <select name="new_role" style="padding: 2px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 0.75rem;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
+                            <select name="new_role" style="padding: 4px 8px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 0.75rem; background: #f8fafc; cursor: pointer;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
                                 <option value="student" {% if member_user.role == 'student' %}selected{% endif %}>學生</option>
                                 <option value="teacher" {% if member_user.role == 'teacher' %}selected{% endif %}>老師</option>
                             </select>
-                            <button type="submit" style="padding: 2px 5px; font-size: 0.7rem; background: var(--color-primary); color: white; border: none; border-radius: 4px;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>更</button>
+                            <button type="submit" style="padding: 5px 10px; font-size: 0.7rem; background: var(--color-primary); color: white; border: none; border-radius: 8px; cursor: pointer;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
+                                <i class="fa-solid fa-check"></i>
+                            </button>
                         </form>
                     </div>
                     {% endfor %}
@@ -301,7 +308,7 @@
                                             <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
                                         {% endif %}
                                         {% set is_ai_reply_to_me = (msg.author.username == '雪音老師' and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
-                                        {% if msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me %}
+                                        {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and msg.author.username != '雪音老師' %}
                                             <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
                                         {% endif %}
                                     </div>
@@ -594,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
                             <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="event.stopPropagation(); recallMessage(${msgId})"></i>
                         ` : ''}
-                        ${(isMine || isAI) ? `<i class="fa-solid fa-trash-can message-more-btn" style="color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage(${msgId})"></i>` : ''}
+                        ${(!isAI && (isMine || username==='主持人')) ? `<i class="fa-solid fa-trash-can message-more-btn" style="color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage(${msgId})"></i>` : ''}
                     </div>
                 </div>
             </div>
