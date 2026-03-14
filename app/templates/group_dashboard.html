@@ -80,11 +80,11 @@
             animation: slideDown 0.3s ease;
         }
         .interaction-buttons {
-            display: none;
+            display: none !important; /* Managed by JS */
             animation: fadeIn 0.2s ease;
         }
-        .message-wrapper:hover .interaction-buttons {
-            display: flex;
+        .interaction-buttons.active {
+            display: flex !important;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-5px); }
@@ -356,40 +356,44 @@
                                 </div>
 
                                 <!-- The Bubble -->
-                                <div id="msg-bubble-{{ msg.id }}" style="
+                                <div id="msg-bubble-{{ msg.id }}" 
+                                    class="message-bubble"
+                                    onclick="toggleControls({{ msg.id }})"
+                                    style="
                                     display: inline-block;
                                     width: fit-content;
-                                    padding: 8px 14px; 
-                                    border-radius: 16px; 
+                                    padding: 10px 16px; 
+                                    border-radius: 20px; 
                                     font-size: 0.95rem;
-                                    line-height: 1.4;
+                                    line-height: 1.5;
                                     word-break: break-word;
-                                    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
                                     max-width: 100%;
                                     position: relative;
+                                    cursor: pointer;
+                                    transition: all 0.2s ease;
                                     {% if msg.user_id == current_user.id %}
                                         align-self: flex-end;
-                                    {% else %}
-                                        align-self: flex-start;
-                                    {% endif %}
-                                    {% if msg.user_id == current_user.id %}
                                         background: linear-gradient(135deg, var(--color-primary), #6395e3); 
                                         color: white; 
-                                        border-bottom-right-radius: 5px;
+                                        border-bottom-right-radius: 4px;
                                     {% elif msg.author and msg.author.username == '雪音老師' %}
-                                        background: #fff8f8; 
+                                        align-self: flex-start;
+                                        background: #fff; 
                                         color: #333; 
                                         border: 1px solid #ffccce;
-                                        border-bottom-left-radius: 5px;
+                                        border-bottom-left-radius: 4px;
+                                        box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);
                                     {% else %}
+                                        align-self: flex-start;
                                         background: white; 
                                         color: #222; 
                                         border: 1px solid #e2e8f0;
-                                        border-bottom-left-radius: 5px;
+                                        border-bottom-left-radius: 4px;
                                     {% endif %}
                                 ">
                                     {% if msg.parent_id and msg.parent %}
-                                        <div class="quoted-msg" onclick="document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;">
+                                        <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;">
                                             <div style="font-weight: bold; font-size: 0.75rem; margin-bottom: 2px;">
                                                 <i class="fa-solid fa-quote-left"></i> {{ msg.parent.author.username }}
                                             </div>
@@ -414,15 +418,15 @@
                                             {%- endif -%}
                                         {%- endif %}</div>
 
-                                    <!-- Interaction Buttons (Shown on message-wrapper hover) -->
-                                    <div class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -25px; display: flex; gap: 8px; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(4px); z-index: 10;">
-                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1;" title="回覆" onclick="startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
+                                    <!-- Interaction Buttons -->
+                                    <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -35px; display: none; gap: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(8px); z-index: 100;">
+                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1; color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
                                         {% if msg.user_id == current_user.id and not msg.is_recalled %}
-                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1;" title="編輯" onclick="startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
-                                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="recallMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
+                                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
                                         {% endif %}
                                         {% if msg.user_id == current_user.id or current_user.id == group.teacher_id %}
-                                            <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="deleteMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -508,6 +512,25 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollToBottom();
 
     // --- Message Interactions ---
+    window.toggleControls = (msgId) => {
+        const controls = document.getElementById(`controls-${msgId}`);
+        const isActive = controls.classList.contains('active');
+        
+        // Close all others
+        document.querySelectorAll('.interaction-buttons').forEach(el => el.classList.remove('active'));
+        
+        if (!isActive) {
+            controls.classList.add('active');
+        }
+    };
+
+    // Close controls when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.message-bubble')) {
+            document.querySelectorAll('.interaction-buttons').forEach(el => el.classList.remove('active'));
+        }
+    });
+
     window.startReply = (msgId, username, content) => {
         const parentIdInput = document.getElementById('parent-id-input');
         const replyPreview = document.getElementById('reply-preview');

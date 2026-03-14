@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 :root {
     /* DEFAULT (Sakura) */
     --color-primary: #d89c9a;
@@ -130,6 +134,8 @@ body {
     line-height: 1.6;
     background-attachment: fixed;
     position: relative;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 body::before {
@@ -382,8 +388,11 @@ body::before {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--color-card-border);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    box-shadow: 
+        0 4px 6px -1px var(--color-shadow),
+        0 2px 4px -1px var(--color-shadow),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     overflow: hidden;
@@ -391,9 +400,11 @@ body::before {
 }
 
 .washi-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 20px 25px -5px rgba(0, 0, 0, 0.05),
+        0 10px 10px -5px rgba(0, 0, 0, 0.02);
     border-color: rgba(255, 255, 255, 0.8);
 }
 
