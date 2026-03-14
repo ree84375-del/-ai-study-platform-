@@ -355,7 +355,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // Scroll chat board to bottom
+    // --- DOM Elements ---
     const messageContainer = document.querySelector('.chat-scroll-area');
     const chatForm = document.getElementById('chat-form');
     const chatInput = document.getElementById('chat-input');
@@ -372,43 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     scrollToBottom();
     
-    // Convert UTC to local time
-    const timeElements = document.querySelectorAll('.utc-time');
-    timeElements.forEach(el => {
-        const utcDate = el.getAttribute('data-utc');
-        if (utcDate) {
-            const date = new Date(utcDate);
-            el.innerText = date.toLocaleString('zh-TW', { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' });
-        }
-    });
-
-    // Handle image file
-    function handleImageFile(file) {
-        if (!file || !file.type.startsWith('image/')) return;
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            imagePreview.src = event.target.result;
-            imageDataInput.value = event.target.result;
-            imagePreviewContainer.style.display = 'block';
-            scrollToBottom();
-        };
-        reader.readAsDataURL(file);
-    }
-
-    if (fileInput) {
-        fileInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
-    }
-
-    // Auto-expand textarea
-    if (chatInput) {
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-            scrollToBottom();
-        });
-    }
-
-    // Append Message UI
+    // --- Utils ---
     function appendMessage(data) {
         if (!messageContainer) return;
         const isMine = data.is_mine;
@@ -418,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const avatarHtml = isAI ? 
             `<img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">` : 
-            `<div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">${username[0].toUpperCase()}</div>`;
+            `<div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">${(username[0] || '?').toUpperCase()}</div>`;
 
         const msgHtml = `
             <div style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
@@ -446,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToBottom();
     }
 
-    // AJAX POST
+    // --- AJAX handlers ---
     if (chatForm) {
         chatForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -466,16 +430,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
             .then(res => {
-                if (!res.ok) {
-                    return res.text().then(text => { throw new Error('伺服器錯誤: ' + res.status + '\n' + text.substring(0, 100)); });
-                }
+                if (!res.ok) throw new Error('伺服器錯誤: ' + res.status);
                 return res.json();
             })
             .then(data => {
                 if (data.status === 'success') {
                     appendMessage(data.user_message);
                     
-                    // Trigger AI if enabled
                     if (data.ai_triggered) {
                         const thinkingId = 'ai-thinking-' + Date.now();
                         const thinkingHtml = `
@@ -496,7 +457,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             scrollToBottom();
                         }
 
-                        // Call AI Reply endpoint
                         fetch("{{ url_for('group.ai_reply', group_id=group.id) }}", {
                             method: 'POST',
                             headers: { 
@@ -513,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         .catch(err => {
                             const thinkingEl = document.getElementById(thinkingId);
                             if (thinkingEl) thinkingEl.remove();
+                            console.error('AI Reply Error:', err);
                         });
                     }
                 } else {
@@ -520,8 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(err => {
-                console.error(err);
-                alert('JS或網路錯誤: ' + err.message);
+                console.error('Submit Error:', err);
+                alert('連線失敗: ' + err.message);
             });
         });
 
