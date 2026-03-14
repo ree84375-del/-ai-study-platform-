@@ -285,8 +285,19 @@
                         onblur="this.style.borderColor='var(--color-border)'; this.style.boxShadow='none';"></textarea>
                     
                     <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="font-size: 0.85rem; color: var(--color-text_light);">
-                             <i class="fa-solid fa-circle-info"></i> 支援 Markdown 換行與圖片貼上
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <!-- Hidden File Input -->
+                            <input type="file" id="file-input" accept="image/*" style="display: none;">
+                            <!-- Visible Upload Button (+) -->
+                            <button type="button" onclick="document.getElementById('file-input').click()" 
+                                style="width: 45px; height: 45px; border-radius: 50%; border: 2px dashed var(--color-primary); background: transparent; color: var(--color-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.2s; box-sizing: border-box;"
+                                onmouseover="this.style.background='rgba(100, 149, 237, 0.05)'; this.style.transform='scale(1.05)';" 
+                                onmouseout="this.style.background='transparent'; this.style.transform='scale(1)';">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                            <div style="font-size: 0.85rem; color: var(--color-text_light);">
+                                 <i class="fa-solid fa-circle-info"></i> 點擊 + 或直接貼上圖片
+                            </div>
                         </div>
                         <button type="submit" style="background-color: var(--color-primary); color: white; border: none; min-width: 120px; height: 45px; padding: 0 25px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" onmouseover="this.style.opacity='0.9'; this.style.transform='translateY(-1px)';" onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)';">
                             <i class="fa-solid fa-paper-plane"></i> 送出訊息
@@ -316,6 +327,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // References
+    const chatInput = document.getElementById('chat-input');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const imageDataInput = document.getElementById('image-data-input');
+    const fileInput = document.getElementById('file-input');
+
+    // Helper to process file
+    function handleImageFile(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            imagePreview.src = event.target.result;
+            imageDataInput.value = event.target.result;
+            imagePreviewContainer.style.display = 'block';
+            
+            // Scroll to see preview
+            if (messageContainer) {
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // File Input Change
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            handleImageFile(e.target.files[0]);
+        });
+    }
+
     // Auto-expand textarea
     if (chatInput) {
         chatInput.addEventListener('input', function() {
@@ -340,19 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let index in items) {
                 const item = items[index];
                 if (item.kind === 'file') {
-                    const blob = item.getAsFile();
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        imagePreview.src = event.target.result;
-                        imageDataInput.value = event.target.result;
-                        imagePreviewContainer.style.display = 'block';
-                        
-                        // Scroll to see preview
-                        if (messageContainer) {
-                            messageContainer.scrollTop = messageContainer.scrollHeight;
-                        }
-                    };
-                    reader.readAsDataURL(blob);
+                    handleImageFile(item.getAsFile());
                 }
             }
         });
