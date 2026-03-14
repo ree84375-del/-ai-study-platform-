@@ -18,6 +18,7 @@ def add_garden_xp(amount):
 
 def update_garden_state():
     """Updates weather and active user count based on recent activity."""
+    from sqlalchemy.exc import ProgrammingError
     stats = GlobalStat.get_instance()
     now = datetime.now(timezone.utc)
     
@@ -25,9 +26,19 @@ def update_garden_state():
     if now - stats.last_weather_check.replace(tzinfo=timezone.utc) < timedelta(minutes=15):
         return stats
     
-    # Count users who logged in or did something in the last 30 minutes
-    thirty_mins_ago = now - timedelta(minutes=30)
-    active_count = User.query.filter(User.last_login >= thirty_mins_ago).count()
+    active_count = 0
+    try:
+        # Count users who logged in or did something in the last 30 minutes
+        thirty_mins_ago = now - timedelta(minutes=30)
+        # Check if the attribute exists to avoid AttributeError during migration
+        if hasattr(User, 'last_login'):
+            active_count = User.query.filter(User.last_login >= thirty_mins_ago).count()
+        else:
+            # If not yet migrated, we just assume 1 user (current)
+            active_count = 1
+    except Exception as e:
+        # Fallback to avoid crashing the whole page
+        active_count = 1
     
     stats.active_users_count = active_count
     stats.last_weather_check = now

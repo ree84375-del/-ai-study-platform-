@@ -58,17 +58,17 @@ def home():
         if not active_daruma:
             active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=True).order_by(Daruma.completed_at.desc()).first()
 
-    # Collaborative Garden Stats & Auto-Migration
-    from app.models import GlobalStat
+    # --- GLOBAL DATABASE HEALTH CHECK (Auto-Migration) ---
     from sqlalchemy import text
     from sqlalchemy.exc import ProgrammingError
     from app import db
+    
+    # Fix 1: GlobalStat table
     try:
-        from app.utils.garden_helpers import update_garden_state
-        garden_stats = update_garden_state()
+        db.session.execute(text("SELECT 1 FROM global_stat LIMIT 1"))
     except ProgrammingError:
         db.session.rollback()
-        # Create table if missing
+        current_app.logger.warning("Creating global_stat table...")
         db.session.execute(text("""
             CREATE TABLE IF NOT EXISTS global_stat (
                 id SERIAL PRIMARY KEY,
@@ -80,21 +80,33 @@ def home():
             )
         """))
         db.session.commit()
-        from app.utils.garden_helpers import update_garden_state
-        garden_stats = update_garden_state()
 
-    # User table auto-migration (ensure last_login exists)
+    # Fix 2: User table columns
     try:
         db.session.execute(text("SELECT last_login FROM \"user\" LIMIT 1"))
     except ProgrammingError:
         db.session.rollback()
-        current_app.logger.warning("Detected missing last_login in User table. Attempting auto-fix...")
+        current_app.logger.warning("Adding last_login to User table...")
         try:
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_login TIMESTAMP"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP"))
             db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            current_app.logger.error(f"Failed to add last_login: {e}")
+        except Exception: db.session.rollback()
+
+    # --- END HEALTH CHECK ---
+
+    # Collaborative Garden Stats logic
+    try:
+        from app.utils.garden_helpers import update_garden_state
+        garden_stats = update_garden_state()
+    except Exception as e:
+        current_app.logger.error(f"Garden state error: {e}")
+        # Fallback stats object
+        class FallbackStats:
+            zen_xp = 0
+            garden_level = 1
+            current_weather = '寧靜霧氣'
+            active_users_count = 1
+        garden_stats = FallbackStats()
             
     mistakes_to_review = 0
     if current_user.is_authenticated:
