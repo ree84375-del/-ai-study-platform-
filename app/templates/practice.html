@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block title %}測驗練習{% endblock %}
 {% block content %}
-<div class="container" style="max-width: 800px;">
-    
     <div style="margin-bottom: 1rem; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="{{ url_for('study.practice') }}" class="btn-filter" style="text-decoration:none; padding:5px 15px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:15px; color:var(--color-text_main);">全部</a>
         <a href="{{ url_for('study.practice', subject='國文') }}" class="btn-filter" style="text-decoration:none; padding:5px 15px; background:var(--color-bg); border:1px solid var(--color-border); border-radius:15px; color:var(--color-text_main);">國文</a>
