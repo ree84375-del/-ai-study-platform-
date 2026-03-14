@@ -466,7 +466,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
             .then(res => {
-                if (!res.ok) throw new Error('伺服器錯誤: ' + res.status);
+                if (!res.ok) {
+                    console.error('Chat submit failed:', res.status, res.url);
+                    throw new Error(`伺服器錯誤 (${res.status}): ${res.url}`);
+                }
                 return res.json();
             })
             .then(data => {
@@ -493,18 +496,26 @@ document.addEventListener('DOMContentLoaded', () => {
                             scrollToBottom();
                         }
 
-                        fetch("{{ url_for('group.ai_reply', group_id=group.id) }}", {
+                        const aiReplyUrl = "{{ url_for('group.ai_reply', group_id=group.id) }}";
+                        fetch(aiReplyUrl, {
                             method: 'POST',
                             headers: { 
                                 'X-Requested-With': 'XMLHttpRequest',
                                 'X-CSRFToken': '{{ csrf_token() }}'
                             }
                         })
-                        .then(res => res.json())
+                        .then(res => {
+                            if (!res.ok) {
+                                console.error('AI Reply failed:', res.status, res.url);
+                                throw new Error(`AI 回覆失敗 (${res.status}): ${res.url}`);
+                            }
+                            return res.json();
+                        })
                         .then(aiData => {
                             const thinkingEl = document.getElementById(thinkingId);
                             if (thinkingEl) thinkingEl.remove();
                             if (aiData.status === 'success') appendMessage(aiData.ai_message);
+                            else console.warn('AI skipped or errored:', aiData.message);
                         })
                         .catch(err => {
                             const thinkingEl = document.getElementById(thinkingId);

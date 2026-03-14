@@ -7,7 +7,7 @@ from app.utils.ai_helpers import get_ai_tutor_response
 
 group = Blueprint('group', __name__)
 
-@group.route("/groups", methods=['GET', 'POST'])
+@group.route("/groups", methods=['GET', 'POST'], strict_slashes=False)
 @login_required
 def groups():
     from app import db
@@ -62,7 +62,7 @@ def groups():
     
     return render_template('groups.html', groups=unique_groups)
 
-@group.route("/api/online_members/<int:group_id>")
+@group.route("/api/online_members/<int:group_id>", strict_slashes=False)
 @login_required
 def online_members(group_id):
     from app import db
@@ -99,7 +99,7 @@ def online_members(group_id):
         
     return jsonify({'members': members})
 
-@group.route("/groups/<int:group_id>/leave", methods=['POST'])
+@group.route("/groups/<int:group_id>/leave", methods=['POST'], strict_slashes=False)
 @login_required
 def leave_group(group_id):
     from app import db
@@ -256,7 +256,7 @@ def group_dashboard(group_id):
         current_app.logger.error(f"FATAL ERROR in group_dashboard: {err_msg}")
         return f"<div style='padding:20px; font-family:sans-serif;'><h2>系統發生錯誤 (Dashboard)</h2><pre style='background:#f0f0f0; padding:10px; overflow:auto;'>{err_msg}</pre></div>", 500
 
-@group.route("/groups/<int:group_id>/update_member_role/<int:user_id>", methods=['POST'])
+@group.route("/groups/<int:group_id>/update_member_role/<int:user_id>", methods=['POST'], strict_slashes=False)
 @login_required
 def update_member_role(group_id, user_id):
     from app import db
@@ -285,6 +285,7 @@ def update_member_role(group_id, user_id):
 @group.route('/api/groups/<int:group_id>/ai_reply', methods=['POST'], strict_slashes=False)
 @login_required
 def ai_reply(group_id):
+    current_app.logger.info(f"AI Reply triggered for group {group_id} by user {current_user.username}")
     from app import db, bcrypt
     from app.models import User, Group, GroupMessage
     import random
