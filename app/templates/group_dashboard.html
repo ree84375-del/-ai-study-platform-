@@ -284,8 +284,13 @@
                                             <img src="{{ msg.image_data }}" style="max-width: 100%; display: block;">
                                         </div>
                                     {% endif %}
-                                    
-                                             {%- endif -%}
+                                       <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 5px;">{% if msg.is_recalled -%}
+                                            <span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> 此訊息已收回</span>
+                                        {%- else -%}
+                                            {{ msg.content.strip() }}
+                                            {%- if msg.is_edited -%}
+                                                <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>
+                                            {%- endif -%}
                                         {%- endif %}</div>
 
                                     <!-- Interaction Entry Point (Ellipsis) -->
