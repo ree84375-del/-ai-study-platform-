@@ -14,6 +14,21 @@ group = Blueprint('group', __name__)
 def groups():
     from app import db
     from app.models import Group, GroupMember
+
+    # --- DATABASE HEALTH CHECK (Auto-Migration) ---
+    try:
+        db.session.execute(text("SELECT group_type FROM \"group\" LIMIT 1"))
+    except ProgrammingError:
+        db.session.rollback()
+        auto_fixes = [
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
+        ]
+        for stmt in auto_fixes:
+            try:
+                db.session.execute(text(stmt))
+                db.session.commit()
+            except: db.session.rollback()
+    # --- END DATABASE HEALTH CHECK ---
     if request.method == 'POST':
         action = request.form.get('action')
         
