@@ -3,6 +3,8 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.models import User, Question, ChatSession, Group, Announcement
 from app import db
+from sqlalchemy import text
+from sqlalchemy.exc import ProgrammingError
 from app.utils.ai_helpers import get_gemini_model
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -16,6 +18,33 @@ def require_admin():
 
 @admin.route('/dashboard')
 def dashboard():
+    # --- DATABASE HEALTH CHECK (Auto-Migration) ---
+    try:
+        db.session.execute(text("SELECT group_type FROM \"group\" LIMIT 1"))
+    except ProgrammingError:
+        db.session.rollback()
+        auto_fixes = [
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_answer TEXT",
+            "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_image VARCHAR(255)",
+            "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS due_date TIMESTAMP",
+            "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS description TEXT",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
+        ]
+        for stmt in auto_fixes:
+            try:
+                db.session.execute(text(stmt))
+                db.session.commit()
+            except: db.session.rollback()
+    # --- END DATABASE HEALTH CHECK ---
+
     users = User.query.all()
     gemini_keys = os.environ.get('GEMINI_API_KEYS', os.environ.get('GEMINI_API_KEY', ''))
     groq_keys = os.environ.get('GROQ_API_KEYS', '')
