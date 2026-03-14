@@ -282,7 +282,7 @@ def update_member_role(group_id, user_id):
         
     return redirect(url_for('group.group_dashboard', group_id=group_id))
 
-@group.route('/groups/<int:group_id>/ai_reply', methods=['POST'], strict_slashes=False)
+@group.route('/api/groups/<int:group_id>/ai_reply', methods=['POST'], strict_slashes=False)
 @login_required
 def ai_reply(group_id):
     from app import db, bcrypt
