@@ -389,8 +389,19 @@ def delete_message(message_id):
     msg = GroupMessage.query.get_or_404(message_id)
     group_obj = Group.query.get(msg.group_id)
     
-    # 作者或老師可刪除
-    if msg.user_id != current_user.id and group_obj.teacher_id != current_user.id:
+    # 作者是本人，或者是群組老師，或者是 AI 訊息且本人是該 AI 訊息所回覆的對象
+    is_teacher = (group_obj.teacher_id == current_user.id)
+    is_author = (msg.user_id == current_user.id)
+    
+    # 檢查是否為 AI 訊息且當前用戶是其回覆對象
+    is_ai_reply_to_me = False
+    yukine = User.query.filter_by(username='雪音老師').first()
+    if yukine and msg.user_id == yukine.id and msg.parent_id:
+        parent_msg = GroupMessage.query.get(msg.parent_id)
+        if parent_msg and parent_msg.user_id == current_user.id:
+            is_ai_reply_to_me = True
+
+    if not is_author and not is_teacher and not is_ai_reply_to_me:
         return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
         
     msg.is_deleted = True

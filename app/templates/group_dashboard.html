@@ -292,12 +292,16 @@
                                                 <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>
                                             {%- endif -%}
                                         {%- endif %}</div>
+                                </div>
 
-                                    <!-- Interaction Entry Point (Ellipsis) -->
-                                    <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls({{ msg.id }})" style="position: absolute; {% if msg.user_id == current_user.id %}left: 8px;{% else %}right: 8px;{% endif %} bottom: 8px; opacity: 0.6; cursor: pointer; font-size: 0.8rem; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'">
-                                        <i class="fa-solid fa-ellipsis"></i>
-                                    </div>
-
+                                <!-- Interaction Entry Point (Ellipsis) - Outside Bubble -->
+                                <div class="message-more-trigger" 
+                                    onclick="event.stopPropagation(); toggleControls({{ msg.id }})" 
+                                    style="margin-top: 4px; {% if msg.user_id == current_user.id %}align-self: flex-end; margin-right: 8px;{% else %}align-self: flex-start; margin-left: 8px;{% endif %} opacity: 0.4; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;" 
+                                    onmouseover="this.style.opacity='1'; this.style.transform='scale(1.2)'" 
+                                    onmouseout="this.style.opacity='0.4'; this.style.transform='scale(1)'">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </div>
 
                                     <!-- Interaction Buttons -->
                                     <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -35px; display: none; gap: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(8px); z-index: 100;">
@@ -306,7 +310,7 @@
                                             <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
                                             <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
                                         {% endif %}
-                                        {% if msg.user_id == current_user.id or current_user.id == group.teacher_id %}
+                                        {% if msg.user_id == current_user.id or current_user.id == group.teacher_id or (msg.author.username == '雪音老師' and msg.parent and msg.parent.user_id == current_user.id) %}
                                             <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
                                         {% endif %}
                                     </div>
@@ -579,21 +583,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
                         
                         <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 5px;">${(data.content || '').trim()}</div>
+                    </div>
 
-                        <!-- Interaction Entry Point (Ellipsis) -->
-                        <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls(${msgId})" style="position: absolute; ${isMine ? 'left: 8px;' : 'right: 8px;'} bottom: 8px; opacity: 0.6; cursor: pointer; font-size: 0.8rem; transition: opacity 0.2s;">
-                            <i class="fa-solid fa-ellipsis"></i>
-                        </div>
+                    <!-- Interaction Entry Point (Ellipsis) -->
+                    <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls(${msgId})" style="margin-top: 4px; ${isMine ? 'align-self: flex-end; margin-right: 8px;' : 'align-self: flex-start; margin-left: 8px;'} opacity: 0.4; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
 
-
-                        <!-- Interaction Buttons -->
-                        <div id="controls-${msgId}" class="interaction-buttons" style="position: absolute; ${isMine ? 'right: 15px;' : 'left: 15px;'} top: -35px;">
-                            <i class="fa-solid fa-reply message-more-btn" style="color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
-                            ${isMine ? `
-                                <i class="fa-solid fa-pen message-more-btn" style="color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
-                                <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="event.stopPropagation(); recallMessage(${msgId})"></i>
-                            ` : ''}
-                        </div>
+                    <!-- Interaction Buttons -->
+                    <div id="controls-${msgId}" class="interaction-buttons" style="position: absolute; ${isMine ? 'right: 15px;' : 'left: 15px;'} top: -35px;">
+                        <i class="fa-solid fa-reply message-more-btn" style="color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                        ${isMine ? `
+                            <i class="fa-solid fa-pen message-more-btn" style="color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                            <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="event.stopPropagation(); recallMessage(${msgId})"></i>
+                        ` : ''}
+                        ${(isMine || isAI) ? `<i class="fa-solid fa-trash-can message-more-btn" style="color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage(${msgId})"></i>` : ''}
+                    </div>
                     </div>
                 </div>
             </div>
