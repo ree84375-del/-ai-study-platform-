@@ -150,7 +150,7 @@ class Assignment(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
-    statuses = db.relationship('AssignmentStatus', backref='assignment', lazy=True)
+    statuses = db.relationship('AssignmentStatus', backref='assignment', lazy=True, cascade="all, delete-orphan")
 
 class AssignmentStatus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -170,7 +170,7 @@ class GroupAnnouncement(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
-    group_ref = db.relationship('Group', backref=db.backref('group_announcements', lazy=True))
+    group_ref = db.relationship('Group', backref=db.backref('group_announcements', lazy=True, cascade="all, delete-orphan"))
 
 class ChatSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -215,7 +215,7 @@ class GroupMessage(db.Model):
     
     # Relationships
     author = db.relationship('User', backref=db.backref('group_messages', lazy=True))
-    group_ref = db.relationship('Group', backref=db.backref('messages', lazy=True))
+    group_ref = db.relationship('Group', backref=db.backref('messages', lazy=True, cascade="all, delete-orphan"))
     replies = db.relationship('GroupMessage', backref=db.backref('parent', remote_side=[id]), lazy=True)
 
 class Omikuji(db.Model):
