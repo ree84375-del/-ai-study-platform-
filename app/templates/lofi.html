@@ -285,19 +285,19 @@
                     專注音效
                 </h3>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                    <button onclick="toggleAudio('lofi')" class="audio-btn" id="lofi-btn">
+                    <button onclick="safeToggleAudio('lofi')" class="audio-btn" id="lofi-btn">
                         <i class="fa-solid fa-compact-disc feature-icon"></i>
                         <span>Lofi Beats</span>
                     </button>
-                    <button onclick="toggleAudio('rain')" class="audio-btn" id="rain-btn">
+                    <button onclick="safeToggleAudio('rain')" class="audio-btn" id="rain-btn">
                         <i class="fa-solid fa-cloud-rain feature-icon"></i>
                         <span>綿綿細雨</span>
                     </button>
-                    <button onclick="toggleAudio('cafe')" class="audio-btn" id="cafe-btn">
+                    <button onclick="safeToggleAudio('cafe')" class="audio-btn" id="cafe-btn">
                         <i class="fa-solid fa-mug-hot feature-icon"></i>
                         <span>咖啡廳</span>
                     </button>
-                    <button onclick="toggleAudio('forest')" class="audio-btn" id="forest-btn">
+                    <button onclick="safeToggleAudio('forest')" class="audio-btn" id="forest-btn">
                         <i class="fa-solid fa-leaf feature-icon"></i>
                         <span>深夜森林</span>
                     </button>
@@ -442,24 +442,26 @@
         setInterval(updateTimeTheme, 60000);
 
         // --- Audio Controls ---
-        const audios = {
-            lofi: document.getElementById('audio-lofi'),
-            rain: document.getElementById('audio-rain'),
-            cafe: document.getElementById('audio-cafe'),
-            forest: document.getElementById('audio-forest'),
-            break: document.getElementById('audio-break')
-        };
+        const audioKeys = ['lofi', 'rain', 'cafe', 'forest', 'break'];
+        
+        function getAudioElement(type) {
+            return document.getElementById('audio-' + type);
+        }
 
-        function toggleAudio(type) {
-            const audio = audios[type];
-            if (!audio) return;
+        function safeToggleAudio(type) {
+            const audio = getAudioElement(type);
+            if (!audio) {
+                console.error("Audio element not found:", type);
+                return;
+            }
             
             const btn = document.getElementById(type + '-btn');
             if (audio.paused) {
-                // Exclusive playback: Stop other audios if playing
-                Object.keys(audios).forEach(key => {
-                    if (key !== type) {
-                        audios[key].pause();
+                // Stop others
+                audioKeys.forEach(key => {
+                    const otherAudio = getAudioElement(key);
+                    if (otherAudio && key !== type) {
+                        otherAudio.pause();
                         const otherBtn = document.getElementById(key + '-btn');
                         if (otherBtn) {
                             otherBtn.classList.remove('active');
@@ -470,14 +472,15 @@
                 });
 
                 audio.play().then(() => {
-                    if (btn) btn.classList.add('active');
-                    audio.volume = document.getElementById('volume-slider').value;
                     if (btn) {
+                        btn.classList.add('active');
                         const icon = btn.querySelector('i');
-                        if (icon) icon.style.animation = 'pulse 2s infinite ease-in-out';
+                        if (icon) icon.style.animation = 'audio-pulse 2s infinite ease-in-out';
                     }
+                    audio.volume = document.getElementById('volume-slider').value;
                 }).catch(e => {
-                    console.warn("Audio playback prevented by auto-play policy until interaction:", e);
+                    console.warn("Playback failed:", e);
+                    alert("請先點擊頁面任意處，啟動瀏覽器音訊播放權限唷！");
                 });
             } else {
                 audio.pause();
@@ -568,7 +571,7 @@
                 });
                 
                 if (!isAnyPlaying) {
-                    toggleAudio(randomKey);
+                    safeToggleAudio(randomKey);
                 }
                 // ------------------------------------------
 
@@ -590,14 +593,15 @@
                         if (currentMode === 25) {
                             // Focus Ended -> Start Break
                             setTimer(5);
-                            toggleAudio('break'); // Automatically start break music
+                            safeToggleAudio('break'); // Automatically start break music
                             toggleTimer(); // Restart for 5 min
                         } else {
                             // Break Ended -> Back to Focus
                             setTimer(25);
                             // Stop break music
-                            if (!audios.break.paused) {
-                                toggleAudio('break');
+                            const breakAudio = getAudioElement('break');
+                            if (breakAudio && !breakAudio.paused) {
+                                safeToggleAudio('break');
                             }
                             // Don't auto-start focus timer to avoid surprising user
                         }
@@ -694,14 +698,9 @@
         text-shadow: 0 0 10px var(--color-accent);
     }
 
-    @keyframes iconBounce {
-        0% {
-            transform: scale(1);
-        }
-
-        100% {
-            transform: scale(1.15);
-        }
+    @keyframes audio-pulse {
+        0%, 100% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 5px var(--color-accent)); }
     }
 
     /* Mascot Lifelike Animation — subtle & organic */
