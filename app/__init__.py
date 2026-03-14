@@ -23,6 +23,9 @@ def create_app(config_class=None):
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_secret_key_12345')
     
+    # Register built-ins for Jinja2 templates stability guards
+    app.jinja_env.globals.update(hasattr=hasattr, getattr=getattr, any=any)
+    
     # Database Settings
     # Vercel serverless 環境檔案系統為唯讀，只有 /tmp 可寫入
     if os.environ.get('VERCEL'):
