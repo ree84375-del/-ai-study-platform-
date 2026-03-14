@@ -61,18 +61,27 @@ def create_app(config_class=None):
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # Fix stale connections to Supabase PostgreSQL and handle Vercel IPv6 issues
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        'pool_pre_ping': True,    # Test connections before use
-        'pool_recycle': 300,      # Recycle connections every 5 min
-        'pool_size': 5,
-        'max_overflow': 10,
-        'connect_args': {
-            'keepalives': 1,
-            'keepalives_idle': 30,
-            'keepalives_interval': 10,
-            'keepalives_count': 5,
+    # Vercel serverless functions: Use tiny pool size to avoid hitting Supabase connection limit
+    if os.environ.get('VERCEL'):
+        app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+            'pool_pre_ping': True,
+            'pool_recycle': 300,
+            'pool_size': 1,
+            'max_overflow': 0,
         }
-    }
+    else:
+        app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+            'pool_pre_ping': True,    # Test connections before use
+            'pool_recycle': 300,      # Recycle connections every 5 min
+            'pool_size': 5,
+            'max_overflow': 10,
+            'connect_args': {
+                'keepalives': 1,
+                'keepalives_idle': 30,
+                'keepalives_interval': 10,
+                'keepalives_count': 5,
+            }
+        }
 
     # Initialize extensions
     db.init_app(app)
@@ -124,6 +133,14 @@ def create_app(config_class=None):
             safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);")
             safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local';")
             safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP;")
+            # AssignmentStatus extensions
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE;")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;")
+            
+            # Assignment extensions
+            safe_execute("ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;")
+            
+            # Group Message image support
             safe_execute("ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;")
             
         except Exception as e:

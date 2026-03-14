@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.models import Group, GroupMember, GroupMessage
 from app import db, bcrypt
 import random
 import string
@@ -12,6 +11,7 @@ group = Blueprint('group', __name__)
 @group.route("/groups", methods=['GET', 'POST'])
 @login_required
 def groups():
+    from app.models import Group, GroupMember
     if request.method == 'POST':
         action = request.form.get('action')
         
@@ -60,6 +60,7 @@ def groups():
 @group.route("/api/online_members/<int:group_id>")
 @login_required
 def online_members(group_id):
+    from app.models import Group, GroupMember
     # Check if user is a member or teacher of this group
     is_member = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
     group_info = Group.query.get_or_404(group_id)
@@ -83,6 +84,7 @@ def online_members(group_id):
 @group.route("/groups/<int:group_id>/leave", methods=['POST'])
 @login_required
 def leave_group(group_id):
+    from app.models import Group, GroupMember
     group_obj = Group.query.get_or_404(group_id)
     membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
     
@@ -108,7 +110,7 @@ def leave_group(group_id):
 @group.route("/groups/<int:group_id>/dashboard", methods=['GET', 'POST'])
 @login_required
 def group_dashboard(group_id):
-    from app.models import GroupMember, GroupAnnouncement, GroupMessage, Assignment, AssignmentStatus, User
+    from app.models import Group, GroupMember, GroupAnnouncement, GroupMessage, Assignment, AssignmentStatus, User
     
     group_obj = Group.query.get_or_404(group_id)
     membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
@@ -239,7 +241,7 @@ def group_dashboard(group_id):
 @group.route("/groups/<int:group_id>/update_member_role/<int:user_id>", methods=['POST'])
 @login_required
 def update_member_role(group_id, user_id):
-    from app.models import User
+    from app.models import User, Group
     group_obj = Group.query.get_or_404(group_id)
     
     # Permission check: Only group creator can change roles
