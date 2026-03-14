@@ -125,8 +125,8 @@ class Group(db.Model):
     
     # Teacher relationship is handled directly by teacher_id, but we can access teacher
     teacher = db.relationship('User', foreign_keys=[teacher_id], backref=db.backref('owned_groups', lazy=True))
-    members = db.relationship('GroupMember', backref='group_info', lazy=True)
-    assignments = db.relationship('Assignment', backref='group', lazy=True)
+    members = db.relationship('GroupMember', backref='group_info', lazy=True, cascade="all, delete-orphan")
+    assignments = db.relationship('Assignment', backref='group', lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"Group('{self.name}', Code: '{self.invite_code}')"

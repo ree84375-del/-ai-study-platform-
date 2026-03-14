@@ -105,14 +105,20 @@ def leave_group(group_id):
     from app import db
     from app.models import Group, GroupMember
     group_obj = Group.query.get_or_404(group_id)
-    membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
-    
-    if membership:
-        db.session.delete(membership)
+    if group_obj.teacher_id == current_user.id:
+        # Teacher dissolving the group
+        db.session.delete(group_obj)
         db.session.commit()
-        flash(f'已退出群組：{group_obj.name}', 'success')
+        flash(f'已解散群組：{group_obj.name}，相關資料已全數清除。', 'success')
     else:
-        flash('您不是此群組的成員', 'danger')
+        # Standard member leaving
+        membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
+        if membership:
+            db.session.delete(membership)
+            db.session.commit()
+            flash(f'已退出群組：{group_obj.name}', 'success')
+        else:
+            flash('您不是此群組的成員', 'danger')
         
     return redirect(url_for('group.groups'))
 
