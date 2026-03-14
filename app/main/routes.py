@@ -57,16 +57,51 @@ def home():
         active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()).first()
         if not active_daruma:
             active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=True).order_by(Daruma.completed_at.desc()).first()
+
+    # Collaborative Garden Stats & Auto-Migration
+    from app.models import GlobalStat
+    from sqlalchemy import text
+    from sqlalchemy.exc import ProgrammingError
+    from app import db
+    try:
+        from app.utils.garden_helpers import update_garden_state
+        garden_stats = update_garden_state()
+    except ProgrammingError:
+        db.session.rollback()
+        # Create table if missing
+        db.session.execute(text("""
+            CREATE TABLE IF NOT EXISTS global_stat (
+                id SERIAL PRIMARY KEY,
+                zen_xp INTEGER DEFAULT 0,
+                garden_level INTEGER DEFAULT 1,
+                last_weather_check TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                current_weather VARCHAR(50) DEFAULT '晴朗',
+                active_users_count INTEGER DEFAULT 0
+            )
+        """))
+        db.session.commit()
+        from app.utils.garden_helpers import update_garden_state
+        garden_stats = update_garden_state()
             
         mistakes_to_review = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
         
-        # Parse study plan
-        if hasattr(current_user, 'study_plan_json') and current_user.study_plan_json:
+        # Roadmap data
+        from urllib.parse import unquote
+        if hasattr(current_user, 'study_roadmap') and current_user.study_roadmap:
             import json
             try:
-                study_plan = json.loads(current_user.study_plan_json)
+                study_plan = json.loads(unquote(current_user.study_roadmap))
             except Exception:
                 pass
+            
+        # Collaborative Garden Stats
+        from app.utils.garden_helpers import update_garden_state
+        garden_stats = update_garden_state()
+
+    # If NOT authenticated or fallback
+    if 'garden_stats' not in locals():
+        from app.models import GlobalStat
+        garden_stats = GlobalStat.get_instance()
     
     return render_template('home.html', 
                            announcements=announcements, 
@@ -74,7 +109,8 @@ def home():
                            recent_emas=recent_emas,
                            active_daruma=active_daruma,
                            mistakes_to_review=mistakes_to_review,
-                           study_plan=study_plan)
+                           study_plan=study_plan,
+                           garden_stats=garden_stats)
 
 @main.route("/about")
 def about():

@@ -337,6 +337,10 @@ def group_dashboard(group_id):
                     db.session.commit()
                     flash('作業已提交並由雪音老師批改完成', 'success')
                     
+                    # Add Garden XP
+                    from app.utils.garden_helpers import add_garden_xp
+                    add_garden_xp(25)
+                    
             return redirect(url_for('group.group_dashboard', group_id=group_id))
             
         current_app.logger.info("Step 4: Loading messages and data for render")

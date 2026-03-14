@@ -245,8 +245,11 @@
     </div>
     
     <!-- Collaborative Zen Garden Section -->
-    <div class="washi-card" style="padding: 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, var(--color-bg) 0%, rgba(133, 163, 146, 0.1) 100%); border: 1px solid rgba(133, 163, 146, 0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+    <div class="washi-card" style="padding: 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, var(--color-bg) 0%, rgba(133, 163, 146, 0.1) 100%); border: 1px solid rgba(133, 163, 146, 0.3); position: relative; overflow: hidden;">
+        <!-- Falling Sakura Canvas -->
+        <canvas id="sakura-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></canvas>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; position: relative; z-index:1;">
             <h3 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-mountain-sun"></i> 協作禪意花園
             </h3>
@@ -255,29 +258,31 @@
             </span>
         </div>
         
-        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; position: relative; z-index:1;">
             <div style="flex: 1; min-width: 300px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                    <span style="font-weight: 500;">花園等級：Lv. 4</span>
-                    <span style="color: var(--color-text_light);">目前修行值：3,450 / 5,000</span>
+                    <span style="font-weight: 500;">花園等級：Lv. {{ garden_stats.garden_level }}</span>
+                    <span style="color: var(--color-text_light);">目前修行值：{{ "{:,}".format(garden_stats.zen_xp % 5000) }} / 5,000</span>
                 </div>
                 <div style="height: 12px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden;">
-                    <div style="width: 69%; height: 100%; background: linear-gradient(90deg, var(--color-primary), #a8e6cf); border-radius: 10px; animation: progress-glow 2s infinite alternate;"></div>
+                    <div style="width: {{ (garden_stats.zen_xp % 5000) / 5000 * 100 }}%; height: 100%; background: linear-gradient(90deg, var(--color-primary), #a8e6cf); border-radius: 10px; animation: progress-glow 2s infinite alternate;"></div>
                 </div>
                 <p style="font-size: 0.8rem; color: var(--color-text_light); margin-top: 10px;">
                     <i class="fa-solid fa-circle-info"></i> 每完成一次練習或複習錯題，全服修行值都會增加喔！當等級提升，花園裡的櫻花會開得更燦爛。
                 </p>
             </div>
             <div style="display: flex; gap: 1rem;">
-                <div style="text-align: center; padding: 1rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                <div style="text-align: center; padding: 1rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(133, 163, 146, 0.2);">
                     <i class="fa-solid fa-cloud-sun" style="font-size: 1.5rem; color: #ffbc42;"></i>
                     <div style="font-size: 0.8rem; color: var(--color-text_light);">今日氣候</div>
-                    <div style="font-weight: bold;">晴朗</div>
+                    <div style="font-weight: bold;">{{ garden_stats.current_weather }}</div>
                 </div>
-                <div style="text-align: center; padding: 1rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                <div style="text-align: center; padding: 1rem; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid rgba(133, 163, 146, 0.2);">
                     <i class="fa-solid fa-seedling" style="font-size: 1.5rem; color: #72b01d;"></i>
                     <div style="font-size: 0.8rem; color: var(--color-text_light);">植被狀態</div>
-                    <div style="font-weight: bold;">繁茂</div>
+                    <div style="font-weight: bold;">
+                        {% if garden_stats.garden_level >= 10 %}繁花似錦{% elif garden_stats.garden_level >= 5 %}繁茂{% else %}萌芽中{% endif %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -349,8 +354,74 @@
             if(document.getElementById('omikuji-animation')) {
                 document.getElementById('omikuji-animation').style.display = 'none';
             }
+
+            // Sakura Particle System
+            initSakura({{ garden_stats.garden_level }});
         });
 
+        function initSakura(level) {
+            const canvas = document.getElementById('sakura-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width, height, petals = [];
+            
+            // Adjust density by level
+            const petalCount = Math.min(20 + (level * 5), 100);
+
+            function resize() {
+                width = canvas.width = canvas.offsetWidth;
+                height = canvas.height = canvas.offsetHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Petal {
+                constructor() {
+                    this.reset();
+                }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height - height;
+                    this.r = 5 + Math.random() * 5;
+                    this.d = Math.random() * petalCount;
+                    this.angle = Math.random() * 360;
+                    this.velX = -1 + Math.random() * 2;
+                    this.velY = 1 + Math.random() * 1.5;
+                    this.rot = Math.random() * 0.1;
+                }
+                update() {
+                    this.y += this.velY;
+                    this.x += this.velX;
+                    this.angle += this.rot;
+                    if (this.y > height) this.reset();
+                }
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.r, this.r / 2, 0, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(255, 183, 197, 0.6)';
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            for (let i = 0; i < petalCount; i++) petals.push(new Petal());
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                petals.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+    
+    <script>
         function showRoadmapForm() {
             document.getElementById('roadmap-container').style.display = 'none';
             document.getElementById('roadmap-form').style.display = 'block';

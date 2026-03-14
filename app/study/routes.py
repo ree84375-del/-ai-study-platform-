@@ -41,6 +41,11 @@ def practice():
                 mistake.next_review_date = datetime.now(timezone.utc) + timedelta(days=mistake.last_interval)
                 if mistake.srs_level >= 4: # Consider resolved if reached a high level
                     mistake.is_resolved = True
+                    flash('今日修練完成！您的盆景成長了唷', 'success')
+                    
+                    # Add Garden XP
+                    from app.utils.garden_helpers import add_garden_xp
+                    add_garden_xp(10)
             
             # Collaborative Garden Contribution
             try:

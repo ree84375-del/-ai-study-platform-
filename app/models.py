@@ -243,3 +243,20 @@ class Daruma(db.Model):
     completed_at = db.Column(db.DateTime, nullable=True)
     
     user = db.relationship('User', backref=db.backref('darumas', lazy=True))
+
+class GlobalStat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    zen_xp = db.Column(db.Integer, default=0)
+    garden_level = db.Column(db.Integer, default=1)
+    last_weather_check = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    current_weather = db.Column(db.String(50), default='晴朗')
+    active_users_count = db.Column(db.Integer, default=0)
+
+    @classmethod
+    def get_instance(cls):
+        instance = cls.query.first()
+        if not instance:
+            instance = cls(zen_xp=0, garden_level=1)
+            db.session.add(instance)
+            db.session.commit()
+        return instance
