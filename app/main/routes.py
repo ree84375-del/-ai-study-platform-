@@ -152,21 +152,8 @@ def change_password():
         flash('您的密碼存放在 Google 或其他第三方服務，請前往該服務修改。', 'info')
         return redirect(url_for('main.profile'))
 
-    # Cooldown check (5 days = 432000 seconds)
-    if current_user.password_last_changed:
-        now = datetime.now(timezone.utc)
-        # Ensure timezone awareness for comparison
-        dt_changed = current_user.password_last_changed
-        if dt_changed.tzinfo is None:
-            dt_changed = dt_changed.replace(tzinfo=timezone.utc)
-            
-        time_since_change = now - dt_changed
-        if time_since_change < timedelta(days=5):
-            remaining = timedelta(days=5) - time_since_change
-            days = remaining.days
-            hours = remaining.seconds // 3600
-            flash(f'密碼修改頻率限制：還需等待 {days} 天 {hours} 小時才能再次修改。', 'warning')
-            return redirect(url_for('main.profile'))
+    # Cooldown check (Temporarily disabled due to DB migration issue)
+    # TODO: Re-enable after verified migration
 
     current_password = request.form.get('current_password', '')
     new_password = request.form.get('new_password', '')
@@ -189,7 +176,6 @@ def change_password():
     # Update password
     try:
         current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-        current_user.password_last_changed = datetime.now(timezone.utc)
         db.session.commit()
         flash('密碼已成功變更！', 'success')
     except Exception:

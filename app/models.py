@@ -67,7 +67,6 @@ class User(db.Model, UserMixin):
     # study_plan_json = db.Column(db.Text, nullable=True)
     
     last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    password_last_changed = db.Column(db.DateTime, nullable=True)
     
     # Relationships
     mistakes = db.relationship('Mistake', backref='student', lazy=True)
