@@ -446,7 +446,7 @@ def ai_reply(group_id):
         return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
 
     # Generate AI Response
-    recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(10).all()
+    recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
     chat_history = []
     if not yukine:
         yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
@@ -454,8 +454,11 @@ def ai_reply(group_id):
         db.session.commit()
     
     for m in reversed(recent_msgs):
+        author_name = m.author.username if m.author else "匿名用戶"
         role = 'assistant' if m.user_id == yukine.id else 'user'
-        chat_history.append({'role': role, 'content': m.content})
+        # Include username in content for better identity tracking in group chats
+        content_with_name = f"{author_name}: {m.content}"
+        chat_history.append({'role': role, 'content': content_with_name})
     
     from app.utils.ai_helpers import get_ai_tutor_response
     
@@ -466,7 +469,9 @@ def ai_reply(group_id):
         if p_msg:
             user_context = f"(正在回覆 {p_msg.author.username} 說過的話: \"{p_msg.content}\") -> {last_msg.content}"
             
-    ai_reply_text = get_ai_tutor_response(chat_history, user_context, personality_key='雪音-溫柔型')
+    curr_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
+    ai_reply_text = get_ai_tutor_response(chat_history, context_with_time, personality_key='雪音-溫柔型')
     
     # 最終檢查：在存檔前確認父訊息是否已被收回 (避免時間差導致聯動失效)
     db.session.refresh(last_msg)
