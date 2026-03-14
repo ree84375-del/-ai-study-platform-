@@ -1,7 +1,7 @@
 import os
 import re
 import logging
-from flask import Flask
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
@@ -101,15 +101,14 @@ def create_app():
 
     # Database initialization is now moved to a separate step or handled lazily
     # to avoid Vercel timeouts during cold starts.
-    # We will only run basic create_all() if requested via env OR lazily.
-    if os.environ.get('SKIP_DB_INIT') != 'true':
-        with app.app_context():
-            try:
-                # Only run create_all on startup, migrations will be via a dedicated route
-                db.create_all()
-                app.logger.info("db.create_all() executed.")
-            except Exception as e:
-                app.logger.error(f"Lazy DB setup error (non-fatal): {e}")
+    # We will ONLY rely on migrations via /debug/setup_db or manual scripts.
+    # if os.environ.get('SKIP_DB_INIT') != 'true':
+    #     with app.app_context():
+    #         try:
+    #             db.create_all()
+    #             app.logger.info("db.create_all() executed.")
+    #         except Exception as e:
+    #             app.logger.error(f"Lazy DB setup error (non-fatal): {e}")
 
     # Global Error Handler
     @app.errorhandler(500)
