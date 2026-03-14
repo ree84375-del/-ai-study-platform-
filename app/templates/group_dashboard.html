@@ -364,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageDataInput = document.getElementById('image-data-input');
     const fileInput = document.getElementById('file-input');
 
+    // --- Utils ---
     const scrollToBottom = () => {
         if (messageContainer) {
             messageContainer.scrollTop = messageContainer.scrollHeight;
@@ -371,8 +372,43 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     scrollToBottom();
-    
-    // --- Utils ---
+
+    // Convert UTC to local time
+    const timeElements = document.querySelectorAll('.utc-time');
+    timeElements.forEach(el => {
+        const utcDate = el.getAttribute('data-utc');
+        if (utcDate) {
+            const date = new Date(utcDate);
+            el.innerText = date.toLocaleString('zh-TW', { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' });
+        }
+    });
+
+    // Handle image file
+    function handleImageFile(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            imagePreview.src = event.target.result;
+            imageDataInput.value = event.target.result;
+            imagePreviewContainer.style.display = 'block';
+            scrollToBottom();
+        };
+        reader.readAsDataURL(file);
+    }
+
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
+    }
+
+    // Auto-expand textarea
+    if (chatInput) {
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            scrollToBottom();
+        });
+    }
+
     function appendMessage(data) {
         if (!messageContainer) return;
         const isMine = data.is_mine;
