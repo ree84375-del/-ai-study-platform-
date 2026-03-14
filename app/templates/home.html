@@ -318,10 +318,12 @@
     {% include '_animations.html' %}
     
     <!-- State Metadata for JS -->
+    {% if current_user.is_admin %}
     <div id="js-state-metadata" 
          data-streak="{{ current_user.current_streak }}"
          data-daruma-state="{% if not active_daruma %}0{% elif not active_daruma.is_completed %}1{% else %}2{% endif %}"
          style="display: none;"></div>
+    {% endif %}
 
     <script>
         document.querySelectorAll('a.washi-card').forEach(card => {
@@ -362,7 +364,9 @@
             }
 
             // Sakura Particle System
+            {% if current_user.is_admin %}
             initSakura({{ garden_stats.garden_level }});
+            {% endif %}
         });
 
         function initSakura(level) {
