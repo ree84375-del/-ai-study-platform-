@@ -333,14 +333,9 @@ def group_dashboard(group_id):
                     status.is_completed = True
                     status.completed_at = datetime.now(timezone.utc)
                     
-                    from app.utils.ai_helpers import get_yukine_feedback
-                    assignment = Assignment.query.get(assignment_id)
-                    feedback, score = get_yukine_feedback(content, assignment.title, assignment.description)
-                    status.score = score
-                    status.ai_feedback = feedback
                     
                     db.session.commit()
-                    flash('作業已繳交，雪音老師已完成批改！', 'success')
+                    flash('作業已提交並由雪音老師批改完成', 'success')
                     
             return redirect(url_for('group.group_dashboard', group_id=group_id))
             
@@ -380,32 +375,31 @@ def group_dashboard(group_id):
             )
 
         current_app.logger.info("Step 6: Rendering template")
-        # --- Deadline Notification for Teachers ---
-    if group_obj.teacher_id == current_user.id:
-        from datetime import datetime
-        now = datetime.now(timezone.utc)
-        
-        # Check assignments that have passed or are approaching
-        overdue_assignments = Assignment.query.filter(
-            Assignment.group_id == group_id,
-            Assignment.due_date <= now
-        ).all()
-        
-        for assignment in overdue_assignments:
-            # Find students who haven't completed this assignment
-            all_member_ids = [m.user_id for m in group_obj.members]
-            completed_user_ids = [s.user_id for s in assignment.statuses if s.is_completed]
-            missing_user_ids = set(all_member_ids) - set(completed_user_ids)
+        if group_obj.teacher_id == current_user.id:
+            from datetime import datetime
+            now = datetime.now(timezone.utc)
             
-            if missing_user_ids:
-                missing_names = [User.query.get(uid).username for uid in missing_user_ids]
-                flash(f"注意！作業「{assignment.title}」已截止，以下學生尚未繳交：{', '.join(missing_names)}", 'warning')
+            # Check assignments that have passed or are approaching
+            overdue_assignments = Assignment.query.filter(
+                Assignment.group_id == group_id,
+                Assignment.due_date <= now
+            ).all()
+            
+            for assignment in overdue_assignments:
+                # Find students who haven't completed this assignment
+                all_member_ids = [m.user_id for m in group_obj.members]
+                completed_user_ids = [s.user_id for s in assignment.statuses if s.is_completed]
+                missing_user_ids = set(all_member_ids) - set(completed_user_ids)
+                
+                if missing_user_ids:
+                    missing_names = [User.query.get(uid).username for uid in missing_user_ids]
+                    flash(f"注意！作業「{assignment.title}」已截止，以下學生尚未繳交：{', '.join(missing_names)}", 'warning')
 
-    return render_template('group_dashboard.html', 
-                               group=group_obj, 
-                               messages=messages, 
-                               announcements=announcements,
-                               assignments=sorted_assignments)
+        return render_template('group_dashboard.html', 
+                                   group=group_obj, 
+                                   messages=messages, 
+                                   announcements=announcements,
+                                   assignments=sorted_assignments)
 
     except Exception as e:
         err_msg = traceback.format_exc()
