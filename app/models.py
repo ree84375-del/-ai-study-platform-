@@ -115,7 +115,7 @@ class Group(db.Model):
     name = db.Column(db.String(100), nullable=False)
     invite_code = db.Column(db.String(20), unique=True, nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    has_ai = db.Column(db.Boolean, default=True)
+    has_ai = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
     # Collaborative Zen Garden

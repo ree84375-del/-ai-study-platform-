@@ -5,6 +5,7 @@ from app import db
 import random
 import string
 from datetime import datetime, timedelta, timezone
+from app.utils.ai_helpers import get_ai_tutor_response
 
 group = Blueprint('group', __name__)
 
@@ -130,6 +131,34 @@ def group_dashboard(group_id):
                 msg = GroupMessage(content=content.strip(), group_id=group_id, user_id=current_user.id)
                 db.session.add(msg)
                 db.session.commit()
+                
+                # AI Response Logic if enabled
+                if group_obj.has_ai:
+                    from app.models import User
+                    # Singleton Yukine: Find or create a specific AI user
+                    yukine = User.query.filter_by(username='雪音老師').first()
+                    if not yukine:
+                        # Create a placeholder user for Yukine if she doesn't exist
+                        # Note: In a real app, this should be a system-reserved account
+                        yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password='ai_placeholder_password', role='teacher')
+                        db.session.add(yukine)
+                        db.session.commit()
+                    
+                    # Prevent AI from talking to itself (already handled by logic but good to keep in mind)
+                    if current_user.id != yukine.id:
+                        # Get recent context
+                        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(10).all()
+                        chat_history = []
+                        for m in reversed(recent_msgs):
+                            role = 'assistant' if m.user_id == yukine.id else 'user'
+                            chat_history.append({'role': role, 'content': m.content})
+                        
+                        ai_reply = get_ai_tutor_response(chat_history, content.strip(), personality_key='雪音-溫柔型')
+                        
+                        # Save AI response
+                        ai_msg = GroupMessage(content=ai_reply, group_id=group_id, user_id=yukine.id)
+                        db.session.add(ai_msg)
+                        db.session.commit()
             elif action == 'update_settings' and group_obj.teacher_id == current_user.id:
                 new_name = request.form.get('group_name')
                 has_ai = request.form.get('has_ai') == 'on'
@@ -138,6 +167,11 @@ def group_dashboard(group_id):
                 group_obj.has_ai = has_ai
                 db.session.commit()
                 flash('群組設定已更新', 'success')
+            elif action == 'toggle_ai':
+                group_obj.has_ai = not group_obj.has_ai
+                db.session.commit()
+                status = "進入了討論" if group_obj.has_ai else "離開了討論"
+                flash(f'雪音老師{status}', 'info')
             elif action == 'publish_assignment' and group_obj.teacher_id == current_user.id:
                 from app.models import Assignment
                 title = request.form.get('title')
