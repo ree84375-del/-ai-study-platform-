@@ -104,14 +104,14 @@
                         </div>
                         {% if hasattr(current_user, 'preferred_theme') %}
                         <div>
-                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格</label>
-                            <select name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
-                                <option value="sakura" {% if current_user.preferred_theme == 'sakura' %}selected{% endif %}>🌸 櫻花粉</option>
+                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格 (即時生效)</label>
+                            <select name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="selectTheme(this.value)">
+                                <option value="sakura" {% if current_user.preferred_theme == 'sakura' %}selected{% endif %}>🌸 櫻花粉 (預設)</option>
+                                <option value="leaf" {% if current_user.preferred_theme == 'leaf' %}selected{% endif %}>🌿 抹茶葉 (葉面風格)</option>
                                 <option value="moon" {% if current_user.preferred_theme == 'moon' %}selected{% endif %}>🌙 月光藍</option>
-                                <option value="classic" {% if current_user.preferred_theme == 'classic' %}selected{% endif %}>📓 經典灰</option>
-                                <option value="matcha" {% if current_user.preferred_theme == 'matcha' %}selected{% endif %}>🍵 宇治抹茶</option>
-                                <option value="lavender" {% if current_user.preferred_theme == 'lavender' %}selected{% endif %}>🪻 薰衣草紫</option>
-                                <option value="sunset" {% if current_user.preferred_theme == 'sunset' %}selected{% endif %}>🌅 夕陽橘紅</option>
+                                <option value="midnight" {% if current_user.preferred_theme == 'midnight' %}selected{% endif %}>🌑 極夜黑</option>
+                                <option value="matcha" {% if current_user.preferred_theme == 'matcha' %}selected{% endif %}>🍵 經典抹茶</option>
+                                <option value="sunset" {% if current_user.preferred_theme == 'sunset' %}selected{% endif %}>🌅 夕陽橘</option>
                             </select>
                         </div>
                         {% endif %}
@@ -232,7 +232,6 @@
     function selectAvatar(url) {
         document.getElementById('avatar-input').value = url;
         document.getElementById('avatar-modal').style.display = 'none';
-        // Auto-submit or just show the change? Let's auto-submit for better UX
         document.getElementById('update-form').submit();
     }
 
@@ -245,62 +244,6 @@
             form.style.display = 'none';
         }
     }
-
-    // Live theme preview
-    document.addEventListener('DOMContentLoaded', () => {
-        const themeSelect = document.querySelector('select[name="preferred_theme"]');
-        if (themeSelect) {
-            themeSelect.addEventListener('change', (e) => {
-                const theme = e.target.value;
-                const root = document.documentElement;
-                
-                if (theme === 'sakura') {
-                    root.style.setProperty('--color-primary', '#d89c9a');
-                    root.style.setProperty('--color-accent', '#85a392');
-                    root.style.setProperty('--color-secondary', '#fff0f5');
-                    root.style.setProperty('--color-bg', '#fffdfd');
-                } else if (theme === 'moon') {
-                    root.style.setProperty('--color-primary', '#5b7b9e');
-                    root.style.setProperty('--color-accent', '#d4c27b');
-                    root.style.setProperty('--color-secondary', '#eef2f5');
-                    root.style.setProperty('--color-bg', '#f4f6f8');
-                } else if (theme === 'classic') {
-                    root.style.setProperty('--color-primary', '#666666');
-                    root.style.setProperty('--color-accent', '#999999');
-                    root.style.setProperty('--color-secondary', '#eaeaea');
-                    root.style.setProperty('--color-bg', '#f9f9f9');
-                } else if (theme === 'matcha') {
-                    root.style.setProperty('--color-primary', '#7d906a');
-                    root.style.setProperty('--color-accent', '#8b7355');
-                    root.style.setProperty('--color-secondary', '#f4faeb');
-                    root.style.setProperty('--color-bg', '#fdfdf9');
-                } else if (theme === 'lavender') {
-                    root.style.setProperty('--color-primary', '#9b89b3');
-                    root.style.setProperty('--color-accent', '#d8b4e2');
-                    root.style.setProperty('--color-secondary', '#f8f0fc');
-                    root.style.setProperty('--color-bg', '#fdfbfe');
-                } else if (theme === 'sunset') {
-                    root.style.setProperty('--color-primary', '#dd7a56');
-                    root.style.setProperty('--color-accent', '#e6a762');
-                    root.style.setProperty('--color-secondary', '#fdf3eb');
-                    root.style.setProperty('--color-bg', '#fffbf8');
-                }
-
-                // Auto-save the theme in the background so it reflects site-wide immediately
-                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-                const formData = new FormData();
-                formData.append('preferred_theme', theme);
-                if (csrfToken) {
-                    formData.append('csrf_token', csrfToken);
-                    // Note: Update profile route ignores fields not passed and keeps existing defaults
-                    fetch("{{ url_for('main.update_profile') }}", {
-                        method: 'POST',
-                        body: formData
-                    }).catch(err => console.error("Theme background save failed:", err));
-                }
-            });
-        }
-    });
 </script>
 
 <style>

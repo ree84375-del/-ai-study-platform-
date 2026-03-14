@@ -312,6 +312,24 @@ def complete_daruma(daruma_id):
     flash('恭喜達成目標！達磨已成功開眼。', 'success')
     return redirect(url_for('main.home'))
 
+@main.route("/api/update_theme", methods=['POST'])
+@login_required
+def update_theme():
+    data = request.get_json()
+    if not data or 'theme' not in data:
+        return jsonify({"status": "error", "message": "Invalid data"}), 400
+    
+    theme = data.get('theme')
+    if hasattr(current_user, 'preferred_theme'):
+        current_user.preferred_theme = theme
+        try:
+            db.session.commit()
+            return jsonify({"status": "success"})
+        except Exception:
+            db.session.rollback()
+            return jsonify({"status": "error"}), 500
+    return jsonify({"status": "skipped", "message": "Field not in DB"}), 200
+
 @main.route("/debug/fix_group_db")
 @login_required
 def fix_group_db():

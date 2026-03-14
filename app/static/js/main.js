@@ -1,35 +1,110 @@
-// main logic can go here
-console.log("AI Study Platform Initialized");
+/**
+ * AI Study Platform - Main JavaScript
+ * Handles: Theme Management, Falling Leaf Animations, Micro-interactions
+ */
 
-// Auto-hide flash messages after 1.5 seconds
-document.addEventListener('DOMContentLoaded', function() {
-    const alerts = document.querySelectorAll('.alert');
-    if (alerts.length > 0) {
-        setTimeout(function() {
-            alerts.forEach(function(alert) {
-                alert.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
-                alert.style.opacity = '0';
-                alert.style.transform = 'translateY(-10px)';
-                setTimeout(function() {
-                    alert.remove();
-                }, 500);
-            });
-        }, 1500);
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    initThemeManager();
+    initLeafAnimation();
+    initFlashHider();
 });
-async function toggleDarkMode() {
+
+/**
+ * Theme Manager: Handles instant theme switching and persistence
+ */
+function initThemeManager() {
+    // 1. Initial Apply: LocalStorage > User Data Attribute > System Default
+    const savedTheme = localStorage.getItem('app-theme') || document.documentElement.getAttribute('data-theme') || 'sakura';
+    applyTheme(savedTheme, false); // Don't save to storage on initial load to avoid redundant writes
+
+    // 2. Global listener for theme changes (from settings or mobile toggle)
+    window.addEventListener('theme-changed', (e) => {
+        applyTheme(e.detail.theme);
+    });
+}
+
+function applyTheme(theme, save = true) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (save) {
+        localStorage.setItem('app-theme', theme);
+        // Fallback: Try to sync with server if online/logged in
+        syncThemeWithServer(theme);
+    }
+}
+
+async function syncThemeWithServer(theme) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+    if (!csrfToken) return;
+
     try {
-        const response = await fetch('/api/toggle_dark_mode', {
+        await fetch('/api/update_theme', {
             method: 'POST',
             headers: {
-                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
-            }
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ theme: theme })
         });
-        const data = await response.json();
-        if (data.status === 'success') {
-            location.reload(); // Reload to apply the new CSS variables from the backend
-        }
     } catch (err) {
-        console.error("Theme toggle failed:", err);
+        console.warn("Theme sync failed, but LocalStorage is preserved.");
     }
+}
+
+/**
+ * Leaf Animation: Spawns floating leaves for Botanical themes
+ */
+function initLeafAnimation() {
+    const spawnLeaf = () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme !== 'leaf') return; // Only show for leaf theme
+
+        const leaf = document.createElement('div');
+        leaf.className = 'falling-leaf';
+        
+        // Random leaf icons/styles
+        const leafIcons = ['🍃', '🌿', '🌱'];
+        leaf.innerHTML = leafIcons[Math.floor(Math.random() * leafIcons.length)];
+        
+        // Random Position & Animation
+        leaf.style.left = Math.random() * 100 + 'vw';
+        leaf.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
+        leaf.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        
+        document.body.appendChild(leaf);
+        
+        setTimeout(() => leaf.remove(), 10000);
+    };
+
+    // Spawn a leaf every few seconds
+    setInterval(spawnLeaf, 3000);
+}
+
+/**
+ * Flash Hider: Auto-dim missed messages
+ */
+function initFlashHider() {
+    const alerts = document.querySelectorAll('.alert');
+    if (alerts.length > 0) {
+        setTimeout(() => {
+            alerts.forEach(alert => {
+                alert.style.transition = 'all 0.5s ease';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(-20px)';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 3000);
+    }
+}
+
+/**
+ * Global Theme Toggle helper for UI buttons
+ */
+function toggleDarkMode() {
+    const current = document.documentElement.getAttribute('data-theme') || 'sakura';
+    const next = current === 'midnight' ? 'sakura' : 'midnight';
+    applyTheme(next);
+}
+
+function selectTheme(themeName) {
+    applyTheme(themeName);
 }

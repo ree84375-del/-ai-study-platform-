@@ -1,23 +1,47 @@
 :root {
-    /* Japanese Aesthetics Color Palette */
-    --color-primary: #85a392; /* Matcha Green */
-    --color-secondary: #f4e8d3; /* Soft Wood / Paper */
-    --color-accent: #d89c9a; /* Sakura Pink */
-    --color-bg: #faf9f6; /* Off-white / Washi paper */
-    --color-text_main: #333333; /* Ink Black */
-    --color-text_light: #777777; /* Soft Grey */
+    /* DEFAULT (Sakura) */
+    --color-primary: #d89c9a; /* Sakura Pink */
+    --color-secondary: #fdf2f2;
+    --color-accent: #85a392; /* Matcha Green */
+    --color-bg: #faf9f6;
+    --color-text_main: #333333;
+    --color-text_light: #777777;
     --color-border: #e0dcd3;
+    --bg-pattern: none;
+}
+
+[data-theme="leaf"] {
+    --color-primary: #85a392; /* Matcha Green */
+    --color-secondary: #f4faeb; /* Light Leaf */
+    --color-accent: #c48a7b; /* Autumn Leaf */
+    --color-bg: #fdfdf9;
+    --color-text_main: #2d3436;
+    --color-text_light: #636e72;
+    --color-border: #d2dcc8;
+    /* Subtle Leaf Pattern Background */
+    --bg-pattern: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 C 60 20, 80 40, 100 50 C 80 60, 60 80, 50 100 C 40 80, 20 60, 0 50 C 20 40, 40 20, 50 0' fill='%2385a392' fill-opacity='0.03'/%3E%3C/svg%3E");
+}
+
+[data-theme="midnight"] {
+    --color-primary: #7d906a;
+    --color-secondary: #222222;
+    --color-accent: #d8b4e2;
+    --color-bg: #1a1a1a;
+    --color-text_main: #e0e0e0;
+    --color-text_light: #a0a0a0;
+    --color-border: #333333;
+    --bg-pattern: none;
 }
 
 /* Dynamic Theme-Aware Gradient Background */
 @keyframes breathingGradient {
-    0% { background-position: 0% 50%; border-color: rgba(255,255,255,0.1); }
-    50% { background-position: 100% 50%; border-color: rgba(255,255,255,0.4); }
-    100% { background-position: 0% 50%; border-color: rgba(255,255,255,0.1); }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 body {
-    background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+    background: linear-gradient(135deg, var(--color-bg), var(--color-secondary));
     background-size: 400% 400%;
     animation: breathingGradient 15s ease-in-out infinite;
     color: var(--color-text_main);
@@ -28,6 +52,47 @@ body {
     padding: 0;
     line-height: 1.6;
     background-attachment: fixed;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--bg-pattern);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Floating Leaf Animation Styles */
+.falling-leaf {
+    position: fixed;
+    top: -50px;
+    z-index: 9999;
+    pointer-events: none;
+    animation: leaf-fall linear forwards;
+    opacity: 0.8;
+}
+
+@keyframes leaf-fall {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg) translateX(100px);
+        opacity: 0;
+    }
 }
 
 .container {

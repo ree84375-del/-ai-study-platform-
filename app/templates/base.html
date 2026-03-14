@@ -1,5 +1,14 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="{{ getattr(current_user, 'preferred_theme', 'sakura') if current_user.is_authenticated else 'sakura' }}">
+<script>
+    // Critical: Apply theme immediately from localStorage to prevent flash
+    (function() {
+        const theme = localStorage.getItem('app-theme');
+        if (theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    })();
+</script>
 
 <head>
     <meta charset="UTF-8">
