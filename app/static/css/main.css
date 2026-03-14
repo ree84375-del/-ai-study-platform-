@@ -7,6 +7,8 @@
     --color-text_main: #333333;
     --color-text_light: #777777;
     --color-border: #e0dcd3;
+    --color-card-bg: rgba(255, 255, 255, 0.4);
+    --color-card-border: rgba(255, 255, 255, 0.6);
     --bg-pattern: none;
 }
 
@@ -18,13 +20,15 @@
 }
 
 [data-theme="moon"] {
-    --color-primary: #5c7c99;      /* Dusty Blue */
-    --color-secondary: #eef2f6;    /* Soft Moon White */
-    --color-accent: #d4c27b;       /* Pale Gold Moon */
+    --color-primary: #5c7c99;
+    --color-secondary: #eef2f6;
+    --color-accent: #d4c27b;
     --color-bg: #f5f7fa;
     --color-text_main: #2c3e50;
     --color-text_light: #7f8c8d;
     --color-border: #d0d7de;
+    --color-card-bg: rgba(255, 255, 255, 0.5);
+    --color-card-border: rgba(255, 255, 255, 0.7);
     /* Celestial Moon Pattern */
     --bg-pattern: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%23d4c27b' fill-opacity='0.15'/%3E%3Cpath d='M80 20 C 85 25, 90 20, 85 15' fill='none' stroke='%23d4c27b' stroke-opacity='0.1' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='60' r='0.8' fill='%23d4c27b' fill-opacity='0.1'/%3E%3Cpath d='M20 70 Q 25 75, 30 70' fill='none' stroke='%23d4c27b' stroke-opacity='0.05'/%3E%3C/svg%3E");
 }
@@ -32,19 +36,19 @@
 /* Moon Theme Decorators */
 [data-theme="moon"] .moon-decorator {
     position: fixed;
-    top: -20px;
-    right: -20px;
-    width: 200px;
-    height: 200px;
+    top: 20px;
+    right: 20px;
+    width: 150px;
+    height: 150px;
     z-index: 1001;
     pointer-events: none;
-    opacity: 0.12;
-    filter: blur(2px) drop-shadow(0 0 20px #d4c27b);
+    opacity: 0.5;
+    filter: drop-shadow(0 0 15px rgba(212, 194, 123, 0.4));
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 8rem;
-    transform: rotate(-15deg);
+    font-size: 6rem;
+    transition: all 0.5s ease;
 }
 
 :not([data-theme="moon"]) .moon-decorator {
@@ -91,13 +95,15 @@
 }
 
 [data-theme="midnight"] {
-    --color-primary: #d2a8ff;
-    --color-secondary: #21262d;    
-    --color-accent: #ffde6a;
-    --color-bg: #0d1117;
-    --color-text_main: #c9d1d9;
-    --color-text_light: #8b949e;
-    --color-border: #30363d;
+    --color-primary: #bb86fc;      /* Premium Material Purple */
+    --color-secondary: #121212;
+    --color-accent: #03dac6;       /* Teal Accent */
+    --color-bg: #121212;           /* Google Dark surface */
+    --color-text_main: #e0e0e0;
+    --color-text_light: #a0a0a0;
+    --color-border: #2c2c2c;
+    --color-card-bg: #1e1e1e;      /* Elevated dark card */
+    --color-card-border: #333333;
     --bg-pattern: none;
     --border-radius-organic: 12px;
 }
@@ -341,12 +347,13 @@ body::before {
 
 /* Glassmorphism 2.0 Base */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--color-card-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    border: 1px solid var(--color-card-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
     border-radius: 20px;
+    color: var(--color-text_main);
 }
 
 /* Bento Grid System */
@@ -368,15 +375,16 @@ body::before {
 
 /* Washi Card Styling */
 .washi-card {
-    background: rgba(255, 255, 255, 0.4);
+    background: var(--color-card-bg);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--color-card-border);
     border-radius: 20px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     overflow: hidden;
+    color: var(--color-text_main);
 }
 
 .washi-card:hover {
