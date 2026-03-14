@@ -318,12 +318,12 @@
                     <button type="button" onclick="clearImage()" style="position: absolute; top: -12px; right: -12px; background: #ff4444; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-weight: bold; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">×</button>
                 </div>
 
-                <form id="chat-form" method="POST" action="" style="display: flex; flex-direction: column; gap: 15px;">
+                <form id="chat-form" method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" style="display: flex; flex-direction: column; gap: 15px;">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="post_message"/>
                     <input type="hidden" name="image_data" id="image-data-input">
                     
-                    <textarea id="chat-input" name="content" placeholder="在此輸入聊天訊息... (可輸入多行，或直接貼上圖片)" required 
+                    <textarea id="chat-input" name="content" placeholder="在此輸入聊天訊息... (可輸入多行，或直接貼上圖片)"
                         style="width: 100%; min-height: 120px; padding: 15px; border: 1px solid var(--color-border); border-radius: 12px; resize: vertical; font-family: inherit; font-size: 1rem; box-sizing: border-box; line-height: 1.6; background: #fdfdfd; transition: border-color 0.2s, box-shadow 0.2s;"
                         onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 3px rgba(100, 149, 237, 0.1)';" 
                         onblur="this.style.borderColor='var(--color-border)'; this.style.boxShadow='none';"></textarea>
@@ -357,9 +357,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Scroll chat board to bottom
     const messageContainer = document.querySelector('.chat-scroll-area');
-    if (messageContainer) {
-        messageContainer.scrollTop = messageContainer.scrollHeight;
-    }
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const imageDataInput = document.getElementById('image-data-input');
+    const fileInput = document.getElementById('file-input');
+
+    const scrollToBottom = () => {
+        if (messageContainer) {
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        }
+    };
+
+    scrollToBottom();
     
     // Convert UTC to local time
     const timeElements = document.querySelectorAll('.utc-time');
@@ -371,36 +382,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // References
-    const chatInput = document.getElementById('chat-input');
-    const imagePreviewContainer = document.getElementById('image-preview-container');
-    const imagePreview = document.getElementById('image-preview');
-    const imageDataInput = document.getElementById('image-data-input');
-    const fileInput = document.getElementById('file-input');
-
-    // Helper to process file
+    // Handle image file
     function handleImageFile(file) {
         if (!file || !file.type.startsWith('image/')) return;
-        
         const reader = new FileReader();
         reader.onload = function(event) {
             imagePreview.src = event.target.result;
             imageDataInput.value = event.target.result;
             imagePreviewContainer.style.display = 'block';
-            
-            // Scroll to see preview
-            if (messageContainer) {
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-            }
+            scrollToBottom();
         };
         reader.readAsDataURL(file);
     }
 
-    // File Input Change
     if (fileInput) {
-        fileInput.addEventListener('change', function(e) {
-            handleImageFile(e.target.files[0]);
-        });
+        fileInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
     }
 
     // Auto-expand textarea
@@ -408,30 +404,21 @@ document.addEventListener('DOMContentLoaded', () => {
         chatInput.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = (this.scrollHeight) + 'px';
-            
-            // Adjust scroll of message container if needed
-            if (messageContainer) {
-                messageContainer.scrollTop = messageContainer.scrollHeight;
-            }
+            scrollToBottom();
         });
-
-        // Trigger on load if there's content
-        chatInput.style.height = 'auto';
-        chatInput.style.height = (chatInput.scrollHeight) + 'px';
     }
 
-    // Help render new message bubble
+    // Append Message UI
     function appendMessage(data) {
         if (!messageContainer) return;
-        
         const isMine = data.is_mine;
         const isAI = data.is_ai;
-        const bubbleBg = isMine ? 'linear-gradient(135deg, var(--color-primary), #6395e3)' : (isAI ? '#fff8f8' : 'white');
-        const textColor = isMine ? 'white' : (isAI ? '#333' : '#222');
-        const borderColor = isAI ? '1px solid #ffccce' : (isMine ? 'none' : '1px solid #e2e8f0');
-        const avatarHtml = isAI ? `
-            <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
-        ` : `<div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">${data.username[0].toUpperCase()}</div>`;
+        const username = data.username || 'user';
+        const displayTime = '剛剛';
+        
+        const avatarHtml = isAI ? 
+            `<img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">` : 
+            `<div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">${username[0].toUpperCase()}</div>`;
 
         const msgHtml = `
             <div style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
@@ -440,104 +427,92 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div style="max-width: 65%; display: flex; flex-direction: column; ${isMine ? 'align-items: flex-end;' : 'align-items: flex-start;'}">
                     <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
-                        ${isMine ? `
-                            <span style="color: var(--color-text_light); font-size: 0.75rem;">剛剛</span>
-                            <span style="font-weight: 700; color: var(--color-text_main);">我</span>
-                        ` : `
-                            <span style="font-weight: 700; color: var(--color-text_main);">${data.username}</span>
-                            ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
-                            <span style="color: var(--color-text_light); font-size: 0.75rem;">剛剛</span>
-                        `}
+                        <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
+                        ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
+                        <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
-                    <div style="padding: 12px 20px; border-radius: 22px; font-size: 1.05rem; line-height: 1.6; word-break: break-word; white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: fit-content; ${isMine ? 'border-bottom-right-radius: 5px;' : 'border-bottom-left-radius: 5px;'} background: ${bubbleBg}; color: ${textColor}; border: ${borderColor};">
+                    <div style="padding: 12px 20px; border-radius: 22px; font-size: 1.05rem; line-height: 1.6; word-break: break-word; white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: fit-content; 
+                        ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
+                        (isAI ? 'background: #fff8f8; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px;' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
                         ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
-                        <div style="display: inline-block;">${data.content}</div>
+                        <div style="display: inline-block;">${data.content || ''}</div>
                     </div>
                 </div>
             </div>
         `;
-        
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = msgHtml;
-        messageContainer.appendChild(tempDiv.firstElementChild);
-        messageContainer.scrollTop = messageContainer.scrollHeight;
+        const div = document.createElement('div');
+        div.innerHTML = msgHtml;
+        messageContainer.appendChild(div.firstElementChild);
+        scrollToBottom();
     }
 
-    // AJAX Form Submission
-    const chatForm = document.getElementById('chat-form');
+    // AJAX POST
     if (chatForm) {
         chatForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const formData = new FormData(this);
-            const content = chatInput.value;
+            const content = chatInput.value.trim();
             const imageData = imageDataInput.value;
-            
-            if (!content.trim() && !imageData) return;
-            
-            // Clear input immediately for better UX
+            if (!content && !imageData) return;
+
+            const formData = new FormData(this);
             chatInput.value = '';
             chatInput.style.height = 'auto';
             imagePreviewContainer.style.display = 'none';
             imageDataInput.value = '';
-            
-            fetch(this.action, {
+
+            fetch(this.action || window.location.href, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
-            .then(response => response.json())
+            .then(res => {
+                if (!res.ok) throw new Error('Server Error');
+                return res.json();
+            })
             .then(data => {
                 if (data.status === 'success') {
                     appendMessage(data.user_message);
                     if (data.ai_message) {
-                        setTimeout(() => {
-                            appendMessage(data.ai_message);
-                        }, 800);
+                        setTimeout(() => appendMessage(data.ai_message), 800);
                     }
+                } else {
+                    alert(data.message || '發送失敗');
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                // Fallback: reload if AJAX fails
-                location.reload();
+            .catch(err => {
+                console.error(err);
+                // Critical only: alert then reload if desired, but let's try to just alert first
+                alert('網路異常，連線暫中斷');
             });
         });
-    }
 
-    // Enter to send (Trigger form submit instead of manual submit)
-    if (chatInput) {
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
+        // Keyboard Enter (with IME check)
+        let isComposing = false;
+        chatInput.addEventListener('compositionstart', () => { isComposing = true; });
+        chatInput.addEventListener('compositionend', () => { isComposing = false; });
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
                 e.preventDefault();
-                chatForm.dispatchEvent(new Event('submit'));
+                chatForm.requestSubmit ? chatForm.requestSubmit() : chatForm.dispatchEvent(new Event('submit'));
             }
         });
     }
 
-    // Paste Image Logic
+    // Paste
     if (chatInput) {
-        chatInput.addEventListener('paste', function(e) {
+        chatInput.addEventListener('paste', (e) => {
             const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-            for (let index in items) {
-                const item = items[index];
-                if (item.kind === 'file') {
-                    handleImageFile(item.getAsFile());
-                }
+            for (let i of items) {
+                if (i.kind === 'file') handleImageFile(i.getAsFile());
             }
         });
     }
 });
 
 function clearImage() {
-    const imagePreview = document.getElementById('image-preview');
-    const imageDataInput = document.getElementById('image-data-input');
-    const imagePreviewContainer = document.getElementById('image-preview-container');
-    if (imagePreview) imagePreview.src = '';
-    if (imageDataInput) imageDataInput.value = '';
-    if (imagePreviewContainer) imagePreviewContainer.style.display = 'none';
+    document.getElementById('image-preview').src = '';
+    document.getElementById('image-data-input').value = '';
+    document.getElementById('image-preview-container').style.display = 'none';
 }
 </script>
 {% endblock %}

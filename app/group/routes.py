@@ -217,6 +217,10 @@ def group_dashboard(group_id):
                                 'created_at': new_msg.created_at.isoformat() + 'Z'
                             }
                         })
+                else:
+                    # Handle empty message for AJAX
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({'status': 'error', 'message': 'Message cannot be empty'}), 400
             
             elif action == 'post_announcement':
                 current_app.logger.info("Posting announcement...")
