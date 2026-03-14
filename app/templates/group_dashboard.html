@@ -8,7 +8,7 @@
         <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 8px 15px; border: 1px solid var(--color-primary); color: var(--color-primary); text-decoration: none; border-radius: 4px; font-size: 0.9rem;">返回群組列表</a>
     </div>
 
-    <div class="group-layout" style="display: flex; gap: 2rem; align-items: flex-start; width: 100%; text-align: left;">
+    <div class="group-layout">
         <aside class="group-sidebar" style="flex: 0 0 320px; display: flex; flex-direction: column; gap: 1.5rem;">
             <!-- Yukine Control Panel -->
     <div class="glass-panel" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 1.2rem; margin-bottom: 2rem; border-left: 5px solid {% if group.has_ai %}var(--color-primary){% else %}#ccc{% endif %}; transition: all 0.3s ease;">
