@@ -1,4 +1,6 @@
 import os
+import re
+import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -14,55 +16,59 @@ load_dotenv()
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'main.login'
 login_manager.login_message_category = 'info'
 migrate = Migrate()
-oauth = OAuth()
 csrf = CSRFProtect()
+oauth = OAuth()
 
-def create_app(config_class=None):
+def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_secret_key_12345')
     
-    # Register built-ins for Jinja2 templates stability guards
+    # Configure logging for Vercel
+    if not app.debug:
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+        ))
+        app.logger.addHandler(stream_handler)
+        app.logger.setLevel(logging.INFO)
+
+    app.logger.info("Initializing app...")
+
+    # Configuration
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '5791628bb0b13ce0c676dfde280ba245')
+    
+    # Jinja Helpers
     app.jinja_env.globals.update(hasattr=hasattr, getattr=getattr, any=any)
     
-    # Database Settings
-    # Vercel serverless 環境檔案系統為唯讀，只有 /tmp 可寫入
-    if os.environ.get('VERCEL'):
-        db_path = '/tmp/app.db'
-    else:
-        basedir = os.path.abspath(os.path.dirname(__file__))
-        db_path = os.path.join(basedir, 'app.db')
+    # Database URI processing
+    db_uri = os.environ.get('DATABASE_URL')
+    app.logger.info(f"Checking DATABASE_URL existence: {'Yes' if db_uri else 'No'}")
     
-    db_uri = os.environ.get('DATABASE_URL', 'sqlite:///' + db_path)
     if db_uri:
         if db_uri.startswith("postgres://"):
+            app.logger.info("Normalizing postgres:// to postgresql://")
             db_uri = db_uri.replace("postgres://", "postgresql://", 1)
         
-        # FIX FOR VERCEL IPv6 ISSUE: 
-        # Supabase 'db.***.supabase.co' resolves to IPv6 which Vercel doesn't support.
-        # Check if the user is still using the direct connection (5432) on Vercel
-        if ".supabase.co" in db_uri and ":5432" in db_uri and os.environ.get('VERCEL'):
-            print("WARNING: Using direct connect (5432) on Vercel which only supports IPv6. This will fail with 'Cannot assign requested address'.")
-            print("Please change your Vercel DATABASE_URL to use the Supabase Transaction Pooler (port 6543).")
-        
-        # Proactive fix for Supabase Pooler (port 6543) if already using pooler directly
-        if ":6543/" in db_uri and "@aws-" in db_uri or "@pooler." in db_uri:
-            import re
-            match = re.search(r'postgresql://([^:]+):', db_uri)
-            if match and "." not in match.group(1):
-                # Attempt to find the project ref if it's missing from the username
-                project_ref = None
-                # Check if it was passed via another env var or fallback to hardcoded
+        # Supabase specific fix for IPv6/IPv4 session mode
+        if ":6543/" in db_uri:
+            app.logger.info("Supabase session mode detected (6543). Applying project_ref fix.")
+            if "@aws-" in db_uri or "@pooler." in db_uri:
                 project_ref = "nphrkuzhedlvgfagaujq" # The user's project ref
                 db_uri = re.sub(r'postgresql://([^:]+):', rf'postgresql://\1.{project_ref}:', db_uri, count=1)
+            else:
+                app.logger.info("Using direct connect fallback on Vercel.")
+    else:
+        app.logger.warning("No DATABASE_URL found. Using local SQLite.")
+        db_uri = 'sqlite:///site.db'
     
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # Fix stale connections to Supabase PostgreSQL and handle Vercel IPv6 issues
-    # Vercel serverless functions: Use tiny pool size to avoid hitting Supabase connection limit
+    
+    # Engine options for Vercel/Supabase stability
     if os.environ.get('VERCEL'):
+        app.logger.info("Vercel environment detected. Optimizing connection pool.")
         app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
             'pool_pre_ping': True,
             'pool_recycle': 300,
@@ -71,16 +77,10 @@ def create_app(config_class=None):
         }
     else:
         app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-            'pool_pre_ping': True,    # Test connections before use
-            'pool_recycle': 300,      # Recycle connections every 5 min
+            'pool_pre_ping': True,
+            'pool_recycle': 300,
             'pool_size': 5,
             'max_overflow': 10,
-            'connect_args': {
-                'keepalives': 1,
-                'keepalives_idle': 30,
-                'keepalives_interval': 10,
-                'keepalives_count': 5,
-            }
         }
 
     # Initialize extensions
@@ -88,70 +88,77 @@ def create_app(config_class=None):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     migrate.init_app(app, db)
-    oauth.init_app(app)
     csrf.init_app(app)
-
-    from app.main.routes import main
-    from app.auth.routes import auth
-    from app.study.routes import study
-    from app.group.routes import group
-    from app.admin.routes import admin
+    oauth.init_app(app)
     
+    app.logger.info("Extensions initialized.")
+
+    # Blueprints
+    from app.main.routes import main
+    from app.group.routes import group
+    from app.mistake.routes import mistake
     app.register_blueprint(main)
-    app.register_blueprint(auth)
-    app.register_blueprint(study)
     app.register_blueprint(group)
-    app.register_blueprint(admin)
+    app.register_blueprint(mistake)
+    
+    app.logger.info("Blueprints registered.")
 
-    # 確保在建立資料表前，models 已被載入
-    from app import models
-
-    # 在 Vercel 環境上，每次冷啟動時自動建立資料表
     with app.app_context():
+        app.logger.info("Entering app context for DB setup...")
         try:
             db.create_all()
+            app.logger.info("db.create_all() successful.")
+            
             # Helper to execute SQL safely
-            def safe_execute(sql):
+            def safe_execute(sql, name="Unnamed"):
                 try:
                     db.session.execute(text(sql))
                     db.session.commit()
-                except Exception:
+                    app.logger.info(f"Migration successful: {name}")
+                except Exception as e:
                     db.session.rollback()
+                    app.logger.warning(f"Migration skipped/failed ({name}): {e}")
 
             # Column migrations
-            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;")
-            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;")
-            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;")
-            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE;")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT;")
-            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;")
-            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT;")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT;")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型';")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local';")
-            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP;")
-            # AssignmentStatus extensions
-            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE;")
-            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;")
-            
-            # Assignment extensions
-            safe_execute("ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;")
-            
-            # Group Message image support
-            safe_execute("ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;")
+            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;", "Group AI Toggle")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;", "AssignmentStatus Content")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;", "AssignmentStatus Feedback")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;", "AssignmentStatus Score")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE;", "User Exam Date")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT;", "User Study Plan")
+            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;", "Group Garden Exp")
+            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;", "Group Garden Level")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT;", "User Bio")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT;", "User Learning Goals")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型';", "User AI Personality")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);", "User Avatar URL")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local';", "User Auth Provider")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP;", "User Last Active")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE;", "AssignmentStatus Completed")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;", "AssignmentStatus Completed At")
+            safe_execute("ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;", "Assignment Created At")
+            safe_execute("ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;", "GroupMessage Image Data")
             
         except Exception as e:
-            app.logger.error(f"Database setup failed: {e}")
+            app.logger.error(f"FATAL Database setup error: {e}")
 
-    # 加入全域錯誤處理器
+    # Global Error Handler
     @app.errorhandler(500)
     def handle_500(error):
         import traceback
         error_info = traceback.format_exc()
-        app.logger.error(f"Server Error 500: {error_info}")
-        return f"<h3>系統發生錯誤 (500)</h3><p>請將此錯誤回報給開發者：</p><pre>{error_info}</pre>", 500
+        app.logger.error(f"Server Error 500 [RequestPath: {request.path}]: {error_info}")
+        return f"""
+        <div style='padding:40px; font-family:sans-serif; line-height:1.6; max-width:800px; margin:0 auto; color:#333;'>
+            <h1 style='color:#e74c3c;'>系統發生錯誤 (500)</h1>
+            <p>很抱歉，這可能是由於最近的系統更新導致的穩定性問題。我們已經記錄了此錯誤，開發團隊會盡快修復。</p>
+            <div style='background:#f9f9f9; border:1px solid #ddd; padding:20px; border-radius:8px; margin:20px 0;'>
+                <strong>錯誤詳細資訊：</strong>
+                <pre style='white-space:pre-wrap; font-size:0.9em; margin-top:10px;'>{error_info}</pre>
+            </div>
+            <p style='color:#666;'>提示：請嘗試清除瀏覽器緩存或稍後再試。</p>
+            <a href='/' style='display:inline-block; margin-top:10px; padding:10px 20px; background:#3498db; color:white; text-decoration:none; border-radius:5px;'>回到首頁</a>
+        </div>
+        """, 500
 
     return app
