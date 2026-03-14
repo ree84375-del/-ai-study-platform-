@@ -1,7 +1,40 @@
 {% extends "base.html" %}
 {% block title %}群組討論區 - {{ group.name }}{% endblock %}
 {% block content %}
-<div class="container" style="max-width: 900px; margin: 0 auto;">
+<div class="container" style="max-width: 1200px; margin: 0 auto;">
+    <style>
+        .group-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        .group-sidebar {
+            flex: 0 0 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .group-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: sticky;
+            top: 2rem;
+        }
+        @media (max-width: 992px) {
+            .group-layout {
+                flex-direction: column;
+            }
+            .group-sidebar, .group-main {
+                flex: none;
+                width: 100%;
+            }
+            .group-main {
+                position: static;
+            }
+        }
+    </style>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;">
         <h2 style="color: var(--color-primary); margin: 0;">
             <i class="fa-solid fa-users"></i> {{ group.name }} - 學習交流區
@@ -9,7 +42,9 @@
         <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 8px 15px; border: 1px solid var(--color-primary); color: var(--color-primary); text-decoration: none; border-radius: 4px; font-size: 0.9rem;">返回群組列表</a>
     </div>
 
-    <!-- Yukine Control Panel -->
+    <div class="group-layout">
+        <div class="group-sidebar">
+            <!-- Yukine Control Panel -->
     <div class="glass-panel" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 1.2rem; margin-bottom: 2rem; border-left: 5px solid {% if group.has_ai %}var(--color-primary){% else %}#ccc{% endif %}; transition: all 0.3s ease;">
         <div style="display: flex; align-items: center; gap: 15px;">
             <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; {% if not group.has_ai %}filter: grayscale(1); opacity: 0.7;{% endif %}">
@@ -51,7 +86,7 @@
     </div>
 
     <!-- Announcement Board -->
-    <div class="washi-card" style="padding: 1.5rem; margin-bottom: 2rem; border-left: 5px solid var(--color-accent); background-color: var(--color-secondary);">
+    <div class="washi-card" style="padding: 1.5rem; border-left: 5px solid var(--color-accent); background-color: var(--color-secondary);">
         <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
             <i class="fa-solid fa-bullhorn" style="color: var(--color-accent);"></i> 群組公告版
         </h3>
@@ -86,8 +121,114 @@
         {% endif %}
     </div>
 
-    <!-- Message Board -->
-    <div class="washi-card" style="padding: 1.5rem; margin-bottom: 1.5rem; height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background-color: var(--color-secondary);">
+            <!-- Active Assignments Section -->
+            <div class="glass-panel" style="padding: 1.5rem; border-top: 4px solid var(--color-accent); margin-bottom: 2rem;">
+                <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-file-signature" style="color: var(--color-accent);"></i> 作業與挑戰
+                </h3>
+                
+                {% if not group.assignments %}
+                    <p style="color: var(--color-text_light); text-align: center; padding: 20px; font-style: italic;">目前還沒有作業喔！</p>
+                {% else %}
+                    <div style="display: grid; gap: 1rem;">
+                        {% for assignment in group.assignments | sort(attribute='due_date') %}
+                            {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
+                            <div style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 15px; transition: transform 0.2s; position: relative;">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <div>
+                                        <h4 style="margin: 0 0 5px 0; color: var(--color-primary); font-size: 1rem;">{{ assignment.title }}</h4>
+                                        <p style="margin: 0; font-size: 0.8rem; color: var(--color-text_light);">{{ assignment.description | truncate(50) }}</p>
+                                        <div style="margin-top: 8px; font-size: 0.7rem; color: #999;">
+                                            <i class="fa-regular fa-calendar-check"></i> {{ assignment.due_date.strftime('%Y-%m-%d') }}
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        {% if user_status and user_status.is_completed %}
+                                            <i class="fa-solid fa-check-circle" style="color: #2e7d32;"></i>
+                                        {% else %}
+                                            <i class="fa-solid fa-circle-notch" style="color: #e65100;"></i>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <button onclick="const form = document.getElementById('submit-form-{{ assignment.id }}'); form.style.display = form.style.display === 'none' ? 'block' : 'none';" class="btn" style="margin-top: 10px; width: 100%; border: 1px solid var(--color-accent); color: var(--color-accent); background: transparent; font-size: 0.8rem; padding: 5px;">查看/繳交</button>
+                                
+                                <form id="submit-form-{{ assignment.id }}" method="POST" action="" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--color-border);">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <input type="hidden" name="action" value="submit_assignment"/>
+                                    <input type="hidden" name="assignment_id" value="{{ assignment.id }}"/>
+                                    <textarea name="content" placeholder="在此輸入你的作業內容..." required style="width: 100%; min-height: 80px; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 10px; box-sizing: border-box; font-size: 0.9rem;"></textarea>
+                                    {% if user_status and user_status.is_completed %}
+                                        <div style="margin-bottom: 10px; font-size: 0.8rem; color: #666; background: #f0f0f0; padding: 8px; border-radius: 4px;">
+                                            <strong>已繳交。AI評分：{{user_status.score}}</strong><br>
+                                            {{user_status.ai_feedback}}
+                                        </div>
+                                    {% endif %}
+                                    <div style="display: flex; gap: 5px;">
+                                        <button type="submit" style="flex: 1; padding: 8px; background-color: var(--color-accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.8rem;">繳交</button>
+                                        <button type="button" onclick="document.getElementById('submit-form-{{ assignment.id }}').style.display='none';" style="padding: 8px 15px; background: #eee; border: none; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">關閉</button>
+                                    </div>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Member & Group Management -->
+            {% if group.teacher_id == current_user.id %}
+            <div class="washi-card" style="padding: 1.2rem; border-top: 3px solid var(--color-primary);">
+                <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px; font-size: 1.1rem;">
+                    <i class="fa-solid fa-user-shield" style="color: var(--color-primary);"></i> 成員管理與設定
+                </h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem;">
+                    {% for membership in group.members %}
+                    {% set member_user = membership.member %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 8px; border-radius: 8px; border: 1px solid #eee;">
+                        <span style="font-weight: bold; font-size: 0.85rem;">{{ member_user.username }}</span>
+                        <form method="POST" action="{{ url_for('group.update_member_role', group_id=group.id, user_id=member_user.id) }}" style="display: flex; gap: 3px;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <select name="new_role" style="padding: 2px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 0.75rem;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
+                                <option value="student" {% if member_user.role == 'student' %}selected{% endif %}>學生</option>
+                                <option value="teacher" {% if member_user.role == 'teacher' %}selected{% endif %}>老師</option>
+                            </select>
+                            <button type="submit" style="padding: 2px 5px; font-size: 0.7rem; background: var(--color-primary); color: white; border: none; border-radius: 4px;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>更</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div style="border-top: 1px solid #eee; padding-top: 1rem;">
+                    <h4 style="margin: 0 0 10px 0; font-size: 0.9rem;">群組工具</h4>
+                    <details style="margin-bottom: 8px;">
+                        <summary style="cursor: pointer; font-size: 0.85rem; padding: 5px; background: #f8f9fa; border-radius: 4px;">修改群組設定</summary>
+                        <form method="POST" action="" style="padding: 10px; border: 1px solid #eee; margin-top: 5px; border-radius: 4px;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="action" value="update_settings"/>
+                            <input type="text" name="group_name" value="{{ group.name }}" required style="width: 100%; padding: 5px; margin-bottom: 5px; font-size: 0.8rem;">
+                            <button type="submit" style="width: 100%; padding: 5px; background: var(--color-primary); color: white; border: none; font-size: 0.8rem;">儲存</button>
+                        </form>
+                    </details>
+                    <details>
+                        <summary style="cursor: pointer; font-size: 0.85rem; padding: 5px; background: #f8f9fa; border-radius: 4px;">發布新作業</summary>
+                        <form method="POST" action="" style="padding: 10px; border: 1px solid #eee; margin-top: 5px; border-radius: 4px;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="action" value="publish_assignment"/>
+                            <input type="text" name="title" placeholder="標題" required style="width: 100%; padding: 5px; margin-bottom: 5px; font-size: 0.8rem;">
+                            <textarea name="description" placeholder="內容..." style="width: 100%; padding: 5px; margin-bottom: 5px; font-size: 0.8rem;"></textarea>
+                            <button type="submit" style="width: 100%; padding: 5px; background: var(--color-accent); color: white; border: none; font-size: 0.8rem;">發布</button>
+                        </form>
+                    </details>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="group-main">
+            <!-- Message Board -->
+    <div class="washi-card chat-scroll-area" style="padding: 1.5rem; margin-bottom: 0; min-height: 500px; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; background-color: var(--color-secondary);">
         {% if not messages %}
             <div style="text-align: center; color: var(--color-text_light); margin-top: 3rem;">
                 <i class="fa-solid fa-wind" style="font-size: 2rem; margin-bottom: 1rem;"></i>
@@ -138,166 +279,19 @@
         </form>
     </div>
 
-    <!-- Active Assignments Section -->
-    <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 2rem; border-top: 4px solid var(--color-accent);">
-        <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-file-signature" style="color: var(--color-accent);"></i> 我的作業與挑戰
-        </h3>
-        
-        {% if not group.assignments %}
-            <p style="color: var(--color-text_light); text-align: center; padding: 20px; font-style: italic;">目前還沒有發布作業喔！</p>
-        {% else %}
-            <div style="display: grid; gap: 1rem;">
-                {% for assignment in group.assignments | sort(attribute='due_date') %}
-                    {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
-                    <div style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 15px; transition: transform 0.2s; position: relative;">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div>
-                                <h4 style="margin: 0 0 5px 0; color: var(--color-primary);">{{ assignment.title }}</h4>
-                                <p style="margin: 0; font-size: 0.85rem; color: var(--color-text_light);">{{ assignment.description }}</p>
-                                <div style="margin-top: 8px; font-size: 0.75rem; color: #999;">
-                                    <i class="fa-regular fa-calendar-check"></i> 截止日期: {{ assignment.due_date.strftime('%Y-%m-%d') }}
-                                </div>
-                            </div>
-                            
-                            <div>
-                                {% if user_status and user_status.is_completed %}
-                                    <span style="background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">
-                                        已完成 ({{ user_status.score }}分)
-                                    </span>
-                                {% else %}
-                                    <span style="background: #fff3e0; color: #e65100; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;">
-                                        待完成
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </div>
+        </div>
+    </div>
 
-                        {% if user_status and user_status.is_completed %}
-                            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--color-border);">
-                                <div style="font-size: 0.85rem; color: var(--color-text_main); background: #fafafa; padding: 10px; border-radius: 8px;">
-                                    <strong>雪音老師的反饋：</strong><br>
-                                    {{ user_status.ai_feedback }}
-                                </div>
-                            </div>
-                        {% else %}
-                            <button onclick="document.getElementById('submit-form-{{ assignment.id }}').style.display='block'; this.style.display='none';" class="btn" style="margin-top: 15px; width: 100%; border: 1px solid var(--color-accent); color: var(--color-accent); background: transparent;">繳交作業</button>
-                            
-                            <form id="submit-form-{{ assignment.id }}" method="POST" action="" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--color-border);">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                                <input type="hidden" name="action" value="submit_assignment"/>
-                                <input type="hidden" name="assignment_id" value="{{ assignment.id }}"/>
-                                <textarea name="content" placeholder="在此輸入你的作業內容..." required style="width: 100%; min-height: 100px; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 10px; box-sizing: border-box;"></textarea>
-                                <div style="display: flex; gap: 10px;">
-                                    <button type="submit" style="flex: 1; padding: 8px; background-color: var(--color-accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">確認繳交</button>
-                                    <button type="button" onclick="document.getElementById('submit-form-{{ assignment.id }}').style.display='none'; this.parentElement.previousElementSibling.style.display='block';" style="padding: 8px 15px; background: #eee; border: none; border-radius: 6px; cursor: pointer;">取消</button>
-                                </div>
-                            </form>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+    <div style="margin-top: 3rem;">
             </div>
-        {% endif %}
     </div>
-
-    <!-- Member & Group Management (Only for Group Creator/Teacher) -->
-    {% if group.teacher_id == current_user.id %}
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
-        
-        <!-- Group Settings -->
-        <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-primary);">
-            <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-gear" style="color: var(--color-primary);"></i> 群組設定
-            </h3>
-            <form method="POST" action="">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="action" value="update_settings"/>
-                
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; font-size: 0.85rem; color: var(--color-text_light); margin-bottom: 5px;">群組名稱</label>
-                    <input type="text" name="group_name" value="{{ group.name }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; box-sizing: border-box;">
-                </div>
-                
-                <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
-                    <input type="checkbox" name="has_ai" id="has_ai_edit" {% if group.has_ai %}checked{% endif %} style="cursor: pointer;">
-                    <label for="has_ai_edit" style="cursor: pointer;">啟用雪音老師 (AI 協助)</label>
-                </div>
-                
-                <button type="submit" style="width: 100%; padding: 8px; background-color: white; border: 1px solid var(--color-primary); color: var(--color-primary); border-radius: 6px; cursor: pointer; transition: all 0.2s; font-size: 0.9rem;">儲存設定</button>
-            </form>
-        </div>
-
-        <!-- Publish Assignment -->
-        <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-accent);">
-            <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-clipboard-question" style="color: var(--color-accent);"></i> 發布新作業
-            </h3>
-            <form method="POST" action="">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="action" value="publish_assignment"/>
-                
-                <input type="text" name="title" placeholder="作業標題 ( e.g. 日本職人精神心得 )" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; box-sizing: border-box;">
-                <textarea name="description" placeholder="作業說明內容..." style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; margin-bottom: 10px; min-height: 60px; resize: vertical; box-sizing: border-box;"></textarea>
-                
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                    <label style="font-size: 0.85rem; color: var(--color-text_light);">期限 (天):</label>
-                    <input type="number" name="due_days" value="7" min="1" max="30" style="width: 60px; padding: 5px; border: 1px solid var(--color-border); border-radius: 6px;">
-                </div>
-                
-                <button type="submit" style="width: 100%; padding: 8px; background-color: var(--color-accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">發布作業</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="washi-card" style="padding: 1.5rem; border-top: 3px solid var(--color-primary); margin-top: 1.5rem;">
-        <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-user-shield" style="color: var(--color-primary);"></i> 成員管理 (身分設定)
-        </h3>
-        <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">身為群組創建者，您可以設定成員在平台上的角色身分。</p>
-        
-        <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-            {% for membership in group.members %}
-            {% set member_user = membership.member %}
-            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 12px 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.03);">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold;">
-                        {{ member_user.username[0] | upper }}
-                    </div>
-                    <div>
-                        <div style="font-weight: bold; font-size: 0.95rem;">{{ member_user.username }}</div>
-                        <div style="font-size: 0.75rem; color: #888;">目前身分: 
-                            <span style="color: var(--color-primary); font-weight: bold;">
-                                {% if member_user.role == 'admin' %}管理員
-                                {% elif member_user.role == 'teacher' %}老師
-                                {% elif member_user.role == 'student' %}學生
-                                {% else %}訪客{% endif %}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <form method="POST" action="{{ url_for('group.update_member_role', group_id=group.id, user_id=member_user.id) }}" style="display: flex; gap: 5px;">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <select name="new_role" style="padding: 5px; border-radius: 6px; border: 1px solid var(--color-border); font-size: 0.85rem;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
-                        <option value="student" {% if member_user.role == 'student' %}selected{% endif %}>變更為: 學生</option>
-                        <option value="teacher" {% if member_user.role == 'teacher' %}selected{% endif %}>變更為: 老師</option>
-                    </select>
-                    <button type="submit" class="btn btn-sm" style="padding: 5px 12px; font-size: 0.8rem; background: var(--color-primary); color: white; border: none; border-radius: 6px; cursor: pointer;" {% if member_user.id == current_user.id or member_user.email == 'ree84375@gmail.com' %}disabled{% endif %}>
-                        更新
-                    </button>
-                </form>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     // Scroll chat board to bottom
-    const messageContainer = document.querySelectorAll('.washi-card')[1];
-    if (messageContainer && messageContainer.style.overflowY) {
+    const messageContainer = document.querySelector('.chat-scroll-area');
+    if (messageContainer) {
         messageContainer.scrollTop = messageContainer.scrollHeight;
     }
     
