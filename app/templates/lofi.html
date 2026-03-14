@@ -313,7 +313,7 @@
 
         function setManualTheme(theme) {
             isManualOverride = true;
-            applyTheme(theme);
+            applyLofiRoomTheme(theme);
             
             // Highlight active button
             document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
@@ -337,10 +337,10 @@
             else if (hour >= 17 && hour < 19) theme = 'dusk';
             else theme = 'night';
 
-            applyTheme(theme);
+            applyLofiRoomTheme(theme);
         }
 
-        function applyTheme(theme) {
+        function applyLofiRoomTheme(theme) {
             const container = document.querySelector('.lofi-container-bg');
             const mainImg = document.getElementById('yukine-main-img');
             const title = document.getElementById('study-room-title');
@@ -553,6 +553,9 @@
         function resetTimer() {
             setTimer(currentMode);
         }
+        
+        // Initial setup
+        applyLofiRoomTheme('night'); // Default
         
         // --- 3D Parallax Tilt Effect ---
         document.addEventListener('DOMContentLoaded', () => {
