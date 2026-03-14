@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 from authlib.integrations.flask_client import OAuth
+from sqlalchemy import text
 
 load_dotenv()
 
@@ -128,10 +129,12 @@ def create_app(config_class=None):
         except Exception as e:
             app.logger.error(f"Database setup failed: {e}")
 
-    # 加入全域錯誤處理器，幫助除錯 Vercel 500 錯誤
+    # 加入全域錯誤處理器
     @app.errorhandler(500)
     def handle_500(error):
         import traceback
-        return f"<h3>系統發生錯誤 (500)</h3><pre>{traceback.format_exc()}</pre>", 500
+        error_info = traceback.format_exc()
+        app.logger.error(f"Server Error 500: {error_info}")
+        return f"<h3>系統發生錯誤 (500)</h3><p>請將此錯誤回報給開發者：</p><pre>{error_info}</pre>", 500
 
     return app
