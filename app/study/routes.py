@@ -8,6 +8,18 @@ from datetime import datetime, timedelta, timezone
 
 study = Blueprint('study', __name__)
 
+def get_current_room_name():
+    """Returns the room name based on the current system time."""
+    hour = datetime.now().hour
+    if 6 <= hour < 12:
+        return "早上陪讀室"
+    elif 12 <= hour < 17:
+        return "午後陪讀室"
+    elif 17 <= hour < 19:
+        return "黃昏陪讀室"
+    else:
+        return "深夜陪讀室"
+
 @study.route("/practice", methods=['GET', 'POST'])
 @login_required
 def practice():
@@ -310,7 +322,8 @@ def get_chat_history(session_id):
 @study.route("/lofi")
 @login_required
 def lofi_room():
-    return render_template('lofi.html', title='深夜陪讀室')
+    room_title = get_current_room_name()
+    return render_template('lofi.html', title=room_title)
 
 @study.route("/generate_roadmap", methods=['POST'])
 @login_required

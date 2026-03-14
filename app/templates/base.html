@@ -46,7 +46,7 @@
             <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i> 圖片解題</a>
             <a href="{{ url_for('study.ai_docs') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-file-pdf"></i> 講義分析</a>
             <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> 聊天室</a>
-            <a href="{{ url_for('study.lofi_room') }}" class="nav-link"><i class="fa-solid fa-moon"></i> 深夜陪讀</a>
+            <a href="{{ url_for('study.lofi_room') }}" class="nav-link" id="nav-lofi-room"><i class="fa-solid fa-moon"></i> 深夜陪讀</a>
             
             {% if current_user.is_admin %}
             <a href="{{ url_for('admin.dashboard') }}" class="nav-link" style="color: #ff7b72; font-weight: bold;"><i class="fa-solid fa-crown"></i> 後台</a>
@@ -84,9 +84,6 @@
         {% endif %}
         <a href="{{ url_for('main.chat') }}" class="mob-nav-item">
             <i class="fa-solid fa-comments"></i><span>雪音</span>
-        </a>
-        <a href="{{ url_for('group.groups') }}" class="mob-nav-item">
-            <i class="fa-solid fa-users"></i><span>群組</span>
         </a>
         <a href="{{ url_for('main.profile') }}" class="mob-nav-item">
             <i class="fa-solid fa-user-gear"></i><span>設定</span>
@@ -139,8 +136,53 @@
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
+        // Dynamic Room Name and Icon Update
+        function updateNavbarRoomName() {
+            const hour = new Date().getHours();
+            let name, icon;
+            
+            if (6 <= hour && hour < 12) {
+                name = "早上陪讀";
+                icon = "fa-sun";
+            } else if (12 <= hour && hour < 17) {
+                name = "午後陪讀";
+                icon = "fa-cloud-sun";
+            } else if (17 <= hour && hour < 19) {
+                name = "黃昏陪讀";
+                icon = "fa-mountain-sun";
+            } else {
+                name = "深夜陪讀";
+                icon = "fa-moon";
+            }
+            
+            // Update Desktop Nav
+            const navLink = document.getElementById('nav-lofi-room');
+            if (navLink) {
+                navLink.innerHTML = `<i class="fa-solid ${icon}"></i> ${name}`;
+            }
+            
+            // Update Mobile Nav
+            const mobItems = document.querySelectorAll('.mob-nav-item');
+            mobItems.forEach(item => {
+                const link = item.getAttribute('href');
+                if (link && link.includes('/lofi')) {
+                    const iconEl = item.querySelector('i');
+                    const textEl = item.querySelector('span');
+                    if (iconEl) {
+                        iconEl.className = `fa-solid ${icon}`;
+                    }
+                    if (textEl) {
+                        textEl.innerText = name.replace('陪讀', ''); // Mobile is usually shorter
+                    }
+                }
+            });
+        }
+
         // Auto-hide luxury alerts after 1.5 seconds
         document.addEventListener('DOMContentLoaded', function() {
+            updateNavbarRoomName();
+            setInterval(updateNavbarRoomName, 60000); // Update every minute
+
             const alerts = document.querySelectorAll('.luxury-alert');
             alerts.forEach(function(alert) {
                 setTimeout(function() {

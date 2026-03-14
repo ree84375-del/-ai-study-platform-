@@ -17,6 +17,14 @@
         box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
     }
 
+    @media (max-width: 768px) {
+        .lofi-container-bg {
+            padding: 1rem;
+            margin: 0.5rem;
+            min-height: calc(100vh - 60px);
+        }
+    }
+
     /* Animated Background Layer */
     .lofi-container-bg::before {
         content: '';
@@ -118,18 +126,60 @@
     </div>
 
     <div class="lofi-header" style="text-align: center; margin-bottom: 2rem; z-index: 1;">
-        <h1 id="study-room-title"
-            style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; margin-bottom: 0.5rem; text-shadow: 0 0 25px rgba(181, 155, 142, 0.6); letter-spacing: 2px;">
-            深夜陪讀室</h1>
-        <p id="study-room-subtitle" style="font-size: 1.2rem; opacity: 0.8; font-weight: 300;">雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶</p>
+        <style>
+            .lofi-header h1 {
+                font-family: 'Outfit', sans-serif; 
+                font-size: 3.5rem; 
+                margin-bottom: 0.5rem; 
+                text-shadow: 0 0 25px rgba(181, 155, 142, 0.6); 
+                letter-spacing: 2px;
+                transition: font-size 0.3s ease;
+            }
+            .lofi-header p {
+                font-size: 1.2rem; 
+                opacity: 0.8; 
+                font-weight: 300;
+                transition: font-size 0.3s ease;
+            }
+            @media (max-width: 768px) {
+                .lofi-header h1 { font-size: 2.2rem; }
+                .lofi-header p { font-size: 1rem; }
+            }
+        </style>
+        <h1 id="study-room-title">深夜陪讀室</h1>
+        <p id="study-room-subtitle">雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶</p>
     </div>
 
     <div class="lofi-main"
         style="display: flex; gap: 4rem; align-items: center; z-index: 1; flex-wrap: wrap; justify-content: center;">
 
         <!-- Yukine Study Image -->
-        <div class="yukine-frame" id="yukine-frame"
-            style="width: 420px; height: 420px; border-radius: 25px; overflow: hidden; box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(181, 155, 142, 0.2); border: 1px solid rgba(255,255,255,0.05); position: relative; transform-style: preserve-3d; transition: transform 0.1s ease-out;">
+        <style>
+            .yukine-frame {
+                width: 420px; 
+                height: 420px; 
+                border-radius: 25px; 
+                overflow: hidden; 
+                box-shadow: 0 15px 50px rgba(0,0,0,0.6), 0 0 40px rgba(181, 155, 142, 0.2); 
+                border: 1px solid rgba(255,255,255,0.05); 
+                position: relative; 
+                transform-style: preserve-3d; 
+                transition: transform 0.1s ease-out, width 0.3s ease, height 0.3s ease;
+            }
+            @media (max-width: 768px) {
+                .yukine-frame {
+                    width: 320px;
+                    height: 320px;
+                }
+            }
+            @media (max-width: 400px) {
+                .yukine-frame {
+                    width: 280px;
+                    height: 280px;
+                }
+            }
+        </style>
+        <div class="yukine-frame" id="yukine-frame">
             <div class="yukine-image-wrapper" style="width: 100%; height: 100%; position: relative;">
                 <!-- Floating Background Dust/Stars -->
                 <div class="ambient-dust"
@@ -186,16 +236,33 @@
 
             <div id="time-status-badge"
                 style="position: absolute; bottom: 25px; right: 25px; background: rgba(0,0,0,0.6); padding: 8px 18px; border-radius: 20px; font-size: 0.85rem; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); color: #e0e0e0; transform: translateZ(50px);">
-                <i class="fa-solid fa-moon"></i> 保持專注，晚安
+                <i class="fa-solid fa-moon"></i> 保持專注，你好
             </div>
         </div>
 
         <!-- Right Side Controls (Music + Timer) -->
-        <div style="display: flex; flex-direction: column; gap: 2rem; z-index: 10;">
+        <style>
+            .lofi-right-pane {
+                display: flex; 
+                flex-direction: column; 
+                gap: 2rem; 
+                z-index: 10;
+                width: 100%;
+                max-width: 380px;
+            }
+            .switcher-card, .pomodoro-card, .music-card {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+            @media (max-width: 768px) {
+                .lofi-main { gap: 2rem !important; }
+            }
+        </style>
+        <div class="lofi-right-pane">
 
             <!-- Time-of-Day Switcher -->
             <div class="switcher-card"
-                style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); width: 380px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 1.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
                 <h3 style="margin-bottom: 1rem; font-weight: 400; letter-spacing: 1px; color: #f0f0f0; font-size: 1.1rem;">
                     <i class="fa-solid fa-cloud-moon" style="margin-right: 8px; color: #a5d6ff;"></i>
                     切換時段氛圍
@@ -221,7 +288,7 @@
             
             <!-- Pomodoro Timer -->
             <div class="pomodoro-card"
-                style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); width: 380px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+                style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
                 <h3 style="margin-bottom: 1.5rem; font-weight: 400; letter-spacing: 1px; color: #f0f0f0;">
                     <i class="fa-regular fa-clock" style="margin-right: 8px; color: #ff7b72;"></i>
                     極致番茄鐘
@@ -248,7 +315,7 @@
 
         <!-- Music Controller -->
         <div class="music-card"
-            style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); width: 380px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+            style="background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 2.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.08); text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
             <h3 style="margin-bottom: 2rem; font-weight: 400; letter-spacing: 1px; color: #f0f0f0;">
                 <i class="fa-solid fa-headphones-simple" style="margin-right: 8px; color: var(--color-accent);"></i>
                 專注音效
@@ -285,6 +352,9 @@
             <!-- Forest crickets -->
             <audio id="audio-forest" loop
                 src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_6bbbda27aa.mp3?filename=crickets-at-night-nature-sounds-8304.mp3"></audio>
+            <!-- Break Music: Zen Garden -->
+            <audio id="audio-break" loop
+                src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c36ea4a484.mp3?filename=zen-garden-10491.mp3"></audio>
 
             <div style="margin-top: 2.5rem; text-align: left;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -398,7 +468,7 @@
                 imageSrc = "{{ url_for('static', filename='img/yukine_scene_night.png') }}";
                 titleText = "深夜陪讀室";
                 subtitleText = "雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶";
-                badgeHTML = '<i class="fa-solid fa-moon"></i> 保持專注，晚安';
+                badgeHTML = '<i class="fa-solid fa-moon"></i> 保持專注，你好';
                 if (starsLayer) starsLayer.style.display = 'block';
                 if (lamp) {
                     lamp.style.display = 'block';
@@ -425,13 +495,14 @@
             lofi: document.getElementById('audio-lofi'),
             rain: document.getElementById('audio-rain'),
             cafe: document.getElementById('audio-cafe'),
-            forest: document.getElementById('audio-forest')
+            forest: document.getElementById('audio-forest'),
+            break: document.getElementById('audio-break')
         };
 
         function toggleAudio(type) {
             const audio = audios[type];
             if (!audio) return;
-
+            
             const btn = document.getElementById(type + '-btn');
             if (audio.paused) {
                 // Exclusive playback: Stop other audios if playing
@@ -448,18 +519,22 @@
                 });
 
                 audio.play().then(() => {
-                    btn.classList.add('active');
+                    if (btn) btn.classList.add('active');
                     audio.volume = document.getElementById('volume-slider').value;
-                    const icon = btn.querySelector('i');
-                    if (icon) icon.style.animation = 'pulse 2s infinite ease-in-out';
+                    if (btn) {
+                        const icon = btn.querySelector('i');
+                        if (icon) icon.style.animation = 'pulse 2s infinite ease-in-out';
+                    }
                 }).catch(e => {
                     console.warn("Audio playback prevented by auto-play policy until interaction:", e);
                 });
             } else {
                 audio.pause();
-                btn.classList.remove('active');
-                const icon = btn.querySelector('i');
-                if (icon) icon.style.animation = 'none';
+                if (btn) {
+                    btn.classList.remove('active');
+                    const icon = btn.querySelector('i');
+                    if (icon) icon.style.animation = 'none';
+                }
             }
         }
 
@@ -539,11 +614,26 @@
                         if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                         // Optional: play an alert bell here
                         if ('speechSynthesis' in window) {
-                            let msg = new SpeechSynthesisUtterance('時間到囉！辛苦了！');
+                            let msg = new SpeechSynthesisUtterance(currentMode === 25 ? '專注時間結束，進入休息模式！' : '休息結束，該開始專注囉！');
                             msg.lang = 'zh-TW';
                             window.speechSynthesis.speak(msg);
                         }
-                        timeLeft = currentMode * 60; // Auto reset text
+                        
+                        // Auto Transition Logic
+                        if (currentMode === 25) {
+                            // Focus Ended -> Start Break
+                            setTimer(5);
+                            toggleAudio('break'); // Automatically start break music
+                            toggleTimer(); // Restart for 5 min
+                        } else {
+                            // Break Ended -> Back to Focus
+                            setTimer(25);
+                            // Stop break music
+                            if (!audios.break.paused) {
+                                toggleAudio('break');
+                            }
+                            // Don't auto-start focus timer to avoid surprising user
+                        }
                         updateDisplay();
                     }
                 }, 1000);
