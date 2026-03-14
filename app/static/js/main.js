@@ -5,7 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initThemeManager();
-    initLeafAnimation();
     initFlashHider();
 });
 
@@ -48,35 +47,6 @@ async function syncThemeWithServer(theme) {
     } catch (err) {
         console.warn("Theme sync failed, but LocalStorage is preserved.");
     }
-}
-
-/**
- * Leaf Animation: Spawns floating leaves for Botanical themes
- */
-function initLeafAnimation() {
-    const spawnLeaf = () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        if (currentTheme !== 'leaf') return; // Only show for leaf theme
-
-        const leaf = document.createElement('div');
-        leaf.className = 'falling-leaf';
-        
-        // Random leaf icons/styles
-        const leafIcons = ['🍃', '🌿', '🌱'];
-        leaf.innerHTML = leafIcons[Math.floor(Math.random() * leafIcons.length)];
-        
-        // Random Position & Animation
-        leaf.style.left = Math.random() * 100 + 'vw';
-        leaf.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-        leaf.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        
-        document.body.appendChild(leaf);
-        
-        setTimeout(() => leaf.remove(), 10000);
-    };
-
-    // Spawn a leaf every few seconds
-    setInterval(spawnLeaf, 3000);
 }
 
 /**
