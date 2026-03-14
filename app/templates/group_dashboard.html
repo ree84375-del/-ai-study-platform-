@@ -236,28 +236,56 @@
                     </div>
                 {% else %}
                     {% for msg in messages %}
-                        <div style="display: flex; gap: 1rem; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
-                            <!-- Avatar placeholder -->
-                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: {% if msg.author and msg.author.username == '雪音老師' %}var(--color-primary){% else %}var(--color-accent){% endif %}; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; overflow: hidden; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <div style="display: flex; gap: 0.8rem; align-items: flex-end; {% if msg.user_id == current_user.id %}flex-direction: row-reverse; justify-content: flex-end;{% else %}justify-content: flex-start;{% endif %} margin-bottom: 0.5rem;">
+                            <!-- Avatar -->
+                            <div style="width: 38px; height: 38px; border-radius: 50%; background-color: white; flex-shrink: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                                 {% if msg.author and msg.author.username == '雪音老師' %}
                                     <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 {% elif msg.author and msg.author.avatar_url %}
                                     <img src="{{ msg.author.avatar_url }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 {% else %}
-                                    {{ (msg.author.username | first | upper) if msg.author and msg.author.username else "?" }}
+                                    <div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                        {{ (msg.author.username | first | upper) if msg.author and msg.author.username else "?" }}
+                                    </div>
                                 {% endif %}
                             </div>
                             
-                            <!-- Message Bubble -->
-                            <div style="max-width: 70%;">
-                                <div style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 4px; {% if msg.user_id == current_user.id %}text-align: right;{% endif %}">
-                                    {{ msg.author.username if msg.author else "未知用戶" }}
-                                    {% if msg.author and msg.author.username == '雪音老師' %} <span style="background:var(--color-primary); color:white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin: 0 4px;">守護神</span>{% elif msg.user_id == group.teacher_id %} <span style="background:var(--color-accent); color:white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin: 0 4px;">老師</span>{% endif %}
-                                    • <span style="font-size: 0.75em;" class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z"></span>
+                            <!-- Message Content Container -->
+                            <div style="max-width: 75%; display: flex; flex-direction: column; {% if msg.user_id == current_user.id %}align-items: flex-end;{% else %}align-items: flex-start;{% endif %}">
+                                <!-- Meta (Name & Time) -->
+                                <div style="font-size: 0.75rem; color: var(--color-text_light); margin-bottom: 3px; display: flex; align-items: center; gap: 5px;">
+                                    {% if msg.user_id == current_user.id %}
+                                        <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="font-size: 0.7rem; opacity: 0.8;"></span>
+                                        <span style="font-weight: 600;">{{ msg.author.username if msg.author else "我" }}</span>
+                                    {% else %}
+                                        <span style="font-weight: 600;">{{ msg.author.username if msg.author else "未知用戶" }}</span>
+                                        {% if msg.author and msg.author.username == '雪音老師' %} 
+                                            <span style="background: linear-gradient(135deg, var(--color-primary), #a2c2e8); color:white; padding: 1px 6px; border-radius: 10px; font-size: 0.65rem;">守護神</span>
+                                        {% elif msg.user_id == group.teacher_id %} 
+                                            <span style="background: var(--color-accent); color:white; padding: 1px 6px; border-radius: 10px; font-size: 0.65rem;">老師</span>
+                                        {% endif %}
+                                        <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="font-size: 0.7rem; opacity: 0.8;"></span>
+                                    {% endif %}
                                 </div>
-                                <div style="background-color: {% if msg.user_id == current_user.id %}var(--color-primary){% elif msg.author and msg.author.username == '雪音老師' %}#fff5f7{% else %}white{% endif %}; color: {% if msg.user_id == current_user.id %}white{% else %}var(--color-text_main){% endif %}; padding: 12px 18px; border-radius: 18px; border-top-{% if msg.user_id == current_user.id %}right{% else %}left{% endif %}-radius: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); word-break: break-word; white-space: pre-wrap; line-height: 1.6; border: {% if msg.author and msg.author.username == '雪音老師' %}1px solid #ffdde1{% else %}none{% endif %}; width: fit-content; max-width: 100%; min-width: 50px; {% if msg.user_id == current_user.id %}margin-left: auto;{% endif %}">
+
+                                <!-- Bubble -->
+                                <div style="
+                                    background: {% if msg.user_id == current_user.id %}linear-gradient(135deg, var(--color-primary), #7fa9e6){% elif msg.author and msg.author.username == '雪音老師' %}linear-gradient(135deg, #fffafa, #fff0f2){% else %}white{% endif %}; 
+                                    color: {% if msg.user_id == current_user.id %}white{% else %}var(--color-text_main){% endif %}; 
+                                    padding: 10px 16px; 
+                                    border-radius: 18px; 
+                                    border-bottom-{% if msg.user_id == current_user.id %}right{% else %}left{% endif %}-radius: 4px; 
+                                    box-shadow: 0 3px 10px rgba(0,0,0,0.04); 
+                                    word-break: break-word; 
+                                    white-space: pre-wrap; 
+                                    line-height: 1.5; 
+                                    border: {% if msg.author and msg.author.username == '雪音老師' %}1px solid #ffdde1{% elif msg.user_id == current_user.id %}none{% else %}1px solid #eef0f2{% endif %}; 
+                                    width: fit-content; 
+                                    font-size: 0.95rem;
+                                    position: relative;
+                                ">
                                     {% if msg.image_data %}
-                                        <img src="{{ msg.image_data }}" style="max-width: 100%; border-radius: 8px; margin-bottom: 8px; display: block;">
+                                        <img src="{{ msg.image_data }}" style="max-width: 100%; border-radius: 10px; margin-bottom: 8px; display: block; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                                     {% endif %}
                                     {{ msg.content }}
                                 </div>
