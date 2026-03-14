@@ -180,7 +180,7 @@ body::before {
 .container {
     width: 100%;
     max-width: 1400px;
-    margin-left: 2rem; /* Align left with some padding */
+    margin-left: 0; 
     margin-right: auto;
     padding: 0 1.5rem;
     box-sizing: border-box;
