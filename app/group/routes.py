@@ -470,7 +470,8 @@ def ai_reply(group_id):
         if p_msg:
             user_context = f"(正在回覆 {p_msg.author.username} 說過的話: \"{p_msg.content}\") -> {last_msg.content}"
             
-    curr_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    # Use Taiwan Time (UTC+8)
+    curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
     context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
     ai_reply_text = get_ai_tutor_response(chat_history, context_with_time, personality_key='雪音-溫柔型')
     

@@ -6,8 +6,9 @@ from datetime import datetime, timedelta, timezone
 study = Blueprint('study', __name__)
 
 def get_current_room_name():
-    """Returns the room name based on the current system time."""
-    hour = datetime.now().hour
+    """Returns the room name based on the current system time (Taiwan UTC+8)."""
+    # Force UTC+8 for consistent room naming
+    hour = (datetime.now(timezone.utc) + timedelta(hours=8)).hour
     if 6 <= hour < 12:
         return "早上陪讀室"
     elif 12 <= hour < 17:
@@ -300,7 +301,11 @@ def tutor_chat():
             except Exception:
                 recent_history = []
 
-        reply = get_ai_tutor_response(recent_history, user_msg, personality_key=current_user.ai_personality, context_summary=context)
+        # Inject local time (Taiwan UTC+8) for temporal awareness
+        curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+        user_msg_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_msg}"
+
+        reply = get_ai_tutor_response(recent_history, user_msg_with_time, personality_key=current_user.ai_personality, context_summary=context)
         
         # Save AI response
         try:
