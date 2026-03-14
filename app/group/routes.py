@@ -222,26 +222,117 @@ def group_dashboard(group_id):
                 if group_obj.teacher_id == current_user.id:
                     title = request.form.get('title')
                     description = request.form.get('description')
+                    reference_answer = request.form.get('reference_answer')
+                    due_date_str = request.form.get('due_date')
+                    
+                    due_date = None
+                    if due_date_str:
+                        try:
+                            due_date = datetime.fromisoformat(due_date_str).replace(tzinfo=timezone.utc)
+                        except: pass
+                    
+                    # Handle Reference Image
+                    ref_image_path = None
+                    if 'reference_image' in request.files:
+                        file = request.files['reference_image']
+                        if file and file.filename:
+                            import os
+                            from werkzeug.utils import secure_filename
+                            upload_folder = os.path.join(current_app.static_folder, 'uploads', 'assignments')
+                            os.makedirs(upload_folder, exist_ok=True)
+                            filename = secure_filename(f"ref_{group_id}_{datetime.now().timestamp()}_{file.filename}")
+                            ref_image_path = os.path.join('uploads', 'assignments', filename).replace('\\', '/')
+                            file.save(os.path.join(current_app.static_folder, ref_image_path))
+
                     if title:
-                        new_assignment = Assignment(group_id=group_id, title=title, description=description)
+                        new_assignment = Assignment(
+                            group_id=group_id, 
+                            title=title, 
+                            description=description,
+                            reference_answer=reference_answer,
+                            reference_image=ref_image_path,
+                            due_date=due_date
+                        )
                         db.session.add(new_assignment)
                         db.session.commit()
                         flash('新作業已發布', 'success')
 
             elif action == 'submit_assignment':
-                current_app.logger.info("Submitting assignment...")
                 assignment_id = request.form.get('assignment_id')
-                if assignment_id and content:
+                content = request.form.get('content') # Direct text
+                confirmed_content = request.form.get('confirmed_content') # From OCR flow
+                
+                final_content = confirmed_content if confirmed_content else content
+                assignment = Assignment.query.get(assignment_id)
+                
+                if assignment and final_content:
+                    # Handle Student Submission Image
+                    sub_image_path = None
+                    if 'submission_image' in request.files:
+                        file = request.files['submission_image']
+                        if file and file.filename:
+                            import os
+                            from werkzeug.utils import secure_filename
+                            upload_folder = os.path.join(current_app.static_folder, 'uploads', 'submissions')
+                            os.makedirs(upload_folder, exist_ok=True)
+                            filename = secure_filename(f"sub_{assignment_id}_{current_user.id}_{datetime.now().timestamp()}_{file.filename}")
+                            sub_image_path = os.path.join('uploads', 'submissions', filename).replace('\\', '/')
+                            file.save(os.path.join(current_app.static_folder, sub_image_path))
+
+                    # Enhanced Grading Logic
+                    from app.utils.ai_helpers import generate_text_with_fallback
+                    
+                    grading_prompt = f"""
+                    你現在是可愛且專業的線上家教「雪音老師」。你需要批改一份作業。
+                    
+                    作業標題：{assignment.title}
+                    作業要求：{assignment.description}
+                    老師提供的參考答案：{assignment.reference_answer or "未提供"}
+                    
+                    學生提交的內容：
+                    ---
+                    {final_content}
+                    ---
+                    
+                    請執行以下任務：
+                    1. 核心核對：將學生答案與老師的參考答案進行深度比對。
+                    2. 錯誤分析：如果學生錯了，請詳細說明錯在哪裡、遺漏了什麼觀念、算式哪一步有誤。
+                    3. 給予詳解：引導學生正確的解題路徑，並給予溫柔的鼓勵。
+                    4. 評分：給予 0-100 的整數分數。
+                    
+                    回覆格式：
+                    評價：[你的詳細分析、解答與鼓勵，請用繁體中文，多用點可愛表情符號]
+                    分數：[0-100]
+                    """
+                    
+                    try:
+                        ai_response = generate_text_with_fallback(grading_prompt)
+                        feedback = "批改完成唷！"
+                        score = 80
+                        
+                        import re
+                        f_match = re.search(r'評價：\s*(.*?)(?=\s*分數：|$)', ai_response, re.DOTALL)
+                        if f_match: feedback = f_match.group(1).strip()
+                        
+                        s_match = re.search(r'分數：\s*(\d+)', ai_response)
+                        if s_match: score = int(s_match.group(1))
+                    except Exception as e:
+                        current_app.logger.error(f"AI Grading Error: {e}")
+                        feedback = "雪音老師剛剛有點分心，但還是給你的努力一個分數唷！"
+                        score = 70
+
                     status = AssignmentStatus.query.filter_by(assignment_id=assignment_id, user_id=current_user.id).first()
                     if not status:
                         status = AssignmentStatus(assignment_id=assignment_id, user_id=current_user.id)
                         db.session.add(status)
                     
-                    status.content = content
+                    status.content = final_content
+                    status.submission_image = sub_image_path
+                    status.ai_feedback = feedback
+                    status.score = score
                     status.is_completed = True
                     status.completed_at = datetime.now(timezone.utc)
                     
-                    # AI 批改
                     from app.utils.ai_helpers import get_yukine_feedback
                     assignment = Assignment.query.get(assignment_id)
                     feedback, score = get_yukine_feedback(content, assignment.title, assignment.description)
@@ -289,7 +380,28 @@ def group_dashboard(group_id):
             )
 
         current_app.logger.info("Step 6: Rendering template")
-        return render_template('group_dashboard.html', 
+        # --- Deadline Notification for Teachers ---
+    if group_obj.teacher_id == current_user.id:
+        from datetime import datetime
+        now = datetime.now(timezone.utc)
+        
+        # Check assignments that have passed or are approaching
+        overdue_assignments = Assignment.query.filter(
+            Assignment.group_id == group_id,
+            Assignment.due_date <= now
+        ).all()
+        
+        for assignment in overdue_assignments:
+            # Find students who haven't completed this assignment
+            all_member_ids = [m.user_id for m in group_obj.members]
+            completed_user_ids = [s.user_id for s in assignment.statuses if s.is_completed]
+            missing_user_ids = set(all_member_ids) - set(completed_user_ids)
+            
+            if missing_user_ids:
+                missing_names = [User.query.get(uid).username for uid in missing_user_ids]
+                flash(f"注意！作業「{assignment.title}」已截止，以下學生尚未繳交：{', '.join(missing_names)}", 'warning')
+
+    return render_template('group_dashboard.html', 
                                group=group_obj, 
                                messages=messages, 
                                announcements=announcements,
@@ -512,3 +624,31 @@ def ai_reply(group_id):
         })
     
     return jsonify({'status': 'error', 'message': 'AI failed to generate reply'}), 500
+
+@group.route('/api/groups/<int:group_id>/assignment/recognize', methods=['POST'], strict_slashes=False)
+@login_required
+def recognize_assignment_image(group_id):
+    if 'image' not in request.files:
+        return jsonify({'status': 'error', 'message': 'No image provided'}), 400
+    
+    file = request.files['image']
+    image_bytes = file.read()
+    
+    from app.utils.ai_helpers import parse_question_from_image
+    # Reuse parsing logic but focus on text extraction
+    result = parse_question_from_image(image_bytes)
+    
+    if 'error' in result:
+        return jsonify({'status': 'error', 'message': result['error']})
+    
+    # Format the result as a text blob if it's a dict
+    if isinstance(result, dict):
+        text_lines = []
+        if result.get('content_text'): text_lines.append(result['content_text'])
+        if result.get('correct_answer'): text_lines.append(f"正確答案: {result['correct_answer']}")
+        if result.get('explanation'): text_lines.append(f"詳解: {result['explanation']}")
+        recognition_text = "\n".join(text_lines)
+    else:
+        recognition_text = str(result)
+        
+    return jsonify({'status': 'success', 'text': recognition_text})

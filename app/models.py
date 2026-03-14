@@ -142,6 +142,8 @@ class Assignment(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=True)
+    reference_answer = db.Column(db.Text, nullable=True) # Teacher's correct answer/key
+    reference_image = db.Column(db.String(255), nullable=True) # Image path for key
     due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
@@ -152,7 +154,9 @@ class AssignmentStatus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     assignment_id = db.Column(db.Integer, db.ForeignKey('assignment.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    content = db.Column(db.Text, nullable=True) # Student submission
+    content = db.Column(db.Text, nullable=True) # Student submission (final text)
+    submission_image = db.Column(db.String(255), nullable=True) # Path to student's upload
+    recognized_content = db.Column(db.Text, nullable=True) # AI's initial OCR result
     ai_feedback = db.Column(db.Text, nullable=True) # Yukine's comments
     score = db.Column(db.Integer, nullable=True) # 0-100
     is_completed = db.Column(db.Boolean, default=False)
