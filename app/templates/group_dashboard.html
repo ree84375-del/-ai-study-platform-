@@ -244,7 +244,7 @@
                                 {% elif msg.author and msg.author.avatar_url %}
                                     <img src="{{ msg.author.avatar_url }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 {% else %}
-                                    {{ (msg.author.username[0] | upper) if msg.author else "?" }}
+                                    {{ (msg.author.username | first | upper) if msg.author and msg.author.username else "?" }}
                                 {% endif %}
                             </div>
                             

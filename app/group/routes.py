@@ -108,7 +108,8 @@ def leave_group(group_id):
 @group.route("/groups/<int:group_id>/dashboard", methods=['GET', 'POST'])
 @login_required
 def group_dashboard(group_id):
-    from app.models import GroupAnnouncement
+    from app.models import GroupMember, GroupAnnouncement, GroupMessage, Assignment, AssignmentStatus, User
+    
     group_obj = Group.query.get_or_404(group_id)
     membership = GroupMember.query.filter_by(group_id=group_id, user_id=current_user.id).first()
     
@@ -122,33 +123,23 @@ def group_dashboard(group_id):
         content = request.form.get('content')
         image_data = request.form.get('image_data')
         
-        if content and content.strip():
-            if action == 'post_announcement' and group_obj.teacher_id == current_user.id:
-                ann = GroupAnnouncement(content=content.strip(), group_id=group_id)
-                db.session.add(ann)
+        # Post Message
+        if action == 'post_message':
+            if (content and content.strip()) or image_data:
+                msg = GroupMessage(content=(content.strip() if content else ""), group_id=group_id, user_id=current_user.id, image_data=image_data)
+                db.session.add(msg)
                 db.session.commit()
-                flash('已發布群組公告', 'success')
-            elif action == 'post_message':
-                if (content and content.strip()) or image_data:
-                    msg = GroupMessage(content=(content.strip() if content else ""), group_id=group_id, user_id=current_user.id, image_data=image_data)
-                    db.session.add(msg)
-                    db.session.commit()
-                
+            
                 # AI Response Logic if enabled
                 if group_obj.has_ai:
-                    from app.models import User
                     # Singleton Yukine: Find or create a specific AI user
                     yukine = User.query.filter_by(username='雪音老師').first()
                     if not yukine:
-                        # Create a placeholder user for Yukine if she doesn't exist
-                        # Note: In a real app, this should be a system-reserved account
-                        yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password='ai_placeholder_password', role='teacher')
+                        yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
                         db.session.add(yukine)
                         db.session.commit()
                     
-                    # Prevent AI from talking to itself (already handled by logic but good to keep in mind)
                     if current_user.id != yukine.id:
-                        # Get recent context
                         recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(10).all()
                         chat_history = []
                         for m in reversed(recent_msgs):
@@ -161,59 +152,71 @@ def group_dashboard(group_id):
                         
                         ai_reply = get_ai_tutor_response(chat_history, ai_prompt, personality_key='雪音-溫柔型')
                         
-                        # Save AI response
                         ai_msg = GroupMessage(content=ai_reply, group_id=group_id, user_id=yukine.id)
                         db.session.add(ai_msg)
                         db.session.commit()
-            elif action == 'update_settings' and group_obj.teacher_id == current_user.id:
-                new_name = request.form.get('group_name')
-                has_ai = request.form.get('has_ai') == 'on'
-                if new_name:
-                    group_obj.name = new_name.strip()
-                group_obj.has_ai = has_ai
+                        
+        # Post Announcement (Teacher only)
+        elif action == 'post_announcement' and group_obj.teacher_id == current_user.id:
+            if content and content.strip():
+                ann = GroupAnnouncement(content=content.strip(), group_id=group_id)
+                db.session.add(ann)
                 db.session.commit()
-                flash('群組設定已更新', 'success')
-            elif action == 'toggle_ai':
-                group_obj.has_ai = not group_obj.has_ai
-                db.session.commit()
-                status = "進入了討論" if group_obj.has_ai else "離開了討論"
-                flash(f'雪音老師{status}', 'info')
-            elif action == 'publish_assignment' and group_obj.teacher_id == current_user.id:
-                from app.models import Assignment
-                title = request.form.get('title')
-                desc = request.form.get('description')
-                due_days = int(request.form.get('due_days', 7))
-                if title:
-                    due_date = datetime.now(timezone.utc) + timedelta(days=due_days)
-                    new_assign = Assignment(title=title.strip(), description=desc, group_id=group_id, due_date=due_date)
-                    db.session.add(new_assign)
-                    db.session.commit()
-                    flash(f'作業「{title}」已發布', 'success')
-            elif action == 'submit_assignment':
-                from app.models import AssignmentStatus
-                assign_id = request.form.get('assignment_id')
-                content = request.form.get('content')
-                if assign_id and content:
-                    status = AssignmentStatus.query.filter_by(assignment_id=assign_id, user_id=current_user.id).first()
-                    if not status:
-                        status = AssignmentStatus(assignment_id=assign_id, user_id=current_user.id)
-                        db.session.add(status)
-                    status.content = content
-                    status.is_completed = True
-                    status.completed_at = datetime.now(timezone.utc)
-                    db.session.commit()
-                    
-                    # Immediate AI Grading
-                    from app.models import Assignment
-                    assign_obj = Assignment.query.get(assign_id)
-                    from app.utils.ai_helpers import get_yukine_feedback
-                    feedback, score = get_yukine_feedback(content, assign_obj.title, assign_obj.description)
-                    status.ai_feedback = feedback
-                    status.score = score
-                    db.session.commit()
-                    flash(f'作業已繳交！雪音老師已完成批改。', 'success')
+                flash('已發布群組公告', 'success')
                 
-            return redirect(url_for('group.group_dashboard', group_id=group_id))
+        # Update Settings (Teacher only)
+        elif action == 'update_settings' and group_obj.teacher_id == current_user.id:
+            new_name = request.form.get('group_name')
+            has_ai = request.form.get('has_ai') == 'on'
+            if new_name:
+                group_obj.name = new_name.strip()
+            group_obj.has_ai = has_ai
+            db.session.commit()
+            flash('群組設定已更新', 'success')
+            
+        # Toggle AI
+        elif action == 'toggle_ai':
+            group_obj.has_ai = not group_obj.has_ai
+            db.session.commit()
+            status = "進入了討論" if group_obj.has_ai else "離開了討論"
+            flash(f'雪音老師{status}', 'info')
+            
+        # Publish Assignment (Teacher only)
+        elif action == 'publish_assignment' and group_obj.teacher_id == current_user.id:
+            title = request.form.get('title')
+            desc = request.form.get('description')
+            due_days = int(request.form.get('due_days', 7))
+            if title:
+                due_date = datetime.now(timezone.utc) + timedelta(days=due_days)
+                new_assign = Assignment(title=title.strip(), description=desc, group_id=group_id, due_date=due_date)
+                db.session.add(new_assign)
+                db.session.commit()
+                flash(f'作業「{title}」已發布', 'success')
+                
+        # Submit Assignment
+        elif action == 'submit_assignment':
+            assign_id = request.form.get('assignment_id')
+            content_val = request.form.get('content')
+            if assign_id and content_val:
+                status = AssignmentStatus.query.filter_by(assignment_id=assign_id, user_id=current_user.id).first()
+                if not status:
+                    status = AssignmentStatus(assignment_id=assign_id, user_id=current_user.id)
+                    db.session.add(status)
+                status.content = content_val
+                status.is_completed = True
+                status.completed_at = datetime.now(timezone.utc)
+                db.session.commit()
+                
+                # Immediate AI Grading
+                assign_obj = Assignment.query.get(assign_id)
+                from app.utils.ai_helpers import get_yukine_feedback
+                feedback, score = get_yukine_feedback(content_val, assign_obj.title, assign_obj.description)
+                status.ai_feedback = feedback
+                status.score = score
+                db.session.commit()
+                flash(f'作業已繳交！雪音老師已完成批改。', 'success')
+                
+        return redirect(url_for('group.group_dashboard', group_id=group_id))
             
     # Sort assignments: those with due_date first, then None (no deadline)
     # Use datetime.max with timezone for sorting None values to the end

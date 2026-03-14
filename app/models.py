@@ -39,9 +39,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
-    # avatar_url = db.Column(db.String(255), nullable=True)
+    avatar_url = db.Column(db.String(255), nullable=True)
     password = db.Column(db.String(60), nullable=False)
-    # auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
+    auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
  
     @property
@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
     # exam_date = db.Column(db.Date, nullable=True)
     # study_plan_json = db.Column(db.Text, nullable=True)
     
-    # last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    last_active_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships
     mistakes = db.relationship('Mistake', backref='student', lazy=True)
