@@ -1,14 +1,18 @@
 from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user
-from app import db, bcrypt
-from app.models import User, Mistake
 from datetime import datetime, timezone, timedelta
 import re
 
 main = Blueprint('main', __name__)
 
+@main.route("/ping")
+def ping():
+    return jsonify({"status": "ok", "message": "Backend is alive!"})
+
 @main.before_app_request
 def before_request():
+    from app import db
+    from app.models import User
     if current_user.is_authenticated:
         try:
             # Temporarily disabled until DB column 'last_active_at' is added
@@ -87,6 +91,7 @@ def terms():
 @main.route("/api/complete_tour", methods=['POST'])
 @login_required
 def complete_tour():
+    from app import db
     if not current_user.has_seen_tour:
         current_user.has_seen_tour = True
         db.session.commit()
@@ -95,6 +100,7 @@ def complete_tour():
 @main.route("/profile")
 @login_required
 def profile():
+    from app.models import Mistake
     current_app.logger.info(f"User {current_user.id} accessing profile page")
     mistake_count = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
     return render_template('profile.html', title='個人檔案', mistake_count=mistake_count)
@@ -107,7 +113,8 @@ def chat():
 @main.route("/update_profile", methods=['POST'])
 @login_required
 def update_profile():
-
+    from app import db
+    from app.models import User
     new_username = request.form.get('username', current_user.username)
 
     # Check for duplicate username (only if it actually changed)
@@ -139,6 +146,7 @@ def update_profile():
 @main.route("/change_password", methods=['POST'])
 @login_required
 def change_password():
+    from app import db, bcrypt
     # Google/guest users cannot change password here
     # Google/guest users cannot change password here
     if getattr(current_user, 'auth_provider', 'local') in ('google', 'guest'):
@@ -179,6 +187,7 @@ def change_password():
 @main.route("/api/omikuji/draw", methods=['POST'])
 @login_required
 def draw_omikuji():
+    from app import db
     from app.models import Omikuji
     from app.utils.ai_helpers import get_gemini_model
     import random
@@ -245,6 +254,7 @@ def draw_omikuji():
 @main.route("/api/ema/create", methods=['POST'])
 @login_required
 def create_ema():
+    from app import db
     from app.models import Ema
     content = request.form.get('content')
     is_public = request.form.get('is_public') == 'true'
@@ -262,6 +272,7 @@ def create_ema():
 @main.route("/api/daruma/create", methods=['POST'])
 @login_required
 def create_daruma():
+    from app import db
     from app.models import Daruma
     goal = request.form.get('goal')
     
@@ -278,6 +289,7 @@ def create_daruma():
 @main.route("/api/toggle_dark_mode", methods=['POST'])
 @login_required
 def toggle_dark_mode():
+    from app import db
     if not hasattr(current_user, 'preferred_theme'):
         return jsonify({"status": "error", "message": "Theme setting not available"}), 400
         
@@ -296,6 +308,7 @@ def toggle_dark_mode():
 @main.route("/api/daruma/<int:daruma_id>/complete", methods=['POST'])
 @login_required
 def complete_daruma(daruma_id):
+    from app import db
     from app.models import Daruma
     daruma = Daruma.query.get_or_404(daruma_id)
     if daruma.user_id != current_user.id:
@@ -315,6 +328,7 @@ def complete_daruma(daruma_id):
 @main.route("/api/update_theme", methods=['POST'])
 @login_required
 def update_theme():
+    from app import db
     data = request.get_json()
     if not data or 'theme' not in data:
         return jsonify({"status": "error", "message": "Invalid data"}), 400
@@ -333,6 +347,7 @@ def update_theme():
 @main.route("/debug/fix_group_db")
 @login_required
 def fix_group_db():
+    from app import db
     if not current_user.is_admin:
         return "Unauthorized", 403
     from sqlalchemy import text

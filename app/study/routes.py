@@ -1,8 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.models import Question, Mistake, ChatSession, ChatMessage
-from app import db
-from app.utils.ai_helpers import analyze_question_image, parse_question_from_image, get_ai_tutor_response, AI_PERSONALITIES, auto_tag_question, detect_duplicate_question, get_knowledge_graph_recommendation, generate_study_guide
 import random
 from datetime import datetime, timedelta, timezone
 
@@ -23,6 +20,8 @@ def get_current_room_name():
 @study.route("/practice", methods=['GET', 'POST'])
 @login_required
 def practice():
+    from app import db
+    from app.models import Question, Mistake
     if request.method == 'POST':
         question_id = request.form.get('question_id')
         user_answer = request.form.get('answer')
@@ -96,6 +95,7 @@ def practice():
 @study.route("/mistakes")
 @login_required
 def mistakes():
+    from app.models import Mistake
     mistake_records = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).all()
     return render_template('mistakes.html', title='錯題本', mistakes=mistake_records)
 
@@ -103,6 +103,10 @@ def mistakes():
 @study.route("/ai_vision", methods=['GET', 'POST'])
 @login_required
 def ai_vision():
+    from app import db
+    from app.models import Question, ChatSession, ChatMessage
+    from app.utils.ai_helpers import analyze_question_image, parse_question_from_image, auto_tag_question, detect_duplicate_question
+    
     if request.method == 'POST':
         if 'image' not in request.files:
             return jsonify({'error': '沒有上傳圖片'}), 400
@@ -166,6 +170,10 @@ def ai_vision():
 @study.route("/analyze_mistake/<int:mistake_id>")
 @login_required
 def analyze_mistake(mistake_id):
+    from app import db
+    from app.models import Mistake, ChatSession, ChatMessage
+    from app.utils.ai_helpers import get_ai_tutor_response, get_knowledge_graph_recommendation
+    
     mistake = Mistake.query.get_or_404(mistake_id)
     if mistake.user_id != current_user.id:
         return jsonify({'error': '權限不足'}), 403
@@ -206,6 +214,8 @@ def analyze_mistake(mistake_id):
 @study.route("/api/generate_ai_question")
 @login_required
 def generate_question_api():
+    from app import db
+    from app.models import Question
     subject = request.args.get('subject', '數學')
     from app.utils.ai_helpers import generate_ai_quiz
     quiz_data = generate_ai_quiz(subject)
@@ -233,6 +243,9 @@ def generate_question_api():
 @study.route("/tutor_chat", methods=['POST'])
 @login_required
 def tutor_chat():
+    from app import db
+    from app.models import ChatSession, ChatMessage, Mistake
+    from app.utils.ai_helpers import get_ai_tutor_response
     try:
         user_msg = request.json.get('message', '')
         session_id = request.json.get('session_id')
@@ -307,12 +320,14 @@ def tutor_chat():
 @study.route("/api/chat/sessions")
 @login_required
 def get_chat_sessions():
+    from app.models import ChatSession
     sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(ChatSession.created_at.desc()).all()
     return jsonify([{'id': s.id, 'title': s.title, 'created_at': s.created_at.isoformat()} for s in sessions])
 
 @study.route("/api/chat/history/<int:session_id>")
 @login_required
 def get_chat_history(session_id):
+    from app.models import ChatSession
     session = ChatSession.query.get_or_404(session_id)
     if session.user_id != current_user.id:
         return jsonify({'error': '權限不足'}), 403
@@ -328,7 +343,11 @@ def lofi_room():
 @study.route("/generate_roadmap", methods=['POST'])
 @login_required
 def generate_roadmap():
+    from app import db
+    from app.models import Mistake
+    from app.utils.ai_helpers import generate_study_roadmap
     import json
+    from datetime import datetime
     exam_name = request.json.get('exam_name', '即將到來的考試')
     exam_date_str = request.json.get('exam_date')
     
@@ -371,6 +390,7 @@ def generate_roadmap():
 @study.route("/generate_exam")
 @login_required
 def generate_exam():
+    from app.models import Mistake
     mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
     if not mistakes:
         flash("目前沒有足夠的錯題來生成測驗。請先進行練習！", "info")

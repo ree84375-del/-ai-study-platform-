@@ -1,23 +1,30 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app
-from app import db, bcrypt, oauth
-from app.auth.forms import RegistrationForm, LoginForm
-from app.models import User
 from flask_login import login_user, current_user, logout_user, login_required
 import os
 import secrets
 
 auth = Blueprint('auth', __name__)
 
-google = oauth.register(
-    name='google',
-    client_id=os.environ.get('GOOGLE_CLIENT_ID', ''),
-    client_secret=os.environ.get('GOOGLE_CLIENT_SECRET', ''),
-    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid email profile'}
-)
+@auth.before_app_first_request
+def setup_oauth():
+    # OAuth configuration can happen inside a setup function or lazily
+    pass
+
+def get_google_client():
+    from app import oauth
+    return oauth.register(
+        name='google',
+        client_id=os.environ.get('GOOGLE_CLIENT_ID', ''),
+        client_secret=os.environ.get('GOOGLE_CLIENT_SECRET', ''),
+        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+        client_kwargs={'scope': 'openid email profile'}
+    )
 
 @auth.route("/register", methods=['GET', 'POST'])
 def register():
+    from app import db, bcrypt
+    from app.auth.forms import RegistrationForm
+    from app.models import User
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = RegistrationForm()
@@ -32,11 +39,15 @@ def register():
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
+    from app import bcrypt
+    from app.auth.forms import LoginForm
+    from app.models import User
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
+叠
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             current_app.logger.info(f"User {user.username} logged in successfully")
@@ -52,12 +63,16 @@ def login():
 
 @auth.route("/login/google")
 def google_login():
+    google = get_google_client()
     scheme = 'https' if os.environ.get('VERCEL') or request.headers.get('x-forwarded-proto') == 'https' else 'http'
     redirect_uri = url_for('auth.google_auth', _external=True, _scheme=scheme)
     return google.authorize_redirect(redirect_uri)
 
 @auth.route('/auth/google/callback')
 def google_auth():
+    from app import db, bcrypt
+    from app.models import User
+    google = get_google_client()
     try:
         token = google.authorize_access_token()
         user_info = token.get('userinfo')
@@ -108,6 +123,8 @@ def logout():
 
 @auth.route("/guest_login")
 def guest_login():
+    from app import db, bcrypt
+    from app.models import User
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     import random
