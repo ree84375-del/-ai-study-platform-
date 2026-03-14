@@ -92,10 +92,12 @@ def create_app():
     from app.group.routes import group
     from app.study.routes import study
     from app.auth.routes import auth
+    from app.admin.routes import admin
     app.register_blueprint(main)
     app.register_blueprint(group)
     app.register_blueprint(study)
     app.register_blueprint(auth)
+    app.register_blueprint(admin)
     
     app.logger.info("Blueprints registered correctly.")
 
