@@ -316,12 +316,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Paste Image Logic
-    const chatInput = document.getElementById('chat-input');
-    const imagePreviewContainer = document.getElementById('image-preview-container');
-    const imagePreview = document.getElementById('image-preview');
-    const imageDataInput = document.getElementById('image-data-input');
+    // Auto-expand textarea
+    if (chatInput) {
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            
+            // Adjust scroll of message container if needed
+            if (messageContainer) {
+                messageContainer.scrollTop = messageContainer.scrollHeight;
+            }
+        });
 
+        // Trigger on load if there's content
+        chatInput.style.height = 'auto';
+        chatInput.style.height = (chatInput.scrollHeight) + 'px';
+    }
+
+    // Paste Image Logic
     if (chatInput) {
         chatInput.addEventListener('paste', function(e) {
             const items = (e.clipboardData || e.originalEvent.clipboardData).items;
@@ -334,6 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         imagePreview.src = event.target.result;
                         imageDataInput.value = event.target.result;
                         imagePreviewContainer.style.display = 'block';
+                        
+                        // Scroll to see preview
+                        if (messageContainer) {
+                            messageContainer.scrollTop = messageContainer.scrollHeight;
+                        }
                     };
                     reader.readAsDataURL(blob);
                 }
