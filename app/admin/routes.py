@@ -173,6 +173,7 @@ def new_announcement():
 
 @admin.route('/announcements/ai_generate', methods=['POST'])
 def ai_generate_announcement():
+    from flask import jsonify
     prompt = request.form.get('prompt')
     if not prompt:
         flash('請輸入公告綱要。', 'danger')
@@ -190,21 +191,14 @@ def ai_generate_announcement():
         import json
         data = json.loads(text)
         
-        announcement = Announcement(
-            title=data.get('title', '系統公告'), 
-            content=data.get('content', prompt), 
-            is_ai_generated=True,
-            created_by_id=current_user.id
-        )
-        db.session.add(announcement)
-        db.session.commit()
-        
-        flash('✨ 雪音已成功幫您發布了一篇新公告！', 'success')
-        return redirect(url_for('admin.announcements'))
+        return jsonify({
+            'status': 'success',
+            'title': data.get('title', '系統公告'),
+            'content': data.get('content', prompt)
+        })
         
     except Exception as e:
-        flash(f'雪音生成失敗，請稍後再試或使用手動發布。錯誤：{str(e)}', 'danger')
-        return redirect(url_for('admin.new_announcement'))
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @admin.route('/announcements/delete/<int:obj_id>', methods=['POST'])
 def delete_announcement(obj_id):

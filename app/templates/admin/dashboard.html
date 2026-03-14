@@ -53,16 +53,24 @@
                 <td style="padding: 10px; font-weight: 500;">{{ u.email }}</td>
                 <td style="padding: 10px;">{{ u.username }}</td>
                 <td style="padding: 10px;">
-                    {% if u.is_admin %}<span style="color: white; background: #ff7b72; border-radius: 5px; padding: 3px 8px; font-size: 0.8rem; font-weight: bold;">管理員</span>{% else %}{{ u.role }}{% endif %}
+                    {% if u.is_admin %}
+                        <span style="color: white; background: #ff7b72; border-radius: 5px; padding: 3px 8px; font-size: 0.8rem; font-weight: bold;">管理員</span>
+                    {% else %}
+                        {% if u.auth_provider == 'guest' %}
+                            <span style="color: var(--color-text_light); font-size: 0.85rem;">訪客{% if u.role != 'guest' %}+{{ '老師' if u.role == 'teacher' else ('學生' if u.role == 'student' else u.role) }}{% endif %}</span>
+                        {% else %}
+                            {{ '老師' if u.role == 'teacher' else ('學生' if u.role == 'student' else u.role) }}
+                        {% endif %}
+                    {% endif %}
                 </td>
                 <td style="padding: 10px; font-size: 0.9rem; color: var(--color-text_light);">{% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}從未登入{% endif %}</td>
                 <td style="padding: 10px; display: flex; gap: 5px;">
                     <form action="{{ url_for('admin.change_user_role', user_id=u.id) }}" method="POST" style="display: flex; gap: 5px; margin: 0;">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <select name="role" style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-border);" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>
-                            <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>訪客</option>
-                            <option value="student" {% if u.role == 'student' %}selected{% endif %}>學生</option>
-                            <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>老師</option>
+                            <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>{% if u.auth_provider == 'guest' %}訪客{% else %}訪客（一般）{% endif %}</option>
+                            <option value="student" {% if u.role == 'student' %}selected{% endif %}>{% if u.auth_provider == 'guest' %}訪客+學生{% else %}學生{% endif %}</option>
+                            <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>{% if u.auth_provider == 'guest' %}訪客+老師{% else %}老師{% endif %}</option>
                             <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>管理員</option>
                         </select>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>更改</button>

@@ -22,7 +22,7 @@
             <div style="display: flex; gap: 10px;">
                 <input type="text" name="prompt" id="ai-prompt" class="form-control" style="flex-grow: 1; padding: 12px; border-radius: 8px; border: 1px solid var(--color-primary);" placeholder="請輸入公告綱要..." required>
                 <button type="submit" id="ai-submit-btn" class="btn" style="padding: 0 25px; background-color: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; white-space: nowrap;">
-                    <i class="fa-solid fa-sparkles"></i> 魔法生成並發布
+                    <i class="fa-solid fa-sparkles"></i> 魔法生成預覽
                 </button>
             </div>
         </form>
@@ -35,32 +35,80 @@
 
     <!-- Manual Form -->
     <div class="washi-card">
-        <form method="POST" action="{{ url_for('admin.new_announcement') }}">
+        <form method="POST" action="{{ url_for('admin.new_announcement') }}" id="manual-form">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             
             <div style="margin-bottom: 1.5rem;">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">公告標題 (必填)</label>
-                <input type="text" name="title" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>
+                <input type="text" name="title" id="form-title" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>
             </div>
 
             <div style="margin-bottom: 2rem;">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">公告內容 (支援換行)</label>
-                <textarea name="content" rows="8" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required></textarea>
+                <textarea name="content" id="form-content" rows="8" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required></textarea>
             </div>
 
-            <div style="text-align: right;">
-                <button type="submit" class="btn" style="padding: 10px 30px; background-color: var(--color-text_main); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer;">手動推播送出</button>
+            <div style="text-align: right; display: flex; justify-content: space-between; align-items: center;">
+                <div id="status-msg" style="font-size: 0.9rem; color: var(--color-primary); font-weight: bold;"></div>
+                <button type="submit" class="btn" style="padding: 10px 30px; background-color: var(--color-text_main); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer;">確認並推播送出</button>
             </div>
         </form>
     </div>
 </div>
 
 <script>
-    document.getElementById('ai-form').addEventListener('submit', function() {
+    document.getElementById('ai-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
         const btn = document.getElementById('ai-submit-btn');
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
+        const statusMsg = document.getElementById('status-msg');
+        const originalHtml = btn.innerHTML;
+        
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在潤飾內容...';
         btn.disabled = true;
         btn.style.opacity = '0.7';
+        statusMsg.innerText = "雪音正在思考中...";
+
+        const formData = new FormData(this);
+        try {
+            const response = await fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                document.getElementById('form-title').value = data.title;
+                document.getElementById('form-content').value = data.content;
+                statusMsg.style.color = 'var(--color-primary)';
+                statusMsg.innerText = "✨ 生成成功！請檢查下方內容後點擊「確認並推播」。";
+                
+                // Highlight the form
+                const manualForm = document.getElementById('manual-form').parentElement;
+                manualForm.style.transition = 'all 0.5s';
+                manualForm.style.borderColor = 'var(--color-primary)';
+                manualForm.style.boxShadow = '0 0 20px rgba(67, 97, 238, 0.2)';
+                
+                setTimeout(() => {
+                    manualForm.style.boxShadow = 'none';
+                    manualForm.style.borderColor = 'transparent';
+                }, 2000);
+
+            } else {
+                alert("生成失敗: " + data.message);
+                statusMsg.innerText = "";
+            }
+        } catch (err) {
+            console.error(err);
+            alert("與伺服器連線時發生錯誤。");
+            statusMsg.innerText = "";
+        } finally {
+            btn.innerHTML = originalHtml;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
     });
 </script>
 {% endblock %}
