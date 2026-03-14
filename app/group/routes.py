@@ -185,6 +185,38 @@ def group_dashboard(group_id):
                                 db.session.add(ai_msg)
                                 db.session.commit()
                                 current_app.logger.info("AI reply saved.")
+                                
+                                # Return JSON if AJAX
+                                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                                    return jsonify({
+                                        'status': 'success',
+                                        'user_message': {
+                                            'content': new_msg.content,
+                                            'image_data': new_msg.image_data,
+                                            'username': current_user.username,
+                                            'is_mine': True,
+                                            'created_at': new_msg.created_at.isoformat() + 'Z'
+                                        },
+                                        'ai_message': {
+                                            'content': ai_msg.content,
+                                            'username': '雪音老師',
+                                            'is_mine': False,
+                                            'is_ai': True,
+                                            'created_at': ai_msg.created_at.isoformat() + 'Z'
+                                        }
+                                    })
+                    
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({
+                            'status': 'success',
+                            'user_message': {
+                                'content': new_msg.content,
+                                'image_data': new_msg.image_data,
+                                'username': current_user.username,
+                                'is_mine': True,
+                                'created_at': new_msg.created_at.isoformat() + 'Z'
+                            }
+                        })
             
             elif action == 'post_announcement':
                 current_app.logger.info("Posting announcement...")
