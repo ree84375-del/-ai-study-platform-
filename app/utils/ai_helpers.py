@@ -359,10 +359,12 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     expression = random.choice(personality['expressions'])
     gemini_has_keys = len(get_gemini_keys()) > 0
     groq_has_keys = len(get_groq_keys()) > 0
+    ollama_has_keys = len(get_ollama_keys()) > 0
     
     models_to_try = []
     if gemini_has_keys: models_to_try.append('gemini')
     if groq_has_keys: models_to_try.append('groq')
+    if ollama_has_keys: models_to_try.append('ollama')
     
     if not models_to_try:
         return "AI 老師暫時無法連線（請設定 API Key）。"
@@ -426,6 +428,44 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
                     errors.append("Groq failed with all attempted keys.")
             except Exception as e:
                 errors.append(f"Groq Init Error: {str(e)}")
+                
+        elif current_model == 'ollama':
+            try:
+                keys = get_ollama_keys()
+                random.shuffle(keys)
+                ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+                from openai import OpenAI
+                success = False
+                
+                for key in keys[:3]:
+                    try:
+                        client = OpenAI(base_url=ollama_host, api_key=key)
+                        messages = [{"role": "system", "content": system_prompt}]
+                        for msg in chat_history:
+                            role = msg.get('role', 'user')
+                            if role not in ('user', 'assistant', 'system'):
+                                role = 'assistant'
+                            content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
+                            messages.append({"role": role, "content": content})
+                        messages.append({"role": "user", "content": user_message})
+                        
+                        response = client.chat.completions.create(
+                            model=os.environ.get('OLLAMA_MODEL', 'llama3'),
+                            messages=messages,
+                            temperature=0.7
+                        )
+                        reply = response.choices[0].message.content
+                        success = True
+                        break
+                    except Exception as e:
+                        print(f"Ollama retry failed for key {key[:5]}: {e}")
+                
+                if success:
+                    break
+                else:
+                    errors.append("Ollama failed with all attempted keys.")
+            except Exception as e:
+                errors.append(f"Ollama Init Error: {str(e)}")
 
     if not reply:
         return f"AI 老師暫時離開了座位：\n" + "\n".join(errors)
