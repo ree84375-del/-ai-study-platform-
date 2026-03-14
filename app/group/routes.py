@@ -124,9 +124,23 @@ def leave_group(group_id):
     from app.models import Group, GroupMember
     group_obj = Group.query.get_or_404(group_id)
     if group_obj.teacher_id == current_user.id:
-        # Teacher dissolving the group
-        db.session.delete(group_obj)
-        db.session.commit()
+        # Teacher dissolving the group - manually clear associations to prevent DB constraints errors
+        from app.models import GroupMessage, GroupAnnouncement, Assignment, AssignmentStatus
+        try:
+            GroupMessage.query.filter_by(group_id=group_id).delete()
+            GroupAnnouncement.query.filter_by(group_id=group_id).delete()
+            assignments = Assignment.query.filter_by(group_id=group_id).all()
+            for a in assignments:
+                AssignmentStatus.query.filter_by(assignment_id=a.id).delete()
+                db.session.delete(a)
+            GroupMember.query.filter_by(group_id=group_id).delete()
+            db.session.delete(group_obj)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            current_app.logger.error(f"Error dissolving group: {e}")
+            flash(f'解散群組失敗：{str(e)}', 'danger')
+            return redirect(url_for('group.groups'))
         flash(f'已解散群組：{group_obj.name}，相關資料已全數清除。', 'success')
     else:
         # Standard member leaving
