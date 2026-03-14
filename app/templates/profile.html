@@ -102,19 +102,26 @@
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">顯示名稱 (使用者名稱)</label>
                             <input type="text" name="username" value="{{ current_user.username }}" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
                         </div>
-                        {% if hasattr(current_user, 'preferred_theme') %}
                         <div>
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格 (即時生效)</label>
-                            <select name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="selectTheme(this.value)">
-                                <option value="sakura" {% if current_user.preferred_theme == 'sakura' %}selected{% endif %}>🌸 櫻花粉 (預設)</option>
-                                <option value="leaf" {% if current_user.preferred_theme == 'leaf' %}selected{% endif %}>🌿 抹茶葉 (葉面風格)</option>
-                                <option value="moon" {% if current_user.preferred_theme == 'moon' %}selected{% endif %}>🌙 月光藍</option>
-                                <option value="midnight" {% if current_user.preferred_theme == 'midnight' %}selected{% endif %}>🌑 極夜黑</option>
-                                <option value="matcha" {% if current_user.preferred_theme == 'matcha' %}selected{% endif %}>🍵 經典抹茶</option>
-                                <option value="sunset" {% if current_user.preferred_theme == 'sunset' %}selected{% endif %}>🌅 夕陽橘</option>
+                            <select id="theme-selector" name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="selectTheme(this.value)">
+                                <option value="sakura" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sakura' %}selected{% endif %}>🌸 櫻花粉 (預設)</option>
+                                <option value="leaf" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'leaf' %}selected{% endif %}>🌿 抹茶葉 (極致風格)</option>
+                                <option value="moon" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'moon' %}selected{% endif %}>🌙 月光藍</option>
+                                <option value="midnight" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'midnight' %}selected{% endif %}>🌑 極夜黑</option>
+                                <option value="matcha" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'matcha' %}selected{% endif %}>🍵 經典抹茶</option>
+                                <option value="sunset" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sunset' %}selected{% endif %}>🌅 夕陽橘</option>
                             </select>
+                            <script>
+                                // Sync selector with LocalStorage on load
+                                (function() {
+                                    const saved = localStorage.getItem('app-theme');
+                                    if (saved) {
+                                        document.getElementById('theme-selector').value = saved;
+                                    }
+                                })();
+                            </script>
                         </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>
