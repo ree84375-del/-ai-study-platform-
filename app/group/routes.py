@@ -157,8 +157,9 @@ def group_dashboard(group_id):
                     # 只有在 AI 開啟時才觸發 AI 回覆
                     if group_obj.has_ai:
                         current_app.logger.info("AI is enabled, triggering reaction...")
-                        # 隨機觸發或關鍵字觸發
-                        trigger_ai = random.random() < 0.3 or '雪音' in content or '老師' in content
+                        # 提高機率且偵測更多招呼語
+                        greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '雪音', '老師']
+                        trigger_ai = random.random() < 0.8 or any(g in content.lower() for g in greetings)
                         if trigger_ai:
                             # 取得最近對話作為上下文
                             recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(10).all()
