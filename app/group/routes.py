@@ -16,11 +16,12 @@ def groups():
         action = request.form.get('action')
         
         if action == 'create':
-            name = request.form.get('name')
+            name = request.form.get('group_name')
+            has_ai = 'has_ai' in request.form
             if name:
                 # Generate unique invite code
                 invite_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-                new_group = Group(name=name, invite_code=invite_code, teacher_id=current_user.id)
+                new_group = Group(name=name, invite_code=invite_code, teacher_id=current_user.id, has_ai=has_ai)
                 db.session.add(new_group)
                 db.session.commit()
                 flash(f'群組 "{name}" 建立成功！邀請碼：{invite_code}', 'success')
