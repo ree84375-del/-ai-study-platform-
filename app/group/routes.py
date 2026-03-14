@@ -456,9 +456,10 @@ def ai_reply(group_id):
     for m in reversed(recent_msgs):
         author_name = m.author.username if m.author else "匿名用戶"
         role = 'assistant' if m.user_id == yukine.id else 'user'
-        # Include username in content for better identity tracking in group chats
-        content_with_name = f"{author_name}: {m.content}"
-        chat_history.append({'role': role, 'content': content_with_name})
+        # Include username + short unique ID in content for perfect identity tracking
+        # even if filenames or display names were ever non-unique.
+        content_with_id = f"{author_name}(ID:{m.user_id}): {m.content}"
+        chat_history.append({'role': role, 'content': content_with_id})
     
     from app.utils.ai_helpers import get_ai_tutor_response
     
