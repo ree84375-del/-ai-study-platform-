@@ -187,6 +187,41 @@ body::before {
     display: block;
 }
 
+/* Chat Interaction Buttons */
+.interaction-buttons {
+    display: none !important;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+    backdrop-filter: blur(8px);
+    z-index: 100;
+}
+
+.interaction-buttons.active {
+    display: flex !important;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.message-more-btn {
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 2px;
+    transition: transform 0.15s ease;
+}
+
+.message-more-btn:hover {
+    transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
 /* Group Dashboard Layout */
 .group-layout {
     display: flex;

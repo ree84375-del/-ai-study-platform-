@@ -565,10 +565,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
-                    <div id="msg-bubble-${msgId}" style="display: inline-block; width: fit-content; padding: 8px 14px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-break: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 100%; position: relative;
-                        ${isMine ? 'align-self: flex-end;' : 'align-self: flex-start;'}
-                        ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
-                        (isAI ? 'background: #fff8f8; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px;' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
+                    <div id="msg-bubble-${msgId}" 
+                        class="message-bubble"
+                        onclick="toggleControls(${msgId})"
+                        style="display: inline-block; width: fit-content; padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 100%; position: relative; cursor: pointer; transition: all 0.2s ease;
+                        ${isMine ? 'align-self: flex-end; background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
+                        (isAI ? 'background: #fff; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px; box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
                         
                         ${parentMsgHtml}
                         ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
@@ -576,11 +578,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap;">${(data.content || '').trim()}</div>
 
                         <!-- Interaction Buttons -->
-                        <div class="interaction-buttons" style="position: absolute; ${isMine ? 'right: 15px;' : 'left: 15px;'} top: -25px; display: flex; gap: 8px; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(4px); z-index: 10;">
-                            <i class="fa-solid fa-reply message-more-btn" style="opacity: 1;" title="回覆" onclick="startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                        <div id="controls-${msgId}" class="interaction-buttons" style="position: absolute; ${isMine ? 'right: 15px;' : 'left: 15px;'} top: -35px;">
+                            <i class="fa-solid fa-reply message-more-btn" style="color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
                             ${isMine ? `
-                                <i class="fa-solid fa-pen message-more-btn" style="opacity: 1;" title="編輯" onclick="startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
-                                <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="recallMessage(${msgId})"></i>
+                                <i class="fa-solid fa-pen message-more-btn" style="color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                                <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="event.stopPropagation(); recallMessage(${msgId})"></i>
                             ` : ''}
                         </div>
                     </div>
