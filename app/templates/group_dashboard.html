@@ -268,14 +268,15 @@
 
                                 <!-- The Bubble -->
                                 <div style="
-                                    padding: 12px 20px; 
-                                    border-radius: 22px; 
-                                    font-size: 1.05rem;
-                                    line-height: 1.6;
+                                    display: inline-block;
+                                    padding: 8px 16px; 
+                                    border-radius: 18px; 
+                                    font-size: 1rem;
+                                    line-height: 1.5;
                                     word-break: break-word;
                                     white-space: pre-wrap;
                                     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-                                    width: fit-content;
+                                    max-width: 100%;
                                     position: relative;
                                     {% if msg.user_id == current_user.id %}
                                         background: linear-gradient(135deg, var(--color-primary), #6395e3); 
@@ -298,7 +299,7 @@
                                             <img src="{{ msg.image_data }}" style="max-width: 100%; display: block;">
                                         </div>
                                     {% endif %}
-                                    <div style="display: block;">{{ msg.content }}</div>
+                                    <div style="display: block;">{{ msg.content.strip() }}</div>
                                 </div>
                             </div>
                         </div>
@@ -431,11 +432,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
-                    <div style="padding: 12px 20px; border-radius: 22px; font-size: 1.05rem; line-height: 1.6; word-break: break-word; white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: fit-content; 
+                    <div style="display: inline-block; padding: 8px 16px; border-radius: 18px; font-size: 1rem; line-height: 1.5; word-break: break-word; white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 100%;
                         ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
                         (isAI ? 'background: #fff8f8; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px;' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
                         ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
-                        <div style="display: block;">${data.content || ''}</div>
+                        <div style="display: block;">${(data.content || '').trim()}</div>
                     </div>
                 </div>
             </div>
