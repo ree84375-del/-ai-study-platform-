@@ -51,14 +51,8 @@ def create_app():
             app.logger.info("Normalizing postgres:// to postgresql://")
             db_uri = db_uri.replace("postgres://", "postgresql://", 1)
         
-        # Supabase specific fix for IPv6/IPv4 session mode
-        if ":6543/" in db_uri:
-            app.logger.info("Supabase session mode detected (6543). Applying project_ref fix.")
-            if "@aws-" in db_uri or "@pooler." in db_uri:
-                project_ref = "nphrkuzhedlvgfagaujq" # The user's project ref
-                db_uri = re.sub(r'postgresql://([^:]+):', rf'postgresql://\1.{project_ref}:', db_uri, count=1)
-            else:
-                app.logger.info("Using direct connect fallback on Vercel.")
+        # General Supabase precaution: pooler address sometimes needs tweaking, 
+        # but we will rely on SQLAlchemy options mostly.
     else:
         app.logger.warning("No DATABASE_URL found. Using local SQLite.")
         db_uri = 'sqlite:///site.db'
