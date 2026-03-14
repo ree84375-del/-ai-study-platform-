@@ -53,9 +53,9 @@ class User(db.Model, UserMixin):
     has_seen_tour = db.Column(db.Boolean, default=False)
     
     # 個人簡介與 AI 性格設定
-    # bio = db.Column(db.Text, nullable=True)
-    # learning_goals = db.Column(db.Text, nullable=True)
-    # ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
+    bio = db.Column(db.Text, nullable=True)
+    learning_goals = db.Column(db.Text, nullable=True)
+    ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
     
     # 網站偏好設定
     # preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.
@@ -197,6 +197,7 @@ class GroupMessage(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
+    image_data = db.Column(db.Text, nullable=True) # Base64 image data
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     # Relationships

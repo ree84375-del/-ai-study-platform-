@@ -114,6 +114,14 @@ def create_app(config_class=None):
             db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;"))
             db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;"))
             
+            # User restoration additions
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT;"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT;"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型';"))
+            
+            # Group Message image support
+            db.session.execute(text("ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;"))
+            
             db.session.commit()
         except Exception as e:
             app.logger.error(f"Database initialization/migration failed: {e}")

@@ -120,6 +120,7 @@ def group_dashboard(group_id):
     if request.method == 'POST':
         action = request.form.get('action')
         content = request.form.get('content')
+        image_data = request.form.get('image_data')
         
         if content and content.strip():
             if action == 'post_announcement' and group_obj.teacher_id == current_user.id:
@@ -128,9 +129,10 @@ def group_dashboard(group_id):
                 db.session.commit()
                 flash('已發布群組公告', 'success')
             elif action == 'post_message':
-                msg = GroupMessage(content=content.strip(), group_id=group_id, user_id=current_user.id)
-                db.session.add(msg)
-                db.session.commit()
+                if (content and content.strip()) or image_data:
+                    msg = GroupMessage(content=(content.strip() if content else ""), group_id=group_id, user_id=current_user.id, image_data=image_data)
+                    db.session.add(msg)
+                    db.session.commit()
                 
                 # AI Response Logic if enabled
                 if group_obj.has_ai:
@@ -153,7 +155,11 @@ def group_dashboard(group_id):
                             role = 'assistant' if m.user_id == yukine.id else 'user'
                             chat_history.append({'role': role, 'content': m.content})
                         
-                        ai_reply = get_ai_tutor_response(chat_history, content.strip(), personality_key='雪音-溫柔型')
+                        ai_prompt = content.strip() if content else ""
+                        if image_data:
+                            ai_prompt += " (學生分享了一張圖片)"
+                        
+                        ai_reply = get_ai_tutor_response(chat_history, ai_prompt, personality_key='雪音-溫柔型')
                         
                         # Save AI response
                         ai_msg = GroupMessage(content=ai_reply, group_id=group_id, user_id=yukine.id)

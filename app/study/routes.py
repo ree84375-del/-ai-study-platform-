@@ -377,38 +377,4 @@ def generate_exam():
         return redirect(url_for('study.practice'))
     return render_template('exam.html', title='專屬模擬考', mistakes=mistakes)
 
-@study.route("/ai_docs", methods=['GET', 'POST'])
-@login_required
-def ai_docs():
-    if request.method == 'POST':
-        if 'file' not in request.files:
-            return jsonify({'error': '沒有上傳檔案'}), 400
-        file = request.files['file']
-        if file.filename == '' or not file.filename.endswith('.pdf'):
-            return jsonify({'error': '請上傳 PDF 格式的講義'}), 400
-        import PyPDF2
-        import io
-        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file.read()))
-        full_text = ""
-        for i in range(min(len(pdf_reader.pages), 5)):
-            full_text += pdf_reader.pages[i].extract_text() + "\n"
-        if not full_text.strip():
-            return jsonify({'error': '無法從 PDF 中讀取文字，可能是掃描圖檔？請改用圖片解題。'}), 400
-        session = ChatSession(user_id=current_user.id, title=f"講義分析: {file.filename}")
-        db.session.add(session)
-        db.session.commit()
-        
-        # Generate the dynamic study guide from the pdf text!
-        study_guide = generate_study_guide(file.filename, full_text, user=current_user)
-        
-        if "[ERROR_INVALID_CONTENT]" in study_guide:
-             db.session.rollback()
-             return jsonify({'error': '這份講義內容似乎無法讀取，或者與學習無關喔！請檢查後重新上傳～'}), 400
-             
-        context_msg = ChatMessage(session_id=session.id, role='ai', 
-                                content=study_guide)
-        db.session.add(context_msg)
-        db.session.commit()
-        return jsonify({'status': 'success', 'session_id': session.id})
-    return render_template('ai_docs.html', title='講義分析')
 

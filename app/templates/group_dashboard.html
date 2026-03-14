@@ -114,7 +114,12 @@
                             {% if msg.author.username == '雪音老師' %} <span style="background:var(--color-primary); color:white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin: 0 4px;">守護神</span>{% elif msg.user_id == group.teacher_id %} <span style="background:var(--color-accent); color:white; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; margin: 0 4px;">老師</span>{% endif %}
                             • <span style="font-size: 0.75em;" class="utc-time" data-utc="{{ msg.created_at.isoformat() }}Z"></span>
                         </div>
-                        <div style="background-color: {% if msg.user_id == current_user.id %}var(--color-primary){% elif msg.author.username == '雪音老師' %}#fff5f7{% else %}white{% endif %}; color: {% if msg.user_id == current_user.id %}white{% else %}var(--color-text_main){% endif %}; padding: 10px 15px; border-radius: 15px; border-top-{% if msg.user_id == current_user.id %}right{% else %}left{% endif %}-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); word-break: break-word; white-space: pre-wrap; line-height: 1.5; border: {% if msg.author.username == '雪音老師' %}1px solid #ffdde1{% else %}none{% endif %};">{{ msg.content }}</div>
+                        <div style="background-color: {% if msg.user_id == current_user.id %}var(--color-primary){% elif msg.author.username == '雪音老師' %}#fff5f7{% else %}white{% endif %}; color: {% if msg.user_id == current_user.id %}white{% else %}var(--color-text_main){% endif %}; padding: 10px 15px; border-radius: 15px; border-top-{% if msg.user_id == current_user.id %}right{% else %}left{% endif %}-radius: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.05); word-break: break-word; white-space: pre-wrap; line-height: 1.5; border: {% if msg.author.username == '雪音老師' %}1px solid #ffdde1{% else %}none{% endif %};">
+                            {% if msg.image_data %}
+                                <img src="{{ msg.image_data }}" style="max-width: 100%; border-radius: 8px; margin-bottom: 8px; display: block;">
+                            {% endif %}
+                            {{ msg.content }}
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -306,5 +311,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+    // Paste Image Logic
+    const chatInput = document.getElementById('chat-input');
+    const imagePreviewContainer = document.getElementById('image-preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const imageDataInput = document.getElementById('image-data-input');
+
+    chatInput.addEventListener('paste', function(e) {
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        for (let index in items) {
+            const item = items[index];
+            if (item.kind === 'file') {
+                const blob = item.getAsFile();
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    imagePreview.src = event.target.result;
+                    imageDataInput.value = event.target.result;
+                    imagePreviewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(blob);
+            }
+        }
+    });
+
+    function clearImage() {
+        imagePreview.src = '';
+        imageDataInput.value = '';
+        imagePreviewContainer.style.display = 'none';
+    }
+
+    // Auto-scroll to bottom of messages
+    const messageContainer = document.querySelector('.discussion-container div:first-child');
+    if (messageContainer) {
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
 </script>
 {% endblock %}

@@ -238,36 +238,6 @@ def parse_question_from_image(image_bytes):
     except Exception as e:
         return {'error': str(e)}
 
-def generate_study_guide(filename, full_text, user=None):
-    try:
-        tutor_name = "雪音"
-        tutor_prompt = "充滿智慧且親切的家教老師雪音"
-        
-        if user and user.ai_personality:
-            personality = AI_PERSONALITIES.get(user.ai_personality)
-            if personality:
-                tutor_name = personality['name']
-                tutor_prompt = personality['system_prompt']
-
-        prompt = f"""
-        {tutor_prompt}
-
-        你的學生剛剛上傳了一份名為「{filename}」的講義重點。
-        
-        防呆機制：如果講義內容根本無法辨識，或者是亂碼、與學習無關的內容，請務必僅回覆錯誤代碼：「[ERROR_INVALID_CONTENT]」。
-
-        如果確認是學習講義，請重新整理並輸出一份「{tutor_name}專屬講義」：
-        1. 依照你的人物設定，用符合的語氣開頭。
-        2. 條列式整理出這份講義的「核心觀念與重點」。
-        3. 針對重點給予簡單的學習建議或記憶口訣。
-        4. 排版要美觀清晰（善用 Markdown 的標題、粗體、清單）。
-
-        講義內容如下：
-        {full_text}
-        """
-        return generate_text_with_fallback(prompt)
-    except Exception as e:
-        return f"嗨！我已經收到你的講義了，但我在整理重點時遇到小問題（{str(e)}）。不過沒關係，隨時可以問我問題喔！"
 
 def auto_tag_question(content):
     try:
