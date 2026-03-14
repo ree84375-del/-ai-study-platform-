@@ -118,11 +118,13 @@ def update_profile():
             return redirect(url_for('main.profile'))
 
     current_user.username = new_username
-    current_user.bio = request.form.get('bio', current_user.bio)
-    current_user.learning_goals = request.form.get('learning_goals', current_user.learning_goals)
-    current_user.ai_personality = request.form.get('ai_personality', current_user.ai_personality)
-    current_user.preferred_theme = request.form.get('preferred_theme', current_user.preferred_theme)
-    current_user.avatar_url = request.form.get('avatar_url', current_user.avatar_url)
+    
+    # Safe updates for columns that might be disabled
+    for attr in ['bio', 'learning_goals', 'ai_personality', 'preferred_theme', 'avatar_url']:
+        if hasattr(current_user, attr):
+            new_val = request.form.get(attr)
+            if new_val is not None:
+                setattr(current_user, attr, new_val)
 
     try:
         db.session.commit()
@@ -138,7 +140,8 @@ def update_profile():
 @login_required
 def change_password():
     # Google/guest users cannot change password here
-    if current_user.auth_provider in ('google', 'guest'):
+    # Google/guest users cannot change password here
+    if getattr(current_user, 'auth_provider', 'local') in ('google', 'guest'):
         flash('此帳號類型無法在此變更密碼。', 'info')
         return redirect(url_for('main.profile'))
 
@@ -275,8 +278,11 @@ def create_daruma():
 @main.route("/api/toggle_dark_mode", methods=['POST'])
 @login_required
 def toggle_dark_mode():
+    if not hasattr(current_user, 'preferred_theme'):
+        return jsonify({"status": "error", "message": "Theme setting not available"}), 400
+        
     if current_user.preferred_theme == 'midnight':
-        current_user.preferred_theme = 'sakura' # Default back to sakura or previous
+        current_user.preferred_theme = 'sakura' 
     else:
         current_user.preferred_theme = 'midnight'
     

@@ -60,12 +60,16 @@
             <div style="text-align: center; z-index: 1; min-width: 150px;">
                 <!-- Dynamic Animated Bonsai -->
                 <div id="home-bonsai-container" style="width: 150px; height: 180px; margin: 0 auto;"></div>
-                {% if current_user.current_streak >= 7 %}
-                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">花開滿枝<br>(連勝 7+ 天)</div>
-                {% elif current_user.current_streak > 0 %}
-                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">常綠盆景<br>(連勝中)</div>
+                {% if hasattr(current_user, 'current_streak') %}
+                    {% if current_user.current_streak >= 7 %}
+                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">花開滿枝<br>(連勝 7+ 天)</div>
+                    {% elif current_user.current_streak > 0 %}
+                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">常綠盆景<br>(連勝中)</div>
+                    {% else %}
+                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">枯山水<br>(休養生息)</div>
+                    {% endif %}
                 {% else %}
-                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">枯山水<br>(休養生息)</div>
+                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">禪意盆景<br>(專注修行)</div>
                 {% endif %}
             </div>
             

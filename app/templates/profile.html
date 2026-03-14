@@ -9,7 +9,7 @@
         
         <div class="profile-header" style="text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1;">
             <div class="profile-avatar-container" style="position: relative; display: inline-block;">
-                {% if current_user.avatar_url %}
+                {% if hasattr(current_user, 'avatar_url') and current_user.avatar_url %}
                     <img src="{{ current_user.avatar_url }}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
                 {% else %}
                     <div class="profile-avatar" style="width: 120px; height: 120px; background-color: var(--color-accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 3.5rem; box-shadow: 0 8px 25px color-mix(in srgb, var(--color-accent) 20%, transparent);">
@@ -26,15 +26,17 @@
                 <span class="badge" style="background-color: var(--color-primary); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
                    {% if current_user.is_admin %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
                 </span>
+                {% if hasattr(current_user, 'ai_personality') %}
                 <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
                     指導：{{ current_user.ai_personality }}
                 </span>
+                {% endif %}
             </div>
         </div>
 
         <div class="profile-stats" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 3rem;">
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
-                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-accent);">{{ current_user.current_streak }}</span>
+                <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-accent);">{{ getattr(current_user, 'current_streak', 0) }}</span>
                 <span style="font-size: 0.8rem; color: var(--color-text_light);">連續登入 (天)</span>
             </div>
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
@@ -100,6 +102,7 @@
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">顯示名稱 (使用者名稱)</label>
                             <input type="text" name="username" value="{{ current_user.username }}" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
                         </div>
+                        {% if hasattr(current_user, 'preferred_theme') %}
                         <div>
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格</label>
                             <select name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
@@ -111,6 +114,7 @@
                                 <option value="sunset" {% if current_user.preferred_theme == 'sunset' %}selected{% endif %}>🌅 夕陽橘紅</option>
                             </select>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -146,12 +150,16 @@
                     </div>
                     <div style="flex: 1; min-width: 0;">
                         <span style="font-size: 0.75rem; color: var(--color-text_light); display: block;">密碼</span>
-                        {% if current_user.auth_provider == 'google' %}
-                            <span style="font-size: 0.85rem; color: var(--color-text_light);">透過 Google 帳號登入</span>
-                        {% elif current_user.auth_provider == 'guest' %}
-                            <span style="font-size: 0.85rem; color: var(--color-text_light);">訪客帳號</span>
+                        {% if hasattr(current_user, 'auth_provider') %}
+                            {% if current_user.auth_provider == 'google' %}
+                                <span style="font-size: 0.85rem; color: var(--color-text_light);">透過 Google 帳號登入</span>
+                            {% elif current_user.auth_provider == 'guest' %}
+                                <span style="font-size: 0.85rem; color: var(--color-text_light);">訪客帳號</span>
+                            {% else %}
+                                <span style="font-size: 1rem; color: var(--color-text); font-weight: 500; letter-spacing: 3px;">••••••••</span>
+                            {% endif %}
                         {% else %}
-                            <span style="font-size: 1rem; color: var(--color-text); font-weight: 500; letter-spacing: 3px;">••••••••</span>
+                             <span style="font-size: 1rem; color: var(--color-text); font-weight: 500; letter-spacing: 3px;">••••••••</span>
                         {% endif %}
                     </div>
                     {% if current_user.auth_provider == 'google' %}
