@@ -100,35 +100,33 @@ def create_app(config_class=None):
     with app.app_context():
         try:
             db.create_all()
-            # Proactive Migration: Add has_ai column if missing
-            from sqlalchemy import text
-            db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;"))
-            # AssignmentStatus extensions
-            db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;"))
-            db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;"))
-            db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;"))
+            # Helper to execute SQL safely
+            def safe_execute(sql):
+                try:
+                    db.session.execute(text(sql))
+                    db.session.commit()
+                except Exception:
+                    db.session.rollback()
+
+            # Column migrations
+            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE;")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;")
+            safe_execute("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE;")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT;")
+            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;")
+            safe_execute("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT;")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT;")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型';")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local';")
+            safe_execute("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP;")
+            safe_execute("ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;")
             
-            # Phase 2: Roadmap and Garden
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE;"))
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT;"))
-            db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;"))
-            db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;"))
-            
-            # User restoration additions
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT;"))
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT;"))
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型';"))
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);"))
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local';"))
-            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP;"))
-            
-            # Group Message image support
-            db.session.execute(text("ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT;"))
-            
-            db.session.commit()
         except Exception as e:
-            app.logger.error(f"Database initialization/migration failed: {e}")
-            db.session.rollback()
+            app.logger.error(f"Database setup failed: {e}")
 
     # 加入全域錯誤處理器，幫助除錯 Vercel 500 錯誤
     @app.errorhandler(500)
