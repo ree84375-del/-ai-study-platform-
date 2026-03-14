@@ -198,7 +198,7 @@
                 {% if messages %}
                     {% for msg in messages %}
                         <!-- Message Container -->
-                        <div class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 16px; width: 100%; align-items: flex-start;">
+                        <div class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
                             <!-- Avatar Section -->
                             <div style="flex-shrink: 0; width: 44px; height: 44px; position: relative;">
                                 <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -215,16 +215,21 @@
                             </div>
 
                             <!-- Content Section -->
-                            <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; position: relative; align-items: flex-start;">
+                            <div style="max-width: 80%; display: flex; flex-direction: column; position: relative; {% if msg.user_id == current_user.id %}align-items: flex-end;{% else %}align-items: flex-start;{% endif %}">
                                 <!-- Meta Info -->
-                                <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
-                                    <span style="font-weight: 700; color: var(--color-text_main);">{{ "我" if msg.user_id == current_user.id else (msg.author.username if msg.author else "匿名用戶") }}</span>
-                                    {% if msg.author and msg.author.username == '雪音老師' %} 
-                                        <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>
-                                    {% elif msg.user_id == group.teacher_id %} 
-                                        <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">主持人</span>
+                                <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
+                                    {% if msg.user_id == current_user.id %}
+                                        <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="color: var(--color-text_light); font-size: 0.75rem;"></span>
+                                        <span style="font-weight: 700; color: var(--color-text_main);">我</span>
+                                    {% else %}
+                                        <span style="font-weight: 700; color: var(--color-text_main);">{{ msg.author.username if msg.author else "匿名用戶" }}</span>
+                                        {% if msg.author and msg.author.username == '雪音老師' %} 
+                                            <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>
+                                        {% elif msg.user_id == group.teacher_id %} 
+                                            <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">主持人</span>
+                                        {% endif %}
+                                        <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="color: var(--color-text_light); font-size: 0.75rem;"></span>
                                     {% endif %}
-                                    <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="color: var(--color-text_light); font-size: 0.75rem;"></span>
                                 </div>
 
                                 <!-- Bubble & Trigger Row -->
@@ -244,16 +249,20 @@
                                         position: relative;
                                         cursor: pointer;
                                         {% if msg.user_id == current_user.id %}
-                                            background: var(--color-primary); 
+                                            background: linear-gradient(135deg, var(--color-primary), #6395e3); 
                                             color: white; 
+                                            border-bottom-right-radius: 4px;
                                         {% elif msg.author and msg.author.username == '雪音老師' %}
                                             background: #fff; 
                                             color: #333; 
                                             border: 1px solid #ffccce;
+                                            box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);
+                                            border-bottom-left-radius: 4px;
                                         {% else %}
                                             background: white; 
                                             color: #222; 
                                             border: 1px solid #e2e8f0;
+                                            border-bottom-left-radius: 4px;
                                         {% endif %}
                                     ">
                                         {% if msg.parent_id and msg.parent %}
@@ -286,10 +295,14 @@
                                 </div>
 
                                     <!-- Interaction Buttons -->
-                                    <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; left: 10px; top: -35px;">
-                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1; color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
+                                    <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -35px;">
+                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1; color: var(--color-primary);" title="回覆" 
+                                           data-id="{{ msg.id }}" data-user="{{ (msg.author.username if msg.author else '匿名') }}" data-content="{{ msg.content }}"
+                                           onclick="event.stopPropagation(); startReply(this.dataset.id, this.dataset.user, this.dataset.content)"></i>
                                         {% if msg.user_id == current_user.id and not msg.is_recalled %}
-                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
+                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" 
+                                               data-id="{{ msg.id }}" data-content="{{ msg.content }}"
+                                               onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
                                             <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
                                         {% endif %}
                                         {% set is_ai_reply_to_me = (msg.author.username == '雪音老師' and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
@@ -546,38 +559,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const msgHtml = `
-            <div id="msg-box-${msgId}" class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 16px; width: 100%; align-items: flex-start;">
+            <div id="msg-box-${msgId}" class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; ${isMine ? 'flex-direction: row-reverse;' : ''}">
                 <div style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                     ${avatarHtml}
                 </div>
-                <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; position: relative; align-items: flex-start;">
-                    <div style="margin-bottom: 4px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
+                <div style="max-width: 80%; display: flex; flex-direction: column; position: relative; ${isMine ? 'align-items: flex-end;' : 'align-items: flex-start;'}">
+                    <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                         <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
                     <!-- Bubble & Trigger Row -->
-                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%;">
+                    <div style="display: flex; align-items: flex-start; gap: 12px; max-width: 100%; width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
                         <div id="msg-bubble-${msgId}" 
                             class="message-bubble"
-                            style="display: inline-block; padding: 10px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 1px 3px rgba(0,0,0,0.1); max-width: 90%; position: relative;
-                            ${isMine ? 'background: var(--color-primary); color: white;' : 
-                            (isAI ? 'background: #fff; color: #333; border: 1px solid #ffccce;' : 'background: white; color: #222; border: 1px solid #e2e8f0;')}">
+                            style="display: inline-block; width: fit-content; padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 85%; position: relative; transition: all 0.2s ease;
+                            ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
+                            (isAI ? 'background: #fff; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px; box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
                             
                             ${parentMsgHtml}
-                            ${data.image_data ? `<div style="margin-bottom: 8px; border-radius: 8px; overflow: hidden; max-width: 300px;"><img src="${data.image_data}" style="width: 100%; display: block;"></div>` : ''}
+                            ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
                             
-                            <div class="message-text" style="white-space: pre-wrap;">${(data.content || '').trim()}</div>
+                            <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 2px;">${(data.content || '').trim()}</div>
                         </div>
 
-                        <!-- Interaction Entry Point -->
+                        <!-- Interaction Entry Point (Ellipsis) -->
                         <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls(${msgId})">
                             <i class="fa-solid fa-ellipsis"></i>
                         </div>
                     </div>
 
                     <!-- Interaction Buttons -->
-                    <div id="controls-${msgId}" class="interaction-buttons" style="position: absolute; left: 10px; top: -35px;">
+                    <div id="controls-${msgId}" class="interaction-buttons" style="position: absolute; ${isMine ? 'right: 15px;' : 'left: 15px;'} top: -35px;">
                         <i class="fa-solid fa-reply message-more-btn" style="color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
                         ${isMine ? `
                             <i class="fa-solid fa-pen message-more-btn" style="color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
