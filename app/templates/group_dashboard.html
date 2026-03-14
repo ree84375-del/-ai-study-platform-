@@ -215,7 +215,7 @@
                             </div>
 
                             <!-- Content Section (Shrink-to-fit) -->
-                            <div style="max-width: 65%; display: flex; flex-direction: column; {% if msg.user_id == current_user.id %}align-items: flex-end;{% else %}align-items: flex-start;{% endif %}">
+                            <div style="max-width: 65%; display: flex; flex-direction: column; position: relative; {% if msg.user_id == current_user.id %}align-items: flex-end;{% else %}align-items: flex-start;{% endif %}">
                                 <!-- Meta Info -->
                                 <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                                     {% if msg.user_id == current_user.id %}
@@ -304,13 +304,13 @@
                                 </div>
 
                                     <!-- Interaction Buttons -->
-                                    <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -35px; display: none; gap: 8px; background: rgba(255,255,255,0.95); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(8px); z-index: 100;">
+                                    <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -35px;">
                                         <i class="fa-solid fa-reply message-more-btn" style="opacity: 1; color: var(--color-primary);" title="回覆" onclick="event.stopPropagation(); startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
                                         {% if msg.user_id == current_user.id and not msg.is_recalled %}
                                             <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" onclick="event.stopPropagation(); startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
                                             <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
                                         {% endif %}
-                                        {% if msg.user_id == current_user.id or current_user.id == group.teacher_id or (msg.author.username == '雪音老師' and msg.parent and msg.parent.user_id == current_user.id) %}
+                                        {% if msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or (msg.author.username == '雪音老師' and msg.parent and msg.parent.user_id == current_user.id) %}
                                             <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
                                         {% endif %}
                                     </div>
@@ -567,7 +567,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                     ${avatarHtml}
                 </div>
-                <div style="max-width: 65%; display: flex; flex-direction: column; ${isMine ? 'align-items: flex-end;' : 'align-items: flex-start;'}">
+                <div style="max-width: 65%; display: flex; flex-direction: column; position: relative; ${isMine ? 'align-items: flex-end;' : 'align-items: flex-start;'}">
                     <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                         <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
