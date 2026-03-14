@@ -451,6 +451,12 @@ def ai_reply(group_id):
             
     ai_reply_text = get_ai_tutor_response(chat_history, user_context, personality_key='雪音-溫柔型')
     
+    # 最終檢查：在存檔前確認父訊息是否已被收回 (避免時間差導致聯動失效)
+    db.session.refresh(last_msg)
+    if last_msg.is_recalled:
+        current_app.logger.info(f"AI reply cancelled for group {group_id} because parent msg {last_msg.id} was recalled while thinking.")
+        return jsonify({'status': 'skipped', 'message': 'Parent message recalled'})
+
     if ai_reply_text:
         ai_msg = GroupMessage(
             group_id=group_id, 
@@ -461,6 +467,12 @@ def ai_reply(group_id):
         db.session.add(ai_msg)
         db.session.commit()
         
+        # Prepare parent info for frontend UI
+        parent_preview = {
+            'username': last_msg.author.username,
+            'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
+        }
+        
         return jsonify({
             'status': 'success',
             'ai_message': {
@@ -469,7 +481,9 @@ def ai_reply(group_id):
                 'username': '雪音老師',
                 'is_mine': False,
                 'is_ai': True,
-                'created_at': ai_msg.created_at.isoformat() + 'Z'
+                'created_at': ai_msg.created_at.isoformat() + 'Z',
+                'parent_id': ai_msg.parent_id,
+                'parent_preview': parent_preview
             }
         })
     

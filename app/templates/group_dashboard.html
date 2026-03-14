@@ -553,6 +553,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         const controls = bubble.parentElement.querySelectorAll('.fa-pen, .fa-rotate-left');
                         controls.forEach(c => c.remove());
                     }
+                    
+                    // Update reply preview if current reply target is recalled
+                    const parentIdInput = document.getElementById('parent-id-input');
+                    if (parentIdInput && parentIdInput.value == id) {
+                        const replyContent = document.querySelector('.reply-content');
+                        if (replyContent) replyContent.innerText = '此訊息已收回';
+                    }
                 });
             } else {
                 alert(data.message || '收回失敗');
