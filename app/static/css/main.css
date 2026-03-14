@@ -8,13 +8,13 @@
     --color-secondary: #fdf2f2;
     --color-accent: #85a392;
     --color-bg: #faf9f6;
-    --color-text_main: #333333;
-    --color-text_light: #777777;
-    --color-border: #e0dcd3;
-    --color-card-bg: rgba(255, 255, 255, 0.4);
-    --color-card-border: rgba(255, 255, 255, 0.6);
-    --color-glass-bg: rgba(255, 255, 255, 0.7);
-    --color-shadow: rgba(0, 0, 0, 0.05);
+    --color-text_main: #1a1a1a;
+    --color-text_light: #555555;
+    --color-border: #d1cbc0;
+    --color-card-bg: rgba(255, 255, 255, 0.6);
+    --color-card-border: rgba(255, 255, 255, 0.8);
+    --color-glass-bg: rgba(255, 255, 255, 0.85);
+    --color-shadow: rgba(0, 0, 0, 0.12);
     --bg-pattern: none;
 }
 
@@ -31,10 +31,10 @@
     --color-secondary: #d1d9e6;    /* Darker Blue-Gray */
     --color-accent: #f1c40f;
     --color-bg: #b0c4de;           /* Light Steel Blue */
-    --color-text_main: #1a2a44;
-    --color-text_light: #4a5a74;
-    --color-border: #8fa1b3;
-    --color-card-bg: rgba(255, 255, 255, 0.3);
+    --color-text_main: #ffffff;
+    --color-text_light: #cfd8e3;
+    --color-border: #7a8c9e;
+    --color-card-bg: rgba(26, 42, 68, 0.4);
     --color-card-border: rgba(255, 255, 255, 0.5);
     --color-glass-bg: rgba(209, 217, 230, 0.7);
     --bg-pattern: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
@@ -488,11 +488,11 @@ body::before {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid var(--color-card-border);
-    border-radius: 24px;
+    border-radius: 28px;
     box-shadow: 
-        0 4px 6px -1px var(--color-shadow),
-        0 2px 4px -1px var(--color-shadow),
-        inset 0 0 20px rgba(255, 255, 255, 0.3);
+        0 10px 25px -5px var(--color-shadow),
+        0 8px 10px -6px var(--color-shadow),
+        inset 0 0 40px rgba(255, 255, 255, 0.4);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     overflow: hidden;
@@ -525,7 +525,7 @@ body::before {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
     padding-bottom: 0.8rem;
-    border-bottom: 2px dashed var(--color-border);
+    border-bottom: 3px solid var(--color-border);
     display: flex;
     align-items: center;
     gap: 12px;

@@ -318,6 +318,14 @@
             </div>
         </div> <!-- End right-pane -->
     </div> <!-- End layout-wrapper -->
+
+    <!-- Missing Audio Elements -->
+    <audio id="audio-lofi" loop src="https://assets.mixkit.co/music/preview/mixkit-lofi-night-walk-loop-979.mp3"></audio>
+    <audio id="audio-rain" loop src="https://www.soundjay.com/nature/rain-02.mp3"></audio>
+    <audio id="audio-cafe" loop src="https://assets.mixkit.co/sfx/preview/mixkit-coffee-shop-ambiance-light-chatter-and-clinking-933.mp3"></audio>
+    <audio id="audio-forest" loop src="https://www.soundjay.com/nature/forest-wind-1.mp3"></audio>
+    <audio id="audio-break" loop src="https://assets.mixkit.co/music/preview/mixkit-chill-lofi-645.mp3"></audio>
+
 </div> <!-- End container -->
 
     <script>
@@ -548,6 +556,22 @@
             } else {
                 isRunning = true;
                 if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                
+                // --- NEW: Auto-play random audio logic ---
+                const audioKeys = ['lofi', 'rain', 'cafe', 'forest'];
+                const randomKey = audioKeys[Math.floor(Math.random() * audioKeys.length)];
+                
+                // Check if any audio is already playing. If not, play random.
+                let isAnyPlaying = false;
+                Object.keys(audios).forEach(key => {
+                    if (audios[key] && !audios[key].paused) isAnyPlaying = true;
+                });
+                
+                if (!isAnyPlaying) {
+                    toggleAudio(randomKey);
+                }
+                // ------------------------------------------
+
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     updateDisplay();

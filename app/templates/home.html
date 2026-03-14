@@ -99,17 +99,19 @@
                         神明賜籤中...
                     </div>
                 </div>
-            {% else %}
-                <div style="margin: 1rem 0;">
-                    <span style="font-size: 2.5rem; font-weight: bold; color: {% if today_omikuji.fortune_level == '凶' %}#ff7b72{% elif '吉' in today_omikuji.fortune_level %}var(--color-primary){% else %}var(--color-text_main){% endif %}; letter-spacing: 5px;">
-                        {{ today_omikuji.fortune_level }}
-                    </span>
+                <div style="background: white; border-radius: 12px; padding: 1.5rem 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 2px solid var(--color-border); position: relative;">
+                    <!-- Red slip border deco -->
+                    <div style="position: absolute; top: 5px; bottom: 5px; left: 5px; right: 5px; border: 1px solid rgba(255, 123, 114, 0.3); border-radius: 8px; pointer-events: none;"></div>
+                    <div style="margin: 0.5rem 0;">
+                        <span style="font-size: 2.8rem; font-weight: bold; color: {% if today_omikuji.fortune_level == '凶' %}#ff4a4a{% elif '吉' in today_omikuji.fortune_level %}#de4c4c{% else %}var(--color-text_main){% endif %}; letter-spacing: 5px; font-family: 'Kaisei Tokumin', serif;">
+                            {{ today_omikuji.fortune_level }}
+                        </span>
+                    </div>
+                    <div style="font-size: 1rem; color: #2c3e50; line-height: 1.8; font-weight: 500; padding: 0 10px;">
+                        {{ today_omikuji.message|safe }}
+                    </div>
                 </div>
-                <div style="font-size: 0.95rem; color: var(--color-text); line-height: 1.6;">
-                    {{ today_omikuji.message|safe }}
-                </div>
-                <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--color-text_light);">明日可再次抽取</div>
-            {% endif %}
+                <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--color-text_light); font-weight: 500;">明日可再次抽取</div>
         </div>
     </div>
     <!-- AI Study Roadmap Section -->
@@ -122,11 +124,11 @@
         {% if study_plan %}
             <div style="display: flex; flex-direction: column; gap: 1rem;">
                 {% for item in study_plan %}
-                    <div style="display: flex; gap: 15px; align-items: flex-start; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.5);">
-                        <div style="min-width: 100px; font-weight: bold; color: var(--color-primary);">{{ item.date }}</div>
+                    <div style="display: flex; gap: 15px; align-items: flex-start; padding: 12px 18px; border-radius: 15px; background: white; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                        <div style="min-width: 110px; font-weight: 700; color: var(--color-primary); font-size: 1rem;">{{ item.date }}</div>
                         <div>
-                            <div style="font-weight: 500;">{{ item.task }}</div>
-                            <div style="font-size: 0.85rem; color: var(--color-text_light);">💡 {{ item.tip }}</div>
+                            <div style="font-weight: 600; color: var(--color-text_main); margin-bottom: 2px;">{{ item.task }}</div>
+                            <div style="font-size: 0.9rem; color: var(--color-text_light); font-style: italic;">💡 {{ item.tip }}</div>
                         </div>
                     </div>
                 {% endfor %}
