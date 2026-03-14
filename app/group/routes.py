@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.models import Group, GroupMember, GroupMessage
-from app import db
+from app import db, bcrypt
 import random
 import string
 from datetime import datetime, timedelta, timezone
@@ -218,13 +218,17 @@ def group_dashboard(group_id):
                 
         return redirect(url_for('group.group_dashboard', group_id=group_id))
             
+    # Load recent messages (e.g., last 100)
+    messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+    announcements = GroupAnnouncement.query.filter_by(group_id=group_id).order_by(GroupAnnouncement.created_at.desc()).limit(5).all()
+
     # Sort assignments: those with due_date first, then None (no deadline)
-    # Use datetime.max with timezone for sorting None values to the end
+    # Use naïve datetime.max for safe comparison with SQLAlchemy DateTime
     sorted_assignments = []
     if group_obj.assignments:
         sorted_assignments = sorted(
             group_obj.assignments, 
-            key=lambda x: x.due_date if x.due_date else datetime(9999, 12, 31, tzinfo=timezone.utc)
+            key=lambda x: x.due_date.replace(tzinfo=None) if x.due_date else datetime(9999, 12, 31)
         )
     
     return render_template('group_dashboard.html', 
