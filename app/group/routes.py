@@ -50,7 +50,17 @@ def groups():
     joined_memberships = GroupMember.query.filter_by(user_id=current_user.id).all()
     joined_groups = [m.group_info for m in joined_memberships]
     
-    return render_template('groups.html', owned_groups=owned_groups, joined_groups=joined_groups)
+    # Unify for template
+    all_groups = owned_groups + joined_groups
+    # Remove duplicates if any (though unlikely with this logic)
+    seen_ids = set()
+    unique_groups = []
+    for g in all_groups:
+        if g.id not in seen_ids:
+            unique_groups.append(g)
+            seen_ids.add(g.id)
+    
+    return render_template('groups.html', groups=unique_groups)
 
 @group.route("/api/online_members/<int:group_id>")
 @login_required
