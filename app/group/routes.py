@@ -132,7 +132,43 @@ def group_dashboard(group_id):
     try:
         from app import db, bcrypt
         from app.models import Group, GroupMember, GroupAnnouncement, GroupMessage, Assignment, AssignmentStatus, User
+        from sqlalchemy import text
+        from sqlalchemy.exc import ProgrammingError
         
+        # --- DATABASE HEALTH CHECK (Auto-Migration) ---
+        # Run this BEFORE anything else to ensure schema is up to date
+        try:
+            # Check for a column added in the latest update
+            db.session.execute(text("SELECT reference_answer FROM assignment LIMIT 1"))
+        except ProgrammingError:
+            db.session.rollback()
+            current_app.logger.warning("Detected missing DB columns. Attempting auto-fix...")
+            auto_fixes = [
+                # GroupMessage fixes
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
+                # Assignment fixes
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_answer TEXT",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_image VARCHAR(255)",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS due_date TIMESTAMP",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS description TEXT",
+                # AssignmentStatus fixes
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER"
+            ]
+            for stmt in auto_fixes:
+                try:
+                    db.session.execute(text(stmt))
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()
+                    current_app.logger.error(f"Auto-fix failed for {stmt}: {e}")
+        # --- END DATABASE HEALTH CHECK ---
+
         current_app.logger.info("Step 1: Fetching group object")
         group_obj = Group.query.get_or_404(group_id)
         
@@ -344,36 +380,7 @@ def group_dashboard(group_id):
             return redirect(url_for('group.group_dashboard', group_id=group_id))
             
         current_app.logger.info("Step 4: Loading messages and data for render")
-        try:
-            messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
-        except ProgrammingError:
-            db.session.rollback()
-            current_app.logger.warning("Detected missing DB columns in GroupMessage. Attempting auto-fix...")
-            # Auto-run basic migrations for missing columns
-            auto_fixes = [
-                # GroupMessage fixes
-                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
-                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
-                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
-                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
-                # Assignment fixes
-                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_answer TEXT",
-                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_image VARCHAR(255)",
-                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS due_date TIMESTAMP",
-                # AssignmentStatus fixes
-                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
-                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT"
-            ]
-            for stmt in auto_fixes:
-                try:
-                    db.session.execute(text(stmt))
-                    db.session.commit()
-                except Exception as e:
-                    db.session.rollback()
-                    current_app.logger.error(f"Auto-fix failed for {stmt}: {e}")
-            
-            # Final retry after fix
-            messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+        messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
 
         announcements = GroupAnnouncement.query.filter_by(group_id=group_id).order_by(GroupAnnouncement.created_at.desc()).limit(5).all()
 
