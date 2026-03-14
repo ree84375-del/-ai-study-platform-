@@ -5,7 +5,9 @@
         <h2 style="color: var(--color-primary); margin: 0;">
             <i class="fa-solid fa-users"></i> {{ group.name }} - 學習交流區
         </h2>
-        <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 8px 15px; border: 1px solid var(--color-primary); color: var(--color-primary); text-decoration: none; border-radius: 4px; font-size: 0.9rem;">返回群組列表</a>
+        <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 10px 25px; background: var(--color-primary); color: white; text-decoration: none; border-radius: 0 0 12px 12px; font-size: 1rem; font-weight: bold; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-arrow-left"></i> 返回
+        </a>
     </div>
 
     <div class="group-layout">
@@ -268,9 +270,9 @@
                                         {% endif %}
                                     ">
                                         {% if msg.parent_id and msg.parent %}
-                                            <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.05); padding: 5px; border-radius: 4px; margin-bottom: 8px;">
-                                                <div style="font-weight: bold; font-size: 0.75rem;">{{ msg.parent.author.username }}</div>
-                                                <div style="font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ msg.parent.content }}</div>
+                                            <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
+                                                <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">{{ msg.parent.author.username }} 說：</div>
+                                                <div style="font-size: 0.85rem; color: rgba(0,0,0,0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ msg.parent.content }}</div>
                                             </div>
                                         {% endif %}
                                         
@@ -280,7 +282,7 @@
                                             </div>
                                         {% endif %}
                                         
-                                        <div class="message-text" style="white-space: pre-wrap;">{% if msg.is_recalled -%}
+                                        <div class="message-text" style="white-space: pre-wrap; color: inherit; font-weight: 500;">{% if msg.is_recalled -%}
                                             <span style="font-style: italic; opacity: 0.7;">此訊息已收回</span>
                                         {%- else -%}
                                             {{ msg.content.strip() }}
