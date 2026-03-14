@@ -10,6 +10,24 @@
     })();
 </script>
 
+<style>
+    /* Theme-specific decorative overlays */
+    [data-theme="leaf"] .leaf-decorator {
+        position: fixed;
+        width: 15vw;
+        height: 15vw;
+        max-width: 200px;
+        z-index: 1001;
+        pointer-events: none;
+        opacity: 0.15;
+    }
+    [data-theme="leaf"] .leaf-top-left { top: 0; left: 0; transform: rotate(0deg); }
+    [data-theme="leaf"] .leaf-bottom-right { bottom: 0; right: 0; transform: rotate(180deg); }
+</style>
+
+<div class="leaf-decorator leaf-top-left desktop-only">🌿</div>
+<div class="leaf-decorator leaf-bottom-right desktop-only">🌿</div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

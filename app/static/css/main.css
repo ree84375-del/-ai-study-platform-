@@ -11,15 +11,41 @@
 }
 
 [data-theme="leaf"] {
-    --color-primary: #7d906a; /* Richer Matcha Green */
-    --color-secondary: #f4faeb; /* Light Leaf */
-    --color-accent: #c48a7b; /* Autumn Leaf */
+    --color-primary: #556b2f; /* Dark Olive Green */
+    --color-secondary: #f4faeb; 
+    --color-accent: #8b4513; /* Saddle Brown for stems/branches */
     --color-bg: #fdfdf9;
-    --color-text_main: #2d3436;
-    --color-text_light: #636e72;
-    --color-border: #d2dcc8;
-    /* Richer Japanese Leaf Pattern Background */
-    --bg-pattern: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2385a392' fill-opacity='0.05'%3E%3Cpath d='M30 15 C 40 35, 60 55, 80 65 C 60 75, 40 95, 30 115 C 20 95, 0 75, -10 65 C 10 55, 30 35, 30 15'/%3E%3Cpath d='M90 45 C 100 65, 120 85, 140 95 C 120 105, 100 125, 90 145 C 80 125, 60 105, 50 95 C 70 85, 90 65, 90 45'/%3E%3Cpath d='M60 0 C 70 10, 80 30, 90 40 C 80 50, 70 70, 60 80 C 50 70, 40 50, 30 40 C 40 30, 50 10, 60 0'/%3E%3C/g%3E%3C/svg%3E");
+    --color-text_main: #1a1a1a;
+    --color-text_light: #4b5d3a;
+    --color-border: #a9ba9d;
+    /* Layered Japanese Leaf Pattern (Extremely Rich) */
+    --bg-pattern: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23556b2f' fill-opacity='0.08'%3E%3Cpath d='M50 20 C 70 40, 90 60, 110 70 C 90 80, 70 100, 60 120 C 50 100, 30 80, 20 70 C 40 60, 60 40, 50 20'/%3E%3Cpath d='M150 70 C 160 90, 180 110, 200 120 C 180 130, 160 150, 150 170 C 140 150, 120 130, 110 120 C 130 110, 150 90, 150 70'/%3E%3Cpath d='M100 0 C 110 10, 120 30, 130 40 C 120 50, 110 70, 100 80 C 90 70, 80 50, 70 40 C 80 30, 90 10, 100 0'/%3E%3Cpath d='M20 150 C 30 160, 40 180, 50 190 C 40 200, 30 220, 20 230 C 10 220, 0 200, -10 190 C 0 180, 10 160, 20 150'/%3E%3C/g%3E%3C/svg%3E");
+    --border-radius-organic: 40px 15px 40px 15px; /* Organic leaf shape */
+}
+
+/* Organic Component Stylings */
+[data-theme="leaf"] .card, [data-theme="leaf"] .washi-card {
+    border-radius: var(--border-radius-organic) !important;
+    border: 2px solid var(--color-border);
+    position: relative;
+}
+
+[data-theme="leaf"] .card::after {
+    content: "🍃";
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-size: 1.2rem;
+    opacity: 0.4;
+}
+
+[data-theme="leaf"] .btn, [data-theme="leaf"] button {
+    border-radius: 25px 5px 25px 5px !important;
+}
+
+[data-theme="leaf"] .navbar {
+    border-radius: 0 0 30px 30px;
+    background-color: rgba(244, 250, 235, 0.85);
 }
 
 [data-theme="midnight"] {
@@ -31,6 +57,7 @@
     --color-text_light: #a0a0a0;
     --color-border: #333333;
     --bg-pattern: none;
+    --border-radius-organic: 12px;
 }
 
 /* Dynamic Theme-Aware Gradient Background */
@@ -63,10 +90,38 @@ body::before {
     width: 100%;
     height: 100%;
     background-image: var(--bg-pattern);
-    opacity: 0.6;
+    opacity: 0.8; /* Increased visibility */
     pointer-events: none;
     z-index: -1;
 }
+
+[data-theme="leaf"] .btn::before, [data-theme="leaf"] button::before {
+    content: "🍃";
+    position: absolute;
+    left: 10px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+[data-theme="leaf"] .btn:hover::before, [data-theme="leaf"] button:hover::before {
+    opacity: 1;
+    transform: translateX(-5px) rotate(-15deg);
+}
+
+/* Organic Botanical Vignette */
+[data-theme="leaf"] body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 60%, rgba(85, 107, 47, 0.08) 100%);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.container {
 
 .container {
     width: 100%;
