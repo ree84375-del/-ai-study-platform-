@@ -554,8 +554,8 @@
             setTimer(currentMode);
         }
         
-        // Initial setup
-        applyLofiRoomTheme('night'); // Default
+        // Initial setup - respect the user's requested time schedule
+        updateTimeTheme(); 
         
         // --- 3D Parallax Tilt Effect ---
         document.addEventListener('DOMContentLoaded', () => {
