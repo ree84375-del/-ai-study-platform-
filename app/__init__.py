@@ -104,6 +104,13 @@ def create_app(config_class=None):
             db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT;"))
             db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT;"))
             db.session.execute(text("ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER;"))
+            
+            # Phase 2: Roadmap and Garden
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE;"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT;"))
+            db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0;"))
+            db.session.execute(text("ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1;"))
+            
             db.session.commit()
         except Exception as e:
             app.logger.error(f"Database initialization/migration failed: {e}")

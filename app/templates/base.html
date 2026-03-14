@@ -7,7 +7,7 @@
     <!-- Google Fonts for Japanese/Traditional Chinese feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Kaisei+Tokumin:wght@400;700&family=Zen+Antique+Soft&display=swap"
         rel="stylesheet">
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -73,6 +73,18 @@
             --color-bg-gradient-1: #fde8dd;
             --color-bg-gradient-2: #fff5e6;
         }
+        {% elif current_user.preferred_theme == 'midnight' %}
+        :root {
+            --color-primary: #d2a8ff;      /* Pastel Purple */
+            --color-accent: #ffde6a;       /* Golden yellow */
+            --color-secondary: #21262d;    
+            --color-bg: #0d1117;
+            --color-bg-gradient-1: #010409;
+            --color-bg-gradient-2: #161b22;
+            --color-text_main: #c9d1d9;
+            --color-text_light: #8b949e;
+            --color-border: #30363d;
+        }
         {% endif %}
     </style>
     {% else %}
@@ -110,6 +122,11 @@
                 <i class="fa-solid fa-user-gear"></i> 個人/AI設定
                 <span class="streak-badge"><i class="fa-solid fa-fire"></i> {{ current_user.current_streak }}</span>
             </a>
+            
+            <!-- Theme Toggle -->
+            <button onclick="toggleDarkMode()" class="nav-link" style="background: none; border: none; cursor: pointer; color: var(--color-primary); font-size: 1.2rem; padding: 0 10px;">
+                <i class="fa-solid {% if current_user.preferred_theme == 'midnight' %}fa-sun{% else %}fa-moon{% endif %}"></i>
+            </button>
             {% else %}
             <a href="{{ url_for('auth.login') }}" class="nav-link">登入/註冊</a>
             {% endif %}

@@ -29,6 +29,22 @@ def practice():
                 mistake.next_review_date = datetime.now(timezone.utc) + timedelta(days=mistake.last_interval)
                 if mistake.srs_level >= 4: # Consider resolved if reached a high level
                     mistake.is_resolved = True
+            
+            # Collaborative Garden Contribution
+            try:
+                from app.models import GroupMember, Group
+                memberships = GroupMember.query.filter_by(user_id=current_user.id).all()
+                for m in memberships:
+                    g = m.group_info
+                    g.garden_exp += 10 # 10 exp per correct answer
+                    # Level up logic: level * 1000 exp
+                    next_level_exp = g.garden_level * 1000
+                    if g.garden_exp >= next_level_exp:
+                        g.garden_level += 1
+                        # We could send a group message here, but skipping for now to keep it simple
+            except Exception:
+                pass
+
             db.session.commit()
         else:
             # SRS Logic for wrong answer
@@ -229,18 +245,23 @@ def tutor_chat():
         # Build comprehensive context
         context_parts = []
         if current_user.bio:
-            context_parts.append(f"學生個人簡介：{current_user.bio}")
+            context_parts.append(f"【學生背景】{current_user.bio}")
         if current_user.learning_goals:
-            context_parts.append(f"學生學習目標：{current_user.learning_goals}")
+            context_parts.append(f"【學習目標】{current_user.learning_goals}")
             
-        if not session_id:
-            try:
-                recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(3).all()
-                if recent_mistakes:
-                    context_parts.append("學生最近在這些題目上遇到困難：" + ", ".join([m.question.subject for m in recent_mistakes]))
-            except Exception:
-                pass
-                
+        # Add mistake patterns to context
+        try:
+            recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(5).all()
+            if recent_mistakes:
+                mistake_subjects = list(set([m.question.subject for m in recent_mistakes]))
+                context_parts.append(f"【近期弱點】學生最近在這些科目有較多錯題：{', '.join(mistake_subjects)}")
+                # Also include the specific question if it's the start of a session
+                if not session_id and len(recent_mistakes) > 0:
+                    q = recent_mistakes[0].question
+                    context_parts.append(f"【首要解決】其中一題錯題內容是：{q.content_text}")
+        except Exception:
+            pass
+            
         context = "\n".join(context_parts)
 
         # Convert session messages to Gemini format
@@ -290,6 +311,49 @@ def get_chat_history(session_id):
 @login_required
 def lofi_room():
     return render_template('lofi.html', title='深夜陪讀室')
+
+@study.route("/generate_roadmap", methods=['POST'])
+@login_required
+def generate_roadmap():
+    import json
+    exam_name = request.json.get('exam_name', '即將到來的考試')
+    exam_date_str = request.json.get('exam_date')
+    
+    if not exam_date_str:
+        return jsonify({'error': '請提供考試日期'}), 400
+        
+    # Build user context
+    context_parts = []
+    if current_user.bio:
+        context_parts.append(f"學生個人簡介：{current_user.bio}")
+    if current_user.learning_goals:
+        context_parts.append(f"學生學習目標：{current_user.learning_goals}")
+    
+    # Add recent mistakes context
+    try:
+        recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(5).all()
+        if recent_mistakes:
+            subjects = list(set([m.question.subject for m in recent_mistakes]))
+            context_parts.append(f"學生最近在這些科目有較多錯題：{', '.join(subjects)}")
+    except Exception:
+        pass
+    
+    context = "\n".join(context_parts)
+    
+    from app.utils.ai_helpers import generate_study_roadmap
+    roadmap = generate_study_roadmap(exam_name, exam_date_str, user_context=context)
+    
+    if roadmap:
+        try:
+            current_user.exam_date = datetime.strptime(exam_date_str, '%Y-%m-%d').date()
+            current_user.study_plan_json = json.dumps(roadmap, ensure_ascii=False)
+            db.session.commit()
+            return jsonify({'status': 'success', 'roadmap': roadmap})
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'error': f'儲存計畫時出錯：{str(e)}'}), 500
+    else:
+        return jsonify({'error': 'AI 生成計畫失敗，或是格式不正確，請稍後再試。'}), 500
 
 @study.route("/generate_exam")
 @login_required

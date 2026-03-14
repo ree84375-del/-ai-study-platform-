@@ -17,3 +17,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     }
 });
+async function toggleDarkMode() {
+    try {
+        const response = await fetch('/api/toggle_dark_mode', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
+            }
+        });
+        const data = await response.json();
+        if (data.status === 'success') {
+            location.reload(); // Reload to apply the new CSS variables from the backend
+        }
+    } catch (err) {
+        console.error("Theme toggle failed:", err);
+    }
+}
