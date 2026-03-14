@@ -34,6 +34,83 @@
                 position: static;
             }
         }
+        
+        /* Message Interaction Styles */
+        .message-more-btn {
+            opacity: 0;
+            transition: opacity 0.2s;
+            cursor: pointer;
+            padding: 5px;
+            color: var(--color-text_light);
+            font-size: 0.9rem;
+        }
+        .message-wrapper:hover .message-more-btn {
+            opacity: 1;
+        }
+        .interaction-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            z-index: 100;
+            padding: 5px 0;
+            min-width: 100px;
+        }
+        .interaction-menu div {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--color-text_main);
+        }
+        .interaction-menu div:hover {
+            background: var(--color-secondary);
+        }
+        .reply-preview-container {
+            display: none;
+            background: #f8f9fa;
+            border-left: 4px solid var(--color-primary);
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            position: relative;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quoted-msg {
+            font-size: 0.8rem;
+            background: rgba(0,0,0,0.05);
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--color-primary);
+            color: #666;
+            max-width: 100%;
+        }
+        #chat-input {
+            width: 100%; 
+            min-height: 50px; 
+            padding: 15px; 
+            border: 1px solid var(--color-border); 
+            border-radius: 12px; 
+            resize: vertical; 
+            font-family: inherit; 
+            font-size: 1rem; 
+            box-sizing: border-box; 
+            line-height: 1.6; 
+            background: #fdfdfd; 
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        #chat-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.1);
+            outline: none;
+        }
     </style>
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;">
         <h2 style="color: var(--color-primary); margin: 0;">
@@ -267,10 +344,10 @@
                                 </div>
 
                                 <!-- The Bubble -->
-                                <div style="
+                                <div id="msg-bubble-{{ msg.id }}" style="
                                     display: table;
                                     width: auto;
-                                    padding: 6px 14px; 
+                                    padding: 8px 14px; 
                                     border-radius: 16px; 
                                     font-size: 0.95rem;
                                     line-height: 1.4;
@@ -300,12 +377,45 @@
                                         border-bottom-left-radius: 5px;
                                     {% endif %}
                                 ">
+                                    {% if msg.parent_id and msg.parent %}
+                                        <div class="quoted-msg" onclick="document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;">
+                                            <div style="font-weight: bold; font-size: 0.75rem; margin-bottom: 2px;">
+                                                <i class="fa-solid fa-quote-left"></i> {{ msg.parent.author.username }}
+                                            </div>
+                                            <div style="opacity: 0.8; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                {{ msg.parent.content }}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    
                                     {% if msg.image_data %}
                                         <div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
                                             <img src="{{ msg.image_data }}" style="max-width: 100%; display: block;">
                                         </div>
                                     {% endif %}
-                                    <div style="display: block; margin: 0;">{{ msg.content.strip() }}</div>
+                                    
+                                    <div class="message-text" style="display: block; margin: 0;">
+                                        {% if msg.is_recalled %}
+                                            <span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> 此訊息已收回</span>
+                                        {% else %}
+                                            {{ msg.content.strip() }}
+                                            {% if msg.is_edited %}
+                                                <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Interaction Buttons (Shown on bubble hover) -->
+                                    <div class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}left: -40px;{% else %}right: -40px;{% endif %} top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px;">
+                                        <i class="fa-solid fa-reply message-more-btn" title="回覆" onclick="startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
+                                        {% if msg.user_id == current_user.id and not msg.is_recalled %}
+                                            <i class="fa-solid fa-pen message-more-btn" title="編輯" onclick="startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
+                                            <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="recallMessage({{ msg.id }})"></i>
+                                        {% endif %}
+                                        {% if msg.user_id == current_user.id or current_user.id == group.teacher_id %}
+                                            <i class="fa-solid fa-trash-can message-more-btn" title="刪除" style="color: #ff4444;" onclick="deleteMessage({{ msg.id }})"></i>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -319,6 +429,15 @@
             </div>
 
             <div class="washi-card" style="padding: 1.5rem; margin-bottom: 2rem; border-top: 3px solid var(--color-primary);">
+                <!-- Reply Preview -->
+                <div id="reply-preview" class="reply-preview-container">
+                    <div style="font-size: 0.8rem; color: var(--color-primary); font-weight: bold; margin-bottom: 3px;">
+                        回覆給 <span id="reply-to-user"></span>
+                    </div>
+                    <div id="reply-preview-content" style="font-size: 0.85rem; color: #666; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+                    <i class="fa-solid fa-xmark" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: #999;" onclick="cancelReply()"></i>
+                </div>
+
                 <!-- Image Preview -->
                 <div id="image-preview-container" style="display: none; position: relative; margin-bottom: 15px; width: fit-content;">
                     <img id="image-preview" src="" style="max-width: 250px; max-height: 250px; border-radius: 8px; border: 2px solid var(--color-primary); box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
@@ -328,12 +447,11 @@
                 <form id="chat-form" method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" style="display: flex; flex-direction: column; gap: 15px;">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="post_message"/>
+                    <input type="hidden" name="parent_id" id="parent-id-input" value="">
+                    <input type="hidden" name="edit_id" id="edit-id-input" value="">
                     <input type="hidden" name="image_data" id="image-data-input">
                     
-                    <textarea id="chat-input" name="content" placeholder="在此輸入聊天訊息... (可輸入多行，或直接貼上圖片)"
-                        style="width: 100%; min-height: 50px; padding: 15px; border: 1px solid var(--color-border); border-radius: 12px; resize: vertical; font-family: inherit; font-size: 1rem; box-sizing: border-box; line-height: 1.6; background: #fdfdfd; transition: border-color 0.2s, box-shadow 0.2s;"
-                        onfocus="this.style.borderColor='var(--color-primary)'; this.style.boxShadow='0 0 0 3px rgba(100, 149, 237, 0.1)';" 
-                        onblur="this.style.borderColor='var(--color-border)'; this.style.boxShadow='none';"></textarea>
+                    <textarea id="chat-input" name="content" placeholder="在此輸入聊天訊息... (可輸入多行，或直接貼上圖片)"></textarea>
                     
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: flex; align-items: center; gap: 15px;">
@@ -380,15 +498,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     scrollToBottom();
 
-    // Convert UTC to local time
-    const timeElements = document.querySelectorAll('.utc-time');
-    timeElements.forEach(el => {
-        const utcDate = el.getAttribute('data-utc');
-        if (utcDate) {
-            const date = new Date(utcDate);
-            el.innerText = date.toLocaleString('zh-TW', { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' });
+    // --- Message Interactions ---
+    window.startReply = (msgId, username, content) => {
+        const parentIdInput = document.getElementById('parent-id-input');
+        const replyPreview = document.getElementById('reply-preview');
+        const replyUser = document.getElementById('reply-to-user');
+        const replyContent = document.getElementById('reply-preview-content');
+        
+        parentIdInput.value = msgId;
+        replyUser.innerText = username;
+        replyContent.innerText = content;
+        replyPreview.style.display = 'block';
+        
+        chatInput.placeholder = `回覆給 ${username}...`;
+        chatInput.focus();
+        scrollToBottom();
+    };
+
+    window.cancelReply = () => {
+        document.getElementById('parent-id-input').value = '';
+        document.getElementById('reply-preview').style.display = 'none';
+        chatInput.placeholder = "在此輸入聊天訊息... (可輸入多行，或直接貼上圖片)";
+    };
+
+    window.startEdit = (msgId, content) => {
+        const editIdInput = document.getElementById('edit-id-input');
+        editIdInput.value = msgId;
+        chatInput.value = content;
+        chatInput.style.background = '#fff9e6';
+        chatInput.placeholder = "正在編輯訊息...";
+        
+        // Change form action temporarily for edit
+        document.querySelector('[name="action"]').value = 'edit_message';
+        
+        chatInput.focus();
+        scrollToBottom();
+    };
+
+    window.recallMessage = async (msgId) => {
+        if (!confirm('確定要收回這則訊息嗎？')) return;
+        try {
+            const formData = new FormData();
+            formData.append('csrf_token', '{{ csrf_token() }}');
+            const response = await fetch(`/api/groups/messages/${msgId}/recall`, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                const bubble = document.querySelector(`#msg-bubble-${msgId} .message-text`);
+                if (bubble) {
+                    bubble.innerHTML = '<span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> 此訊息已收回</span>';
+                    // Remove edit button if exists
+                    const editBtn = bubble.parentElement.querySelector('.fa-pen');
+                    if (editBtn) editBtn.remove();
+                    const recallBtn = bubble.parentElement.querySelector('.fa-rotate-left');
+                    if (recallBtn) recallBtn.remove();
+                }
+            } else {
+                alert(data.message || '收回失敗');
+            }
+        } catch (err) {
+            console.error(err);
         }
-    });
+    };
+
+    window.deleteMessage = async (msgId) => {
+        if (!confirm('確定要永久刪除這則訊息嗎？')) return;
+        try {
+            const formData = new FormData();
+            formData.append('csrf_token', '{{ csrf_token() }}');
+            const response = await fetch(`/api/groups/messages/${msgId}/delete`, {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            const data = await response.json();
+            if (data.status === 'success') {
+                const row = document.getElementById(`msg-box-${msgId}`);
+                if (row) row.remove();
+            } else {
+                alert(data.message || '刪除失敗');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     // Handle image file
     function handleImageFile(file) {
@@ -422,13 +618,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const isAI = data.is_ai;
         const username = data.username || 'user';
         const displayTime = '剛剛';
+        const msgId = data.id || Date.now();
         
         const avatarHtml = isAI ? 
             `<img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">` : 
             `<div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">${(username[0] || '?').toUpperCase()}</div>`;
 
+        let parentMsgHtml = '';
+        if (data.parent_preview) {
+            parentMsgHtml = `
+                <div class="quoted-msg">
+                    <div style="font-weight: bold; font-size: 0.75rem; margin-bottom: 2px;">
+                        <i class="fa-solid fa-quote-left"></i> ${data.parent_preview.username}
+                    </div>
+                    <div style="opacity: 0.8; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        ${data.parent_preview.content}
+                    </div>
+                </div>
+            `;
+        }
+
         const msgHtml = `
-            <div style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
+            <div id="msg-box-${msgId}" class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
                 <div style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                     ${avatarHtml}
                 </div>
@@ -438,12 +649,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
-                    <div style="display: table; width: auto; padding: 6px 14px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-break: break-word; white-space: pre-wrap; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 100%;
+                    <div id="msg-bubble-${msgId}" style="display: table; width: auto; padding: 8px 14px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-break: break-word; white-space: pre-wrap; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 100%; position: relative;
                         ${isMine ? 'align-self: flex-end;' : 'align-self: flex-start;'}
                         ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
                         (isAI ? 'background: #fff8f8; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px;' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
+                        
+                        ${parentMsgHtml}
                         ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
-                        <div style="display: block; margin: 0;">${(data.content || '').trim()}</div>
+                        
+                        <div class="message-text" style="display: block; margin: 0;">${(data.content || '').trim()}</div>
+
+                        <div class="interaction-buttons" style="position: absolute; ${isMine ? 'left: -40px;' : 'right: -40px;'} top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px;">
+                            <i class="fa-solid fa-reply message-more-btn" title="回覆" onclick="startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                            ${isMine ? `
+                                <i class="fa-solid fa-pen message-more-btn" title="編輯" onclick="startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                                <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="recallMessage(${msgId})"></i>
+                            ` : ''}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -460,13 +682,51 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const content = chatInput.value.trim();
             const imageData = imageDataInput.value;
+            const action = document.querySelector('[name="action"]').value;
+            const editId = document.getElementById('edit-id-input').value;
+
             if (!content && !imageData) return;
+
+            // Handle Edit Case
+            if (action === 'edit_message' && editId) {
+                const formData = new FormData();
+                formData.append('csrf_token', '{{ csrf_token() }}');
+                formData.append('content', content);
+                
+                fetch(`/api/groups/messages/${editId}/edit`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const bubbleText = document.querySelector(`#msg-bubble-${editId} .message-text`);
+                        if (bubbleText) {
+                            bubbleText.innerHTML = `${data.content.trim()} <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>`;
+                        }
+                        chatInput.value = '';
+                        chatInput.style.background = '#fdfdfd';
+                        chatInput.style.height = 'auto';
+                        document.querySelector('[name="action"]').value = 'post_message';
+                        document.getElementById('edit-id-input').value = '';
+                    } else {
+                        alert(data.message || '編輯失敗');
+                    }
+                })
+                .catch(err => console.error('Edit error:', err));
+                return;
+            }
 
             const formData = new FormData(this);
             chatInput.value = '';
             chatInput.style.height = 'auto';
             imagePreviewContainer.style.display = 'none';
             imageDataInput.value = '';
+            
+            // Clean up reply UI
+            const isReply = !!document.getElementById('parent-id-input').value;
+            cancelReply();
 
             const submitUrl = this.getAttribute('action') || window.location.href;
             fetch(submitUrl, {

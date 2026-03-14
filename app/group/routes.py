@@ -150,20 +150,40 @@ def group_dashboard(group_id):
             # Post Message
             if action == 'post_message':
                 if (content and content.strip()) or image_data:
-                    new_msg = GroupMessage(group_id=group_id, user_id=current_user.id, content=content or "", image_data=image_data)
+                    parent_id = request.form.get('parent_id')
+                    new_msg = GroupMessage(
+                        group_id=group_id, 
+                        user_id=current_user.id, 
+                        content=content or "", 
+                        image_data=image_data,
+                        parent_id=parent_id if parent_id and parent_id.isdigit() else None
+                    )
                     db.session.add(new_msg)
                     db.session.commit()
                     
                     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        # Fetch parent message if exists for the UI
+                        parent_preview = None
+                        if new_msg.parent_id:
+                            p_msg = GroupMessage.query.get(new_msg.parent_id)
+                            if p_msg:
+                                parent_preview = {
+                                    'username': p_msg.author.username,
+                                    'content': p_msg.content[:50] + '...' if len(p_msg.content) > 50 else p_msg.content
+                                }
+                        
                         return jsonify({
                             'status': 'success',
                             'ai_triggered': True if group_obj.has_ai else False,
                             'user_message': {
+                                'id': new_msg.id,
                                 'content': new_msg.content,
                                 'image_data': new_msg.image_data,
                                 'username': current_user.username,
                                 'is_mine': True,
-                                'created_at': new_msg.created_at.isoformat() + 'Z'
+                                'created_at': new_msg.created_at.isoformat() + 'Z',
+                                'parent_id': new_msg.parent_id,
+                                'parent_preview': parent_preview
                             }
                         })
                 else:
@@ -282,6 +302,70 @@ def update_member_role(group_id, user_id):
         
     return redirect(url_for('group.group_dashboard', group_id=group_id))
 
+@group.route('/api/groups/messages/<int:message_id>/edit', methods=['POST'], strict_slashes=False)
+@login_required
+def edit_message(message_id):
+    from app import db
+    from app.models import GroupMessage
+    msg = GroupMessage.query.get_or_404(message_id)
+    
+    # 權限檢查：只有作者能編輯
+    if msg.user_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    # 時間檢查：15 分鐘內
+    time_diff = datetime.now(timezone.utc) - msg.created_at.replace(tzinfo=timezone.utc)
+    if time_diff.total_seconds() > 900: # 15 minutes
+        return jsonify({'status': 'error', 'message': '超過 15 分鐘編輯時限'}), 400
+        
+    new_content = request.form.get('content')
+    if not new_content or not new_content.strip():
+        return jsonify({'status': 'error', 'message': '內容不能為空'}), 400
+        
+    msg.content = new_content
+    msg.is_edited = True
+    db.session.commit()
+    
+    return jsonify({'status': 'success', 'content': msg.content})
+
+@group.route('/api/groups/messages/<int:message_id>/recall', methods=['POST'], strict_slashes=False)
+@login_required
+def recall_message(message_id):
+    from app import db
+    from app.models import GroupMessage
+    msg = GroupMessage.query.get_or_404(message_id)
+    
+    if msg.user_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    time_diff = datetime.now(timezone.utc) - msg.created_at.replace(tzinfo=timezone.utc)
+    if time_diff.total_seconds() > 900:
+        return jsonify({'status': 'error', 'message': '超過 15 分鐘收回時限'}), 400
+        
+    msg.is_recalled = True
+    # Optional: Clear content for security, but usually "recalled" is enough
+    msg.content = "此訊息已收回"
+    db.session.commit()
+    
+    return jsonify({'status': 'success'})
+
+@group.route('/api/groups/messages/<int:message_id>/delete', methods=['POST'], strict_slashes=False)
+@login_required
+def delete_message(message_id):
+    from app import db
+    from app.models import GroupMessage, Group
+    msg = GroupMessage.query.get_or_404(message_id)
+    group_obj = Group.query.get(msg.group_id)
+    
+    # 作者或老師可刪除
+    if msg.user_id != current_user.id and group_obj.teacher_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    msg.is_deleted = True
+    db.session.commit()
+    
+    return jsonify({'status': 'success'})
+
 @group.route('/api/groups/<int:group_id>/ai_reply', methods=['POST'], strict_slashes=False)
 @login_required
 def ai_reply(group_id):
@@ -325,8 +409,15 @@ def ai_reply(group_id):
         chat_history.append({'role': role, 'content': m.content})
     
     from app.utils.ai_helpers import get_ai_tutor_response
-    ai_prompt = f"這是群組「{group_obj.name}」的討論。請以雪音老師的身分，簡短且溫柔地回覆大家。"
-    ai_reply_text = get_ai_tutor_response(chat_history, last_msg.content, personality_key='雪音-溫柔型')
+    
+    # Prepare context if this is a reply
+    user_context = last_msg.content
+    if last_msg.parent_id:
+        p_msg = GroupMessage.query.get(last_msg.parent_id)
+        if p_msg:
+            user_context = f"(正在回覆 {p_msg.author.username} 說過的話: \"{p_msg.content}\") -> {last_msg.content}"
+            
+    ai_reply_text = get_ai_tutor_response(chat_history, user_context, personality_key='雪音-溫柔型')
     
     if ai_reply_text:
         ai_msg = GroupMessage(group_id=group_id, user_id=yukine.id, content=ai_reply_text)

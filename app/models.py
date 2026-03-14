@@ -201,9 +201,16 @@ class GroupMessage(db.Model):
     image_data = db.Column(db.Text, nullable=True) # Base64 image data
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
+    # New fields for enhanced chat
+    parent_id = db.Column(db.Integer, db.ForeignKey('group_message.id'), nullable=True)
+    is_edited = db.Column(db.Boolean, default=False)
+    is_recalled = db.Column(db.Boolean, default=False)
+    is_deleted = db.Column(db.Boolean, default=False)
+    
     # Relationships
     author = db.relationship('User', backref=db.backref('group_messages', lazy=True))
     group_ref = db.relationship('Group', backref=db.backref('messages', lazy=True))
+    replies = db.relationship('GroupMessage', backref=db.backref('parent', remote_side=[id]), lazy=True)
 
 class Omikuji(db.Model):
     id = db.Column(db.Integer, primary_key=True)
