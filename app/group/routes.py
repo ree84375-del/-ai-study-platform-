@@ -154,61 +154,10 @@ def group_dashboard(group_id):
                     db.session.add(new_msg)
                     db.session.commit()
                     
-                    # 只有在 AI 開啟時才觸發 AI 回覆
-                    if group_obj.has_ai:
-                        current_app.logger.info("AI is enabled, triggering reaction...")
-                        # 提高機率且偵測更多招呼語
-                        greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '雪音', '老師']
-                        trigger_ai = random.random() < 0.8 or any(g in content.lower() for g in greetings)
-                        if trigger_ai:
-                            # 取得最近對話作為上下文
-                            recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(10).all()
-                            chat_history = []
-                            # 找出 AI 的 User 物件
-                            yukine = User.query.filter_by(username='雪音老師').first()
-                            if not yukine:
-                                current_app.logger.info("Creating Yukine AI user...")
-                                yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
-                                db.session.add(yukine)
-                                db.session.commit()
-                            
-                            for m in reversed(recent_msgs):
-                                role = 'assistant' if m.user_id == yukine.id else 'user'
-                                chat_history.append({'role': role, 'content': m.content})
-                            
-                            ai_prompt = f"這是群組「{group_obj.name}」的討論。請以雪音老師的身分，簡短且溫暖地回覆大家。"
-                            current_app.logger.info("Calling Gemini API...")
-                            ai_reply = get_ai_tutor_response(chat_history, ai_prompt, personality_key='雪音-溫柔型')
-                            
-                            if ai_reply:
-                                ai_msg = GroupMessage(group_id=group_id, user_id=yukine.id, content=ai_reply)
-                                db.session.add(ai_msg)
-                                db.session.commit()
-                                current_app.logger.info("AI reply saved.")
-                                
-                                # Return JSON if AJAX
-                                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                                    return jsonify({
-                                        'status': 'success',
-                                        'user_message': {
-                                            'content': new_msg.content,
-                                            'image_data': new_msg.image_data,
-                                            'username': current_user.username,
-                                            'is_mine': True,
-                                            'created_at': new_msg.created_at.isoformat() + 'Z'
-                                        },
-                                        'ai_message': {
-                                            'content': ai_msg.content,
-                                            'username': '雪音老師',
-                                            'is_mine': False,
-                                            'is_ai': True,
-                                            'created_at': ai_msg.created_at.isoformat() + 'Z'
-                                        }
-                                    })
-                    
                     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                         return jsonify({
                             'status': 'success',
+                            'ai_triggered': True if group_obj.has_ai else False,
                             'user_message': {
                                 'content': new_msg.content,
                                 'image_data': new_msg.image_data,
@@ -218,7 +167,6 @@ def group_dashboard(group_id):
                             }
                         })
                 else:
-                    # Handle empty message for AJAX
                     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                         return jsonify({'status': 'error', 'message': 'Message cannot be empty'}), 400
             
@@ -333,3 +281,62 @@ def update_member_role(group_id, user_id):
         flash('無效的角色選擇', 'danger')
         
     return redirect(url_for('group.group_dashboard', group_id=group_id))
+
+@group.route('/group/<int:group_id>/ai_reply', methods=['POST'])
+@login_required
+def ai_reply(group_id):
+    from app import db, bcrypt
+    from app.models import User, Group, GroupMessage
+    import random
+    
+    group_obj = Group.query.get_or_404(group_id)
+    if not group_obj.has_ai:
+        return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
+        
+    # Get last message from user to react to
+    last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
+    yukine = User.query.filter_by(username='雪音老師').first()
+    
+    if not last_msg or (yukine and last_msg.user_id == yukine.id):
+        return jsonify({'status': 'error', 'message': 'No user message to reply to'}), 400
+
+    # AI Trigger Logic
+    greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '雪音', '老師']
+    trigger_ai = random.random() < 0.8 or any(g in last_msg.content.lower() for g in greetings)
+    
+    if not trigger_ai:
+        return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
+
+    # Generate AI Response
+    recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(10).all()
+    chat_history = []
+    if not yukine:
+        yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
+        db.session.add(yukine)
+        db.session.commit()
+    
+    for m in reversed(recent_msgs):
+        role = 'assistant' if m.user_id == yukine.id else 'user'
+        chat_history.append({'role': role, 'content': m.content})
+    
+    from app.utils.ai_helpers import get_ai_tutor_response
+    ai_prompt = f"這是群組「{group_obj.name}」的討論。請以雪音老師的身分，簡短且溫柔地回覆大家。"
+    ai_reply_text = get_ai_tutor_response(chat_history, last_msg.content, personality_key='雪音-溫柔型')
+    
+    if ai_reply_text:
+        ai_msg = GroupMessage(group_id=group_id, user_id=yukine.id, content=ai_reply_text)
+        db.session.add(ai_msg)
+        db.session.commit()
+        
+        return jsonify({
+            'status': 'success',
+            'ai_message': {
+                'content': ai_msg.content,
+                'username': '雪音老師',
+                'is_mine': False,
+                'is_ai': True,
+                'created_at': ai_msg.created_at.isoformat() + 'Z'
+            }
+        })
+    
+    return jsonify({'status': 'error', 'message': 'AI failed to generate reply'}), 500
