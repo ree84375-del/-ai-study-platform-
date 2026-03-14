@@ -9,7 +9,7 @@
             align-items: flex-start;
         }
         .group-sidebar {
-            flex: 0 0 400px;
+            flex: 0 0 320px;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -77,8 +77,18 @@
             border-radius: 8px;
             max-height: 100px;
             overflow-y: hidden;
-            position: relative;
             animation: slideDown 0.3s ease;
+        }
+        .interaction-buttons {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        .message-wrapper:hover .interaction-buttons {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
@@ -404,15 +414,15 @@
                                             {%- endif -%}
                                         {%- endif %}</div>
 
-                                    <!-- Interaction Buttons (Shown on bubble hover) -->
-                                    <div class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}left: -40px;{% else %}right: -40px;{% endif %} top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px;">
-                                        <i class="fa-solid fa-reply message-more-btn" title="回覆" onclick="startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
+                                    <!-- Interaction Buttons (Shown on message-wrapper hover) -->
+                                    <div class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -25px; display: flex; gap: 8px; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(4px); z-index: 10;">
+                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1;" title="回覆" onclick="startReply({{ msg.id }}, '{{ (msg.author.username if msg.author else '匿名') | escape }}', `{{ msg.content | escape }}`)"></i>
                                         {% if msg.user_id == current_user.id and not msg.is_recalled %}
-                                            <i class="fa-solid fa-pen message-more-btn" title="編輯" onclick="startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
-                                            <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="recallMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1;" title="編輯" onclick="startEdit({{ msg.id }}, `{{ msg.content | escape }}`)"></i>
+                                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="recallMessage({{ msg.id }})"></i>
                                         {% endif %}
                                         {% if msg.user_id == current_user.id or current_user.id == group.teacher_id %}
-                                            <i class="fa-solid fa-trash-can message-more-btn" title="刪除" style="color: #ff4444;" onclick="deleteMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="deleteMessage({{ msg.id }})"></i>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -666,11 +676,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap;">${(data.content || '').trim()}</div>
 
-                        <div class="interaction-buttons" style="position: absolute; ${isMine ? 'left: -40px;' : 'right: -40px;'} top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 5px;">
-                            <i class="fa-solid fa-reply message-more-btn" title="回覆" onclick="startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                        <!-- Interaction Buttons -->
+                        <div class="interaction-buttons" style="position: absolute; ${isMine ? 'right: 15px;' : 'left: 15px;'} top: -25px; display: flex; gap: 8px; background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 1px solid #eee; backdrop-filter: blur(4px); z-index: 10;">
+                            <i class="fa-solid fa-reply message-more-btn" style="opacity: 1;" title="回覆" onclick="startReply(${msgId}, '${username}', \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
                             ${isMine ? `
-                                <i class="fa-solid fa-pen message-more-btn" title="編輯" onclick="startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
-                                <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="recallMessage(${msgId})"></i>
+                                <i class="fa-solid fa-pen message-more-btn" style="opacity: 1;" title="編輯" onclick="startEdit(${msgId}, \`${(data.content || '').replace(/`/g, '\\`')}\`)"></i>
+                                <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="recallMessage(${msgId})"></i>
                             ` : ''}
                         </div>
                     </div>
