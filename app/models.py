@@ -164,7 +164,7 @@ class GroupAnnouncement(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
-    group_ref = db.relationship('Group', backref=db.backref('group_announcements', lazy=True, order_by=desc(created_at)))
+    group_ref = db.relationship('Group', backref=db.backref('group_announcements', lazy=True))
 
 class ChatSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
