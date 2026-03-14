@@ -367,11 +367,19 @@ def recall_message(message_id):
         return jsonify({'status': 'error', 'message': '超過 15 分鐘收回時限'}), 400
         
     msg.is_recalled = True
-    # Optional: Clear content for security, but usually "recalled" is enough
     msg.content = "此訊息已收回"
+    
+    # 聯動收回：如果此訊息有觸發 AI 回覆（或其他回覆），一併收回
+    child_msgs = GroupMessage.query.filter_by(parent_id=message_id).all()
+    affected_ids = [message_id]
+    for child in child_msgs:
+        child.is_recalled = True
+        child.content = "此訊息已隨使用者收回而撤銷"
+        affected_ids.append(child.id)
+        
     db.session.commit()
     
-    return jsonify({'status': 'success'})
+    return jsonify({'status': 'success', 'affected_ids': affected_ids})
 
 @group.route('/api/groups/messages/<int:message_id>/delete', methods=['POST'], strict_slashes=False)
 @login_required
@@ -444,7 +452,12 @@ def ai_reply(group_id):
     ai_reply_text = get_ai_tutor_response(chat_history, user_context, personality_key='雪音-溫柔型')
     
     if ai_reply_text:
-        ai_msg = GroupMessage(group_id=group_id, user_id=yukine.id, content=ai_reply_text)
+        ai_msg = GroupMessage(
+            group_id=group_id, 
+            user_id=yukine.id, 
+            content=ai_reply_text,
+            parent_id=last_msg.id  # 建立關聯以便聯動收回
+        )
         db.session.add(ai_msg)
         db.session.commit()
         

@@ -547,15 +547,16 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             const data = await response.json();
             if (data.status === 'success') {
-                const bubble = document.querySelector(`#msg-bubble-${msgId} .message-text`);
-                if (bubble) {
-                    bubble.innerHTML = '<span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> 此訊息已收回</span>';
-                    // Remove edit button if exists
-                    const editBtn = bubble.parentElement.querySelector('.fa-pen');
-                    if (editBtn) editBtn.remove();
-                    const recallBtn = bubble.parentElement.querySelector('.fa-rotate-left');
-                    if (recallBtn) recallBtn.remove();
-                }
+                const affectedIds = data.affected_ids || [msgId];
+                affectedIds.forEach(id => {
+                    const bubble = document.querySelector(`#msg-bubble-${id} .message-text`);
+                    if (bubble) {
+                        bubble.innerHTML = `<span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> ${id === msgId ? '此訊息已收回' : '此訊息已隨使用者收回而撤銷'}</span>`;
+                        // Remove edit/recall buttons
+                        const controls = bubble.parentElement.querySelectorAll('.fa-pen, .fa-rotate-left');
+                        controls.forEach(c => c.remove());
+                    }
+                });
             } else {
                 alert(data.message || '收回失敗');
             }
