@@ -147,10 +147,27 @@ def update_profile():
 @login_required
 def change_password():
     from app import db, bcrypt
-    # Google/guest users cannot change password here
-    if getattr(current_user, 'auth_provider', 'local') in ('google', 'guest'):
-        flash('此帳號類型無法在此變更密碼。', 'info')
+    # Google users cannot change password here
+    if getattr(current_user, 'auth_provider', 'local') == 'google':
+    if getattr(current_user, 'auth_provider', 'local') not in ['local', 'guest']:
+        flash('您的密碼存放在 Google 或其他第三方服務，請前往該服務修改。', 'info')
         return redirect(url_for('main.profile'))
+
+    # Cooldown check (5 days = 432000 seconds)
+    if current_user.password_last_changed:
+        now = datetime.now(timezone.utc)
+        # Ensure timezone awareness for comparison
+        dt_changed = current_user.password_last_changed
+        if dt_changed.tzinfo is None:
+            dt_changed = dt_changed.replace(tzinfo=timezone.utc)
+            
+        time_since_change = now - dt_changed
+        if time_since_change < timedelta(days=5):
+            remaining = timedelta(days=5) - time_since_change
+            days = remaining.days
+            hours = remaining.seconds // 3600
+            flash(f'密碼修改頻率限制：還需等待 {days} 天 {hours} 小時才能再次修改。', 'warning')
+            return redirect(url_for('main.profile'))
 
     current_password = request.form.get('current_password', '')
     new_password = request.form.get('new_password', '')
@@ -173,6 +190,7 @@ def change_password():
     # Update password
     try:
         current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+        current_user.password_last_changed = datetime.now(timezone.utc)
         db.session.commit()
         flash('密碼已成功變更！', 'success')
     except Exception:
@@ -378,7 +396,8 @@ def setup_db():
             "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
             "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
             "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
-            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE"
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS password_last_changed TIMESTAMP"
         ]
         
         for stmt in migration_statements:
