@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
+    last_login = db.Column(db.DateTime, nullable=True, default=lambda: datetime.now(timezone.utc))
  
     @property
     def is_admin(self):

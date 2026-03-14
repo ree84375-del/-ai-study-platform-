@@ -35,6 +35,8 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
+        user.last_login = datetime.now(timezone.utc)
+        db.session.add(user)
         db.session.commit()
         flash('您的帳號已成功建立！現在可以登入了', 'success')
         return redirect(url_for('auth.login'))
@@ -52,6 +54,8 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+            user.last_login = datetime.now(timezone.utc)
+            db.session.commit()
             login_user(user, remember=form.remember.data)
             current_app.logger.info(f"User {user.username} logged in successfully")
             if user.role == 'admin':
@@ -113,6 +117,8 @@ def google_auth():
             else:
                 flash(f'歡迎回來，{user.username}！', 'success')
             
+        user.last_login = datetime.now(timezone.utc)
+        db.session.commit()
         login_user(user)
         return redirect(url_for('main.home'))
     except Exception as e:
@@ -141,6 +147,7 @@ def guest_login():
     
     hashed_pw = bcrypt.generate_password_hash('guestpassword').decode('utf-8')
     user = User(username=guest_username, email=f"{guest_username}@guest.local", password=hashed_pw, role='guest', auth_provider='guest')
+    user.last_login = datetime.now(timezone.utc)
     db.session.add(user)
     db.session.commit()
     

@@ -82,6 +82,19 @@ def home():
         db.session.commit()
         from app.utils.garden_helpers import update_garden_state
         garden_stats = update_garden_state()
+
+    # User table auto-migration (ensure last_login exists)
+    try:
+        db.session.execute(text("SELECT last_login FROM \"user\" LIMIT 1"))
+    except ProgrammingError:
+        db.session.rollback()
+        current_app.logger.warning("Detected missing last_login in User table. Attempting auto-fix...")
+        try:
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_login TIMESTAMP"))
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            current_app.logger.error(f"Failed to add last_login: {e}")
             
     mistakes_to_review = 0
     if current_user.is_authenticated:
