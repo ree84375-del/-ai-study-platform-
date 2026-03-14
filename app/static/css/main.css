@@ -180,9 +180,11 @@ body::before {
 .container {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
     padding: 0 1.5rem;
     box-sizing: border-box;
+    display: block;
 }
 
 /* Glassmorphism Premium Navbar */
