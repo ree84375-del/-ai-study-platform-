@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 import random
 import string
 from datetime import datetime, timedelta, timezone
+from sqlalchemy.exc import ProgrammingError
+from sqlalchemy import text
 from app.utils.ai_helpers import get_ai_tutor_response
 
 group = Blueprint('group', __name__)
@@ -252,7 +254,29 @@ def group_dashboard(group_id):
             return redirect(url_for('group.group_dashboard', group_id=group_id))
             
         current_app.logger.info("Step 4: Loading messages and data for render")
-        messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+        try:
+            messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+        except ProgrammingError:
+            db.session.rollback()
+            current_app.logger.warning("Detected missing DB columns in GroupMessage. Attempting auto-fix...")
+            # Auto-run basic migrations for missing columns
+            auto_fixes = [
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE"
+            ]
+            for stmt in auto_fixes:
+                try:
+                    db.session.execute(text(stmt))
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()
+                    current_app.logger.error(f"Auto-fix failed for {stmt}: {e}")
+            
+            # Final retry after fix
+            messages = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.asc()).limit(100).all()
+
         announcements = GroupAnnouncement.query.filter_by(group_id=group_id).order_by(GroupAnnouncement.created_at.desc()).limit(5).all()
 
         current_app.logger.info("Step 5: Sorting assignments")
