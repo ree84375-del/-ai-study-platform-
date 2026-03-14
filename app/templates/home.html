@@ -46,10 +46,12 @@
                         <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent);">{{ current_user.current_streak }}</div>
                         <div style="font-size: 0.8rem; color: var(--color-text_light);">天不中斷</div>
                     </div>
+                    {% if current_user.is_admin %}
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; font-weight: bold; color: {% if mistakes_to_review > 0 %}#ff7b72{% else %}var(--color-primary){% endif %};">{{ mistakes_to_review }}</div>
                         <div style="font-size: 0.8rem; color: var(--color-text_light);">待複習錯題</div>
                     </div>
+                    {% endif %}
                 </div>
                 {% if current_user.is_admin %}
                 <a href="{{ url_for('study.practice') }}" class="btn" style="padding: 10px 20px;"><i class="fa-solid fa-pen-nib"></i> 開始今日修練</a>
@@ -57,6 +59,7 @@
             </div>
             
             <!-- Zen Bonsai Graphic -->
+            {% if current_user.is_admin %}
             <div style="text-align: center; z-index: 1; min-width: 150px;">
                 <!-- Dynamic Animated Bonsai -->
                 <div id="home-bonsai-container" style="width: 150px; height: 180px; margin: 0 auto;"></div>
@@ -72,6 +75,7 @@
                     <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">禪意盆景<br>(專注修行)</div>
                 {% endif %}
             </div>
+            {% endif %}
             
             <!-- Decorative background element -->
             <i class="fa-solid fa-mountain-sun" style="position: absolute; right: -20px; bottom: -20px; font-size: 15rem; color: var(--color-border); opacity: 0.3; z-index: 0;"></i>
@@ -245,6 +249,7 @@
     </div>
     
     <!-- Collaborative Zen Garden Section -->
+    {% if current_user.is_admin %}
     <div class="washi-card" style="padding: 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, var(--color-bg) 0%, rgba(133, 163, 146, 0.1) 100%); border: 1px solid rgba(133, 163, 146, 0.3); position: relative; overflow: hidden;">
         <!-- Falling Sakura Canvas -->
         <canvas id="sakura-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></canvas>
