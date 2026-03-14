@@ -1,36 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-Hant" data-theme="{{ getattr(current_user, 'preferred_theme', 'sakura') if current_user.is_authenticated else 'sakura' }}">
-<script>
-    // Critical: Apply theme immediately from localStorage to prevent flash
-    (function() {
-        const theme = localStorage.getItem('app-theme');
-        if (theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-        }
-    })();
-</script>
-
-<style>
-    /* Theme-specific decorative overlays */
-    [data-theme="leaf"] .leaf-decorator {
-        position: fixed;
-        width: 15vw;
-        height: 15vw;
-        max-width: 200px;
-        z-index: 1001;
-        pointer-events: none;
-        opacity: 0.15;
-    }
-    [data-theme="leaf"] .leaf-top-left { top: 0; left: 0; transform: rotate(0deg); }
-    [data-theme="leaf"] .leaf-bottom-right { bottom: 0; right: 0; transform: rotate(180deg); }
-</style>
-
-<div class="leaf-decorator leaf-top-left desktop-only">🌿</div>
-<div class="leaf-decorator leaf-bottom-right desktop-only">🌿</div>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Critical: Apply theme immediately from localStorage to prevent flash
+        (function() {
+            const theme = localStorage.getItem('app-theme');
+            if (theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        })();
+    </script>
     <!-- Google Fonts for Japanese/Traditional Chinese feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,62 +29,35 @@
     <style>
         {% if current_user.preferred_theme == 'sakura' %}
         :root {
-            --color-primary: #d89c9a;      /* Sakura Pink */
-            --color-accent: #85a392;       /* Matcha Green */
-            --color-secondary: #fff0f5;    /* Lavender blush */
+            --color-primary: #d89c9a;
+            --color-accent: #85a392;
+            --color-secondary: #fff0f5;
             --color-bg: #fffdfd;
             --color-bg-gradient-1: #ffe6e6;
             --color-bg-gradient-2: #fff0f5;
         }
         {% elif current_user.preferred_theme == 'moon' %}
         :root {
-            --color-primary: #5b7b9e;      /* Moonlight Blue */
-            --color-accent: #d4c27b;       /* Moon Yellow */
+            --color-primary: #5b7b9e;
+            --color-accent: #d4c27b;
             --color-secondary: #eef2f5;
             --color-bg: #f4f6f8;
             --color-bg-gradient-1: #e6ebf2;
             --color-bg-gradient-2: #f4f6f8;
         }
-        {% elif current_user.preferred_theme == 'classic' %}
-        :root {
-            --color-primary: #666666;      /* Slate Gray */
-            --color-accent: #999999;       /* Light Gray */
-            --color-secondary: #eaeaea;
-            --color-bg: #f9f9f9;
-            --color-bg-gradient-1: #ececec;
-            --color-bg-gradient-2: #f4f4f4;
-        }
         {% elif current_user.preferred_theme == 'matcha' %}
         :root {
-            --color-primary: #7d906a;      /* Matcha Green */
-            --color-accent: #8b7355;       /* Wood Brown */
+            --color-primary: #7d906a;
+            --color-accent: #8b7355;
             --color-secondary: #f4faeb;    
             --color-bg: #fdfdf9;
             --color-bg-gradient-1: #f0f5e6;
             --color-bg-gradient-2: #e8f0d8;
         }
-        {% elif current_user.preferred_theme == 'lavender' %}
-        :root {
-            --color-primary: #9b89b3;      /* Lavender */
-            --color-accent: #d8b4e2;       /* Light Purple */
-            --color-secondary: #f8f0fc;    
-            --color-bg: #fdfbfe;
-            --color-bg-gradient-1: #f3e6f5;
-            --color-bg-gradient-2: #e6e6fa;
-        }
-        {% elif current_user.preferred_theme == 'sunset' %}
-        :root {
-            --color-primary: #dd7a56;      /* Sunset Orange */
-            --color-accent: #e6a762;       /* Warm Yellow */
-            --color-secondary: #fdf3eb;    
-            --color-bg: #fffbf8;
-            --color-bg-gradient-1: #fde8dd;
-            --color-bg-gradient-2: #fff5e6;
-        }
         {% elif current_user.preferred_theme == 'midnight' %}
         :root {
-            --color-primary: #d2a8ff;      /* Pastel Purple */
-            --color-accent: #ffde6a;       /* Golden yellow */
+            --color-primary: #d2a8ff;
+            --color-accent: #ffde6a;
             --color-secondary: #21262d;    
             --color-bg: #0d1117;
             --color-bg-gradient-1: #010409;
@@ -125,6 +79,9 @@
 </head>
 
 <body>
+    <div class="leaf-decorator leaf-top-left desktop-only">🌿</div>
+    <div class="leaf-decorator leaf-bottom-right desktop-only">🌿</div>
+
     <nav class="navbar">
         <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> 學習案內所</a>
         <div class="navbar-nav desktop-only">
