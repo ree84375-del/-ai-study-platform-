@@ -460,7 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
             imagePreviewContainer.style.display = 'none';
             imageDataInput.value = '';
 
-            fetch(this.action || window.location.href, {
+            const submitUrl = this.getAttribute('action') || window.location.href;
+            fetch(submitUrl, {
                 method: 'POST',
                 body: formData,
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
