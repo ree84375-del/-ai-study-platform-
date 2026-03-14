@@ -137,6 +137,15 @@ def complete_tour():
 @login_required
 def profile():
     from app.models import Mistake
+    from app import db
+    
+    # Data Healing: If user is from Google domain but provider is 'local', heal it.
+    if getattr(current_user, 'auth_provider', 'local') == 'local':
+        if current_user.email.endswith('@chhs.tp.edu.tw') or current_user.email.endswith('@gmail.com'):
+            current_user.auth_provider = 'google'
+            db.session.commit()
+            current_app.logger.info(f"Healed auth_provider for user {current_user.id}")
+
     current_app.logger.info(f"User {current_user.id} accessing profile page")
     mistake_count = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
     return render_template('profile.html', title='個人檔案', mistake_count=mistake_count)
