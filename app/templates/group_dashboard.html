@@ -198,7 +198,7 @@
                 {% if messages %}
                     {% for msg in messages %}
                         <!-- Message Container -->
-                        <div style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
+                        <div class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 20px; width: 100%; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
                             <!-- Avatar Section -->
                             <div style="flex-shrink: 0; width: 44px; height: 44px; position: relative;">
                                 <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -232,75 +232,74 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- The Bubble -->
-                                <div id="msg-bubble-{{ msg.id }}" 
-                                    class="message-bubble"
-                                    style="
-                                    display: inline-block;
-                                    width: fit-content;
-                                    padding: 10px 16px; 
-                                    border-radius: 20px; 
-                                    font-size: 0.95rem;
-                                    line-height: 1.5;
-                                    word-break: break-word;
-                                    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-                                    max-width: 100%;
-                                    position: relative;
-                                    cursor: pointer;
-                                    transition: all 0.2s ease;
-                                    {% if msg.user_id == current_user.id %}
-                                        align-self: flex-end;
-                                        background: linear-gradient(135deg, var(--color-primary), #6395e3); 
-                                        color: white; 
-                                        border-bottom-right-radius: 4px;
-                                    {% elif msg.author and msg.author.username == '雪音老師' %}
-                                        align-self: flex-start;
-                                        background: #fff; 
-                                        color: #333; 
-                                        border: 1px solid #ffccce;
-                                        border-bottom-left-radius: 4px;
-                                        box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);
-                                    {% else %}
-                                        align-self: flex-start;
-                                        background: white; 
-                                        color: #222; 
-                                        border: 1px solid #e2e8f0;
-                                        border-bottom-left-radius: 4px;
-                                    {% endif %}
-                                ">
-                                    {% if msg.parent_id and msg.parent %}
-                                        <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;">
-                                            <div style="font-weight: bold; font-size: 0.75rem; margin-bottom: 2px;">
-                                                <i class="fa-solid fa-quote-left"></i> {{ msg.parent.author.username }}
+                                <!-- Bubble & Trigger Row -->
+                                <div style="display: flex; align-items: flex-start; gap: 12px; max-width: 100%; width: 100%; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
+                                    <!-- The Bubble -->
+                                    <div id="msg-bubble-{{ msg.id }}" 
+                                        class="message-bubble"
+                                        style="
+                                        display: inline-block;
+                                        width: fit-content;
+                                        padding: 10px 16px; 
+                                        border-radius: 20px; 
+                                        font-size: 0.95rem;
+                                        line-height: 1.5;
+                                        word-break: break-word;
+                                        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                                        max-width: 85%;
+                                        position: relative;
+                                        cursor: pointer;
+                                        transition: all 0.2s ease;
+                                        {% if msg.user_id == current_user.id %}
+                                            background: linear-gradient(135deg, var(--color-primary), #6395e3); 
+                                            color: white; 
+                                            border-bottom-right-radius: 4px;
+                                        {% elif msg.author and msg.author.username == '雪音老師' %}
+                                            background: #fff; 
+                                            color: #333; 
+                                            border: 1px solid #ffccce;
+                                            border-bottom-left-radius: 4px;
+                                            box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);
+                                        {% else %}
+                                            background: white; 
+                                            color: #222; 
+                                            border: 1px solid #e2e8f0;
+                                            border-bottom-left-radius: 4px;
+                                        {% endif %}
+                                    ">
+                                        {% if msg.parent_id and msg.parent %}
+                                            <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer;">
+                                                <div style="font-weight: bold; font-size: 0.75rem; margin-bottom: 2px;">
+                                                    <i class="fa-solid fa-quote-left"></i> {{ msg.parent.author.username }}
+                                                </div>
+                                                <div style="opacity: 0.8; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    {{ msg.parent.content }}
+                                                </div>
                                             </div>
-                                            <div style="opacity: 0.8; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                {{ msg.parent.content }}
+                                        {% endif %}
+                                        
+                                        {% if msg.image_data %}
+                                            <div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
+                                                <img src="{{ msg.image_data }}" style="max-width: 100%; display: block;">
                                             </div>
-                                        </div>
-                                    {% endif %}
-                                    
-                                    {% if msg.image_data %}
-                                        <div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);">
-                                            <img src="{{ msg.image_data }}" style="max-width: 100%; display: block;">
-                                        </div>
-                                    {% endif %}
-                                       <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 5px;">{% if msg.is_recalled -%}
-                                            <span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> 此訊息已收回</span>
-                                        {%- else -%}
-                                            {{ msg.content.strip() }}
-                                            {%- if msg.is_edited -%}
-                                                <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>
-                                            {%- endif -%}
-                                        {%- endif %}</div>
-                                </div>
+                                        {% endif %}
+                                           <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 2px;">{% if msg.is_recalled -%}
+                                                <span style="font-style: italic; opacity: 0.7;"><i class="fa-solid fa-clock-rotate-left"></i> 此訊息已收回</span>
+                                            {%- else -%}
+                                                {{ msg.content.strip() }}
+                                                {%- if msg.is_edited -%}
+                                                    <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>
+                                                {%- endif -%}
+                                            {%- endif %}</div>
+                                    </div>
 
-                                <!-- Interaction Entry Point (Ellipsis) - Outside Bubble -->
-                                <div class="message-more-trigger" 
-                                    onclick="event.stopPropagation(); toggleControls({{ msg.id }})" 
-                                    style="margin-top: 4px; {% if msg.user_id == current_user.id %}align-self: flex-end; margin-right: 8px;{% else %}align-self: flex-start; margin-left: 8px;{% endif %} opacity: 0.4; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;" 
-                                    onmouseover="this.style.opacity='1'; this.style.transform='scale(1.2)'" 
-                                    onmouseout="this.style.opacity='0.4'; this.style.transform='scale(1)'">
-                                    <i class="fa-solid fa-ellipsis"></i>
+                                    <!-- Interaction Entry Point (Ellipsis) - Side of Bubble -->
+                                    <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls({{ msg.id }})" title="更多選項"
+                                        style="opacity: 0.4; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; align-self: center;" 
+                                        onmouseover="this.style.opacity='1'; this.style.transform='scale(1.2)'" 
+                                        onmouseout="this.style.opacity='0.4'; this.style.transform='scale(1)'">
+                                        <i class="fa-solid fa-ellipsis"></i>
+                                    </div>
                                 </div>
 
                                     <!-- Interaction Buttons -->
@@ -573,21 +572,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
-                    <div id="msg-bubble-${msgId}" 
-                        class="message-bubble"
-                        style="display: inline-block; width: fit-content; padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 100%; position: relative; transition: all 0.2s ease;
-                        ${isMine ? 'align-self: flex-end; background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
-                        (isAI ? 'background: #fff; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px; box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
-                        
-                        ${parentMsgHtml}
-                        ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
-                        
-                        <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 5px;">${(data.content || '').trim()}</div>
-                    </div>
+                    <!-- Bubble & Trigger Row -->
+                    <div style="display: flex; align-items: flex-start; gap: 12px; max-width: 100%; width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
+                        <div id="msg-bubble-${msgId}" 
+                            class="message-bubble"
+                            style="display: inline-block; width: fit-content; padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 4px 12px rgba(0,0,0,0.04); max-width: 85%; position: relative; transition: all 0.2s ease;
+                            ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
+                            (isAI ? 'background: #fff; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px; box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
+                            
+                            ${parentMsgHtml}
+                            ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
+                            
+                            <div class="message-text" style="display: block; margin: 0; white-space: pre-wrap; padding-bottom: 2px;">${(data.content || '').trim()}</div>
+                        </div>
 
-                    <!-- Interaction Entry Point (Ellipsis) -->
-                    <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls(${msgId})" style="margin-top: 4px; ${isMine ? 'align-self: flex-end; margin-right: 8px;' : 'align-self: flex-start; margin-left: 8px;'} opacity: 0.4; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;">
-                        <i class="fa-solid fa-ellipsis"></i>
+                        <!-- Interaction Entry Point (Ellipsis) -->
+                        <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls(${msgId})">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </div>
                     </div>
 
                     <!-- Interaction Buttons -->

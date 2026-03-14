@@ -231,11 +231,27 @@ body::before {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    background: rgba(0,0,0,0.03);
-    margin-top: 4px;
+    background: rgba(0,0,0,0.04);
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.message-wrapper:hover .message-more-trigger {
+    opacity: 1;
+}
+
+.message-more-trigger:hover {
+    background: rgba(0,0,0,0.08);
+    transform: scale(1.1);
+}
+
+.interaction-buttons {
+    /* Positioning adjustment can be handled via inline style or more specific classes if needed */
 }
 
 
