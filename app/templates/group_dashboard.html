@@ -466,7 +466,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'X-Requested-With': 'XMLHttpRequest' }
             })
             .then(res => {
-                if (!res.ok) throw new Error('Server Error');
+                if (!res.ok) {
+                    return res.text().then(text => { throw new Error('伺服器錯誤: ' + res.status + '\n' + text.substring(0, 100)); });
+                }
                 return res.json();
             })
             .then(data => {
@@ -475,7 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Trigger AI if enabled
                     if (data.ai_triggered) {
-                        // Show thinking placeholder
                         const thinkingId = 'ai-thinking-' + Date.now();
                         const thinkingHtml = `
                             <div id="${thinkingId}" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; opacity: 0.7;">
@@ -487,10 +488,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             </div>
                         `;
-                        const div = document.createElement('div');
-                        div.innerHTML = thinkingHtml;
-                        messageContainer.appendChild(div.firstElementChild);
-                        scrollToBottom();
+                        const cont = document.querySelector('.chat-scroll-area');
+                        if (cont) {
+                            const div = document.createElement('div');
+                            div.innerHTML = thinkingHtml;
+                            cont.appendChild(div.firstElementChild);
+                            scrollToBottom();
+                        }
 
                         // Call AI Reply endpoint
                         fetch("{{ url_for('group.ai_reply', group_id=group.id) }}", {
@@ -504,10 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         .then(aiData => {
                             const thinkingEl = document.getElementById(thinkingId);
                             if (thinkingEl) thinkingEl.remove();
-                            
-                            if (aiData.status === 'success') {
-                                appendMessage(aiData.ai_message);
-                            }
+                            if (aiData.status === 'success') appendMessage(aiData.ai_message);
                         })
                         .catch(err => {
                             const thinkingEl = document.getElementById(thinkingId);
@@ -515,12 +516,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
                 } else {
-                    alert(data.message || '發送失敗');
+                    alert('發送失敗: ' + (data.message || '未知錯誤'));
                 }
             })
             .catch(err => {
                 console.error(err);
-                alert('發送發生錯誤，請稍後再試');
+                alert('JS或網路錯誤: ' + err.message);
             });
         });
 
