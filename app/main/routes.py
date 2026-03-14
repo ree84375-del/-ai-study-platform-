@@ -148,7 +148,6 @@ def update_profile():
 def change_password():
     from app import db, bcrypt
     # Google/guest users cannot change password here
-    # Google/guest users cannot change password here
     if getattr(current_user, 'auth_provider', 'local') in ('google', 'guest'):
         flash('此帳號類型無法在此變更密碼。', 'info')
         return redirect(url_for('main.profile'))
@@ -375,7 +374,11 @@ def setup_db():
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE",
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP",
             "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
-            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT"
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE"
         ]
         
         for stmt in migration_statements:
