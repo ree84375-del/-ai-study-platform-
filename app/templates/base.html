@@ -25,57 +25,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>AI 學習案內所 | {% block title %}{% endblock %}</title>
 
-    {% if current_user.is_authenticated and current_user.preferred_theme %}
-    <style>
-        {% if current_user.preferred_theme == 'sakura' %}
-        :root {
-            --color-primary: #d89c9a;
-            --color-accent: #85a392;
-            --color-secondary: #fff0f5;
-            --color-bg: #fffdfd;
-            --color-bg-gradient-1: #ffe6e6;
-            --color-bg-gradient-2: #fff0f5;
-        }
-        {% elif current_user.preferred_theme == 'moon' %}
-        :root {
-            --color-primary: #5b7b9e;
-            --color-accent: #d4c27b;
-            --color-secondary: #eef2f5;
-            --color-bg: #f4f6f8;
-            --color-bg-gradient-1: #e6ebf2;
-            --color-bg-gradient-2: #f4f6f8;
-        }
-        {% elif current_user.preferred_theme == 'matcha' %}
-        :root {
-            --color-primary: #7d906a;
-            --color-accent: #8b7355;
-            --color-secondary: #f4faeb;    
-            --color-bg: #fdfdf9;
-            --color-bg-gradient-1: #f0f5e6;
-            --color-bg-gradient-2: #e8f0d8;
-        }
-        {% elif current_user.preferred_theme == 'midnight' %}
-        :root {
-            --color-primary: #d2a8ff;
-            --color-accent: #ffde6a;
-            --color-secondary: #21262d;    
-            --color-bg: #0d1117;
-            --color-bg-gradient-1: #010409;
-            --color-bg-gradient-2: #161b22;
-            --color-text_main: #c9d1d9;
-            --color-text_light: #8b949e;
-            --color-border: #30363d;
-        }
-        {% endif %}
-    </style>
-    {% else %}
-    <style>
-        :root {
-            --color-bg-gradient-1: #fff1f0;
-            --color-bg-gradient-2: #e6f7ff;
-        }
-    </style>
-    {% endif %}
 </head>
 
 <body>
