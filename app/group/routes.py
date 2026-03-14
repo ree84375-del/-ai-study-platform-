@@ -347,10 +347,18 @@ def group_dashboard(group_id):
             current_app.logger.warning("Detected missing DB columns in GroupMessage. Attempting auto-fix...")
             # Auto-run basic migrations for missing columns
             auto_fixes = [
+                # GroupMessage fixes
                 "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES group_message(id)",
                 "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE",
                 "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_recalled BOOLEAN DEFAULT FALSE",
-                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE"
+                "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
+                # Assignment fixes
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_answer TEXT",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_image VARCHAR(255)",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS due_date TIMESTAMP",
+                # AssignmentStatus fixes
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT"
             ]
             for stmt in auto_fixes:
                 try:
