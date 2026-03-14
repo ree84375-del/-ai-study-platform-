@@ -464,6 +464,7 @@ def ai_reply(group_id):
         return jsonify({
             'status': 'success',
             'ai_message': {
+                'id': ai_msg.id,
                 'content': ai_msg.content,
                 'username': '雪音老師',
                 'is_mine': False,
