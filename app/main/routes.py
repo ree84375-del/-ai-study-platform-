@@ -83,9 +83,14 @@ def home():
         from app.utils.garden_helpers import update_garden_state
         garden_stats = update_garden_state()
             
+    mistakes_to_review = 0
+    if current_user.is_authenticated:
+        from app.models import Mistake
         mistakes_to_review = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
-        
-        # Roadmap data
+    
+    # Roadmap data
+    study_plan = None
+    if current_user.is_authenticated:
         from urllib.parse import unquote
         if hasattr(current_user, 'study_roadmap') and current_user.study_roadmap:
             import json
@@ -93,10 +98,6 @@ def home():
                 study_plan = json.loads(unquote(current_user.study_roadmap))
             except Exception:
                 pass
-            
-        # Collaborative Garden Stats
-        from app.utils.garden_helpers import update_garden_state
-        garden_stats = update_garden_state()
 
     # If NOT authenticated or fallback
     if 'garden_stats' not in locals():
