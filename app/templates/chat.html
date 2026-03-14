@@ -21,6 +21,7 @@
             <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center; margin: 0;">
                 <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> 請選擇一個對話或開始新對話
             </h2>
+            {% if current_user.is_admin %}
             <div style="display: flex; gap: 8px; align-items: center;">
                 <select id="voice-select" class="btn btn-sm" style="display: none; background: rgba(133, 163, 146, 0.05); border: 1px solid var(--color-border); border-radius: 20px; font-size: 0.8rem; padding: 2px 10px; max-width: 120px;">
                     <option value="">預設語音</option>
@@ -32,6 +33,7 @@
                     <i class="fa-solid fa-play" style="font-size: 0.8rem;"></i>
                 </button>
             </div>
+            {% endif %}
         </div>
 
         <div id="chat-window"
