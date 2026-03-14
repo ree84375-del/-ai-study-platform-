@@ -302,10 +302,14 @@ def ai_reply(group_id):
         return jsonify({'status': 'error', 'message': 'No user message to reply to'}), 400
 
     # AI Trigger Logic
-    greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '雪音', '老師']
-    trigger_ai = random.random() < 0.8 or any(g in last_msg.content.lower() for g in greetings)
+    greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
+    is_greeting = any(g in last_msg.content.lower() for g in greetings)
+    
+    # If it's a greeting, we reply 100% of the time. Otherwise, 80% chance or if keywords matched.
+    trigger_ai = is_greeting or random.random() < 0.8
     
     if not trigger_ai:
+        current_app.logger.info(f"AI skipped reply for group {group_id} (Random skip)")
         return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
 
     # Generate AI Response
