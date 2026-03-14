@@ -217,10 +217,10 @@ def group_dashboard(group_id):
                     status.is_completed = True
                     status.completed_at = datetime.now(timezone.utc)
                     
-                    # AI 批改 (模擬)
+                    # AI 批改
                     from app.utils.ai_helpers import get_yukine_feedback
-                    feedback_prompt = f"學生上傳了作業內容：{content}。請給予簡短的點評與分數(0-100)。"
-                    score, feedback = get_yukine_feedback(feedback_prompt)
+                    assignment = Assignment.query.get(assignment_id)
+                    feedback, score = get_yukine_feedback(content, assignment.title, assignment.description)
                     status.score = score
                     status.ai_feedback = feedback
                     

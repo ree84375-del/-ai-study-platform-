@@ -344,6 +344,53 @@ def update_theme():
             return jsonify({"status": "error"}), 500
     return jsonify({"status": "skipped", "message": "Field not in DB"}), 200
 
+@main.route("/debug/setup_db")
+@login_required
+def setup_db():
+    from app import db
+    from sqlalchemy import text
+    if not current_user.is_admin:
+        return "Unauthorized", 403
+        
+    messages = []
+    try:
+        db.create_all()
+        messages.append("db.create_all() successful.")
+        
+        migration_statements = [
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS content TEXT",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_feedback TEXT",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS exam_date DATE",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS study_plan_json TEXT",
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_exp INTEGER DEFAULT 0",
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS garden_level INTEGER DEFAULT 1",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT '雪音-溫柔型'",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255)",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS auth_provider VARCHAR(20) DEFAULT 'local'",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS is_completed BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP",
+            "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP",
+            "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS image_data TEXT"
+        ]
+        
+        for stmt in migration_statements:
+            try:
+                db.session.execute(text(stmt))
+                db.session.commit()
+                messages.append(f"Executed: {stmt[:40]}...")
+            except Exception as e:
+                db.session.rollback()
+                messages.append(f"Skipped/Error: {stmt[:40]}... ({str(e)})")
+        
+        return f"<h3>Database Setup Complete</h3><pre>" + "\n".join(messages) + "</pre>"
+    except Exception as e:
+        return f"<h3>Database Setup FAILED</h3><pre>{str(e)}</pre>", 500
+
 @main.route("/debug/fix_group_db")
 @login_required
 def fix_group_db():
