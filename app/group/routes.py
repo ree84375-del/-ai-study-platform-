@@ -23,7 +23,8 @@ def groups():
             if name:
                 # Generate unique invite code
                 invite_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-                new_group = Group(name=name, invite_code=invite_code, teacher_id=current_user.id, has_ai=has_ai)
+                group_type = request.form.get('group_type', 'class')
+                new_group = Group(name=name, invite_code=invite_code, teacher_id=current_user.id, has_ai=has_ai, group_type=group_type)
                 db.session.add(new_group)
                 db.session.commit()
                 flash(f'群組 "{name}" 建立成功！邀請碼：{invite_code}', 'success')
@@ -158,7 +159,9 @@ def group_dashboard(group_id):
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
-                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER"
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
+                # Group type fix
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
             ]
             for stmt in auto_fixes:
                 try:

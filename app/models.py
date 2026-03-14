@@ -118,6 +118,7 @@ class Group(db.Model):
     invite_code = db.Column(db.String(20), unique=True, nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     has_ai = db.Column(db.Boolean, default=False)
+    group_type = db.Column(db.String(20), nullable=False, default='class') # 'class', 'discussion'
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
     # Collaborative Zen Garden
@@ -130,7 +131,7 @@ class Group(db.Model):
     assignments = db.relationship('Assignment', backref='group', lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"Group('{self.name}', Code: '{self.invite_code}')"
+        return f"Group('{self.name}', Code: '{self.invite_code}', Type: '{self.group_type}')"
 
 class GroupMember(db.Model):
     id = db.Column(db.Integer, primary_key=True)

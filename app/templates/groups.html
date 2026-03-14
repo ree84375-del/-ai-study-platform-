@@ -26,12 +26,31 @@
                 <form method="POST" action="">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="create">
-                    <input type="text" name="group_name" placeholder="群組名稱 (例如: 日文特訓班)" required style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box;">
-                    <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--color-text_main);">
-                        <input type="checkbox" name="has_ai" id="has_ai" checked style="cursor: pointer;">
-                        <label for="has_ai" style="cursor: pointer;">加入雪音 (AI 老師)</label>
+                    <div style="margin-bottom: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <label style="display: flex; align-items: center; gap: 6px; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; cursor: pointer; font-size: 0.85rem;" onmouseover="this.style.borderColor='var(--color-primary)'" onmouseout="this.style.borderColor='var(--color-border)'">
+                            <input type="radio" name="group_type" value="class" checked style="cursor: pointer;">
+                            <div>
+                                <strong style="display: block; color: var(--color-primary);">班級群組</strong>
+                                <span style="font-size: 0.7rem; color: #999;">出作業、發公告</span>
+                            </div>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 6px; padding: 8px; border: 1px solid var(--color-border); border-radius: 6px; cursor: pointer; font-size: 0.85rem;" onmouseover="this.style.borderColor='var(--color-accent)'" onmouseout="this.style.borderColor='var(--color-border)'">
+                            <input type="radio" name="group_type" value="discussion" style="cursor: pointer;">
+                            <div>
+                                <strong style="display: block; color: var(--color-accent);">學生討論</strong>
+                                <span style="font-size: 0.7rem; color: #999;">純聊天、自由派</span>
+                            </div>
+                        </label>
                     </div>
-                    <button type="submit" style="width: 100%; padding: 10px; background-color: var(--color-primary); border: none; color: white; border-radius: 4px; cursor: pointer; transition: all 0.3s;">建立</button>
+                    <div style="margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.9rem; color: var(--color-text_main);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" name="has_ai" id="has_ai" checked style="cursor: pointer;">
+                            <label for="has_ai" style="cursor: pointer;">加入雪音 (AI)</label>
+                        </div>
+                    </div>
+                    <button type="submit" style="width: 100%; padding: 12px; background-color: var(--color-primary); border: none; color: white; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                        <i class="fa-solid fa-plus-circle"></i> 建立新群組
+                    </button>
                 </form>
             </div>
         </div>
