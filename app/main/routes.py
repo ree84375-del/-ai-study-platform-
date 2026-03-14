@@ -147,8 +147,7 @@ def update_profile():
 @login_required
 def change_password():
     from app import db, bcrypt
-    # Google users cannot change password here
-    if getattr(current_user, 'auth_provider', 'local') == 'google':
+    # Google/Third-party users cannot change password here
     if getattr(current_user, 'auth_provider', 'local') not in ['local', 'guest']:
         flash('您的密碼存放在 Google 或其他第三方服務，請前往該服務修改。', 'info')
         return redirect(url_for('main.profile'))
