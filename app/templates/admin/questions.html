@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}題庫管理{% endblock %}
+{% block title %}{{ _t('admin_question_mgmt') }}{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -16,7 +16,7 @@
     <div class="washi-card">
         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
             <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
-                <th style="padding: 10px; width: 60px;">ID</th>
+                <th style="padding: 10px; width: 60px;">{{ _t('admin_announcement_id') }}</th>
                 <th style="padding: 10px; width: 80px;">{{ _t('admin_label_subject') }}</th>
                 <th style="padding: 10px;">{{ _t('admin_question_content') }}</th>
                 <th style="padding: 10px; width: 80px;">{{ _t('admin_label_difficulty') }}</th>

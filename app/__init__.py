@@ -45,11 +45,19 @@ def create_app():
     
     @app.context_processor
     def inject_i18n():
-        def translate(key):
+        def translate(key, **kwargs):
             lang = 'zh'
             if current_user.is_authenticated:
                 lang = getattr(current_user, 'language', 'zh')
-            return get_text(key, lang)
+            text = get_text(key, lang)
+            if kwargs:
+                try:
+                    # Use a more robust formatting to avoid KeyError if placeholders are missing
+                    return text.format(**kwargs)
+                except (KeyError, ValueError, IndexError):
+                    # If formatting fails, return text as is or a basic version
+                    return text
+            return text
         return dict(_t=translate)
 
     app.jinja_env.globals.update(hasattr=hasattr, getattr=getattr, any=any)

@@ -37,7 +37,7 @@
     </div>
     
     <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count').format(count=users|length) }})</h3>
+        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count', count=users|length) }})</h3>
         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
             <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
                 <th style="padding: 10px;">ID</th>
@@ -75,7 +75,7 @@
                         </select>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>{{ _t('admin_btn_change') }}</button>
                     </form>
-                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm({{ _t('admin_confirm_delete').format(username=u.username)|tojson }});">
+                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm({{ _t('admin_confirm_delete', username=u.username)|tojson }});">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
                     </form>

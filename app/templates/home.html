@@ -49,7 +49,7 @@
                     {% if current_user.is_admin %}
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; font-weight: bold; color: {% if mistakes_to_review > 0 %}#ff7b72{% else %}var(--color-primary){% endif %};">{{ mistakes_to_review }}</div>
-                        <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('mistakes_to_review') }}</div>
+                        <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('mistakes_to_review', count=mistakes_to_review) }}</div>
                     </div>
                     {% endif %}
                 </div>
@@ -190,7 +190,7 @@
                 </form>
             {% else %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;"><del>{{ active_daruma.goal }}</del></p>
-                <p style="font-size: 0.8rem; color: var(--color-success); margin-bottom: 1rem;">{{ _t('goal_reached_at').format(date=active_daruma.completed_at.strftime('%Y-%m-%d')) }}</p>
+                <p style="font-size: 0.8rem; color: var(--color-success); margin-bottom: 1rem;">{{ _t('goal_reached_at', date=active_daruma.completed_at.strftime('%Y-%m-%d')) }}</p>
                 <!-- Full-eyed Daruma Animated -->
                 <div id="home-daruma-container-2" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">

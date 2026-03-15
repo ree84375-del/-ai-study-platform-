@@ -88,9 +88,9 @@ def login():
             login_user(user, remember=form.remember.data)
             current_app.logger.info(f"User {user.username} logged in successfully")
             if user.role == 'admin':
-                flash(f'歡迎回來，{user.username} 👑 管理員！', 'admin-gold')
+                flash(get_text('msg_admin_welcome', user.language).format(username=user.username), 'admin-gold')
             else:
-                flash(f'歡迎回來，{user.username}！', 'success')
+                flash(get_text('msg_user_welcome', user.language).format(username=user.username), 'success')
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
@@ -151,9 +151,9 @@ def google_auth():
             
             db.session.commit()
             if user.role == 'admin':
-                flash(f'歡迎回來，{user.username} 👑 管理員！', 'admin-gold')
+                flash(get_text('msg_admin_welcome', user.language).format(username=user.username), 'admin-gold')
             else:
-                flash(f'歡迎回來，{user.username}！', 'success')
+                flash(get_text('msg_user_welcome', user.language).format(username=user.username), 'success')
             
         user.last_login = datetime.now(timezone.utc)
         db.session.commit()

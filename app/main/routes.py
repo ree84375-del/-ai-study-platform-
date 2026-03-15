@@ -203,8 +203,6 @@ def update_profile():
     if new_username != current_user.username:
         # 1. Admin cannot change their name
         if current_user.is_admin:
-            current_user.username = '管理員'
-            db.session.commit()
             flash(get_text('msg_admin_name_locked', current_user.language), 'warning')
             return redirect(url_for('main.profile'))
             
@@ -297,23 +295,29 @@ def draw_omikuji():
     # Check if already drawn today
     existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
     if existing:
-        flash('今天已經抽過御神籤了喔！', 'info')
+        flash(get_text('omikuji_already_drawn', lang), 'info')
         return redirect(url_for('main.home'))
         
     fortunes = ['大吉', '吉', '吉', '中吉', '小吉', '末吉'] # Adjusted probabilities
     drawn_fortune = random.choice(fortunes)
     
     lang = getattr(current_user, 'language', 'zh')
+    from app.utils.i18n import get_text
+    translated_fortune_label = get_text(f'fortune_{drawn_fortune}', lang)
+    
     try:
-        prompt = f"""Student drew "{drawn_fortune}". Please write a blessing in {lang} with a gentle Japanese priest or shrine maiden tone.
-        Please return JSON format:
+        # We pass context about the fortune level to AI correctly
+        # Localization of prompt based on user preference
+        priest_tone = "壽山宮神主" if lang == 'zh' else "神主"
+        prompt = f"""學子抽中了「{translated_fortune_label}」({drawn_fortune})。請以溫馨且具有{priest_tone}風範的語氣，用{lang}寫一段祝福語。
+        請返回 JSON 格式：
         {{
-            "lucky_color": "Lucky color",
-            "lucky_item": "Lucky item",
-            "lucky_subject": "Recommended subject",
-            "advice": "30-word advice"
+            "lucky_color": "幸運色",
+            "lucky_item": "幸運物品",
+            "lucky_subject": "推薦科目",
+            "advice": "約 30 字的建議"
         }}
-        Only return raw JSON, no markdown tags."""
+        僅返回原始 JSON，不要包含 Markdown 標籤。"""
         
         from app.utils.ai_helpers import generate_text_with_fallback
         text = generate_text_with_fallback(prompt).strip()
