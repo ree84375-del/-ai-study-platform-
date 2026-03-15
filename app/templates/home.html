@@ -59,7 +59,6 @@
             </div>
             
             <!-- Zen Bonsai Graphic -->
-            {% if current_user.is_admin %}
             <div style="text-align: center; z-index: 1; min-width: 150px;">
                 <!-- Dynamic Animated Bonsai -->
                 <div id="home-bonsai-container" style="width: 150px; height: 180px; margin: 0 auto;"></div>
@@ -75,7 +74,6 @@
                     <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_garden') }}<br>{{ _t('bonsai_focus') }}</div>
                 {% endif %}
             </div>
-            {% endif %}
             
             <!-- Decorative background element -->
             <i class="fa-solid fa-mountain-sun" style="position: absolute; right: -20px; bottom: -20px; font-size: 15rem; color: var(--color-border); opacity: 0.3; z-index: 0;"></i>
@@ -379,12 +377,10 @@
     {% include '_animations.html' %}
     
     <!-- State Metadata for JS -->
-    {% if current_user.is_admin %}
     <div id="js-state-metadata" 
          data-streak="{{ current_user.current_streak }}"
          data-daruma-state="{% if not active_daruma %}0{% elif not active_daruma.is_completed %}1{% else %}2{% endif %}"
          style="display: none;"></div>
-    {% endif %}
 
     <script>
         document.querySelectorAll('a.washi-card').forEach(card => {
