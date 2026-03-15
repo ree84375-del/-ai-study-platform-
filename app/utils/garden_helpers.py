@@ -45,13 +45,13 @@ def update_garden_state():
     
     # Determine weather
     if active_count > 10:
-        stats.current_weather = '陽光普照'
+        stats.current_weather = 'weather_sunny'
     elif active_count > 5:
-        stats.current_weather = '晴朗'
+        stats.current_weather = 'weather_fair'
     elif active_count > 2:
-        stats.current_weather = '微風習習'
+        stats.current_weather = 'weather_breezy'
     else:
-        stats.current_weather = '寧靜霧氣'
+        stats.current_weather = 'weather_misty'
         
     db.session.commit()
     return stats

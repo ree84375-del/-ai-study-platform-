@@ -6,6 +6,7 @@ from app import db
 from sqlalchemy import text
 from sqlalchemy.exc import ProgrammingError
 from app.utils.ai_helpers import get_gemini_model
+from app.utils.i18n import get_text as _t
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -13,7 +14,7 @@ admin = Blueprint('admin', __name__, url_prefix='/admin')
 @login_required
 def require_admin():
     if not current_user.is_admin:
-        flash('您沒有權限訪問後台。', 'danger')
+        flash(_t('msg_no_permission', lang=current_user.language), 'danger')
         return redirect(url_for('main.home'))
 
 @admin.route('/dashboard')
@@ -56,22 +57,22 @@ def dashboard():
         'total_groups': Group.query.count()
     }
     
-    return render_template('admin/dashboard.html', title="管理員後台", users=users, gemini_keys=gemini_keys, groq_keys=groq_keys, stats=stats)
+    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, gemini_keys=gemini_keys, groq_keys=groq_keys, stats=stats)
 
 @admin.route('/user/<int:user_id>/role', methods=['POST'])
 def change_user_role(user_id):
     user = User.query.get_or_404(user_id)
     if user.email == 'ree84375@gmail.com':
-        flash('無法更改網站持有人的權限。', 'danger')
+        flash(_t('msg_admin_lock_owner', lang=current_user.language), 'danger')
         return redirect(url_for('admin.dashboard'))
         
     new_role = request.form.get('role')
     if new_role in ['student', 'teacher', 'admin', 'guest']:
         user.role = new_role
         db.session.commit()
-        flash(f'已將 {user.username} 的權限更改為 {new_role}。', 'success')
+        flash(_t('msg_role_updated', lang=current_user.language, username=user.username, role=new_role), 'success')
     else:
-        flash('無效的權限設定。', 'danger')
+        flash(_t('msg_invalid_role', lang=current_user.language), 'danger')
         
     return redirect(url_for('admin.dashboard'))
 
@@ -79,7 +80,7 @@ def change_user_role(user_id):
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
     if user.email == 'ree84375@gmail.com' or user.id == current_user.id:
-        flash('無法刪除超級管理員或您自己。', 'danger')
+        flash(_t('msg_delete_self_err', lang=current_user.language), 'danger')
         return redirect(url_for('admin.dashboard'))
         
     try:
@@ -108,9 +109,9 @@ def yukine_command():
         try:
             from app.utils.ai_helpers import generate_text_with_fallback
             reply = generate_text_with_fallback(command, system_instruction="你是雪音，目前是後台管理員正在對你下達專屬測試與系統指令，請絕對服從並精確回答。")
-            flash(f'雪音後台回應：{reply}', 'info')
+            flash(_t('msg_yukine_reply', lang=current_user.language, reply=reply), 'info')
         except Exception as e:
-            flash(f'雪音連線失敗：{str(e)}', 'danger')
+            flash(_t('msg_yukine_conn_fail', lang=current_user.language, error=str(e)), 'danger')
             
     return redirect(url_for('admin.dashboard'))
 
@@ -137,10 +138,10 @@ def new_question():
         )
         db.session.add(question)
         db.session.commit()
-        flash('題目已成功新增！', 'success')
+        flash(_t('msg_question_added', lang=current_user.language), 'success')
         return redirect(url_for('admin.questions'))
         
-    return render_template('admin/question_edit.html', title="新增題目", question=None)
+    return render_template('admin/question_edit.html', title=_t('admin_new_question_title', lang=current_user.language), question=None)
 
 @admin.route('/questions/edit/<int:question_id>', methods=['GET', 'POST'])
 def edit_question(question_id):
@@ -158,10 +159,10 @@ def edit_question(question_id):
         question.difficulty = request.form.get('difficulty', type=int)
         
         db.session.commit()
-        flash('題目已成功更新！', 'success')
+        flash(_t('msg_question_updated', lang=current_user.language), 'success')
         return redirect(url_for('admin.questions'))
         
-    return render_template('admin/question_edit.html', title="編輯題目", question=question)
+    return render_template('admin/question_edit.html', title=_t('admin_edit_question_title', lang=current_user.language), question=question)
 
 @admin.route('/questions/delete/<int:question_id>', methods=['POST'])
 def delete_question(question_id):
@@ -173,10 +174,10 @@ def delete_question(question_id):
         
         db.session.delete(question)
         db.session.commit()
-        flash('題目已成功刪除！', 'success')
+        flash(_t('msg_question_deleted', lang=current_user.language), 'success')
     except Exception as e:
         db.session.rollback()
-        flash(f'刪除題目失敗：{str(e)}', 'danger')
+        flash(_t('msg_question_delete_fail', lang=current_user.language, error=str(e)), 'danger')
     return redirect(url_for('admin.questions'))
 
 @admin.route('/announcements')
@@ -193,10 +194,10 @@ def new_announcement():
             announcement = Announcement(title=title, content=content, created_by_id=current_user.id)
             db.session.add(announcement)
             db.session.commit()
-            flash('系統公告發布成功！', 'success')
+            flash(_t('msg_announcement_published', lang=current_user.language), 'success')
             return redirect(url_for('admin.announcements'))
         else:
-            flash('標題與內容不能為空。', 'danger')
+            flash(_t('msg_empty_announcement', lang=current_user.language), 'danger')
             
     return render_template('admin/announcement_edit.html')
 
@@ -205,7 +206,7 @@ def ai_generate_announcement():
     from flask import jsonify
     prompt = request.form.get('prompt')
     if not prompt:
-        flash('請輸入公告綱要。', 'danger')
+        flash(_t('msg_empty_outline', lang=current_user.language), 'danger')
         return redirect(url_for('admin.new_announcement'))
         
     try:
@@ -235,9 +236,9 @@ def delete_announcement(obj_id):
     try:
         db.session.delete(announcement)
         db.session.commit()
-        flash('公告已成功刪除！', 'success')
+        flash(_t('msg_announcement_deleted', lang=current_user.language), 'success')
     except Exception as e:
         db.session.rollback()
-        flash(f'刪除失敗：{str(e)}', 'danger')
+        flash(_t('msg_delete_failed', lang=current_user.language, error=str(e)), 'danger')
         
     return redirect(url_for('admin.announcements'))

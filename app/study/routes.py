@@ -1,7 +1,5 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
-from flask_login import login_required, current_user
-import random
 from datetime import datetime, timedelta, timezone
+from app.utils.i18n import get_text as _t
 
 study = Blueprint('study', __name__)
 
@@ -10,13 +8,13 @@ def get_current_room_name():
     # Force UTC+8 for consistent room naming
     hour = (datetime.now(timezone.utc) + timedelta(hours=8)).hour
     if 6 <= hour < 12:
-        return "早上陪讀室"
+        return "room_morning"
     elif 12 <= hour < 17:
-        return "午後陪讀室"
+        return "room_afternoon"
     elif 17 <= hour < 19:
-        return "黃昏陪讀室"
+        return "room_evening"
     else:
-        return "深夜陪讀室"
+        return "room_night"
 
 @study.route("/practice", methods=['GET', 'POST'])
 @login_required
@@ -41,7 +39,8 @@ def practice():
                 mistake.next_review_date = datetime.now(timezone.utc) + timedelta(days=mistake.last_interval)
                 if mistake.srs_level >= 4: # Consider resolved if reached a high level
                     mistake.is_resolved = True
-                    flash('今日修練完成！您的盆景成長了唷', 'success')
+                    from app.utils.i18n import get_text
+                    flash(get_text('msg_study_done', current_user.language), 'success')
                     
                     # Add Garden XP (SRS Level Bonus: 20 XP)
                     from app.utils.garden_helpers import add_garden_xp
@@ -96,18 +95,20 @@ def practice():
         
     questions = query.all()
     if not questions:
-        flash('目前題庫中沒有題目。', 'info')
+        from app.utils.i18n import get_text
+        flash(get_text('msg_no_questions', current_user.language), 'info')
         return redirect(url_for('main.home'))
         
     question = random.choice(questions)
-    return render_template('practice.html', title='測驗練習', question=question)
+    return render_template('practice.html', title=_t('nav_practice', current_user.language), question=question)
 
 @study.route("/mistakes")
 @login_required
 def mistakes():
     from app.models import Mistake
+    from app.utils.i18n import get_text
     mistake_records = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).all()
-    return render_template('mistakes.html', title='錯題本', mistakes=mistake_records)
+    return render_template('mistakes.html', title=get_text('nav_mistakes', current_user.language), mistakes=mistake_records)
 
 
 @study.route("/ai_vision", methods=['GET', 'POST'])
@@ -119,11 +120,11 @@ def ai_vision():
     
     if request.method == 'POST':
         if 'image' not in request.files:
-            return jsonify({'error': '沒有上傳圖片'}), 400
+            return jsonify({'error': _t('msg_no_image', current_user.language)}), 400
             
         file = request.files['image']
         if file.filename == '':
-            return jsonify({'error': '未選擇檔案'}), 400
+            return jsonify({'error': _t('msg_file_not_selected', current_user.language)}), 400
             
         image_bytes = file.read()
         
@@ -139,7 +140,7 @@ def ai_vision():
             content = data.get('content_text', '')
             existing_questions = [q.content_text for q in Question.query.all()]
             if detect_duplicate_question(content, existing_questions):
-                 return jsonify({'error': '偵測到重複題目，已取消儲存。'}), 400
+                 return jsonify({'error': _t('msg_duplicate_question', current_user.language)}), 400
             
             tags = data.get('tags') or auto_tag_question(content)
             
@@ -162,10 +163,10 @@ def ai_vision():
         analysis_result = analyze_question_image(image_bytes, user=current_user)
         
         if "[ERROR_INVALID_CONTENT]" in analysis_result:
-             return jsonify({'error': '哎呀，這張圖片太過模糊，或者是內容不太適合學習唷！請傳送清晰的題目或講義給雪音吧～'}), 400
+             return jsonify({'error': _t('msg_vision_invalid', current_user.language)}), 400
         
         # Create a chat session for the vision analysis
-        session = ChatSession(user_id=current_user.id, title="圖片解題分析")
+        session = ChatSession(user_id=current_user.id, title=_t('chat_session_vision', current_user.language))
         db.session.add(session)
         db.session.commit()
         
@@ -175,7 +176,7 @@ def ai_vision():
 
         return jsonify({'result': analysis_result, 'session_id': session.id})
         
-    return render_template('ai_vision.html', title='圖片解題')
+    return render_template('ai_vision.html', title=_t('nav_vision', current_user.language))
 
 @study.route("/analyze_mistake/<int:mistake_id>")
 @login_required
@@ -186,7 +187,7 @@ def analyze_mistake(mistake_id):
     
     mistake = Mistake.query.get_or_404(mistake_id)
     if mistake.user_id != current_user.id:
-        return jsonify({'error': '權限不足'}), 403
+        return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
     
     question = mistake.question
     recommendation = get_knowledge_graph_recommendation(question.subject)
@@ -198,7 +199,7 @@ def analyze_mistake(mistake_id):
     解釋：{question.explanation}
     
     知識圖譜建議：如果學生這題不懂，建議他先去複習「{recommendation}」。
-    請用{current_user.ai_personality or '雪音-溫柔型'}的語氣來給予建議。
+    請用{current_user.ai_personality or _t('ai_personality_gentle', current_user.language)}的語氣來給予建議。
     """
     
     context_parts = []
@@ -211,7 +212,7 @@ def analyze_mistake(mistake_id):
     analysis = get_ai_tutor_response([], prompt, personality_key=current_user.ai_personality, context_summary=context)
     
     # Optional: Automatically create a chat session for this analysis
-    session = ChatSession(user_id=current_user.id, title=f"分析錯題: {question.content_text[:15]}...")
+    session = ChatSession(user_id=current_user.id, title=f"{_t('chat_session_mistake', current_user.language)}: {question.content_text[:15]}...")
     db.session.add(session)
     db.session.commit()
     
@@ -226,7 +227,7 @@ def analyze_mistake(mistake_id):
 def generate_question_api():
     from app import db
     from app.models import Question
-    subject = request.args.get('subject', '數學')
+    subject = request.args.get('subject', _t('subject_math', current_user.language))
     from app.utils.ai_helpers import generate_ai_quiz
     quiz_data = generate_ai_quiz(subject)
     
@@ -261,13 +262,13 @@ def tutor_chat():
         session_id = request.json.get('session_id')
         
         if not user_msg:
-            return jsonify({'error': '空訊息'}), 400
+            return jsonify({'error': _t('msg_empty_message', current_user.language)}), 400
             
         # Get or create session
         if session_id:
             session = ChatSession.query.get_or_404(session_id)
             if session.user_id != current_user.id:
-                return jsonify({'error': '權限不足'}), 403
+                return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
         else:
             session = ChatSession(user_id=current_user.id, title=user_msg[:20])
             db.session.add(session)
@@ -329,7 +330,7 @@ def tutor_chat():
         import traceback
         traceback.print_exc()
         db.session.rollback()
-        return jsonify({'reply': f'AI 老師暫時離開了座位：{str(e)}', 'error': str(e)}), 200
+        return jsonify({'reply': _t('msg_ai_offline', current_user.language).format(error=str(e)), 'error': str(e)}), 200
 
 @study.route("/api/chat/sessions")
 @login_required
@@ -344,7 +345,7 @@ def get_chat_history(session_id):
     from app.models import ChatSession
     session = ChatSession.query.get_or_404(session_id)
     if session.user_id != current_user.id:
-        return jsonify({'error': '權限不足'}), 403
+        return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
     messages = [{'role': m.role, 'content': m.content} for m in session.messages]
     return jsonify({'messages': messages})
 
@@ -362,11 +363,11 @@ def generate_roadmap():
     from app.utils.ai_helpers import generate_study_roadmap
     import json
     from datetime import datetime
-    exam_name = request.json.get('exam_name', '即將到來的考試')
+    exam_name = request.json.get('exam_name', _t('exam_default_name', current_user.language))
     exam_date_str = request.json.get('exam_date')
     
     if not exam_date_str:
-        return jsonify({'error': '請提供考試日期'}), 400
+        return jsonify({'error': _t('msg_need_exam_date', current_user.language)}), 400
         
     # Build user context
     context_parts = []
@@ -397,18 +398,19 @@ def generate_roadmap():
             return jsonify({'status': 'success', 'roadmap': roadmap})
         except Exception as e:
             db.session.rollback()
-            return jsonify({'error': f'儲存計畫時出錯：{str(e)}'}), 500
+            return jsonify({'error': _t('msg_roadmap_save_fail', current_user.language).format(error=str(e))}), 500
     else:
-        return jsonify({'error': 'AI 生成計畫失敗，或是格式不正確，請稍後再試。'}), 500
+        return jsonify({'error': _t('msg_roadmap_gen_fail', current_user.language)}), 500
 
 @study.route("/generate_exam")
 @login_required
 def generate_exam():
     from app.models import Mistake
+    from app.utils.i18n import get_text
     mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
     if not mistakes:
-        flash("目前沒有足夠的錯題來生成測驗。請先進行練習！", "info")
+        flash(get_text('msg_no_mistakes', current_user.language), "info")
         return redirect(url_for('study.practice'))
-    return render_template('exam.html', title='專屬模擬考', mistakes=mistakes)
+    return render_template('exam.html', title=get_text('nav_exam', current_user.language), mistakes=mistakes)
 
 

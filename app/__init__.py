@@ -130,16 +130,27 @@ def create_app():
         import traceback
         error_info = traceback.format_exc()
         app.logger.error(f"Server Error 500 [RequestPath: {request.path}]: {error_info}")
+        
+        from app.utils.i18n import get_text as _t
+        # Try to get user language, default to 'zh'
+        lang = 'zh'
+        try:
+            from flask_login import current_user
+            if current_user.is_authenticated:
+                lang = current_user.language
+        except:
+            pass
+            
         return f"""
         <div style='padding:40px; font-family:sans-serif; line-height:1.6; max-width:800px; margin:0 auto; color:#333;'>
-            <h1 style='color:#e74c3c;'>系統發生錯誤 (500)</h1>
-            <p>很抱歉，這可能是由於最近的系統更新導致的穩定性問題。我們已經記錄了此錯誤，開發團隊會盡快修復。</p>
+            <h1 style='color:#e74c3c;'>{_t('error_500_title', lang)}</h1>
+            <p>{_t('error_500_desc', lang)}</p>
             <div style='background:#f9f9f9; border:1px solid #ddd; padding:20px; border-radius:8px; margin:20px 0;'>
-                <strong>錯誤詳細資訊：</strong>
+                <strong>{_t('error_details_label', lang)}</strong>
                 <pre style='white-space:pre-wrap; font-size:0.9em; margin-top:10px;'>{error_info}</pre>
             </div>
-            <p style='color:#666;'>提示：請嘗試清除瀏覽器緩存或稍後再試。</p>
-            <a href='/' style='display:inline-block; margin-top:10px; padding:10px 20px; background:#3498db; color:white; text-decoration:none; border-radius:5px;'>回到首頁</a>
+            <p style='color:#666;'>{_t('error_hint', lang)}</p>
+            <a href='/' style='display:inline-block; margin-top:10px; padding:10px 20px; background:#3498db; color:white; text-decoration:none; border-radius:5px;'>{_t('back_to_home', lang)}</a>
         </div>
         """, 500
 

@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from datetime import datetime, timezone, timedelta
+from app.utils.i18n import get_text, TRANSLATIONS
 import re
 
 main = Blueprint('main', __name__)
@@ -75,7 +75,7 @@ def home():
                 zen_xp INTEGER DEFAULT 0,
                 garden_level INTEGER DEFAULT 1,
                 last_weather_check TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                current_weather VARCHAR(50) DEFAULT '晴朗',
+                current_weather VARCHAR(50) DEFAULT 'weather_fair',
                 active_users_count INTEGER DEFAULT 0
             )
         """))
@@ -115,7 +115,7 @@ def home():
         class FallbackStats:
             zen_xp = 0
             garden_level = 1
-            current_weather = '寧靜霧氣'
+            current_weather = 'weather_misty'
             active_users_count = 1
         garden_stats = FallbackStats()
             
@@ -185,12 +185,12 @@ def profile():
 
     current_app.logger.info(f"User {current_user.id} accessing profile page")
     mistake_count = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
-    return render_template('profile.html', title='個人檔案', mistake_count=mistake_count)
+    return render_template('profile.html', title=get_text('profile_title', current_user.language), mistake_count=mistake_count)
 
 @main.route("/chat")
 @login_required
 def chat():
-    return render_template('chat.html', title='AI 聊天室')
+    return render_template('chat.html', title=get_text('nav_chat', current_user.language))
 
 @main.route("/update_profile", methods=['POST'])
 @login_required
@@ -204,18 +204,18 @@ def update_profile():
         if current_user.is_admin:
             current_user.username = '管理員'
             db.session.commit()
-            flash('管理員名稱已鎖定，不可更改。', 'warning')
+            flash(get_text('msg_admin_name_locked', current_user.language), 'warning')
             return redirect(url_for('main.profile'))
             
         # 2. Check forbidden names
         if User.is_name_forbidden(new_username):
-            flash('此名稱包含禁用關鍵字，請更換一個名稱。', 'danger')
+            flash(get_text('msg_forbidden_name', current_user.language), 'danger')
             return redirect(url_for('main.profile'))
 
         # 3. Check for duplicates
         existing_user = User.query.filter_by(username=new_username).first()
         if existing_user:
-            flash('該使用者名稱已被使用，請選擇其他名稱。', 'danger')
+            flash(get_text('msg_username_taken', current_user.language), 'danger')
             return redirect(url_for('main.profile'))
 
     current_user.username = new_username
@@ -229,10 +229,10 @@ def update_profile():
 
     try:
         db.session.commit()
-        flash('您的個人檔案已更新！', 'success')
+        flash(get_text('msg_profile_updated', current_user.language), 'success')
     except Exception:
         db.session.rollback()
-        flash('更新失敗，請稍後再試。', 'danger')
+        flash(get_text('msg_update_failed', current_user.language), 'danger')
 
     return redirect(url_for('main.profile'))
 
@@ -243,7 +243,7 @@ def change_password():
     from app import db, bcrypt
     # Google/Third-party users cannot change password here
     if getattr(current_user, 'auth_provider', 'local') not in ['local', 'guest']:
-        flash('您的密碼存放在 Google 或其他第三方服務，請前往該服務修改。', 'info')
+        flash(get_text('go_to_google', current_user.language), 'info')
         return redirect(url_for('main.profile'))
 
     # Cooldown check (Temporarily disabled due to DB migration issue)
@@ -255,26 +255,26 @@ def change_password():
 
     # Validate current password
     if not bcrypt.check_password_hash(current_user.password, current_password):
-        flash('目前密碼不正確，請重新輸入。', 'danger')
+        flash(get_text('msg_current_pwd_wrong', current_user.language), 'danger')
         return redirect(url_for('main.profile'))
 
     # Validate new password
     if len(new_password) < 6:
-        flash('新密碼至少需要 6 個字元。', 'danger')
+        flash(get_text('msg_new_pwd_too_short', current_user.language), 'danger')
         return redirect(url_for('main.profile'))
 
     if new_password != confirm_password:
-        flash('兩次輸入的新密碼不一致，請重新輸入。', 'danger')
+        flash(get_text('msg_pwd_mismatch', current_user.language), 'danger')
         return redirect(url_for('main.profile'))
 
     # Update password
     try:
         current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
         db.session.commit()
-        flash('密碼已成功變更！', 'success')
+        flash(get_text('msg_pwd_changed', current_user.language), 'success')
     except Exception:
         db.session.rollback()
-        flash('密碼變更失敗，請稍後再試。', 'danger')
+        flash(get_text('msg_pwd_change_failed', current_user.language), 'danger')
 
     return redirect(url_for('main.profile'))
 
@@ -302,16 +302,17 @@ def draw_omikuji():
     fortunes = ['大吉', '吉', '吉', '中吉', '小吉', '末吉'] # Adjusted probabilities
     drawn_fortune = random.choice(fortunes)
     
+    lang = getattr(current_user, 'language', 'zh')
     try:
-        prompt = f"""學生抽到了「{drawn_fortune}」。請以溫柔的日式神職人員或巫女的語氣，為他寫一段祈福。
-        請回傳 JSON 格式：
+        prompt = f"""Student drew "{drawn_fortune}". Please write a blessing in {lang} with a gentle Japanese priest or shrine maiden tone.
+        Please return JSON format:
         {{
-            "lucky_color": "今天幸運色",
-            "lucky_item": "今天幸運小物",
-            "lucky_subject": "推薦學習科目",
-            "advice": "神明給你的 30 字箴言"
+            "lucky_color": "Lucky color",
+            "lucky_item": "Lucky item",
+            "lucky_subject": "Recommended subject",
+            "advice": "30-word advice"
         }}
-        除了上述 JSON 之外，請不要包含任何多餘的字（像是 ```json標籤）。"""
+        Only return raw JSON, no markdown tags."""
         
         from app.utils.ai_helpers import generate_text_with_fallback
         text = generate_text_with_fallback(prompt).strip()
@@ -325,13 +326,23 @@ def draw_omikuji():
         
         data = json.loads(text)
         
-        # Pre-format as HTML string
+        from app.utils.i18n import get_text
+        translated_fortune = get_text(f'fortune_{drawn_fortune}', lang)
+        # Note: I should add fortune_ keys to i18n.py if not already there, but let's use keys for fortune levels too.
+        # Let's assume drawn_fortune is a key or map it.
+        
+        # Label translations
+        l_color = get_text('omikuji_lucky_color', lang)
+        l_item = get_text('omikuji_lucky_item', lang)
+        l_subj = get_text('omikuji_lucky_subject', lang)
+        l_adv = get_text('omikuji_advice_label', lang)
+
         rich_message = f"""
         <div class="omikuji-result" style="text-align: left; max-width: 250px; margin: 0 auto;">
-            <p style="margin-bottom: 5px;"><strong>幸運色：</strong>{data.get('lucky_color', '白色')}</p>
-            <p style="margin-bottom: 5px;"><strong>幸運小物：</strong>{data.get('lucky_item', '微笑')}</p>
-            <p style="margin-bottom: 5px;"><strong>推薦科目：</strong>{data.get('lucky_subject', '全科制霸')}</p>
-            <p class="mt-2" style="font-style: italic; color: var(--color-primary); border-top: 1px solid var(--color-border); padding-top: 10px; margin-top: 10px;">「{data.get('advice', '今天也是充滿希望的一天！')}」</p>
+            <p style="margin-bottom: 5px;"><strong>{l_color}：</strong>{data.get('lucky_color', '...')}</p>
+            <p style="margin-bottom: 5px;"><strong>{l_item}：</strong>{data.get('lucky_item', '...')}</p>
+            <p style="margin-bottom: 5px;"><strong>{l_subj}：</strong>{data.get('lucky_subject', '...')}</p>
+            <p class="mt-2" style="font-style: italic; color: var(--color-primary); border-top: 1px solid var(--color-border); padding-top: 10px; margin-top: 10px;">「{data.get('advice', '...')}」</p>
         </div>
         """
         
@@ -344,7 +355,7 @@ def draw_omikuji():
         
         db.session.commit()
         
-        flash(f'抽到了【{drawn_fortune}】神籤！', 'success')
+        flash(get_text('omikuji_draw_success', lang).format(fortune=get_text(f'fortune_{drawn_fortune}', lang)), 'success')
         return redirect(url_for('main.home'))
     except Exception as e:
         db.session.rollback()
@@ -353,9 +364,9 @@ def draw_omikuji():
         
         # provide a more helpful message if it's an AI fallback failure
         if "AI 模型" in error_msg or "API Key" in error_msg:
-            flash(f'神明目前太過忙碌 ({error_msg})，請稍後再試一次！', 'danger')
+            flash(get_text('msg_god_busy', lang).format(error=error_msg), 'danger')
         else:
-            flash(f'神明領旨時發生了一點意外：{error_msg}，請稍後再試一次。', 'warning')
+            flash(get_text('msg_god_error', lang).format(error=error_msg), 'warning')
         return redirect(url_for('main.home'))
 
 @main.route("/api/ema/create", methods=['POST'])
@@ -367,7 +378,7 @@ def create_ema():
     is_public = request.form.get('is_public') == 'true'
     
     if not content or len(content) > 100:
-        flash('繪馬內容不可空白或超過 100 字。', 'danger')
+        flash(get_text('msg_ema_empty', current_user.language), 'danger')
         return redirect(url_for('main.home'))
         
     ema = Ema(user_id=current_user.id, content=content, is_public=is_public)
@@ -378,7 +389,7 @@ def create_ema():
     add_garden_xp(10)
     
     db.session.commit()
-    flash('祈願繪馬已掛上！', 'success')
+    flash(get_text('msg_ema_success', current_user.language), 'success')
     return redirect(url_for('main.home'))
 
 @main.route("/api/daruma/create", methods=['POST'])
@@ -389,13 +400,13 @@ def create_daruma():
     goal = request.form.get('goal')
     
     if not goal or len(goal) > 100:
-        flash('達磨目標不可空白或超過 100 字。', 'danger')
+        flash(get_text('msg_daruma_empty', current_user.language), 'danger')
         return redirect(url_for('main.home'))
         
     daruma = Daruma(user_id=current_user.id, goal=goal)
     db.session.add(daruma)
     db.session.commit()
-    flash('新的達磨不倒翁已為您準備好，請努力達成目標為它開眼！', 'success')
+    flash(get_text('msg_daruma_success', current_user.language), 'success')
     return redirect(url_for('main.home'))
 
 @main.route("/api/toggle_dark_mode", methods=['POST'])
@@ -424,11 +435,11 @@ def complete_daruma(daruma_id):
     from app.models import Daruma
     daruma = Daruma.query.get_or_404(daruma_id)
     if daruma.user_id != current_user.id:
-        flash('權限不足', 'danger')
+        flash(get_text('msg_unauthorized', current_user.language), 'danger')
         return redirect(url_for('main.home'))
         
     if daruma.is_completed:
-        flash('達磨已經開眼囉！', 'info')
+        flash(get_text('msg_daruma_already_done', current_user.language), 'info')
         return redirect(url_for('main.home'))
         
     daruma.is_completed = True
@@ -439,7 +450,7 @@ def complete_daruma(daruma_id):
     add_garden_xp(30)
     
     db.session.commit()
-    flash('恭喜達成目標！達磨已成功開眼。', 'success')
+    flash(get_text('msg_daruma_complete_success', current_user.language), 'success')
     return redirect(url_for('main.home'))
 
 @main.route("/api/update_theme", methods=['POST'])

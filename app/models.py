@@ -57,7 +57,7 @@ class User(db.Model, UserMixin):
     # 個人簡介與 AI 性格設定
     bio = db.Column(db.Text, nullable=True)
     learning_goals = db.Column(db.Text, nullable=True)
-    ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
+    ai_personality = db.Column(db.String(50), default='ai_personality_gentle') # 溫柔型, 嚴厲型, 幽默型
     language = db.Column(db.String(5), default='zh') # zh, ja, en
     
     # 網站偏好設定
@@ -260,7 +260,7 @@ class GlobalStat(db.Model):
     zen_xp = db.Column(db.Integer, default=0)
     garden_level = db.Column(db.Integer, default=1)
     last_weather_check = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    current_weather = db.Column(db.String(50), default='晴朗')
+    current_weather = db.Column(db.String(50), default='weather_fair')
     active_users_count = db.Column(db.Integer, default=0)
 
     @classmethod
