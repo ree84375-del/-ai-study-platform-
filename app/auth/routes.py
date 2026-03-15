@@ -32,6 +32,10 @@ def register():
         return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
+        if User.is_name_forbidden(form.username.data):
+            flash('此名稱包含禁用關鍵字，請更換一個名稱。', 'danger')
+            return render_template('register.html', title='註冊', form=form)
+            
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)

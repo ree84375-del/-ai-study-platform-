@@ -152,6 +152,7 @@ class Assignment(db.Model):
     description = db.Column(db.Text, nullable=True)
     reference_answer = db.Column(db.Text, nullable=True) # Teacher's correct answer/key
     reference_image = db.Column(db.String(255), nullable=True) # Image path for key
+    question_image = db.Column(db.String(255), nullable=True) # Image path for question
     due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
@@ -165,7 +166,8 @@ class AssignmentStatus(db.Model):
     content = db.Column(db.Text, nullable=True) # Student submission (final text)
     submission_image = db.Column(db.String(255), nullable=True) # Path to student's upload
     recognized_content = db.Column(db.Text, nullable=True) # AI's initial OCR result
-    ai_feedback = db.Column(db.Text, nullable=True) # Yukine's comments
+    ai_feedback = db.Column(db.Text, nullable=True) # Yukine's comments (brief)
+    ai_explanation = db.Column(db.Text, nullable=True) # Yukine's detailed explanation
     score = db.Column(db.Integer, nullable=True) # 0-100
     is_completed = db.Column(db.Boolean, default=False)
     completed_at = db.Column(db.DateTime, nullable=True)

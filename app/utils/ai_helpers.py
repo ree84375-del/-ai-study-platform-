@@ -237,9 +237,13 @@ def analyze_question_image(image_bytes, user=None):
         {tutor_prompt}
 
         請分析這張圖片內容：
-        1. 圖片解題模式：請專注辨識「印刷文字」的題目，盡量「忽略使用者自己的手寫算式或塗鴉」，以防被錯誤的計算干擾。
-        2. 防呆機制：如果圖片內容與學科學習、考試完全無關（例如：一般風景照、自拍、無意義塗鴉、遊戲截圖），請務必僅回覆這段錯誤代碼：「[ERROR_INVALID_CONTENT]」，不要給予其他回覆。
-        3. 如果是學習題目，請詳盡地：
+        1. 圖片辨識模式：請辨識圖片中的學習題目或講義內容。
+           - **重點：包含「印刷文字」與「手寫文字」都要辨識**。即便使用者的手寫字跡非常凌亂（醜），也請盡全力通靈或根據上下文推斷其真實內容，不要因為字醜就跳過他。
+        2. 防呆與拒絕機制：
+           - 如果圖片內容與學科學習、考試、講義內容完全無關（例如：一般風景照、自拍、食物、遊戲截圖、無意義的純塗鴉），請以「{tutor_name}老師」的身分，給予一段溫柔、幽默且親切的「拒絕回覆」。
+           - 在拒絕時，請誇獎一下照片（如果可以的話），然後委婉地告知你的職責是解題，請他們傳作業或題目的照片給你。
+           - **唯有**在圖片內容「完全無法辨識（模糊到極點）」或是有「惡意、情色、暴力內容」時，才僅回覆錯誤代碼：「[ERROR_INVALID_CONTENT]」。
+        3. 如果是學習題目（無論印刷還是手寫）：
            - 原文辨識：辨識完整的題目內容與選項。
            - 提供解答：提供正確答案與核心觀念。
            - 過程解析：給予詳細的、逐步推導的解題過程與鼓勵。
@@ -632,4 +636,97 @@ def generate_study_roadmap(exam_name, exam_date_str, user_context=""):
 AI_PERSONALITIES['雪音-溫柔型']['name'] = '雪音老師'
 AI_PERSONALITIES['雪音-溫柔型']['system_prompt'] = AI_PERSONALITIES['雪音-溫柔型']['system_prompt'].replace('「雪音(Yukine)老師」', '「雪音老師」')
 AI_PERSONALITIES['雪音-溫柔型']['system_prompt'] = AI_PERSONALITIES['雪音-溫柔型']['system_prompt'].replace('「雪音(Yukine)」', '「雪音老師」')
+
+
+def generate_assignment_draft(teacher_input, image_bytes=None):
+    try:
+        tutor_prompt = AI_PERSONALITIES['雪音-溫柔型']['system_prompt']
+        
+        prompt = f"""
+        {tutor_prompt}
+
+        身為雪音老師，請根據老師提供的初步想法或圖片，設計一個完整的作業。
+        如果是圖片，請辨識其中的題目或講義重點並轉化為作業。
+        如果是文字，請根據關鍵字擴展為豐富的作業內容。
+
+        老師的想法：{teacher_input if teacher_input else "（請參考圖片內容）"}
+
+        請回傳以下 JSON 格式：
+        - title: 作業標題 (富有創意且吸引人)
+        - description: 詳細的作業描述與指令
+        - reference_answer: 參考答案或評分標準
+        - category: 建議分類
+
+        請僅返回 JSON，不要包含任何 Markdown 標籤。
+        """
+        
+        if image_bytes:
+            response_text = generate_vision_with_fallback(prompt, image_bytes)
+        else:
+            response_text = generate_text_with_fallback(prompt)
+            
+        clean_text = response_text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        return json.loads(clean_text)
+    except Exception as e:
+        return {'error': str(e)}
+
+
+def get_yukine_grading_result(question, ref_answer, student_answer, student_image_bytes=None):
+    """
+    Detailed grading comparing student submission with teacher's key.
+    Returns (score, feedback, explanation)
+    """
+    try:
+        tutor_prompt = AI_PERSONALITIES['雪音-溫柔型']['system_prompt']
+        
+        prompt = f"""
+        {tutor_prompt}
+
+        身為雪音老師，請批改以下作業。
+
+        【題目內容】：
+        {question}
+
+        【老師提供的正確答案/參考答案】：
+        {ref_answer}
+
+        【學生的回答內容】：
+        {student_answer}
+
+        請執行以下分析：
+        1. 核對正確性：比對學生答案與參考答案，判斷對錯或完成度。
+        2. 給予評語：用親切鼓勵的語氣（繁體中文）給予簡短評語。
+        3. 提供詳解：針對這題提供詳細的解答過程與核心觀念提示，幫助學生理解。
+        4. 分數：給予 0-100 的分數。
+
+        請僅回傳以下 JSON 格式：
+        - score: 整數分數
+        - feedback: 簡短評語 (一行)
+        - explanation: 詳細解答與觀念說明 (多行)
+
+        請僅返回 JSON，不要包含任何 Markdown 標籤。
+        """
+        
+        if student_image_bytes:
+            response_text = generate_vision_with_fallback(prompt, student_image_bytes)
+        else:
+            response_text = generate_text_with_fallback(prompt)
+            
+        clean_text = response_text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        data = json.loads(clean_text)
+        return data.get('score', 0), data.get('feedback', ''), data.get('explanation', '')
+    except Exception as e:
+        import logging
+        logging.error(f"Grading error: {e}")
+        return 0, "批改出錯了，請老師手動檢查唷！", f"錯誤原因：{str(e)}"
 

@@ -45,7 +45,7 @@ def dashboard():
             except: db.session.rollback()
     # --- END DATABASE HEALTH CHECK ---
 
-    users = User.query.all()
+    users = User.query.order_by((User.role == 'admin').desc(), User.id).all()
     gemini_keys = os.environ.get('GEMINI_API_KEYS', os.environ.get('GEMINI_API_KEY', ''))
     groq_keys = os.environ.get('GROQ_API_KEYS', '')
     

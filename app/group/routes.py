@@ -159,6 +159,32 @@ def leave_group(group_id):
 def group_dashboard(group_id):
     import traceback
     current_app.logger.info(f"--- [START] Group Dashboard: ID={group_id}, User={current_user.username} ---")
+    
+    # --- YUKINE REMINDERS LOGIC ---
+    yukine_reminders = []
+    try:
+        from app.models import Assignment
+        # Taiwan Time (UTC+8)
+        now_tw = datetime.now(timezone.utc) + timedelta(hours=8)
+        
+        assignments = Assignment.query.filter_by(group_id=group_id).all()
+        for a in assignments:
+            if a.due_date:
+                # Assuming a.due_date is stored as UTC or simple datetime
+                # Let's treat it as UTC for comparison
+                due_utc = a.due_date.replace(tzinfo=timezone.utc)
+                diff = due_utc - datetime.now(timezone.utc)
+                
+                # 2 days (48h) or 1 day (24h) reminders
+                # Check for "roughly" 2 days (between 24-48h) and 1 day (within 24h)
+                days_left = diff.total_seconds() / 86400
+                if 0 < days_left <= 2:
+                    status_text = "只剩不到兩天" if days_left > 1 else "明天就要截止"
+                    yukine_reminders.append(f"溫馨提醒：作業「{a.title}」{status_text}囉！大家加油唷！(๑•̀ㅂ•́)و✧")
+    except Exception as e:
+        current_app.logger.error(f"Reminder Error: {e}")
+    # --- END REMINDERS ---
+
     try:
         from app import db, bcrypt
         from app.models import Group, GroupMember, GroupAnnouncement, GroupMessage, Assignment, AssignmentStatus, User
@@ -181,12 +207,11 @@ def group_dashboard(group_id):
                 "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
                 # Assignment fixes
                 "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_answer TEXT",
-                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_image VARCHAR(255)",
-                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS due_date TIMESTAMP",
-                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS description TEXT",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS question_image VARCHAR(255)",
                 # AssignmentStatus fixes
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT",
+                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_explanation TEXT",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
                 # Group type fix
@@ -333,8 +358,17 @@ def group_dashboard(group_id):
                 
                 final_content = confirmed_content if confirmed_content else content
                 assignment = Assignment.query.get(assignment_id)
-                
-                if assignment and final_content:
+                if assignment:
+                    # Check if student already submitted (strictly block if already completed)
+                    existing_status = AssignmentStatus.query.filter_by(assignment_id=assignment_id, user_id=current_user.id).first()
+                    if existing_status and existing_status.is_completed:
+                        flash('您已經提交過這項作業囉！', 'warning')
+                        return redirect(url_for('group.group_dashboard', group_id=group_id))
+
+                    if not final_content:
+                        flash('請輸入內容或上傳圖片內容', 'danger')
+                        return redirect(url_for('group.group_dashboard', group_id=group_id))
+
                     # Handle Student Submission Image
                     sub_image_path = None
                     if 'submission_image' in request.files:
@@ -348,47 +382,15 @@ def group_dashboard(group_id):
                             sub_image_path = os.path.join('uploads', 'submissions', filename).replace('\\', '/')
                             file.save(os.path.join(current_app.static_folder, sub_image_path))
 
-                    # Enhanced Grading Logic
-                    from app.utils.ai_helpers import generate_text_with_fallback
+                    # Enhanced Grading Logic using the new helper
+                    from app.utils.ai_helpers import get_yukine_grading_result
                     
-                    grading_prompt = f"""
-                    你現在是可愛且專業的線上家教「雪音老師」。你需要批改一份作業。
-                    
-                    作業標題：{assignment.title}
-                    作業要求：{assignment.description}
-                    老師提供的參考答案：{assignment.reference_answer or "未提供"}
-                    
-                    學生提交的內容：
-                    ---
-                    {final_content}
-                    ---
-                    
-                    請執行以下任務：
-                    1. 核心核對：將學生答案與老師的參考答案進行深度比對。
-                    2. 錯誤分析：如果學生錯了，請詳細說明錯在哪裡、遺漏了什麼觀念、算式哪一步有誤。
-                    3. 給予詳解：引導學生正確的解題路徑，並給予溫柔的鼓勵。
-                    4. 評分：給予 0-100 的整數分數。
-                    
-                    回覆格式：
-                    評價：[你的詳細分析、解答與鼓勵，請用繁體中文，多用點可愛表情符號]
-                    分數：[0-100]
-                    """
-                    
-                    try:
-                        ai_response = generate_text_with_fallback(grading_prompt)
-                        feedback = "批改完成唷！"
-                        score = 80
-                        
-                        import re
-                        f_match = re.search(r'評價：\s*(.*?)(?=\s*分數：|$)', ai_response, re.DOTALL)
-                        if f_match: feedback = f_match.group(1).strip()
-                        
-                        s_match = re.search(r'分數：\s*(\d+)', ai_response)
-                        if s_match: score = int(s_match.group(1))
-                    except Exception as e:
-                        current_app.logger.error(f"AI Grading Error: {e}")
-                        feedback = "雪音老師剛剛有點分心，但還是給你的努力一個分數唷！"
-                        score = 70
+                    score, feedback, explanation = get_yukine_grading_result(
+                        question=assignment.description,
+                        ref_answer=assignment.reference_answer,
+                        student_answer=final_content,
+                        student_image_bytes=request.files['submission_image'].read() if 'submission_image' in request.files else None
+                    )
 
                     status = AssignmentStatus.query.filter_by(assignment_id=assignment_id, user_id=current_user.id).first()
                     if not status:
@@ -398,10 +400,10 @@ def group_dashboard(group_id):
                     status.content = final_content
                     status.submission_image = sub_image_path
                     status.ai_feedback = feedback
+                    status.ai_explanation = explanation
                     status.score = score
                     status.is_completed = True
                     status.completed_at = datetime.now(timezone.utc)
-                    
                     
                     db.session.commit()
                     flash('作業已提交並由雪音老師批改完成', 'success')
@@ -451,7 +453,8 @@ def group_dashboard(group_id):
                                    group=group_obj, 
                                    messages=messages, 
                                    announcements=announcements,
-                                   assignments=sorted_assignments)
+                                   assignments=sorted_assignments,
+                                   yukine_reminders=yukine_reminders)
 
     except Exception as e:
         err_msg = traceback.format_exc()
@@ -680,22 +683,41 @@ def recognize_assignment_image(group_id):
     
     file = request.files['image']
     image_bytes = file.read()
+    context = request.form.get('context', 'question') # 'question' or 'answer'
     
-    from app.utils.ai_helpers import parse_question_from_image
-    # Reuse parsing logic but focus on text extraction
-    result = parse_question_from_image(image_bytes)
+    from app.utils.ai_helpers import generate_vision_with_fallback
+    
+    context_text = "題目 (Question)" if context == 'question' else "參考答案 (Correct Answer)"
+    prompt = f"""
+    請辨識圖片中的內容，這是一份作業的{context_text}。
+    請盡可能完整且精準地轉化為文字（包含繁體中文與符號）。
+    不用 JSON，直接返回辨識後的純文字內容即可。
+    """
+    
+    try:
+        recognition_text = generate_vision_with_fallback(prompt, image_bytes)
+        return jsonify({'status': 'success', 'text': recognition_text.strip()})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
+@group.route('/api/groups/<int:group_id>/assignment/ai_draft', methods=['POST'], strict_slashes=False)
+@login_required
+def assignment_ai_draft(group_id):
+    from app.models import Group
+    group_obj = Group.query.get_or_404(group_id)
+    
+    if group_obj.teacher_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    teacher_input = request.form.get('prompt', '')
+    image_bytes = None
+    if 'image' in request.files:
+        image_bytes = request.files['image'].read()
+        
+    from app.utils.ai_helpers import generate_assignment_draft
+    result = generate_assignment_draft(teacher_input, image_bytes)
     
     if 'error' in result:
         return jsonify({'status': 'error', 'message': result['error']})
-    
-    # Format the result as a text blob if it's a dict
-    if isinstance(result, dict):
-        text_lines = []
-        if result.get('content_text'): text_lines.append(result['content_text'])
-        if result.get('correct_answer'): text_lines.append(f"正確答案: {result['correct_answer']}")
-        if result.get('explanation'): text_lines.append(f"詳解: {result['explanation']}")
-        recognition_text = "\n".join(text_lines)
-    else:
-        recognition_text = str(result)
         
-    return jsonify({'status': 'success', 'text': recognition_text})
+    return jsonify({'status': 'success', 'draft': result})

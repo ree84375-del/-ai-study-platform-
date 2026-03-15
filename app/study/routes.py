@@ -158,7 +158,7 @@ def ai_vision():
         analysis_result = analyze_question_image(image_bytes, user=current_user)
         
         if "[ERROR_INVALID_CONTENT]" in analysis_result:
-             return jsonify({'error': '這看起來不太像是題目或講義喔！請上傳正確的學習內容讓雪音幫你解析～'}), 400
+             return jsonify({'error': '哎呀，這張圖片太過模糊，或者是內容不太適合學習唷！請傳送清晰的題目或講義給雪音吧～'}), 400
         
         # Create a chat session for the vision analysis
         session = ChatSession(user_id=current_user.id, title="圖片解題分析")
