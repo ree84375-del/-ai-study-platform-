@@ -119,42 +119,66 @@
                     <div style="display: grid; gap: 1rem;">
                         {% for assignment in assignments %}
                             {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
-                            <div style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 15px; transition: transform 0.2s; position: relative;">
+                            {% set is_completed = user_status and user_status.is_completed %}
+                            <div class="assignment-card open-sub-btn" 
+                                 data-id="{{ assignment.id }}"
+                                 data-title="{{ assignment.title or '' }}"
+                                 data-desc="{{ assignment.description or '' }}"
+                                 data-q-image="{{ url_for('static', filename=assignment.question_image) if assignment.question_image else '' }}"
+                                 data-completed="{{ 'true' if is_completed else 'false' }}"
+                                 data-score="{{ user_status.score if user_status else '' }}"
+                                 data-feedback="{{ user_status.ai_feedback if user_status else '' }}"
+                                 data-explanation="{{ user_status.ai_explanation if user_status else '' }}"
+                                 style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 18px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                
+                                <style>
+                                    .assignment-card:hover {
+                                        transform: translateY(-5px);
+                                        box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+                                        border-color: var(--color-accent);
+                                    }
+                                    .assignment-status-tag {
+                                        font-size: 0.7rem;
+                                        padding: 3px 8px;
+                                        border-radius: 20px;
+                                        font-weight: bold;
+                                    }
+                                </style>
+
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                    <div>
-                                        <h4 style="margin: 0 0 5px 0; color: var(--color-primary); font-size: 1rem;">{{ assignment.title }}</h4>
-                                        <p style="margin: 0; font-size: 0.8rem; color: var(--color-text_light);">{{ assignment.description | truncate(50) }}</p>
-                                        <div style="margin-top: 8px; font-size: 0.7rem; color: #999;">
-                                            <i class="fa-regular fa-calendar-check"></i> {% if assignment.due_date %}{{ assignment.due_date.strftime('%Y-%m-%d') }}{% else %}無期限{% endif %}
+                                    <div style="flex: 1;">
+                                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                            <h4 style="margin: 0; color: var(--color-primary); font-size: 1.1rem; font-weight: 700;">{{ assignment.title }}</h4>
+                                            {% if is_completed %}
+                                                <span class="assignment-status-tag" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9;">已批改</span>
+                                            {% else %}
+                                                <span class="assignment-status-tag" style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2;">未繳交</span>
+                                            {% endif %}
+                                        </div>
+                                        <p style="margin: 0; font-size: 0.85rem; color: var(--color-text_light); line-height: 1.4;">{{ assignment.description | truncate(60) }}</p>
+                                        
+                                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 15px;">
+                                            <div style="font-size: 0.75rem; color: #999;">
+                                                <i class="fa-regular fa-calendar-check"></i> 截止：{% if assignment.due_date %}{{ assignment.due_date.strftime('%Y-%m-%d') }}{% else %}無期限{% endif %}
+                                            </div>
+                                            {% if is_completed %}
+                                            <div style="font-size: 0.75rem; font-weight: bold; color: var(--color-accent);">
+                                                <i class="fa-solid fa-star"></i> 分數：{{ user_status.score }}
+                                            </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     
-                                    <div>
-                                        {% if user_status and user_status.is_completed %}
-                                            <i class="fa-solid fa-check-circle" style="color: #2e7d32;"></i>
-                                        {% else %}
-                                            <i class="fa-solid fa-circle-notch" style="color: #e65100;"></i>
-                                        {% endif %}
+                                    <div style="margin-left: 10px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: {% if is_completed %}#f1f8e9{% else %}#fff8e1{% endif %};">
+                                            {% if is_completed %}
+                                                <i class="fa-solid fa-square-check" style="color: #4caf50; font-size: 1.2rem;"></i>
+                                            {% else %}
+                                                <i class="fa-solid fa-chevron-right" style="color: var(--color-accent); font-size: 1rem;"></i>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
-
-                                    <button type="button" 
-                                        class="open-sub-btn btn"
-                                        data-id="{{ assignment.id }}"
-                                        data-title="{{ assignment.title or '' }}"
-                                        data-desc="{{ assignment.description or '' }}"
-                                        data-q-image="{{ url_for('static', filename=assignment.question_image) if assignment.question_image else '' }}"
-                                        data-completed="{{ 'true' if user_status and user_status.is_completed else 'false' }}"
-                                        data-score="{{ user_status.score if user_status else '' }}"
-                                        data-feedback="{{ user_status.ai_feedback if user_status else '' }}"
-                                        data-explanation="{{ user_status.ai_explanation if user_status else '' }}"
-                                        style="margin-top: 10px; width: 100%; border: 1px solid var(--color-accent); color: var(--color-accent); background: transparent; font-size: 0.85rem; padding: 8px; border-radius: 8px; font-weight: bold;">
-                                        {% if user_status and user_status.is_completed %}
-                                            <i class="fa-solid fa-square-poll-vertical"></i> 查看繳交結果
-                                        {% else %}
-                                            <i class="fa-solid fa-file-arrow-up"></i> 查看 / 繳交作業
-                                        {% endif %}
-                                    </button>
                             </div>
                         {% endfor %}
                     </div>
@@ -290,18 +314,28 @@
         <!-- Submission Modal Overlay -->
         <div id="submission-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
             <div class="glass-panel" style="width: 90%; max-width: 500px; padding: 2rem; position: relative;">
-                <button onclick="closeSubmissionModal()" style="position: absolute; right: 20px; top: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999;">&times;</button>
+                <button onclick="closeSubmissionModal()" style="position: absolute; right: 20px; top: 20px; background: rgba(0,0,0,0.05); border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #666; transition: all 0.2s;">&times;</button>
                     <!-- Step 1: Upload / View -->
                     <div id="step-upload">
-                        <div id="modal-view-area" style="background: #fdfdfd; padding: 15px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 20px;">
-                            <h4 id="modal-title" style="margin-top: 0; color: var(--color-primary); font-size: 1.1rem;"></h4>
-                            <div id="modal-desc" style="font-size: 0.9rem; color: #444; white-space: pre-wrap; margin-bottom: 10px;"></div>
-                            <div id="modal-q-image-container" style="display: none; margin-bottom: 10px; text-align: center;">
-                                <img id="modal-q-image" src="" style="max-width: 100%; border-radius: 8px; border: 1px solid #ddd;">
+                        <div id="modal-view-area" style="background: white; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                            <div style="background: var(--color-primary); padding: 12px 18px;">
+                                <h4 id="modal-title" style="margin: 0; color: white; font-size: 1.1rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));"></h4>
+                            </div>
+                            <div style="padding: 18px;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: var(--color-primary); font-weight: bold; font-size: 0.9rem;">
+                                    <i class="fa-solid fa-circle-question"></i> 作業題目與說明
+                                </div>
+                                <div id="modal-desc" style="font-size: 0.95rem; color: #444; white-space: pre-wrap; margin-bottom: 15px; line-height: 1.6;"></div>
+                                <div id="modal-q-image-container" style="display: none; margin-top: 15px; background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
+                                    <img id="modal-q-image" src="" style="max-width: 100%; display: block; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                                </div>
                             </div>
                         </div>
 
                         <div id="submission-input-area">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; color: var(--color-accent); font-weight: bold; font-size: 0.9rem;">
+                                <i class="fa-solid fa-pen-nib"></i> 開始繳交作業 (๑•̀ㅂ•́)و✧
+                            </div>
                             <label for="student-upload" style="display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed var(--color-primary); border-radius: 12px; padding: 1.5rem; cursor: pointer; background: #f8fbff; transition: all 0.2s;" onmouseover="this.style.background='#f0f6ff'">
                                 <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 8px;"></i>
                                 <span style="font-weight: bold; color: var(--color-primary);">點擊或拖曳上傳作業圖片</span>
@@ -327,11 +361,21 @@
                     </div>
 
                     <!-- Step 3: Result (Post-Submit info) -->
-                    <div id="step-result" style="display: none; text-align: center; padding: 10px;">
-                        <div style="font-size: 3rem; color: #4caf50; margin-bottom: 10px;"><i class="fa-solid fa-circle-check"></i></div>
-                        <h3 style="color: var(--color-primary); margin-bottom: 5px;">繳交成功！</h3>
-                        <p id="grading-summary" style="font-size: 1rem; font-weight: bold; color: #333; margin-bottom: 15px;"></p>
-                        <div id="grading-explanation" style="background: #f9f9f9; padding: 15px; border-radius: 10px; text-align: left; font-size: 0.9rem; border: 1px solid #eee; max-height: 200px; overflow-y: auto; white-space: pre-wrap;"></div>
+                    <div id="step-result" style="display: none; padding: 5px;">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="width: 60px; height: 60px; background: #e8f5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
+                                <i class="fa-solid fa-circle-check" style="font-size: 2.5rem; color: #4caf50;"></i>
+                            </div>
+                            <h3 style="color: var(--color-primary); margin: 0 0 5px 0;">作業繳交完成！</h3>
+                            <div id="grading-summary" style="font-size: 1.2rem; font-weight: bold; color: var(--color-accent);"></div>
+                        </div>
+
+                        <div style="background: white; border-radius: 12px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02); margin-top: 15px;">
+                            <div style="background: var(--color-accent); padding: 10px 18px; color: white; display: flex; align-items: center; gap: 8px; font-weight: bold;">
+                                <i class="fa-solid fa-comment-dots"></i> 雪音老師的批改詳解
+                            </div>
+                            <div id="grading-explanation" style="padding: 18px; font-size: 0.95rem; color: #444; line-height: 1.6; max-height: 250px; overflow-y: auto; white-space: pre-wrap; background: #fffcfd;"></div>
+                        </div>
                     </div>
 
                     <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
