@@ -195,7 +195,7 @@ def group_dashboard(group_id):
         # Run this BEFORE anything else to ensure schema is up to date
         try:
             # Check for a column added in the latest update
-            db.session.execute(text("SELECT reference_answer FROM assignment LIMIT 1"))
+            db.session.execute(text("SELECT question_image FROM assignment LIMIT 1"))
         except ProgrammingError:
             db.session.rollback()
             current_app.logger.warning("Detected missing DB columns. Attempting auto-fix...")
@@ -207,12 +207,12 @@ def group_dashboard(group_id):
                 "ALTER TABLE group_message ADD COLUMN IF NOT EXISTS is_deleted BOOLEAN DEFAULT FALSE",
                 # Assignment fixes
                 "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_answer TEXT",
+                "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS reference_image VARCHAR(255)",
                 "ALTER TABLE assignment ADD COLUMN IF NOT EXISTS question_image VARCHAR(255)",
                 # AssignmentStatus fixes
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS submission_image VARCHAR(255)",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_explanation TEXT",
-                "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
                 # Group type fix
                 "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
