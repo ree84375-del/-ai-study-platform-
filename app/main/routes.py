@@ -92,6 +92,17 @@ def home():
             db.session.commit()
         except Exception: db.session.rollback()
 
+    # Fix 3: Language preference column
+    try:
+        db.session.execute(text("SELECT language FROM \"user\" LIMIT 1"))
+    except ProgrammingError:
+        db.session.rollback()
+        current_app.logger.warning("Adding language to User table...")
+        try:
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS language VARCHAR(5) DEFAULT 'zh'"))
+            db.session.commit()
+        except Exception: db.session.rollback()
+
     # --- END HEALTH CHECK ---
 
     # Collaborative Garden Stats logic
