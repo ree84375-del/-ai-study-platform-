@@ -104,7 +104,7 @@
                         </div>
                         <div>
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格 (即時生效)</label>
-                            <select id="theme-selector" name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="selectTheme(this.value)">
+                            <select id="theme-selector" name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="selectTheme(this.value); this.form.submit();">
                                 <option value="sakura" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sakura' %}selected{% endif %}>🌸 櫻花粉 (預設)</option>
                                 <option value="leaf" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'leaf' %}selected{% endif %}>🌿 抹茶葉 (極致風格)</option>
                                 <option value="moon" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'moon' %}selected{% endif %}>🌙 月光藍</option>
@@ -115,7 +115,7 @@
                         </div>
                         <div>
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ _t('lang_pref') }}</label>
-                            <select name="language" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
+                            <select name="language" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="this.form.submit();">
                                 <option value="zh" {% if current_user.language == 'zh' %}selected{% endif %}>繁體中文 (Traditional Chinese)</option>
                                 <option value="ja" {% if current_user.language == 'ja' %}selected{% endif %}>日本語 (Japanese)</option>
                                 <option value="en" {% if current_user.language == 'en' %}selected{% endif %}>English</option>
