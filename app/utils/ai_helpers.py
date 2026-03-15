@@ -733,9 +733,9 @@ def get_yukine_grading_result(question, ref_answer, student_answer, student_imag
 
 def validate_assignment_step(step, data):
     """
-    Yukine validates a specific step of the assignment creation.
-    step: 'question' or 'answer'
-    data: {title, description} or {reference_answer}
+     Yukine validates a specific step of the assignment creation or submission.
+    step: 'question', 'answer', or 'student_submit'
+    data: {title, description}, {reference_answer, description}, or {student_answer, description}
     Returns: {status: 'pass/suggest', feedback: 'text', suggestions: 'text'}
     """
     try:
@@ -758,7 +758,7 @@ def validate_assignment_step(step, data):
             - status: "pass" (完全沒問題) 或 "suggest" (有建議可以更好)
             - feedback: 給老師的親切評價 (繁體中文)
             """
-        else: # answer
+        elif step == 'answer':
             prompt = f"""
             {tutor_prompt}
             
@@ -773,6 +773,23 @@ def validate_assignment_step(step, data):
             請回傳 JSON：
             - status: "pass" 或 "suggest"
             - feedback: 給老師的親切評價 (繁體中文)
+            """
+        elif step == 'student_submit':
+            prompt = f"""
+            {tutor_prompt}
+            
+            學生準備要提交作業了，請幫忙進行初步檢查（預批改）。
+            題目：{data.get('description')}
+            學生答案：{data.get('student_answer')}
+            
+            任務：
+            1. 檢查學生是否「答非所問」。
+            2. 如果答案太簡略或明顯敷衍，請溫柔地提醒學生可以多補充一點內容再提交。
+            3. 檢查答案中是否有不當言論。
+            
+            請回傳 JSON：
+            - status: "pass" (可以提交) 或 "suggest" (建議修改後再交)
+            - feedback: 給學生的親切鼓勵或提醒 (繁體中文)
             """
 
         response_text = generate_text_with_fallback(prompt)

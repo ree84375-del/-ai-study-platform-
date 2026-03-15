@@ -120,7 +120,7 @@
                         {% for assignment in assignments %}
                             {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
                             {% set is_completed = user_status and user_status.is_completed %}
-                            <div class="assignment-card open-sub-btn" 
+                            <div class="assignment-card open-sub-btn {% if not is_completed %}active-assignment-glow{% endif %}" 
                                  data-id="{{ assignment.id }}"
                                  data-title="{{ assignment.title or '' }}"
                                  data-desc="{{ assignment.description or '' }}"
@@ -130,6 +130,12 @@
                                  data-feedback="{{ user_status.ai_feedback if user_status else '' }}"
                                  data-explanation="{{ user_status.ai_explanation if user_status else '' }}"
                                  style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 18px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                
+                                {% if not is_completed %}
+                                <div style="position: absolute; top: -10px; right: -5px; background: #ff8da1; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 5px rgba(255, 141, 161, 0.3);">
+                                    雪音提醒：此項作業尚未繳交
+                                </div>
+                                {% endif %}
                                 
                                 <style>
                                     .assignment-card:hover {
@@ -274,6 +280,25 @@
                     border-radius: 28px;
                     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
                 }
+
+                @keyframes assignment-glow {
+                    0% { box-shadow: 0 0 5px rgba(255, 141, 161, 0.2), 0 2px 4px rgba(0,0,0,0.02); border-color: var(--color-border); }
+                    50% { box-shadow: 0 0 20px rgba(255, 141, 161, 0.5), 0 4px 8px rgba(255, 141, 161, 0.2); border-color: rgba(255, 141, 161, 0.6); }
+                    100% { box-shadow: 0 0 5px rgba(255, 141, 161, 0.2), 0 2px 4px rgba(0,0,0,0.02); border-color: var(--color-border); }
+                }
+                .active-assignment-glow {
+                    animation: assignment-glow 2s infinite ease-in-out;
+                    background: linear-gradient(to right, white, #fffcfd) !important;
+                }
+                .yukine-stamp {
+                    position: absolute;
+                    right: 15px;
+                    bottom: 15px;
+                    font-size: 2rem;
+                    opacity: 0.1;
+                    transform: rotate(-15deg);
+                    pointer-events: none;
+                }
             </style>
 
             <div class="admin-card-grid">
@@ -335,14 +360,19 @@
                                 <div id="question-status" style="font-size: 0.75rem; color: var(--color-primary); margin-top: 5px; min-height: 20px;"></div>
                             </div>
                             <!-- Yukine Feedback Area for Step 1 -->
-                            <div id="yukine-feedback-1" style="display: none; background: #fffcf0; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px;">
+                            <div id="yukine-feedback-1" style="display: none; background: #fffcf0; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px; position: relative;">
+                                <div class="yukine-stamp"><i class="fa-solid fa-stamp"></i></div>
                                 <div style="display: flex; align-items: flex-start; gap: 8px;">
                                     <img src="/static/img/yukine_avatar.png" style="width: 24px; height: 24px; border-radius: 50%;">
                                     <div id="yukine-text-1" style="font-size: 0.85rem; color: #856404; line-height: 1.4;"></div>
                                 </div>
-                                <button type="button" onclick="confirmAndNext(2)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">確認內容無誤，進入下一步</button>
+                                <button type="button" onclick="confirmAndNext(2)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                                    <i class="fa-solid fa-check-double"></i> 雪音認可了，進入下一步
+                                </button>
                             </div>
-                            <button type="button" id="btn-check-1" onclick="performYukineCheck(1)" class="btn" style="width: 100%; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold;">呼叫雪音檢查題目</button>
+                            <button type="button" id="btn-check-1" onclick="performYukineCheck(1)" class="btn" style="width: 100%; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold;">
+                                <i class="fa-solid fa-snowflake"></i> 給雪音檢查
+                            </button>
                         </div>
 
                         <!-- Phase 2: Answer -->
@@ -357,16 +387,21 @@
                                 <div id="answer-status" style="font-size: 0.75rem; color: var(--color-primary); margin-top: 5px; min-height: 20px;"></div>
                             </div>
                             <!-- Yukine Feedback Area for Step 2 -->
-                            <div id="yukine-feedback-2" style="display: none; background: #fffcf0; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px;">
+                            <div id="yukine-feedback-2" style="display: none; background: #fffcf0; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px; position: relative;">
+                                <div class="yukine-stamp"><i class="fa-solid fa-stamp"></i></div>
                                 <div style="display: flex; align-items: flex-start; gap: 8px;">
                                     <img src="/static/img/yukine_avatar.png" style="width: 24px; height: 24px; border-radius: 50%;">
                                     <div id="yukine-text-2" style="font-size: 0.85rem; color: #856404; line-height: 1.4;"></div>
                                 </div>
-                                <button type="button" onclick="confirmAndNext(3)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">確認解答無誤，進入下一步</button>
+                                <button type="button" onclick="confirmAndNext(3)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                                    <i class="fa-solid fa-check-double"></i> 雪音認可了，進入下一步
+                                </button>
                             </div>
                             <div style="display: flex; gap: 8px;">
                                 <button type="button" onclick="nextPublishPhase(1)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">上一步</button>
-                                <button type="button" id="btn-check-2" onclick="performYukineCheck(2)" style="flex: 2; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold;">呼叫雪音檢查解答</button>
+                                <button type="button" id="btn-check-2" onclick="performYukineCheck(2)" style="flex: 2; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold;">
+                                    <i class="fa-solid fa-snowflake"></i> 給雪音檢查
+                                </button>
                             </div>
                         </div>
 
@@ -391,8 +426,14 @@
                         <i class="fa-solid fa-users-gear"></i> 管理與成員角色
                     </h3>
                     <div style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
-                        {% set sorted_members = group.members | sort(attribute='user.role', reverse=True) %}
-                        {% for member in sorted_members %}
+                        {% set teacher_id = group.teacher_id %}
+                        {% set members_list = group.members | list %}
+                        {# Sorting: Teacher first, then others #}
+                        {% set sorted_members = members_list | sort(attribute='user.username') | sort(attribute='user_id', reverse=True) %}
+                        {# Actual fix for Teacher First in Jinja #}
+                        {% set teachers = group.members | selectattr('user_id', 'equalto', teacher_id) | list %}
+                        {% set others = group.members | rejectattr('user_id', 'equalto', teacher_id) | list %}
+                        {% for member in teachers + others %}
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; overflow: hidden;">
@@ -475,6 +516,17 @@
                             
                             <div style="margin: 1rem 0; text-align: center; color: #CCC; font-size: 0.8rem;">— 或者直接輸入文字 —</div>
                             <textarea name="content" id="modal-content" placeholder="在此輸入作業內容..." style="width: 100%; min-height: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem;"></textarea>
+
+                            <!-- Yukine Student Pre-check Area -->
+                            <div id="student-yukine-precheck" style="display: none; background: #f0f7ff; padding: 12px; border-radius: 8px; border: 1px solid #cce5ff; margin-top: 15px; position: relative;">
+                                <div style="display: flex; align-items: flex-start; gap: 8px;">
+                                    <img src="/static/img/yukine_avatar.png" style="width: 24px; height: 24px; border-radius: 50%;">
+                                    <div id="student-yukine-text" style="font-size: 0.85rem; color: #004085; line-height: 1.4;"></div>
+                                </div>
+                            </div>
+                            <button type="button" id="btn-student-check" onclick="performStudentYukineCheck()" class="btn" style="width: 100%; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold; margin-top: 12px;">
+                                <i class="fa-solid fa-snowflake"></i> 給雪音檢查內容
+                            </button>
                         </div>
                     </div>
 
@@ -510,7 +562,7 @@
 
                     <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
                         <button type="button" id="modal-back-btn" onclick="resetModalSteps()" style="display: none; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer;">返回</button>
-                        <button type="submit" id="modal-submit-btn" style="flex: 2; padding: 12px; border-radius: 8px; border: none; background: var(--color-accent); color: white; font-weight: bold; cursor: pointer;">正式提交作業</button>
+                        <button type="submit" id="modal-submit-btn" style="flex: 2; padding: 12px; border-radius: 8px; border: none; background: #ccc; color: white; font-weight: bold; cursor: not-allowed;" disabled>正式提交作業 (請先給雪音檢查)</button>
                     </div>
                 </form>
             </div>
@@ -804,7 +856,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData();
             formData.append('step', stepNum === 1 ? 'question' : 'answer');
             formData.append('title', title);
-            formData.append('description', desc);
+            formData.append('description', desc); // Always pass description for context
             formData.append('reference_answer', ans);
 
             const resp = await fetch(`/api/groups/${CONFIG.groupId}/assignment/check_step`, {
@@ -830,6 +882,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.confirmAndNext = (nextPhase) => {
         window.nextPublishPhase(nextPhase);
+    };
+
+    window.performStudentYukineCheck = async () => {
+        const studentAns = document.getElementById('modal-content').value.trim();
+        const recognizedAns = document.getElementById('recognized-display').value.trim();
+        const finalAns = studentAns || recognizedAns;
+        const qDesc = document.getElementById('modal-desc').innerText.trim();
+        
+        const feedbackDiv = document.getElementById('student-yukine-precheck');
+        const feedbackText = document.getElementById('student-yukine-text');
+        const checkBtn = document.getElementById('btn-student-check');
+        const submitBtn = document.getElementById('modal-submit-btn');
+
+        if (!finalAns) {
+            alert('雪音老師提醒：學生不能交白卷唷！(๑•̀ㅂ•́)و✧');
+            return;
+        }
+
+        checkBtn.disabled = true;
+        checkBtn.innerHTML = '<i class="fa-solid fa-sync fa-spin"></i> 雪音預批改中...';
+
+        try {
+            const formData = new FormData();
+            formData.append('step', 'student_submit');
+            formData.append('student_answer', finalAns);
+            formData.append('description', qDesc);
+
+            const resp = await fetch(`/api/groups/${CONFIG.groupId}/assignment/check_step`, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': CONFIG.csrfToken },
+                body: formData
+            });
+            const result = await resp.json();
+
+            feedbackDiv.style.display = 'block';
+            feedbackText.innerText = result.feedback;
+            
+            if (result.status === 'pass') {
+                submitBtn.disabled = false;
+                submitBtn.style.background = 'var(--color-accent)';
+                submitBtn.style.cursor = 'pointer';
+                submitBtn.innerText = '確認無誤，正式提交作業';
+                checkBtn.style.display = 'none';
+            } else {
+                alert('雪音老師有一些小建議，修改一下會更好唷！');
+            }
+        } catch (e) {
+            console.error(e);
+            submitBtn.disabled = false;
+            submitBtn.style.background = 'var(--color-accent)';
+            submitBtn.style.cursor = 'pointer';
+        } finally {
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = '<i class="fa-solid fa-snowflake"></i> 給雪音檢查內容';
+        }
     };
 
     window.recognizeStep = async (context, input) => {
@@ -1016,7 +1123,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                         <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
-                        ${(!isAI && data.user_id == CONFIG.teacherId) ? `<span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">${CONFIG.groupTypeLabel}</span>` : ''}
+                        ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
+                        ${(!isAI && data.user_id == CONFIG.teacherId) ? `<span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; box-shadow: 0 0 10px rgba(124, 77, 255, 0.3);">${CONFIG.groupTypeLabel}</span>` : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
                     <!-- Bubble & Trigger Row -->
