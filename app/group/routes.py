@@ -351,6 +351,27 @@ def group_dashboard(group_id):
                         db.session.commit()
                         flash('新作業已發布', 'success')
 
+                        # Yukine Public Announcement
+                        if group_obj.has_ai:
+                            try:
+                                yukine = User.query.filter_by(username='雪音老師').first()
+                                if yukine:
+                                    due_hint = "沒有設定截止時間，大家可以慢慢寫唷！"
+                                    if due_date:
+                                        # Convert to Taiwan Time for display
+                                        tw_due = due_date + timedelta(hours=8)
+                                        due_hint = f"截止時間是 {tw_due.strftime('%Y-%m-%d %H:%M')}，要記得準時交唷！(๑•̀ㅂ•́)و✧"
+                                    
+                                    announcement_msg = GroupMessage(
+                                        group_id=group_id,
+                                        user_id=yukine.id,
+                                        content=f"呀吼！老師剛才發布了新的作業「{title}」，雪音已經紀錄下來了！{due_hint}"
+                                    )
+                                    db.session.add(announcement_msg)
+                                    db.session.commit()
+                            except Exception as ann_e:
+                                current_app.logger.error(f"Yukine announcement failed: {ann_e}")
+
             elif action == 'submit_assignment':
                 assignment_id = request.form.get('assignment_id')
                 content = request.form.get('content') # Direct text
@@ -721,3 +742,28 @@ def assignment_ai_draft(group_id):
         return jsonify({'status': 'error', 'message': result['error']})
         
     return jsonify({'status': 'success', 'draft': result})
+
+
+@group.route('/api/groups/<int:group_id>/assignment/check_step', methods=['POST'], strict_slashes=False)
+@login_required
+def check_assignment_step(group_id):
+    from app.models import Group
+    group_obj = Group.query.get_or_404(group_id)
+    
+    if group_obj.teacher_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    step = request.form.get('step') # 'question' or 'answer'
+    
+    data = {}
+    if step == 'question':
+        data['title'] = request.form.get('title', '')
+        data['description'] = request.form.get('description', '')
+    elif step == 'answer':
+        data['description'] = request.form.get('description', '') # To check context
+        data['reference_answer'] = request.form.get('reference_answer', '')
+        
+    from app.utils.ai_helpers import validate_assignment_step
+    result = validate_assignment_step(step, data)
+    
+    return jsonify(result)

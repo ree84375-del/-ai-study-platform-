@@ -730,3 +730,59 @@ def get_yukine_grading_result(question, ref_answer, student_answer, student_imag
         logging.error(f"Grading error: {e}")
         return 0, "批改出錯了，請老師手動檢查唷！", f"錯誤原因：{str(e)}"
 
+
+def validate_assignment_step(step, data):
+    """
+    Yukine validates a specific step of the assignment creation.
+    step: 'question' or 'answer'
+    data: {title, description} or {reference_answer}
+    Returns: {status: 'pass/suggest', feedback: 'text', suggestions: 'text'}
+    """
+    try:
+        tutor_prompt = AI_PERSONALITIES['雪音-溫柔型']['system_prompt']
+        
+        if step == 'question':
+            prompt = f"""
+            {tutor_prompt}
+            
+            老師正在設計作業題目，請幫忙檢查並給予建議。
+            標題：{data.get('title')}
+            內容：{data.get('description')}
+            
+            任務：
+            1. 檢查標題是否吸引人且清楚。
+            2. 檢查內容是否足夠完整，讓學生能理解如何作答。
+            3. 如果太過簡單（例如只有一個字），請溫柔地建議老師充實內容。
+            
+            請回傳 JSON：
+            - status: "pass" (完全沒問題) 或 "suggest" (有建議可以更好)
+            - feedback: 給老師的親切評價 (繁體中文)
+            """
+        else: # answer
+            prompt = f"""
+            {tutor_prompt}
+            
+            老師剛設定完作業題目，現在正在設定「參考答案」。
+            題目：{data.get('description')}
+            參考答案：{data.get('reference_answer')}
+            
+            任務：
+            1. 檢查答案是否能對應到題目。
+            2. 檢查答案是否太簡略（例如：若題目是問答題，但答案只有一個詞，可能不利於 AI 自動批改）。
+            
+            請回傳 JSON：
+            - status: "pass" 或 "suggest"
+            - feedback: 給老師的親切評價 (繁體中文)
+            """
+
+        response_text = generate_text_with_fallback(prompt)
+        clean_text = response_text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        return json.loads(clean_text)
+    except Exception as e:
+        return {'status': 'pass', 'feedback': f'雪音雖然現在有點頭暈，但覺得老師的設計應該沒問題唷！(小聲：{str(e)})'}
+
