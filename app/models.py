@@ -73,6 +73,12 @@ class User(db.Model, UserMixin):
     mistakes = db.relationship('Mistake', backref='student', lazy=True)
     group_memberships = db.relationship('GroupMember', backref='member', lazy=True)
 
+    @staticmethod
+    def is_name_forbidden(name):
+        forbidden_keywords = ['管理員', '官網人員', '官方', '雪音老師', 'yukine', 'admin', 'administrator', 'root', 'staff', 'moderator', 'system']
+        name_lower = name.lower()
+        return any(kw in name_lower for kw in forbidden_keywords)
+
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', Role: '{self.role}')"
 

@@ -54,6 +54,10 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+            # Force Admin name
+            if user.role == 'admin' and user.username != '管理員':
+                user.username = '管理員'
+            
             user.last_login = datetime.now(timezone.utc)
             db.session.commit()
             login_user(user, remember=form.remember.data)
@@ -98,7 +102,8 @@ def google_auth():
         
         if not user:
             random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
-            user = User(username=name, email=email, password=random_password, role=assigned_role, auth_provider='google')
+            final_name = '管理員' if assigned_role == 'admin' else name
+            user = User(username=final_name, email=email, password=random_password, role=assigned_role, auth_provider='google')
             db.session.add(user)
             db.session.commit()
             flash('成功透過 Google 註冊並登入系統！', 'success')
@@ -110,6 +115,10 @@ def google_auth():
             # Upgrade to admin if necessary
             if is_admin and user.role != 'admin':
                 user.role = 'admin'
+            
+            # Force Admin name
+            if user.role == 'admin' and user.username != '管理員':
+                user.username = '管理員'
             
             db.session.commit()
             if user.role == 'admin':

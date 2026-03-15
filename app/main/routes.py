@@ -188,8 +188,18 @@ def update_profile():
     from app.models import User
     new_username = request.form.get('username', current_user.username)
 
-    # Check for duplicate username (only if it actually changed)
     if new_username != current_user.username:
+        # 1. Admin cannot change their name
+        if current_user.is_admin:
+            flash('管理員名稱已鎖定，不可更改。', 'warning')
+            return redirect(url_for('main.profile'))
+            
+        # 2. Check forbidden names
+        if User.is_name_forbidden(new_username):
+            flash('此名稱包含禁用關鍵字，請更換一個名稱。', 'danger')
+            return redirect(url_for('main.profile'))
+
+        # 3. Check for duplicates
         existing_user = User.query.filter_by(username=new_username).first()
         if existing_user:
             flash('該使用者名稱已被使用，請選擇其他名稱。', 'danger')

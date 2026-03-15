@@ -81,7 +81,7 @@
             <form method="POST" action="">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="action" value="post_announcement"/>
-                <textarea name="content" placeholder="身為老師，在這裡發布重要群組公告..." required style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; resize: vertical; min-height: 60px; font-family: inherit; font-size: 1rem; margin-bottom: 10px; box-sizing: border-box;"></textarea>
+                <textarea name="content" placeholder="身為{{ '老師' if group.group_type == 'class' else '主持人' }}，在這裡發布重要群組公告..." required style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; resize: vertical; min-height: 60px; font-family: inherit; font-size: 1rem; margin-bottom: 10px; box-sizing: border-box;"></textarea>
                 <button type="submit" style="background-color: var(--color-accent); color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: bold;">
                     張貼公告
                 </button>
@@ -209,7 +209,7 @@
                                         <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>
                                     {% elif msg.user_id == group.teacher_id %} 
                                         <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">
-                                            {{ '創辦人' if group.group_type == 'discussion' else '老師' }}
+                                            {{ '老師' if group.group_type == 'class' else '主持人' }}
                                         </span>
                                     {% endif %}
                                     <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="color: var(--color-text_light); font-size: 0.75rem;"></span>
@@ -549,6 +549,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                         <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
+                        ${(!isAI && data.user_id == {{ group.teacher_id }}) ? `<span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">{{ '老師' if group.group_type == 'class' else '主持人' }}</span>` : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
                     <!-- Bubble & Trigger Row -->
@@ -582,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
                             <i class="fa-solid fa-rotate-left message-more-btn" title="收回" onclick="event.stopPropagation(); recallMessage(${msgId})"></i>
                         ` : ''}
-                        ${(!isAI && (isMine || username==='主持人')) ? `<i class="fa-solid fa-trash-can message-more-btn" style="color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage(${msgId})"></i>` : ''}
+                        ${(!isAI && (isMine || data.user_id == {{ group.teacher_id }})) ? `<i class="fa-solid fa-trash-can message-more-btn" style="color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage(${msgId})"></i>` : ''}
                     </div>
                 </div>
             </div>

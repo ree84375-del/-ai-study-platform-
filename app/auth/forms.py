@@ -14,6 +14,8 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('註冊')
 
     def validate_username(self, username):
+        if User.is_name_forbidden(username.data):
+            raise ValidationError('此名稱包含禁用關鍵字，請更換一個名稱。')
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('該用戶名已存在。請選擇一個不同的名字。')
