@@ -73,145 +73,154 @@ def get_groq_client():
     return Groq(api_key=random.choice(keys))
 
 def generate_text_with_fallback(prompt, system_instruction=None):
-    """Unified wrapper for text generation with Gemini -> Groq fallback"""
+    """Unified wrapper for text generation with randomized provider rotation (Gemini, Groq, Ollama)"""
     gemini_keys = get_gemini_keys()
-    if gemini_keys:
-        try:
-            model = get_gemini_model(system_instruction=system_instruction)
-            response = model.generate_content(prompt)
-            return response.text
-        except Exception as e:
-            print(f"[Fallback] Gemini text generation failed: {e}")
-            pass # Fallthrough to Groq
-            
     groq_keys = get_groq_keys()
-    if groq_keys:
-        try:
-            from groq import Groq
-            client = Groq(api_key=random.choice(groq_keys))
-            messages = []
-            if system_instruction:
-                messages.append({"role": "system", "content": system_instruction})
-            messages.append({"role": "user", "content": prompt})
-            
-            response = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=2048,
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            print(f"[Fallback] Groq text generation failed: {e}")
-            
-    # Final Fallback to Ollama (OpenAI-compatible)
     ollama_keys = get_ollama_keys()
-    if ollama_keys:
-        try:
-            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-            from openai import OpenAI
-            client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
-            
-            messages = []
-            if system_instruction:
-                messages.append({"role": "system", "content": system_instruction})
-            messages.append({"role": "user", "content": prompt})
-            
-            response = client.chat.completions.create(
-                model=os.environ.get('OLLAMA_MODEL', 'llama3'),
-                messages=messages,
-                temperature=0.7
-            )
-            return str(response.choices[0].message.content)
-        except Exception as e:
-            print(f"[Fallback] Ollama text generation failed: {e}")
+    
+    providers = []
+    if gemini_keys: providers.append('gemini')
+    if groq_keys: providers.append('groq')
+    if ollama_keys: providers.append('ollama')
+    
+    if not providers:
+        raise Exception("伺服器未設定任何 AI API Key。")
+        
+    random.shuffle(providers)
+    errors = []
+    
+    for provider in providers:
+        if provider == 'gemini':
+            try:
+                model = get_gemini_model(system_instruction=system_instruction)
+                response = model.generate_content(prompt)
+                return response.text
+            except Exception as e:
+                errors.append(f"Gemini: {e}")
+                
+        elif provider == 'groq':
+            try:
+                from groq import Groq
+                client = Groq(api_key=random.choice(groq_keys))
+                messages = []
+                if system_instruction:
+                    messages.append({"role": "system", "content": system_instruction})
+                messages.append({"role": "user", "content": prompt})
+                
+                response = client.chat.completions.create(
+                    model="llama-3.3-70b-versatile",
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=2048,
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                errors.append(f"Groq: {e}")
+                
+        elif provider == 'ollama':
+            try:
+                ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+                from openai import OpenAI
+                client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
+                
+                messages = []
+                if system_instruction:
+                    messages.append({"role": "system", "content": system_instruction})
+                messages.append({"role": "user", "content": prompt})
+                
+                response = client.chat.completions.create(
+                    model=os.environ.get('OLLAMA_MODEL', 'llama3'),
+                    messages=messages,
+                    temperature=0.7
+                )
+                return str(response.choices[0].message.content)
+            except Exception as e:
+                errors.append(f"Ollama: {e}")
 
-    raise Exception("所有的 AI 模型 (Gemini/Groq/Ollama) 負荷中，請稍後再試。")
+    raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
-    """Unified wrapper for vision generation with Gemini -> Groq fallback"""
+    """Unified wrapper for vision generation with randomized provider rotation (Gemini, Groq, Ollama)"""
     import base64
-    
     gemini_keys = get_gemini_keys()
-    if gemini_keys:
-        try:
-            # We must use 'code_execution' tools if we want, but for generic vision, vanilla is safer
-            model = get_gemini_model()
-            image = Image.open(io.BytesIO(image_bytes))
-            
-            # If system instructions are needed, gemini combines it in its config.
-            # But the existing `get_gemini_model` handles caching poorly if tools vary.
-            inputs = [prompt, image]
-            if system_instruction:
-                model = get_gemini_model(system_instruction=system_instruction)
-                
-            response = model.generate_content(inputs)
-            return response.text
-        except Exception as e:
-            print(f"[Fallback] Gemini vision failed: {e}")
-            pass # Fallthrough to Groq
-            
     groq_keys = get_groq_keys()
-    if groq_keys:
-        try:
-            from groq import Groq
-            client = Groq(api_key=random.choice(groq_keys))
-            base64_image = base64.b64encode(image_bytes).decode('utf-8')
-            
-            messages = []
-            if system_instruction:
-                messages.append({"role": "system", "content": system_instruction})
-                
-            messages.append({
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
-                ],
-            })
-            
-            response = client.chat.completions.create(
-                model="llama-3.2-11b-vision-preview",
-                messages=messages,
-                temperature=0.7,
-                max_tokens=2048,
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            print(f"[Fallback] Groq vision failed: {e}")
-            pass # Fallthrough to Ollama
-            
-    # Final Fallback to Ollama (OpenAI-compatible)
     ollama_keys = get_ollama_keys()
-    if ollama_keys:
-        try:
-            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-            from openai import OpenAI
-            client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
-            base64_image = base64.b64encode(image_bytes).decode('utf-8')
-            
-            messages = []
-            if system_instruction:
-                messages.append({"role": "system", "content": system_instruction})
-            
-            messages.append({
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": prompt},
-                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
-                ],
-            })
-            
-            response = client.chat.completions.create(
-                model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
-                messages=messages,
-                temperature=0.7
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            print(f"[Fallback] Ollama vision failed: {e}")
+    
+    providers = []
+    if gemini_keys: providers.append('gemini')
+    if groq_keys: providers.append('groq')
+    if ollama_keys: providers.append('ollama')
+    
+    if not providers:
+        raise Exception("伺服器未設定任何 AI API Key。")
+        
+    random.shuffle(providers)
+    errors = []
+    
+    for provider in providers:
+        if provider == 'gemini':
+            try:
+                model = get_gemini_model()
+                image = Image.open(io.BytesIO(image_bytes))
+                inputs = [prompt, image]
+                if system_instruction:
+                    model = get_gemini_model(system_instruction=system_instruction)
+                response = model.generate_content(inputs)
+                return response.text
+            except Exception as e:
+                errors.append(f"Gemini Vision: {e}")
+        
+        elif provider == 'groq':
+            try:
+                from groq import Groq
+                client = Groq(api_key=random.choice(groq_keys))
+                base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                messages = []
+                if system_instruction:
+                    messages.append({"role": "system", "content": system_instruction})
+                messages.append({
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                    ],
+                })
+                response = client.chat.completions.create(
+                    model="llama-3.2-11b-vision-preview",
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=2048,
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                errors.append(f"Groq Vision: {e}")
+        
+        elif provider == 'ollama':
+            try:
+                ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+                from openai import OpenAI
+                client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
+                base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                messages = []
+                if system_instruction:
+                    messages.append({"role": "system", "content": system_instruction})
+                messages.append({
+                    "role": "user",
+                    "content": [
+                        {"type": "text", "text": prompt},
+                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                    ],
+                })
+                response = client.chat.completions.create(
+                    model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
+                    messages=messages,
+                    temperature=0.7
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                errors.append(f"Ollama Vision: {e}")
 
-    raise Exception("所有的 AI 模型 (Gemini/Groq/Ollama) 皆已達連線上限，請稍後再試。")
+    raise Exception(f"所有的視覺 AI 模型皆不可用：{', '.join(errors)}")
 
 def analyze_question_image(image_bytes, user=None):
     try:
