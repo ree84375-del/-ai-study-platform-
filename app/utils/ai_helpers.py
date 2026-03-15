@@ -57,12 +57,12 @@ def get_gemini_model(system_instruction=None, tools=None):
         print(f"Failed to auto-discover models: {e}")
         
     # Ultimate fallback if everything fails
-    _cached_gemini_model_name = 'gemini-2.0-flash'
+    _cached_gemini_model_name = 'models/gemini-1.5-flash'
     return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction, tools=tools)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
-    keys_str = os.environ.get('GROQ_API_KEYS', '')
+    keys_str = os.environ.get('GROQ_API_KEYS', os.environ.get('GROQ_API_KEY', ''))
     if not keys_str: return []
     return [k.strip() for k in keys_str.split(',') if k.strip()]
 
@@ -179,9 +179,39 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
             return response.choices[0].message.content
         except Exception as e:
             print(f"[Fallback] Groq vision failed: {e}")
-            raise Exception("所有的 AI 模型 (Gemini/Groq) 皆已達連線上限，請稍後再試。")
+            pass # Fallthrough to Ollama
             
-    raise Exception("伺服器未設定任何 AI API Key。")
+    # Final Fallback to Ollama (OpenAI-compatible)
+    ollama_keys = get_ollama_keys()
+    if ollama_keys:
+        try:
+            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+            from openai import OpenAI
+            client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
+            base64_image = base64.b64encode(image_bytes).decode('utf-8')
+            
+            messages = []
+            if system_instruction:
+                messages.append({"role": "system", "content": system_instruction})
+            
+            messages.append({
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                ],
+            })
+            
+            response = client.chat.completions.create(
+                model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
+                messages=messages,
+                temperature=0.7
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"[Fallback] Ollama vision failed: {e}")
+
+    raise Exception("所有的 AI 模型 (Gemini/Groq/Ollama) 皆已達連線上限，請稍後再試。")
 
 def analyze_question_image(image_bytes, user=None):
     try:

@@ -320,8 +320,14 @@ def draw_omikuji():
         return redirect(url_for('main.home'))
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Omikuji Error: {str(e)}")
-        flash('神明目前太過忙碌 (API 呼叫次數達上限)，請稍後再試一次！', 'danger')
+        error_msg = str(e)
+        current_app.logger.error(f"Omikuji Error: {error_msg}")
+        
+        # provide a more helpful message if it's an AI fallback failure
+        if "AI 模型" in error_msg or "API Key" in error_msg:
+            flash(f'神明目前太過忙碌 ({error_msg})，請稍後再試一次！', 'danger')
+        else:
+            flash(f'神明領旨時發生了一點意外：{error_msg}，請稍後再試一次。', 'warning')
         return redirect(url_for('main.home'))
 
 @main.route("/api/ema/create", methods=['POST'])
