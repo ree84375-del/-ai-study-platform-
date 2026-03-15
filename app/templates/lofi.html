@@ -108,6 +108,9 @@
         style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 30% 50%, rgba(181, 155, 142, 0.15) 0%, rgba(0,0,0,0) 60%); pointer-events: none; z-index: 1;">
     </div>
     <div class="particles-layer"></div>
+    
+    <!-- Audio Permission Overlay (Silent/Invisible) -->
+    <div id="audio-init-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; cursor: pointer;"></div>
 
     <!-- Background Shooting Stars -->
     <div class="bg-stars-layer">
@@ -541,7 +544,8 @@
                     audio.volume = document.getElementById('volume-slider').value;
                 }).catch(e => {
                     console.warn("Playback failed:", e);
-                    alert(document.getElementById('i18n-data').dataset.audioPermMsg);
+                    // No alert - we rely on the overlay to have initialized audio context
+                    // Or we could show a subtle toast if it still fails
                 });
             } else {
                 audio.pause();
@@ -685,6 +689,23 @@
             updateDisplay();
             const container = document.querySelector('.lofi-container');
             const frame = document.getElementById('yukine-frame');
+            
+            // --- Audio Init Global Handler ---
+            const overlay = document.getElementById('audio-init-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', () => {
+                    // Touch all audio elements once to enable playback
+                    Object.values(audios).forEach(audio => {
+                        if (audio) {
+                            audio.play().then(() => {
+                                audio.pause();
+                                audio.currentTime = 0;
+                            }).catch(e => console.log("Initial audio touch failed:", e));
+                        }
+                    });
+                    overlay.remove();
+                }, { once: true });
+            }
 
             if (container && frame) {
                 container.addEventListener('mousemove', (e) => {
