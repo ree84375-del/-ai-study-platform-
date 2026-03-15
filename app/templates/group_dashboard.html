@@ -191,13 +191,83 @@
                 <i class="fa-solid fa-screwdriver-wrench"></i> 管理專區
             </h3>
             
-            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-                <!-- Publish Assignment Tool -->
-                <button type="button" onclick="toggleManagedTool('publish-assignment-tool')" class="btn" style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(var(--color-primary-rgb), 0.1); color: var(--color-primary); border: 1px solid var(--color-primary); padding: 12px 15px; border-radius: 10px; font-weight: bold;">
-                    <span><i class="fa-solid fa-file-circle-plus"></i> <span id="publish-tool-label">發布新作業</span></span>
-                    <i id="publish-assignment-tool-icon" class="fa-solid fa-chevron-down"></i>
-                </button>
-                    <div id="publish-wizard">
+            <style>
+                .admin-card-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 15px;
+                    margin-bottom: 20px;
+                }
+                .admin-square-card {
+                    aspect-ratio: 1 / 1;
+                    background: white;
+                    border: 1px solid var(--color-border);
+                    border-radius: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 15px;
+                    cursor: pointer;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    text-align: center;
+                    position: relative;
+                    overflow: hidden;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+                }
+                .admin-square-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+                    border-color: var(--color-primary);
+                }
+                .admin-square-card i {
+                    font-size: 1.8rem;
+                    margin-bottom: 12px;
+                    color: var(--color-primary);
+                    transition: transform 0.3s;
+                }
+                .admin-square-card:hover i {
+                    transform: scale(1.15) rotate(5deg);
+                }
+                .admin-square-card h5 {
+                    margin: 0;
+                    font-size: 0.95rem;
+                    color: var(--color-text_main);
+                    font-weight: 700;
+                }
+                .admin-square-card p {
+                    margin: 4px 0 0 0;
+                    font-size: 0.7rem;
+                    color: var(--color-text_light);
+                    font-weight: 500;
+                }
+                .admin-square-card.active {
+                    background: #f0f7ff;
+                    border-color: var(--color-primary);
+                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+                }
+            </style>
+
+            <div class="admin-card-grid">
+                <!-- Publish Assignment Card -->
+                <div class="admin-square-card" onclick="toggleManagedTool('publish-wizard', this)">
+                    <div style="background: rgba(var(--color-primary-rgb), 0.1); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <i class="fa-solid fa-file-circle-plus" style="margin-bottom: 0;"></i>
+                    </div>
+                    <h5>發布作業</h5>
+                    <p>AI 協助導引</p>
+                </div>
+                
+                <!-- Member Management Card -->
+                <div class="admin-square-card" onclick="toggleManagedTool('member-management-tool', this)">
+                    <div style="background: #f3e5f5; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <i class="fa-solid fa-users-gear" style="margin-bottom: 0; color: #9c27b0;"></i>
+                    </div>
+                    <h5>管理角色</h5>
+                    <p>成員權限設定</p>
+                </div>
+            </div>
+                    <div id="publish-wizard" class="managed-tool" style="display: none; background: #fffcfd; padding: 20px; border-radius: 16px; border: 1px solid #ffd1dc; margin-bottom: 1.5rem; box-shadow: 0 8px 15px rgba(255,141,161,0.05);">
                         <input type="hidden" id="draft-id" name="assignment_id">
                         
                         <!-- Phase 0: AI Prompt (Optional) -->
@@ -1018,18 +1088,21 @@ function clearImage() {
     document.getElementById('image-preview-container').style.display = 'none';
 }
 
-window.toggleManagedTool = (id) => {
+window.toggleManagedTool = (id, cardEl = null) => {
     const el = document.getElementById(id);
-    const icon = document.getElementById(id + '-icon');
     const isVisible = el.style.display === 'block';
-    document.querySelectorAll('.managed-tool').forEach(t => {
-        t.style.display = 'none';
-        const ti = document.getElementById(t.id + '-icon');
-        if (ti) ti.className = 'fa-solid fa-chevron-down';
-    });
+
+    // Reset all tools
+    document.querySelectorAll('.managed-tool').forEach(t => t.style.display = 'none');
+    
+    // Reset all cards
+    document.querySelectorAll('.admin-square-card').forEach(c => c.classList.remove('active'));
+
     if (!isVisible) {
         el.style.display = 'block';
-        if (icon) icon.className = 'fa-solid fa-chevron-up';
+        if (cardEl) cardEl.classList.add('active');
+        // Smooth scroll to tool
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 };
 
