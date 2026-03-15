@@ -1678,7 +1678,30 @@ TRANSLATIONS = {
         'fortune_中吉': 'Middle Blessing',
         'fortune_小吉': 'Small Blessing',
         'fortune_末吉': 'Future Blessing',
-        'practice_no_mistakes': 'Not enough mistakes yet! Practice more to collect them.'
+        'practice_no_mistakes': 'Not enough mistakes yet! Practice more to collect them.',
+        'acc_security': 'Account Security',
+        'acc_secret_zone': 'Safety Zone: Private info, AI cannot access.',
+        'daily_fortune': 'Daily Fortune',
+        'draw_daily_fortune': 'Draw your luck and advice for today!',
+        'no_roadmap': 'No study plan yet. Set your exam date to let Yukine help!',
+        'gen_roadmap': 'Generate Plan',
+        'regen_roadmap': 'Regen Plan',
+        'daruma_goal': 'Daruma Goal',
+        'ema_board': 'Ema Board',
+        'write_ema': 'Write Ema',
+        'no_emas': 'No Emas here yet...',
+        'ema_placeholder': 'Write your wish...',
+        'daruma_placeholder': 'Set your next goal...',
+        'commit_goal': 'Commit Goal',
+        'vegetation_new_sprout': 'New Sprout',
+        'weather_misty': 'Misty',
+        'ai_reading_zone': "Yukine's Note: The teacher reads this to understand you better!",
+        '雪音-溫柔型': 'Yukine-Gentle',
+        '雪音-嚴格型': 'Yukine-Strict',
+        '雪音-幽默型': 'Yukine-Humorous',
+        '雪音-温柔型': 'Yukine-Gentle',
+        '雪音-严格型': 'Yukine-Strict',
+        '雪音-幽默型': 'Yukine-Humorous'
     }
 }
 

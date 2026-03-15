@@ -28,7 +28,7 @@
                 </span>
                 {% if hasattr(current_user, 'ai_personality') %}
                 <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
-                    {{ _t('ai_guidance') }}{{ current_user.ai_personality }}
+                    {{ _t('ai_guidance') }}{{ _t(current_user.ai_personality) if current_user.ai_personality else _t('ai_gentle') }}
                 </span>
                 {% endif %}
             </div>
@@ -65,9 +65,9 @@
                             <i class="fa-solid fa-chalkboard-user" style="margin-right: 5px;"></i> {{ _t('ai_style') }}
                         </label>
                         <select name="ai_personality" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; font-size: 1rem; color: var(--color-text);">
-                            <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>{{ _t('ai_gentle') }}</option>
-                            <option value="嚴厲教練" {% if current_user.ai_personality == '嚴厲教練' %}selected{% endif %}>{{ _t('ai_coach') }}</option>
-                            <option value="幽默學長" {% if current_user.ai_personality == '幽默學長' %}selected{% endif %}>{{ _t('ai_guy') }}</option>
+                            <option value="ai_gentle" {% if current_user.ai_personality in ['ai_gentle', '雪音-溫柔型', '雪音-温柔型'] %}selected{% endif %}>{{ _t('ai_gentle') }}</option>
+                            <option value="ai_coach" {% if current_user.ai_personality in ['ai_coach', '雪音-嚴格型', '雪音-严格型'] %}selected{% endif %}>{{ _t('ai_coach') }}</option>
+                            <option value="ai_guy" {% if current_user.ai_personality in ['ai_guy', '雪音-幽默型'] %}selected{% endif %}>{{ _t('ai_guy') }}</option>
                         </select>
                     </div>
                     

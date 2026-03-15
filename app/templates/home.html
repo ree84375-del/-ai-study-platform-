@@ -176,15 +176,15 @@
                 <div id="home-daruma-container-0" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <input type="text" name="goal" placeholder="{{ _t('next_goal_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
-                    <button type="submit" class="btn" style="width: 100%;">{{ _t('draw_eye') }}</button>
+                    <input type="text" name="goal" placeholder="{{ _t('daruma_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
+                    <button type="submit" class="btn" style="width: 100%;">{{ _t('commit_goal') }}</button>
                 </form>
             {% elif not active_daruma.is_completed %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;">{{ active_daruma.goal }}</p>
                 <p style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 1rem;">{{ _t('goal_in_progress') }}</p>
                 <!-- Half-eyed Daruma (Left eye open) Animated -->
                 <div id="home-daruma-container-1" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
-                <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm({{ _t('confirm_goal_reached')|tojson }});">
+                <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm('{{ _t('confirm_goal_reached') }}');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <button type="submit" class="btn" style="background-color: var(--color-success); width: 100%;"><i class="fa-solid fa-check"></i> {{ _t('complete_goal') }}</button>
                 </form>
@@ -195,8 +195,8 @@
                 <div id="home-daruma-container-2" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <input type="text" name="goal" placeholder="{{ _t('next_goal_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
-                    <button type="submit" class="btn" style="width: 100%;">{{ _t('re_daruma') }}</button>
+                    <input type="text" name="goal" placeholder="{{ _t('daruma_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
+                    <button type="submit" class="btn" style="width: 100%;">{{ _t('commit_goal') }}</button>
                 </form>
 {% endif %}
         </div>

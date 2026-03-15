@@ -359,11 +359,12 @@ def draw_omikuji():
         l_subj = get_text('omikuji_lucky_subject', lang)
         l_adv = get_text('omikuji_advice_label', lang)
 
+        colon = '：' if lang in ['zh', 'ja'] else ': '
         rich_message = f"""
         <div class="omikuji-result" style="text-align: left; max-width: 250px; margin: 0 auto;">
-            <p style="margin-bottom: 5px;"><strong>{l_color}：</strong>{data.get('lucky_color', '...')}</p>
-            <p style="margin-bottom: 5px;"><strong>{l_item}：</strong>{data.get('lucky_item', '...')}</p>
-            <p style="margin-bottom: 5px;"><strong>{l_subj}：</strong>{data.get('lucky_subject', '...')}</p>
+            <p style="margin-bottom: 5px;"><strong>{l_color}{colon}</strong>{data.get('lucky_color', '...')}</p>
+            <p style="margin-bottom: 5px;"><strong>{l_item}{colon}</strong>{data.get('lucky_item', '...')}</p>
+            <p style="margin-bottom: 5px;"><strong>{l_subj}{colon}</strong>{data.get('lucky_subject', '...')}</p>
             <p class="mt-2" style="font-style: italic; color: var(--color-primary); border-top: 1px solid var(--color-border); padding-top: 10px; margin-top: 10px;">「{data.get('advice', '...')}」</p>
         </div>
         """
