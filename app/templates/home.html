@@ -308,11 +308,6 @@
                         {% if garden_stats.garden_level >= 15 %}靈氣匯聚{% elif garden_stats.garden_level >= 10 %}繁花似錦{% elif garden_stats.garden_level >= 5 %}生機蓬勃{% else %}初萌新芽{% endif %}
                     </div>
                 </div>
-                <div style="padding: 1rem; background: white; border-radius: 16px; border: 1px solid rgba(133, 163, 146, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                    <i class="fa-solid fa-users" style="font-size: 1.8rem; color: var(--color-primary); margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">{{ _t('garden_users') }}</div>
-                    <div style="font-weight: 700; color: var(--color-text_main);">{{ garden_stats.active_users_count }} <span style="font-weight: normal; font-size: 0.8rem;">人</span></div>
-                </div>
             </div>
             
             <!-- Quick Info Text -->
