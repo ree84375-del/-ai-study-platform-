@@ -324,6 +324,11 @@ def draw_omikuji():
         
         omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=rich_message, drawn_date=today)
         db.session.add(omikuji)
+        
+        # Add Garden XP (Drawing fortune: 5 XP)
+        from app.utils.garden_helpers import add_garden_xp
+        add_garden_xp(5)
+        
         db.session.commit()
         
         flash(f'抽到了【{drawn_fortune}】神籤！', 'success')
@@ -354,6 +359,11 @@ def create_ema():
         
     ema = Ema(user_id=current_user.id, content=content, is_public=is_public)
     db.session.add(ema)
+    
+    # Add Garden XP (Creating Ema: 10 XP)
+    from app.utils.garden_helpers import add_garden_xp
+    add_garden_xp(10)
+    
     db.session.commit()
     flash('祈願繪馬已掛上！', 'success')
     return redirect(url_for('main.home'))
@@ -410,6 +420,11 @@ def complete_daruma(daruma_id):
         
     daruma.is_completed = True
     daruma.completed_at = datetime.now(timezone.utc)
+    
+    # Add Garden XP (Completing Daruma: 30 XP)
+    from app.utils.garden_helpers import add_garden_xp
+    add_garden_xp(30)
+    
     db.session.commit()
     flash('恭喜達成目標！達磨已成功開眼。', 'success')
     return redirect(url_for('main.home'))

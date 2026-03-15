@@ -43,9 +43,13 @@ def practice():
                     mistake.is_resolved = True
                     flash('今日修練完成！您的盆景成長了唷', 'success')
                     
-                    # Add Garden XP
+                    # Add Garden XP (SRS Level Bonus: 20 XP)
                     from app.utils.garden_helpers import add_garden_xp
-                    add_garden_xp(10)
+                    add_garden_xp(20)
+            
+            # Continuous Garden XP (5 XP per correct answer)
+            from app.utils.garden_helpers import add_garden_xp
+            add_garden_xp(5)
             
             # Collaborative Garden Contribution
             try:
