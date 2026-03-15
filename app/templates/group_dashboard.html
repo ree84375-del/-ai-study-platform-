@@ -246,6 +246,34 @@
                     border-color: var(--color-primary);
                     box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
                 }
+
+                #admin-modal-overlay {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.4);
+                    z-index: 2000;
+                    align-items: center;
+                    justify-content: center;
+                    backdrop-filter: blur(8px);
+                    -webkit-backdrop-filter: blur(8px);
+                }
+
+                #admin-modal-content {
+                    width: 90%;
+                    max-width: 600px;
+                    max-height: 85vh;
+                    overflow-y: auto;
+                    padding: 2rem;
+                    position: relative;
+                    background: white;
+                    border: 2px solid var(--color-primary);
+                    border-radius: 28px;
+                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+                }
             </style>
 
             <div class="admin-card-grid">
@@ -267,7 +295,10 @@
                     <p>成員權限設定</p>
                 </div>
             </div>
-                    <div id="publish-wizard" class="managed-tool" style="display: none; background: #fffcfd; padding: 20px; border-radius: 16px; border: 1px solid #ffd1dc; margin-bottom: 1.5rem; box-shadow: 0 8px 15px rgba(255,141,161,0.05);">
+
+            <div id="hidden-admin-tools" style="display: none;">
+                <!-- Tools are hidden here when not in modal -->
+                <div id="publish-wizard" class="managed-tool" style="background: #fffcfd; padding: 10px; position: relative;">
                         <input type="hidden" id="draft-id" name="assignment_id">
                         
                         <!-- Phase 0: AI Prompt (Optional) -->
@@ -337,12 +368,12 @@
                     </div>
                 </div>
 
-                <!-- Member Roles Tool -->
-                <button type="button" onclick="toggleManagedTool('group-settings-tool')" class="btn" style="width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(124, 77, 255, 0.1); color: #7c4dff; border: 1px solid #7c4dff; padding: 12px 15px; border-radius: 10px; font-weight: bold;">
-                    <span><i class="fa-solid fa-users-gear"></i> 管理與成員角色</span>
-                    <i id="group-settings-tool-icon" class="fa-solid fa-chevron-down"></i>
-                </button>
-                <div id="group-settings-tool" style="display: none; padding: 1rem; border: 1px dashed #7c4dff; border-radius: 10px; margin-top: -5px; background: #fff;">
+                </div>
+
+                <div id="member-management-tool" class="managed-tool" style="padding: 10px; position: relative;">
+                    <h3 style="margin-top: 0; color: #7c4dff; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <i class="fa-solid fa-users-gear"></i> 管理與成員角色
+                    </h3>
                     <div style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
                         {% set sorted_members = group.members | sort(attribute='user.role', reverse=True) %}
                         {% for member in sorted_members %}
@@ -375,9 +406,19 @@
                         {% endfor %}
                     </div>
                 </div>
-            </div>
         {% endif %}
         </aside>
+
+        <!-- Admin Tool Modal Overlay -->
+        <div id="admin-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+            <div id="admin-modal-content" class="washi-card" style="width: 90%; max-width: 600px; max-height: 85vh; overflow-y: auto; padding: 2rem; position: relative; background: white; border: 2px solid var(--color-primary); box-shadow: 0 20px 50px rgba(0,0,0,0.15);">
+                <button onclick="closeAdminTool()" style="position: absolute; right: 20px; top: 20px; background: rgba(0,0,0,0.05); border: none; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #666; transition: all 0.2s; z-index: 10;">&times;</button>
+                
+                <div id="admin-tool-container">
+                    <!-- Managed tools will be dynamically moved/shown here -->
+                </div>
+            </div>
+        </div>
 
         <!-- Submission Modal Overlay -->
         <div id="submission-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
@@ -1092,22 +1133,60 @@ function clearImage() {
 }
 
 window.toggleManagedTool = (id, cardEl = null) => {
-    const el = document.getElementById(id);
-    const isVisible = el.style.display === 'block';
+    const overlay = document.getElementById('admin-modal-overlay');
+    const container = document.getElementById('admin-tool-container');
+    const tool = document.getElementById(id);
 
-    // Reset all tools
-    document.querySelectorAll('.managed-tool').forEach(t => t.style.display = 'none');
-    
-    // Reset all cards
+    // Reset current container but don't lose tools
+    document.querySelectorAll('.managed-tool').forEach(t => {
+        if (t.parentElement === container) {
+            // Move back to a safe hidden place (ideally where they came from)
+            const hiddenStore = document.getElementById('hidden-admin-tools');
+            hiddenStore.appendChild(t);
+            t.style.display = 'none';
+        }
+    });
+
+    // Move target tool to container
+    container.appendChild(tool);
+    tool.style.display = 'block';
+
+    // Show overlay
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // Set active card
     document.querySelectorAll('.admin-square-card').forEach(c => c.classList.remove('active'));
-
-    if (!isVisible) {
-        el.style.display = 'block';
-        if (cardEl) cardEl.classList.add('active');
-        // Smooth scroll to tool
-        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+    if (cardEl) cardEl.classList.add('active');
 };
+
+window.closeAdminTool = () => {
+    const overlay = document.getElementById('admin-modal-overlay');
+    const container = document.getElementById('admin-tool-container');
+    const hiddenStore = document.getElementById('hidden-admin-tools');
+
+    if (container.firstChild) {
+        const tool = container.firstChild;
+        tool.style.display = 'none';
+        hiddenStore.appendChild(tool);
+    }
+
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    document.querySelectorAll('.admin-square-card').forEach(c => c.classList.remove('active'));
+};
+
+// Close admin modal when clicking background
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('admin-modal-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAdminTool();
+            }
+        });
+    }
+});
 
 window.recognizeTeacherRef = async (input) => {
     if (!input.files || !input.files[0]) return;
