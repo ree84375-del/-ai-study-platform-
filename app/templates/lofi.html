@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}深夜陪讀室{% endblock %}
+{% block title %}{{ _t('lofi_title') }}{% endblock %}
 {% block content %}
 <style>
     .lofi-container-bg {
@@ -152,8 +152,8 @@
                         .lofi-header p { font-size: 1.1rem; }
                     }
                 </style>
-                <h1 id="study-room-title">深夜陪讀室</h1>
-                <p id="study-room-subtitle">雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶</p>
+                <h1 id="study-room-title">{{ _t('lofi_title') }}</h1>
+                <p id="study-room-subtitle">{{ _t('lofi_subtitle') }}</p>
             </div>
 
             <!-- Yukine Study Image -->
@@ -206,7 +206,7 @@
                 <!-- Dynamic Overlay -->
                 <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,0.8)); pointer-events: none; transform: translateZ(40px);"></div>
                 <div id="time-status-badge" style="position: absolute; bottom: 25px; right: 25px; background: rgba(0,0,0,0.6); padding: 10px 20px; border-radius: 25px; font-size: 0.9rem; backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.15); color: #fff; transform: translateZ(50px); box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
-                    <i class="fa-solid fa-moon"></i> 保持專注，你好
+                    <i class="fa-solid fa-moon"></i> {{ _t('lofi_badge_night') }}
                 </div>
             </div>
         </div>
@@ -236,24 +236,24 @@
             <div class="switcher-card" style="padding: 1.8rem; border-radius: 30px; text-align: center;">
                 <h3 style="margin-bottom: 1.2rem; font-weight: 500; letter-spacing: 1px; color: #fff; font-size: 1.2rem;">
                     <i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 10px; color: #a5d6ff;"></i>
-                    切換時段氛圍
+                    {{ _t('lofi_switch_vibe') }}
                 </h3>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
                     <button onclick="setManualTheme('morning')" class="time-btn" id="btn-morning">
-                        <i class="fa-solid fa-sun" style="color: #ffde6a;"></i> 早上
+                        <i class="fa-solid fa-sun" style="color: #ffde6a;"></i> {{ _t('lofi_morning') }}
                     </button>
-                    <button onclick="setManualTheme('afternoon')" class="time-btn" id="btn-afternoon">
-                        <i class="fa-solid fa-cloud-sun" style="color: #ff9e6a;"></i> 下午
+                    <button onclick="setFixedVibe('afternoon')" class="vibe-btn" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fa-solid fa-cloud-sun" style="color: #ff9e6a;"></i> {{ _t('lofi_afternoon') }}
                     </button>
-                    <button onclick="setManualTheme('dusk')" class="time-btn" id="btn-dusk">
-                        <i class="fa-solid fa-mountain-sun" style="color: #ff7b72;"></i> 黃昏
+                    <button onclick="setFixedVibe('evening')" class="vibe-btn" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fa-solid fa-mountain-sun" style="color: #ff7b72;"></i> {{ _t('lofi_evening') }}
                     </button>
-                    <button onclick="setManualTheme('night')" class="time-btn" id="btn-night">
-                        <i class="fa-solid fa-moon" style="color: #d2a8ff;"></i> 晚上
+                    <button onclick="setFixedVibe('night')" class="vibe-btn" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fa-solid fa-moon" style="color: #d2a8ff;"></i> {{ _t('lofi_night') }}
                     </button>
                 </div>
                 <button onclick="resetAutoTheme()" style="margin-top: 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); padding: 6px 20px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.3s;">
-                    <i class="fa-solid fa-clock-rotate-left"></i> 回復自動切換
+                    <i class="fa-solid fa-clock-rotate-left"></i> {{ _t('lofi_auto_vibe') }}
                 </button>
             </div>
             
@@ -261,12 +261,12 @@
             <div class="pomodoro-card" style="padding: 2rem; border-radius: 30px; text-align: center;">
                 <h3 style="margin-bottom: 1.5rem; font-weight: 500; letter-spacing: 1px; color: #fff; font-size: 1.2rem;">
                     <i class="fa-regular fa-hourglass-half" style="margin-right: 10px; color: #ff7b72;"></i>
-                    極致番茄鐘
+                    {{ _t('lofi_pomo_title') }}
                 </h3>
                 <div style="font-size: 5rem; font-weight: 200; font-family: 'Outfit', sans-serif; color: white; letter-spacing: 5px; margin-bottom: 1rem; text-shadow: 0 0 30px rgba(255,255,255,0.2);" id="timer-display">25:00</div>
                 <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 1.8rem;">
-                    <button onclick="setTimer(25)" class="pomo-mode-btn active" id="mode-focus" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 18px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s;">專注模式</button>
-                    <button onclick="setTimer(5)" class="pomo-mode-btn" id="mode-break" style="background: transparent; color: rgba(255,255,255,0.6); border: 1px solid transparent; border-radius: 20px; padding: 6px 18px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s;">短暫休息</button>
+                    <button onclick="setTimer(25)" class="pomo-mode-btn active" id="mode-focus" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 6px 18px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s;">{{ _t('lofi_pomo_focus') }}</button>
+                    <button onclick="setTimer(5)" class="pomo-mode-btn" id="mode-break" style="background: transparent; color: rgba(255,255,255,0.6); border: 1px solid transparent; border-radius: 20px; padding: 6px 18px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s;">{{ _t('lofi_pomo_break') }}</button>
                 </div>
                 <div style="display: flex; justify-content: center; gap: 20px;">
                     <button onclick="toggleTimer()" id="timer-toggle-btn" style="width: 65px; height: 65px; border-radius: 50%; background: #ff7b72; color: white; border: none; cursor: pointer; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(255, 123, 114, 0.4); transition: transform 0.2s, box-shadow 0.2s;">
@@ -282,25 +282,25 @@
             <div class="music-card" style="padding: 2rem; border-radius: 30px; text-align: center;">
                 <h3 style="margin-bottom: 1.8rem; font-weight: 500; letter-spacing: 1px; color: #fff; font-size: 1.2rem;">
                     <i class="fa-solid fa-headphones-simple" style="margin-right: 10px; color: #adbac7;"></i>
-                    專注音效
+                    {{ _t('lofi_sound_title') }}
                 </h3>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
                     <button onclick="safeToggleAudio('lofi')" class="audio-btn" id="lofi-btn">
                         <i class="fa-solid fa-compact-disc feature-icon"></i>
                         <span>Lofi Beats</span>
                     </button>
-                    <button onclick="safeToggleAudio('rain')" class="audio-btn" id="rain-btn">
+                    <div class="sound-option" onclick="toggleSound('rain')">
                         <i class="fa-solid fa-cloud-rain feature-icon"></i>
-                        <span>綿綿細雨</span>
-                    </button>
-                    <button onclick="safeToggleAudio('cafe')" class="audio-btn" id="cafe-btn">
+                        <span>{{ _t('lofi_sound_rain') }}</span>
+                    </div>
+                    <div class="sound-option" onclick="toggleSound('cafe')">
                         <i class="fa-solid fa-mug-hot feature-icon"></i>
-                        <span>咖啡廳</span>
-                    </button>
-                    <button onclick="safeToggleAudio('forest')" class="audio-btn" id="forest-btn">
+                        <span>{{ _t('lofi_sound_cafe') }}</span>
+                    </div>
+                    <div class="sound-option" onclick="toggleSound('forest')">
                         <i class="fa-solid fa-leaf feature-icon"></i>
-                        <span>深夜森林</span>
-                    </button>
+                        <span>{{ _t('lofi_sound_forest') }}</span>
+                    </div>
                 </div>
 
                 <!-- Volume Slider -->
@@ -313,7 +313,7 @@
                 </div>
 
                 <a href="{{ url_for('main.home') }}" style="display: inline-block; margin-top: 2rem; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: all 0.3s; padding: 8px 24px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.02);">
-                    <i class="fa-solid fa-arrow-left"></i> 離開房間
+                    <i class="fa-solid fa-arrow-left"></i> {{ _t('lofi_leave') }}
                 </a>
             </div>
         </div> <!-- End right-pane -->
@@ -328,23 +328,72 @@
 
 </div> <!-- End container -->
 
-    <script>
+    <div id="i18n-data" 
+    data-morning-title="{{ _t('lofi_title') }}"
+    data-morning-sub="{{ _t('lofi_morning_sub') }}"
+    data-morning-badge="{{ _t('lofi_badge_morning') }}"
+    data-afternoon-title="{{ _t('lofi_title') }}"
+    data-afternoon-sub="{{ _t('lofi_afternoon_sub') }}"
+    data-afternoon-badge="{{ _t('lofi_badge_afternoon') }}"
+    data-evening-title="{{ _t('lofi_title') }}"
+    data-evening-sub="{{ _t('lofi_evening_sub') }}"
+    data-evening-badge="{{ _t('lofi_badge_evening') }}"
+    data-night-title="{{ _t('lofi_title') }}"
+    data-night-sub="{{ _t('lofi_subtitle') }}"
+    data-night-badge="{{ _t('lofi_badge_night') }}"
+    data-audio-perm-msg="{{ _t('lofi_audio_permission') }}"
+    data-pomo-focus-done="{{ _t('lofi_pomo_focus_done') }}"
+    data-pomo-break-done="{{ _t('lofi_pomo_break_done') }}"
+    style="display:none;"></div>
+
+<script>
         // --- Dynamic Time-of-Day Logic ---
         let isManualOverride = false;
+        let currentVibe = ''; // To store the current theme, e.g., 'morning', 'afternoon', 'evening', 'night'
 
         function setManualTheme(theme) {
             isManualOverride = true;
             applyLofiRoomTheme(theme);
             
             // Highlight active button
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById('btn-' + theme);
+            document.querySelectorAll('.time-btn, .vibe-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + theme); // Assuming morning still uses 'time-btn' and 'btn-morning'
             if (activeBtn) activeBtn.classList.add('active');
+            // For new vibe-btn, we might need a different selector or logic if IDs are not consistent
+            // For now, let's assume the new buttons also get an 'active' class if needed.
         }
+
+        // New function for fixed vibe buttons
+        function setFixedVibe(theme) {
+            isManualOverride = true;
+            applyLofiRoomTheme(theme);
+
+            document.querySelectorAll('.time-btn, .vibe-btn').forEach(btn => {
+                btn.style.background = 'rgba(0,0,0,0.2)';
+                btn.style.borderColor = 'rgba(255,255,255,0.1)';
+            });
+
+            const targetButton = document.querySelector(`[onclick="setFixedVibe('${theme}')"]`);
+            if (targetButton) {
+                targetButton.style.background = 'rgba(255,255,255,0.1)';
+                targetButton.style.borderColor = 'rgba(255,255,255,0.2)';
+            }
+            // Special handling for morning button if it's still 'time-btn'
+            const morningBtn = document.getElementById('btn-morning');
+            if (theme === 'morning' && morningBtn) {
+                morningBtn.style.background = 'rgba(255,255,255,0.1)';
+                morningBtn.style.borderColor = 'rgba(255,255,255,0.2)';
+            }
+        }
+
 
         function resetAutoTheme() {
             isManualOverride = false;
-            document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.time-btn, .vibe-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.background = 'rgba(0,0,0,0.2)'; // Reset to default inactive style
+                btn.style.borderColor = 'rgba(255,255,255,0.1)';
+            });
             updateTimeTheme();
         }
 
@@ -355,7 +404,7 @@
 
             if (hour >= 6 && hour < 12) theme = 'morning';
             else if (hour >= 12 && hour < 17) theme = 'afternoon';
-            else if (hour >= 17 && hour < 19) theme = 'dusk';
+            else if (hour >= 17 && hour < 20) theme = 'evening'; // Changed from dusk to evening
             else theme = 'night';
 
             applyLofiRoomTheme(theme);
@@ -379,7 +428,8 @@
             // Daytime Sparkles
             const sparkles = document.getElementById('daytime-sparkles');
             
-            let imageSrc, titleText, subtitleText, badgeHTML;
+            const i18n = document.getElementById('i18n-data').dataset;
+            let imageSrc;
 
             // Default Visibility
             if (lamp) lamp.style.display = 'none';
@@ -391,23 +441,29 @@
 
             if (theme === 'morning') {
                 imageSrc = "{{ url_for('static', filename='img/yukine_scene_morning.png') }}";
-                titleText = "早安陪讀室";
-                subtitleText = "早晨的陽光真好，雪音老師陪你開啟新的一天！ (☀️^‿^)";
-                badgeHTML = '<i class="fa-solid fa-sun"></i> 每日計畫，加油';
+                if (title) {
+                    title.innerText = i18n.morningTitle;
+                    subtitle.innerText = i18n.morningSub;
+                    badge.innerHTML = i18n.morningBadge;
+                }
                 if (starsLayer) starsLayer.style.display = 'none';
                 if (sparkles) sparkles.style.display = 'block';
             } else if (theme === 'afternoon') {
                 imageSrc = "{{ url_for('static', filename='img/yukine_scene_afternoon.png') }}";
-                titleText = "午後陪讀室";
-                subtitleText = "稍微休息一下，喝杯茶再繼續努力吧。 (🍵´ω`)";
-                badgeHTML = '<i class="fa-solid fa-cloud-sun"></i> 專注時光，午安';
+                if (title) {
+                    title.innerText = i18n.afternoonTitle;
+                    subtitle.innerText = i18n.afternoonSub;
+                    badge.innerHTML = i18n.afternoonBadge;
+                }
                 if (starsLayer) starsLayer.style.display = 'none';
                 if (sparkles) sparkles.style.display = 'block';
-            } else if (theme === 'dusk') {
-                imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}";
-                titleText = "黃昏陪讀室";
-                subtitleText = "夕陽好美，今天的你也辛苦了呢。 (🌇´∀`)";
-                badgeHTML = '<i class="fa-solid fa-mountain-sun"></i> 溫溫晚霞，舒心';
+            } else if (theme === 'evening') { // Changed from dusk to evening
+                imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}"; // Still using dusk image
+                if (title) {
+                    title.innerText = i18n.eveningTitle;
+                    subtitle.innerText = i18n.eveningSub;
+                    badge.innerHTML = i18n.eveningBadge;
+                }
                 if (starsLayer) starsLayer.style.display = 'block';
                 if (lamp) {
                     lamp.style.display = 'block';
@@ -415,11 +471,13 @@
                 }
                 if (zzz1) zzz1.style.display = 'block';
                 if (zzz2) zzz2.style.display = 'block';
-            } else {
+            } else { // night
                 imageSrc = "{{ url_for('static', filename='img/yukine_scene_night.png') }}";
-                titleText = "深夜陪讀室";
-                subtitleText = "雪音老師正在安靜地陪著你學習... (๑´ㅂ`๑)🎶";
-                badgeHTML = '<i class="fa-solid fa-moon"></i> 保持專注，你好';
+                if (title) {
+                    title.innerText = i18n.nightTitle;
+                    subtitle.innerText = i18n.nightSub;
+                    badge.innerHTML = i18n.nightBadge;
+                }
                 if (starsLayer) starsLayer.style.display = 'block';
                 if (lamp) {
                     lamp.style.display = 'block';
@@ -480,7 +538,7 @@
                     audio.volume = document.getElementById('volume-slider').value;
                 }).catch(e => {
                     console.warn("Playback failed:", e);
-                    alert("請先點擊頁面任意處，啟動瀏覽器音訊播放權限唷！");
+                    alert(document.getElementById('i18n-data').dataset.audioPermMsg);
                 });
             } else {
                 audio.pause();
@@ -584,7 +642,8 @@
                         if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                         // Optional: play an alert bell here
                         if ('speechSynthesis' in window) {
-                            let msg = new SpeechSynthesisUtterance(currentMode === 25 ? '專注時間結束，進入休息模式！' : '休息結束，該開始專注囉！');
+                            const msgText = currentMode === 25 ? document.getElementById('i18n-data').dataset.pomoFocusDone : document.getElementById('i18n-data').dataset.pomoBreakDone;
+                            let msg = new SpeechSynthesisUtterance(msgText);
                             msg.lang = 'zh-TW';
                             window.speechSynthesis.speak(msg);
                         }

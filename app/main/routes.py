@@ -202,6 +202,8 @@ def update_profile():
     if new_username != current_user.username:
         # 1. Admin cannot change their name
         if current_user.is_admin:
+            current_user.username = '管理員'
+            db.session.commit()
             flash('管理員名稱已鎖定，不可更改。', 'warning')
             return redirect(url_for('main.profile'))
             

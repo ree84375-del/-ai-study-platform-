@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}註冊{% endblock %}
+{% block title %}{{ _t('create_account') }}{% endblock %}
 {% block content %}
 <div class="container" style="max-width: 500px; margin-top: 2rem;">
     <div class="washi-card">
-        <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">建立新帳戶</h2>
+        <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;">{{ _t('create_account') }}</h2>
         
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -71,15 +71,15 @@
         
         <div style="margin: 20px 0; text-align: center; position: relative;">
             <hr style="border: none; border-top: 1px solid var(--color-border); margin: 0;">
-            <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background-color: white; padding: 0 10px; color: var(--color-text_light); font-size: 0.85rem;">或</span>
+            <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background-color: white; padding: 0 10px; color: var(--color-text_light); font-size: 0.85rem;">{{ _t('or_separator') }}</span>
         </div>
         
         <a href="{{ url_for('auth.google_login') }}" style="display: block; text-align: center; width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text_main); text-decoration: none; font-weight: bold; background-color: #fff; margin-bottom: 15px; transition: all 0.3s;">
-            <i class="fa-brands fa-google" style="color: #DB4437; margin-right: 8px;"></i> 使用 Google 帳號快速註冊
+            <i class="fa-brands fa-google" style="color: #DB4437; margin-right: 8px;"></i> {{ _t('quick_google_reg') }}
         </a>
 
         <div style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--color-text_light); border-top: 1px solid var(--color-border); padding-top: 1rem;">
-            已經有帳號了？ <a href="{{ url_for('auth.login') }}" style="color: var(--color-primary); text-decoration: none;">由此登入</a>
+            {{ _t('already_account') }} <a href="{{ url_for('auth.login') }}" style="color: var(--color-primary); text-decoration: none;">{{ _t('login_link') }}</a>
         </div>
     </div>
 </div>

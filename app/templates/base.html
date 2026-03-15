@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>AI 學習案內所 | {% block title %}{% endblock %}</title>
+    <title>{{ _t('brand_name') }} | {% block title %}{% endblock %}</title>
 
 </head>
 
@@ -33,7 +33,7 @@
     <div class="moon-decorator desktop-only">🌙</div>
 
     <nav class="navbar">
-        <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> 學習案內所</a>
+        <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> {{ _t('brand_name') }}</a>
         <div class="navbar-nav desktop-only">
             <a href="{{ url_for('main.home') }}" class="nav-link"><i class="fa-solid fa-house"></i> {{ _t('nav_home') }}</a>
             {% if current_user.is_authenticated %}
@@ -65,7 +65,7 @@
             </button>
             {% endif %}
             {% else %}
-            <a href="{{ url_for('auth.login') }}" class="nav-link">登入/註冊</a>
+            <a href="{{ url_for('auth.login') }}" class="nav-link">{{ _t('nav_login') }}</a>
             {% endif %}
         </div>
     </nav>
@@ -74,18 +74,18 @@
     <!-- Mobile Bottom Navigation -->
     <div class="mobile-bottom-nav">
         <a href="{{ url_for('main.home') }}" class="mob-nav-item">
-            <i class="fa-solid fa-house"></i><span>首頁</span>
+            <i class="fa-solid fa-house"></i><span>{{ _t('nav_home') }}</span>
         </a>
         {% if current_user.is_admin %}
         <a href="{{ url_for('study.practice') }}" class="mob-nav-item">
-            <i class="fa-solid fa-pen-clip"></i><span>刷題</span>
+            <i class="fa-solid fa-pen-clip"></i><span>{{ _t('nav_practice') }}</span>
         </a>
         {% endif %}
         <a href="{{ url_for('main.chat') }}" class="mob-nav-item">
-            <i class="fa-solid fa-comments"></i><span>雪音</span>
+            <i class="fa-solid fa-comments"></i><span>{{ _t('nav_yukine') }}</span>
         </a>
         <a href="{{ url_for('main.profile') }}" class="mob-nav-item">
-            <i class="fa-solid fa-user-gear"></i><span>設定</span>
+            <i class="fa-solid fa-user-gear"></i><span>{{ _t('nav_settings') }}</span>
         </a>
     </div>
     {% endif %}
@@ -120,14 +120,14 @@
         <div class="container">
             <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 0.5rem;">
                 <a href="{{ url_for('main.about') }}"
-                    style="color: var(--color-text_light); text-decoration: none; margin: 0 10px;">關於本站</a> |
+                    style="color: var(--color-text_light); text-decoration: none; margin: 0 10px;">{{ _t('footer_about') }}</a> |
                 <a href="{{ url_for('main.privacy') }}"
-                    style="color: var(--color-text_light); text-decoration: none; margin: 0 10px;">用戶隱私</a> |
+                    style="color: var(--color-text_light); text-decoration: none; margin: 0 10px;">{{ _t('footer_privacy') }}</a> |
                 <a href="{{ url_for('main.terms') }}"
-                    style="color: var(--color-text_light); text-decoration: none; margin: 0 10px;">版權聲明</a>
+                    style="color: var(--color-text_light); text-decoration: none; margin: 0 10px;">{{ _t('footer_terms') }}</a>
             </p>
             <p style="color: var(--color-text_light); font-size: 0.8rem; margin: 0;">
-                &copy; 2024 AI 學習案內所. All rights reserved. Built with ❤️.
+                {{ _t('footer_copy')|safe }}
             </p>
         </div>
     </footer>
@@ -138,19 +138,23 @@
         // Dynamic Room Name and Icon Update
         function updateNavbarRoomName() {
             const hour = new Date().getHours();
-            let name, icon;
+            let name, icon, shortName;
             
             if (6 <= hour && hour < 12) {
-                name = "早上陪讀";
+                name = {{ _t('morning_study')|tojson }};
+                shortName = {{ _t('morning_short')|tojson }};
                 icon = "fa-sun";
             } else if (12 <= hour && hour < 17) {
-                name = "午後陪讀";
+                name = {{ _t('afternoon_study')|tojson }};
+                shortName = {{ _t('afternoon_short')|tojson }};
                 icon = "fa-cloud-sun";
             } else if (17 <= hour && hour < 19) {
-                name = "黃昏陪讀";
+                name = {{ _t('evening_study')|tojson }};
+                shortName = {{ _t('evening_short')|tojson }};
                 icon = "fa-mountain-sun";
             } else {
-                name = "深夜陪讀";
+                name = {{ _t('midnight_study')|tojson }};
+                shortName = {{ _t('midnight_short')|tojson }};
                 icon = "fa-moon";
             }
             
@@ -171,7 +175,7 @@
                         iconEl.className = `fa-solid ${icon}`;
                     }
                     if (textEl) {
-                        textEl.innerText = name.replace('陪讀', ''); // Mobile is usually shorter
+                        textEl.innerText = shortName;
                     }
                 }
             });

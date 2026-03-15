@@ -1,23 +1,23 @@
 {% extends "base.html" %}
-{% block title %}作者版權與使用條款{% endblock %}
+{% block title %}{{ _t('terms_title') }}{% endblock %}
 {% block content %}
 <div class="container" style="max-width: 800px; margin-top: 2rem;">
     <div class="washi-card">
-        <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-scale-balanced"></i> 著作權等重要權力 (Terms & Copyright)</h2>
+        <h2 style="color: var(--color-primary); border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem;"><i class="fa-solid fa-scale-balanced"></i> {{ _t('terms_header') }} (Terms & Copyright)</h2>
         <div style="line-height: 1.8; color: var(--color-text_main);">
-            <p>歡迎使用「AI 學習案內所」。以下說明本站之版權宣告與使用規範：</p>
+            <p>{{ _t('terms_welcome') }}</p>
             
-            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">平台著作權</h3>
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">{{ _t('platform_copyright') }}</h3>
             <ul style="padding-left: 1.5rem;">
-                <li><strong>網站原始碼與設計</strong>：本站之日式風格模板、視覺設計要素、以及網站基礎架構與互動邏輯之著作權，皆由本站作者 (Ee) 與開發團隊所有。未經許可，請勿直接複製營利。</li>
-                <li><strong>AI 生成內容</strong>：透過 Google Gemini 或 Groq 產生之解答、詳解或圖像，其版權依原始 AI 服務商之服務條款辦理。本站提供之 AI 內容僅供個人學習、參考與非商業用途。</li>
+                <li><strong>{{ _t('source_design') }}</strong>：{{ _t('source_desc') }}</li>
+                <li><strong>{{ _t('ai_content') }}</strong>：{{ _t('ai_desc') }}</li>
             </ul>
 
-            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">使用者規範</h3>
-            <p>使用者透過平台上傳之作答紀錄、錯題圖片與群組內之討論內容，仍由使用者保有原始權益。但當您上傳內容時，即代表您同意本站為提供學習相關功能而處理與顯示該內容。我們不會將其做為未經授權的商業盈利行為。</p>
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">{{ _t('user_spec') }}</h3>
+            <p>{{ _t('user_desc') }}</p>
 
-            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">免責聲明</h3>
-            <p>AI 提供之解答與指引可能會有不夠完美或誤差之處。本站致力於提供高品質的輔助，但對最終學習成效或考試結果不負直接擔保責任，請使用者保持獨立思考。</p>
+            <h3 style="color: var(--color-secondary); margin-top: 1.5rem;">{{ _t('disclaimer') }}</h3>
+            <p>{{ _t('disclaimer_desc') }}</p>
         </div>
     </div>
 </div>

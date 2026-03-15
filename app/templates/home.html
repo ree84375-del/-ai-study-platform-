@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}首頁{% endblock %}
+{% block title %}{{ _t('home_title') }}{% endblock %}
 {% block content %}
 <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
 
@@ -7,7 +7,7 @@
     {% if announcements %}
     <div style="margin-bottom: 3rem;">
         <h3 class="section-title">
-            <i class="fa-solid fa-scroll"></i> 案內所佈告欄
+            <i class="fa-solid fa-scroll"></i> {{ _t('news_board') }}
         </h3>
         <div style="display: flex; flex-direction: column; gap: 1rem;">
             {% for a in announcements %}
@@ -15,7 +15,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                     <h4 style="margin: 0; color: var(--color-text_main); font-size: 1.1rem;">
                         {% if a.is_ai_generated %}
-                        <i class="fa-solid fa-wand-magic-sparkles" title="由雪音 AI 整理發布" style="color: var(--color-primary); margin-right: 5px;"></i>
+                        <i class="fa-solid fa-wand-magic-sparkles" title="{{ _t('ai_organized') }}" style="color: var(--color-primary); margin-right: 5px;"></i>
                         {% endif %}
                         {{ a.title }}
                     </h4>
@@ -38,23 +38,23 @@
         <!-- Welcome Hero & Zen Bonsai -->
         <div class="washi-card" style="padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
             <div style="z-index: 1;">
-                <h1 style="color: var(--color-primary); font-size: 2.2rem; margin-bottom: 0.5rem;">歡迎回來，{{ current_user.username }}</h1>
-                <p style="color: var(--color-text_light); font-size: 1.1rem; margin-bottom: 2rem;">保持內心的平靜，今天也一步一腳印地學習吧。</p>
+                <h1 style="color: var(--color-primary); font-size: 2.2rem; margin-bottom: 0.5rem;">{{ _t('welcome_back') }}{{ current_user.username }}</h1>
+                <p style="color: var(--color-text_light); font-size: 1.1rem; margin-bottom: 2rem;">{{ _t('study_inner_peace') }}</p>
                 
                 <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem;">
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent);">{{ current_user.current_streak }}</div>
-                        <div style="font-size: 0.8rem; color: var(--color-text_light);">天不中斷</div>
+                        <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('streak_uninterrupted') }}</div>
                     </div>
                     {% if current_user.is_admin %}
                     <div style="text-align: center;">
                         <div style="font-size: 2rem; font-weight: bold; color: {% if mistakes_to_review > 0 %}#ff7b72{% else %}var(--color-primary){% endif %};">{{ mistakes_to_review }}</div>
-                        <div style="font-size: 0.8rem; color: var(--color-text_light);">待複習錯題</div>
+                        <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('mistakes_to_review') }}</div>
                     </div>
                     {% endif %}
                 </div>
                 {% if current_user.is_admin %}
-                <a href="{{ url_for('study.practice') }}" class="btn" style="padding: 10px 20px;"><i class="fa-solid fa-pen-nib"></i> 開始今日修練</a>
+                <a href="{{ url_for('study.practice') }}" class="btn" style="padding: 10px 20px;"><i class="fa-solid fa-pen-nib"></i> {{ _t('start_daily_practice') }}</a>
                 {% endif %}
             </div>
             
@@ -65,14 +65,14 @@
                 <div id="home-bonsai-container" style="width: 150px; height: 180px; margin: 0 auto;"></div>
                 {% if hasattr(current_user, 'current_streak') %}
                     {% if current_user.current_streak >= 7 %}
-                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">花開滿枝<br>(連勝 7+ 天)</div>
+                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_flower') }}<br>{{ _t('bonsai_streak_high') }}</div>
                     {% elif current_user.current_streak > 0 %}
-                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">常綠盆景<br>(連勝中)</div>
+                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_evergreen') }}<br>{{ _t('bonsai_streak_mid') }}</div>
                     {% else %}
-                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">枯山水<br>(休養生息)</div>
+                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_zen') }}<br>{{ _t('bonsai_rest') }}</div>
                     {% endif %}
                 {% else %}
-                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">禪意盆景<br>(專注修行)</div>
+                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_garden') }}<br>{{ _t('bonsai_focus') }}</div>
                 {% endif %}
             </div>
             {% endif %}
@@ -83,14 +83,14 @@
         
         <!-- Omikuji (Daily Fortune) -->
         <div class="washi-card" style="padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center;">
-            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;"><i class="fa-solid fa-om"></i> 每日御神籤</h3>
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;"><i class="fa-solid fa-om"></i> {{ _t('daily_fortune') }}</h3>
             
             {% if not today_omikuji %}
-                <p style="color: var(--color-text_light); margin-bottom: 1.5rem; font-size: 0.9rem;">抽取今天的學習運程與專屬箴言吧！</p>
+                <p style="color: var(--color-text_light); margin-bottom: 1.5rem; font-size: 0.9rem;">{{ _t('draw_daily_fortune') }}</p>
                 <div id="omikuji-container">
                     <form id="omikuji-form" method="POST" action="{{ url_for('main.draw_omikuji') }}">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <button type="button" onclick="startOmikujiAnimation()" class="btn" style="background-color: var(--color-accent); width: 100%;"><i class="fa-solid fa-hand-holding-magic"></i> 抽取神籤</button>
+                        <button type="button" onclick="startOmikujiAnimation()" class="btn" style="background-color: var(--color-accent); width: 100%;"><i class="fa-solid fa-hand-holding-magic"></i> {{ _t('draw_omikuji') }}</button>
                     </form>
                 </div>
                 
@@ -100,7 +100,7 @@
                         <i class="fa-solid fa-prescription-bottle" style="color: #d35400;"></i>
                     </div>
                     <div style="font-size: 0.8rem; color: var(--color-text_light); margin-top: 10px; animation: pulse-text 1s infinite;">
-                        神明賜籤中...
+                        {{ _t('god_bless_drawing') }}
                     </div>
                 </div>
             {% else %}
@@ -116,14 +116,14 @@
                         {{ today_omikuji.message|safe }}
                     </div>
                 </div>
-                <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--color-text_light); font-weight: 500;">明日可再次抽取</div>
+                <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--color-text_light); font-weight: 500;">{{ _t('tomorrow_again') }}</div>
             {% endif %}
         </div>
     </div>
     <!-- AI Study Roadmap Section -->
     <div class="washi-card" style="padding: 2rem; margin-bottom: 3rem; background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(210,168,255,0.1) 100%);">
         <h3 class="section-title">
-            <i class="fa-solid fa-calendar-check"></i> 雪音的學習進度表
+            <i class="fa-solid fa-calendar-check"></i> {{ _t('yukine_roadmap') }}
         </h3>
         
         <div id="roadmap-container">
@@ -139,17 +139,17 @@
                     </div>
                 {% endfor %}
                 <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center;">
-                    <button onclick="showRoadmapForm()" class="btn" style="padding: 5px 15px; font-size: 0.8rem; opacity: 0.7;">重新生成計畫</button>
-                    <span style="font-size: 0.8rem; color: var(--color-text_light);">考試日期：{{ current_user.exam_date }}</span>
+                    <button onclick="showRoadmapForm()" class="btn" style="padding: 5px 15px; font-size: 0.8rem; opacity: 0.7;">{{ _t('regen_roadmap') }}</button>
+                    <span style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('exam_date') }}：{{ current_user.exam_date }}</span>
                 </div>
             </div>
         {% else %}
             <div style="text-align: center; padding: 1rem;">
-                <p style="color: var(--color-text_light); margin-bottom: 1.5rem;">目前還沒有進度表喔。輸入您的考試日期，讓雪音為您規劃吧！</p>
+                <p style="color: var(--color-text_light); margin-bottom: 1.5rem;">{{ _t('no_roadmap') }}</p>
                 <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-                    <input type="text" id="exam_name_input" placeholder="考試名稱 (如：期末考)" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; flex: 1; min-width: 200px; font-family: inherit;">
+                    <input type="text" id="exam_name_input" placeholder="{{ _t('exam_name_placeholder') }}" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; flex: 1; min-width: 200px; font-family: inherit;">
                     <input type="date" id="exam_date_input" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; font-family: inherit;">
-                    <button onclick="generateRoadmap()" id="roadmap-btn" class="btn">生成今日計畫</button>
+                    <button onclick="generateRoadmap()" id="roadmap-btn" class="btn">{{ _t('gen_roadmap') }}</button>
                 </div>
             </div>
         {% endif %}
@@ -158,9 +158,9 @@
         <!-- Hidden Reschedule Form -->
         <div id="roadmap-form" style="display: none; text-align: center; padding: 1rem;">
             <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-                <input type="text" id="exam_name_input_alt" placeholder="考試名稱" value="更新計畫" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; flex: 1; min-width: 200px; font-family: inherit;">
+                <input type="text" id="exam_name_input_alt" placeholder="{{ _t('exam_name_placeholder') }}" value="{{ _t('update_plan') }}" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; flex: 1; min-width: 200px; font-family: inherit;">
                 <input type="date" id="exam_date_input_alt" style="padding: 10px 15px; border: 1px solid var(--color-border); border-radius: 50px; font-family: inherit;">
-                <button onclick="generateRoadmap(true)" id="roadmap-btn-alt" class="btn">確認重新生成</button>
+                <button onclick="generateRoadmap(true)" id="roadmap-btn-alt" class="btn">{{ _t('confirm_regen') }}</button>
             </div>
         </div>
     </div>
@@ -170,62 +170,62 @@
         
         <!-- Daruma Goal -->
         <div class="washi-card" style="padding: 2rem; text-align: center;">
-            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;"><i class="fa-solid fa-bullseye"></i> 達磨祈願</h3>
+            <h3 style="color: var(--color-primary); margin-bottom: 1rem; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 8px;"><i class="fa-solid fa-bullseye"></i> {{ _t('daruma_goal') }}</h3>
             
             {% if not active_daruma %}
-                <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">設定一個長期目標，為達磨畫上左眼。</p>
+                <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">{{ _t('daruma_long_goal') }}</p>
                 <!-- Blank Daruma Animated -->
                 <div id="home-daruma-container-0" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <input type="text" name="goal" placeholder="輸入您的目標 (例如：多益 900分)" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
-                    <button type="submit" class="btn" style="width: 100%;">點睛祈願</button>
+                    <input type="text" name="goal" placeholder="{{ _t('next_goal_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
+                    <button type="submit" class="btn" style="width: 100%;">{{ _t('draw_eye') }}</button>
                 </form>
             {% elif not active_daruma.is_completed %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;">{{ active_daruma.goal }}</p>
-                <p style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 1rem;">進行中...</p>
+                <p style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 1rem;">{{ _t('goal_in_progress') }}</p>
                 <!-- Half-eyed Daruma (Left eye open) Animated -->
                 <div id="home-daruma-container-1" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
-                <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm('確定已經達成目標了嗎？');">
+                <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm({{ _t('confirm_goal_reached')|tojson }});">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <button type="submit" class="btn" style="background-color: var(--color-success); width: 100%;"><i class="fa-solid fa-check"></i> 達成還願 (畫右眼)</button>
+                    <button type="submit" class="btn" style="background-color: var(--color-success); width: 100%;"><i class="fa-solid fa-check"></i> {{ _t('complete_goal') }}</button>
                 </form>
             {% else %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;"><del>{{ active_daruma.goal }}</del></p>
-                <p style="font-size: 0.8rem; color: var(--color-success); margin-bottom: 1rem;">已於 {{ active_daruma.completed_at.strftime('%Y-%m-%d') }} 達成</p>
+                <p style="font-size: 0.8rem; color: var(--color-success); margin-bottom: 1rem;">{{ _t('goal_reached_at').format(date=active_daruma.completed_at.strftime('%Y-%m-%d')) }}</p>
                 <!-- Full-eyed Daruma Animated -->
                 <div id="home-daruma-container-2" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.create_daruma') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <input type="text" name="goal" placeholder="設立下一個新目標" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
-                    <button type="submit" class="btn" style="width: 100%;">重新祈願</button>
+                    <input type="text" name="goal" placeholder="{{ _t('next_goal_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px; box-sizing: border-box; font-family: inherit;">
+                    <button type="submit" class="btn" style="width: 100%;">{{ _t('re_daruma') }}</button>
                 </form>
-            {% endif %}
+{% endif %}
         </div>
         
         <!-- Ema Board -->
         <div class="washi-card" style="padding: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <h3 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clipboard-list"></i> 祈願繪馬掛架</h3>
-                <button onclick="document.getElementById('ema-form').style.display='block'" class="btn" style="padding: 5px 10px; font-size: 0.8rem;"><i class="fa-solid fa-pen"></i> 寫繪馬</button>
+                <h3 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-clipboard-list"></i> {{ _t('ema_board') }}</h3>
+                <button onclick="document.getElementById('ema-form').style.display='block'" class="btn" style="padding: 5px 10px; font-size: 0.8rem;"><i class="fa-solid fa-pen"></i> {{ _t('write_ema') }}</button>
             </div>
             
             <div id="ema-form" style="display: none; background-color: var(--color-secondary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
                 <form method="POST" action="{{ url_for('main.create_ema') }}">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <textarea name="content" placeholder="寫下您的學習願望..." required maxlength="100" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box; font-family: inherit; resize: none;"></textarea>
+                    <textarea name="content" placeholder="{{ _t('ema_placeholder') }}" required maxlength="100" style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; box-sizing: border-box; font-family: inherit; resize: none;"></textarea>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
                         <label style="font-size: 0.85rem; color: var(--color-text_light);">
-                            <input type="checkbox" name="is_public" value="true" checked> 公開至繪馬架
+                            <input type="checkbox" name="is_public" value="true" checked> {{ _t('is_public_ema') }}
                         </label>
-                        <button type="submit" class="btn" style="padding: 5px 15px;">掛上繪馬</button>
+                        <button type="submit" class="btn" style="padding: 5px 15px;">{{ _t('hang_ema') }}</button>
                     </div>
                 </form>
             </div>
             
             <div style="display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 10px; scrollbar-width: thin;">
                 {% if not recent_emas %}
-                    <p style="color: var(--color-text_light); font-size: 0.9rem;">目前還沒有人掛上繪馬喔。</p>
+                    <p style="color: var(--color-text_light); font-size: 0.9rem;">{{ _t('no_emas') }}</p>
                 {% else %}
                     {% for ema in recent_emas %}
                     <div style="min-width: 180px; background-color: #f4dca3; border: 2px solid #debc78; border-radius: 5px 5px 2px 2px; padding: 1.5rem 1rem; position: relative; box-shadow: 2px 3px 5px rgba(0,0,0,0.1); text-align: center;">
@@ -305,7 +305,7 @@
                     <i class="fa-solid fa-seedling" style="font-size: 1.8rem; color: #72b01d; margin-bottom: 8px;"></i>
                     <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">{{ _t('garden_plants') }}</div>
                     <div style="font-weight: 700; color: var(--color-text_main);">
-                        {% if garden_stats.garden_level >= 15 %}靈氣匯聚{% elif garden_stats.garden_level >= 10 %}繁花似錦{% elif garden_stats.garden_level >= 5 %}生機蓬勃{% else %}初萌新芽{% endif %}
+                        {% if garden_stats.garden_level >= 15 %}{{ _t('bonsai_lv_15') }}{% elif garden_stats.garden_level >= 10 %}{{ _t('bonsai_lv_10') }}{% elif garden_stats.garden_level >= 5 %}{{ _t('bonsai_lv_5') }}{% else %}{{ _t('bonsai_lv_1') }}{% endif %}
                     </div>
                 </div>
             </div>
@@ -322,36 +322,36 @@
         <!-- Garden Guide Overlay (Hidden by default) -->
         <div id="garden-guide" style="display: none; position: absolute; inset: 0; background: rgba(255,255,255,0.95); z-index: 10; padding: 2rem; overflow-y: auto; border-radius: 20px; animation: fadeIn 0.3s ease;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                <h4 style="color: var(--color-primary); margin: 0; font-size: 1.2rem;"><i class="fa-solid fa-scroll"></i> 如何灌溉花園 (修行值獲得方式)</h4>
+                <h4 style="color: var(--color-primary); margin: 0; font-size: 1.2rem;"><i class="fa-solid fa-scroll"></i> {{ _t('garden_guide_title') }}</h4>
                 <button onclick="toggleGardenGuide()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-text_light);">&times;</button>
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--color-border);">
                     <div style="color: #ffbc42; font-size: 1.2rem;"><i class="fa-solid fa-pen-to-square"></i></div>
-                    <div><div style="font-weight: 700; font-size: 0.9rem;">完成單題練習</div><div style="font-size: 0.8rem; color: var(--color-text_light);">+5 XP / 題</div></div>
+                    <div><div style="font-weight: 700; font-size: 0.9rem;">{{ _t('guide_item_practice') }}</div><div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('guide_item_practice_val') }}</div></div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--color-border);">
                     <div style="color: #de4c4c; font-size: 1.2rem;"><i class="fa-solid fa-hand-holding-magic"></i></div>
-                    <div><div style="font-weight: 700; font-size: 0.9rem;">抽取每日御神籤</div><div style="font-size: 0.8rem; color: var(--color-text_light);">+5 XP / 天</div></div>
+                    <div><div style="font-weight: 700; font-size: 0.9rem;">{{ _t('guide_item_omikuji') }}</div><div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('guide_item_omikuji_val') }}</div></div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--color-border);">
                     <div style="color: #f4dca3; font-size: 1.2rem;"><i class="fa-solid fa-clipboard-list"></i></div>
-                    <div><div style="font-weight: 700; font-size: 0.9rem;">懸掛祈願繪馬</div><div style="font-size: 0.8rem; color: var(--color-text_light);">+10 XP / 枚</div></div>
+                    <div><div style="font-weight: 700; font-size: 0.9rem;">{{ _t('guide_item_ema') }}</div><div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('guide_item_ema_val') }}</div></div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--color-border);">
                     <div style="color: var(--color-primary); font-size: 1.2rem;"><i class="fa-solid fa-bullseye"></i></div>
-                    <div><div style="font-weight: 700; font-size: 0.9rem;">完成達磨還願</div><div style="font-size: 0.8rem; color: var(--color-text_light);">+30 XP / 目標</div></div>
+                    <div><div style="font-weight: 700; font-size: 0.9rem;">{{ _t('guide_item_daruma') }}</div><div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('guide_item_daruma_val') }}</div></div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; border: 1px solid var(--color-border);">
                     <div style="color: #a8e6cf; font-size: 1.2rem;"><i class="fa-solid fa-file-export"></i></div>
-                    <div><div style="font-weight: 700; font-size: 0.9rem;">提交群組作業</div><div style="font-size: 0.8rem; color: var(--color-text_light);">+25 XP / 次</div></div>
+                    <div><div style="font-weight: 700; font-size: 0.9rem;">{{ _t('guide_item_assignment') }}</div><div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('guide_item_assignment_val') }}</div></div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 12px; background: rgba(133, 163, 146, 0.05);">
                     <div style="color: #72b01d; font-size: 1.2rem;"><i class="fa-solid fa-shield-halved"></i></div>
-                    <div><div style="font-weight: 700; font-size: 0.9rem;">解決錯題 (SRS 達成)</div><div style="font-size: 0.8rem; color: var(--color-text_light);">+20 XP 分數</div></div>
+                    <div><div style="font-weight: 700; font-size: 0.9rem;">{{ _t('guide_item_srs') }}</div><div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('guide_item_srs_val') }}</div></div>
                 </div>
             </div>
-            <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--color-text_light); text-align: center;">當等級提升，櫻花飄落的速度與密度都會隨之增加唷！(◍•ᴗ•◍)ゝ</p>
+            <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--color-text_light); text-align: center;">{{ _t('garden_guide_footer') }}</p>
         </div>
     </div>
 
@@ -513,13 +513,13 @@
             const btn = document.getElementById('roadmap-btn' + suffix);
             
             if (!exam_date) {
-                alert('請先選擇考試日期喔！');
+                alert({{ _t('alert_select_date')|tojson }});
                 return;
             }
             
             const originalText = btn.innerHTML;
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 雪音規劃中...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + {{ _t('yukine_planning')|tojson }};
             
             try {
                 const response = await fetch('/generate_roadmap', {
@@ -533,11 +533,11 @@
                     // Success! Refresh the page to show the new roadmap
                     location.reload();
                 } else {
-                    alert('失敗了：' + (data.error || '可能是 AI 老師休息中。'));
+                    alert({{ _t('gen_failed')|tojson }} + ': ' + (data.error || {{ _t('ai_resting')|tojson }}));
                 }
             } catch (err) {
                 console.error(err);
-                alert('連線出錯，請檢查網路環境。');
+                alert({{ _t('conn_error')|tojson }});
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = originalText;
@@ -549,19 +549,18 @@
     
     <!-- Original Unauthenticated Welcome Screen -->
     <div class="washi-card" style="text-align: center; padding: 4rem 2rem;">
-        <h1 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 1rem;">歡迎來到 AI 學習案內所</h1>
+        <h1 style="color: var(--color-primary); font-size: 2.5rem; margin-bottom: 1rem;">{{ _t('welcome_title') }}</h1>
         <p style="font-size: 1.2rem; color: var(--color-text_light); margin-bottom: 2rem;">
-            透過日系極簡體驗，結合強大 AI 輔助，讓學習不再枯燥。<br>
-            掛上祈願繪馬、抽取每日神籤，與雪音一同精進學業。
+            {{ _t('welcome_desc') }}
         </p>
         <div style="display: flex; justify-content: center; gap: 1rem;">
             <a href="{{ url_for('auth.login') }}"
                 style="background-color: var(--color-primary); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: background-color 0.3s;">
-                <i class="fa-solid fa-pen-nib"></i> 登入後開始練習
+                <i class="fa-solid fa-pen-nib"></i> {{ _t('login_to_start') }}
             </a>
             <a href="{{ url_for('auth.guest_login') }}"
                 style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); padding: 10px 20px; text-decoration: none; border-radius: 5px; transition: all 0.3s;">
-                <i class="fa-solid fa-user"></i> 訪客登入
+                <i class="fa-solid fa-user"></i> {{ _t('guest_login') }}
             </a>
         </div>
     </div>

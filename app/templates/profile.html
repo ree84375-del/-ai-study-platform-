@@ -24,11 +24,11 @@
             <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
             <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 10px;">
                 <span class="badge" style="background-color: var(--color-primary); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
-                   {% if current_user.is_admin %}管理員{% elif current_user.role == 'guest' %}訪客{% else %}學生{% endif %}
+                   {% if current_user.is_admin %}{{ _t('admin_only') }}{% elif current_user.role == 'guest' %}{{ _t('guest_only') }}{% else %}{{ _t('student_only') }}{% endif %}
                 </span>
                 {% if hasattr(current_user, 'ai_personality') %}
                 <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
-                    指導：{{ current_user.ai_personality }}
+                    {{ _t('ai_guidance') }}{{ current_user.ai_personality }}
                 </span>
                 {% endif %}
             </div>
@@ -37,11 +37,11 @@
         <div class="profile-stats" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 3rem;">
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
                 <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-accent);">{{ getattr(current_user, 'current_streak', 0) }}</span>
-                <span style="font-size: 0.8rem; color: var(--color-text_light);">連續登入 (天)</span>
+                <span style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('streak_days') }}</span>
             </div>
             <div class="stat-card" style="text-align: center; padding: 1.5rem; background-color: white; border-radius: 12px; border: 1px solid var(--color-border);">
                 <span style="display: block; font-size: 2rem; font-weight: 700; color: var(--color-primary);">{{ mistake_count }}</span>
-                <span style="font-size: 0.8rem; color: var(--color-text_light);">待複習題目</span>
+                <span style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('review_count') }}</span>
             </div>
         </div>
 
@@ -49,68 +49,70 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="avatar_url" id="avatar-input" value="{{ current_user.avatar_url or '' }}"/>
 
-            <!-- ⛄ 雪音老師專屬設定區 (AI Readable) -->
+            <!-- ⛄ {{ _t('ai_personal_settings') }} (AI Readable) -->
             <div class="ai-profile-section" style="margin-bottom: 2rem; background: color-mix(in srgb, var(--color-accent) 5%, transparent); padding: 2rem; border-radius: 12px; border: 2px dashed var(--color-accent); box-shadow: inset 0 0 20px rgba(255,255,255,0.2);">
                 <h3 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--color-accent); display: flex; align-items: center; font-size: 1.25rem;">
                     <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 32px; height: 32px; border-radius: 50%; margin-right: 12px; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); object-fit: cover;"> 
-                    給 AI 老師的專屬設定
+                    {{ _t('ai_sidebar_yukine') if hasattr(current_user, 'ai_name') else _t('nav_settings') }}
                 </h3>
                 <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1.5rem; background: white; padding: 0.8rem 1.2rem; border-radius: 8px; border-left: 4px solid var(--color-accent);">
-                    <i class="fa-solid fa-eye" style="color: var(--color-accent); margin-right: 5px;"></i> 此區域填寫的內容及設定，AI 老師在陪讀與聊天時「可以」完全讀取並自行運用，以此來更深入了解你的需求與進度！
+                    <i class="fa-solid fa-eye" style="color: var(--color-accent); margin-right: 5px;"></i> {{ _t('sys_safety_zone') }}
                 </p>
                 
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <div class="form-group">
                         <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            <i class="fa-solid fa-chalkboard-user" style="margin-right: 5px;"></i> 希望老師用什麼風格教你？
+                            <i class="fa-solid fa-chalkboard-user" style="margin-right: 5px;"></i> {{ _t('ai_style') }}
                         </label>
                         <select name="ai_personality" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; font-size: 1rem; color: var(--color-text);">
-                            <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>雪音 (溫柔鼓勵、耐心陪伴)</option>
-                            <option value="嚴厲教練" {% if current_user.ai_personality == '嚴厲教練' %}selected{% endif %}>雷恩教練 (嚴格督促、追求效率)</option>
-                            <option value="幽默學長" {% if current_user.ai_personality == '幽默學長' %}selected{% endif %}>阿哲學長 (幽默風趣、像朋友聊天)</option>
+                            <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>{{ _t('ai_gentle') }}</option>
+                            <option value="嚴厲教練" {% if current_user.ai_personality == '嚴厲教練' %}selected{% endif %}>{{ _t('ai_coach') }}</option>
+                            <option value="幽默學長" {% if current_user.ai_personality == '幽默學長' %}selected{% endif %}>{{ _t('ai_guy') }}</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
                         <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            <i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> 個人簡介 (介紹你自己給老師聽)
+                            <i class="fa-solid fa-pen-nib" style="margin-right: 5px;"></i> {{ _t('bio_label') }}
                         </label>
-                        <textarea name="bio" class="form-control" rows="3" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; font-size: 1rem; color: var(--color-text); resize: vertical;" placeholder="例如：我是一個高二生，喜歡看動漫，常常讀書讀到最後會睡著...">{{ current_user.bio or '' }}</textarea>
+                        <textarea name="bio" class="form-control" rows="3" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; font-size: 1rem; color: var(--color-text); resize: vertical;" placeholder="{{ _t('bio_placeholder') }}">{{ current_user.bio or '' }}</textarea>
                     </div>
 
                     <div class="form-group">
                         <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">
-                            <i class="fa-solid fa-bullseye" style="margin-right: 5px;"></i> 學習目標 (設定目標讓老師督促你)
+                            <i class="fa-solid fa-bullseye" style="margin-right: 5px;"></i> {{ _t('goals_label') }}
                         </label>
-                        <input type="text" name="learning_goals" value="{{ current_user.learning_goals or '' }}" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; font-size: 1rem; color: var(--color-text);" placeholder="例如：這次段考數學及格、要考上台大資工...">
+                        <input type="text" name="learning_goals" value="{{ current_user.learning_goals or '' }}" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; background: white; font-size: 1rem; color: var(--color-text);" placeholder="{{ _t('goals_placeholder') }}">
                     </div>
                 </div>
             </div>
 
-            <!-- ⚙️ 系統設定區塊 (AI Unreadable) -->
+            <!-- ⚙️ {{ _t('sys_settings_title') }} (AI Unreadable) -->
             <div class="system-info-section" style="margin-bottom: 2rem; background: #fafafa; padding: 2rem; border-radius: 12px; border: 1px solid var(--color-border);">
                 <h3 style="font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text); display: flex; align-items: center; font-size: 1.15rem;">
-                    <i class="fa-solid fa-gear" style="margin-right: 10px; color: var(--color-text_light);"></i> 系統與介面設定
+                    <i class="fa-solid fa-gear" style="margin-right: 10px; color: var(--color-text_light);"></i> {{ _t('sys_settings') }}
                 </h3>
                 <p style="color: var(--color-text_light); font-size: 0.85rem; margin-bottom: 1.5rem; border-left: 3px solid #8e9eab; padding-left: 10px;">
-                    <i class="fa-solid fa-lock" style="color: #8e9eab;"></i> 安全區域：此區為網站運作參數，AI 無法讀取此區塊內容。
+                    <i class="fa-solid fa-lock" style="color: #8e9eab;"></i> {{ _t('sys_safety_zone') }}
                 </p>
                 
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                         <div>
-                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">顯示名稱 (使用者名稱)</label>
-                            <input type="text" name="username" value="{{ current_user.username }}" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
+                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ _t('display_name') }}</label>
+                            <input type="text" name="username" value="{{ current_user.username }}" class="form-control" 
+                                style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem; {% if current_user.is_admin %}background-color: #f0f0f0; cursor: not-allowed; opacity: 0.7;{% endif %}"
+                                {% if current_user.is_admin %}readonly title="{{ _t('admin_locked') }}"{% endif %}>
                         </div>
                         <div>
-                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">網站介面風格 (即時生效)</label>
+                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ _t('theme_pref') }}</label>
                             <select id="theme-selector" name="preferred_theme" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;" onchange="selectTheme(this.value); this.form.submit();">
-                                <option value="sakura" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sakura' %}selected{% endif %}>🌸 櫻花粉 (預設)</option>
-                                <option value="leaf" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'leaf' %}selected{% endif %}>🌿 抹茶葉 (極致風格)</option>
-                                <option value="moon" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'moon' %}selected{% endif %}>🌙 月光藍</option>
-                                <option value="midnight" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'midnight' %}selected{% endif %}>🌑 極夜黑</option>
-                                <option value="matcha" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'matcha' %}selected{% endif %}>🍵 經典抹茶</option>
-                                <option value="sunset" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sunset' %}selected{% endif %}>🌅 夕陽橘</option>
+                                <option value="sakura" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sakura' %}selected{% endif %}>{{ _t('theme_sakura') }}</option>
+                                <option value="leaf" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'leaf' %}selected{% endif %}>{{ _t('theme_leaf') }}</option>
+                                <option value="moon" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'moon' %}selected{% endif %}>{{ _t('theme_moon') }}</option>
+                                <option value="midnight" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'midnight' %}selected{% endif %}>{{ _t('theme_midnight') }}</option>
+                                <option value="matcha" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'matcha' %}selected{% endif %}>{{ _t('theme_matcha') }}</option>
+                                <option value="sunset" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sunset' %}selected{% endif %}>{{ _t('theme_sunset') }}</option>
                             </select>
                         </div>
                         <div>
@@ -130,37 +132,35 @@
             </button>
         </form>
 
-        <!-- 🔒 極密安全區域 -->
+        <!-- 🔒 {{ _t('acc_secret_zone') }} -->
         <div class="account-info-section" style="margin-bottom: 2rem; border-top: 1px solid var(--color-border); padding-top: 2.5rem;">
             <h3 style="font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text); display: flex; align-items: center; font-size: 1.15rem;">
-                <i class="fa-solid fa-shield-halved" style="margin-right: 10px; color: var(--color-text_light);"></i> 帳號與安全防護
+                <i class="fa-solid fa-shield-halved" style="margin-right: 10px; color: var(--color-text_light);"></i> {{ _t('acc_security') }}
             </h3>
             <p style="color: var(--color-text_light); font-size: 0.85rem; margin-bottom: 1.5rem; border-left: 3px solid #ff7b72; padding-left: 10px;">
-                <i class="fa-solid fa-lock" style="color: #ff7b72;"></i> 極密區域：此為您的核心身分資料，系統嚴格保護，無人可讀取。
+                <i class="fa-solid fa-lock" style="color: #ff7b72;"></i> {{ _t('acc_secret_zone') }}
             </p>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
-                <!-- 電子信箱 -->
                 <div style="display: flex; align-items: center; padding: 1rem; background: var(--color-bg); border-radius: 10px; border: 1px solid var(--color-border);">
                     <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                         <i class="fa-solid fa-envelope" style="color: white; font-size: 0.9rem;"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <span style="font-size: 0.75rem; color: var(--color-text_light); display: block;">電子信箱（帳號）</span>
+                        <span style="font-size: 0.75rem; color: var(--color-text_light); display: block;">{{ _t('email_label_acc') }}</span>
                         <span style="font-size: 1rem; color: var(--color-text); font-weight: 500;">{{ current_user.email }}</span>
                     </div>
                 </div>
-                <!-- 密碼 -->
                 <div style="display: flex; align-items: center; padding: 1rem; background: var(--color-bg); border-radius: 10px; border: 1px solid var(--color-border);">
                     <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--color-accent), var(--color-primary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
                         <i class="fa-solid fa-lock" style="color: white; font-size: 0.9rem;"></i>
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <span style="font-size: 0.75rem; color: var(--color-text_light); display: block;">密碼</span>
+                        <span style="font-size: 0.75rem; color: var(--color-text_light); display: block;">{{ _t('password_label') }}</span>
                         {% if hasattr(current_user, 'auth_provider') %}
                             {% if current_user.auth_provider == 'google' %}
-                                <span style="font-size: 0.85rem; color: var(--color-text_light);">透過 Google 帳號登入</span>
+                                <span style="font-size: 0.85rem; color: var(--color-text_light);">{{ _t('google_login') }}</span>
                             {% elif current_user.auth_provider == 'guest' %}
-                                <span style="font-size: 0.85rem; color: var(--color-text_light);">訪客帳號</span>
+                                <span style="font-size: 0.85rem; color: var(--color-text_light);">{{ _t('guest_account') }}</span>
                             {% else %}
                                 <span style="font-size: 1rem; color: var(--color-text); font-weight: 500; letter-spacing: 3px;">••••••••</span>
                             {% endif %}
@@ -170,11 +170,11 @@
                     </div>
                     {% if current_user.auth_provider == 'google' %}
                         <a href="https://myaccount.google.com/security" target="_blank" rel="noopener" style="background: none; border: 1px solid #4285F4; color: #4285F4; padding: 0.4rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: all 0.2s;" onmouseover="this.style.background='#4285F4';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='#4285F4'">
-                            <i class="fa-brands fa-google"></i> 前往 Google 修改
+                            <i class="fa-brands fa-google"></i> {{ _t('go_to_google') }}
                         </a>
                     {% else %}
                         <button type="button" onclick="togglePasswordChange()" style="background: none; border: 1px solid var(--color-accent); color: var(--color-accent); padding: 0.4rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; transition: all 0.2s;" onmouseover="this.style.background='var(--color-accent)';this.style.color='white'" onmouseout="this.style.background='none';this.style.color='var(--color-accent)'">
-                            變更密碼
+                            {{ _t('change_password') }}
                         </button>
                     {% endif %}
                 </div>
@@ -184,32 +184,32 @@
             {% if current_user.auth_provider != 'google' %}
             <div id="password-change-form" style="display: none; margin-top: 1rem; padding: 1.5rem; background: #fff; border-radius: 12px; border: 1px solid var(--color-border); animation: fadeIn 0.3s ease-out;">
                 <div style="background: #fff8f1; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #f6ad55; font-size: 0.85rem; color: #744210;">
-                    <i class="fa-solid fa-clock"></i> 密碼安全規則：每 5 天僅能修改一次。
+                    <i class="fa-solid fa-clock"></i> {{ _t('pwd_rule') }}
                 </div>
                 <form action="{{ url_for('main.change_password') }}" method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div>
-                        <label style="font-size: 0.85rem; color: var(--color-text_light); display: block; margin-bottom: 0.4rem;">目前密碼</label>
-                        <input type="password" name="current_password" required class="form-control" style="width: 100%; padding: 0.7rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="請輸入目前密碼">
+                        <label style="font-size: 0.85rem; color: var(--color-text_light); display: block; margin-bottom: 0.4rem;">{{ _t('current_password') }}</label>
+                        <input type="password" name="current_password" required class="form-control" style="width: 100%; padding: 0.7rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="{{ _t('current_password') }}">
                     </div>
                     <div>
-                        <label style="font-size: 0.85rem; color: var(--color-text_light); display: block; margin-bottom: 0.4rem;">新密碼</label>
-                        <input type="password" name="new_password" required minlength="6" class="form-control" style="width: 100%; padding: 0.7rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="至少 6 個字元">
+                        <label style="font-size: 0.85rem; color: var(--color-text_light); display: block; margin-bottom: 0.4rem;">{{ _t('new_password') }}</label>
+                        <input type="password" name="new_password" required minlength="6" class="form-control" style="width: 100%; padding: 0.7rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="{{ _t('new_password') }}">
                     </div>
                     <div>
-                        <label style="font-size: 0.85rem; color: var(--color-text_light); display: block; margin-bottom: 0.4rem;">確認新密碼</label>
-                        <input type="password" name="confirm_password" required minlength="6" class="form-control" style="width: 100%; padding: 0.7rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="再次輸入新密碼">
+                        <label style="font-size: 0.85rem; color: var(--color-text_light); display: block; margin-bottom: 0.4rem;">{{ _t('confirm_password') }}</label>
+                        <input type="password" name="confirm_password" required minlength="6" class="form-control" style="width: 100%; padding: 0.7rem; border: 1px solid var(--color-border); border-radius: 8px;" placeholder="{{ _t('confirm_password') }}">
                     </div>
                     <div style="display: flex; gap: 0.8rem;">
-                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 0.8rem; border-radius: 8px; font-weight: 500; background-color: var(--color-primary); color: white; border: none; cursor: pointer;">確認變更</button>
-                        <button type="button" onclick="togglePasswordChange()" style="flex: 1; padding: 0.8rem; border-radius: 8px; font-weight: 500; background: none; color: var(--color-text_light); border: 1px solid var(--color-border); cursor: pointer;">取消</button>
+                        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 0.8rem; border-radius: 8px; font-weight: 500; background-color: var(--color-primary); color: white; border: none; cursor: pointer;">{{ _t('confirm_change') }}</button>
+                        <button type="button" onclick="togglePasswordChange()" style="flex: 1; padding: 0.8rem; border-radius: 8px; font-weight: 500; background: none; color: var(--color-text_light); border: 1px solid var(--color-border); cursor: pointer;">{{ _t('cancel') }}</button>
                     </div>
                 </form>
             </div>
             {% endif %}
 
             <a href="{{ url_for('auth.logout') }}" class="btn btn-outline" style="text-align: center; display: flex; align-items: center; justify-content: center; padding: 1rem; width: 100%; border: 1px solid rgba(255, 123, 114, 0.5); border-radius: 8px; color: #ff7b72; margin-top: 1.5rem; text-decoration: none; font-weight: 500; transition: all 0.2s;" onmouseover="this.style.background='rgba(255, 123, 114, 0.1)'" onmouseout="this.style.background='none'">
-                <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 8px;"></i> 登出帳號
+                <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 8px;"></i> {{ _t('logout') }}
             </a>
         </div>
     </div>
@@ -219,7 +219,7 @@
 <div id="avatar-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
     <div class="card" style="width: 90%; max-width: 500px; padding: 2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h3 style="margin: 0; color: var(--color-text);">選擇您的頭像</h3>
+            <h3 style="margin: 0; color: var(--color-text);">{{ _t('select_avatar') }}</h3>
             <i class="fa-solid fa-xmark" style="cursor: pointer;" onclick="document.getElementById('avatar-modal').style.display='none'"></i>
         </div>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">

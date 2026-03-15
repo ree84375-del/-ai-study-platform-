@@ -1,30 +1,30 @@
 {% extends "base.html" %}
-{% block title %}AI 圖片解題{% endblock %}
+{% block title %}{{ _t('vision_title') }}{% endblock %}
 {% block content %}
 <div class="container" style="max-width: 800px; margin: 0 auto; padding: 2rem 1rem;">
-    <h2 style="color: var(--color-primary); margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> AI 視覺解題助手</h2>
+    <h2 style="color: var(--color-primary); margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> {{ _t('vision_header') }}</h2>
     
     <div class="washi-card" style="text-align: center;">
         <div id="upload-section">
-            <p style="color: var(--color-text_light); margin-bottom: 2rem;">遇到不會的題目嗎？拍下來傳給雪音老師吧！</p>
+            <p style="color: var(--color-text_light); margin-bottom: 2rem;">{{ _t('vision_prompt') }}</p>
             
             <form id="upload-form" style="margin-bottom: 2rem;">
                 <div style="border: 2px dashed var(--color-border); border-radius: 12px; padding: 3rem; background-color: var(--color-bg); margin-bottom: 1.5rem; transition: border-color 0.3s;" id="drop-zone">
                     <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; color: var(--color-text_light); margin-bottom: 1rem;"></i><br>
-                    <label for="image-upload" style="cursor: pointer; color: var(--color-primary); font-weight: bold; text-decoration: underline;">點擊選擇圖片</label> 或拖曳圖片至此
+                    <label for="image-upload" style="cursor: pointer; color: var(--color-primary); font-weight: bold; text-decoration: underline;">{{ _t('click_to_upload') }}</label> {{ _t('or_drag_drop') }}
                     <input type="file" id="image-upload" name="image" accept="image/*" style="display: none;">
                     <p id="file-name" style="margin-top: 10px; font-size: 0.9rem; color: var(--color-text_main);"></p>
                 </div>
                 
                 <button type="submit" id="analyze-btn" style="background-color: var(--color-primary); color: white; border: none; padding: 12px 30px; border-radius: 5px; cursor: pointer; font-size: 1.1rem; transition: opacity 0.3s;" disabled>
-                    請 AI 老師解答 <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    {{ _t('ask_ai_btn') }} <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </button>
             </form>
         </div>
 
         <div id="loading" style="display: none; color: var(--color-text_light);">
             <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
-            <p style="margin-top: 10px;">雪音老師正在詳閱您的題目...</p>
+            <p style="margin-top: 10px;">{{ _t('loading_vision') }}</p>
         </div>
 
         <div id="chat-container" style="display: none; text-align: left; background-color: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 1.5rem; margin-top: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
@@ -34,13 +34,13 @@
             
             <div id="follow-up-section" style="border-top: 1px solid var(--color-border); padding-top: 1rem;">
                 <div style="display: flex; gap: 10px;">
-                    <input type="text" id="follow-up-input" placeholder="對這題還有疑問嗎？在這裡問雪音老師..." style="flex-grow: 1; padding: 12px; border: 1px solid var(--color-border); border-radius: 5px; outline: none;">
+                    <input type="text" id="follow-up-input" placeholder="{{ _t('follow_up_placeholder') }}" style="flex-grow: 1; padding: 12px; border: 1px solid var(--color-border); border-radius: 5px; outline: none;">
                     <button id="send-btn" style="background-color: var(--color-accent); color: white; border: none; padding: 0 20px; border-radius: 5px; cursor: pointer;">
-                        發送 <i class="fa-solid fa-paper-plane"></i>
+                        {{ _t('send_btn') }} <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </div>
                 <button onclick="location.reload()" style="margin-top: 1rem; background: none; border: none; color: var(--color-text_light); text-decoration: underline; cursor: pointer; font-size: 0.9rem;">
-                    上傳新題目
+                    {{ _t('upload_new') }}
                 </button>
             </div>
         </div>
@@ -56,7 +56,7 @@
 
     fileInput.addEventListener('change', function() {
         if(this.files && this.files.length > 0) {
-            fileNameDisplay.innerText = "已選取: " + this.files[0].name;
+            fileNameDisplay.innerText = "{{ _t('file_selected') }}" + this.files[0].name;
             analyzeBtn.disabled = false;
         }
     });
@@ -71,12 +71,12 @@
         if (role === 'ai') {
             div.style.backgroundColor = '#f1f1f1';
             div.style.alignSelf = 'flex-start';
-            div.innerHTML = `<strong>雪音老師：</strong><br>${text.replace(/\n/g, '<br>')}`;
+            div.innerHTML = `<strong>{{ _t("nav_yukine") }}：</strong><br>${text.replace(/\n/g, '<br>')}`;
         } else {
             div.style.backgroundColor = 'var(--color-primary)';
             div.style.color = 'white';
             div.style.alignSelf = 'flex-end';
-            div.innerHTML = `<strong>我：</strong><br>${text}`;
+            div.innerHTML = `<strong>{{ _t("me_name") }}</strong><br>${text}`;
         }
         chatMessages.appendChild(div);
         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -103,7 +103,7 @@
             chatContainer.style.display = 'block';
             
             if(data.error) {
-                addMessage('ai', "抱歉，解析時出了點問題：" + data.error);
+                addMessage('ai', "{{ _t('vision_error') }}" + data.error);
             } else {
                 currentSessionId = data.session_id;
                 addMessage('ai', data.result);
@@ -112,7 +112,7 @@
         .catch(err => {
             loadingSection.style.display = 'none';
             chatContainer.style.display = 'block';
-            addMessage('ai', "哎呀，連線似乎不太穩呢... 或者是圖片太大了？");
+            addMessage('ai', "{{ _t('vision_conn_error') }}");
         });
     });
 

@@ -228,13 +228,25 @@ function renderDaruma(state, containerId) {
     });
 
     function anim() {
-        // High-Quality Balance Physics
+        // 1. Irregular Physics: Tiny random jitters for a "living" feel
+        const jitter = (Math.random() - 0.5) * 0.0015;
+        physics.targetTilt += jitter;
+
+        // 2. High-Quality Balance Physics
         let force = (physics.targetTilt - physics.tilt) * 0.05;
-        physics.vel = (physics.vel + force) * 0.93;
+        physics.vel = (physics.vel + force) * 0.92; // Slightly more damping for stability
         physics.tilt += physics.vel;
         
-        if (Math.random() < 0.01) physics.targetTilt = (Math.random() - 0.5) * 0.3;
-        if (Math.random() < 0.02) physics.targetTilt = 0;
+        // Occasional independent wobble (increased frequency)
+        if (Math.random() < 0.012) { // Was 0.01
+            physics.targetTilt += (Math.random() - 0.5) * 0.4;
+        }
+        
+        // Randomly "zero out" target to restore balance
+        if (Math.random() < 0.015) physics.targetTilt *= 0.8;
+        
+        // Spring target back to center over time
+        physics.targetTilt *= 0.98;
 
         ctx.clearRect(0, 0, W, H);
         

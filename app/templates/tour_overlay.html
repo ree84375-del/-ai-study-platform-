@@ -3,42 +3,42 @@
     <div class="washi-card" style="max-width: 600px; width: 90%; position: relative; padding: 30px; animation: slideIn 0.5s ease-out;">
         <div style="text-align: center; margin-bottom: 20px;">
             <i class="fa-solid fa-map-location-dot" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 10px;"></i>
-            <h2 style="color: var(--color-text_main); margin: 0;">歡迎來到 AI 學習案內所</h2>
-            <p style="color: var(--color-text_light);">請閱讀這份基礎導覽，探索網站的各項功能！</p>
+            <h2 style="color: var(--color-text_main); margin: 0;">{{ _t('tour_welcome') }}</h2>
+            <p style="color: var(--color-text_light);">{{ _t('tour_subtitle') }}</p>
         </div>
         
         <div class="tour-steps">
             <div class="tour-step active" id="step-1">
-                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-pen-nib"></i> 1. 開始刷題與錯題本</h4>
-                <p>在頂部選單點擊「開始刷題」可以進行各科目的測驗。答錯的題目會自動進入您的「錯題本」，讓您隨時隨地針對弱項進行複習。</p>
+                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-pen-nib"></i> {{ _t('step1_h4') }}</h4>
+                <p>{{ _t('step1_p') }}</p>
             </div>
             
             <div class="tour-step" id="step-2" style="display: none;">
-                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-wand-magic-sparkles"></i> 2. 圖片解題 (AI Vision)</h4>
-                <p>遇到看不懂的考卷或題目？進入「圖片解題」上傳照片，我們強大的 AI 會立刻為您辨識圖中邏輯，並直接給出詳盡解答。</p>
+                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-wand-magic-sparkles"></i> {{ _t('step2_h4') }}</h4>
+                <p>{{ _t('step2_p') }}</p>
             </div>
             
             <div class="tour-step" id="step-3" style="display: none;">
-                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-users"></i> 3. 群組功能</h4>
-                <p>建立或加入專屬您的「線上群組」，老師與同學間可以派發作業並即時討論，享受無縫的團隊學習體驗。</p>
+                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-users"></i> {{ _t('step3_h4') }}</h4>
+                <p>{{ _t('step3_p') }}</p>
             </div>
             
             <div class="tour-step" id="step-4" style="display: none;">
-                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-user-shield"></i> 4. 管理與隱私</h4>
-                <p>我們極度重視您的隱私與版權！您可以在頁面最底部的選單查看「用戶隱私」與「關於本站」了解我們的運作機制。</p>
+                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-user-shield"></i> {{ _t('step4_h4') }}</h4>
+                <p>{{ _t('step4_p') }}</p>
             </div>
         </div>
 
         <div style="display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px solid var(--color-border); padding-top: 20px;">
-            <button id="tour-prev" class="btn" style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); display: none;">上一步</button>
+            <button id="tour-prev" class="btn" style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); display: none;">{{ _t('tour_prev') }}</button>
             <div style="flex-grow: 1; display: flex; justify-content: center; align-items: center;" id="tour-dots">
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-primary); border-radius: 50%; display: inline-block;"></span>
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-border); border-radius: 50%; display: inline-block;"></span>
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-border); border-radius: 50%; display: inline-block;"></span>
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-border); border-radius: 50%; display: inline-block;"></span>
             </div>
-            <button id="tour-next" class="btn btn-primary" style="background-color: var(--color-primary); color: white;">下一步</button>
-            <button id="tour-finish" class="btn" style="background-color: var(--color-accent); color: white; display: none;">我準備好了！</button>
+            <button id="tour-next" class="btn btn-primary" style="background-color: var(--color-primary); color: white;">{{ _t('tour_next') }}</button>
+            <button id="tour-finish" class="btn" style="background-color: var(--color-accent); color: white; display: none;">{{ _t('tour_finish') }}</button>
         </div>
     </div>
 </div>

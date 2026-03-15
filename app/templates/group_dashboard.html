@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}群組討論區 - {{ group.name }}{% endblock %}
+{% block title %}{{ _t('exchange_area') }} - {{ group.name }}{% endblock %}
 {% block content %}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.8rem;">
         <h2 style="color: var(--color-primary); margin: 0;">
-            <i class="fa-solid fa-users"></i> {{ group.name }} - 學習交流區
+            <i class="fa-solid fa-users"></i> {{ group.name }} - {{ _t('exchange_area') }}
         </h2>
         <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 10px 25px; background: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: bold; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; margin-top: 8px;">
-            <i class="fa-solid fa-arrow-left"></i> 返回
+            <i class="fa-solid fa-arrow-left"></i> {{ _t('nav_back') }}
         </a>
     </div>
 
@@ -35,16 +35,16 @@
             <div>
                 <h4 style="margin: 0; color: {% if group.has_ai %}var(--color-primary){% else %}var(--color-text_light){% endif %}; transition: color 0.3s;">
                     {% if group.has_ai %}
-                        雪音老師 已加入討論 (๑•̀ㅂ•́)و✧
+                        {{ _t('active_discussion') }}
                     {% else %}
-                        雪音老師 正在休息中...
+                        {{ _t('teacher_rest') }}
                     {% endif %}
                 </h4>
                 <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: var(--color-text_light);">
                     {% if group.has_ai %}
-                        我會適時給予大家建議與鼓勵唷！
+                        {{ _t('yukine_encouragement') }}
                     {% else %}
-                        點擊右側按鈕邀請老師加入對話。
+                        {{ _t('invite_yukine_desc') }}
                     {% endif %}
                 </p>
             </div>
@@ -59,9 +59,9 @@
                     background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
                 {% endif %}">
                 {% if group.has_ai %}
-                    <i class="fa-solid fa-person-walking-arrow-right"></i> 請老師休息
+                    <i class="fa-solid fa-person-walking-arrow-right"></i> {{ _t('rest_yukine_btn') }}
                 {% else %}
-                    <i class="fa-solid fa-snowflake"></i> 邀請雪音老師
+                    <i class="fa-solid fa-snowflake"></i> {{ _t('invite_yukine_btn') }}
                 {% endif %}
             </button>
         </form>
@@ -71,7 +71,7 @@
     {% if group.group_type == 'class' %}
     <div class="washi-card" style="padding: 1.5rem; border-left: 5px solid var(--color-accent); background-color: var(--color-secondary);">
         <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-bullhorn" style="color: var(--color-accent);"></i> 群組公告版
+            <i class="fa-solid fa-bullhorn" style="color: var(--color-accent);"></i> {{ _t('announcement_board') }}
         </h3>
         
         {% if announcements %}
@@ -79,14 +79,14 @@
                 {% for ann in announcements %}
                 <div style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
                     <div style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 0.5rem;">
-                        發布於 <span class="utc-time" data-utc="{{ ann.created_at.isoformat() if ann.created_at else '' }}Z"></span>
+                        {{ _t('posted_at') }} <span class="utc-time" data-utc="{{ ann.created_at.isoformat() if ann.created_at else '' }}Z"></span>
                     </div>
                     <div style="white-space: pre-wrap; line-height: 1.6;">{{ ann.content }}</div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p style="color: var(--color-text_light); font-style: italic;">目前沒有任何群組公告。</p>
+            <p style="color: var(--color-text_light); font-style: italic;">{{ _t('no_announcements') }}</p>
         {% endif %}
         
         <!-- Teacher Announcement Input -->
@@ -95,9 +95,9 @@
             <form method="POST" action="">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="action" value="post_announcement"/>
-                <textarea name="content" placeholder="身為{{ '老師' if group.group_type == 'class' else '主持人' }}，在這裡發布重要群組公告..." required style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; resize: vertical; min-height: 60px; font-family: inherit; font-size: 1rem; margin-bottom: 10px; box-sizing: border-box;"></textarea>
+                <textarea name="content" placeholder="{% if group.group_type == 'class' %}{{ _t('post_announcement_placeholder_teacher') }}{% else %}{{ _t('post_announcement_placeholder_mod') }}{% endif %}" required style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; resize: vertical; min-height: 60px; font-family: inherit; font-size: 1rem; margin-bottom: 10px; box-sizing: border-box;"></textarea>
                 <button type="submit" style="background-color: var(--color-accent); color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: bold;">
-                    張貼公告
+                    {{ _t('post_announcement_btn') }}
                 </button>
             </form>
         </div>
@@ -110,11 +110,11 @@
             <!-- Active Assignments Section -->
             <div class="glass-panel" style="padding: 1.5rem; border-top: 4px solid var(--color-accent); margin-bottom: 2rem;">
                 <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-file-signature" style="color: var(--color-accent);"></i> 作業與挑戰
+                    <i class="fa-solid fa-file-signature" style="color: var(--color-accent);"></i> {{ _t('assignments_challenges') }}
                 </h3>
                 
                 {% if not assignments %}
-                    <p style="color: var(--color-text_light); text-align: center; padding: 20px; font-style: italic;">目前還沒有作業喔！</p>
+                    <p style="color: var(--color-text_light); text-align: center; padding: 20px; font-style: italic;">{{ _t('no_assignments_desc') }}</p>
                 {% else %}
                     <div style="display: grid; gap: 1rem;">
                         {% for assignment in assignments %}
@@ -133,7 +133,7 @@
                                 
                                 {% if not is_completed %}
                                 <div style="position: absolute; top: -10px; right: -5px; background: #ff8da1; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 5px rgba(255, 141, 161, 0.3);">
-                                    雪音提醒：此項作業尚未繳交
+                                    {{ _t('yukine_not_submitted') }}
                                 </div>
                                 {% endif %}
                                 
@@ -149,6 +149,14 @@
                                         border-radius: 20px;
                                         font-weight: bold;
                                     }
+                                    /* Admin Exclusive Golden Bubble */
+                                    .admin-gold {
+                                        background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+                                        color: #5C4033 !important;
+                                        border: 2px solid #FFD700 !important;
+                                        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4) !important;
+                                        font-weight: 600;
+                                    }
                                 </style>
 
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
@@ -156,20 +164,20 @@
                                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                                             <h4 style="margin: 0; color: var(--color-primary); font-size: 1.1rem; font-weight: 700;">{{ assignment.title }}</h4>
                                             {% if is_completed %}
-                                                <span class="assignment-status-tag" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9;">已批改</span>
+                                                <span class="assignment-status-tag" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9;">{{ _t('graded') }}</span>
                                             {% else %}
-                                                <span class="assignment-status-tag" style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2;">未繳交</span>
+                                                <span class="assignment-status-tag" style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2;">{{ _t('not_submitted') }}</span>
                                             {% endif %}
                                         </div>
                                         <p style="margin: 0; font-size: 0.85rem; color: var(--color-text_light); line-height: 1.4;">{{ assignment.description | truncate(60) }}</p>
                                         
                                         <div style="margin-top: 12px; display: flex; align-items: center; gap: 15px;">
                                             <div style="font-size: 0.75rem; color: #999;">
-                                                <i class="fa-regular fa-calendar-check"></i> 截止：{% if assignment.due_date %}{{ assignment.due_date.strftime('%Y-%m-%d') }}{% else %}無期限{% endif %}
+                                                <i class="fa-regular fa-calendar-check"></i> {{ _t('due_date_label') }}{% if assignment.due_date %}{{ assignment.due_date.strftime('%Y-%m-%d') }}{% else %}{{ _t('no_deadline') }}{% endif %}
                                             </div>
                                             {% if is_completed %}
                                             <div style="font-size: 0.75rem; font-weight: bold; color: var(--color-accent);">
-                                                <i class="fa-solid fa-star"></i> 分數：{{ user_status.score }}
+                                                <i class="fa-solid fa-star"></i> {{ _t('score_label') }}{{ user_status.score }}
                                             </div>
                                             {% endif %}
                                         </div>
@@ -194,7 +202,7 @@
         <!-- Teacher Management Section -->
         <div class="glass-panel" style="padding: 1.5rem; border-top: 4px solid var(--color-primary); margin-bottom: 2rem;">
             <h3 style="margin-top: 0; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-screwdriver-wrench"></i> 管理專區
+                <i class="fa-solid fa-screwdriver-wrench"></i> {{ _t('admin_management') }}
             </h3>
             
             <style>
@@ -307,8 +315,8 @@
                     <div style="background: rgba(var(--color-primary-rgb), 0.1); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
                         <i class="fa-solid fa-file-circle-plus" style="margin-bottom: 0;"></i>
                     </div>
-                    <h5>發布作業</h5>
-                    <p>AI 協助導引</p>
+                    <h5>{{ _t('publish_assignment') }}</h5>
+                    <p>{{ _t('ai_precheck_note') }}</p>
                 </div>
                 
                 <!-- Member Management Card -->
@@ -316,8 +324,8 @@
                     <div style="background: #f3e5f5; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
                         <i class="fa-solid fa-users-gear" style="margin-bottom: 0; color: #9c27b0;"></i>
                     </div>
-                    <h5>管理角色</h5>
-                    <p>成員權限設定</p>
+                    <h5>{{ _t('members_roles') }}</h5>
+                    <p>{{ _t('group_settings') }}</p>
                 </div>
             </div>
 
@@ -329,32 +337,32 @@
                         <!-- Phase 0: AI Prompt (Optional) -->
                         <div id="publish-phase-ai" style="background: var(--color-secondary); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #ffccce;">
                             <label style="display: block; font-size: 0.85rem; font-weight: bold; color: var(--color-primary); margin-bottom: 8px;">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i> 雪音老師 AI 作業助手 (๑•̀ㅂ•́)و✧
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> {{ _t('ai_wizard_title') }}
                             </label>
-                            <p style="font-size: 0.75rem; color: #666; margin-bottom: 10px;">老師可以先輸入想法或傳圖片，讓雪音幫您設計作業內容唷！</p>
+                            <p style="font-size: 0.75rem; color: #666; margin-bottom: 10px;">{{ _t('ai_wizard_desc') }}</p>
                             <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                                <textarea id="ai-draft-prompt" placeholder="例如：出一題關於二次函數的進階應用題，要跟生活結合..." style="width: 100%; font-size: 0.85rem; padding: 8px; border-radius: 6px; border: 1px solid #ddd; resize: vertical; min-height: 40px; box-sizing: border-box;"></textarea>
+                                <textarea id="ai-draft-prompt" placeholder="{{ _t('ai_wizard_placeholder') }}" style="width: 100%; font-size: 0.85rem; padding: 8px; border-radius: 6px; border: 1px solid #ddd; resize: vertical; min-height: 40px; box-sizing: border-box;"></textarea>
                             </div>
                             <div style="display: flex; justify-content: space-between; align-items: center;">
                                 <label class="btn" style="font-size: 0.75rem; background: white; border: 1px solid #ff8da1; color: #ff8da1; cursor: pointer; padding: 5px 10px; border-radius: 5px;">
-                                    <i class="fa-solid fa-image"></i> 圖片助手
+                                    <i class="fa-solid fa-image"></i> {{ _t('image_helper') }}
                                     <input type="file" accept="image/*" style="display: none;" onchange="handleAIDraftImage(this)">
                                 </label>
                                 <button type="button" onclick="generateAIDraft()" id="ai-gen-btn" style="font-size: 0.8rem; background: var(--color-primary); color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: bold;">
-                                    開始設計 (Wizard Start)
+                                    {{ _t('wizard_start') }}
                                 </button>
                             </div>
                         </div>
 
                         <!-- Phase 1: Question -->
                         <div id="publish-phase-1">
-                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--color-primary);">第一步：設定題目與標題 <span style="color:red">*</span></h5>
-                            <input type="text" name="title" id="draft-title" placeholder="作業標題 (例如：單元三複習卷)" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; margin-bottom: 8px;">
-                            <label style="display: block; margin-bottom: 5px; font-size: 0.8rem; color: #666;">題目內容 (文字)：</label>
-                            <textarea name="description" id="draft-desc" placeholder="請在此輸入題目或講義內容..." required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; resize: vertical; min-height: 80px; box-sizing: border-box;"></textarea>
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--color-primary);">{{ _t('step1_title') }} <span style="color:red">*</span></h5>
+                            <input type="text" name="title" id="draft-title" placeholder="{{ _t('assignment_title_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; margin-bottom: 8px;">
+                            <label style="display: block; margin-bottom: 5px; font-size: 0.8rem; color: #666;">{{ _t('question_content_label') }}</label>
+                            <textarea name="description" id="draft-desc" placeholder="{{ _t('draft_desc_placeholder') }}" required style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; resize: vertical; min-height: 80px; box-sizing: border-box;"></textarea>
                             <div style="margin: 10px 0;">
                                 <label class="btn" style="font-size: 0.8rem; background: #f0f0f0; border: 1px solid #ccc; color: #333; cursor: pointer; padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                                    <i class="fa-solid fa-camera"></i> 上傳題目圖辨識
+                                    <i class="fa-solid fa-camera"></i> {{ _t('upload_question_img') }}
                                     <input type="file" id="question-file-input" accept="image/*" style="display: none;" onchange="recognizeStep('question', this)">
                                 </label>
                                 <div id="question-status" style="font-size: 0.75rem; color: var(--color-primary); margin-top: 5px; min-height: 20px;"></div>
@@ -367,21 +375,21 @@
                                     <div id="yukine-text-1" style="font-size: 0.85rem; color: #856404; line-height: 1.4;"></div>
                                 </div>
                                 <button type="button" onclick="confirmAndNext(2)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-                                    <i class="fa-solid fa-check-double"></i> 雪音認可了，進入下一步
+                                    <i class="fa-solid fa-check-double"></i> {{ _t('yukine_checks_approved') }}
                                 </button>
                             </div>
                             <button type="button" id="btn-check-1" onclick="performYukineCheck(1)" class="btn" style="width: 100%; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold;">
-                                <i class="fa-solid fa-snowflake"></i> 給雪音檢查
+                                <i class="fa-solid fa-snowflake"></i> {{ _t('ask_yukine_check') }}
                             </button>
                         </div>
 
                         <!-- Phase 2: Answer -->
                         <div id="publish-phase-2" style="display: none;">
-                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--color-primary);">第二步：設定正確解答 (批改用) <span style="color:red">*</span></h5>
-                            <textarea name="reference_answer" id="draft-ref" placeholder="請在此輸入正確答案或關鍵字..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; resize: vertical; min-height: 80px; box-sizing: border-box;"></textarea>
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--color-primary);">{{ _t('step2_title') }} <span style="color:red">*</span></h5>
+                            <textarea name="reference_answer" id="draft-ref" placeholder="{{ _t('draft_ref_placeholder') }}" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; resize: vertical; min-height: 80px; box-sizing: border-box;"></textarea>
                             <div style="margin: 10px 0;">
                                 <label class="btn" style="font-size: 0.8rem; background: #f0f0f0; border: 1px solid #ccc; color: #333; cursor: pointer; padding: 8px 12px; border-radius: 8px; display: inline-block;">
-                                    <i class="fa-solid fa-camera"></i> 上傳答案圖辨識
+                                    <i class="fa-solid fa-camera"></i> {{ _t('upload_answer_img') }}
                                     <input type="file" id="answer-file-input" accept="image/*" style="display: none;" onchange="recognizeStep('answer', this)">
                                 </label>
                                 <div id="answer-status" style="font-size: 0.75rem; color: var(--color-primary); margin-top: 5px; min-height: 20px;"></div>
@@ -394,27 +402,27 @@
                                     <div id="yukine-text-2" style="font-size: 0.85rem; color: #856404; line-height: 1.4;"></div>
                                 </div>
                                 <button type="button" onclick="confirmAndNext(3)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-                                    <i class="fa-solid fa-check-double"></i> 雪音認可了，進入下一步
+                                    <i class="fa-solid fa-check-double"></i> {{ _t('yukine_checks_approved') }}
                                 </button>
                             </div>
                             <div style="display: flex; gap: 8px;">
-                                <button type="button" onclick="nextPublishPhase(1)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">上一步</button>
+                                <button type="button" onclick="nextPublishPhase(1)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">{{ _t('prev_step') }}</button>
                                 <button type="button" id="btn-check-2" onclick="performYukineCheck(2)" style="flex: 2; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold;">
-                                    <i class="fa-solid fa-snowflake"></i> 給雪音檢查
+                                    <i class="fa-solid fa-snowflake"></i> {{ _t('ask_yukine_check') }}
                                 </button>
                             </div>
                         </div>
 
                         <!-- Phase 3: Deadline -->
                         <div id="publish-phase-3" style="display: none;">
-                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--color-primary);">第三步：設定截止日期與時間 (台灣) <span style="color:red">*</span></h5>
+                            <h5 style="margin: 0 0 10px 0; font-size: 0.9rem; color: var(--color-primary);">{{ _t('step3_title') }} <span style="color:red">*</span></h5>
                             <input type="datetime-local" name="due_date" id="draft-due" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem;">
                             <div style="background: #f0f6ff; padding: 10px; border-radius: 8px; margin-bottom: 1rem; font-size: 0.8rem; color: #444;">
-                                <i class="fa-solid fa-circle-info"></i> 雪音老師會在截止前兩天起主動提醒學生唷！
+                                <i class="fa-solid fa-circle-info"></i> {{ _t('yukine_deadline_note') }}
                             </div>
                             <div style="display: flex; gap: 8px;">
-                                <button type="button" onclick="nextPublishPhase(2)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">上一步</button>
-                                <button type="submit" name="action" value="publish_assignment" style="flex: 2; padding: 10px; background: var(--color-accent); color: white; border: none; border-radius: 8px; font-weight: bold;">確認並正式發布</button>
+                                <button type="button" onclick="nextPublishPhase(2)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">{{ _t('prev_step') }}</button>
+                                <button type="submit" name="action" value="publish_assignment" style="flex: 2; padding: 10px; background: var(--color-accent); color: white; border: none; border-radius: 8px; font-weight: bold;">{{ _t('confirm_publish') }}</button>
                             </div>
                     </div>
                 </div>
@@ -423,7 +431,7 @@
 
                 <div id="member-management-tool" class="managed-tool" style="padding: 10px; position: relative;">
                     <h3 style="margin-top: 0; color: #7c4dff; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                        <i class="fa-solid fa-users-gear"></i> 管理與成員角色
+                        <i class="fa-solid fa-users-gear"></i> {{ _t('members_roles') }}
                     </h3>
                     <div style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
                         {% set teacher_id = group.teacher_id %}
@@ -445,19 +453,19 @@
                                 </div>
                                 <span style="font-size: 0.85rem; {% if member.user.role == 'admin' %}color: #ff9800; font-weight: bold;{% endif %}">
                                     {{ member.user.username }}
-                                    {% if member.user.role == 'admin' %}<i class="fa-solid fa-crown" title="管理員"></i>{% endif %}
+                                    {% if member.user.role == 'admin' %}<i class="fa-solid fa-crown" title="{{ _t('admin_crown') }}"></i>{% endif %}
                                 </span>
                             </div>
                             {% if member.user_id != current_user.id and member.user.email != 'ree84375@gmail.com' %}
                             <form method="POST" action="{{ url_for('group.update_member_role', group_id=group.id, user_id=member.user_id) }}" style="margin: 0;">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                 <select name="new_role" onchange="this.form.submit()" style="font-size: 0.75rem; padding: 2px 5px; border-radius: 4px; border: 1px solid #ddd;">
-                                    <option value="student" {% if member.user.role == 'student' %}selected{% endif %}>學生</option>
-                                    <option value="teacher" {% if member.user.role == 'teacher' %}selected{% endif %}>老師</option>
+                                    <option value="student" {% if member.user.role == 'student' %}selected{% endif %}>{{ _t('student_role') }}</option>
+                                    <option value="teacher" {% if member.user.role == 'teacher' %}selected{% endif %}>{{ _t('teacher_role') }}</option>
                                 </select>
                             </form>
                             {% else %}
-                            <span style="font-size: 0.7rem; color: #999;">(鎖定)</span>
+                            <span style="font-size: 0.7rem; color: #999;">{{ _t('member_locked') }}</span>
                             {% endif %}
                         </div>
                         {% endfor %}
@@ -494,7 +502,7 @@
                             </div>
                             <div style="padding: 18px;">
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: var(--color-primary); font-weight: bold; font-size: 0.9rem;">
-                                    <i class="fa-solid fa-circle-question"></i> 作業題目與說明
+                                    <i class="fa-solid fa-circle-question"></i> {{ _t('question_explanation') }}
                                 </div>
                                 <div id="modal-desc" style="font-size: 0.95rem; color: #444; white-space: pre-wrap; margin-bottom: 15px; line-height: 1.6;"></div>
                                 <div id="modal-q-image-container" style="display: none; margin-top: 15px; background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
@@ -505,17 +513,16 @@
 
                         <div id="submission-input-area">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; color: var(--color-accent); font-weight: bold; font-size: 0.9rem;">
-                                <i class="fa-solid fa-pen-nib"></i> 開始繳交作業 (๑•̀ㅂ•́)و✧
+                                <i class="fa-solid fa-pen-nib"></i> {{ _t('start_submission') }}
                             </div>
                             <label for="student-upload" style="display: flex; flex-direction: column; align-items: center; justify-content: center; border: 2px dashed var(--color-primary); border-radius: 12px; padding: 1.5rem; cursor: pointer; background: #f8fbff; transition: all 0.2s;" onmouseover="this.style.background='#f0f6ff'">
                                 <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 8px;"></i>
-                                <span style="font-weight: bold; color: var(--color-primary);">點擊或拖曳上傳作業圖片</span>
-                                <span style="font-size: 0.75rem; color: #999; margin-top: 5px;">雪音老師將會幫你先行辨識內容</span>
+                                <span style="font-weight: bold; color: var(--color-primary);">{{ _t('upload_assignment_note') }}</span>
+                                <span style="font-size: 0.75rem; color: #999; margin-top: 5px;">{{ _t('yukine_ocr_note') }}</span>
                             </label>
                             <input type="file" id="student-upload" name="submission_image" accept="image/*" style="display: none;" onchange="recognizeStudentSubmission(this)">
-                            
-                            <div style="margin: 1rem 0; text-align: center; color: #CCC; font-size: 0.8rem;">— 或者直接輸入文字 —</div>
-                            <textarea name="content" id="modal-content" placeholder="在此輸入作業內容..." style="width: 100%; min-height: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem;"></textarea>
+                            <div style="margin: 1rem 0; text-align: center; color: #CCC; font-size: 0.8rem;">— {{ _t('or_input_text') }} —</div>
+                            <textarea name="content" id="modal-content" placeholder="{{ _t('input_content_placeholder') }}" style="width: 100%; min-height: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem;"></textarea>
 
                             <!-- Yukine Student Pre-check Area -->
                             <div id="student-yukine-precheck" style="display: none; background: #f0f7ff; padding: 12px; border-radius: 8px; border: 1px solid #cce5ff; margin-top: 15px; position: relative;">
@@ -525,7 +532,7 @@
                                 </div>
                             </div>
                             <button type="button" id="btn-student-check" onclick="performStudentYukineCheck()" class="btn" style="width: 100%; padding: 10px; background: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold; margin-top: 12px;">
-                                <i class="fa-solid fa-snowflake"></i> 給雪音檢查內容
+                                <i class="fa-solid fa-snowflake"></i> {{ _t('ask_yukine_check') }}
                             </button>
                         </div>
                     </div>
@@ -535,9 +542,9 @@
                         <div style="background: #fff5f6; border-left: 5px solid #ff8da1; padding: 15px; border-radius: 8px; margin-bottom: 1.5rem;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
                                 <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 35px; height: 35px; border-radius: 50%;">
-                                <h4 style="margin: 0; color: var(--color-primary); font-size: 0.95rem;">雪音老師辨識完成囉！</h4>
+                                <h4 style="margin: 0; color: var(--color-primary); font-size: 0.95rem;">{{ _t('yukine_ocr_done') }}</h4>
                             </div>
-                            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">請確認內容是否正確。如果我有讀錯（例如手寫太亂），請在下方方塊中幫我修正唷！(๑•̀ㅂ•́)و✧</p>
+                            <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">{{ _t('yukine_ocr_verify') }}</p>
                             <textarea id="recognized-display" name="confirmed_content" style="width: 100%; min-height: 150px; padding: 12px; border: 1px solid #ff8da1; border-radius: 10px; font-size: 0.95rem; line-height: 1.5;"></textarea>
                         </div>
                     </div>
@@ -548,21 +555,21 @@
                             <div style="width: 60px; height: 60px; background: #e8f5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;">
                                 <i class="fa-solid fa-circle-check" style="font-size: 2.5rem; color: #4caf50;"></i>
                             </div>
-                            <h3 style="color: var(--color-primary); margin: 0 0 5px 0;">作業繳交完成！</h3>
+                             <h3 style="color: var(--color-primary); margin: 0 0 5px 0;">{{ _t('assignment_submitted') }}</h3>
                             <div id="grading-summary" style="font-size: 1.2rem; font-weight: bold; color: var(--color-accent);"></div>
                         </div>
 
                         <div style="background: white; border-radius: 12px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.02); margin-top: 15px;">
                             <div style="background: var(--color-accent); padding: 10px 18px; color: white; display: flex; align-items: center; gap: 8px; font-weight: bold;">
-                                <i class="fa-solid fa-comment-dots"></i> 雪音老師的批改詳解
+                                <i class="fa-solid fa-comment-dots"></i> {{ _t('yukine_grading_detail') }}
                             </div>
                             <div id="grading-explanation" style="padding: 18px; font-size: 0.95rem; color: #444; line-height: 1.6; max-height: 250px; overflow-y: auto; white-space: pre-wrap; background: #fffcfd;"></div>
                         </div>
                     </div>
 
                     <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
-                        <button type="button" id="modal-back-btn" onclick="resetModalSteps()" style="display: none; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer;">返回</button>
-                        <button type="submit" id="modal-submit-btn" style="flex: 2; padding: 12px; border-radius: 8px; border: none; background: #ccc; color: white; font-weight: bold; cursor: not-allowed;" disabled>正式提交作業 (請先給雪音檢查)</button>
+                        <button type="button" id="modal-back-btn" onclick="resetModalSteps()" style="display: none; flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer;">{{ _t('back') }}</button>
+                        <button type="submit" id="modal-submit-btn" style="flex: 2; padding: 12px; border-radius: 8px; border: none; background: #ccc; color: white; font-weight: bold; cursor: not-allowed;" disabled>{{ _t('submit_final') }}</button>
                     </div>
                 </form>
             </div>
@@ -594,9 +601,9 @@
                             <div style="max-width: 85%; display: flex; flex-direction: column; position: relative; {% if msg.user_id == current_user.id %}align-items: flex-end;{% else %}align-items: flex-start;{% endif %}">
                                 <!-- Meta Info -->
                                 <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
-                                    <span style="font-weight: 700; color: var(--color-text_main);">{{ "我" if msg.user_id == current_user.id else (msg.author.username if msg.author else "匿名用戶") }}</span>
+                                    <span style="font-weight: 700; color: var(--color-text_main);">{{ _t('me') if msg.user_id == current_user.id else (msg.author.username if msg.author else _t('anonymous')) }}</span>
                                     {% if msg.author and msg.author.username == '雪音老師' %} 
-                                        <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>
+                                        <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">{{ _t('navigator') }}</span>
                                     {% elif msg.user_id == group.teacher_id %} 
                                         <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">
                                             {{ '老師' if group.group_type == 'class' else '主持人' }}
@@ -640,7 +647,7 @@
                                     ">
                                         {% if msg.parent_id and msg.parent %}
                                             <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
-                                                <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">{{ msg.parent.author.username }} 說：</div>
+                                                <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">{{ msg.parent.author.username }} {{ _t('said') }}：</div>
                                                 <div style="font-size: 0.85rem; color: rgba(0,0,0,0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ msg.parent.content }}</div>
                                             </div>
                                         {% endif %}
@@ -652,11 +659,11 @@
                                         {% endif %}
                                         
                                         <div class="message-text" style="white-space: pre-wrap; color: inherit; font-weight: 500;">{% if msg.is_recalled -%}
-                                            <span style="font-style: italic; opacity: 0.7;">此訊息已收回</span>
+                                            <span style="font-style: italic; opacity: 0.7;">{{ _t('msg_recalled') }}</span>
                                         {%- else -%}
                                             {{ msg.content.strip() }}
                                             {%- if msg.is_edited -%}
-                                                <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">(已編輯)</span>
+                                                <span style="font-size: 0.7rem; opacity: 0.6; margin-left: 5px;">({{ _t('edited') }})</span>
                                             {%- endif -%}
                                         {%- endif %}</div>
                                     </div>
@@ -669,18 +676,18 @@
 
                                     <!-- Interaction Buttons -->
                                     <div id="controls-{{ msg.id }}" class="interaction-buttons" style="position: absolute; {% if msg.user_id == current_user.id %}right: 15px;{% else %}left: 15px;{% endif %} top: -35px;">
-                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1; color: var(--color-primary);" title="回覆" 
-                                           data-id="{{ msg.id }}" data-user="{{ (msg.author.username if msg.author else '匿名') }}" data-content="{{ (msg.content or '') | escape }}"
+                                        <i class="fa-solid fa-reply message-more-btn" style="opacity: 1; color: var(--color-primary);" title="{{ _t('reply') }}" 
+                                           data-id="{{ msg.id }}" data-user="{{ (msg.author.username if msg.author else _t('anonymous')) }}" data-content="{{ (msg.content or '') | escape }}"
                                            onclick="event.stopPropagation(); startReply(this.dataset.id, this.dataset.user, this.dataset.content)"></i>
                                         {% if msg.user_id == current_user.id and not msg.is_recalled %}
-                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" 
+                                            <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="{{ _t('edit') }}" 
                                                data-id="{{ msg.id }}" data-content="{{ (msg.content or '') | escape }}"
                                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
-                                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="{{ _t('recall') }}" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
                                         {% endif %}
                                         {% set is_ai_reply_to_me = (msg.author.username == '雪音老師' and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
                                         {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and msg.author.username != '雪音老師' %}
-                                            <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="{{ _t('delete') }}" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -689,7 +696,7 @@
                     {% else %}
                     <div style="text-align: center; color: var(--color-text_light); margin-top: 3rem;">
                         <i class="fa-solid fa-wind" style="font-size: 2rem; margin-bottom: 1rem;"></i>
-                        <p>目前還沒有任何留言，來搶頭香吧！</p>
+                        <p>{{ _t('no_messages') }}</p>
                     </div>
                 {% endif %}
             </div>
@@ -698,7 +705,7 @@
                 <!-- Reply Preview -->
                 <div id="reply-preview" class="reply-preview-container">
                     <div style="font-size: 0.8rem; color: var(--color-primary); font-weight: bold; margin-bottom: 3px;">
-                        回覆給 <span id="reply-to-user"></span>
+                        {{ _t('reply_to') }} <span id="reply-to-user"></span>
                     </div>
                     <div id="reply-preview-content" style="font-size: 0.85rem; color: #666; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; word-break: break-all;"></div>
                     <i class="fa-solid fa-xmark" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: #999;" onclick="cancelReply()"></i>
@@ -717,7 +724,7 @@
                     <input type="hidden" name="edit_id" id="edit-id-input" value="">
                     <input type="hidden" name="image_data" id="image-data-input">
                     
-                    <textarea id="chat-input" name="content" placeholder="在此輸入聊天訊息... (可輸入多行，或直接貼上圖片)"></textarea>
+                    <textarea id="chat-input" name="content" placeholder="{{ _t('chat_placeholder') }}"></textarea>
                     
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <div style="display: flex; align-items: center; gap: 15px;">
@@ -731,11 +738,11 @@
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                             <div style="font-size: 0.85rem; color: var(--color-text_light);">
-                                 <i class="fa-solid fa-circle-info"></i> 點擊 + 或直接貼上圖片
+                                 <i class="fa-solid fa-circle-info"></i> {{ _t('paste_image_note') }}
                             </div>
                         </div>
                         <button type="submit" style="background-color: var(--color-primary); color: white; border: none; min-width: 120px; height: 45px; padding: 0 25px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" onmouseover="this.style.opacity='0.9'; this.style.transform='translateY(-1px)';" onmouseout="this.style.opacity='1'; this.style.transform='translateY(0)';">
-                            <i class="fa-solid fa-paper-plane"></i> 送出訊息
+                            <i class="fa-solid fa-paper-plane"></i> {{ _t('send_message') }}
                         </button>
                     </div>
                 </form>
@@ -759,7 +766,10 @@ document.addEventListener('DOMContentLoaded', () => {
         groupTypeLabel: "{{ '老師' if group.group_type == 'class' else '主持人' }}",
         yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
         aiReplyUrl: "/api/groups/{{ group.id or 0 }}/ai_reply",
-        isAdmin: {{ 'true' if current_user.is_admin else 'false' }}
+        isAdmin: {{ 'true' if current_user.is_admin else 'false' }},
+        confirmRecallMsg: "{{ _t('confirm_recall') }}",
+        yukineCheckInProgress: "{{ _t('yukine_checking') }}",
+        yukineCheckingNote: "{{ _t('lofi_audio_permission') }}"
     };
 
     const messageContainer = document.querySelector('.chat-scroll-area');
@@ -782,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.recallMessage = async (msgId) => {
-        if (!confirm('確定要收回這則訊息嗎？')) return;
+        if (!confirm(CONFIG.confirmRecallMsg)) return;
         const formData = new FormData();
         formData.append('csrf_token', CONFIG.csrfToken);
         try {
@@ -792,7 +802,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const affected = data.affected_ids || [msgId];
                 affected.forEach(id => {
                     const text = document.querySelector(`#msg-bubble-${id} .message-text`);
-                    if (text) text.innerHTML = '<i class="fa-solid fa-clock-rotate-left"></i> 訊息已收回';
+                    if (text) text.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${"{{ _t('msg_recalled') }}"}`;
                 });
             }
         } catch (err) { console.error(err); }
@@ -803,7 +813,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('[id^="publish-phase-"]').forEach(el => el.style.display = 'none');
         document.getElementById(`publish-phase-${phase}`).style.display = 'block';
         const label = document.getElementById('publish-tool-label');
-        const titles = { 1: '設定題目', 2: '設定答案', 3: '完成發布' };
+        const titles = { 1: "{{ _t('step1_title') }}", 2: "{{ _t('step2_title') }}", 3: "{{ _t('step3_title') }}" };
         if (titles[phase]) label.innerText = titles[phase];
         
         // Reset feedback areas when moving back/forth
@@ -826,17 +836,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkBtn = document.getElementById(`btn-check-${stepNum}`);
 
         if (stepNum === 1 && (!title || !desc)) {
-            alert('雪音老師提醒：作業標題跟內容都要填寫唷！(๑•̀ㅂ•́)و✧');
+            alert("{{ _t('alert_fill_all') }}");
             return;
         }
         if (stepNum === 2 && !ans) {
-            alert('雪音老師提醒：老師一定要設定正確答案唷！');
+            alert("{{ _t('alert_set_answer') }}");
             return;
         }
 
         checkBtn.disabled = true;
-        checkBtn.innerHTML = '<i class="fa-solid fa-sync fa-spin"></i> 雪音檢查中...';
-        statusEl.innerHTML = '<i class="fa-solid fa-face-smile-wink fa-beat"></i> 雪音認真看題目中...';
+        checkBtn.innerHTML = `<i class="fa-solid fa-sync fa-spin"></i> ${CONFIG.yukineCheckInProgress}`;
+        statusEl.innerHTML = `<i class="fa-solid fa-face-smile-wink fa-beat"></i> ${"{{ _t('yukine_checking_q') }}"}`;
 
         try {
             const formData = new FormData();
@@ -855,14 +865,14 @@ document.addEventListener('DOMContentLoaded', () => {
             checkBtn.style.display = 'none';
             feedbackDiv.style.display = 'block';
             feedbackText.innerText = result.feedback;
-            statusEl.innerHTML = '<i class="fa-solid fa-check"></i> 雪音檢查完畢！';
+            statusEl.innerHTML = `<i class="fa-solid fa-check"></i> ${"{{ _t('yukine_check_done') }}"}`;
         } catch (e) {
             console.error(e);
-            alert('雪音現在有點忙，我們先手動確認唷！');
+            alert("{{ _t('yukine_busy') }}");
             confirmAndNext(stepNum + 1);
         } finally {
             checkBtn.disabled = false;
-            checkBtn.innerHTML = `呼叫雪音檢查${stepNum === 1 ? '題目' : '解答'}`;
+            checkBtn.innerHTML = `呼叫雪音檢查${stepNum === 1 ? "{{ _t('question') }}" : "{{ _t('answer') }}"}`;
         }
     };
 
@@ -882,12 +892,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const submitBtn = document.getElementById('modal-submit-btn');
 
         if (!finalAns) {
-            alert('雪音老師提醒：學生不能交白卷唷！(๑•̀ㅂ•́)و✧');
+            alert("{{ _t('alert_no_empty') }}");
             return;
         }
 
         checkBtn.disabled = true;
-        checkBtn.innerHTML = '<i class="fa-solid fa-sync fa-spin"></i> 雪音預批改中...';
+        checkBtn.innerHTML = `<i class="fa-solid fa-sync fa-spin"></i> ${CONFIG.yukineCheckInProgress}`;
 
         try {
             const formData = new FormData();
@@ -909,10 +919,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 submitBtn.disabled = false;
                 submitBtn.style.background = 'var(--color-accent)';
                 submitBtn.style.cursor = 'pointer';
-                submitBtn.innerText = '確認無誤，正式提交作業';
+                submitBtn.innerText = "{{ _t('confirm_and_submit') }}";
                 checkBtn.style.display = 'none';
             } else {
-                alert('雪音老師有一些小建議，修改一下會更好唷！');
+                alert("{{ _t('yukine_advice') }}");
             }
         } catch (e) {
             console.error(e);
@@ -921,7 +931,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.style.cursor = 'pointer';
         } finally {
             checkBtn.disabled = false;
-            checkBtn.innerHTML = '<i class="fa-solid fa-snowflake"></i> 給雪音檢查內容';
+            checkBtn.innerHTML = `<i class="fa-solid fa-snowflake"></i> ${"{{ _t('ask_yukine_check') }}"}`;
         }
     };
 
@@ -929,7 +939,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!input.files[0]) return;
         const statusEl = document.getElementById(`${context}-status`);
         const targetEl = document.getElementById(`draft-${context === 'question' ? 'desc' : 'ref'}`);
-        statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 辨識中...';
+        statusEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${"{{ _t('ocr_recognizing') }}"}`;
         
         const formData = new FormData();
         formData.append('image', input.files[0]);
@@ -941,9 +951,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             if (data.status === 'success') {
                 targetEl.value = data.text;
-                statusEl.innerHTML = '<i class="fa-solid fa-check"></i> 成功！';
-            } else { statusEl.innerHTML = '辨識失敗'; }
-        } catch (err) { statusEl.innerHTML = '連線錯誤'; }
+                statusEl.innerHTML = `<i class="fa-solid fa-check"></i> ${"{{ _t('success') }}"}`;
+            } else { statusEl.innerHTML = "{{ _t('ocr_failed') }}"; }
+        } catch (err) { statusEl.innerHTML = "{{ _t('conn_error') }}"; }
     };
 
     window.handleAIDraftImage = (input) => {
@@ -959,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!prompt && !imageFile) return;
 
         btn.disabled = true;
-        status.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> 雪音設計中...';
+        status.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> ${"{{ _t('yukine_designing') }}"}`;
         
         const formData = new FormData();
         formData.append('prompt', prompt);
@@ -973,7 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('draft-title').value = data.draft.title;
                 document.getElementById('draft-desc').value = data.draft.description;
                 document.getElementById('draft-ref').value = data.draft.reference_answer;
-                status.innerHTML = '設計完成！';
+                status.innerHTML = "{{ _t('design_done') }}";
                 nextPublishPhase(1);
             }
         } catch (err) { console.error(err); }
@@ -1029,7 +1039,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('step-upload').style.display = 'block';
         document.getElementById('modal-back-btn').style.display = 'none';
         document.getElementById('modal-submit-btn').style.display = 'block';
-        document.getElementById('modal-submit-btn').innerText = '正式提交作業';
+        document.getElementById('modal-submit-btn').innerText = "{{ _t('submit_final') }}";
         document.getElementById('modal-content').value = '';
         document.getElementById('recognized-display').value = '';
     };
@@ -1037,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.recognizeStudentSubmission = async (input) => {
         if (!input.files[0]) return;
         const display = document.getElementById('recognized-display');
-        display.value = '雪音老師辨識中... 請稍候 (๑•̀ㅂ•́)و✧';
+        display.value = "{{ _t('yukine_ocr_waiting') }}";
         document.getElementById('step-upload').style.display = 'none';
         document.getElementById('step-confirm').style.display = 'block';
         document.getElementById('modal-back-btn').style.display = 'block';
@@ -1050,9 +1060,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const res = await fetch(`/api/groups/${CONFIG.groupId}/assignment/recognize`, { method: 'POST', body: formData });
             const data = await res.json();
-            display.value = data.status === 'success' ? data.text : '辨識失敗，請手動輸入內容。';
-            if (data.status === 'success') document.getElementById('modal-submit-btn').innerText = '確認辨識並送出';
-        } catch (err) { display.value = '連線出錯'; }
+            display.value = data.status === 'success' ? data.text : "{{ _t('ocr_failed_manual') }}";
+            if (data.status === 'success') document.getElementById('modal-submit-btn').innerText = "{{ _t('confirm_ocr_submit') }}";
+        } catch (err) { display.value = "{{ _t('conn_error') }}"; }
     };
 
     // Handle image file
