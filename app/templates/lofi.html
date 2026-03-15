@@ -289,18 +289,18 @@
                         <i class="fa-solid fa-compact-disc feature-icon"></i>
                         <span>{{ _t('lofi_beats_label') }}</span>
                     </button>
-                    <div class="sound-option" onclick="toggleSound('rain')">
+                    <button onclick="safeToggleAudio('rain')" class="audio-btn" id="rain-btn">
                         <i class="fa-solid fa-cloud-rain feature-icon"></i>
                         <span>{{ _t('lofi_sound_rain') }}</span>
-                    </div>
-                    <div class="sound-option" onclick="toggleSound('cafe')">
+                    </button>
+                    <button onclick="safeToggleAudio('cafe')" class="audio-btn" id="cafe-btn">
                         <i class="fa-solid fa-mug-hot feature-icon"></i>
                         <span>{{ _t('lofi_sound_cafe') }}</span>
-                    </div>
-                    <div class="sound-option" onclick="toggleSound('forest')">
+                    </button>
+                    <button onclick="safeToggleAudio('forest')" class="audio-btn" id="forest-btn">
                         <i class="fa-solid fa-leaf feature-icon"></i>
                         <span>{{ _t('lofi_sound_forest') }}</span>
-                    </div>
+                    </button>
                 </div>
 
                 <!-- Volume Slider -->
@@ -444,7 +444,7 @@
                 if (title) {
                     title.innerText = i18n.morningTitle;
                     subtitle.innerText = i18n.morningSub;
-                    badge.innerHTML = i18n.morningBadge;
+                    badge.innerHTML = `<i class="fa-solid fa-sun"></i> ${i18n.morningBadge}`;
                 }
                 if (starsLayer) starsLayer.style.display = 'none';
                 if (sparkles) sparkles.style.display = 'block';
@@ -453,7 +453,7 @@
                 if (title) {
                     title.innerText = i18n.afternoonTitle;
                     subtitle.innerText = i18n.afternoonSub;
-                    badge.innerHTML = i18n.afternoonBadge;
+                    badge.innerHTML = `<i class="fa-solid fa-cloud-sun"></i> ${i18n.afternoonBadge}`;
                 }
                 if (starsLayer) starsLayer.style.display = 'none';
                 if (sparkles) sparkles.style.display = 'block';
@@ -462,7 +462,7 @@
                 if (title) {
                     title.innerText = i18n.eveningTitle;
                     subtitle.innerText = i18n.eveningSub;
-                    badge.innerHTML = i18n.eveningBadge;
+                    badge.innerHTML = `<i class="fa-solid fa-mountain-sun"></i> ${i18n.eveningBadge}`;
                 }
                 if (starsLayer) starsLayer.style.display = 'block';
                 if (lamp) {
@@ -476,7 +476,7 @@
                 if (title) {
                     title.innerText = i18n.nightTitle;
                     subtitle.innerText = i18n.nightSub;
-                    badge.innerHTML = i18n.nightBadge;
+                    badge.innerHTML = `<i class="fa-solid fa-moon"></i> ${i18n.nightBadge}`;
                 }
                 if (starsLayer) starsLayer.style.display = 'block';
                 if (lamp) {
@@ -490,9 +490,6 @@
 
             if (container) container.className = 'lofi-container lofi-container-bg ' + theme;
             if (mainImg) mainImg.src = imageSrc;
-            if (title) title.innerText = titleText;
-            if (subtitle) subtitle.innerText = subtitleText;
-            if (badge) badge.innerHTML = badgeHTML;
         }
 
         updateTimeTheme();
@@ -501,9 +498,15 @@
 
         // --- Audio Controls ---
         const audioKeys = ['lofi', 'rain', 'cafe', 'forest', 'break'];
+        const audios = {};
+        
+        // Initialize audio elements object
+        audioKeys.forEach(key => {
+            audios[key] = document.getElementById('audio-' + key);
+        });
         
         function getAudioElement(type) {
-            return document.getElementById('audio-' + type);
+            return audios[type] || document.getElementById('audio-' + type);
         }
 
         function safeToggleAudio(type) {
