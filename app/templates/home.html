@@ -259,12 +259,12 @@
                     <i class="fa-solid fa-mountain-sun"></i>
                 </div>
                 <div>
-                    <h3 style="color: var(--color-primary); margin: 0; font-size: 1.3rem;">協作禪意花園</h3>
-                    <div style="font-size: 0.8rem; color: var(--color-text_light);">此區域由全服修行者共同灌溉成長</div>
+                    <h3 style="color: var(--color-primary); margin: 0; font-size: 1.3rem;">{{ _t('garden_title') }}</h3>
+                    <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('garden_subtitle') }}</div>
                 </div>
             </div>
             <button onclick="toggleGardenGuide()" class="btn" style="background: white; color: var(--color-primary); border: 1px solid var(--color-primary); padding: 5px 15px; font-size: 0.85rem; border-radius: 50px;">
-                <i class="fa-solid fa-circle-question"></i> 修行指南
+                <i class="fa-solid fa-circle-question"></i> {{ _t('garden_guide') }}
             </button>
         </div>
 
@@ -272,11 +272,11 @@
         <div style="background: rgba(255,255,255,0.6); backdrop-filter: blur(5px); padding: 1.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.8); position: relative; z-index:1; margin-bottom: 1.5rem;">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px;">
                 <div>
-                    <span style="font-size: 0.9rem; color: var(--color-text_light); font-weight: 500;">花園境界</span>
+                    <span style="font-size: 0.9rem; color: var(--color-text_light); font-weight: 500;">{{ _t('garden_level') }}</span>
                     <div style="font-size: 1.8rem; font-weight: 800; color: var(--color-primary); line-height: 1;">Lv. {{ garden_stats.garden_level }}</div>
                 </div>
                 <div style="text-align: right;">
-                    <span style="font-size: 0.9rem; color: var(--color-text_light); font-weight: 500;">累積修行值</span>
+                    <span style="font-size: 0.9rem; color: var(--color-text_light); font-weight: 500;">{{ _t('garden_xp') }}</span>
                     <div style="font-size: 1.1rem; font-weight: 600; color: var(--color-text_main);">
                         {{ "{:,}".format(garden_stats.zen_xp % 5000) }} <span style="font-size: 0.8rem; color: var(--color-text_light); font-weight: normal;">/ 5,000</span>
                     </div>
@@ -298,19 +298,19 @@
             <div style="flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
                 <div style="padding: 1rem; background: white; border-radius: 16px; border: 1px solid rgba(133, 163, 146, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                     <i class="fa-solid fa-cloud-sun" style="font-size: 1.8rem; color: #ffbc42; margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">今日氣象</div>
+                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">{{ _t('garden_weather') }}</div>
                     <div style="font-weight: 700; color: var(--color-text_main);">{{ garden_stats.current_weather }}</div>
                 </div>
                 <div style="padding: 1rem; background: white; border-radius: 16px; border: 1px solid rgba(133, 163, 146, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                     <i class="fa-solid fa-seedling" style="font-size: 1.8rem; color: #72b01d; margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">植被狀態</div>
+                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">{{ _t('garden_plants') }}</div>
                     <div style="font-weight: 700; color: var(--color-text_main);">
                         {% if garden_stats.garden_level >= 15 %}靈氣匯聚{% elif garden_stats.garden_level >= 10 %}繁花似錦{% elif garden_stats.garden_level >= 5 %}生機蓬勃{% else %}初萌新芽{% endif %}
                     </div>
                 </div>
                 <div style="padding: 1rem; background: white; border-radius: 16px; border: 1px solid rgba(133, 163, 146, 0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
                     <i class="fa-solid fa-users" style="font-size: 1.8rem; color: var(--color-primary); margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">同修人數</div>
+                    <div style="font-size: 0.75rem; color: var(--color-text_light); letter-spacing: 1px;">{{ _t('garden_users') }}</div>
                     <div style="font-weight: 700; color: var(--color-text_main);">{{ garden_stats.active_users_count }} <span style="font-weight: normal; font-size: 0.8rem;">人</span></div>
                 </div>
             </div>
@@ -318,8 +318,8 @@
             <!-- Quick Info Text -->
             <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column; justify-content: center;">
                 <p style="font-size: 0.9rem; color: var(--color-text_main); line-height: 1.6; margin: 0;">
-                    <span style="color: var(--color-primary); font-weight: bold;">🌱 每一次進步，都是花園的養分。</span><br>
-                    透過完成練習、抽籤、寫繪馬或達成目標，您與其他修行者正共同創造這片淨土。當等級提升，花園將會發生驚喜的變化。
+                    <span style="color: var(--color-primary); font-weight: bold;">{{ _t('garden_tip') }}</span><br>
+                    {{ _t('garden_desc') }}
                 </p>
             </div>
         </div>

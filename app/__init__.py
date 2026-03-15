@@ -40,6 +40,18 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '5791628bb0b13ce0c676dfde280ba245')
     
     # Jinja Helpers
+    from app.utils.i18n import get_text
+    from flask_login import current_user
+    
+    @app.context_processor
+    def inject_i18n():
+        def translate(key):
+            lang = 'zh'
+            if current_user.is_authenticated:
+                lang = getattr(current_user, 'language', 'zh')
+            return get_text(key, lang)
+        return dict(_t=translate)
+
     app.jinja_env.globals.update(hasattr=hasattr, getattr=getattr, any=any)
     
     # Database URI processing

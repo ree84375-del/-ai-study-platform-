@@ -58,6 +58,7 @@ class User(db.Model, UserMixin):
     bio = db.Column(db.Text, nullable=True)
     learning_goals = db.Column(db.Text, nullable=True)
     ai_personality = db.Column(db.String(50), default='雪音-溫柔型') # 溫柔型, 嚴厲型, 幽默型
+    language = db.Column(db.String(5), default='zh') # zh, ja, en
     
     # 網站偏好設定
     # preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.

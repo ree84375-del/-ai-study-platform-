@@ -208,7 +208,7 @@ def update_profile():
     current_user.username = new_username
     
     # Safe updates for columns that might be disabled
-    for attr in ['bio', 'learning_goals', 'ai_personality', 'preferred_theme', 'avatar_url']:
+    for attr in ['bio', 'learning_goals', 'ai_personality', 'preferred_theme', 'avatar_url', 'language']:
         if hasattr(current_user, attr):
             new_val = request.form.get(attr)
             if new_val is not None:

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}AI 老師設定{% endblock %}
+{% block title %}{{ _t('profile_title') }}{% endblock %}
 
 {% block content %}
 <div class="container-small">
@@ -112,22 +112,21 @@
                                 <option value="matcha" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'matcha' %}selected{% endif %}>🍵 經典抹茶</option>
                                 <option value="sunset" {% if getattr(current_user, 'preferred_theme', 'sakura') == 'sunset' %}selected{% endif %}>🌅 夕陽橘</option>
                             </select>
-                            <script>
-                                // Sync selector with LocalStorage on load
-                                (function() {
-                                    const saved = localStorage.getItem('app-theme');
-                                    if (saved) {
-                                        document.getElementById('theme-selector').value = saved;
-                                    }
-                                })();
-                            </script>
+                        </div>
+                        <div>
+                            <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ _t('lang_pref') }}</label>
+                            <select name="language" class="form-control" style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem;">
+                                <option value="zh" {% if current_user.language == 'zh' %}selected{% endif %}>繁體中文 (Traditional Chinese)</option>
+                                <option value="ja" {% if current_user.language == 'ja' %}selected{% endif %}>日本語 (Japanese)</option>
+                                <option value="en" {% if current_user.language == 'en' %}selected{% endif %}>English</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
 
             <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; border-radius: 12px; font-weight: 600; font-size: 1.1rem; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; border: none; cursor: pointer; box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary) 30%, transparent); margin-bottom: 3rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                <i class="fa-solid fa-floppy-disk" style="margin-right: 8px;"></i> 儲存以上所有設定
+                <i class="fa-solid fa-floppy-disk" style="margin-right: 8px;"></i> {{ _t('save_changes') }}
             </button>
         </form>
 
