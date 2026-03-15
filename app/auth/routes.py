@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request, current_app
-from flask_login import login_user, current_user, logout_user, login_required
 import os
 import secrets
+from datetime import datetime, timezone
+from sqlalchemy import text
+from sqlalchemy.exc import ProgrammingError
 
 auth = Blueprint('auth', __name__)
 
@@ -22,6 +23,20 @@ def get_google_client():
         client_kwargs={'scope': 'openid email profile'}
     )
     return _google_client
+
+def repair_database():
+    from app import db
+    current_app.logger.warning("Emergency: Database columns missing. Attempting auto-repair...")
+    try:
+        # Check and add 'language'
+        db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS language VARCHAR(5) DEFAULT 'zh'"))
+        # Check and add 'last_login'
+        db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_login TIMESTAMP DEFAULT CURRENT_TIMESTAMP"))
+        db.session.commit()
+        current_app.logger.info("Auto-repair: Missing columns added successfully.")
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"Auto-repair failed: {e}")
 
 @auth.route("/register", methods=['GET', 'POST'])
 def register():
@@ -55,7 +70,11 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        try:
+            user = User.query.filter_by(email=form.email.data).first()
+        except ProgrammingError:
+            repair_database()
+            user = User.query.filter_by(email=form.email.data).first()
         
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             # Force Admin name
@@ -99,7 +118,11 @@ def google_auth():
         email = user_info.get('email')
         name = user_info.get('name')
         
-        user = User.query.filter_by(email=email).first()
+        try:
+            user = User.query.filter_by(email=email).first()
+        except ProgrammingError:
+            repair_database()
+            user = User.query.filter_by(email=email).first()
         
         is_admin = (email == 'ree84375@gmail.com')
         assigned_role = 'admin' if is_admin else 'student'
