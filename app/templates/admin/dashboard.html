@@ -5,11 +5,11 @@
 <div class="container" style="max-width: 900px; margin: 0 auto;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-crown"></i> 管理員後台
+            <i class="fa-solid fa-crown"></i> {{ _t('admin_dashboard_title') }}
         </h1>
         <div>
-            <a href="{{ url_for('admin.announcements') }}" class="btn" style="padding: 10px 20px; background-color: #64b5f6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 10px;"><i class="fa-solid fa-bullhorn"></i> 公告管理</a>
-            <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: #7b9acc; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-book"></i> 題庫管理</a>
+            <a href="{{ url_for('admin.announcements') }}" class="btn" style="padding: 10px 20px; background-color: #64b5f6; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; margin-right: 10px;"><i class="fa-solid fa-bullhorn"></i> {{ _t('admin_manage_announcements') }}</a>
+            <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: #7b9acc; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-book"></i> {{ _t('admin_manage_questions') }}</a>
         </div>
     </div>
     
@@ -17,35 +17,35 @@
         <div class="washi-card" style="text-align: center; padding: 1.5rem;">
             <i class="fa-solid fa-users" style="font-size: 2rem; color: var(--color-primary); margin-bottom: 0.5rem;"></i>
             <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_users }}</h3>
-            <p style="margin: 0; color: var(--color-text_light);">總註冊用戶</p>
+            <p style="margin: 0; color: var(--color-text_light);">{{ _t('admin_total_users') }}</p>
         </div>
         <div class="washi-card" style="text-align: center; padding: 1.5rem;">
             <i class="fa-solid fa-book-open" style="font-size: 2rem; color: #7b9acc; margin-bottom: 0.5rem;"></i>
             <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_questions }}</h3>
-            <p style="margin: 0; color: var(--color-text_light);">總題庫數量</p>
+            <p style="margin: 0; color: var(--color-text_light);">{{ _t('admin_total_questions') }}</p>
         </div>
         <div class="washi-card" style="text-align: center; padding: 1.5rem;">
             <i class="fa-solid fa-comments" style="font-size: 2rem; color: #e2b764; margin-bottom: 0.5rem;"></i>
             <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_chats }}</h3>
-            <p style="margin: 0; color: var(--color-text_light);">AI 對話總數</p>
+            <p style="margin: 0; color: var(--color-text_light);">{{ _t('admin_total_chats') }}</p>
         </div>
         <div class="washi-card" style="text-align: center; padding: 1.5rem;">
             <i class="fa-solid fa-people-group" style="font-size: 2rem; color: #d89c9a; margin-bottom: 0.5rem;"></i>
             <h3 style="margin: 0; font-size: 2rem;">{{ stats.total_groups }}</h3>
-            <p style="margin: 0; color: var(--color-text_light);">學習群組數</p>
+            <p style="margin: 0; color: var(--color-text_light);">{{ _t('admin_total_groups') }}</p>
         </div>
     </div>
     
     <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> 用戶管理 (共有 {{ users|length }} 名)</h3>
+        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count').format(count=users|length) }})</h3>
         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
             <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
                 <th style="padding: 10px;">ID</th>
-                <th style="padding: 10px;">信箱</th>
-                <th style="padding: 10px;">名稱</th>
-                <th style="padding: 10px;">角色</th>
-                <th style="padding: 10px;">最後上線</th>
-                <th style="padding: 10px; width: 280px;">操作</th>
+                <th style="padding: 10px;">{{ _t('admin_email') }}</th>
+                <th style="padding: 10px;">{{ _t('admin_name') }}</th>
+                <th style="padding: 10px;">{{ _t('admin_role') }}</th>
+                <th style="padding: 10px;">{{ _t('admin_last_active') }}</th>
+                <th style="padding: 10px; width: 280px;">{{ _t('admin_actions') }}</th>
             </tr>
             {% for u in users %}
             <tr style="border-bottom: 1px solid var(--color-border);">
@@ -54,28 +54,28 @@
                 <td style="padding: 10px;">{{ u.username }}</td>
                 <td style="padding: 10px;">
                     {% if u.is_admin %}
-                        <span style="color: white; background: #ff7b72; border-radius: 5px; padding: 3px 8px; font-size: 0.8rem; font-weight: bold;">管理員</span>
+                        <span style="color: white; background: #ff7b72; border-radius: 5px; padding: 3px 8px; font-size: 0.8rem; font-weight: bold;">{{ _t('admin_role_admin') }}</span>
                     {% elif u.auth_provider == 'guest' %}
-                        <span style="color: var(--color-text_light); font-size: 0.85rem;">訪客</span>
+                        <span style="color: var(--color-text_light); font-size: 0.85rem;">{{ _t('admin_role_guest') }}</span>
                     {% elif u.auth_provider == 'google' %}
-                        <span style="color: #4285f4; font-weight: 500;">Google 帳號</span>
+                        <span style="color: #4285f4; font-weight: 500;">{{ _t('admin_role_google') }}</span>
                     {% else %}
-                        <span style="color: var(--color-primary);">一般帳號</span>
+                        <span style="color: var(--color-primary);">{{ _t('admin_role_student') }}</span>
                     {% endif %}
                 </td>
-                <td style="padding: 10px; font-size: 0.9rem; color: var(--color-text_light);">{% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}從未登入{% endif %}</td>
+                <td style="padding: 10px; font-size: 0.9rem; color: var(--color-text_light);">{% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}{{ _t('admin_never_logged_in') }}{% endif %}</td>
                 <td style="padding: 10px; display: flex; gap: 5px;">
                     <form action="{{ url_for('admin.change_user_role', user_id=u.id) }}" method="POST" style="display: flex; gap: 5px; margin: 0;">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <select name="role" style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-border);" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>
-                            <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>訪客</option>
-                            <option value="student" {% if u.role == 'student' %}selected{% endif %}>一般帳號</option>
-                            <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>一般帳號</option>
-                            <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>管理員</option>
+                            <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>{{ _t('admin_role_guest') }}</option>
+                            <option value="student" {% if u.role == 'student' %}selected{% endif %}>{{ _t('admin_role_student') }}</option>
+                            <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>{{ _t('admin_role_student') }}</option>
+                            <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>{{ _t('admin_role_admin') }}</option>
                         </select>
-                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>更改</button>
+                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>{{ _t('admin_btn_change') }}</button>
                     </form>
-                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('確定要刪除用戶 {{ u.username }} 嗎？這將會刪除其所有相關資料且無法復原！');">
+                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm({{ _t('admin_confirm_delete').format(username=u.username)|tojson }});">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
                     </form>
@@ -86,8 +86,8 @@
     </div>
 
     <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> API 金鑰狀態</h3>
-        <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1rem;">此處僅供預覽，欲修改請至 Vercel 環境變數後台更新。</p>
+        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> {{ _t('admin_api_keys_title') }}</h3>
+        <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1rem;">{{ _t('admin_api_keys_hint') }}</p>
         
         <label style="font-weight: bold; color: var(--color-text);">GEMINI_API_KEYS</label>
         <textarea rows="3" style="width: 100%; margin-top: 0.5rem; margin-bottom: 1rem; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border); font-family: monospace; font-size: 0.8rem; background: var(--color-bg); color: var(--color-text_light);" readonly>{{ gemini_keys }}</textarea>

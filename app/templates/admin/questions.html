@@ -5,11 +5,11 @@
 <div class="container">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-book-open"></i> 題庫管理
+            <i class="fa-solid fa-book-open"></i> {{ _t('admin_question_mgmt') }}
         </h1>
         <div>
-            <a href="{{ url_for('admin.dashboard') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-secondary); color: var(--color-text_main); text-decoration: none; border-radius: 8px; margin-right: 10px;">返回後台</a>
-            <a href="{{ url_for('admin.new_question') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-plus"></i> 新增題目</a>
+            <a href="{{ url_for('admin.dashboard') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-secondary); color: var(--color-text_main); text-decoration: none; border-radius: 8px; margin-right: 10px;">{{ _t('admin_btn_back_dashboard') }}</a>
+            <a href="{{ url_for('admin.new_question') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; font-weight: bold;"><i class="fa-solid fa-plus"></i> {{ _t('admin_new_question') }}</a>
         </div>
     </div>
 
@@ -17,10 +17,10 @@
         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
             <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
                 <th style="padding: 10px; width: 60px;">ID</th>
-                <th style="padding: 10px; width: 80px;">科目</th>
-                <th style="padding: 10px;">題目內容</th>
-                <th style="padding: 10px; width: 80px;">難度</th>
-                <th style="padding: 10px; width: 150px;">操作</th>
+                <th style="padding: 10px; width: 80px;">{{ _t('admin_label_subject') }}</th>
+                <th style="padding: 10px;">{{ _t('admin_question_content') }}</th>
+                <th style="padding: 10px; width: 80px;">{{ _t('admin_label_difficulty') }}</th>
+                <th style="padding: 10px; width: 150px;">{{ _t('admin_label_actions') }}</th>
             </tr>
             {% for q in questions %}
             <tr style="border-bottom: 1px solid var(--color-border);">
@@ -29,8 +29,8 @@
                 <td style="padding: 10px; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ q.content_text }}</td>
                 <td style="padding: 10px; color: var(--color-text_light);">{{ q.difficulty }}</td>
                 <td style="padding: 10px; display: flex; gap: 5px;">
-                    <a href="{{ url_for('admin.edit_question', question_id=q.id) }}" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 4px; font-size: 0.8rem;"><i class="fa-solid fa-pen"></i> 編輯</a>
-                    <form action="{{ url_for('admin.delete_question', question_id=q.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm('確定要刪除這道題目嗎？');">
+                    <a href="{{ url_for('admin.edit_question', question_id=q.id) }}" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; text-decoration: none; border-radius: 4px; font-size: 0.8rem;"><i class="fa-solid fa-pen"></i> {{ _t('admin_btn_edit') }}</a>
+                    <form action="{{ url_for('admin.delete_question', question_id=q.id) }}" method="POST" style="margin: 0;" onsubmit="return confirm({{ _t('admin_confirm_delete_question')|tojson }});">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
                     </form>
@@ -38,7 +38,7 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="5" style="padding: 20px; text-align: center; color: var(--color-text_light);">目前沒有任何題目，請點擊上方按鈕新增。</td>
+                <td colspan="5" style="padding: 20px; text-align: center; color: var(--color-text_light);">{{ _t('admin_msg_no_questions') }}</td>
             </tr>
             {% endfor %}
         </table>

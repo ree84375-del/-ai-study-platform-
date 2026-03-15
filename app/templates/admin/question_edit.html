@@ -5,9 +5,9 @@
 <div class="container" style="max-width: 800px; margin: 0 auto;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <h1 style="color: #ff7b72; margin: 0; display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-pen-to-square"></i> {{ title }}
+            <i class="fa-solid fa-pen-to-square"></i> {{ _t('admin_new_question_title') if not question else _t('admin_edit_question_title') }}
         </h1>
-        <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-secondary); color: var(--color-text_main); text-decoration: none; border-radius: 8px;">返回列表</a>
+        <a href="{{ url_for('admin.questions') }}" class="btn" style="padding: 10px 20px; background-color: var(--color-secondary); color: var(--color-text_main); text-decoration: none; border-radius: 8px;">{{ _t('admin_btn_back') }}</a>
     </div>
 
     <div class="washi-card">
@@ -16,51 +16,51 @@
             
             <div style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
                 <div style="flex: 1;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">科目 (必填)</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_subject') }} {{ _t('admin_form_required') }}</label>
                     <select name="subject" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>
-                        <option value="國文" {% if question and question.subject == '國文' %}selected{% endif %}>國文</option>
-                        <option value="英文" {% if question and question.subject == '英文' %}selected{% endif %}>英文</option>
-                        <option value="數學" {% if question and question.subject == '數學' %}selected{% endif %}>數學</option>
-                        <option value="社會" {% if question and question.subject == '社會' %}selected{% endif %}>社會</option>
-                        <option value="自然" {% if question and question.subject == '自然' %}selected{% endif %}>自然</option>
+                        <option value="國文" {% if question and question.subject == '國文' %}selected{% endif %}>{{ _t('subject_chinese') }}</option>
+                        <option value="英文" {% if question and question.subject == '英文' %}selected{% endif %}>{{ _t('subject_english') }}</option>
+                        <option value="數學" {% if question and question.subject == '數學' %}selected{% endif %}>{{ _t('subject_math') }}</option>
+                        <option value="社會" {% if question and question.subject == '社會' %}selected{% endif %}>{{ _t('subject_social') }}</option>
+                        <option value="自然" {% if question and question.subject == '自然' %}selected{% endif %}>{{ _t('subject_science') }}</option>
                     </select>
                 </div>
                 <div style="flex: 1;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">分類/單元</label>
-                    <input type="text" name="category" value="{{ question.category if question else '' }}" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" placeholder="例如：第一章、三角函數">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_category') }}</label>
+                    <input type="text" name="category" value="{{ question.category if question else '' }}" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" placeholder="{{ _t('admin_placeholder_category') }}">
                 </div>
                 <div style="flex: 1;">
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">難度 (1-5)</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_difficulty') }} (1-5)</label>
                     <input type="number" name="difficulty" value="{{ question.difficulty if question else 1 }}" min="1" max="5" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>
                 </div>
             </div>
 
             <div style="margin-bottom: 1.5rem;">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">題目內容 (必填)</label>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_question_content') }} {{ _t('admin_form_required') }}</label>
                 <textarea name="content_text" rows="5" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>{{ question.content_text if question else '' }}</textarea>
             </div>
 
             <div style="margin-bottom: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">選項 A</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_options') }} A</label>
                     <input type="text" name="option_a" value="{{ question.option_a if question else '' }}" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);">
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">選項 B</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_options') }} B</label>
                     <input type="text" name="option_b" value="{{ question.option_b if question else '' }}" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);">
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">選項 C</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_options') }} C</label>
                     <input type="text" name="option_c" value="{{ question.option_c if question else '' }}" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);">
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">選項 D</label>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_options') }} D</label>
                     <input type="text" name="option_d" value="{{ question.option_d if question else '' }}" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);">
                 </div>
             </div>
 
             <div style="margin-bottom: 1.5rem;">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">正確答案 (必填)</label>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_correct_ans') }} {{ _t('admin_form_required') }}</label>
                 <select name="correct_answer" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);" required>
                     <option value="A" {% if question and question.correct_answer == 'A' %}selected{% endif %}>A</option>
                     <option value="B" {% if question and question.correct_answer == 'B' %}selected{% endif %}>B</option>
@@ -70,12 +70,12 @@
             </div>
 
             <div style="margin-bottom: 2rem;">
-                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">詳解</label>
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">{{ _t('admin_label_explanation') }}</label>
                 <textarea name="explanation" rows="4" class="form-control" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border);">{{ question.explanation if question else '' }}</textarea>
             </div>
 
             <div style="text-align: right;">
-                <button type="submit" class="btn" style="padding: 10px 30px; background-color: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer;">儲存題目</button>
+                <button type="submit" class="btn" style="padding: 10px 30px; background-color: var(--color-primary); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer;">{{ _t('admin_btn_save_question') }}</button>
             </div>
         </form>
     </div>
