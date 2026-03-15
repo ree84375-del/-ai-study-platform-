@@ -435,11 +435,15 @@
                     </h3>
                     <div style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
                         {% set teacher_id = group.teacher_id %}
-                        {% set members_list = group.members | list %}
-                        {# Sorting: Teacher first, then others #}
-                        {% set sorted_members = members_list | sort(attribute='user.username') | sort(attribute='user_id', reverse=True) %}
-                        {# Actual fix for Teacher First in Jinja #}
-                        {% set teachers = group.members | selectattr('user_id', 'equalto', teacher_id) | list %}
+                        {# The teacher is often not in group.members, so we ensure they are included #}
+                        {% set teachers_in_db = group.members | selectattr('user_id', 'equalto', teacher_id) | list %}
+                        {% if not teachers_in_db %}
+                            {# Create a mock member object that has a .user attribute to match students #}
+                            {% set teachers = [{'user': group.teacher, 'user_id': teacher_id}] %}
+                        {% else %}
+                            {% set teachers = teachers_in_db %}
+                        {% endif %}
+                        
                         {% set others = group.members | rejectattr('user_id', 'equalto', teacher_id) | list %}
                         {% for member in teachers + others %}
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee;">
@@ -669,7 +673,7 @@
                                     </div>
 
                                     <!-- Trigger -->
-                                    <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls({{ msg.id }})">
+                                    <div class="message-more-trigger" data-id="{{ msg.id }}" onclick="event.stopPropagation(); toggleControls(this.dataset.id)">
                                         <i class="fa-solid fa-ellipsis"></i>
                                     </div>
                                 </div>
@@ -683,11 +687,11 @@
                                             <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="{{ _t('edit') }}" 
                                                data-id="{{ msg.id }}" data-content="{{ (msg.content or '') | escape }}"
                                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
-                                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="{{ _t('recall') }}" onclick="event.stopPropagation(); recallMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-rotate-left message-more-btn" data-id="{{ msg.id }}" style="opacity: 1;" title="{{ _t('recall') }}" onclick="event.stopPropagation(); recallMessage(this.dataset.id)"></i>
                                         {% endif %}
                                         {% set is_ai_reply_to_me = (msg.author.username == '雪音老師' and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
                                         {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and msg.author.username != '雪音老師' %}
-                                            <i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="{{ _t('delete') }}" onclick="event.stopPropagation(); deleteMessage({{ msg.id }})"></i>
+                                            <i class="fa-solid fa-trash-can message-more-btn" data-id="{{ msg.id }}" style="opacity: 1; color: #ff4444;" title="{{ _t('delete') }}" onclick="event.stopPropagation(); deleteMessage(this.dataset.id)"></i>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -760,13 +764,14 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const CONFIG = {
-        teacherId: parseInt('{{ group.teacher_id or 0 }}'),
-        groupId: parseInt('{{ group.id or 0 }}'),
+        teacherId: parseInt(document.body.dataset.teacherId),
+        groupId: parseInt(document.body.dataset.groupId),
+        userId: parseInt(document.body.dataset.userId),
         csrfToken: "{{ csrf_token() }}",
-        groupTypeLabel: "{{ '老師' if group.group_type == 'class' else '主持人' }}",
+        groupTypeLabel: document.body.dataset.groupTypeLabel,
         yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
-        aiReplyUrl: "/api/groups/{{ group.id or 0 }}/ai_reply",
-        isAdmin: {{ 'true' if current_user.is_admin else 'false' }},
+        aiReplyUrl: `/api/groups/${document.body.dataset.groupId}/ai_reply`,
+        isAdmin: document.body.dataset.isAdmin === 'true',
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
         yukineCheckingNote: "{{ _t('lofi_audio_permission') }}"
