@@ -96,17 +96,6 @@
         <textarea rows="3" style="width: 100%; margin-top: 0.5rem; margin-bottom: 1rem; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border); font-family: monospace; font-size: 0.8rem; background: var(--color-bg); color: var(--color-text_light);" readonly>{{ groq_keys }}</textarea>
     </div>
 
-    <div class="washi-card" style="margin-bottom: 2rem; border: 2px solid var(--color-primary); box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary) 20%, transparent);">
-        <h3 style="color: var(--color-primary); border-bottom: 2px dashed color-mix(in srgb, var(--color-primary) 30%, transparent); padding-bottom: 0.5rem;">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> 雪音最高權限測試中心
-        </h3>
-        <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 1rem;">直接對後台 AI 核心（雪音）下達不受限制的管理員系統指令檢測其反應。</p>
-        <form action="{{ url_for('admin.yukine_command') }}" method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <textarea name="command" rows="3" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid color-mix(in srgb, var(--color-primary) 50%, transparent); margin-bottom: 1rem; resize: vertical;" placeholder="輸入你要對雪音測試的權限指令..."></textarea>
-            <button class="btn" style="background: var(--color-primary); color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold;"><i class="fa-solid fa-bolt"></i> 執行權限指令</button>
-        </form>
-    </div>
 
 </div>
 {% endblock %}

@@ -554,11 +554,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <!-- Bubble & Trigger Row -->
                     <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; ${isMine ? 'flex-direction: row-reverse;' : ''}">
-                        <div id="msg-bubble-${msgId}" 
-                            class="message-bubble"
-                            style="display: inline-block; width: fit-content; padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 80%; position: relative; transition: all 0.2s ease;
-                            ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
-                            (isAI ? 'background: #fff; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px; box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);' : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
+                    <div id="msg-bubble-${msgId}" 
+                        class="message-bubble ${data.is_special ? 'admin-gold' : ''}"
+                        style="display: inline-block; width: fit-content; padding: 10px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.5; word-break: break-word; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 80%; position: relative; transition: all 0.2s ease;
+                        ${isMine ? 'background: linear-gradient(135deg, var(--color-primary), #6395e3); color: white; border-bottom-right-radius: 5px;' : 
+                        (isAI ? (data.is_special ? '' : 'background: #fff; color: #333; border: 1px solid #ffccce; border-bottom-left-radius: 5px; box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);') : 'background: white; color: #222; border: 1px solid #e2e8f0; border-bottom-left-radius: 5px;')}">
                             
                             ${parentMsgHtml}
                             ${data.image_data ? `<div style="margin-bottom: 12px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.12);"><img src="${data.image_data}" style="max-width: 100%; display: block;"></div>` : ''}
@@ -741,6 +741,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Admin Auto Greeting in Group
+    {% if current_user.is_admin %}
+    setTimeout(() => {
+        // Only greet if it's a fresh load (no messages in session or just first time)
+        const chatArea = document.querySelector('.chat-scroll-area');
+        if (chatArea && chatArea.children.length <= 1) { // 1 might be the empty message-wind div
+             appendMessage({
+                is_ai: true,
+                is_mine: false,
+                is_special: true,
+                username: '雪音老師',
+                content: '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨'
+            });
+        }
+    }, 1500);
+    {% endif %}
 });
 
 function clearImage() {

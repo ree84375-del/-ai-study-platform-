@@ -314,7 +314,7 @@
         scrollToBottom();
     }
 
-    function addMessage(role, text, animate = true) {
+    function addMessage(role, text, animate = true, isSpecial = false) {
         const wrapper = document.createElement('div');
         wrapper.style.display = 'flex';
         wrapper.style.flexDirection = 'column';
@@ -322,7 +322,7 @@
         wrapper.style.alignItems = role === 'ai' ? 'flex-start' : 'flex-end';
 
         const div = document.createElement('div');
-        div.className = `chat-bubble ${role}`;
+        div.className = `chat-bubble ${role} ${isSpecial ? 'admin-gold' : ''}`;
         if (animate) {
             div.style.animation = 'popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards';
         }
@@ -502,6 +502,15 @@
     // Initial setup
     chatInput.focus();
     loadSessions();
+
+    // Admin Auto Greeting
+    {% if current_user.is_admin %}
+    setTimeout(() => {
+        if (!activeSessionId) {
+            addMessage('ai', '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨', true, true);
+        }
+    }, 1000);
+    {% endif %}
 </script>
 
 <style>
@@ -578,6 +587,19 @@
         border-right: 1px solid rgba(0,0,0,0.05);
         border-bottom: 1px solid rgba(0,0,0,0.05);
         clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+    }
+
+    /* Admin Exclusive Golden Bubble */
+    .chat-bubble.ai.admin-gold, .message-bubble.admin-gold {
+        background: linear-gradient(135deg, #FFD700, #FFA500) !important;
+        color: #5C4033 !important;
+        border: 2px solid #FFD700 !important;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4) !important;
+        font-weight: 600;
+    }
+    
+    .chat-bubble.ai.admin-gold::after, .message-bubble.admin-gold::after {
+        background: #FFA500 !important;
     }
 
     /* Avatar Breathing Animation */
