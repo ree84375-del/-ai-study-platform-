@@ -803,3 +803,59 @@ def validate_assignment_step(step, data):
     except Exception as e:
         return {'status': 'pass', 'feedback': f'雪音雖然現在有點頭暈，但覺得老師的設計應該沒問題唷！(小聲：{str(e)})'}
 
+
+def generate_assignment_draft(teacher_input, image_bytes=None):
+    """
+    Yukine generates an assignment draft based on teacher's prompt and/or image.
+    Returns: {title: '...', description: '...', reference_answer: '...'}
+    """
+    try:
+        from app.utils.ai_helpers import AI_PERSONALITIES
+        tutor_prompt = AI_PERSONALITIES['雪音-溫柔型']['system_prompt']
+        
+        prompt = f"""
+        {tutor_prompt}
+        
+        你現在是助教雪音。老師想要設計一份新的作業。
+        老師的原始想發或需求是："{teacher_input}"
+        
+        任務：
+        1. 根據老師的需求，設計一個完整的作業。
+        2. 如果老師有提供圖片，請優先參考圖片內容（如果是題目照片就轉化為作業，如果是講義就設計相關題目）。
+        3. 作業包含三個部分：
+           - 標題 (title): 簡潔有力，例如「二次函數進階練習」
+           - 題目內容 (description): 詳細的題目敘述，包含必要的文字說明。
+           - 參考答案 (reference_answer): 這題的正確答案或詳細解析。
+        
+        請務必以 JSON 格式回傳：
+        {{
+          "title": "...",
+          "description": "...",
+          "reference_answer": "..."
+        }}
+        """
+        
+        if image_bytes:
+            from app.utils.ai_helpers import generate_vision_with_fallback
+            response_text = generate_vision_with_fallback(prompt, image_bytes)
+        else:
+            from app.utils.ai_helpers import generate_text_with_fallback
+            response_text = generate_text_with_fallback(prompt)
+            
+        clean_text = response_text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        return json.loads(clean_text)
+    except Exception as e:
+        import logging
+        logging.error(f"Draft Generation Error: {e}")
+        return {
+            "title": "新作業草稿",
+            "description": f"老師，雪音剛才不小心發呆了... 這是您的原始想法：{teacher_input}。請手動補充題目內容唷！",
+            "reference_answer": "請老師填寫答案",
+            "error": str(e)
+        }
+

@@ -758,7 +758,8 @@ document.addEventListener('DOMContentLoaded', () => {
         csrfToken: "{{ csrf_token() }}",
         groupTypeLabel: "{{ '老師' if group.group_type == 'class' else '主持人' }}",
         yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
-        aiReplyUrl: "/api/groups/{{ group.id or 0 }}/ai_reply"
+        aiReplyUrl: "/api/groups/{{ group.id or 0 }}/ai_reply",
+        isAdmin: {{ 'true' if current_user.is_admin else 'false' }}
     };
 
     const messageContainer = document.querySelector('.chat-scroll-area');
@@ -775,24 +776,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Message Controls ---
     window.toggleControls = (msgId) => {
         const controls = document.getElementById(`controls-${msgId}`);
-        const isActive = controls.classList.contains('active');
-        document.querySelectorAll('.interaction-buttons').forEach(el => el.classList.remove('active'));
-        if (!isActive) controls.classList.add('active');
-    };
-
-    window.cancelReply = () => {
-        document.getElementById('parent-id-input').value = '';
-        document.getElementById('reply-preview').style.display = 'none';
-        chatInput.placeholder = "在此輸入聊天訊息...";
-    };
-
-    window.startEdit = (msgId, content) => {
-        document.getElementById('edit-id-input').value = msgId;
-        chatInput.value = content;
-        chatInput.style.background = '#fff9e6';
-        document.querySelector('[name="action"]').value = 'edit_message';
-        chatInput.focus();
-        scrollToBottom();
+        const isVisible = controls.style.display === 'flex';
+        document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+        if (!isVisible) controls.style.display = 'flex';
     };
 
     window.recallMessage = async (msgId) => {
@@ -960,6 +946,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (err) { statusEl.innerHTML = '連線錯誤'; }
     };
 
+    window.handleAIDraftImage = (input) => {
+        if (input.files[0]) {
+            window.generateAIDraft(input.files[0]);
+        }
+    };
+
     window.generateAIDraft = async (imageFile = null) => {
         const prompt = document.getElementById('ai-draft-prompt').value;
         const status = document.getElementById('question-status');
@@ -1122,7 +1114,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div style="max-width: 85%; display: flex; flex-direction: column; position: relative; ${isMine ? 'align-items: flex-end;' : 'align-items: flex-start;'}">
                     <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                         <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
-                        ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
                         ${(!isAI && data.user_id == CONFIG.teacherId) ? `<span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; box-shadow: 0 0 10px rgba(124, 77, 255, 0.3);">${CONFIG.groupTypeLabel}</span>` : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
@@ -1298,18 +1289,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Admin Auto Greeting
-    {% if current_user.is_admin %}
-    setTimeout(() => { 
-        if (messageContainer && messageContainer.children.length <= 1) {
-            appendMessage({ 
-                is_ai: true, is_mine: false, is_special: true, 
-                username: '雪音老師', 
-                content: '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨' 
-            }); 
-        }
-    }, 1500);
-    {% endif %}
+    // Admin Auto Greeting - Moved check to data attribute to avoid lint issues
+    if (CONFIG.isAdmin) {
+        setTimeout(() => { 
+            if (messageContainer && messageContainer.children.length <= 1) {
+                appendMessage({ 
+                    is_ai: true, is_mine: false, is_special: true, 
+                    username: '雪音老師', 
+                    content: '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨' 
+                }); 
+            }
+        }, 1500);
+    }
 });
 
 // --- Global Functions ---
@@ -1382,7 +1373,7 @@ window.recognizeTeacherRef = async (input) => {
     status.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 辨識中...';
     const formData = new FormData();
     formData.append('image', input.files[0]);
-    formData.append('csrf_token', '{{ csrf_token() }}');
+    formData.append('csrf_token', CONFIG.csrfToken);
     try {
         const res = await fetch(`/api/groups/${CONFIG.groupId}/assignment/recognize`, { method: 'POST', body: formData });
         const data = await res.json();
@@ -1391,33 +1382,6 @@ window.recognizeTeacherRef = async (input) => {
             status.innerHTML = '<i class="fa-solid fa-check"></i> 成功！';
         } else { status.innerHTML = '失敗'; }
     } catch (err) { status.innerHTML = '錯誤'; }
-};
-
-window.handleAIDraftImage = (input) => { if (input.files[0]) generateAIDraft(input.files[0]); };
-
-window.generateAIDraft = async (imageFile = null) => {
-    const prompt = document.getElementById('ai-draft-prompt').value;
-    const btn = document.getElementById('ai-gen-btn');
-    const status = document.getElementById('question-status');
-    if (!prompt && !imageFile) return;
-    btn.disabled = true;
-    status.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> 設計中...';
-    const formData = new FormData();
-    formData.append('prompt', prompt);
-    if (imageFile) formData.append('image', imageFile);
-    formData.append('csrf_token', '{{ csrf_token() }}');
-    try {
-        const res = await fetch(`/api/groups/${CONFIG.groupId}/assignment/ai_draft`, { method: 'POST', body: formData });
-        const data = await res.json();
-        if (data.status === 'success') {
-            document.getElementById('draft-title').value = data.draft.title;
-            document.getElementById('draft-desc').value = data.draft.description;
-            document.getElementById('draft-ref').value = data.draft.reference_answer;
-            status.innerHTML = '設計成功！';
-            nextPublishPhase(1);
-        }
-    } catch (err) { console.error(err); }
-    finally { btn.disabled = false; }
 };
 </script>
 {% endblock %}
