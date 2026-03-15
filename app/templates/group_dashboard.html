@@ -764,14 +764,14 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const CONFIG = {
-        teacherId: parseInt(document.body.dataset.teacherId),
-        groupId: parseInt(document.body.dataset.groupId),
-        userId: parseInt(document.body.dataset.userId),
+        teacherId: parseInt("{{ group.teacher_id }}"),
+        groupId: parseInt("{{ group.id }}"),
+        userId: parseInt("{{ current_user.id }}"),
         csrfToken: "{{ csrf_token() }}",
-        groupTypeLabel: document.body.dataset.groupTypeLabel,
+        groupTypeLabel: "{{ group.group_type }}",
         yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
-        aiReplyUrl: `/api/groups/${document.body.dataset.groupId}/ai_reply`,
-        isAdmin: document.body.dataset.isAdmin === 'true',
+        aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
+        isAdmin: {{ 'true' if current_user.is_admin else 'false' }},
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
         yukineCheckingNote: "{{ _t('lofi_audio_permission') }}"
@@ -974,7 +974,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!prompt && !imageFile) return;
 
         btn.disabled = true;
-        status.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> ${"{{ _t('yukine_designing') }}"}`;
+        
+        // --- Rotating Thinking Messages Fix ---
+        const thinkingMessages = [
+            "{{ _t('yukine_thinking_1') }}",
+            "{{ _t('yukine_thinking_2') }}",
+            "{{ _t('yukine_thinking_3') }}",
+            "{{ _t('yukine_thinking_4') }}",
+            "{{ _t('yukine_thinking_5') }}"
+        ];
+        let msgIndex = 0;
+        status.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> ${thinkingMessages[0]}`;
+        
+        const interval = setInterval(() => {
+            msgIndex = (msgIndex + 1) % thinkingMessages.length;
+            status.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles fa-spin"></i> ${thinkingMessages[msgIndex]}`;
+        }, 3000);
+        // ---------------------------------------
         
         const formData = new FormData();
         formData.append('prompt', prompt);
@@ -988,11 +1004,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('draft-title').value = data.draft.title;
                 document.getElementById('draft-desc').value = data.draft.description;
                 document.getElementById('draft-ref').value = data.draft.reference_answer;
-                status.innerHTML = "{{ _t('design_done') }}";
+                status.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#2ecc71"></i> {{ _t('design_done') }}`;
                 nextPublishPhase(1);
+            } else {
+                status.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> ${data.message || '發生錯誤'}`;
             }
-        } catch (err) { console.error(err); }
-        finally { btn.disabled = false; }
+        } catch (err) { 
+            console.error(err); 
+            status.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> 連線發生錯誤`;
+        }
+        finally { 
+            btn.disabled = false; 
+            clearInterval(interval);
+        }
     };
 
     // Submission modal
@@ -1304,17 +1328,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Admin Auto Greeting - Moved check to data attribute to avoid lint issues
+    // Admin Auto Greeting - Fixed logic to show even if chat is not empty, once per session
     if (CONFIG.isAdmin) {
-        setTimeout(() => { 
-            if (messageContainer && messageContainer.children.length <= 1) {
-                appendMessage({ 
-                    is_ai: true, is_mine: false, is_special: true, 
-                    username: '雪音老師', 
-                    content: '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨' 
-                }); 
-            }
-        }, 1500);
+        if (!sessionStorage.getItem('yukine_admin_greeted_dashboard_{{ group.id }}')) {
+            setTimeout(() => { 
+                if (messageContainer) {
+                    appendMessage({ 
+                        is_ai: true, is_mine: false, is_special: true, 
+                        username: '雪音老師', 
+                        content: '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨' 
+                    });
+                    sessionStorage.setItem('yukine_admin_greeted_dashboard_{{ group.id }}', 'true');
+                }
+            }, 1500);
+        }
     }
 });
 
