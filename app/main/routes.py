@@ -308,16 +308,33 @@ def draw_omikuji():
     try:
         # We pass context about the fortune level to AI correctly
         # Localization of prompt based on user preference
-        priest_tone = "壽山宮神主" if lang == 'zh' else "神主"
-        prompt = f"""學子抽中了「{translated_fortune_label}」({drawn_fortune})。請以溫馨且具有{priest_tone}風範的語氣，用{lang}寫一段祝福語。
-        請返回 JSON 格式：
-        {{
-            "lucky_color": "幸運色",
-            "lucky_item": "幸運物品",
-            "lucky_subject": "推薦科目",
-            "advice": "約 30 字的建議"
-        }}
-        僅返回原始 JSON，不要包含 Markdown 標籤。"""
+        if lang == 'ja':
+            priest_tone = "神職"
+            json_format = """{
+                "lucky_color": "ラッキーカラー",
+                "lucky_item": "ラッキーアイテム",
+                "lucky_subject": "おすすめの科目",
+                "advice": "30文字程度のアドバイス"
+            }"""
+            prompt = f"学子が「{translated_fortune_label}」({drawn_fortune})を引き当てました。{priest_tone}のような温かい口調で、日本語で祝福の言葉を書いてください。\nJSON形式で返してください:\n{json_format}\n純粋なJSONのみを返し、Markdownタグは含めないでください。"
+        elif lang == 'en':
+            priest_tone = "Priest"
+            json_format = """{
+                "lucky_color": "Lucky Color",
+                "lucky_item": "Lucky Item",
+                "lucky_subject": "Recommended Subject",
+                "advice": "Advice (about 30 words)"
+            }"""
+            prompt = f"A student drew '{translated_fortune_label}' ({drawn_fortune}). Write a warm blessing in the tone of a {priest_tone} in English.\nReturn in JSON format:\n{json_format}\nOnly return raw JSON, no Markdown tags."
+        else: # Default to Traditional Chinese
+            priest_tone = "壽山宮神主"
+            json_format = """{
+                "lucky_color": "幸運色",
+                "lucky_item": "幸運物品",
+                "lucky_subject": "推薦科目",
+                "advice": "約 30 字的建議"
+            }"""
+            prompt = f"學子抽中了「{translated_fortune_label}」({drawn_fortune})。請以溫馨且具有{priest_tone}風範的語氣，用{lang}寫一段祝福語。\n請返回 JSON 格式：\n{json_format}\n僅返回原始 JSON，不要包含 Markdown 標籤。"
         
         from app.utils.ai_helpers import generate_text_with_fallback
         text = generate_text_with_fallback(prompt).strip()

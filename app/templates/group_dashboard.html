@@ -1330,15 +1330,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Admin Auto Greeting - Fixed logic to show even if chat is not empty, once per session
     if (CONFIG.isAdmin) {
-        if (!sessionStorage.getItem('yukine_admin_greeted_dashboard_{{ group.id }}')) {
+        if (!sessionStorage.getItem(`yukine_admin_greeted_dashboard_${CONFIG.groupId}`)) {
             setTimeout(() => { 
                 if (messageContainer) {
                     appendMessage({ 
                         is_ai: true, is_mine: false, is_special: true, 
                         username: '雪音老師', 
-                        content: '管理員您好！系統檢測到最高權限者登入，雪音老師隨時聽候您的指示。✨' 
+                        content: "{{ _t('chat_admin_greeting') }}"
                     });
-                    sessionStorage.setItem('yukine_admin_greeted_dashboard_{{ group.id }}', 'true');
+                    sessionStorage.setItem(`yukine_admin_greeted_dashboard_${CONFIG.groupId}`, 'true');
                 }
             }, 1500);
         }
