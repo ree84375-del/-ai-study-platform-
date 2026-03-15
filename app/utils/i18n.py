@@ -810,8 +810,7 @@ TRANSLATIONS = {
         'yukine_thinking_4': '課題の模範解答を準備中...',
         'yukine_thinking_5': '最終的なレイアウトと整理を行っています...',
         'design_done': '課題のデザインが完了しました！チェックしてみてください ✨',
-        'yukine_designing': '雪音先生が課題をデザインしています...'
-    },
+        'yukine_designing': '雪音先生が課題をデザインしています...',
         'subject_chinese_val': '中国語',
         'subject_english_val': '英語',
         'subject_math_val': '数学',
