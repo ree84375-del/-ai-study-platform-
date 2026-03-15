@@ -91,51 +91,67 @@ def generate_text_with_fallback(prompt, system_instruction=None):
     
     for provider in providers:
         if provider == 'gemini':
-            try:
-                model = get_gemini_model(system_instruction=system_instruction)
-                response = model.generate_content(prompt)
-                return response.text
-            except Exception as e:
-                errors.append(f"Gemini: {e}")
+            keys = get_gemini_keys()
+            random.shuffle(keys)
+            for key in keys:
+                try:
+                    genai.configure(api_key=key)
+                    model = get_gemini_model(system_instruction=system_instruction)
+                    response = model.generate_content(prompt)
+                    return response.text
+                except Exception as e:
+                    errors.append(f"Gemini (key {key[:4]}...): {e}")
+                    # If it's a quota issue, try next key. Otherwise, provider might be down.
+                    if "429" not in str(e) and "quota" not in str(e).lower():
+                        break
                 
         elif provider == 'groq':
-            try:
-                from groq import Groq
-                client = Groq(api_key=random.choice(groq_keys))
-                messages = []
-                if system_instruction:
-                    messages.append({"role": "system", "content": system_instruction})
-                messages.append({"role": "user", "content": prompt})
-                
-                response = client.chat.completions.create(
-                    model="llama-3.3-70b-versatile",
-                    messages=messages,
-                    temperature=0.7,
-                    max_tokens=2048,
-                )
-                return response.choices[0].message.content
-            except Exception as e:
-                errors.append(f"Groq: {e}")
-                
+            keys = get_groq_keys()
+            random.shuffle(keys)
+            for key in keys:
+                try:
+                    from groq import Groq
+                    client = Groq(api_key=key)
+                    messages = []
+                    if system_instruction:
+                        messages.append({"role": "system", "content": system_instruction})
+                    messages.append({"role": "user", "content": prompt})
+                    
+                    response = client.chat.completions.create(
+                        model="llama-3.3-70b-versatile",
+                        messages=messages,
+                        temperature=0.7,
+                        max_tokens=2048,
+                    )
+                    return response.choices[0].message.content
+                except Exception as e:
+                    errors.append(f"Groq (key {key[:4]}...): {e}")
+                    if "restricted" not in str(e).lower() and "quota" not in str(e).lower() and "429" not in str(e):
+                        break
+
         elif provider == 'ollama':
-            try:
-                ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-                from openai import OpenAI
-                client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
-                
-                messages = []
-                if system_instruction:
-                    messages.append({"role": "system", "content": system_instruction})
-                messages.append({"role": "user", "content": prompt})
-                
-                response = client.chat.completions.create(
-                    model=os.environ.get('OLLAMA_MODEL', 'llama3'),
-                    messages=messages,
-                    temperature=0.7
-                )
-                return str(response.choices[0].message.content)
-            except Exception as e:
-                errors.append(f"Ollama: {e}")
+            keys = get_ollama_keys()
+            random.shuffle(keys)
+            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+            for key in keys:
+                try:
+                    from openai import OpenAI
+                    client = OpenAI(base_url=ollama_host, api_key=key)
+                    
+                    messages = []
+                    if system_instruction:
+                        messages.append({"role": "system", "content": system_instruction})
+                    messages.append({"role": "user", "content": prompt})
+                    
+                    response = client.chat.completions.create(
+                        model=os.environ.get('OLLAMA_MODEL', 'llama3'),
+                        messages=messages,
+                        temperature=0.7
+                    )
+                    return str(response.choices[0].message.content)
+                except Exception as e:
+                    errors.append(f"Ollama: {e}")
+                    break
 
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
@@ -159,66 +175,81 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
     
     for provider in providers:
         if provider == 'gemini':
-            try:
-                model = get_gemini_model()
-                image = Image.open(io.BytesIO(image_bytes))
-                inputs = [prompt, image]
-                if system_instruction:
-                    model = get_gemini_model(system_instruction=system_instruction)
-                response = model.generate_content(inputs)
-                return response.text
-            except Exception as e:
-                errors.append(f"Gemini Vision: {e}")
+            keys = get_gemini_keys()
+            random.shuffle(keys)
+            for key in keys:
+                try:
+                    genai.configure(api_key=key)
+                    model = get_gemini_model()
+                    image = Image.open(io.BytesIO(image_bytes))
+                    inputs = [prompt, image]
+                    if system_instruction:
+                        model = get_gemini_model(system_instruction=system_instruction)
+                    response = model.generate_content(inputs)
+                    return response.text
+                except Exception as e:
+                    errors.append(f"Gemini Vision (key {key[:4]}...): {e}")
+                    if "429" not in str(e) and "quota" not in str(e).lower():
+                        break
         
         elif provider == 'groq':
-            try:
-                from groq import Groq
-                client = Groq(api_key=random.choice(groq_keys))
-                base64_image = base64.b64encode(image_bytes).decode('utf-8')
-                messages = []
-                if system_instruction:
-                    messages.append({"role": "system", "content": system_instruction})
-                messages.append({
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
-                    ],
-                })
-                response = client.chat.completions.create(
-                    model="llama-3.2-11b-vision-preview",
-                    messages=messages,
-                    temperature=0.7,
-                    max_tokens=2048,
-                )
-                return response.choices[0].message.content
-            except Exception as e:
-                errors.append(f"Groq Vision: {e}")
+            keys = get_groq_keys()
+            random.shuffle(keys)
+            for key in keys:
+                try:
+                    from groq import Groq
+                    client = Groq(api_key=key)
+                    base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                    messages = []
+                    if system_instruction:
+                        messages.append({"role": "system", "content": system_instruction})
+                    messages.append({
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                        ],
+                    })
+                    response = client.chat.completions.create(
+                        model="llama-3.2-11b-vision-preview",
+                        messages=messages,
+                        temperature=0.7,
+                        max_tokens=2048,
+                    )
+                    return response.choices[0].message.content
+                except Exception as e:
+                    errors.append(f"Groq Vision (key {key[:4]}...): {e}")
+                    if "restricted" not in str(e).lower() and "quota" not in str(e).lower() and "429" not in str(e):
+                        break
         
         elif provider == 'ollama':
-            try:
-                ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-                from openai import OpenAI
-                client = OpenAI(base_url=ollama_host, api_key=random.choice(ollama_keys))
-                base64_image = base64.b64encode(image_bytes).decode('utf-8')
-                messages = []
-                if system_instruction:
-                    messages.append({"role": "system", "content": system_instruction})
-                messages.append({
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
-                    ],
-                })
-                response = client.chat.completions.create(
-                    model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
-                    messages=messages,
-                    temperature=0.7
-                )
-                return response.choices[0].message.content
-            except Exception as e:
-                errors.append(f"Ollama Vision: {e}")
+            keys = get_ollama_keys()
+            random.shuffle(keys)
+            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+            for key in keys:
+                try:
+                    from openai import OpenAI
+                    client = OpenAI(base_url=ollama_host, api_key=key)
+                    base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                    messages = []
+                    if system_instruction:
+                        messages.append({"role": "system", "content": system_instruction})
+                    messages.append({
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
+                        ],
+                    })
+                    response = client.chat.completions.create(
+                        model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
+                        messages=messages,
+                        temperature=0.7
+                    )
+                    return response.choices[0].message.content
+                except Exception as e:
+                    errors.append(f"Ollama Vision: {e}")
+                    break
 
     raise Exception(f"所有的視覺 AI 模型皆不可用：{', '.join(errors)}")
 
@@ -446,20 +477,30 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     
     for current_model in models_to_try:
         if current_model == 'gemini':
-            try:
-                model = get_gemini_model(system_instruction=system_prompt)
-                gemini_history = []
-                for msg in chat_history:
-                    msg_role = "user" if msg['role'] == 'user' else "model"
-                    parts_val = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
-                    gemini_history.append({"role": msg_role, "parts": [parts_val]})
-                    
-                chat = model.start_chat(history=gemini_history)
-                response = chat.send_message(user_message)
-                reply = response.text
+            keys = get_gemini_keys()
+            random.shuffle(keys)
+            success = False
+            for key in keys:
+                try:
+                    genai.configure(api_key=key)
+                    model = get_gemini_model(system_instruction=system_prompt)
+                    gemini_history = []
+                    for msg in chat_history:
+                        msg_role = "user" if msg['role'] == 'user' else "model"
+                        parts_val = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
+                        gemini_history.append({"role": msg_role, "parts": [parts_val]})
+                        
+                    chat = model.start_chat(history=gemini_history)
+                    response = chat.send_message(user_message)
+                    reply = response.text
+                    success = True
+                    break
+                except Exception as e:
+                    errors.append(f"Gemini (key {key[:4]}...): {str(e)}")
+                    if "429" not in str(e) and "quota" not in str(e).lower():
+                        break
+            if success:
                 break
-            except Exception as e:
-                errors.append(f"Gemini: {str(e)}")
                 
         elif current_model == 'groq':
             try:
@@ -468,7 +509,7 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
                 random.shuffle(keys)
                 success = False
                 
-                for key in keys[:3]:
+                for key in keys:
                     try:
                         client = Groq(api_key=key)
                         messages = [{"role": "system", "content": system_prompt}]
@@ -490,12 +531,12 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
                         success = True
                         break
                     except Exception as e:
-                        print(f"Groq retry failed for key {key[:5]}: {e}")
+                        errors.append(f"Groq (key {key[:4]}...): {str(e)}")
+                        if "restricted" not in str(e).lower() and "quota" not in str(e).lower() and "429" not in str(e):
+                            break
                 
                 if success:
                     break
-                else:
-                    errors.append("Groq failed with all attempted keys.")
             except Exception as e:
                 errors.append(f"Groq Init Error: {str(e)}")
                 
@@ -507,7 +548,7 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
                 from openai import OpenAI
                 success = False
                 
-                for key in keys[:3]:
+                for key in keys:
                     try:
                         client = OpenAI(base_url=ollama_host, api_key=key)
                         messages = [{"role": "system", "content": system_prompt}]
@@ -528,12 +569,10 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
                         success = True
                         break
                     except Exception as e:
-                        print(f"Ollama retry failed for key {key[:5]}: {e}")
+                        errors.append(f"Ollama: {str(e)}")
                 
                 if success:
                     break
-                else:
-                    errors.append("Ollama failed with all attempted keys.")
             except Exception as e:
                 errors.append(f"Ollama Init Error: {str(e)}")
 
