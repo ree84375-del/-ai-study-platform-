@@ -43,7 +43,7 @@ def practice():
                 if mistake.srs_level >= 4: # Consider resolved if reached a high level
                     mistake.is_resolved = True
                     from app.utils.i18n import get_text
-                    flash(get_text('msg_study_done', current_user.language), 'success')
+                    flash(_t('msg_study_done', current_user.language), 'success')
                     
                     # Add Garden XP (SRS Level Bonus: 20 XP)
                     from app.utils.garden_helpers import add_garden_xp
@@ -99,7 +99,7 @@ def practice():
     questions = query.all()
     if not questions:
         from app.utils.i18n import get_text
-        flash(get_text('msg_no_questions', current_user.language), 'info')
+        flash(_t('msg_no_questions', current_user.language), 'info')
         return redirect(url_for('main.home'))
         
     question = random.choice(questions)
@@ -111,7 +111,7 @@ def mistakes():
     from app.models import Mistake
     from app.utils.i18n import get_text
     mistake_records = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).all()
-    return render_template('mistakes.html', title=get_text('nav_mistakes', current_user.language), mistakes=mistake_records)
+    return render_template('mistakes.html', title=_t('nav_mistakes', current_user.language), mistakes=mistake_records)
 
 
 @study.route("/ai_vision", methods=['GET', 'POST'])
@@ -406,8 +406,8 @@ def generate_exam():
     from app.utils.i18n import get_text
     mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
     if not mistakes:
-        flash(get_text('msg_no_mistakes', current_user.language), "info")
+        flash(_t('msg_no_mistakes', current_user.language), "info")
         return redirect(url_for('study.practice'))
-    return render_template('exam.html', title=get_text('nav_exam', current_user.language), mistakes=mistakes)
+    return render_template('exam.html', title=_t('nav_exam', current_user.language), mistakes=mistakes)
 
 

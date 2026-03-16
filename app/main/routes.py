@@ -186,12 +186,12 @@ def profile():
 
     current_app.logger.info(f"User {current_user.id} accessing profile page")
     mistake_count = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
-    return render_template('profile.html', title=get_text('profile_title', current_user.language), mistake_count=mistake_count)
+    return render_template('profile.html', title=_t('profile_title', current_user.language), mistake_count=mistake_count)
 
 @main.route("/chat")
 @login_required
 def chat():
-    return render_template('chat.html', title=get_text('nav_chat', current_user.language))
+    return render_template('chat.html', title=_t('nav_chat', current_user.language))
 
 @main.route("/update_profile", methods=['POST'])
 @login_required
@@ -203,18 +203,18 @@ def update_profile():
     if new_username != current_user.username:
         # 1. Admin cannot change their name
         if current_user.is_admin:
-            flash(get_text('msg_admin_name_locked', current_user.language), 'warning')
+            flash(_t('msg_admin_name_locked', current_user.language), 'warning')
             return redirect(url_for('main.profile'))
             
         # 2. Check forbidden names
         if User.is_name_forbidden(new_username):
-            flash(get_text('msg_forbidden_name', current_user.language), 'danger')
+            flash(_t('msg_forbidden_name', current_user.language), 'danger')
             return redirect(url_for('main.profile'))
 
         # 3. Check for duplicates
         existing_user = User.query.filter_by(username=new_username).first()
         if existing_user:
-            flash(get_text('msg_username_taken', current_user.language), 'danger')
+            flash(_t('msg_username_taken', current_user.language), 'danger')
             return redirect(url_for('main.profile'))
 
     current_user.username = new_username
@@ -231,10 +231,10 @@ def update_profile():
         if hasattr(current_user, 'language'):
             session['language'] = current_user.language
         db.session.commit()
-        flash(get_text('msg_profile_updated', current_user.language), 'success')
+        flash(_t('msg_profile_updated', current_user.language), 'success')
     except Exception:
         db.session.rollback()
-        flash(get_text('msg_update_failed', current_user.language), 'danger')
+        flash(_t('msg_update_failed', current_user.language), 'danger')
 
     return redirect(url_for('main.profile'))
 
@@ -269,7 +269,7 @@ def change_password():
     from app import db, bcrypt
     # Google/Third-party users cannot change password here
     if getattr(current_user, 'auth_provider', 'local') not in ['local', 'guest']:
-        flash(get_text('go_to_google', current_user.language), 'info')
+        flash(_t('go_to_google', current_user.language), 'info')
         return redirect(url_for('main.profile'))
 
     # Cooldown check (Temporarily disabled due to DB migration issue)
@@ -281,26 +281,26 @@ def change_password():
 
     # Validate current password
     if not bcrypt.check_password_hash(current_user.password, current_password):
-        flash(get_text('msg_current_pwd_wrong', current_user.language), 'danger')
+        flash(_t('msg_current_pwd_wrong', current_user.language), 'danger')
         return redirect(url_for('main.profile'))
 
     # Validate new password
     if len(new_password) < 6:
-        flash(get_text('msg_new_pwd_too_short', current_user.language), 'danger')
+        flash(_t('msg_new_pwd_too_short', current_user.language), 'danger')
         return redirect(url_for('main.profile'))
 
     if new_password != confirm_password:
-        flash(get_text('msg_pwd_mismatch', current_user.language), 'danger')
+        flash(_t('msg_pwd_mismatch', current_user.language), 'danger')
         return redirect(url_for('main.profile'))
 
     # Update password
     try:
         current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
         db.session.commit()
-        flash(get_text('msg_pwd_changed', current_user.language), 'success')
+        flash(_t('msg_pwd_changed', current_user.language), 'success')
     except Exception:
         db.session.rollback()
-        flash(get_text('msg_pwd_change_failed', current_user.language), 'danger')
+        flash(_t('msg_pwd_change_failed', current_user.language), 'danger')
 
     return redirect(url_for('main.profile'))
 
@@ -324,7 +324,7 @@ def draw_omikuji():
     # Check if already drawn today
     existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
     if existing:
-        flash(get_text('omikuji_already_drawn', lang), 'info')
+        flash(_t('omikuji_already_drawn', lang), 'info')
         return redirect(url_for('main.home'))
         
     fortunes = ['大吉', '吉', '吉', '中吉', '小吉', '末吉'] # Adjusted probabilities
@@ -357,10 +357,10 @@ def draw_omikuji():
         translated_fortune = _t(f'fortune_{drawn_fortune}', lang)
         
         # Label translations
-        l_color = get_text('omikuji_lucky_color', lang)
-        l_item = get_text('omikuji_lucky_item', lang)
-        l_subj = get_text('omikuji_lucky_subject', lang)
-        l_adv = get_text('omikuji_advice_label', lang)
+        l_color = _t('omikuji_lucky_color', lang)
+        l_item = _t('omikuji_lucky_item', lang)
+        l_subj = _t('omikuji_lucky_subject', lang)
+        l_adv = _t('omikuji_advice_label', lang)
 
         colon = '：' if lang in ['zh', 'ja'] else ': '
         rich_message = f"""
@@ -381,7 +381,7 @@ def draw_omikuji():
         
         db.session.commit()
         
-        flash(get_text('omikuji_draw_success', lang, fortune=get_text(f'fortune_{drawn_fortune}', lang)), 'success')
+        flash(_t('omikuji_draw_success', lang, fortune=_t(f'fortune_{drawn_fortune}', lang)), 'success')
         return redirect(url_for('main.home'))
     except Exception as e:
         db.session.rollback()
@@ -390,9 +390,9 @@ def draw_omikuji():
         
         # provide a more helpful message if it's an AI fallback failure
         if "AI 模型" in error_msg or "API Key" in error_msg:
-            flash(get_text('msg_god_busy', lang).format(error=error_msg), 'danger')
+            flash(_t('msg_god_busy', lang).format(error=error_msg), 'danger')
         else:
-            flash(get_text('msg_god_error', lang).format(error=error_msg), 'warning')
+            flash(_t('msg_god_error', lang).format(error=error_msg), 'warning')
         return redirect(url_for('main.home'))
 
 @main.route("/api/ema/create", methods=['POST'])
@@ -404,7 +404,7 @@ def create_ema():
     is_public = request.form.get('is_public') == 'true'
     
     if not content or len(content) > 100:
-        flash(get_text('msg_ema_empty', current_user.language), 'danger')
+        flash(_t('msg_ema_empty', current_user.language), 'danger')
         return redirect(url_for('main.home'))
         
     ema = Ema(user_id=current_user.id, content=content, is_public=is_public)
@@ -415,7 +415,7 @@ def create_ema():
     add_garden_xp(10)
     
     db.session.commit()
-    flash(get_text('msg_ema_success', current_user.language), 'success')
+    flash(_t('msg_ema_success', current_user.language), 'success')
     return redirect(url_for('main.home'))
 
 @main.route("/api/daruma/create", methods=['POST'])
@@ -426,13 +426,13 @@ def create_daruma():
     goal = request.form.get('goal')
     
     if not goal or len(goal) > 100:
-        flash(get_text('msg_daruma_empty', current_user.language), 'danger')
+        flash(_t('msg_daruma_empty', current_user.language), 'danger')
         return redirect(url_for('main.home'))
         
     daruma = Daruma(user_id=current_user.id, goal=goal)
     db.session.add(daruma)
     db.session.commit()
-    flash(get_text('msg_daruma_success', current_user.language), 'success')
+    flash(_t('msg_daruma_success', current_user.language), 'success')
     return redirect(url_for('main.home'))
 
 @main.route("/api/toggle_dark_mode", methods=['POST'])
@@ -461,11 +461,11 @@ def complete_daruma(daruma_id):
     from app.models import Daruma
     daruma = Daruma.query.get_or_404(daruma_id)
     if daruma.user_id != current_user.id:
-        flash(get_text('msg_unauthorized', current_user.language), 'danger')
+        flash(_t('msg_unauthorized', current_user.language), 'danger')
         return redirect(url_for('main.home'))
         
     if daruma.is_completed:
-        flash(get_text('msg_daruma_already_done', current_user.language), 'info')
+        flash(_t('msg_daruma_already_done', current_user.language), 'info')
         return redirect(url_for('main.home'))
         
     daruma.is_completed = True
@@ -476,7 +476,7 @@ def complete_daruma(daruma_id):
     add_garden_xp(30)
     
     db.session.commit()
-    flash(get_text('msg_daruma_complete_success', current_user.language), 'success')
+    flash(_t('msg_daruma_complete_success', current_user.language), 'success')
     return redirect(url_for('main.home'))
 
 @main.route("/api/update_theme", methods=['POST'])

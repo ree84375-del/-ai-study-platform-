@@ -180,9 +180,9 @@ def group_dashboard(group_id):
                 # Check for "roughly" 2 days (between 24-48h) and 1 day (within 24h)
                 days_left = diff.total_seconds() / 86400
                 if 0 < days_left <= 2:
-                    status_text = get_text('yukine_reminder_less_than_2_days', lang) if days_left > 1 else get_text('yukine_reminder_tomorrow', lang)
-                    prefix = get_text('yukine_reminder_prefix', lang).format(title=a.title)
-                    suffix = get_text('yukine_reminder_suffix', lang)
+                    status_text = _t('yukine_reminder_less_than_2_days', lang) if days_left > 1 else _t('yukine_reminder_tomorrow', lang)
+                    prefix = _t('yukine_reminder_prefix', lang).format(title=a.title)
+                    suffix = _t('yukine_reminder_suffix', lang)
                     yukine_reminders.append(f"{prefix}{status_text}{suffix}")
     except Exception as e:
         current_app.logger.error(f"Reminder Error: {e}")
@@ -359,16 +359,16 @@ def group_dashboard(group_id):
                             try:
                                 yukine = User.query.filter_by(username='雪音老師').first()
                                 if yukine:
-                                    due_hint = get_text('yukine_assignment_no_deadline', lang)
+                                    due_hint = _t('yukine_assignment_no_deadline', lang)
                                     if due_date:
                                         # Convert to Taiwan Time for display
                                         tw_due = due_date + timedelta(hours=8)
-                                        due_hint = get_text('yukine_assignment_due_hint', lang).format(due_date=tw_due.strftime('%Y-%m-%d %H:%M'))
+                                        due_hint = _t('yukine_assignment_due_hint', lang).format(due_date=tw_due.strftime('%Y-%m-%d %H:%M'))
                                     
                                     announcement_msg = GroupMessage(
                                         group_id=group_id,
                                         user_id=yukine.id,
-                                        content=get_text('yukine_msg_assignment_published', lang).format(title=title, due_hint=due_hint)
+                                        content=_t('yukine_msg_assignment_published', lang).format(title=title, due_hint=due_hint)
                                     )
                                     db.session.add(announcement_msg)
                                     db.session.commit()
@@ -431,7 +431,7 @@ def group_dashboard(group_id):
                     status.completed_at = datetime.now(timezone.utc)
                     
                     db.session.commit()
-                    flash(get_text('msg_assignment_submitted', lang), 'success')
+                    flash(_t('msg_assignment_submitted', lang), 'success')
                     
                     # Add Garden XP
                     from app.utils.garden_helpers import add_garden_xp
@@ -472,7 +472,7 @@ def group_dashboard(group_id):
                 
                 if missing_user_ids:
                     missing_names = [User.query.get(uid).username for uid in missing_user_ids]
-                    flash(get_text('msg_assignment_overdue', lang).format(title=assignment.title, students=', '.join(missing_names)), 'warning')
+                    flash(_t('msg_assignment_overdue', lang).format(title=assignment.title, students=', '.join(missing_names)), 'warning')
 
         return render_template('group_dashboard.html', 
                                    group=group_obj, 

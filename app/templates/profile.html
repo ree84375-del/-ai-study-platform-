@@ -182,7 +182,7 @@
 
             <!-- 變更密碼表單（僅限非 Google 帳號，預設隱藏） -->
             {% if current_user.auth_provider != 'google' %}
-            <div id="password-change-form" style="display: none; margin-top: 1rem; padding: 1.5rem; background: #fff; border-radius: 12px; border: 1px solid var(--color-border); animation: fadeIn 0.3s ease-out;">
+            <div id="password-change-form" style="display: none; margin-top: 1rem; padding: 1.5rem; background: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-border); animation: fadeIn 0.3s ease-out;">
                 <div style="background: #fff8f1; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #f6ad55; font-size: 0.85rem; color: #744210;">
                     <i class="fa-solid fa-clock"></i> {{ _t('pwd_rule') }}
                 </div>
