@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, current_app
 from flask_login import login_required, current_user
 from datetime import datetime, timezone, timedelta
-from app.utils.i18n import get_text, TRANSLATIONS
+from app.utils.i18n import get_text as _t, TRANSLATIONS
 import re
 
 main = Blueprint('main', __name__)
@@ -331,8 +331,7 @@ def draw_omikuji():
     drawn_fortune = random.choice(fortunes)
     
     lang = getattr(current_user, 'language', 'zh')
-    from app.utils.i18n import get_text
-    translated_fortune_label = get_text(f'fortune_{drawn_fortune}', lang)
+    translated_fortune_label = _t(f'fortune_{drawn_fortune}', lang)
     
     try:
         # Prompt generation based on language
@@ -355,8 +354,7 @@ def draw_omikuji():
         
         data = json.loads(text)
         
-        from app.utils.i18n import get_text
-        translated_fortune = get_text(f'fortune_{drawn_fortune}', lang)
+        translated_fortune = _t(f'fortune_{drawn_fortune}', lang)
         
         # Label translations
         l_color = get_text('omikuji_lucky_color', lang)
