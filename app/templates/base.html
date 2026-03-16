@@ -141,20 +141,20 @@
             let name, icon, shortName;
             
             if (6 <= hour && hour < 12) {
-                name = {{ _t('morning_study')|tojson }};
-                shortName = {{ _t('morning_short')|tojson }};
+                name = {{ _t('morning_study')|tojson|safe }};
+                shortName = {{ _t('morning_short')|tojson|safe }};
                 icon = "fa-sun";
             } else if (12 <= hour && hour < 17) {
-                name = {{ _t('afternoon_study')|tojson }};
-                shortName = {{ _t('afternoon_short')|tojson }};
+                name = {{ _t('afternoon_study')|tojson|safe }};
+                shortName = {{ _t('afternoon_short')|tojson|safe }};
                 icon = "fa-cloud-sun";
             } else if (17 <= hour && hour < 19) {
-                name = {{ _t('evening_study')|tojson }};
-                shortName = {{ _t('evening_short')|tojson }};
+                name = {{ _t('evening_study')|tojson|safe }};
+                shortName = {{ _t('evening_short')|tojson|safe }};
                 icon = "fa-mountain-sun";
             } else {
-                name = {{ _t('midnight_study')|tojson }};
-                shortName = {{ _t('midnight_short')|tojson }};
+                name = {{ _t('midnight_study')|tojson|safe }};
+                shortName = {{ _t('midnight_short')|tojson|safe }};
                 icon = "fa-moon";
             }
             

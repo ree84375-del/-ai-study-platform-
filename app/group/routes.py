@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from sqlalchemy.exc import ProgrammingError
 from sqlalchemy import text
 from app.utils.ai_helpers import get_ai_tutor_response
+from app.utils.i18n import get_text as _t
 
 group = Blueprint('group', __name__)
 
@@ -42,9 +43,9 @@ def groups():
                 new_group = Group(name=name, invite_code=invite_code, teacher_id=current_user.id, has_ai=has_ai, group_type=group_type)
                 db.session.add(new_group)
                 db.session.commit()
-                flash(f'群組 "{name}" 建立成功！邀請碼：{invite_code}', 'success')
+                flash(_t('msg_group_created_with_code', lang=current_user.language, name=name, code=invite_code), 'success')
             else:
-                flash('請輸入群組名稱', 'danger')
+                flash(_t('msg_enter_group_name', lang=current_user.language), 'danger')
         
         elif action == 'join':
             invite_code = request.form.get('invite_code').upper()
@@ -52,14 +53,14 @@ def groups():
             if group_to_join:
                 existing_member = GroupMember.query.filter_by(group_id=group_to_join.id, user_id=current_user.id).first()
                 if existing_member or group_to_join.teacher_id == current_user.id:
-                    flash('您已經在此群組中', 'info')
+                    flash(_t('msg_already_in_group', lang=current_user.language), 'info')
                 else:
                     new_member = GroupMember(group_id=group_to_join.id, user_id=current_user.id)
                     db.session.add(new_member)
                     db.session.commit()
-                    flash(f'成功加入群組：{group_to_join.name}', 'success')
+                    flash(_t('msg_joined_group', lang=current_user.language, name=group_to_join.name), 'success')
             else:
-                flash('無效的邀請碼', 'danger')
+                flash(_t('msg_invalid_invite_code', lang=current_user.language), 'danger')
                 
         return redirect(url_for('group.groups'))
 
@@ -179,8 +180,10 @@ def group_dashboard(group_id):
                 # Check for "roughly" 2 days (between 24-48h) and 1 day (within 24h)
                 days_left = diff.total_seconds() / 86400
                 if 0 < days_left <= 2:
-                    status_text = "只剩不到兩天" if days_left > 1 else "明天就要截止"
-                    yukine_reminders.append(f"溫馨提醒：作業「{a.title}」{status_text}囉！大家加油唷！(๑•̀ㅂ•́)و✧")
+                    status_text = get_text('yukine_reminder_less_than_2_days', lang) if days_left > 1 else get_text('yukine_reminder_tomorrow', lang)
+                    prefix = get_text('yukine_reminder_prefix', lang).format(title=a.title)
+                    suffix = get_text('yukine_reminder_suffix', lang)
+                    yukine_reminders.append(f"{prefix}{status_text}{suffix}")
     except Exception as e:
         current_app.logger.error(f"Reminder Error: {e}")
     # --- END REMINDERS ---
@@ -356,16 +359,16 @@ def group_dashboard(group_id):
                             try:
                                 yukine = User.query.filter_by(username='雪音老師').first()
                                 if yukine:
-                                    due_hint = "沒有設定截止時間，大家可以慢慢寫唷！"
+                                    due_hint = get_text('yukine_assignment_no_deadline', lang)
                                     if due_date:
                                         # Convert to Taiwan Time for display
                                         tw_due = due_date + timedelta(hours=8)
-                                        due_hint = f"截止時間是 {tw_due.strftime('%Y-%m-%d %H:%M')}，要記得準時交唷！(๑•̀ㅂ•́)و✧"
+                                        due_hint = get_text('yukine_assignment_due_hint', lang).format(due_date=tw_due.strftime('%Y-%m-%d %H:%M'))
                                     
                                     announcement_msg = GroupMessage(
                                         group_id=group_id,
                                         user_id=yukine.id,
-                                        content=f"呀吼！老師剛才發布了新的作業「{title}」，雪音已經紀錄下來了！{due_hint}"
+                                        content=get_text('yukine_msg_assignment_published', lang).format(title=title, due_hint=due_hint)
                                     )
                                     db.session.add(announcement_msg)
                                     db.session.commit()
@@ -410,7 +413,8 @@ def group_dashboard(group_id):
                         question=assignment.description,
                         ref_answer=assignment.reference_answer,
                         student_answer=final_content,
-                        student_image_bytes=request.files['submission_image'].read() if 'submission_image' in request.files else None
+                        student_image_bytes=request.files['submission_image'].read() if 'submission_image' in request.files else None,
+                        lang=current_user.language
                     )
 
                     status = AssignmentStatus.query.filter_by(assignment_id=assignment_id, user_id=current_user.id).first()
@@ -427,7 +431,7 @@ def group_dashboard(group_id):
                     status.completed_at = datetime.now(timezone.utc)
                     
                     db.session.commit()
-                    flash('作業已提交並由雪音老師批改完成', 'success')
+                    flash(get_text('msg_assignment_submitted', lang), 'success')
                     
                     # Add Garden XP
                     from app.utils.garden_helpers import add_garden_xp
@@ -468,7 +472,7 @@ def group_dashboard(group_id):
                 
                 if missing_user_ids:
                     missing_names = [User.query.get(uid).username for uid in missing_user_ids]
-                    flash(f"注意！作業「{assignment.title}」已截止，以下學生尚未繳交：{', '.join(missing_names)}", 'warning')
+                    flash(get_text('msg_assignment_overdue', lang).format(title=assignment.title, students=', '.join(missing_names)), 'warning')
 
         return render_template('group_dashboard.html', 
                                    group=group_obj, 
@@ -736,7 +740,7 @@ def assignment_ai_draft(group_id):
         image_bytes = request.files['image'].read()
         
     from app.utils.ai_helpers import generate_assignment_draft
-    result = generate_assignment_draft(teacher_input, image_bytes)
+    result = generate_assignment_draft(teacher_input, image_bytes, lang=current_user.language)
     
     if 'error' in result:
         return jsonify({'status': 'error', 'message': result['error']})
@@ -764,6 +768,80 @@ def check_assignment_step(group_id):
         data['reference_answer'] = request.form.get('reference_answer', '')
         
     from app.utils.ai_helpers import validate_assignment_step
-    result = validate_assignment_step(step, data)
+    result = validate_assignment_step(step, data, lang=current_user.language)
     
     return jsonify(result)
+
+@group.route('/groups/<int:group_id>/assignment/<int:assignment_id>/submissions', methods=['GET'], strict_slashes=False)
+@login_required
+def view_assignment_submissions(group_id, assignment_id):
+    from app.models import Group, Assignment, AssignmentStatus, GroupMember, User
+    group_obj = Group.query.get_or_404(group_id)
+    
+    # Permission check: Only teacher can see all submissions
+    if group_obj.teacher_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    assignment = Assignment.query.get_or_404(assignment_id)
+    if assignment.group_id != group_id:
+        return jsonify({'status': 'error', 'message': 'Assignment does not belong to this group'}), 400
+
+    # Get all members
+    members = GroupMember.query.filter_by(group_id=group_id).all()
+    user_status_map = {s.user_id: s for s in assignment.statuses}
+    
+    results = []
+    for m in members:
+        user = m.member
+        status = user_status_map.get(m.user_id)
+        
+        results.append({
+            'user_id': user.id,
+            'username': user.username,
+            'status_id': status.id if status else None,
+            'is_completed': status.is_completed if status else False,
+            'completed_at': status.completed_at.isoformat() + 'Z' if status and status.completed_at else None,
+            'content': status.content if status else None,
+            'submission_image': status.submission_image if status else None,
+            'score': status.score if status else None,
+            'feedback': status.ai_feedback if status else None,
+            'explanation': status.ai_explanation if status else None
+        })
+        
+    return jsonify({
+        'status': 'success',
+        'assignment': {
+            'title': assignment.title,
+            'description': assignment.description,
+            'ref_answer': assignment.reference_answer,
+            'ref_image': assignment.reference_image
+        },
+        'submissions': results
+    })
+
+@group.route('/api/groups/assignment/status/<int:status_id>/grade', methods=['POST'], strict_slashes=False)
+@login_required
+def update_assignment_grade(status_id):
+    from app import db
+    from app.models import AssignmentStatus, Group
+    status = AssignmentStatus.query.get_or_404(status_id)
+    group_obj = status.assignment.group
+    
+    # Permission check: Only teacher can grade
+    if group_obj.teacher_id != current_user.id:
+        return jsonify({'status': 'error', 'message': 'Permission denied'}), 403
+        
+    score = request.form.get('score')
+    feedback = request.form.get('feedback')
+    
+    try:
+        if score is not None:
+            status.score = int(score)
+        if feedback is not None:
+            status.ai_feedback = feedback
+            
+        db.session.commit()
+        return jsonify({'status': 'success', 'message': 'Grade updated'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': str(e)}), 500

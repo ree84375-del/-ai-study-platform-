@@ -45,20 +45,22 @@ def create_app():
     
     @app.context_processor
     def inject_i18n():
+        from flask import session
         def translate(key, **kwargs):
-            lang = 'zh'
+            # 1. Check current_user (DB persisted)
+            # 2. Check session (Guest/Ephemeral persistence)
+            # 3. Default to 'zh'
+            lang = session.get('language', 'zh')
             if current_user.is_authenticated:
-                lang = getattr(current_user, 'language', 'zh')
-            text = get_text(key, lang)
-            if kwargs:
-                try:
-                    # Use a more robust formatting to avoid KeyError if placeholders are missing
-                    return text.format(**kwargs)
-                except (KeyError, ValueError, IndexError):
-                    # If formatting fails, return text as is or a basic version
-                    return text
-            return text
-        return dict(_t=translate)
+                lang = getattr(current_user, 'language', lang)
+            return get_text(key, lang, **kwargs)
+        
+        # Also inject current lang for template logic
+        lang = session.get('language', 'zh')
+        if current_user.is_authenticated:
+            lang = getattr(current_user, 'language', lang)
+            
+        return dict(_t=translate, current_lang=lang)
 
     app.jinja_env.globals.update(hasattr=hasattr, getattr=getattr, any=any)
     
@@ -81,21 +83,28 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Engine options for Vercel/Supabase stability
+    is_sqlite = db_uri.startswith('sqlite:')
     if os.environ.get('VERCEL'):
         app.logger.info("Vercel environment detected. Optimizing connection pool.")
         app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
             'pool_pre_ping': True,
             'pool_recycle': 300,
-            'pool_size': 1,
-            'max_overflow': 0,
         }
+        if not is_sqlite:
+            app.config['SQLALCHEMY_ENGINE_OPTIONS'].update({
+                'pool_size': 1,
+                'max_overflow': 0,
+            })
     else:
         app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
             'pool_pre_ping': True,
             'pool_recycle': 300,
-            'pool_size': 5,
-            'max_overflow': 10,
         }
+        if not is_sqlite:
+            app.config['SQLALCHEMY_ENGINE_OPTIONS'].update({
+                'pool_size': 5,
+                'max_overflow': 10,
+            })
 
     # Initialize extensions
     db.init_app(app)

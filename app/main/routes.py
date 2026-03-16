@@ -227,6 +227,9 @@ def update_profile():
                 setattr(current_user, attr, new_val)
 
     try:
+        from flask import session
+        if hasattr(current_user, 'language'):
+            session['language'] = current_user.language
         db.session.commit()
         flash(get_text('msg_profile_updated', current_user.language), 'success')
     except Exception:
@@ -234,6 +237,30 @@ def update_profile():
         flash(get_text('msg_update_failed', current_user.language), 'danger')
 
     return redirect(url_for('main.profile'))
+
+
+@main.route("/set_language/<lang>")
+def set_language(lang):
+    if lang not in ['zh', 'ja', 'en']:
+        lang = 'zh'
+    
+    from flask import session
+    session['language'] = lang
+    
+    if current_user.is_authenticated:
+        from app import db
+        current_user.language = lang
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            
+    # Try to redirect to the previous page
+    next_page = request.args.get('next') or request.referrer
+    if not next_page or '/set_language' in next_page:
+        next_page = url_for('main.home')
+    
+    return redirect(next_page)
 
 
 @main.route("/change_password", methods=['POST'])
@@ -292,6 +319,8 @@ def draw_omikuji():
     # Taiwan is UTC+8
     tw_tz = timezone(timedelta(hours=8))
     today = datetime.now(tw_tz).date()
+    lang = getattr(current_user, 'language', 'zh')
+
     # Check if already drawn today
     existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
     if existing:
@@ -306,35 +335,13 @@ def draw_omikuji():
     translated_fortune_label = get_text(f'fortune_{drawn_fortune}', lang)
     
     try:
-        # We pass context about the fortune level to AI correctly
-        # Localization of prompt based on user preference
+        # Prompt generation based on language
         if lang == 'ja':
-            priest_tone = "神職"
-            json_format = """{
-                "lucky_color": "ラッキーカラー",
-                "lucky_item": "ラッキーアイテム",
-                "lucky_subject": "おすすめの科目",
-                "advice": "30文字程度のアドバイス"
-            }"""
-            prompt = f"学子が「{translated_fortune_label}」({drawn_fortune})を引き当てました。{priest_tone}のような温かい口調で、日本語で祝福の言葉を書いてください。\nJSON形式で返してください:\n{json_format}\n純粋なJSONのみを返し、Markdownタグは含めないでください。"
+            prompt = _t('prompt_omikuji_ja', lang=lang, fortune_label=translated_fortune_label, fortune_level=drawn_fortune)
         elif lang == 'en':
-            priest_tone = "Priest"
-            json_format = """{
-                "lucky_color": "Lucky Color",
-                "lucky_item": "Lucky Item",
-                "lucky_subject": "Recommended Subject",
-                "advice": "Advice (about 30 words)"
-            }"""
-            prompt = f"A student drew '{translated_fortune_label}' ({drawn_fortune}). Write a warm blessing in the tone of a {priest_tone} in English.\nReturn in JSON format:\n{json_format}\nOnly return raw JSON, no Markdown tags."
-        else: # Default to Traditional Chinese
-            priest_tone = "壽山宮神主"
-            json_format = """{
-                "lucky_color": "幸運色",
-                "lucky_item": "幸運物品",
-                "lucky_subject": "推薦科目",
-                "advice": "約 30 字的建議"
-            }"""
-            prompt = f"學子抽中了「{translated_fortune_label}」({drawn_fortune})。請以溫馨且具有{priest_tone}風範的語氣，用{lang}寫一段祝福語。\n請返回 JSON 格式：\n{json_format}\n僅返回原始 JSON，不要包含 Markdown 標籤。"
+            prompt = _t('prompt_omikuji_en', lang=lang, fortune_label=translated_fortune_label, fortune_level=drawn_fortune)
+        else: # zh or default
+            prompt = _t('prompt_omikuji_zh', lang=lang, fortune_label=translated_fortune_label, fortune_level=drawn_fortune)
         
         from app.utils.ai_helpers import generate_text_with_fallback
         text = generate_text_with_fallback(prompt).strip()
@@ -350,8 +357,6 @@ def draw_omikuji():
         
         from app.utils.i18n import get_text
         translated_fortune = get_text(f'fortune_{drawn_fortune}', lang)
-        # Note: I should add fortune_ keys to i18n.py if not already there, but let's use keys for fortune levels too.
-        # Let's assume drawn_fortune is a key or map it.
         
         # Label translations
         l_color = get_text('omikuji_lucky_color', lang)
@@ -378,7 +383,7 @@ def draw_omikuji():
         
         db.session.commit()
         
-        flash(get_text('omikuji_draw_success', lang).format(fortune=get_text(f'fortune_{drawn_fortune}', lang)), 'success')
+        flash(get_text('omikuji_draw_success', lang, fortune=get_text(f'fortune_{drawn_fortune}', lang)), 'success')
         return redirect(url_for('main.home'))
     except Exception as e:
         db.session.rollback()

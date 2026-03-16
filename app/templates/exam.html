@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}專屬模擬考{% endblock %}
+{% block title %}{{ _t('exam_title') }}{% endblock %}
 {% block content %}
 <div class="card" style="max-width: 800px; margin: 2rem auto; padding: 2rem; border-radius: 20px;">
     <div style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--color-primary);"><i class="fa-solid fa-file-invoice"></i> AI 弱點強化模擬考</h1>
-        <p style="color: var(--color-text_light);">根據您最近的 {{ mistakes|length }} 個錯題類型生成的模擬練習</p>
+        <h1 style="color: var(--color-primary);"><i class="fa-solid fa-file-invoice"></i> {{ _t('ai_exam_header') }}</h1>
+        <p style="color: var(--color-text_light);">{{ _t('exam_subtitle', count=mistakes|length) }}</p>
     </div>
 
     <form id="exam-form">
@@ -15,7 +15,7 @@
                     {{ mistake.question.subject }}
                 </span>
                 <span style="color: #ff6b6b; font-size: 0.8rem;">
-                    錯誤次數: {{ mistake.mistake_count }}
+                    {{ _t('mistake_count_label') }}: {{ mistake.mistake_count }}
                 </span>
             </div>
             <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">{{ mistake.question.content_text }}</p>
@@ -33,7 +33,7 @@
 
         <div style="text-align: center; margin-top: 3rem;">
             <button type="submit" class="btn btn-primary" style="padding: 15px 50px; border-radius: 30px; font-size: 1.1rem;">
-                <i class="fa-solid fa-check-double"></i> 提交測驗
+                <i class="fa-solid fa-check-double"></i> {{ _t('submit_exam') }}
             </button>
         </div>
     </form>
@@ -43,7 +43,7 @@
     <div class="card" style="width: 500px; padding: 3rem; text-align: center; border-radius: 25px;">
         <h2 id="score-display" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">0%</h2>
         <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 2rem;"></p>
-        <a href="{{ url_for('study.mistakes') }}" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">返回錯題本</a>
+        <a href="{{ url_for('study.mistakes') }}" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">{{ _t('back_to_mistakes') }}</a>
     </div>
 </div>
 
@@ -53,7 +53,7 @@
         // In this mock version, we just show a generic "Good job" for finishing
         document.getElementById('result-modal').style.display = 'flex';
         document.getElementById('score-display').innerText = '100%';
-        document.getElementById('feedback-text').innerText = '太棒了！您已經重新複習了所有弱點題目。雪音老師為你感到驕傲！';
+        document.getElementById('feedback-text').innerText = "{{ _t('exam_finish_feedback') }}";
     };
 </script>
 

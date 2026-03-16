@@ -135,7 +135,7 @@ def ai_vision():
         mode = request.form.get('mode', 'analyze')
         if mode == 'ocr_to_quiz':
             from app.utils.ai_helpers import parse_question_from_image
-            data = parse_question_from_image(image_bytes)
+            data = parse_question_from_image(image_bytes, lang=current_user.language)
             if 'error' in data:
                 return jsonify(data), 500
             
@@ -148,7 +148,7 @@ def ai_vision():
             tags = data.get('tags') or auto_tag_question(content)
             
             new_q = Question(
-                subject=data.get('subject', '未分類'),
+                subject=data.get('subject', _t('subject_all', current_user.language)),
                 content_text=content,
                 option_a=data.get('option_a'),
                 option_b=data.get('option_b'),
@@ -163,7 +163,7 @@ def ai_vision():
             return jsonify({'status': 'success', 'question_id': new_q.id, 'data': data})
         
         # Default analysis mode
-        analysis_result = analyze_question_image(image_bytes, user=current_user)
+        analysis_result = analyze_question_image(image_bytes, user=current_user, lang=current_user.language)
         
         if "[ERROR_INVALID_CONTENT]" in analysis_result:
              return jsonify({'error': _t('msg_vision_invalid', current_user.language)}), 400
@@ -195,15 +195,9 @@ def analyze_mistake(mistake_id):
     question = mistake.question
     recommendation = get_knowledge_graph_recommendation(question.subject)
     
-    prompt = f"""
-    這是一個學生的錯題。請分析可能的錯誤原因（例如：觀念不清、計算錯誤、題目陷阱等）。
-    題目：{question.content_text}
-    正確答案：{question.correct_answer}
-    解釋：{question.explanation}
-    
-    知識圖譜建議：如果學生這題不懂，建議他先去複習「{recommendation}」。
-    請用{current_user.ai_personality or _t('ai_personality_gentle', current_user.language)}的語氣來給予建議。
-    """
+    prompt = _t('prompt_mistake_analysis', lang=current_user.language, content=question.content_text, correct=question.correct_answer, explanation=question.explanation)
+    prompt += "\n\n" + _t('prompt_recommendation', lang=current_user.language, recommendation=recommendation)
+    prompt += "\n" + _t('prompt_personality', lang=current_user.language, personality=(current_user.ai_personality or _t('ai_personality_gentle', current_user.language)))
     
     context_parts = []
     if current_user.bio:
@@ -232,7 +226,7 @@ def generate_question_api():
     from app.models import Question
     subject = request.args.get('subject', _t('subject_math', current_user.language))
     from app.utils.ai_helpers import generate_ai_quiz
-    quiz_data = generate_ai_quiz(subject)
+    quiz_data = generate_ai_quiz(subject, lang=current_user.language)
     
     if 'error' in quiz_data:
         return jsonify(quiz_data), 500
@@ -284,20 +278,20 @@ def tutor_chat():
         # Build comprehensive context
         context_parts = []
         if current_user.bio:
-            context_parts.append(f"【學生背景】{current_user.bio}")
+            context_parts.append(f"{_t('sys_prompt_background', current_user.language)}{current_user.bio}")
         if current_user.learning_goals:
-            context_parts.append(f"【學習目標】{current_user.learning_goals}")
+            context_parts.append(f"{_t('sys_prompt_goals', current_user.language)}{current_user.learning_goals}")
             
         # Add mistake patterns to context
         try:
             recent_mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).limit(5).all()
             if recent_mistakes:
                 mistake_subjects = list(set([m.question.subject for m in recent_mistakes]))
-                context_parts.append(f"【近期弱點】學生最近在這些科目有較多錯題：{', '.join(mistake_subjects)}")
+                context_parts.append(_t('sys_prompt_weakness', lang=current_user.language, subjects=', '.join(mistake_subjects)))
                 # Also include the specific question if it's the start of a session
                 if not session_id and len(recent_mistakes) > 0:
                     q = recent_mistakes[0].question
-                    context_parts.append(f"【首要解決】其中一題錯題內容是：{q.content_text}")
+                    context_parts.append(_t('sys_prompt_priority', lang=current_user.language, content=q.content_text))
         except Exception:
             pass
             
@@ -316,7 +310,7 @@ def tutor_chat():
 
         # Inject local time (Taiwan UTC+8) for temporal awareness
         curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-        user_msg_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_msg}"
+        user_msg_with_time = f"{_t('sys_prompt_time', lang=current_user.language, time=curr_time)}\n{user_msg}"
 
         reply = get_ai_tutor_response(recent_history, user_msg_with_time, personality_key=current_user.ai_personality, context_summary=context)
         
@@ -391,7 +385,7 @@ def generate_roadmap():
     context = "\n".join(context_parts)
     
     from app.utils.ai_helpers import generate_study_roadmap
-    roadmap = generate_study_roadmap(exam_name, exam_date_str, user_context=context)
+    roadmap = generate_study_roadmap(exam_name, exam_date_str, user_context=context, lang=current_user.language)
     
     if roadmap:
         try:

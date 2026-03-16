@@ -318,6 +318,15 @@
                     <h5>{{ _t('publish_assignment') }}</h5>
                     <p>{{ _t('ai_precheck_note') }}</p>
                 </div>
+
+                <!-- View Submissions Card -->
+                <div class="admin-square-card" onclick="toggleManagedTool('submissions-list-tool', this)">
+                    <div style="background: rgba(255, 152, 0, 0.1); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                        <i class="fa-solid fa-list-check" style="margin-bottom: 0; color: #f39c12;"></i>
+                    </div>
+                    <h5>{{ _t('view_submissions') }}</h5>
+                    <p>{{ _t('submissions_title') }}</p>
+                </div>
                 
                 <!-- Member Management Card -->
                 <div class="admin-square-card" onclick="toggleManagedTool('member-management-tool', this)">
@@ -424,6 +433,56 @@
                                 <button type="button" onclick="nextPublishPhase(2)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">{{ _t('prev_step') }}</button>
                                 <button type="submit" name="action" value="publish_assignment" style="flex: 2; padding: 10px; background: var(--color-accent); color: white; border: none; border-radius: 8px; font-weight: bold;">{{ _t('confirm_publish') }}</button>
                             </div>
+                    </div>
+                </div>
+
+                <div id="submissions-list-tool" class="managed-tool" style="padding: 10px; position: relative;">
+                    <h3 style="margin-top: 0; color: var(--color-primary); display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <i class="fa-solid fa-list-check"></i> {{ _t('submissions_title') }}
+                    </h3>
+                    
+                    <div id="assignment-selector" style="margin-bottom: 20px;">
+                        <select id="select-assignment-id" onchange="loadSubmissions(this.value)" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 0.95rem;">
+                            <option value="">-- {{ _t('select_assignment') }} --</option>
+                            {% for a in assignments %}
+                            <option value="{{ a.id }}">{{ a.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div id="submissions-container" style="max-height: 400px; overflow-y: auto;">
+                        <div style="text-align: center; color: #999; padding: 20px;">{{ _t('select_assignment_to_view') }}</div>
+                    </div>
+
+                    <!-- Grading Detail View (Inside the same tool for simplicity) -->
+                    <div id="grading-detail-view" style="display: none; border-top: 2px solid #eee; padding-top: 20px; margin-top: 20px;">
+                        <button onclick="backToSubmissions()" style="background: none; border: none; color: var(--color-primary); cursor: pointer; font-size: 0.9rem; margin-bottom: 15px; display: flex; align-items: center; gap: 5px;">
+                            <i class="fa-solid fa-chevron-left"></i> {{ _t('back') }}
+                        </button>
+                        <h4 id="grading-student-name" style="margin-top: 0;"></h4>
+                        
+                        <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <label style="font-size: 0.8rem; font-weight: bold; color: #666;">{{ _t('student_answer') }}</label>
+                            <div id="grading-student-answer" style="font-size: 0.95rem; margin-top: 5px; white-space: pre-wrap;"></div>
+                            <div id="grading-student-image" style="margin-top: 10px; display: none;">
+                                <img src="" style="max-width: 100%; border-radius: 8px;">
+                            </div>
+                        </div>
+
+                        <form id="grading-form" onsubmit="submitGrade(event)">
+                            <input type="hidden" id="grading-status-id">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; font-size: 0.8rem; font-weight: bold; color: #666; margin-bottom: 5px;">{{ _t('score') }} (0-100)</label>
+                                <input type="number" id="grading-score" min="0" max="100" required style="width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 6px;">
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; font-size: 0.8rem; font-weight: bold; color: #666; margin-bottom: 5px;">{{ _t('teacher_feedback') }}</label>
+                                <textarea id="grading-feedback" style="width: 100%; min-height: 80px; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+                            </div>
+                            <button type="submit" style="width: 100%; padding: 10px; background: var(--color-accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                                {{ _t('save_grade_btn') }}
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -610,7 +669,7 @@
                                         <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">{{ _t('navigator') }}</span>
                                     {% elif msg.user_id == group.teacher_id %} 
                                         <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">
-                                            {{ '老師' if group.group_type == 'class' else '主持人' }}
+                                            {{ _t('role_teacher') if group.group_type == 'class' else _t('role_host') }}
                                         </span>
                                     {% endif %}
                                     <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="color: var(--color-text_light); font-size: 0.75rem;"></span>
@@ -771,10 +830,10 @@ document.addEventListener('DOMContentLoaded', () => {
         groupTypeLabel: "{{ group.group_type }}",
         yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
         aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
-        isAdmin: {{ 'true' if current_user.is_admin else 'false' }},
+        isAdmin: {{ current_user.is_admin | tojson }},
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
-        yukineCheckingNote: "{{ _t('lofi_audio_permission') }}"
+        yukineCheckingNote: "{{ _t('yukine_checking_note') }}"
     };
 
     const messageContainer = document.querySelector('.chat-scroll-area');
@@ -850,34 +909,124 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         checkBtn.disabled = true;
-        checkBtn.innerHTML = `<i class="fa-solid fa-sync fa-spin"></i> ${CONFIG.yukineCheckInProgress}`;
-        statusEl.innerHTML = `<i class="fa-solid fa-face-smile-wink fa-beat"></i> ${"{{ _t('yukine_checking_q') }}"}`;
+        checkBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${CONFIG.yukineCheckInProgress}`;
+        statusEl.innerText = CONFIG.yukineCheckingNote;
+
+        const formData = new FormData();
+        formData.append('csrf_token', CONFIG.csrfToken);
+        formData.append('step', stepNum === 1 ? 'question' : 'answer');
+        formData.append('title', title);
+        formData.append('description', desc);
+        if (stepNum === 2) formData.append('reference_answer', ans);
 
         try {
-            const formData = new FormData();
-            formData.append('step', stepNum === 1 ? 'question' : 'answer');
-            formData.append('title', title);
-            formData.append('description', desc); // Always pass description for context
-            formData.append('reference_answer', ans);
-
-            const resp = await fetch(`/api/groups/${CONFIG.groupId}/assignment/check_step`, {
-                method: 'POST',
-                headers: { 'X-CSRFToken': CONFIG.csrfToken },
-                body: formData
-            });
-            const result = await resp.json();
-
-            checkBtn.style.display = 'none';
-            feedbackDiv.style.display = 'block';
-            feedbackText.innerText = result.feedback;
-            statusEl.innerHTML = `<i class="fa-solid fa-check"></i> ${"{{ _t('yukine_check_done') }}"}`;
-        } catch (e) {
-            console.error(e);
-            alert("{{ _t('yukine_busy') }}");
-            confirmAndNext(stepNum + 1);
+            const res = await fetch(`/api/groups/${CONFIG.groupId}/assignment/check_step`, { method: 'POST', body: formData });
+            const data = await res.json();
+            
+            if (data.status === 'success' || data.status === 'suggestion') {
+                feedbackText.innerText = data.message || (data.status === 'success' ? "{{ _t('yukine_perfect') }}" : data.suggestion);
+                feedbackDiv.style.display = 'block';
+                statusEl.innerText = "";
+                checkBtn.style.display = 'none';
+            } else {
+                alert(data.message || "Error");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Network Error");
         } finally {
             checkBtn.disabled = false;
-            checkBtn.innerHTML = `呼叫雪音檢查${stepNum === 1 ? "{{ _t('question') }}" : "{{ _t('answer') }}"}`;
+            checkBtn.innerHTML = `<i class="fa-solid fa-snowflake"></i> ${"{{ _t('ask_yukine_check') }}"}`;
+        }
+    };
+
+    window.loadSubmissions = async (assignmentId) => {
+        if (!assignmentId) return;
+        const container = document.getElementById('submissions-container');
+        container.innerHTML = `<div style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> ${"{{ _t('loading') }}"}...</div>`;
+        
+        try {
+            const res = await fetch(`/groups/${CONFIG.groupId}/assignment/${assignmentId}/submissions`);
+            const data = await res.json();
+            
+            if (data.status === 'success') {
+                let html = '<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">';
+                data.submissions.forEach(sub => {
+                    const statusText = sub.is_completed ? sub.score + ' pts' : "{{ _t('not_submitted') }}";
+                    const statusColor = sub.is_completed ? '#28a745' : '#999';
+                    
+                    html += `
+                        <div onclick="viewSubmissionDetail(${JSON.stringify(sub).replace(/"/g, '&quot;')})" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: white; border: 1px solid #eee; border-radius: 10px; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='white'">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 32px; height: 32px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: #666;">${sub.username[0].toUpperCase()}</div>
+                                <div style="font-weight: 500;">${sub.username}</div>
+                            </div>
+                            <div style="color: ${statusColor}; font-weight: bold; font-size: 0.9rem;">${statusText}</div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                container.innerHTML = html;
+            }
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = `<div style="text-align: center; color: red;">${"{{ _t('error_loading_submissions') }}"}</div>`;
+        }
+    };
+
+    window.viewSubmissionDetail = (sub) => {
+        if (!sub.is_completed) {
+            alert("{{ _t('not_submitted_yet') }}");
+            return;
+        }
+        document.getElementById('submissions-container').style.display = 'none';
+        document.getElementById('assignment-selector').style.display = 'none';
+        document.getElementById('grading-detail-view').style.display = 'block';
+        
+        document.getElementById('grading-student-name').innerText = sub.username;
+        document.getElementById('grading-student-answer').innerText = sub.content;
+        document.getElementById('grading-status-id').value = sub.status_id;
+        document.getElementById('grading-score').value = sub.score || "";
+        document.getElementById('grading-feedback').value = sub.feedback || "";
+        
+        const imgDiv = document.getElementById('grading-student-image');
+        if (sub.submission_image) {
+            imgDiv.style.display = 'block';
+            imgDiv.querySelector('img').src = '/static/' + sub.submission_image;
+        } else {
+            imgDiv.style.display = 'none';
+        }
+    };
+
+    window.backToSubmissions = () => {
+        document.getElementById('submissions-container').style.display = 'block';
+        document.getElementById('assignment-selector').style.display = 'block';
+        document.getElementById('grading-detail-view').style.display = 'none';
+    };
+
+    window.submitGrade = async (e) => {
+        e.preventDefault();
+        const statusId = document.getElementById('grading-status-id').value;
+        const score = document.getElementById('grading-score').value;
+        const feedback = document.getElementById('grading-feedback').value;
+        
+        const formData = new FormData();
+        formData.append('csrf_token', CONFIG.csrfToken);
+        formData.append('score', score);
+        formData.append('feedback', feedback);
+        
+        try {
+            const res = await fetch(`/api/groups/assignment/status/${statusId}/grade`, { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.status === 'success') {
+                alert("{{ _t('grade_success') }}");
+                const assignmentId = document.getElementById('select-assignment-id').value;
+                loadSubmissions(assignmentId);
+                backToSubmissions();
+            }
+        } catch (err) {
+            console.error(err);
+            alert("{{ _t('submission_failed') }}");
         }
     };
 
@@ -1007,11 +1156,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 status.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#2ecc71"></i> {{ _t('design_done') }}`;
                 nextPublishPhase(1);
             } else {
-                status.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> ${data.message || '發生錯誤'}`;
+                status.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> ${data.message || "{{ _t('error_occurred') }}"}`;
             }
         } catch (err) { 
             console.error(err); 
-            status.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> 連線發生錯誤`;
+            status.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> ${"{{ _t('conn_error') }}"}`;
         }
         finally { 
             btn.disabled = false; 
@@ -1045,8 +1194,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modal-submit-btn').style.display = 'none';
             document.getElementById('modal-back-btn').style.display = 'none';
             
-            document.getElementById('grading-summary').innerHTML = `<i class="fa-solid fa-star" style="color:#ffd700"></i> 雪音紀錄：${data.score} 分`;
-            document.getElementById('grading-explanation').innerText = data.explanation || data.feedback || '尚無詳細評語。';
+            document.getElementById('grading-summary').innerHTML = `<i class="fa-solid fa-star" style="color:#ffd700"></i> ${"{{ _t('yukine_record_score', score='REPLACE_SCORE') }}".replace('REPLACE_SCORE', data.score)}`;
+            document.getElementById('grading-explanation').innerText = data.explanation || data.feedback || "{{ _t('no_detailed_feedback') }}";
         } else {
             document.getElementById('modal-submit-btn').style.display = 'block';
         }
@@ -1126,7 +1275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMine = data.is_mine;
         const isAI = data.is_ai;
         const username = data.username || 'user';
-        const displayTime = '剛剛'; // For newly appended messages
+        const displayTime = "{{ _t('just_now') }}"; 
         const msgId = data.id || Date.now();
         
         const avatarHtml = isAI ? 
@@ -1137,7 +1286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.parent_preview) {
             parentMsgHtml = `
                 <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-${data.parent_preview.id}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
-                    <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">${data.parent_preview.username} 說：</div>
+                    <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">${data.parent_preview.username} {{ _t('said') }}：</div>
                     <div style="font-size: 0.85rem; color: rgba(0,0,0,0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${data.parent_preview.content}</div>
                 </div>
             `;
@@ -1152,9 +1301,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div style="max-width: 85%; display: flex; flex-direction: column; position: relative; ${isMine ? 'align-items: flex-end;' : 'align-items: flex-start;'}">
                     <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
-                        <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? '我' : username}</span>
-                        ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">領航員</span>' : ''}
-                        ${(!isAI && data.user_id == CONFIG.teacherId) ? `<span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; box-shadow: 0 0 10px rgba(124, 77, 255, 0.3);">${CONFIG.groupTypeLabel}</span>` : ''}
+                        <span style="font-weight: 700; color: var(--color-text_main);">${isMine ? "{{ _t('me') }}" : username}</span>
+                        ${isAI ? '<span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">{{ _t("navigator") }}</span>' : ''}
+                        ${(!isAI && data.user_id == CONFIG.teacherId) ? `<span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; box-shadow: 0 0 10px rgba(124, 77, 255, 0.3);">${data.group_type === 'class' ? '{{ _t("role_teacher") }}' : '{{ _t("role_host") }}'}</span>` : ''}
                         <span style="color: var(--color-text_light); font-size: 0.75rem;">${displayTime}</span>
                     </div>
                     <!-- Bubble & Trigger Row -->
@@ -1244,7 +1393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.querySelector('[name="action"]').value = 'post_message';
                         document.getElementById('edit-id-input').value = '';
                     } else {
-                        alert(data.message || '編輯失敗');
+                        alert(data.message || "{{ _t('edit_failed') }}");
                     }
                 } catch (err) { console.error('Edit error:', err); }
                 return;
@@ -1263,9 +1412,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     appendMessage(data.user_message);
                     if (data.ai_triggered) handleAIReply();
                 } else {
-                    alert('發送失敗: ' + (data.message || '未知錯誤'));
+                    alert("{{ _t('send_failed') }}: " + (data.message || "{{ _t('error_occurred') }}"));
                 }
-            } catch (err) { console.error(err); alert('連線失敗: ' + err.message); }
+            } catch (err) { console.error(err); alert("{{ _t('conn_failed') }}: " + err.message); }
         });
 
         // Keyboard Enter (with IME check)
@@ -1288,7 +1437,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${CONFIG.yukineAvatar}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div style="background: #f0f0f0; padding: 10px 15px; border-radius: 18px; font-size: 0.9rem; color: #666;">
-                    <i class="fa-solid fa-ellipsis fa-beat"></i> 雪音老師正在思考中...
+                    <i class="fa-solid fa-ellipsis fa-beat"></i> {{ _t('yukine_thinking_default') }}
                 </div>
             </div>
         `;
@@ -1335,7 +1484,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (messageContainer) {
                     appendMessage({ 
                         is_ai: true, is_mine: false, is_special: true, 
-                        username: '雪音老師', 
+                        username: "{{ _t('chat_label_yukine') }}", 
                         content: "{{ _t('chat_admin_greeting') }}"
                     });
                     sessionStorage.setItem(`yukine_admin_greeted_dashboard_${CONFIG.groupId}`, 'true');
@@ -1412,7 +1561,7 @@ window.recognizeTeacherRef = async (input) => {
     if (!input.files || !input.files[0]) return;
     const status = document.getElementById('ref-status');
     const textArea = document.getElementById('ref-answer-text');
-    status.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 辨識中...';
+    status.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> ${"{{ _t('recognizing') }}"}`;
     const formData = new FormData();
     formData.append('image', input.files[0]);
     formData.append('csrf_token', CONFIG.csrfToken);
@@ -1421,9 +1570,9 @@ window.recognizeTeacherRef = async (input) => {
         const data = await res.json();
         if (data.status === 'success') {
             textArea.value = data.text;
-            status.innerHTML = '<i class="fa-solid fa-check"></i> 成功！';
-        } else { status.innerHTML = '失敗'; }
-    } catch (err) { status.innerHTML = '錯誤'; }
+            status.innerHTML = `<i class="fa-solid fa-check"></i> ${"{{ _t('success') }}"}`;
+        } else { status.innerHTML = "{{ _t('failure') }}"; }
+    } catch (err) { status.innerHTML = "{{ _t('error') }}"; }
 };
 </script>
 {% endblock %}
