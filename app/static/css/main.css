@@ -25,50 +25,52 @@
     --color-bg: #faf9f6;
 }
 
-/* Moon Theme - Deep Midnight & Lunar Glow */
+/* Moon Theme - Ethereal Moonlight Blue (No Black) */
 [data-theme="moon"] {
-    --color-primary: #94a3b8;      /* Lunar Slate */
-    --color-secondary: #0f172a;    /* Deep Abyss */
-    --color-accent: #fbbf24;       /* Moonlight Gold */
-    --color-bg: #020617;           /* True Midnight */
-    --color-text_main: #f8fafc;
-    --color-text_light: #94a3b8;
-    --color-border: #1e293b;
-    --color-card-bg: rgba(15, 23, 42, 0.7);
-    --color-card-border: rgba(148, 163, 184, 0.1);
-    --color-glass-bg: rgba(2, 6, 23, 0.85);
-    --color-shadow: rgba(0, 0, 0, 0.5);
-    --bg-pattern: url("data:image/svg+xml,%3Csvg width='150' height='150' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='0.5' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+    --color-primary: #a5b4fc;      /* Indigo 300 - Soft Moon */
+    --color-secondary: #1e3a8a;    /* Blue 900 - Deep Navy */
+    --color-accent: #fcd34d;       /* Amber 300 - Warm Glow */
+    --color-bg: #0f172a;           /* Blue 950 - Night Sky */
+    --color-text_main: #cbd5e1;    /* Slate 300 - Soft White */
+    --color-text_light: #94a3b8;   /* Slate 400 */
+    --color-border: #334155;       /* Slate 700 */
+    --color-card-bg: rgba(30, 41, 59, 0.6);
+    --color-card-border: rgba(148, 163, 184, 0.15);
+    --color-glass-bg: rgba(15, 23, 42, 0.8);
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --bg-pattern: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='0.6' fill='%2394a3b8' fill-opacity='0.1'/%3E%3C/svg%3E");
 }
 
 [data-theme="moon"] .btn {
-    background: linear-gradient(135deg, #1e293b, #020617);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #1e3a8a, #1e293b);
+    border: 1px solid rgba(165, 180, 252, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    color: #e2e8f0;
 }
 
 [data-theme="moon"] .btn:hover {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+    border-color: var(--color-primary);
+    box-shadow: 0 0 20px rgba(165, 180, 252, 0.2);
+    transform: translateY(-2px) scale(1.05);
 }
 
 [data-theme="moon"] .washi-card {
-    background: rgba(30, 41, 59, 0.4);
+    background: rgba(30, 58, 138, 0.25);
     border-color: rgba(148, 163, 184, 0.1);
+    backdrop-filter: blur(12px);
 }
 
 [data-theme="moon"] .moon-decorator {
     position: fixed;
-    top: 100px;
-    right: 50px;
-    width: 140px;
-    height: 140px;
-    z-index: 10001; /* Above EVERYTHING */
+    top: 80px;
+    right: 40px;
+    width: 120px;
+    height: 120px;
+    z-index: 10001;
     pointer-events: none;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 A 40 40 0 1 0 50 90 A 30 30 0 1 1 50 10' fill='%23f1c40f'/%3E%3C/svg%3E") no-repeat center;
-    filter: drop-shadow(0 0 30px #f1c40f) drop-shadow(0 0 60px rgba(241, 196, 15, 0.4));
-    opacity: 1 !important;
-    display: block !important;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 A 40 40 0 1 0 50 90 A 30 30 0 1 1 50 10' fill='%23fde68a'/%3E%3C/svg%3E") no-repeat center;
+    filter: drop-shadow(0 0 40px rgba(253, 230, 138, 0.3));
+    opacity: 0.8 !important;
 }
 
 :not([data-theme="moon"]) .moon-decorator {
