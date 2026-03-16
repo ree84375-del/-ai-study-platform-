@@ -25,52 +25,41 @@
     --color-bg: #faf9f6;
 }
 
-/* Moon Theme - Ethereal Moonlight Blue (No Black) */
+/* Moon Theme - Ultra-Dark Midnight (Zero Eye Strain) */
 [data-theme="moon"] {
-    --color-primary: #a5b4fc;      /* Indigo 300 - Soft Moon */
-    --color-secondary: #1e3a8a;    /* Blue 900 - Deep Navy */
-    --color-accent: #fcd34d;       /* Amber 300 - Warm Glow */
-    --color-bg: #0f172a;           /* Blue 950 - Night Sky */
-    --color-text_main: #cbd5e1;    /* Slate 300 - Soft White */
-    --color-text_light: #94a3b8;   /* Slate 400 */
-    --color-border: #334155;       /* Slate 700 */
-    --color-card-bg: rgba(30, 41, 59, 0.6);
-    --color-card-border: rgba(148, 163, 184, 0.15);
-    --color-glass-bg: rgba(15, 23, 42, 0.8);
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --bg-pattern: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='0.6' fill='%2394a3b8' fill-opacity='0.1'/%3E%3C/svg%3E");
+    --color-primary: #334e81;      /* Muted Steel Blue */
+    --color-secondary: #0a0f1e;    /* Deep Midnight */
+    --color-accent: #8b7355;       /* Muted Gold */
+    --color-bg: #040712;           /* Near-Abyss Blue */
+    --color-text_main: #6b7a95;    /* Dull Blue-Gray - Low Contrast */
+    --color-text_light: #4a5568;
+    --color-border: #1a2235;
+    --color-card-bg: rgba(6, 11, 25, 0.85);
+    --color-card-border: rgba(51, 78, 129, 0.1);
+    --color-glass-bg: rgba(4, 7, 18, 0.9);
+    --color-shadow: rgba(0, 0, 0, 0.6);
+    --bg-pattern: none;
 }
 
 [data-theme="moon"] .btn {
-    background: linear-gradient(135deg, #1e3a8a, #1e293b);
-    border: 1px solid rgba(165, 180, 252, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    color: #e2e8f0;
+    background: #162033;
+    border: 1px solid #2d3748;
+    color: #5c6c84;
 }
 
 [data-theme="moon"] .btn:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 20px rgba(165, 180, 252, 0.2);
-    transform: translateY(-2px) scale(1.05);
+    background: #1c2a44;
+    color: #8da2c0;
 }
 
 [data-theme="moon"] .washi-card {
-    background: rgba(30, 58, 138, 0.25);
-    border-color: rgba(148, 163, 184, 0.1);
-    backdrop-filter: blur(12px);
+    background: rgba(8, 14, 30, 0.6);
+    border-color: rgba(51, 78, 129, 0.05);
+    backdrop-filter: blur(8px);
 }
 
 [data-theme="moon"] .moon-decorator {
-    position: fixed;
-    top: 80px;
-    right: 40px;
-    width: 120px;
-    height: 120px;
-    z-index: 10001;
-    pointer-events: none;
-    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 A 40 40 0 1 0 50 90 A 30 30 0 1 1 50 10' fill='%23fde68a'/%3E%3C/svg%3E") no-repeat center;
-    filter: drop-shadow(0 0 40px rgba(253, 230, 138, 0.3));
-    opacity: 0.8 !important;
+    display: none !important; /* Remove bright decorative moon */
 }
 
 :not([data-theme="moon"]) .moon-decorator {
