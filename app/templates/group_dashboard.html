@@ -841,15 +841,17 @@ document.addEventListener('DOMContentLoaded', () => {
         teacherId: parseInt("{{ group.teacher_id }}"),
         groupId: parseInt("{{ group.id }}"),
         userId: parseInt("{{ current_user.id }}"),
-        csrfToken: "{{ csrf_token() }}",
-        groupTypeLabel: "{{ group.group_type }}",
-        yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
+        csrfToken: {{ csrf_token() | tojson }},
+        groupTypeLabel: {{ group.group_type | tojson }},
+        yukineAvatar: {{ url_for('static', filename='img/yukine_avatar.png') | tojson }},
         aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
         isAdmin: {{ current_user.is_admin | tojson }},
-        confirmRecallMsg: "{{ _t('confirm_recall') }}",
-        yukineCheckInProgress: "{{ _t('yukine_checking') }}",
-        yukineCheckingNote: "{{ _t('yukine_checking_note') }}",
-        userLang: "{{ session.get('language', 'zh') }}"
+        confirmRecallMsg: {{ _t('confirm_recall') | tojson }},
+        yukineCheckInProgress: {{ _t('yukine_checking') | tojson }},
+        yukineCheckingNote: {{ _t('yukine_checking_note') | tojson }},
+        userLang: {{ session.get('language', 'zh') | tojson }},
+        username: {{ current_user.username | tojson }},
+        userRole: {{ current_user.role | tojson }}
     };
 
     const messageContainer = document.querySelector('.chat-scroll-area');
@@ -1497,21 +1499,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Admin Auto Greeting - Fixed logic to show even if chat is not empty, once per session per language
-    if (CONFIG.isAdmin) {
-        const sessionKey = `yukine_admin_greeted_dashboard_${CONFIG.groupId}_${CONFIG.userLang}`;
-        if (!sessionStorage.getItem(sessionKey)) {
-            setTimeout(() => { 
-                if (messageContainer) {
-                    appendMessage({ 
-                        is_ai: true, is_mine: false, is_special: true, 
-                        username: "{{ _t('chat_label_yukine') }}", 
-                        content: "{{ _t('chat_admin_greeting') }}"
-                    });
-                    sessionStorage.setItem(sessionKey, 'true');
+    // Automatic Greeting - once per session per language
+    const chatSessionKey = `yukine_greeted_dashboard_${CONFIG.groupId}_${CONFIG.userLang}`;
+    if (!sessionStorage.getItem(chatSessionKey)) {
+        setTimeout(() => { 
+            if (messageContainer) {
+                let greeting = "";
+                if (CONFIG.isAdmin) {
+                    greeting = "{{ _t('chat_admin_greeting') }}";
+                } else if (CONFIG.userRole === 'guest') {
+                    greeting = "{{ _t('chat_guest_greeting') }}";
+                } else {
+                    greeting = "{{ _t('chat_user_greeting', username=current_user.username) }}";
                 }
-            }, 1500);
-        }
+                
+                appendMessage({ 
+                    is_ai: true, is_mine: false, is_special: true,
+                    username: "{{ _t('chat_label_yukine') }}", 
+                    content: greeting
+                });
+                sessionStorage.setItem(chatSessionKey, 'true');
+            }
+        }, 1500);
     }
 });
 
