@@ -54,6 +54,35 @@ def home():
         today = datetime.now(tw_tz).date()
         user_lang = getattr(current_user, 'language', 'zh')
         today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today, language=user_lang).first()
+        
+        # Auto-clean omikuji if stored content language doesn't match
+        if today_omikuji and today_omikuji.message:
+            import json as _json
+            try:
+                _omikuji_data = _json.loads(today_omikuji.message) if today_omikuji.message.startswith('{') else None
+            except Exception:
+                _omikuji_data = None
+            
+            if _omikuji_data:
+                _all_values = ' '.join(str(v) for v in _omikuji_data.values())
+                # Detect Japanese hiragana/katakana (U+3040-309F, U+30A0-30FF)
+                _has_japanese = any('\u3040' <= c <= '\u309f' or '\u30a0' <= c <= '\u30ff' for c in _all_values)
+                # Detect Chinese-specific (CJK without kana)
+                _has_cjk = any('\u4e00' <= c <= '\u9fff' for c in _all_values)
+                
+                _lang_mismatch = False
+                if user_lang == 'zh' and _has_japanese:
+                    _lang_mismatch = True
+                elif user_lang == 'ja' and not _has_japanese and _has_cjk:
+                    _lang_mismatch = True
+                elif user_lang == 'en' and (_has_japanese or _has_cjk):
+                    _lang_mismatch = True
+                
+                if _lang_mismatch:
+                    from app import db as _db
+                    _db.session.delete(today_omikuji)
+                    _db.session.commit()
+                    today_omikuji = None
         recent_emas = Ema.query.filter_by(is_public=True).order_by(Ema.created_at.desc()).limit(10).all()
         # Find the most recent uncompleted Daruma, or the most recent completed one
         active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()).first()
