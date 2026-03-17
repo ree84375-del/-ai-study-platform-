@@ -701,6 +701,14 @@ TRANSLATIONS = {
         'msg_ema_empty': '願望內容不能為空。',
         'msg_ema_success': '願望已掛上繪馬板！',
         'msg_daruma_empty': '目標內容不能為空。',
+        'yukine_lang_greeting_1': '嗨嗨～{username} 把語言切換成{lang_name}了呢！雪音也會努力用{lang_name}陪大家的 (๑•̀ㅂ•́)و✧',
+        'yukine_lang_greeting_2': '哇～{username} 選了{lang_name}！大家一起用{lang_name}學習吧～加油！✨',
+        'yukine_lang_greeting_3': '{username} 切換到{lang_name}囉！雪音準備好了，隨時可以開始唷～🌸',
+        'yukine_lang_greeting_4': '欸欸！{username} 換成{lang_name}了耶～感覺煥然一新呢！💫',
+        'yukine_lang_greeting_5': '注意～{username} 現在用{lang_name}模式了唷！雪音會跟著切換的～🎵',
+        'yukine_lang_greeting_6': '{username} 把介面改成{lang_name}了！新的語言，新的心情～一起加油吧 ♪(´▽｀)',
+        'yukine_lang_greeting_7': '大家好！{username} 剛剛切換成{lang_name}了～雪音也換上新衣服囉！🌟',
+        'yukine_lang_greeting_8': '叮咚～{username} 選擇了{lang_name}！雪音覺得好新鮮呢～一起享受學習吧！🎶',
     },
     'ja': {
         'nav_home': 'ホーム',
@@ -1409,6 +1417,14 @@ TRANSLATIONS = {
         'msg_invalid_invite_code': '無効な招待コードです',
         'msg_confirm_dissolve': 'このグループを解散してもよろしいですか？この操作は取り消せません。',
         'msg_confirm_leave': 'このグループを退会してもよろしいですか？',
+        'yukine_lang_greeting_1': 'やっほー！{username}さんが言語を{lang_name}に切り替えたよ！ゆきねも{lang_name}で頑張るね (๑•̀ㅂ•́)و✧',
+        'yukine_lang_greeting_2': 'わぁ～{username}さんが{lang_name}を選んだよ！みんなで{lang_name}で勉強しよう～✨',
+        'yukine_lang_greeting_3': '{username}さんが{lang_name}に切り替えたよ！ゆきね、準備オッケーだよ～🌸',
+        'yukine_lang_greeting_4': 'えっ！{username}さんが{lang_name}にしたんだ～新鮮な感じだね！💫',
+        'yukine_lang_greeting_5': 'お知らせ～{username}さんは今{lang_name}モードだよ！ゆきねもついていくね～🎵',
+        'yukine_lang_greeting_6': '{username}さんが{lang_name}に変えたよ！新しい言語、新しい気持ち～頑張ろう ♪(´▽｀)',
+        'yukine_lang_greeting_7': 'みなさん！{username}さんが{lang_name}に切り替えたよ～ゆきねも衣替えしたよ！🌟',
+        'yukine_lang_greeting_8': 'ピンポーン！{username}さんが{lang_name}を選んだよ！新鮮でワクワクするね～🎶',
     },
     'en': {
         'nav_home': 'Home',
@@ -2100,7 +2116,15 @@ TRANSLATIONS = {
         '雪音-幽默型': 'Yukine-Humorous',
         '雪音-温柔型': 'Yukine-Gentle',
         '雪音-严格型': 'Yukine-Strict',
-        '雪音-幽默型': 'Yukine-Humorous'
+        '雪音-幽默型': 'Yukine-Humorous',
+        'yukine_lang_greeting_1': 'Hey! {username} just switched to {lang_name}! Yukine will do her best in {lang_name} too (๑•̀ㅂ•́)و✧',
+        'yukine_lang_greeting_2': 'Wow~ {username} chose {lang_name}! Let\'s all study together in {lang_name}! ✨',
+        'yukine_lang_greeting_3': '{username} switched to {lang_name}! Yukine is all set and ready to go~ 🌸',
+        'yukine_lang_greeting_4': 'Oh! {username} changed to {lang_name}~ Feels like a fresh start! 💫',
+        'yukine_lang_greeting_5': 'Heads up~ {username} is now in {lang_name} mode! Yukine will follow along~ 🎵',
+        'yukine_lang_greeting_6': '{username} switched to {lang_name}! New language, new vibes~ Let\'s go! ♪(´▽｀)',
+        'yukine_lang_greeting_7': 'Everyone! {username} just switched to {lang_name}~ Yukine got a makeover too! 🌟',
+        'yukine_lang_greeting_8': 'Ding dong~ {username} chose {lang_name}! How exciting~ Let\'s enjoy learning together! 🎶'
     }
 }
 

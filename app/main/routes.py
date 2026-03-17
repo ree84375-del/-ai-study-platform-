@@ -245,16 +245,87 @@ def set_language(lang):
         lang = 'zh'
     
     from flask import session
+    import random
     session['language'] = lang
     
+    # Get user info before committing language change
+    username = '匿名'
+    user_id = None
     if current_user.is_authenticated:
+        username = current_user.username
+        user_id = current_user.id
         from app import db
         current_user.language = lang
         try:
             db.session.commit()
         except Exception:
             db.session.rollback()
+    
+    # --- Yukine Group Greeting ---
+    # Post a random greeting from Yukine in every group the user belongs to
+    if current_user.is_authenticated:
+        try:
+            from app import db
+            from app.models import Group, GroupMember, GroupMessage, User
             
+            # Language display names
+            lang_names = {
+                'zh': {'zh': '中文', 'ja': '中国語', 'en': 'Chinese'},
+                'ja': {'zh': '日文', 'ja': '日本語', 'en': 'Japanese'},
+                'en': {'zh': '英文', 'ja': '英語', 'en': 'English'}
+            }
+            lang_name = lang_names.get(lang, {}).get(lang, lang)
+            
+            # Find or create Yukine user
+            yukine = User.query.filter_by(username='雪音老師').first()
+            if not yukine:
+                from app import bcrypt
+                yukine = User(
+                    username='雪音老師',
+                    email='yukine_bot@internal.ai',
+                    password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'),
+                    role='teacher'
+                )
+                db.session.add(yukine)
+                db.session.commit()
+            
+            # Find all groups the user belongs to (as teacher or member)
+            owned_groups = Group.query.filter_by(teacher_id=current_user.id).all()
+            joined_memberships = GroupMember.query.filter_by(user_id=current_user.id).all()
+            joined_groups = [m.group_info for m in joined_memberships]
+            
+            all_groups = owned_groups + joined_groups
+            seen_ids = set()
+            unique_groups = []
+            for g in all_groups:
+                if g.id not in seen_ids:
+                    unique_groups.append(g)
+                    seen_ids.add(g.id)
+            
+            # Random greeting key (1-8)
+            greeting_num = random.randint(1, 8)
+            greeting_key = f'yukine_lang_greeting_{greeting_num}'
+            greeting_text = _t(greeting_key, lang, username=username, lang_name=lang_name)
+            
+            # Post greeting to each group
+            for g in unique_groups:
+                msg = GroupMessage(
+                    group_id=g.id,
+                    user_id=yukine.id,
+                    content=greeting_text
+                )
+                db.session.add(msg)
+            
+            if unique_groups:
+                db.session.commit()
+                
+        except Exception as e:
+            try:
+                db.session.rollback()
+            except Exception:
+                pass
+            current_app.logger.error(f"Yukine greeting on language switch failed: {e}")
+    
     # Try to redirect to the previous page
     next_page = request.args.get('next') or request.referrer
     if not next_page or '/set_language' in next_page:
