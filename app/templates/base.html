@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-theme="{{ getattr(current_user, 'preferred_theme', 'sakura') if current_user.is_authenticated else 'sakura' }}">
+<html lang="{{ current_lang }}" data-theme="{{ getattr(current_user, 'preferred_theme', 'sakura') if current_user.is_authenticated else 'sakura' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

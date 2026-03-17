@@ -690,22 +690,17 @@
             const frame = document.getElementById('yukine-frame');
             
             // --- Audio Init Global Handler ---
-            const overlayHandler = () => {
-                // Touch all audio elements once to enable playback
-                Object.values(audios).forEach(audio => {
+            const initAudio = () => {
+                Object.values(audioElements).forEach(audio => {
                     if (audio) {
-                        const playPromise = audio.play();
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                audio.pause();
-                                audio.currentTime = 0;
-                            }).catch(e => console.log("Initial audio touch inhibited:", e));
-                        }
+                        audio.load();
                     }
                 });
-                document.removeEventListener('click', overlayHandler);
+                document.removeEventListener('click', initAudio);
+                document.removeEventListener('keydown', initAudio);
             };
-            document.addEventListener('click', overlayHandler, { once: true });
+            document.addEventListener('click', initAudio, { once: true });
+            document.addEventListener('keydown', initAudio, { once: true });
 
             if (container && frame) {
                 container.addEventListener('mousemove', (e) => {
