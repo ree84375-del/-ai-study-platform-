@@ -505,14 +505,18 @@
     chatInput.focus();
     loadSessions();
 
-    // Admin Auto Greeting
-    /* {% if current_user.is_admin %} */
+    // Auto Greeting based on user role
     setTimeout(() => {
         if (!activeSessionId) {
-            addMessage('ai', '{{ _t("chat_admin_greeting") }}', true, true);
+            {% if current_user.is_admin %}
+            addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
+            {% elif current_user.role == 'guest' %}
+            addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
+            {% else %}
+            addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
+            {% endif %}
         }
     }, 1000);
-    /* {% endif %} */
 </script>
 
 <style>

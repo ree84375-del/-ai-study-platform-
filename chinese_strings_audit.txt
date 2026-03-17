@@ -1,0 +1,289 @@
+﻿
+app\templates\chat.html
+:47:            <button
+ id="voice-input-btn" t
+itle="語音輸入"
+app\templates\chat.html
+:81:        console.log
+("發現可用語音:", voices.leng
+th);
+app\templates\chat.html
+:91:            { name:
+ 'Google 日本語', lang: 'j
+a-JP' }
+app\templates\chat.html
+:131:        speak("あのね
+、新しい声はどうかな？気に入ってくれると嬉しい
+な！");
+app\templates\chat.html
+:221:                  
+          .replace(/\(用
+.*?\)/g, '')
+app\templates\chat.html
+:247:            toggle
+VoiceBtn.innerHTML = '<
+i class="fa-solid fa-co
+mment-dots fa-beat-fade
+"></i> 雪音朗讀中...';
+app\templates\chat.html
+:255:            consol
+e.error("TTS 朗讀發生錯誤:", 
+e);
+app\templates\chat.html
+:465:                ad
+dMessage('ai', `發生問題：${
+data.error}`);
+app\templates\chat.html
+:471:                ad
+dMessage('ai', '回應超時了，A
+I 老師可能在思考比較久的問題，請稍後再試！'
+);
+app\templates\chat.html
+:473:                ad
+dMessage('ai', '對不起，連線似
+乎有點問題...請確認伺服器是否正在運行。')
+;
+app\templates\group_cha
+t.html:2:{% block title
+ %}群組討論區 - {{ group.nam
+e }}{% endblock %}
+app\templates\group_cha
+t.html:7:            <i
+ class="fa-solid fa-com
+ments"></i> {{ group.na
+me }} - 討論區
+app\templates\group_cha
+t.html:10:            <
+i class="fa-solid fa-ar
+row-left"></i> 返回
+app\templates\group_cha
+t.html:19:             
+   <p>目前還沒有任何留言，來搶頭香吧！<
+/p>
+app\templates\group_cha
+t.html:49:            <
+textarea name="content"
+ placeholder="在這裡輸入訊息..
+." required style="flex
+-grow: 1; padding: 10px
+; border: 1px solid var
+(--color-border); borde
+r-radius: 8px; resize: 
+none; min-height: 40px;
+ font-family: inherit; 
+font-size: 1rem; box-si
+zing: border-box;"></te
+xtarea>
+app\templates\group_cha
+t.html:51:             
+   <i class="fa-solid f
+a-paper-plane"></i> 送出
+app\templates\group_das
+hboard.html:666:       
+                       
+      {% if msg.author 
+and msg.author.username
+ == '雪音老師' %}
+app\templates\group_das
+hboard.html:683:       
+                       
+      {% if msg.author 
+and msg.author.username
+ == '雪音老師' %} 
+app\templates\group_das
+hboard.html:713:       
+                       
+          {% elif msg.a
+uthor and msg.author.us
+ername == '雪音老師' %}
+app\templates\group_das
+hboard.html:766:       
+                       
+          {% set is_ai_
+reply_to_me = (msg.auth
+or.username == '雪音老師' a
+nd msg.parent_id and ms
+g.parent and msg.parent
+.user_id == current_use
+r.id) %}
+app\templates\group_das
+hboard.html:767:       
+                       
+          {% if (msg.us
+er_id == current_user.i
+d or current_user.id ==
+ group.teacher_id or cu
+rrent_user.is_admin or 
+is_ai_reply_to_me) and 
+msg.author.username != 
+'雪音老師' %}
+app\templates\group_das
+hboard.html:1363:      
+                  <i cl
+ass="fa-solid fa-reply 
+message-more-btn" style
+="opacity: 1; color: va
+r(--color-primary);" ti
+tle="回覆" 
+app\templates\group_das
+hboard.html:1367:      
+                      <
+i class="fa-solid fa-pe
+n message-more-btn" sty
+le="opacity: 1; color: 
+var(--color-accent);" t
+itle="編輯" 
+app\templates\group_das
+hboard.html:1370:      
+                      <
+i class="fa-solid fa-ro
+tate-left message-more-
+btn" style="opacity: 1;
+" title="收回" onclick="e
+vent.stopPropagation();
+ recallMessage(${msgId}
+)"></i>
+app\templates\group_das
+hboard.html:1372:      
+                  ${(!i
+sAI && (isMine || data.
+user_id == CONFIG.teach
+erId)) ? `<i class="fa-
+solid fa-trash-can mess
+age-more-btn" style="op
+acity: 1; color: #ff444
+4;" title="刪除" onclick=
+"event.stopPropagation(
+); deleteMessage(${msgI
+d})"></i>` : ''}
+app\templates\group_das
+hboard.html:1410:      
+                      b
+ubbleText.innerHTML = `
+${data.content.trim()} 
+<span style="font-size:
+ 0.7rem; opacity: 0.6; 
+margin-left: 5px;">(已編輯
+)</span>`;
+app\templates\home.html
+:109:                  
+      <span style="font
+-size: 2.8rem; font-wei
+ght: bold; color: {% if
+ today_omikuji.fortune_
+level == '凶' %}#ff4a4a{
+% elif '吉' in today_omi
+kuji.fortune_level %}#d
+e4c4c{% else %}var(--co
+lor-text_main){% endif 
+%}; letter-spacing: 5px
+; font-family: 'Kaisei 
+Tokumin', serif;">
+app\templates\practice.
+html:115:        const 
+subject = params.get('s
+ubject') || '數學';
+app\templates\profile.h
+tml:68:                
+            <option val
+ue="ai_gentle" {% if cu
+rrent_user.ai_personali
+ty in ['ai_gentle', '雪音
+-溫柔型', '雪音-温柔型'] %}sele
+cted{% endif %}>{{ _t('
+ai_gentle') }}</option>
+app\templates\profile.h
+tml:69:                
+            <option val
+ue="ai_coach" {% if cur
+rent_user.ai_personalit
+y in ['ai_coach', '雪音-嚴
+格型', '雪音-严格型'] %}select
+ed{% endif %}>{{ _t('ai
+_coach') }}</option>
+app\templates\profile.h
+tml:70:                
+            <option val
+ue="ai_guy" {% if curre
+nt_user.ai_personality 
+in ['ai_guy', '雪音-幽默型']
+ %}selected{% endif %}>
+{{ _t('ai_guy') }}</opt
+ion>
+app\templates\profile.h
+tml:121:               
+                 <optio
+n value="zh" {% if curr
+ent_user.language == 'z
+h' %}selected{% endif %
+}>繁體中文 (Traditional Chi
+nese)</option>
+app\templates\profile.h
+tml:122:               
+                 <optio
+n value="ja" {% if curr
+ent_user.language == 'j
+a' %}selected{% endif %
+}>日本語 (Japanese)</optio
+n>
+app\templates\profile.h
+tml:183:            <!-
+- 變更密碼表單（僅限非 Google 帳號，
+預設隱藏） -->
+app\templates\_animatio
+ns.html:10:// --- REFIN
+ED ZEN VISUALS (枯山水 & 達
+磨) ---
+app\templates\admin\ann
+ouncements.html:30:    
+                <i clas
+s="fa-solid fa-wand-mag
+ic-sparkles" style="col
+or: var(--color-primary
+);" title="AI 生成"></i> 
+app\templates\admin\que
+stion_edit.html:21:    
+                    <op
+tion value="國文" {% if q
+uestion and question.su
+bject == '國文' %}selecte
+d{% endif %}>{{ _t('sub
+ject_chinese') }}</opti
+on>
+app\templates\admin\que
+stion_edit.html:22:    
+                    <op
+tion value="英文" {% if q
+uestion and question.su
+bject == '英文' %}selecte
+d{% endif %}>{{ _t('sub
+ject_english') }}</opti
+on>
+app\templates\admin\que
+stion_edit.html:23:    
+                    <op
+tion value="數學" {% if q
+uestion and question.su
+bject == '數學' %}selecte
+d{% endif %}>{{ _t('sub
+ject_math') }}</option>
+app\templates\admin\que
+stion_edit.html:24:    
+                    <op
+tion value="社會" {% if q
+uestion and question.su
+bject == '社會' %}selecte
+d{% endif %}>{{ _t('sub
+ject_social') }}</optio
+n>
+app\templates\admin\que
+stion_edit.html:25:    
+                    <op
+tion value="自然" {% if q
+uestion and question.su
+bject == '自然' %}selecte
+d{% endif %}>{{ _t('sub
+ject_science') }}</opti
+on>
+
+

@@ -233,6 +233,7 @@ class Omikuji(db.Model):
     fortune_level = db.Column(db.String(20), nullable=False) # 大吉, 吉, 小吉, 凶, etc.
     message = db.Column(db.Text, nullable=False) # AI generated message
     drawn_date = db.Column(db.Date, nullable=False, default=lambda: datetime.now(timezone.utc).date())
+    language = db.Column(db.String(5), nullable=True, default='zh') # Language used when drawing
     
     user = db.relationship('User', backref=db.backref('omikujis', lazy=True))
 

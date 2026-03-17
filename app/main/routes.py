@@ -52,7 +52,8 @@ def home():
         # Taiwan is UTC+8
         tw_tz = timezone(timedelta(hours=8))
         today = datetime.now(tw_tz).date()
-        today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
+        user_lang = getattr(current_user, 'language', 'zh')
+        today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today, language=user_lang).first()
         recent_emas = Ema.query.filter_by(is_public=True).order_by(Ema.created_at.desc()).limit(10).all()
         # Find the most recent uncompleted Daruma, or the most recent completed one
         active_daruma = Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()).first()
@@ -101,6 +102,17 @@ def home():
         current_app.logger.warning("Adding language to User table...")
         try:
             db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS language VARCHAR(5) DEFAULT 'zh'"))
+            db.session.commit()
+        except Exception: db.session.rollback()
+
+    # Fix 4: Language column on omikuji table
+    try:
+        db.session.execute(text("SELECT language FROM omikuji LIMIT 1"))
+    except ProgrammingError:
+        db.session.rollback()
+        current_app.logger.warning("Adding language to Omikuji table...")
+        try:
+            db.session.execute(text("ALTER TABLE omikuji ADD COLUMN IF NOT EXISTS language VARCHAR(5) DEFAULT 'zh'"))
             db.session.commit()
         except Exception: db.session.rollback()
 
@@ -392,8 +404,8 @@ def draw_omikuji():
     today = datetime.now(tw_tz).date()
     lang = getattr(current_user, 'language', 'zh')
 
-    # Check if already drawn today
-    existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
+    # Check if already drawn today in this language
+    existing = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today, language=lang).first()
     if existing:
         flash(_t('omikuji_already_drawn', lang), 'info')
         return redirect(url_for('main.home'))
@@ -433,7 +445,7 @@ def draw_omikuji():
             'advice': data.get('advice', '...')
         }
         
-        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=json.dumps(omikuji_data), drawn_date=today)
+        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=json.dumps(omikuji_data), drawn_date=today, language=lang)
         db.session.add(omikuji)
         
         # Add Garden XP (Drawing fortune: 5 XP)
