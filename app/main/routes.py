@@ -56,12 +56,24 @@ def home():
         # CROSS-LANGUAGE DRAW: Find any draw today for this user
         today_omikuji = Omikuji.query.filter_by(user_id=current_user.id, drawn_date=today).first()
         
-        # If language mismatch, translate on the fly
-        if today_omikuji and today_omikuji.language != user_lang:
+        # If language mismatch or content mismatch, translate on the fly
+        should_translate = False
+        if today_omikuji:
+            if today_omikuji.language != user_lang:
+                should_translate = True
+            elif today_omikuji.message:
+                # Content mismatch check: e.g. if in 'ja' but contains Chinese-only chars like '語' or Chinese punctuation
+                msg = today_omikuji.message
+                if user_lang == 'ja' and ('，' in msg or '！' in msg or '語文' in msg or '色' in msg):
+                    # This is a bit risky since Japanese uses Kanji, but Chinese punctuation is a good tell.
+                    # Also '語文' is specifically Chinese.
+                    if '，' in msg or '語文' in msg:
+                        should_translate = True
+        
+        if today_omikuji and should_translate:
             from app.utils.ai_helpers import translate_omikuji
             translated_message = translate_omikuji(today_omikuji.message, user_lang)
-            # Update the record or just override temporarily? 
-            # Better to update so we don't translate every time.
+            # Update the record
             today_omikuji.message = translated_message
             today_omikuji.language = user_lang
             from app import db as _db

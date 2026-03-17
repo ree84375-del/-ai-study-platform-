@@ -427,28 +427,41 @@ def translate_omikuji(omikuji_json_str, target_lang):
         lang_map = {'zh': '繁體中文', 'ja': '日本語', 'en': 'English'}
         target_lang_name = lang_map.get(target_lang, '繁體中文')
         
-        prompt = f"""
-        Translate the following Omikuji (Fortune) data into {target_lang_name}.
-        Keep the JSON structure exactly as is.
-        Important: Translation must be natural and fit the tone of a shrine maiden/priest.
+        # Don't translate if it's already in the target language (rough check)
+        # But for now, let's just strengthen the prompt.
         
-        Data:
+        prompt = f"""
+        Translate the following Omikuji (Fortune) content into {target_lang_name}.
+        Source Content (JSON):
         {json.dumps(data, ensure_ascii=False)}
         
-        Return ONLY the translated JSON.
+        Instructions:
+        1. Translate ALL values into {target_lang_name}.
+        2. Keep the JSON keys (lucky_color, lucky_item, lucky_subject, advice) EXACTLY as they are.
+        3. **CRITICAL: DO NOT return the original Chinese if the target is Japanese.**
+        4. **CRITICAL: Use natural {target_lang_name} terminology.** (e.g. for Japanese lucky_subject: use '国語' instead of '語文', '数学' instead of '數學').
+        5. Tone: Gentle, like a shrine maiden (Miko) or priest.
+        
+        Return ONLY the raw JSON string. No Markdown, no conversational text.
         """
         
         response_text = generate_text_with_fallback(prompt)
         clean_text = response_text.strip()
-        if '```json' in clean_text:
-            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
-        elif '```' in clean_text:
-            clean_text = clean_text.split('```')[1].split('```')[0].strip()
-            
+        
+        # Robust JSON cleaning
+        if '```' in clean_text:
+            match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', clean_text, re.DOTALL)
+            if match:
+                clean_text = match.group(1).strip()
+            else:
+                clean_text = clean_text.replace('```json', '').replace('```', '').strip()
+        
+        # Verify it's actually JSON before returning
+        json.loads(clean_text)
         return clean_text
     except Exception as e:
         import logging
-        logging.error(f"Omikuji Translation Error: {e}")
+        logging.error(f"Omikuji Translation Error for {target_lang}: {e}")
         return omikuji_json_str
 
 AI_PERSONALITIES = {
