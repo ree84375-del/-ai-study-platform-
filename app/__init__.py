@@ -63,6 +63,10 @@ def create_app():
         return dict(_t=translate, current_lang=lang)
 
     app.jinja_env.globals.update(hasattr=hasattr, getattr=getattr, any=any)
+
+    # Register custom Jinja2 filters
+    import json
+    app.jinja_env.filters['from_json'] = lambda s: json.loads(s) if s else {}
     
     # Database URI processing
     db_uri = os.environ.get('DATABASE_URL')
