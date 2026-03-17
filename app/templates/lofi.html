@@ -241,7 +241,7 @@
                     {{ _t('lofi_switch_vibe') }}
                 </h3>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                    <button onclick="setManualTheme('morning')" class="time-btn" id="btn-morning">
+                    <button onclick="setFixedVibe('morning')" class="vibe-btn" id="btn-morning" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
                         <i class="fa-solid fa-sun" style="color: #ffde6a;"></i> {{ _t('lofi_morning') }}
                     </button>
                     <button onclick="setFixedVibe('afternoon')" class="vibe-btn" style="background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;">
@@ -321,12 +321,7 @@
         </div> <!-- End right-pane -->
     </div> <!-- End layout-wrapper -->
 
-    <!-- Missing Audio Elements -->
-    <audio id="audio-lofi" loop src="https://assets.mixkit.co/music/preview/mixkit-lofi-night-walk-loop-979.mp3"></audio>
-    <audio id="audio-rain" loop src="https://www.soundjay.com/nature/rain-02.mp3"></audio>
-    <audio id="audio-cafe" loop src="https://assets.mixkit.co/sfx/preview/mixkit-coffee-shop-ambiance-light-chatter-and-clinking-933.mp3"></audio>
-    <audio id="audio-forest" loop src="https://www.soundjay.com/nature/forest-wind-1.mp3"></audio>
-    <audio id="audio-break" loop src="https://assets.mixkit.co/music/preview/mixkit-chill-lofi-645.mp3"></audio>
+    <!-- Audio elements removed — using Web Audio API procedural generation instead -->
 
 </div> <!-- End container -->
 
@@ -351,49 +346,28 @@
 <script>
         // --- Dynamic Time-of-Day Logic ---
         let isManualOverride = false;
-        let currentVibe = ''; // To store the current theme, e.g., 'morning', 'afternoon', 'evening', 'night'
+        let currentVibe = '';
 
-        function setManualTheme(theme) {
-            isManualOverride = true;
-            applyLofiRoomTheme(theme);
-            
-            // Highlight active button
-            document.querySelectorAll('.time-btn, .vibe-btn').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById('btn-' + theme); // Assuming morning still uses 'time-btn' and 'btn-morning'
-            if (activeBtn) activeBtn.classList.add('active');
-            // For new vibe-btn, we might need a different selector or logic if IDs are not consistent
-            // For now, let's assume the new buttons also get an 'active' class if needed.
-        }
-
-        // New function for fixed vibe buttons
         function setFixedVibe(theme) {
             isManualOverride = true;
             applyLofiRoomTheme(theme);
 
-            document.querySelectorAll('.time-btn, .vibe-btn').forEach(btn => {
+            document.querySelectorAll('.vibe-btn').forEach(btn => {
                 btn.style.background = 'rgba(0,0,0,0.2)';
                 btn.style.borderColor = 'rgba(255,255,255,0.1)';
             });
 
             const targetButton = document.querySelector(`[onclick="setFixedVibe('${theme}')"]`);
             if (targetButton) {
-                targetButton.style.background = 'rgba(255,255,255,0.1)';
-                targetButton.style.borderColor = 'rgba(255,255,255,0.2)';
-            }
-            // Special handling for morning button if it's still 'time-btn'
-            const morningBtn = document.getElementById('btn-morning');
-            if (theme === 'morning' && morningBtn) {
-                morningBtn.style.background = 'rgba(255,255,255,0.1)';
-                morningBtn.style.borderColor = 'rgba(255,255,255,0.2)';
+                targetButton.style.background = 'rgba(255,255,255,0.15)';
+                targetButton.style.borderColor = 'rgba(255,255,255,0.3)';
             }
         }
 
-
         function resetAutoTheme() {
             isManualOverride = false;
-            document.querySelectorAll('.time-btn, .vibe-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.background = 'rgba(0,0,0,0.2)'; // Reset to default inactive style
+            document.querySelectorAll('.vibe-btn').forEach(btn => {
+                btn.style.background = 'rgba(0,0,0,0.2)';
                 btn.style.borderColor = 'rgba(255,255,255,0.1)';
             });
             updateTimeTheme();
@@ -406,7 +380,7 @@
 
             if (hour >= 6 && hour < 12) theme = 'morning';
             else if (hour >= 12 && hour < 17) theme = 'afternoon';
-            else if (hour >= 17 && hour < 20) theme = 'evening'; // Changed from dusk to evening
+            else if (hour >= 17 && hour < 20) theme = 'evening';
             else theme = 'night';
 
             applyLofiRoomTheme(theme);
@@ -420,26 +394,22 @@
             const badge = document.getElementById('time-status-badge');
             const starsLayer = document.querySelector('.bg-stars-layer');
             
-            // Environmental Animation Elements
             const lamp = document.getElementById('lamp-glow');
             const steam = document.getElementById('coffee-steam');
             const zzz1 = document.getElementById('cat-zzz');
             const zzz2 = document.getElementById('cat-zzz-2');
             const shootingStar = document.getElementById('window-shooting-star');
-            
-            // Daytime Sparkles
             const sparkles = document.getElementById('daytime-sparkles');
             
             const i18n = document.getElementById('i18n-data').dataset;
             let imageSrc;
 
-            // Default Visibility
             if (lamp) lamp.style.display = 'none';
             if (zzz1) zzz1.style.display = 'none';
             if (zzz2) zzz2.style.display = 'none';
             if (shootingStar) shootingStar.style.display = 'none';
             if (sparkles) sparkles.style.display = 'none';
-            if (steam) steam.style.display = 'block'; // Steam always on for cozy vibes
+            if (steam) steam.style.display = 'block';
 
             if (theme === 'morning') {
                 imageSrc = "{{ url_for('static', filename='img/yukine_scene_morning.png') }}";
@@ -459,8 +429,8 @@
                 }
                 if (starsLayer) starsLayer.style.display = 'none';
                 if (sparkles) sparkles.style.display = 'block';
-            } else if (theme === 'evening') { // Changed from dusk to evening
-                imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}"; // Still using dusk image
+            } else if (theme === 'evening') {
+                imageSrc = "{{ url_for('static', filename='img/yukine_scene_dusk.png') }}";
                 if (title) {
                     title.innerText = i18n.eveningTitle;
                     subtitle.innerText = i18n.eveningSub;
@@ -473,7 +443,7 @@
                 }
                 if (zzz1) zzz1.style.display = 'block';
                 if (zzz2) zzz2.style.display = 'block';
-            } else { // night
+            } else {
                 imageSrc = "{{ url_for('static', filename='img/yukine_scene_night.png') }}";
                 if (title) {
                     title.innerText = i18n.nightTitle;
@@ -495,36 +465,288 @@
         }
 
         updateTimeTheme();
-        // Check every minute
         setInterval(updateTimeTheme, 60000);
 
-        // --- Audio Controls ---
+        // ========== Web Audio API Procedural Sound Engine ==========
+        let audioCtx = null;
+        const activeSounds = {}; // { type: { nodes... } }
         const audioKeys = ['lofi', 'rain', 'cafe', 'forest', 'break'];
-        const audios = {};
-        
-        // Initialize audio elements object
-        audioKeys.forEach(key => {
-            audios[key] = document.getElementById('audio-' + key);
-        });
-        
-        function getAudioElement(type) {
-            return audios[type] || document.getElementById('audio-' + type);
+        let globalVolume = 0.5;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
         }
 
-        function safeToggleAudio(type) {
-            const audio = getAudioElement(type);
-            if (!audio) {
-                console.error("Audio element not found:", type);
-                return;
+        // --- Noise Buffer Generator ---
+        function createNoiseBuffer(ctx, seconds = 2) {
+            const sampleRate = ctx.sampleRate;
+            const bufferSize = sampleRate * seconds;
+            const buffer = ctx.createBuffer(1, bufferSize, sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
             }
-            
+            return buffer;
+        }
+
+        // --- Rain Sound (filtered white noise with droplet modulation) ---
+        function startRain(ctx) {
+            const gainNode = ctx.createGain();
+            gainNode.gain.value = globalVolume * 0.6;
+            gainNode.connect(ctx.destination);
+
+            const noiseBuffer = createNoiseBuffer(ctx, 4);
+            const noise = ctx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            noise.loop = true;
+
+            const lpFilter = ctx.createBiquadFilter();
+            lpFilter.type = 'lowpass';
+            lpFilter.frequency.value = 2500;
+            lpFilter.Q.value = 0.7;
+
+            const hpFilter = ctx.createBiquadFilter();
+            hpFilter.type = 'highpass';
+            hpFilter.frequency.value = 200;
+
+            // LFO for gentle volume modulation (simulates rain intensity changes)
+            const lfo = ctx.createOscillator();
+            lfo.frequency.value = 0.15;
+            const lfoGain = ctx.createGain();
+            lfoGain.gain.value = 0.08;
+            lfo.connect(lfoGain);
+            lfoGain.connect(gainNode.gain);
+            lfo.start();
+
+            noise.connect(hpFilter);
+            hpFilter.connect(lpFilter);
+            lpFilter.connect(gainNode);
+            noise.start();
+
+            return { gainNode, sources: [noise, lfo], filters: [lpFilter, hpFilter, lfoGain] };
+        }
+
+        // --- Cafe Sound (warm brownish noise + subtle clinking) ---
+        function startCafe(ctx) {
+            const gainNode = ctx.createGain();
+            gainNode.gain.value = globalVolume * 0.4;
+            gainNode.connect(ctx.destination);
+
+            const noiseBuffer = createNoiseBuffer(ctx, 4);
+            const noise = ctx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            noise.loop = true;
+
+            // Warm low-pass for cafe murmur
+            const lpFilter = ctx.createBiquadFilter();
+            lpFilter.type = 'lowpass';
+            lpFilter.frequency.value = 1200;
+            lpFilter.Q.value = 0.5;
+
+            const hpFilter = ctx.createBiquadFilter();
+            hpFilter.type = 'highpass';
+            hpFilter.frequency.value = 100;
+
+            noise.connect(hpFilter);
+            hpFilter.connect(lpFilter);
+            lpFilter.connect(gainNode);
+            noise.start();
+
+            // Subtle periodic "clink" (high frequency burst)
+            const clinkInterval = setInterval(() => {
+                if (audioCtx && audioCtx.state === 'running') {
+                    const clinkOsc = ctx.createOscillator();
+                    const clinkGain = ctx.createGain();
+                    clinkOsc.frequency.value = 2000 + Math.random() * 2000;
+                    clinkOsc.type = 'sine';
+                    clinkGain.gain.setValueAtTime(globalVolume * 0.03, ctx.currentTime);
+                    clinkGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+                    clinkOsc.connect(clinkGain);
+                    clinkGain.connect(ctx.destination);
+                    clinkOsc.start(ctx.currentTime);
+                    clinkOsc.stop(ctx.currentTime + 0.15);
+                }
+            }, 2000 + Math.random() * 4000);
+
+            return { gainNode, sources: [noise], filters: [lpFilter, hpFilter], intervals: [clinkInterval] };
+        }
+
+        // --- Forest Sound (wind noise + bird chirps) ---
+        function startForest(ctx) {
+            const gainNode = ctx.createGain();
+            gainNode.gain.value = globalVolume * 0.5;
+            gainNode.connect(ctx.destination);
+
+            const noiseBuffer = createNoiseBuffer(ctx, 4);
+            const noise = ctx.createBufferSource();
+            noise.buffer = noiseBuffer;
+            noise.loop = true;
+
+            // Band-pass for wind sound
+            const bpFilter = ctx.createBiquadFilter();
+            bpFilter.type = 'bandpass';
+            bpFilter.frequency.value = 600;
+            bpFilter.Q.value = 0.3;
+
+            // LFO for wind gusts
+            const lfo = ctx.createOscillator();
+            lfo.frequency.value = 0.08;
+            const lfoGain = ctx.createGain();
+            lfoGain.gain.value = 0.15;
+            lfo.connect(lfoGain);
+            lfoGain.connect(gainNode.gain);
+            lfo.start();
+
+            noise.connect(bpFilter);
+            bpFilter.connect(gainNode);
+            noise.start();
+
+            // Periodic bird chirps
+            const birdInterval = setInterval(() => {
+                if (audioCtx && audioCtx.state === 'running') {
+                    const birdOsc = ctx.createOscillator();
+                    const birdGain = ctx.createGain();
+                    const baseFreq = 1800 + Math.random() * 1500;
+                    birdOsc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
+                    birdOsc.frequency.linearRampToValueAtTime(baseFreq + 400, ctx.currentTime + 0.08);
+                    birdOsc.frequency.linearRampToValueAtTime(baseFreq - 200, ctx.currentTime + 0.15);
+                    birdOsc.type = 'sine';
+                    birdGain.gain.setValueAtTime(globalVolume * 0.04, ctx.currentTime);
+                    birdGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+                    birdOsc.connect(birdGain);
+                    birdGain.connect(ctx.destination);
+                    birdOsc.start(ctx.currentTime);
+                    birdOsc.stop(ctx.currentTime + 0.2);
+                }
+            }, 3000 + Math.random() * 5000);
+
+            return { gainNode, sources: [noise, lfo], filters: [bpFilter, lfoGain], intervals: [birdInterval] };
+        }
+
+        // --- Lofi Beats (kick + hi-hat rhythm) ---
+        function startLofi(ctx) {
+            const gainNode = ctx.createGain();
+            gainNode.gain.value = globalVolume * 0.45;
+            gainNode.connect(ctx.destination);
+
+            const bpm = 75;
+            const beatInterval = (60 / bpm) * 1000;
+            let beat = 0;
+
+            function playKick(time) {
+                const osc = ctx.createOscillator();
+                const g = ctx.createGain();
+                osc.frequency.setValueAtTime(150, time);
+                osc.frequency.exponentialRampToValueAtTime(40, time + 0.12);
+                g.gain.setValueAtTime(globalVolume * 0.5, time);
+                g.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
+                osc.connect(g);
+                g.connect(gainNode);
+                osc.start(time);
+                osc.stop(time + 0.3);
+            }
+
+            function playHat(time) {
+                const bufferSize = ctx.sampleRate * 0.05;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+                const hp = ctx.createBiquadFilter();
+                hp.type = 'highpass';
+                hp.frequency.value = 7000;
+                const g = ctx.createGain();
+                g.gain.setValueAtTime(globalVolume * 0.15, time);
+                g.gain.exponentialRampToValueAtTime(0.001, time + 0.06);
+                noise.connect(hp);
+                hp.connect(g);
+                g.connect(gainNode);
+                noise.start(time);
+                noise.stop(time + 0.06);
+            }
+
+            // Warm bass pad
+            const padOsc = ctx.createOscillator();
+            padOsc.type = 'sine';
+            padOsc.frequency.value = 110;
+            const padGain = ctx.createGain();
+            padGain.gain.value = globalVolume * 0.12;
+            const padFilter = ctx.createBiquadFilter();
+            padFilter.type = 'lowpass';
+            padFilter.frequency.value = 400;
+            padOsc.connect(padFilter);
+            padFilter.connect(padGain);
+            padGain.connect(gainNode);
+            padOsc.start();
+
+            const loopInterval = setInterval(() => {
+                if (!audioCtx || audioCtx.state !== 'running') return;
+                const now = ctx.currentTime;
+                if (beat % 4 === 0) playKick(now);
+                if (beat % 2 === 1) playHat(now);
+                // Change bass note every 8 beats
+                if (beat % 8 === 0) {
+                    const notes = [110, 130.81, 146.83, 98];
+                    padOsc.frequency.setValueAtTime(notes[Math.floor(Math.random() * notes.length)], now);
+                }
+                beat++;
+            }, beatInterval);
+
+            return { gainNode, sources: [padOsc], filters: [padFilter, padGain], intervals: [loopInterval] };
+        }
+
+        // --- Start/Stop Sound ---
+        function startSound(type) {
+            const ctx = getAudioContext();
+            let sound;
+            switch (type) {
+                case 'lofi': case 'break': sound = startLofi(ctx); break;
+                case 'rain': sound = startRain(ctx); break;
+                case 'cafe': sound = startCafe(ctx); break;
+                case 'forest': sound = startForest(ctx); break;
+                default: return;
+            }
+            activeSounds[type] = sound;
+        }
+
+        function stopSound(type) {
+            const sound = activeSounds[type];
+            if (!sound) return;
+            // Stop all sources
+            (sound.sources || []).forEach(s => { try { s.stop(); } catch(e) {} });
+            // Clear intervals
+            (sound.intervals || []).forEach(i => clearInterval(i));
+            // Disconnect gain
+            try { sound.gainNode.disconnect(); } catch(e) {}
+            delete activeSounds[type];
+        }
+
+        function isSoundPlaying(type) {
+            return !!activeSounds[type];
+        }
+
+        // --- Toggle Audio (replaces old safeToggleAudio) ---
+        function safeToggleAudio(type) {
             const btn = document.getElementById(type + '-btn');
-            if (audio.paused) {
-                // Stop others
+            if (isSoundPlaying(type)) {
+                stopSound(type);
+                if (btn) {
+                    btn.classList.remove('active');
+                    const icon = btn.querySelector('i');
+                    if (icon) icon.style.animation = 'none';
+                }
+            } else {
+                // Stop others (except break which coexists)
                 audioKeys.forEach(key => {
-                    const otherAudio = getAudioElement(key);
-                    if (otherAudio && key !== type) {
-                        otherAudio.pause();
+                    if (key !== type && isSoundPlaying(key)) {
+                        stopSound(key);
                         const otherBtn = document.getElementById(key + '-btn');
                         if (otherBtn) {
                             otherBtn.classList.remove('active');
@@ -534,32 +756,22 @@
                     }
                 });
 
-                audio.play().then(() => {
-                    if (btn) {
-                        btn.classList.add('active');
-                        const icon = btn.querySelector('i');
-                        if (icon) icon.style.animation = 'audio-pulse 2s infinite ease-in-out';
-                    }
-                    audio.volume = document.getElementById('volume-slider').value;
-                }).catch(e => {
-                    console.warn("Playback failed:", e);
-                    // No alert - we rely on the overlay to have initialized audio context
-                    // Or we could show a subtle toast if it still fails
-                });
-            } else {
-                audio.pause();
+                startSound(type);
                 if (btn) {
-                    btn.classList.remove('active');
+                    btn.classList.add('active');
                     const icon = btn.querySelector('i');
-                    if (icon) icon.style.animation = 'none';
+                    if (icon) icon.style.animation = 'audio-pulse 2s infinite ease-in-out';
                 }
             }
         }
 
         document.getElementById('volume-slider').addEventListener('input', (e) => {
-            const vol = e.target.value;
-            Object.values(audios).forEach(audio => {
-                if (audio) audio.volume = vol;
+            globalVolume = parseFloat(e.target.value);
+            // Update gain of all active sounds
+            Object.values(activeSounds).forEach(sound => {
+                if (sound && sound.gainNode) {
+                    sound.gainNode.gain.value = globalVolume * 0.5;
+                }
             });
         });
 
@@ -624,20 +836,16 @@
                 isRunning = true;
                 if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 
-                // --- NEW: Auto-play random audio logic ---
-                const audioKeys = ['lofi', 'rain', 'cafe', 'forest'];
-                const randomKey = audioKeys[Math.floor(Math.random() * audioKeys.length)];
+                // --- Auto-play random audio logic ---
+                const soundKeys = ['lofi', 'rain', 'cafe', 'forest'];
+                const randomKey = soundKeys[Math.floor(Math.random() * soundKeys.length)];
                 
                 // Check if any audio is already playing. If not, play random.
-                let isAnyPlaying = false;
-                Object.keys(audios).forEach(key => {
-                    if (audios[key] && !audios[key].paused) isAnyPlaying = true;
-                });
+                let isAnyPlaying = Object.keys(activeSounds).length > 0;
                 
                 if (!isAnyPlaying) {
                     safeToggleAudio(randomKey);
                 }
-                // ------------------------------------------
 
                 timerInterval = setInterval(() => {
                     timeLeft--;
@@ -650,7 +858,7 @@
                         if ('speechSynthesis' in window) {
                             const msgText = currentMode === 25 ? document.getElementById('i18n-data').dataset.pomoFocusDone : document.getElementById('i18n-data').dataset.pomoBreakDone;
                             let msg = new SpeechSynthesisUtterance(msgText);
-                            msg.lang = 'zh-TW';
+                            msg.lang = "{{ session.get('language', 'ja') }}" === 'ja' ? 'ja-JP' : ("{{ session.get('language', 'ja') }}" === 'en' ? 'en-US' : 'zh-TW');
                             window.speechSynthesis.speak(msg);
                         }
                         
@@ -664,8 +872,7 @@
                             // Break Ended -> Back to Focus
                             setTimer(25);
                             // Stop break music
-                            const breakAudio = getAudioElement('break');
-                            if (breakAudio && !breakAudio.paused) {
+                            if (isSoundPlaying('break')) {
                                 safeToggleAudio('break');
                             }
                             // Don't auto-start focus timer to avoid surprising user
@@ -689,13 +896,11 @@
             const container = document.querySelector('.lofi-container');
             const frame = document.getElementById('yukine-frame');
             
-            // --- Audio Init Global Handler ---
+            // --- Audio Init: Resume AudioContext on first user interaction ---
             const initAudio = () => {
-                Object.values(audioElements).forEach(audio => {
-                    if (audio) {
-                        audio.load();
-                    }
-                });
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
                 document.removeEventListener('click', initAudio);
                 document.removeEventListener('keydown', initAudio);
             };
