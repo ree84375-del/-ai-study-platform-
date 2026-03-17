@@ -50,7 +50,7 @@
         background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(181, 155, 142, 0.1)),
         url('{{ url_for("static", filename="img/yukine_scene_afternoon.png") }}');
     }
-    .lofi-container-bg.dusk::before {
+    .lofi-container-bg.evening::before {
         background-image: linear-gradient(rgba(221, 122, 86, 0.1), rgba(0, 0, 0, 0.3)),
         url('{{ url_for("static", filename="img/yukine_scene_dusk.png") }}');
     }
@@ -109,8 +109,7 @@
     </div>
     <div class="particles-layer"></div>
     
-    <!-- Audio Permission Overlay (Silent/Invisible) -->
-    <div id="audio-init-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; cursor: pointer;"></div>
+    <!-- Audio Permission Initializer (One-time click handler added in script) -->
 
     <!-- Background Shooting Stars -->
     <div class="bg-stars-layer">
@@ -691,21 +690,22 @@
             const frame = document.getElementById('yukine-frame');
             
             // --- Audio Init Global Handler ---
-            const overlay = document.getElementById('audio-init-overlay');
-            if (overlay) {
-                overlay.addEventListener('click', () => {
-                    // Touch all audio elements once to enable playback
-                    Object.values(audios).forEach(audio => {
-                        if (audio) {
-                            audio.play().then(() => {
+            const overlayHandler = () => {
+                // Touch all audio elements once to enable playback
+                Object.values(audios).forEach(audio => {
+                    if (audio) {
+                        const playPromise = audio.play();
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
                                 audio.pause();
                                 audio.currentTime = 0;
-                            }).catch(e => console.log("Initial audio touch failed:", e));
+                            }).catch(e => console.log("Initial audio touch inhibited:", e));
                         }
-                    });
-                    overlay.remove();
-                }, { once: true });
-            }
+                    }
+                });
+                document.removeEventListener('click', overlayHandler);
+            };
+            document.addEventListener('click', overlayHandler, { once: true });
 
             if (container && frame) {
                 container.addEventListener('mousemove', (e) => {

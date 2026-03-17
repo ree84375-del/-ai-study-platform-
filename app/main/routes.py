@@ -350,7 +350,9 @@ def draw_omikuji():
             if match:
                 text = match.group(1)
             else:
-                text = text.replace('```json', '').replace('```',        data = json.loads(text)
+                text = text.replace('```json', '').replace('```', '')
+        data = json.loads(text)
+
         
         # Store raw JSON data in the message field for frontend localization
         omikuji_data = {

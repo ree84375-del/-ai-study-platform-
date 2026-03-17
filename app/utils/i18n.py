@@ -435,7 +435,7 @@ TRANSLATIONS = {
         'lofi_switch_vibe': '切換時段氛圍',
         'lofi_morning': '早晨',
         'lofi_afternoon': '下午',
-        'lofi_evening': '傍晚',
+        'lofi_evening': '黃昏',
         'lofi_night': '深夜',
         'lofi_auto_vibe': '恢復自動切換',
         'lofi_pomo_title': '至高番茄鐘',
