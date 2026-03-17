@@ -239,6 +239,51 @@ def group_dashboard(group_id):
             flash('您沒有權限進入此討論板', 'danger')
             return redirect(url_for('group.groups'))
             
+        # --- PERSONALIZED WELCOME GREETING ---
+        # Trigger Yukine greeting if not welcomed in this group recently (1 hour cooldown)
+        from flask import session
+        welcome_key = f'last_welcome_{group_id}_{current_user.id}'
+        last_welcome = session.get(welcome_key)
+        now_ts = datetime.now().timestamp()
+        
+        if not last_welcome or (now_ts - last_welcome) > 3600:
+            try:
+                # Find or create Yukine user
+                yukine = User.query.filter_by(username='雪音老師').first()
+                if not yukine:
+                    yukine = User.query.filter_by(email='yukine_bot@internal.ai').first()
+                
+                if yukine:
+                    lang = getattr(current_user, 'language', 'zh')
+                    # Determine role for greeting
+                    role = 'student'
+                    if current_user.is_admin: role = 'admin'
+                    elif current_user.role == 'teacher' or group_obj.teacher_id == current_user.id: role = 'teacher'
+                    elif current_user.role == 'guest': role = 'guest'
+                    
+                    # Pick random greeting based on role
+                    if role == 'admin': greeting_num = random.randint(1, 2)
+                    elif role == 'teacher': greeting_num = random.randint(1, 2)
+                    elif role == 'student': greeting_num = random.randint(1, 3)
+                    else: greeting_num = random.randint(1, 2)
+                    
+                    greeting_key = f'yukine_welcome_{role}_{greeting_num}'
+                    welcome_text = _t(greeting_key, lang, username=current_user.username)
+                    
+                    new_welcome_msg = GroupMessage(
+                        group_id=group_id,
+                        user_id=yukine.id,
+                        content=welcome_text
+                    )
+                    db.session.add(new_welcome_msg)
+                    db.session.commit()
+                    session[welcome_key] = now_ts
+                    current_app.logger.info(f"Yukine welcomed {current_user.username} (Role: {role}) to group {group_id}")
+            except Exception as welcome_e:
+                db.session.rollback()
+                current_app.logger.error(f"Personalized welcome failed: {welcome_e}")
+        # --- END WELCOME ---
+
         if request.method == 'POST':
             action = request.form.get('action')
             content = request.form.get('content')

@@ -709,6 +709,16 @@ TRANSLATIONS = {
         'yukine_lang_greeting_6': '{username} 把介面改成{lang_name}了！新的語言，新的心情～一起加油吧 ♪(´▽｀)',
         'yukine_lang_greeting_7': '大家好！{username} 剛剛切換成{lang_name}了～雪音也換上新衣服囉！🌟',
         'yukine_lang_greeting_8': '叮咚～{username} 選擇了{lang_name}！雪音覺得好新鮮呢～一起享受學習吧！🎶',
+        # Welcome Greetings mapping to roles
+        'yukine_welcome_admin_1': '歡迎管理者 {username} 蒞臨！巡視辛苦了～✨',
+        'yukine_welcome_admin_2': '管理員 {username} 您好！雪音隨時待命喔～👑',
+        'yukine_welcome_teacher_1': '老師 {username} 您好！今天要帶領大家學習什麼呢？🍎',
+        'yukine_welcome_teacher_2': '歡迎 {username} 老師！跟大家打個招呼吧～✨',
+        'yukine_welcome_student_1': '嗨 {username}！很高興見到你，準備好開始學習了嗎？(๑•̀ㅂ•́)و✧',
+        'yukine_welcome_student_2': '歡迎回來，{username}！今天也要一起加油喔～🌸',
+        'yukine_welcome_student_3': '{username} 來到討論區了！大家掌聲歡迎～👏',
+        'yukine_welcome_guest_1': '歡迎訪客 {username}！隨意看看，有問題可以問我喔～✨',
+        'yukine_welcome_guest_2': '嗨 {username}！歡迎來到我們的學習空間～🍃',
     },
     'ja': {
         'nav_home': 'ホーム',
@@ -1425,6 +1435,15 @@ TRANSLATIONS = {
         'yukine_lang_greeting_6': '{username}さんが{lang_name}に変えたよ！新しい言語、新しい気持ち～頑張ろう ♪(´▽｀)',
         'yukine_lang_greeting_7': 'みなさん！{username}さんが{lang_name}に切り替えたよ～ゆきねも衣替えしたよ！🌟',
         'yukine_lang_greeting_8': 'ピンポーン！{username}さんが{lang_name}を選んだよ！新鮮でワクワクするね～🎶',
+        'yukine_welcome_admin_1': '管理者 {username} 様、ようこそ！巡回お疲れ様です✨',
+        'yukine_welcome_admin_2': '管理者 {username} さん、こんにちは！いつでも指示をお待ちしています👑',
+        'yukine_welcome_teacher_1': '{username} 先生、こんにちは！今日は何を教えに来てくれましたか？🍎',
+        'yukine_welcome_teacher_2': '{username} 先生、ようこそ！皆に挨拶しましょう✨',
+        'yukine_welcome_student_1': 'やっほー {username}！準備はいい？一緒に勉強しよう！(๑•̀ㅂ•́)و✧',
+        'yukine_welcome_student_2': 'お帰りなさい {username}！今日も一日頑張ろうね🌸',
+        'yukine_welcome_student_3': '{username} さんが掲示板に来たよ！皆歓迎してね～👏',
+        'yukine_welcome_guest_1': 'ゲストの {username} さん、ようこそ！ゆっくり見ていってくださいね✨',
+        'yukine_welcome_guest_2': '訪客 {username} さん、こんにちは！学習コミュニティへようこそ🍃',
     },
     'en': {
         'nav_home': 'Home',
@@ -2124,7 +2143,16 @@ TRANSLATIONS = {
         'yukine_lang_greeting_5': 'Heads up~ {username} is now in {lang_name} mode! Yukine will follow along~ 🎵',
         'yukine_lang_greeting_6': '{username} switched to {lang_name}! New language, new vibes~ Let\'s go! ♪(´▽｀)',
         'yukine_lang_greeting_7': 'Everyone! {username} just switched to {lang_name}~ Yukine got a makeover too! 🌟',
-        'yukine_lang_greeting_8': 'Ding dong~ {username} chose {lang_name}! How exciting~ Let\'s enjoy learning together! 🎶'
+        'yukine_lang_greeting_8': 'Ding dong~ {username} chose {lang_name}! How exciting~ Let\'s enjoy learning together! 🎶',
+        'yukine_welcome_admin_1': 'Welcome, Admin {username}! Thanks for checking in! ✨',
+        'yukine_welcome_admin_2': 'Hello Admin {username}! I\'m ready for your instructions! 👑',
+        'yukine_welcome_teacher_1': 'Hello Teacher {username}! What are we learning today? 🍎',
+        'yukine_welcome_teacher_2': 'Welcome, {username} Sensei! Care to say hi to the group? ✨',
+        'yukine_welcome_student_1': 'Hey {username}! Ready to dive into some learning? (๑•̀ㅂ•́)و✧',
+        'yukine_welcome_student_2': 'Welcome back, {username}! Let\'s do our best today! 🌸',
+        'yukine_welcome_student_3': 'Look who\'s here! Welcome, {username}! 👏',
+        'yukine_welcome_guest_1': 'Welcome, Guest {username}! Feel free to look around! ✨',
+        'yukine_welcome_guest_2': 'Hi {username}! Hope you enjoy our little learning hub! 🍃',
     }
 }
 
