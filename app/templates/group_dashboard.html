@@ -844,8 +844,8 @@ document.addEventListener('DOMContentLoaded', () => {
         csrfToken: "{{ csrf_token() }}",
         groupTypeLabel: "{{ group.group_type }}",
         yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
-        aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
-        isAdmin: {{ current_user.is_admin | tojson }},
+        aiReplyUrl: `/api/groups/${CONFIG.groupId}/ai_reply`,
+        isAdmin: JSON.parse("{{ current_user.is_admin | tojson | safe }}"),
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
         yukineCheckingNote: "{{ _t('yukine_checking_note') }}",
@@ -1510,7 +1510,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (CONFIG.userRole === 'guest') {
                     greeting = "{{ _t('chat_guest_greeting') }}";
                 } else {
-                    greeting = "{{ _t('chat_user_greeting', username=current_user.username) }}";
+                    greeting = "{{ _t('chat_user_greeting', username=current_user.username) | safe }}";
                 }
                 
                 appendMessage({ 
