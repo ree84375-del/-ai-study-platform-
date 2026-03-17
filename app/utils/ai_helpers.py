@@ -420,6 +420,37 @@ def generate_image_url(prompt):
     url = f"https://image.pollinations.ai/prompt/{encoded}?width=800&height=600&nologo=true"
     return f"![生成圖片]({url})"
 
+def translate_omikuji(omikuji_json_str, target_lang):
+    """Translates omikuji JSON data (lucky_color, lucky_item, lucky_subject, advice) into target language."""
+    try:
+        data = json.loads(omikuji_json_str)
+        lang_map = {'zh': '繁體中文', 'ja': '日本語', 'en': 'English'}
+        target_lang_name = lang_map.get(target_lang, '繁體中文')
+        
+        prompt = f"""
+        Translate the following Omikuji (Fortune) data into {target_lang_name}.
+        Keep the JSON structure exactly as is.
+        Important: Translation must be natural and fit the tone of a shrine maiden/priest.
+        
+        Data:
+        {json.dumps(data, ensure_ascii=False)}
+        
+        Return ONLY the translated JSON.
+        """
+        
+        response_text = generate_text_with_fallback(prompt)
+        clean_text = response_text.strip()
+        if '```json' in clean_text:
+            clean_text = clean_text.split('```json')[1].split('```')[0].strip()
+        elif '```' in clean_text:
+            clean_text = clean_text.split('```')[1].split('```')[0].strip()
+            
+        return clean_text
+    except Exception as e:
+        import logging
+        logging.error(f"Omikuji Translation Error: {e}")
+        return omikuji_json_str
+
 AI_PERSONALITIES = {
     '雪音-溫柔型': {
         'name': '雪音 (Yukine)',
