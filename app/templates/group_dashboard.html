@@ -841,17 +841,17 @@ document.addEventListener('DOMContentLoaded', () => {
         teacherId: parseInt("{{ group.teacher_id }}"),
         groupId: parseInt("{{ group.id }}"),
         userId: parseInt("{{ current_user.id }}"),
-        csrfToken: {{ csrf_token() | tojson }},
-        groupTypeLabel: {{ group.group_type | tojson }},
-        yukineAvatar: {{ url_for('static', filename='img/yukine_avatar.png') | tojson }},
+        csrfToken: "{{ csrf_token() }}",
+        groupTypeLabel: "{{ group.group_type }}",
+        yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
         aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
         isAdmin: {{ current_user.is_admin | tojson }},
-        confirmRecallMsg: {{ _t('confirm_recall') | tojson }},
-        yukineCheckInProgress: {{ _t('yukine_checking') | tojson }},
-        yukineCheckingNote: {{ _t('yukine_checking_note') | tojson }},
-        userLang: {{ session.get('language', 'zh') | tojson }},
-        username: {{ current_user.username | tojson }},
-        userRole: {{ current_user.role | tojson }}
+        confirmRecallMsg: "{{ _t('confirm_recall') }}",
+        yukineCheckInProgress: "{{ _t('yukine_checking') }}",
+        yukineCheckingNote: "{{ _t('yukine_checking_note') }}",
+        userLang: "{{ session.get('language', 'zh') }}",
+        username: "{{ current_user.username }}",
+        userRole: "{{ current_user.role }}"
     };
 
     const messageContainer = document.querySelector('.chat-scroll-area');

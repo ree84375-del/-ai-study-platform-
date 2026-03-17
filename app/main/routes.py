@@ -350,35 +350,24 @@ def draw_omikuji():
             if match:
                 text = match.group(1)
             else:
-                text = text.replace('```json', '').replace('```', '').strip()
+                text = text.replace('```json', '').replace('```',        data = json.loads(text)
         
-        data = json.loads(text)
+        # Store raw JSON data in the message field for frontend localization
+        omikuji_data = {
+            'lucky_color': data.get('lucky_color', '...'),
+            'lucky_item': data.get('lucky_item', '...'),
+            'lucky_subject': data.get('lucky_subject', '...'),
+            'advice': data.get('advice', '...')
+        }
         
-        translated_fortune = _t(f'fortune_{drawn_fortune}', lang)
-        
-        # Label translations
-        l_color = _t('omikuji_lucky_color', lang)
-        l_item = _t('omikuji_lucky_item', lang)
-        l_subj = _t('omikuji_lucky_subject', lang)
-        l_adv = _t('omikuji_advice_label', lang)
-
-        colon = '：' if lang in ['zh', 'ja'] else ': '
-        rich_message = f"""
-        <div class="omikuji-result" style="text-align: left; max-width: 250px; margin: 0 auto;">
-            <p style="margin-bottom: 5px;"><strong>{l_color}{colon}</strong>{data.get('lucky_color', '...')}</p>
-            <p style="margin-bottom: 5px;"><strong>{l_item}{colon}</strong>{data.get('lucky_item', '...')}</p>
-            <p style="margin-bottom: 5px;"><strong>{l_subj}{colon}</strong>{data.get('lucky_subject', '...')}</p>
-            <p class="mt-2" style="font-style: italic; color: var(--color-primary); border-top: 1px solid var(--color-border); padding-top: 10px; margin-top: 10px;">「{data.get('advice', '...')}」</p>
-        </div>
-        """
-        
-        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=rich_message, drawn_date=today)
+        omikuji = Omikuji(user_id=current_user.id, fortune_level=drawn_fortune, message=json.dumps(omikuji_data), drawn_date=today)
         db.session.add(omikuji)
         
         # Add Garden XP (Drawing fortune: 5 XP)
         from app.utils.garden_helpers import add_garden_xp
         add_garden_xp(5)
         
+        db.session.commit()
         db.session.commit()
         
         flash(_t('omikuji_draw_success', lang, fortune=_t(f'fortune_{drawn_fortune}', lang)), 'success')

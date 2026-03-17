@@ -111,7 +111,18 @@
                         </span>
                     </div>
                     <div style="font-size: 1rem; color: #2c3e50; line-height: 1.8; font-weight: 500; padding: 0 10px;">
-                        {{ today_omikuji.message|safe }}
+                        {% set msg = today_omikuji.message %}
+                        {% if msg.startswith('{') and msg.endswith('}') %}
+                            {% set data = msg|from_json %}
+                            <div class="omikuji-result" style="text-align: left; max-width: 250px; margin: 0 auto;">
+                                <p style="margin-bottom: 5px;"><strong>{{ _t('omikuji_lucky_color') }}{{ _t('colon_separator') }}</strong>{{ data.lucky_color }}</p>
+                                <p style="margin-bottom: 5px;"><strong>{{ _t('omikuji_lucky_item') }}{{ _t('colon_separator') }}</strong>{{ data.lucky_item }}</p>
+                                <p style="margin-bottom: 5px;"><strong>{{ _t('omikuji_lucky_subject') }}{{ _t('colon_separator') }}</strong>{{ data.lucky_subject }}</p>
+                                <p class="mt-2" style="font-style: italic; color: var(--color-primary); border-top: 1px solid var(--color-border); padding-top: 10px; margin-top: 10px;">「{{ data.advice }}」</p>
+                            </div>
+                        {% else %}
+                            {{ msg|safe }}
+                        {% endif %}
                     </div>
                 </div>
                 <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--color-text_light); font-weight: 500;">{{ _t('tomorrow_again') }}</div>
