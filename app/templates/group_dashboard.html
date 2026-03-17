@@ -461,12 +461,27 @@
                         </button>
                         <h4 id="grading-student-name" style="margin-top: 0;"></h4>
                         
+                        <div style="background: #f0f7ff; border: 1px solid #d0e1fd; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <label style="font-size: 0.8rem; font-weight: bold; color: #4a6fa5;">{{ _t('question_content_label') }}</label>
+                            <div id="grading-assignment-desc" style="font-size: 0.95rem; margin-top: 5px; white-space: pre-wrap; color: #333;"></div>
+                        </div>
+
+                        <div style="background: #f6ffed; border: 1px solid #b7eb8f; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <label style="font-size: 0.8rem; font-weight: bold; color: #52c41a;">{{ _t('ref_answer') }}</label>
+                            <div id="grading-reference-answer" style="font-size: 0.95rem; margin-top: 5px; white-space: pre-wrap; color: #333;"></div>
+                        </div>
+                        
                         <div style="background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
                             <label style="font-size: 0.8rem; font-weight: bold; color: #666;">{{ _t('student_answer') }}</label>
                             <div id="grading-student-answer" style="font-size: 0.95rem; margin-top: 5px; white-space: pre-wrap;"></div>
                             <div id="grading-student-image" style="margin-top: 10px; display: none;">
                                 <img src="" style="max-width: 100%; border-radius: 8px;">
                             </div>
+                        </div>
+
+                        <div style="background: #fffbe6; border: 1px solid #ffe58f; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                            <label style="font-size: 0.8rem; font-weight: bold; color: #d4a017;">{{ _t('ai_explanation_label') }}</label>
+                            <div id="grading-ai-analysis" style="font-size: 0.9rem; margin-top: 5px; white-space: pre-wrap; color: #555;"></div>
                         </div>
 
                         <form id="grading-form" onsubmit="submitGrade(event)">
@@ -833,7 +848,8 @@ document.addEventListener('DOMContentLoaded', () => {
         isAdmin: {{ current_user.is_admin | tojson }},
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
-        yukineCheckingNote: "{{ _t('yukine_checking_note') }}"
+        yukineCheckingNote: "{{ _t('yukine_checking_note') }}",
+        userLang: "{{ session.get('language', 'zh') }}"
     };
 
     const messageContainer = document.querySelector('.chat-scroll-area');
@@ -988,6 +1004,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('grading-status-id').value = sub.status_id;
         document.getElementById('grading-score').value = sub.score || "";
         document.getElementById('grading-feedback').value = sub.feedback || "";
+        
+        document.getElementById('grading-assignment-desc').innerText = sub.assignment_desc || "";
+        document.getElementById('grading-reference-answer').innerText = sub.reference_answer || "";
+        document.getElementById('grading-ai-analysis').innerText = sub.ai_explanation || "{{ _t('no_detailed_feedback') }}";
         
         const imgDiv = document.getElementById('grading-student-image');
         if (sub.submission_image) {
@@ -1477,9 +1497,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Admin Auto Greeting - Fixed logic to show even if chat is not empty, once per session
+    // Admin Auto Greeting - Fixed logic to show even if chat is not empty, once per session per language
     if (CONFIG.isAdmin) {
-        if (!sessionStorage.getItem(`yukine_admin_greeted_dashboard_${CONFIG.groupId}`)) {
+        const sessionKey = `yukine_admin_greeted_dashboard_${CONFIG.groupId}_${CONFIG.userLang}`;
+        if (!sessionStorage.getItem(sessionKey)) {
             setTimeout(() => { 
                 if (messageContainer) {
                     appendMessage({ 
@@ -1487,7 +1508,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         username: "{{ _t('chat_label_yukine') }}", 
                         content: "{{ _t('chat_admin_greeting') }}"
                     });
-                    sessionStorage.setItem(`yukine_admin_greeted_dashboard_${CONFIG.groupId}`, 'true');
+                    sessionStorage.setItem(sessionKey, 'true');
                 }
             }, 1500);
         }
