@@ -261,7 +261,10 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         if user and user.ai_personality:
             personality = AI_PERSONALITIES.get(user.ai_personality)
             if personality:
-         # Localized instructions
+                tutor_name = personality['name']
+                tutor_prompt = personality['system_prompt']
+
+        # Localized instructions
         if lang == 'ja':
             output_lang = "日本語"
             role_desc = f"知的で親切な万能アシスタントの{tutor_name}先生"
