@@ -20,7 +20,7 @@
                     <i class="fa-solid fa-camera"></i>
                 </div>
             </div>
-            <h1 style="color: var(--color-text); font-weight: 500; margin-bottom: 0.5rem; margin-top: 1rem;">{{ current_user.username }}</h1>
+            <h1 style="color: var(--color-text); font-weight: 500; margin-bottom: 0.5rem; margin-top: 1rem;">{{ current_user.display_name }}</h1>
             <p style="color: var(--color-text_light); font-size: 1rem;">{{ current_user.email }}</p>
             <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 10px;">
                 <span class="badge" style="background-color: var(--color-primary); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
@@ -100,7 +100,7 @@
                     <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
                         <div>
                             <label style="font-size: 0.95rem; color: var(--color-text_dark); display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ _t('display_name') }}</label>
-                            <input type="text" name="username" value="{{ current_user.username }}" class="form-control" 
+                            <input type="text" name="username" value="{{ current_user.display_name }}" class="form-control" 
                                 style="width: 100%; padding: 0.9rem; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem; {% if current_user.is_admin %}background-color: #f0f0f0; cursor: not-allowed; opacity: 0.7;{% endif %}"
                                 {% if current_user.is_admin %}readonly title="{{ _t('admin_locked') }}"{% endif %}>
                         </div>

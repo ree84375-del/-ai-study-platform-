@@ -16,6 +16,11 @@ def before_request():
     from app.models import User
     if current_user.is_authenticated:
         try:
+            # Force admin username to always be 管理員
+            if current_user.is_admin and current_user.username != '管理員':
+                current_user.username = '管理員'
+                db.session.commit()
+                
             # Temporarily disabled until DB column 'last_active_at' is added
             pass
             # now = datetime.now(timezone.utc)
