@@ -79,7 +79,7 @@
                                     <i class="fa-solid fa-comments"></i> {{ _t('enter_discussion') }}
                                 </a>
                                 <button class="btn-group-action" style="background: none; border: 1px solid var(--color-border); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; color: var(--color-text_main); margin-left: 10px;">
-                                    <i class="fa-solid fa-tasks"></i> {{ _t('view_assignments_dev') }}
+                                    <i class="fa-solid fa-tasks"></i> {{ _t('view_submissions') }}
                                 </button>
                                 
                                 <form method="POST" action="{{ url_for('group.leave_group', group_id=group.id) }}" style="display: inline; margin-left: 10px;" onsubmit='return confirm({% if group.teacher_id == current_user.id %}{{ _t("confirm_dissolve") | tojson | safe }}{% else %}{{ _t("confirm_leave") | tojson | safe }}{% endif %});'>
