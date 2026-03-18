@@ -298,21 +298,6 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         {detail_2}
         {detail_3}
         {final_note}
-        """內容："
-            detail_1 = "1. 圖片辨識模式：請辨識圖片中的學習題目或講義內容。"
-            detail_1_extra = "- **重點：包含「印刷文字」與「手寫文字」都要辨識**。即便使用者的手寫字跡非常凌亂，也請盡全力通靈或根據上下文推斷其真實內容。"
-            detail_2 = f"2. 防呆與拒絕機制：如果內容無關，請以「{tutor_name}老師」的身分給予溫柔拒絕。"
-            detail_3 = "3. 如果是學習題目：提供原文辨識、提供解答、過程解析。"
-            final_note = f"請用{output_lang}回答，並且排版清晰易讀。"
-
-        prompt = f"""
-        你是{role_desc}。
-        {task_desc}
-        {detail_1}
-           {detail_1_extra}
-        {detail_2}
-        {detail_3}
-        {final_note}
         """
         return generate_vision_with_fallback(prompt, image_bytes)
     except Exception as e:
