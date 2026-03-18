@@ -552,7 +552,7 @@
         <!-- Header -->
         <div style="padding: 20px 25px; border-bottom: 1px solid var(--color-border); background: #f8f9fa; display: flex; justify-content: space-between; align-items: center;">
             <h3 style="margin: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 10px;">
-                <i class="fa-solid fa-book-open" style="color: var(--color-primary);"></i> <span id="vad-title">{{ _t('view_assignment_title', '查看作業詳情') }}</span>
+                <i class="fa-solid fa-book-open" style="color: var(--color-primary);"></i> <span id="vad-title">{{ _t('view_assignment_title') }}</span>
             </h3>
             <button class="close-btn" onclick="closeViewAssignmentModal()" style="font-size: 1.5rem;">&times;</button>
         </div>
@@ -563,7 +563,7 @@
             <!-- Section 1: Assignment Info (Common) -->
             <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                    <h4 style="margin: 0; color: var(--color-primary);"><i class="fa-solid fa-circle-info"></i> {{ _t('question_explanation', '作業題目與說明') }}</h4>
+                    <h4 style="margin: 0; color: var(--color-primary);"><i class="fa-solid fa-circle-info"></i> {{ _t('question_explanation') }}</h4>
                     <span id="vad-due-date" style="font-size: 0.85rem; color: var(--color-text_light);"></span>
                 </div>
                 
@@ -580,7 +580,7 @@
 
             <!-- Section 2: Reference Material (Teacher only, or Student after submission/overdue) -->
             <div id="vad-ref-section" class="glass-panel" style="padding: 20px; margin-bottom: 20px; display: none; border-left: 4px solid #4CAF50;">
-                <h4 style="margin: 0 0 15px 0; color: #2e7d32;"><i class="fa-solid fa-key"></i> {{ _t('ref_answer', '參考答案 / 老師素材') }}</h4>
+                <h4 style="margin: 0 0 15px 0; color: #2e7d32;"><i class="fa-solid fa-key"></i> {{ _t('ref_answer') }}</h4>
                 <div style="background: white; border: 1px solid #c8e6c9; border-radius: 8px; padding: 15px;">
                     <div id="vad-ref-content" style="white-space: pre-wrap; color: var(--color-text_main); font-size: 0.95rem; line-height: 1.5;"></div>
                     
@@ -593,11 +593,11 @@
 
             <!-- Section 3: Submissions & Results -->
             <div class="glass-panel" style="padding: 20px;">
-                <h4 style="margin: 0 0 15px 0; color: var(--color-primary);"><i class="fa-solid fa-clipboard-check"></i> <span id="vad-submission-header">{{ _t('student_submission_status', '學生繳交狀況') }}</span></h4>
+                <h4 style="margin: 0 0 15px 0; color: var(--color-primary);"><i class="fa-solid fa-clipboard-check"></i> <span id="vad-submission-header">{{ _t('student_submission_status') }}</span></h4>
                 
                 <!-- Container for dynamic content (List for Teacher, Single View for Student) -->
                 <div id="vad-submissions-container">
-                    <div style="text-align: center; color: var(--color-text_light); padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> {{ _t('loading', '載入中...') }}</div>
+                    <div style="text-align: center; color: var(--color-text_light); padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> {{ _t('loading') }}</div>
                 </div>
             </div>
 
@@ -1339,7 +1339,7 @@ async function openViewAssignmentModal(assignmentId) {
     const container = document.getElementById('vad-submissions-container');
     
     // Reset Views
-    container.innerHTML = `<div style="text-align: center; color: var(--color-text_light); padding: 40px;"><i class="fa-solid fa-spinner fa-spin fa-2x"></i><br><br>${"{{ _t('loading', '載入中...') }}"}</div>`;
+    container.innerHTML = `<div style="text-align: center; color: var(--color-text_light); padding: 40px;"><i class="fa-solid fa-spinner fa-spin fa-2x"></i><br><br>${"{{ _t('loading') }}"}</div>`;
     document.getElementById('vad-ref-section').style.display = 'none';
     
     modal.style.display = 'flex';
@@ -1389,7 +1389,7 @@ function renderSubmissionData(data) {
     const isTeacher = data.is_teacher;
 
     if (isTeacher) {
-        document.getElementById('vad-submission-header').innerText = `{{ _t('student_submission_status', '學生繳交狀況') }} (${submissions.filter(s=>s.is_completed).length}/${submissions.length})`;
+        document.getElementById('vad-submission-header').innerText = `{{ _t('student_submission_status') }} (${submissions.filter(s=>s.is_completed).length}/${submissions.length})`;
         
         if (submissions.length === 0) {
             container.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">群組內尚無學生。</p>`;
@@ -1483,7 +1483,7 @@ function VadRenderSingleDetail(containerEl, sub, isTeacherView = false) {
             <!-- Yukine's Analysis / OCR -->
             ${sub.recognized_content ? `
             <div>
-                <h6 style="margin: 0 0 10px 0; color: #666; font-size: 0.9rem;"><i class="fa-solid fa-robot"></i> {{ _t('yukine_read_answer', '雪音辨識答案') }}：</h6>
+                <h6 style="margin: 0 0 10px 0; color: #666; font-size: 0.9rem;"><i class="fa-solid fa-robot"></i> {{ _t('yukine_read_answer') }}：</h6>
                 <div style="background: #fdfbf7; padding: 15px; border-radius: 8px; border: 1px solid #f0e6d2; white-space: pre-wrap; font-size: 0.95rem; color: #5c4a3d;">${sub.recognized_content}</div>
             </div>` : ''}
 
@@ -1492,7 +1492,7 @@ function VadRenderSingleDetail(containerEl, sub, isTeacherView = false) {
                 <h6 style="margin: 0 0 10px 0; color: var(--color-accent); font-size: 0.9rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> 雪音老師的總評：</h6>
                 <div style="margin-bottom: 15px; font-weight: bold; color: #d32f2f;">${sub.feedback || '尚未產生評語'}</div>
                 
-                <h6 style="margin: 0 0 5px 0; color: #666; font-size: 0.9rem;">{{ _t('yukine_analysis', '雪音解析') }}：</h6>
+                <h6 style="margin: 0 0 5px 0; color: #666; font-size: 0.9rem;">{{ _t('yukine_analysis') }}：</h6>
                 <div style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.6; color: #333;">${sub.explanation || '(無詳細解析)'}</div>
             </div>
 
