@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from app.models import User, Question, ChatSession, Group, Announcement
 from app import db
@@ -58,6 +58,12 @@ def dashboard():
     }
     
     return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, api_key_statuses=api_key_statuses, stats=stats)
+
+@admin.route('/api_keys_status')
+def api_keys_status():
+    from app.utils.ai_helpers import get_all_api_key_statuses
+    return jsonify(get_all_api_key_statuses())
+
 
 @admin.route('/user/<int:user_id>/role', methods=['POST'])
 def change_user_role(user_id):

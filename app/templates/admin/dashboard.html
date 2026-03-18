@@ -86,7 +86,7 @@
     </div>
 
     <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> {{ _t('admin_api_keys_title', 'API Key 狀態與監控') }}</h3>
+        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> {{ _t('admin_api_keys_title') }}</h3>
         <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1rem;">系統會自動追蹤每次模型呼叫的結果並更新燈號狀態。</p>
         
         <style>
@@ -105,6 +105,7 @@
             .dot-error { background-color: #f44336; box-shadow: 0 0 5px #f44336; }
         </style>
 
+        <div id="api-keys-container">
         {% for provider, keys in api_key_statuses.items() %}
         <div style="margin-bottom: 1.5rem;">
             <label style="font-weight: bold; color: var(--color-text); font-size: 1.1rem; display: block; margin-bottom: 0.8rem; text-transform: uppercase;">
@@ -145,8 +146,79 @@
             {% endif %}
         </div>
         {% endfor %}
+        </div>
     </div>
 
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function fetchAPIKeyStatus() {
+        fetch('{{ url_for("admin.api_keys_status") }}')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('api-keys-container');
+                if (!container) return;
+                
+                let newHtml = '';
+                for (const [provider, keys] of Object.entries(data)) {
+                    newHtml += `
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="font-weight: bold; color: var(--color-text); font-size: 1.1rem; display: block; margin-bottom: 0.8rem; text-transform: uppercase;">
+                            <i class="fa-solid fa-microchip"></i> ${provider} API Keys 
+                            <span style="font-size: 0.8rem; font-weight: normal; color: #888; margin-left: 10px;">共 ${keys.length} 把</span>
+                        </label>`;
+                        
+                    if (keys.length === 0) {
+                        newHtml += `<div style="padding: 15px; background: #f9f9f9; border-radius: 8px; color: #888; text-align: center; font-style: italic;">尚未設定此模型的 API Key</div>`;
+                    } else {
+                        for (const k of keys) {
+                            let badgeHtml = '';
+                            if (k.status === 'active') {
+                                badgeHtml = '<span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 正在運作</span>';
+                            } else if (k.status === 'standby') {
+                                badgeHtml = '<span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機狀態</span>';
+                            } else if (k.status === 'cooldown') {
+                                badgeHtml = '<span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻狀態</span>';
+                            } else {
+                                badgeHtml = '<span class="api-status-badge status-error"><div class="status-dot dot-error"></div> 壞掉了</span>';
+                            }
+                            
+                            let errorHtml = '';
+                            if (k.error) {
+                                errorHtml = `<div style="font-size: 0.8rem; color: #c62828; margin-top: 5px; margin-left: 24px; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${k.error.replace(/"/g, '&quot;')}">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> 錯誤：${k.error}
+                                </div>`;
+                            }
+                            
+                            newHtml += `
+                            <div class="api-key-row">
+                                <div style="flex: 1; overflow: hidden;">
+                                    <div class="api-key-text"><i class="fa-solid fa-key" style="color: #ccc; margin-right: 8px;"></i>${k.key}</div>
+                                    <div style="font-size: 0.75rem; color: #aaa; margin-top: 5px; margin-left: 24px;">
+                                        <i class="fa-regular fa-clock"></i> 最後使用：${k.last_used}
+                                    </div>
+                                    ${errorHtml}
+                                </div>
+                                <div style="margin-left: 15px;">
+                                    ${badgeHtml}
+                                </div>
+                            </div>
+                            `;
+                        }
+                    }
+                    newHtml += `</div>`;
+                }
+                
+                container.innerHTML = newHtml;
+            })
+            .catch(error => console.error('Error fetching API key status:', error));
+    }
+
+    // Polling interval: dynamically grab updates every 3 seconds
+    setInterval(fetchAPIKeyStatus, 3000);
+});
+</script>
+
 {% endblock %}
