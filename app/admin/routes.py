@@ -47,8 +47,8 @@ def dashboard():
     # --- END DATABASE HEALTH CHECK ---
 
     users = User.query.order_by((User.role == 'admin').desc(), User.id).all()
-    gemini_keys = os.environ.get('GEMINI_API_KEYS', os.environ.get('GEMINI_API_KEY', ''))
-    groq_keys = os.environ.get('GROQ_API_KEYS', '')
+    from app.utils.ai_helpers import get_all_api_key_statuses
+    api_key_statuses = get_all_api_key_statuses()
     
     stats = {
         'total_users': User.query.count(),
@@ -57,7 +57,7 @@ def dashboard():
         'total_groups': Group.query.count()
     }
     
-    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, gemini_keys=gemini_keys, groq_keys=groq_keys, stats=stats)
+    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, api_key_statuses=api_key_statuses, stats=stats)
 
 @admin.route('/user/<int:user_id>/role', methods=['POST'])
 def change_user_role(user_id):

@@ -11,6 +11,55 @@ from datetime import datetime
 # Setup Gemini API key
 _cached_gemini_model_name = None
 
+# API Key Status Tracking
+API_KEY_STATUS = {}
+
+def get_all_api_key_statuses():
+    gemini_keys = get_gemini_keys()
+    groq_keys = get_groq_keys()
+    ollama_keys = get_ollama_keys()
+    
+    # Initialize defaults if not in dict
+    for provider, keys in [('gemini', gemini_keys), ('groq', groq_keys), ('ollama', ollama_keys)]:
+        if provider not in API_KEY_STATUS:
+            API_KEY_STATUS[provider] = {}
+        for k in keys:
+            if k not in API_KEY_STATUS[provider]:
+                API_KEY_STATUS[provider][k] = {
+                    'status': 'standby',
+                    'last_used': None,
+                    'error': None
+                }
+    
+    masked_status = {}
+    for provider, keys_dict in API_KEY_STATUS.items():
+        masked_status[provider] = []
+        for k, info in keys_dict.items():
+            if not k: continue
+            masked_k = k[:6] + '...' + k[-4:] if len(k) > 10 else k
+            # Ensure we only track currently valid keys in env
+            active_keys = gemini_keys if provider == 'gemini' else groq_keys if provider == 'groq' else ollama_keys
+            if k in active_keys:
+                masked_status[provider].append({
+                    'key': masked_k,
+                    'full_key': k,
+                    'status': info['status'],
+                    'last_used': info['last_used'].strftime('%Y-%m-%d %H:%M:%S') if info['last_used'] else '從未使用',
+                    'error': info['error']
+                })
+    return masked_status
+
+def mark_key_status(provider, key, status, error=None):
+    if provider not in API_KEY_STATUS:
+        API_KEY_STATUS[provider] = {}
+    if key not in API_KEY_STATUS[provider]:
+         API_KEY_STATUS[provider][key] = {}
+    
+    API_KEY_STATUS[provider][key]['status'] = status
+    API_KEY_STATUS[provider][key]['last_used'] = datetime.now()
+    API_KEY_STATUS[provider][key]['error'] = error
+
+
 def get_gemini_keys():
     keys_str = os.environ.get('GEMINI_API_KEYS', os.environ.get('GEMINI_API_KEY', ''))
     if not keys_str: return []
@@ -98,11 +147,17 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                     genai.configure(api_key=key)
                     model = get_gemini_model(system_instruction=system_instruction)
                     response = model.generate_content(prompt)
+                    mark_key_status('gemini', key, 'active')
                     return response.text
                 except Exception as e:
                     errors.append(f"Gemini (key {key[:4]}...): {e}")
                     # If it's a quota issue, try next key. Otherwise, provider might be down.
-                    if "429" not in str(e) and "quota" not in str(e).lower():
+                    err_str = str(e).lower()
+                    if "429" in err_str or "quota" in err_str:
+                        mark_key_status('gemini', key, 'cooldown', str(e))
+                        continue
+                    else:
+                        mark_key_status('gemini', key, 'error', str(e))
                         break
                 
         elif provider == 'groq':
@@ -123,10 +178,16 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                         temperature=0.7,
                         max_tokens=2048,
                     )
+                    mark_key_status('groq', key, 'active')
                     return response.choices[0].message.content
                 except Exception as e:
                     errors.append(f"Groq (key {key[:4]}...): {e}")
-                    if "restricted" not in str(e).lower() and "quota" not in str(e).lower() and "429" not in str(e):
+                    err_str = str(e).lower()
+                    if "restricted" in err_str or "quota" in err_str or "429" in err_str:
+                        mark_key_status('groq', key, 'cooldown', str(e))
+                        continue
+                    else:
+                        mark_key_status('groq', key, 'error', str(e))
                         break
 
         elif provider == 'ollama':
@@ -148,9 +209,11 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                         messages=messages,
                         temperature=0.7
                     )
+                    mark_key_status('ollama', key, 'active')
                     return str(response.choices[0].message.content)
                 except Exception as e:
                     errors.append(f"Ollama: {e}")
+                    mark_key_status('ollama', key, 'error', str(e))
                     break
 
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
@@ -186,10 +249,16 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                     if system_instruction:
                         model = get_gemini_model(system_instruction=system_instruction)
                     response = model.generate_content(inputs)
+                    mark_key_status('gemini', key, 'active')
                     return response.text
                 except Exception as e:
                     errors.append(f"Gemini Vision (key {key[:4]}...): {e}")
-                    if "429" not in str(e) and "quota" not in str(e).lower():
+                    err_str = str(e).lower()
+                    if "429" in err_str or "quota" in err_str:
+                        mark_key_status('gemini', key, 'cooldown', str(e))
+                        continue
+                    else:
+                        mark_key_status('gemini', key, 'error', str(e))
                         break
         
         elif provider == 'groq':
@@ -216,10 +285,16 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         temperature=0.7,
                         max_tokens=2048,
                     )
+                    mark_key_status('groq', key, 'active')
                     return response.choices[0].message.content
                 except Exception as e:
                     errors.append(f"Groq Vision (key {key[:4]}...): {e}")
-                    if "restricted" not in str(e).lower() and "quota" not in str(e).lower() and "429" not in str(e):
+                    err_str = str(e).lower()
+                    if "restricted" in err_str or "quota" in err_str or "429" in err_str:
+                        mark_key_status('groq', key, 'cooldown', str(e))
+                        continue
+                    else:
+                        mark_key_status('groq', key, 'error', str(e))
                         break
         
         elif provider == 'ollama':
@@ -246,9 +321,11 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         messages=messages,
                         temperature=0.7
                     )
+                    mark_key_status('ollama', key, 'active')
                     return response.choices[0].message.content
                 except Exception as e:
                     errors.append(f"Ollama Vision: {e}")
+                    mark_key_status('ollama', key, 'error', str(e))
                     break
 
     raise Exception(f"所有的視覺 AI 模型皆不可用：{', '.join(errors)}")

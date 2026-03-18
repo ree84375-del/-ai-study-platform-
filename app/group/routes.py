@@ -846,6 +846,91 @@ def view_assignment_submissions(group_id, assignment_id):
         'submissions': results
     })
 
+@group.route('/api/groups/<int:group_id>/assignment/<int:assignment_id>/view_details', methods=['GET'], strict_slashes=False)
+@login_required
+def view_assignment_details(group_id, assignment_id):
+    from app.models import Group, Assignment, AssignmentStatus, GroupMember, User
+    group_obj = Group.query.get_or_404(group_id)
+    assignment = Assignment.query.get_or_404(assignment_id)
+    
+    if assignment.group_id != group_id:
+        return jsonify({'status': 'error', 'message': 'Assignment does not belong to this group'}), 400
+
+    is_teacher = (group_obj.teacher_id == current_user.id)
+    
+    # Base assignment data visible to all
+    assignment_data = {
+        'id': assignment.id,
+        'title': assignment.title,
+        'description': assignment.description,
+        'due_date': assignment.due_date.isoformat() + 'Z' if assignment.due_date else None,
+        'created_at': assignment.created_at.isoformat() + 'Z' if assignment.created_at else None,
+    }
+
+    # Prepare submission data
+    user_status_map = {s.user_id: s for s in assignment.statuses}
+    submissions_data = []
+
+    if is_teacher:
+        # Teacher: See reference material and all student submissions
+        assignment_data['ref_answer'] = assignment.reference_answer
+        assignment_data['ref_image'] = assignment.reference_image
+        
+        members = GroupMember.query.filter_by(group_id=group_id).all()
+        for m in members:
+            # Skip teacher in the student list
+            if m.user_id == group_obj.teacher_id:
+                continue
+                
+            user = m.member
+            status = user_status_map.get(m.user_id)
+            
+            submissions_data.append({
+                'user_id': user.id,
+                'username': user.username,
+                'status_id': status.id if status else None,
+                'is_completed': status.is_completed if status else False,
+                'completed_at': status.completed_at.isoformat() + 'Z' if status and status.completed_at else None,
+                'content': status.content if status else None,
+                'submission_image': status.submission_image if status else None,
+                'recognized_content': status.recognized_content if status else None,
+                'score': status.score if status else None,
+                'feedback': status.ai_feedback if status else None,
+                'explanation': status.ai_explanation if status else None
+            })
+    else:
+        # Student: Only see ref material if submitted or overdue, and only see own submission
+        status = user_status_map.get(current_user.id)
+        is_overdue = assignment.due_date and datetime.utcnow() > assignment.due_date
+        has_submitted = status and status.is_completed
+
+        if has_submitted or is_overdue:
+            assignment_data['ref_answer'] = assignment.reference_answer
+            assignment_data['ref_image'] = assignment.reference_image
+        
+        if status:
+            submissions_data.append({
+                'user_id': current_user.id,
+                'username': current_user.username,
+                'status_id': status.id,
+                'is_completed': status.is_completed,
+                'completed_at': status.completed_at.isoformat() + 'Z' if status.completed_at else None,
+                'content': status.content,
+                'submission_image': status.submission_image,
+                'recognized_content': status.recognized_content,
+                'score': status.score,
+                'feedback': status.ai_feedback,
+                'explanation': status.ai_explanation
+            })
+
+    return jsonify({
+        'status': 'success',
+        'assignment': assignment_data,
+        'submissions': submissions_data,
+        'is_teacher': is_teacher
+    })
+
+
 @group.route('/api/groups/assignment/status/<int:status_id>/grade', methods=['POST'], strict_slashes=False)
 @login_required
 def update_assignment_grade(status_id):

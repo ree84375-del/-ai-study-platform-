@@ -120,16 +120,10 @@
                         {% for assignment in assignments %}
                             {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
                             {% set is_completed = user_status and user_status.is_completed %}
-                            <div class="assignment-card open-sub-btn {% if not is_completed %}active-assignment-glow{% endif %}" 
+                            <div class="assignment-card open-detail-btn {% if not is_completed %}active-assignment-glow{% endif %}" 
                                  data-id="{{ assignment.id }}"
-                                 data-title="{{ assignment.title or '' }}"
-                                 data-desc="{{ assignment.description or '' }}"
-                                 data-q-image="{{ url_for('static', filename=assignment.question_image) if assignment.question_image else '' }}"
-                                 data-completed="{{ 'true' if is_completed else 'false' }}"
-                                 data-score="{{ user_status.score if user_status else '' }}"
-                                 data-feedback="{{ user_status.ai_feedback if user_status else '' }}"
-                                 data-explanation="{{ user_status.ai_explanation if user_status else '' }}"
-                                 style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 18px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                 style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 18px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"
+                                 onclick="openViewAssignmentModal({{ assignment.id }})">
                                 
                                 {% if not is_completed %}
                                 <div style="position: absolute; top: -10px; right: -5px; background: #ff8da1; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 5px rgba(255, 141, 161, 0.3);">
@@ -551,6 +545,78 @@
                 </div>
         {% endif %}
         </aside>
+
+<!-- Unified View Assignment Details Modal -->
+<div id="view-assignment-detail-modal" class="modal-overlay" style="display: none; align-items: center; justify-content: center; z-index: 1000;">
+    <div class="modal-content" style="max-width: 900px; width: 95%; height: 85vh; padding: 0; display: flex; flex-direction: column; overflow: hidden;">
+        <!-- Header -->
+        <div style="padding: 20px 25px; border-bottom: 1px solid var(--color-border); background: #f8f9fa; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 10px;">
+                <i class="fa-solid fa-book-open" style="color: var(--color-primary);"></i> <span id="vad-title">{{ _t('view_assignment_title', '查看作業詳情') }}</span>
+            </h3>
+            <button class="close-btn" onclick="closeViewAssignmentModal()" style="font-size: 1.5rem;">&times;</button>
+        </div>
+
+        <!-- Scrollable Content Body -->
+        <div style="flex: 1; overflow-y: auto; padding: 25px; background: #fafafa;">
+            
+            <!-- Section 1: Assignment Info (Common) -->
+            <div class="glass-panel" style="padding: 20px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <h4 style="margin: 0; color: var(--color-primary);"><i class="fa-solid fa-circle-info"></i> {{ _t('question_explanation', '作業題目與說明') }}</h4>
+                    <span id="vad-due-date" style="font-size: 0.85rem; color: var(--color-text_light);"></span>
+                </div>
+                
+                <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 15px;">
+                    <div id="vad-question-content" style="white-space: pre-wrap; margin-bottom: 15px; color: var(--color-text_main); font-size: 0.95rem; line-height: 1.5;"></div>
+                    
+                    <!-- Optional: Render Question Image here if existing -->
+                    <div id="vad-question-image-container" style="display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+                        <span style="font-size: 0.8rem; color: #888;"><i class="fa-solid fa-image"></i> 題目附圖：</span>
+                        <img id="vad-question-image" src="" style="max-width: 100%; max-height: 300px; border-radius: 8px; margin-top: 10px; cursor: pointer;" onclick="openImageModal(this.src)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Reference Material (Teacher only, or Student after submission/overdue) -->
+            <div id="vad-ref-section" class="glass-panel" style="padding: 20px; margin-bottom: 20px; display: none; border-left: 4px solid #4CAF50;">
+                <h4 style="margin: 0 0 15px 0; color: #2e7d32;"><i class="fa-solid fa-key"></i> {{ _t('ref_answer', '參考答案 / 老師素材') }}</h4>
+                <div style="background: white; border: 1px solid #c8e6c9; border-radius: 8px; padding: 15px;">
+                    <div id="vad-ref-content" style="white-space: pre-wrap; color: var(--color-text_main); font-size: 0.95rem; line-height: 1.5;"></div>
+                    
+                    <div id="vad-ref-image-container" style="display: none; margin-top: 15px; border-top: 1px solid #c8e6c9; padding-top: 15px;">
+                        <span style="font-size: 0.8rem; color: #2e7d32;"><i class="fa-solid fa-image"></i> 老師附圖：</span>
+                        <img id="vad-ref-image" src="" style="max-width: 100%; border-radius: 8px; margin-top: 10px; cursor: pointer;" onclick="openImageModal(this.src)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Submissions & Results -->
+            <div class="glass-panel" style="padding: 20px;">
+                <h4 style="margin: 0 0 15px 0; color: var(--color-primary);"><i class="fa-solid fa-clipboard-check"></i> <span id="vad-submission-header">{{ _t('student_submission_status', '學生繳交狀況') }}</span></h4>
+                
+                <!-- Container for dynamic content (List for Teacher, Single View for Student) -->
+                <div id="vad-submissions-container">
+                    <div style="text-align: center; color: var(--color-text_light); padding: 20px;"><i class="fa-solid fa-spinner fa-spin"></i> {{ _t('loading', '載入中...') }}</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Unified View Assignment Details Modal -->
+
+<!-- Image Zoom Modal -->
+<div id="image-zoom-modal" class="modal-overlay" style="display:none; align-items:center; justify-content:center; z-index: 2000; background: rgba(0,0,0,0.8);" onclick="this.style.display='none'">
+    <img id="image-zoom-view" src="" style="max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5);">
+</div>
+
+<script>
+    function openImageModal(src) {
+        document.getElementById('image-zoom-view').src = src;
+        document.getElementById('image-zoom-modal').style.display = 'flex';
+    }
+</script>
 
         <!-- Admin Tool Modal Overlay -->
         <div id="admin-modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
@@ -1256,6 +1322,262 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.closeSubmissionModal = () => submissionOverlay.style.display = 'none';
+
+function hideElements(...ids) {
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+}
+
+// ==========================================
+// UNIFIED VIEW ASSIGNMENT DETAILS LOGIC
+// ==========================================
+
+async function openViewAssignmentModal(assignmentId) {
+    const modal = document.getElementById('view-assignment-detail-modal');
+    const container = document.getElementById('vad-submissions-container');
+    
+    // Reset Views
+    container.innerHTML = `<div style="text-align: center; color: var(--color-text_light); padding: 40px;"><i class="fa-solid fa-spinner fa-spin fa-2x"></i><br><br>${"{{ _t('loading', '載入中...') }}"}</div>`;
+    document.getElementById('vad-ref-section').style.display = 'none';
+    
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    try {
+        const res = await fetch(`/api/groups/${CONFIG.groupId}/assignment/${assignmentId}/view_details`);
+        const data = await res.json();
+        
+        if (data.status === 'success') {
+            renderAssignmentInfo(data.assignment);
+            renderSubmissionData(data);
+        } else {
+            container.innerHTML = `<div class="alert-error" style="color:var(--color-danger); padding:15px; border:1px solid var(--color-danger); border-radius:8px; background:#ffebee;">${data.message || '載入失敗'}</div>`;
+        }
+    } catch (err) {
+        console.error("View Details Error:", err);
+        container.innerHTML = `<div class="alert-error" style="color:var(--color-danger); padding:15px; border:1px solid var(--color-danger); border-radius:8px; background:#ffebee;">連線錯誤，請稍後再試。</div>`;
+    }
+}
+
+function closeViewAssignmentModal() {
+    document.getElementById('view-assignment-detail-modal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function renderAssignmentInfo(assignment) {
+    document.getElementById('vad-title').innerText = assignment.title || '作業詳情';
+    document.getElementById('vad-due-date').innerText = assignment.due_date ? 
+        `截止：${new Date(assignment.due_date).toLocaleString()}` : '無期限';
+    
+    // Question
+    document.getElementById('vad-question-content').innerText = assignment.description || '無題目內容';
+    
+    // Reference Answer (Visible if returned by backend)
+    if (assignment.ref_answer) {
+        document.getElementById('vad-ref-section').style.display = 'block';
+        document.getElementById('vad-ref-content').innerText = assignment.ref_answer;
+    } else {
+        document.getElementById('vad-ref-section').style.display = 'none';
+    }
+}
+
+function renderSubmissionData(data) {
+    const container = document.getElementById('vad-submissions-container');
+    const submissions = data.submissions || [];
+    const isTeacher = data.is_teacher;
+
+    if (isTeacher) {
+        document.getElementById('vad-submission-header').innerText = `{{ _t('student_submission_status', '學生繳交狀況') }} (${submissions.filter(s=>s.is_completed).length}/${submissions.length})`;
+        
+        if (submissions.length === 0) {
+            container.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">群組內尚無學生。</p>`;
+            return;
+        }
+
+        let html = `
+        <style>
+            .vad-student-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-bottom: 1px solid #eee; transition: background 0.2s; cursor: pointer; }
+            .vad-student-row:hover { background: #f5f5f5; }
+            .vad-student-row:last-child { border-bottom: none; }
+            .vad-status-badge { padding: 4px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
+            .vad-status-done { background: #e8f5e9; color: #2e7d32; }
+            .vad-status-pending { background: #fff3e0; color: #e65100; }
+        </style>
+        <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px;">`;
+        
+        submissions.forEach(sub => {
+            const statusHtml = sub.is_completed ? 
+                `<span class="vad-status-badge vad-status-done"><i class="fa-solid fa-check"></i> ${sub.score !== null ? sub.score + ' 分' : '已繳交'}</span>` : 
+                `<span class="vad-status-badge vad-status-pending"><i class="fa-solid fa-clock"></i> 未繳交</span>`;
+                
+            const timeStr = sub.completed_at ? new Date(sub.completed_at).toLocaleString() : '';
+            
+            // Serialize submission data to pass to click handler safely
+            const subDataStr = encodeURIComponent(JSON.stringify(sub));
+            
+            html += `
+            <div class="vad-student-row" onclick="VadShowStudentDetail(this)" data-sub="${subDataStr}">
+                <div>
+                    <strong><i class="fa-solid fa-user"></i> ${sub.username}</strong>
+                    ${timeStr ? `<span style="font-size: 0.75rem; color: #999; margin-left: 10px;">${timeStr}</span>` : ''}
+                </div>
+                <div>${statusHtml} <i class="fa-solid fa-chevron-right" style="color: #ccc; margin-left: 10px;"></i></div>
+            </div>`;
+        });
+        html += `</div>
+        <!-- Detail view container for teacher -->
+        <div id="vad-teacher-detail-view" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 2px dashed #eee;"></div>
+        `;
+        container.innerHTML = html;
+
+    } else {
+        // Student View
+        document.getElementById('vad-submission-header').innerText = "我的作答與批改結果";
+        
+        if (submissions.length === 0 || !submissions[0].is_completed) {
+            container.innerHTML = `
+            <div style="background: #fff3e0; border-left: 4px solid #ff9800; padding: 15px; border-radius: 4px; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <h5 style="margin: 0 0 5px 0; color: #e65100;">尚未繳交</h5>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">您還未完成這項作業。</p>
+                </div>
+            </div>`;
+            return;
+        }
+
+        const sub = submissions[0];
+        VadRenderSingleDetail(container, sub, false);
+    }
+}
+
+// Function to render the detailed view of a single submission (used by both Teacher clicking a row, and Student viewing own)
+function VadRenderSingleDetail(containerEl, sub, isTeacherView = false) {
+    
+    let html = `
+    <div style="background: white; border: 1px solid #c8e6c9; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        
+        <div style="background: #e8f5e9; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #c8e6c9;">
+            <h5 style="margin: 0; color: #2e7d32; font-size: 1.1rem;">
+                <i class="fa-solid fa-user-graduate"></i> ${isTeacherView ? sub.username + ' 的作答' : '我的作答結果'}
+            </h5>
+            <div style="background: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; color: var(--color-accent); box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                分數 <span style="font-size: 1.2rem;">${sub.score !== null ? sub.score : '--'}</span>
+            </div>
+        </div>
+
+        <div style="padding: 20px; display: flex; flex-direction: column; gap: 20px;">
+            
+            <!-- Student's Answer -->
+            <div>
+                <h6 style="margin: 0 0 10px 0; color: #666; font-size: 0.9rem;"><i class="fa-solid fa-pen-nib"></i> 學生提供之內容：</h6>
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 3px solid #ccc; white-space: pre-wrap; font-size: 0.95rem;">${sub.content || '(無文字內容)'}</div>
+                ${sub.submission_image ? `
+                <div style="margin-top: 10px;">
+                    <span style="font-size: 0.8rem; color: #888;"><i class="fa-solid fa-image"></i> 原圖上傳：</span>
+                    <img src="/static/${sub.submission_image}" style="max-height: 200px; border-radius: 8px; cursor: pointer; display: block; margin-top: 5px;" onclick="openImageModal(this.src)">
+                </div>` : ''}
+            </div>
+
+            <!-- Yukine's Analysis / OCR -->
+            ${sub.recognized_content ? `
+            <div>
+                <h6 style="margin: 0 0 10px 0; color: #666; font-size: 0.9rem;"><i class="fa-solid fa-robot"></i> {{ _t('yukine_read_answer', '雪音辨識答案') }}：</h6>
+                <div style="background: #fdfbf7; padding: 15px; border-radius: 8px; border: 1px solid #f0e6d2; white-space: pre-wrap; font-size: 0.95rem; color: #5c4a3d;">${sub.recognized_content}</div>
+            </div>` : ''}
+
+            <!-- AI Feedback and Explanation -->
+            <div style="background: #fff5f5; padding: 15px; border-radius: 8px; border: 1px solid #ffebee;">
+                <h6 style="margin: 0 0 10px 0; color: var(--color-accent); font-size: 0.9rem;"><i class="fa-solid fa-wand-magic-sparkles"></i> 雪音老師的總評：</h6>
+                <div style="margin-bottom: 15px; font-weight: bold; color: #d32f2f;">${sub.feedback || '尚未產生評語'}</div>
+                
+                <h6 style="margin: 0 0 5px 0; color: #666; font-size: 0.9rem;">{{ _t('yukine_analysis', '雪音解析') }}：</h6>
+                <div style="white-space: pre-wrap; font-size: 0.9rem; line-height: 1.6; color: #333;">${sub.explanation || '(無詳細解析)'}</div>
+            </div>
+
+            <!-- Teacher Grader Interaction (Only for Teacher) -->
+            ${isTeacherView ? `
+            <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 5px;">
+                <h6 style="margin: 0 0 10px 0; color: var(--color-primary); font-size: 0.9rem;"><i class="fa-solid fa-gavel"></i> 調整分數或加入評語 (選填)</h6>
+                <div style="display: flex; gap: 10px; align-items: flex-end;">
+                    <div style="flex: 1;">
+                        <input type="text" id="vad-teacher-feedback-input" class="form-control" placeholder="輸入老師的補充評語..." value="${sub.feedback || ''}">
+                    </div>
+                    <div style="width: 100px;">
+                        <input type="number" id="vad-teacher-score-input" class="form-control" placeholder="分數" min="0" max="100" value="${sub.score || ''}">
+                    </div>
+                    <button class="btn btn-primary" onclick="VadSaveGrade(${sub.status_id})"><i class="fa-solid fa-save"></i> 儲存</button>
+                </div>
+                <div id="vad-grade-status" style="font-size: 0.8rem; margin-top: 5px; color: #4caf50;"></div>
+            </div>
+            ` : ''}
+
+        </div>
+    </div>
+    `;
+    containerEl.innerHTML = html;
+}
+
+// Teacher clicking a student row
+function VadShowStudentDetail(rowEl) {
+    // Highlight active row
+    document.querySelectorAll('.vad-student-row').forEach(r => r.style.background = 'white');
+    rowEl.style.background = '#f0f7ff';
+    
+    const sub = JSON.parse(decodeURIComponent(rowEl.getAttribute('data-sub')));
+    const detailContainer = document.getElementById('vad-teacher-detail-view');
+    
+    if (!sub.is_completed) {
+        detailContainer.style.display = 'block';
+        detailContainer.innerHTML = `<div style="text-align: center; color: #888; padding: 20px;">該學生尚未繳交作業，無法查看詳情。</div>`;
+        return;
+    }
+
+    detailContainer.style.display = 'block';
+    // Scroll a bit to show it
+    setTimeout(() => {
+        detailContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+
+    VadRenderSingleDetail(detailContainer, sub, true);
+}
+
+// Save explicit grade by teacher in the new View
+async function VadSaveGrade(statusId) {
+    const score = document.getElementById('vad-teacher-score-input').value;
+    const feedback = document.getElementById('vad-teacher-feedback-input').value;
+    const statusDiv = document.getElementById('vad-grade-status');
+    
+    if (!score && !feedback) return;
+    statusDiv.innerText = '儲存中...';
+    statusDiv.style.color = '#888';
+
+    const formData = new FormData();
+    formData.append('score', score);
+    formData.append('feedback', feedback);
+    formData.append('csrf_token', CONFIG.csrfToken);
+
+    try {
+        const res = await fetch(`/api/groups/assignment/status/${statusId}/grade`, { method: 'POST', body: formData });
+        const data = await res.json();
+        if (data.status === 'success') {
+            statusDiv.innerText = '儲存成功！';
+            statusDiv.style.color = '#4caf50';
+            setTimeout(() => statusDiv.innerText = '', 3000);
+        } else {
+            statusDiv.innerText = '錯誤: ' + data.message;
+            statusDiv.style.color = 'red';
+        }
+    } catch (err) {
+        statusDiv.innerText = '連線錯誤';
+        statusDiv.style.color = 'red';
+    }
+}
+
+function cancelAiDraft() {
+    document.getElementById('ai-drafting-ui').style.display = 'none';
+}
 
     window.resetModalSteps = () => {
         ['step-upload', 'step-confirm', 'step-result'].forEach(s => {

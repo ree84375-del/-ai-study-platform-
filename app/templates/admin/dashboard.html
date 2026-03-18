@@ -86,14 +86,65 @@
     </div>
 
     <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> {{ _t('admin_api_keys_title') }}</h3>
-        <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1rem;">{{ _t('admin_api_keys_hint') }}</p>
+        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> {{ _t('admin_api_keys_title', 'API Key 狀態與監控') }}</h3>
+        <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1rem;">系統會自動追蹤每次模型呼叫的結果並更新燈號狀態。</p>
         
-        <label style="font-weight: bold; color: var(--color-text);">GEMINI_API_KEYS</label>
-        <textarea rows="3" style="width: 100%; margin-top: 0.5rem; margin-bottom: 1rem; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border); font-family: monospace; font-size: 0.8rem; background: var(--color-bg); color: var(--color-text_light);" readonly>{{ gemini_keys }}</textarea>
+        <style>
+            .api-key-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 10px; background: white; }
+            .api-key-text { font-family: monospace; font-size: 0.95rem; color: #555; }
+            .api-status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+            .status-active { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+            .status-standby { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+            .status-cooldown { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+            .status-error { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+            
+            .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+            .dot-active { background-color: #4caf50; box-shadow: 0 0 5px #4caf50; }
+            .dot-standby { background-color: #ffb300; }
+            .dot-cooldown { background-color: #2196f3; }
+            .dot-error { background-color: #f44336; box-shadow: 0 0 5px #f44336; }
+        </style>
 
-        <label style="font-weight: bold; color: var(--color-text);">GROQ_API_KEYS</label>
-        <textarea rows="3" style="width: 100%; margin-top: 0.5rem; margin-bottom: 1rem; padding: 10px; border-radius: 5px; border: 1px solid var(--color-border); font-family: monospace; font-size: 0.8rem; background: var(--color-bg); color: var(--color-text_light);" readonly>{{ groq_keys }}</textarea>
+        {% for provider, keys in api_key_statuses.items() %}
+        <div style="margin-bottom: 1.5rem;">
+            <label style="font-weight: bold; color: var(--color-text); font-size: 1.1rem; display: block; margin-bottom: 0.8rem; text-transform: uppercase;">
+                <i class="fa-solid fa-microchip"></i> {{ provider }} API Keys 
+                <span style="font-size: 0.8rem; font-weight: normal; color: #888; margin-left: 10px;">共 {{ keys|length }} 把</span>
+            </label>
+            
+            {% if not keys %}
+            <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; color: #888; text-align: center; font-style: italic;">尚未設定此模型的 API Key</div>
+            {% else %}
+                {% for k in keys %}
+                <div class="api-key-row">
+                    <div style="flex: 1; overflow: hidden;">
+                        <div class="api-key-text"><i class="fa-solid fa-key" style="color: #ccc; margin-right: 8px;"></i>{{ k.key }}</div>
+                        <div style="font-size: 0.75rem; color: #aaa; margin-top: 5px; margin-left: 24px;">
+                            <i class="fa-regular fa-clock"></i> 最後使用：{{ k.last_used }}
+                        </div>
+                        {% if k.error %}
+                        <div style="font-size: 0.8rem; color: #c62828; margin-top: 5px; margin-left: 24px; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ k.error }}">
+                            <i class="fa-solid fa-triangle-exclamation"></i> 錯誤：{{ k.error }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div style="margin-left: 15px;">
+                        {% if k.status == 'active' %}
+                            <span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 正在運作</span>
+                        {% elif k.status == 'standby' %}
+                            <span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機狀態</span>
+                        {% elif k.status == 'cooldown' %}
+                            <span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻狀態</span>
+                        {% else %}
+                            <span class="api-status-badge status-error"><div class="status-dot dot-error"></div> 壞掉了</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
     </div>
 
 
