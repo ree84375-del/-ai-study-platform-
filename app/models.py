@@ -49,6 +49,12 @@ class User(db.Model, UserMixin):
     @property
     def is_admin(self):
         return self.role == 'admin' or self.email == 'ree84375@gmail.com'
+
+    @property
+    def display_name(self):
+        if self.is_admin:
+            return "管理員"
+        return self.username
  
     # current_streak = db.Column(db.Integer, default=0)
     # last_study_date = db.Column(db.DateTime, nullable=True)
