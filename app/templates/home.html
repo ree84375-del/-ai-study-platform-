@@ -38,7 +38,14 @@
         <!-- Welcome Hero & Zen Bonsai -->
         <div class="washi-card" style="padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
             <div style="z-index: 1;">
-                <h1 style="color: var(--color-primary); font-size: 2.2rem; margin-bottom: 0.5rem;">{{ _t('welcome_back') }}{{ current_user.username }}</h1>
+                <h1 style="color: var(--color-primary); font-size: 2.2rem; margin-bottom: 0.5rem;">
+                    {{ _t('welcome_back') }}
+                    {% if current_user.is_admin %}
+                        <span style="color: #d4af37;">{{ getattr(current_user, 'display_name', current_user.username) }}</span>
+                    {% else %}
+                        {{ getattr(current_user, 'display_name', current_user.username) }}
+                    {% endif %}
+                </h1>
                 <p style="color: var(--color-text_light); font-size: 1.1rem; margin-bottom: 2rem;">{{ _t('study_inner_peace') }}</p>
                 
                 <div style="display: flex; gap: 1.5rem; margin-bottom: 1rem;">

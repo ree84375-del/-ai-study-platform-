@@ -253,10 +253,10 @@ def group_dashboard(group_id):
             
             # Pick random greeting based on role
             import random
-            if role == 'admin': greeting_num = random.randint(1, 2)
-            elif role == 'teacher': greeting_num = random.randint(1, 2)
-            elif role == 'student': greeting_num = random.randint(1, 3)
-            else: greeting_num = random.randint(1, 2)
+            if role == 'admin': greeting_num = random.randint(1, 15)
+            elif role == 'teacher': greeting_num = random.randint(1, 15)
+            elif role == 'student': greeting_num = random.randint(1, 15)
+            else: greeting_num = random.randint(1, 15)
             
             greeting_key = f'yukine_welcome_{role}_{greeting_num}'
             yukine_welcome = _t(greeting_key, lang, username=current_user.username)
