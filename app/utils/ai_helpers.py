@@ -162,7 +162,7 @@ def get_all_api_key_statuses():
             # All keys are dead. Force reset all trackers to standby.
             for t in trackers:
                 t.status = 'standby'
-                t.error_message = "Auto-recovered from system-wide lockout"
+                t.error_message = f"Auto-recovered at {now.strftime('%H:%M:%S')}"
                 t.cooldown_until = None
     
     try:
