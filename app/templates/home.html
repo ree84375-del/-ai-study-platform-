@@ -32,6 +32,25 @@
 
     {% if current_user.is_authenticated %}
     
+    <!-- Countdown Card -->
+    <div class="washi-card" style="padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(253, 242, 242, 0.7) 100%); border-left: 5px solid var(--color-accent);">
+        <div>
+            <h3 style="margin: 0; color: var(--color-primary); font-size: 1.3rem;"><i class="fa-solid fa-hourglass-half" style="animation: pulse-text 2s infinite;"></i> {{ _t('exam_countdown_title') }}</h3>
+            <div style="font-size: 0.95rem; color: var(--color-text_light); margin-top: 5px;">{{ _t('exam_target') }}</div>
+        </div>
+        <div style="display: flex; gap: 20px; text-align: center;">
+            <div style="background: rgba(255,255,255,0.6); padding: 10px 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                <div id="countdown-days" style="font-size: 2.2rem; font-weight: 800; color: var(--color-accent); line-height: 1; font-family: 'Kaisei Tokumin', serif;">--</div>
+                <div style="font-size: 0.85rem; color: var(--color-text_light); font-weight: bold; margin-top: 2px;">{{ _t('time_days') }}</div>
+            </div>
+            <div style="font-size: 1.8rem; font-weight: bold; color: var(--color-border); padding-top: 10px;">:</div>
+            <div style="background: rgba(255,255,255,0.6); padding: 10px 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+                <div id="countdown-hours" style="font-size: 2.2rem; font-weight: 800; color: var(--color-primary); line-height: 1; font-family: 'Kaisei Tokumin', serif;">--</div>
+                <div style="font-size: 0.85rem; color: var(--color-text_light); font-weight: bold; margin-top: 2px;">{{ _t('time_hours') }}</div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Row 1: Hero & Zen Bonsai + Omikuji -->
     <div style="display: grid; grid-template-columns: 1.8fr 1fr; gap: 2rem; margin-bottom: 3rem;">
         
@@ -204,7 +223,7 @@
                 <div id="home-daruma-container-1" style="width: 120px; height: 120px; margin: 0 auto 1rem;"></div>
                 <form method="POST" action="{{ url_for('main.complete_daruma', daruma_id=active_daruma.id) }}" onsubmit="return confirm('{{ _t('confirm_goal_reached') }}');">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                    <button type="submit" class="btn" style="background-color: var(--color-success); width: 100%;"><i class="fa-solid fa-check"></i> {{ _t('complete_goal') }}</button>
+                    <button type="submit" class="btn" style="background-color: #72b01d; width: 100%; color: white;"><i class="fa-solid fa-check"></i> {{ _t('complete_goal') }}</button>
                 </form>
             {% else %}
                 <p style="font-size: 0.9rem; font-weight: bold; color: var(--color-text_main); margin-bottom: 5px;"><del>{{ active_daruma.goal }}</del></p>
@@ -557,6 +576,29 @@
                 btn.innerHTML = originalText;
             }
         }
+        
+        function updateExamCountdown() {
+            const targetDate = new Date('2026-05-16T08:30:00+08:00');
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            if (diff <= 0) {
+                document.getElementById('countdown-days').innerText = '0';
+                document.getElementById('countdown-hours').innerText = '0';
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            
+            document.getElementById('countdown-days').innerText = days;
+            document.getElementById('countdown-hours').innerText = hours;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            updateExamCountdown();
+            setInterval(updateExamCountdown, 60000);
+        });
     </script>
     
     {% else %}
