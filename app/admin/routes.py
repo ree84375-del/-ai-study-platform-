@@ -92,6 +92,59 @@ def reset_api_keys():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
+@admin.route('/api_keys/deep_cleanup', methods=['POST'])
+@login_required
+def deep_cleanup_api_keys():
+    if current_user.role != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    from app.models import APIKeyTracker
+    try:
+        # Delete keys that are in error status or have known permanent failures
+        broken_keys = APIKeyTracker.query.filter(
+            (APIKeyTracker.status == 'error') | 
+            (APIKeyTracker.error_message.ilike('%invalid%')) | 
+            (APIKeyTracker.error_message.ilike('%restricted%'))
+        ).all()
+        
+        count = len(broken_keys)
+        for k in broken_keys:
+            db.session.delete(k)
+        
+        db.session.commit()
+        return jsonify({'message': f'Successfully deleted {count} broken keys.'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@admin.route('/api_keys/sync_ollama', methods=['POST'])
+@login_required
+def sync_ollama_url():
+    if current_user.role != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    new_url = request.json.get('url')
+    if not new_url:
+        return jsonify({'error': 'No URL provided'}), 400
+        
+    from app.models import APIKeyTracker
+    try:
+        # Update or create the ollama key tracker
+        ollama_tracker = APIKeyTracker.query.filter_by(provider='ollama').first()
+        if not ollama_tracker:
+            ollama_tracker = APIKeyTracker(provider='ollama', api_key=new_url)
+            db.session.add(ollama_tracker)
+        else:
+            ollama_tracker.api_key = new_url
+            ollama_tracker.status = 'active'
+            ollama_tracker.error_message = None
+            
+        db.session.commit()
+        return jsonify({'message': f'Ollama URL synced to {new_url}'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 
 @admin.route('/user/<int:user_id>/role', methods=['POST'])
 def change_user_role(user_id):

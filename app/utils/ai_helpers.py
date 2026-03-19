@@ -579,38 +579,66 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         return f"Key Status Error: {e}"
 
 def get_system_pulse():
-    """Generates a high-level diagnostic pulse report from Antigravity."""
+    """Generates a high-level diagnostic pulse report with autonomous healing."""
     from app.models import APIKeyTracker
+    from app import db
     from datetime import datetime, timezone
     
+    # --- Antigravity Autonomous Healing ---
+    try:
+        # 1. Automate Deep Cleanup of broken keys (Invalid/Restricted)
+        broken_keys = APIKeyTracker.query.filter(
+            (APIKeyTracker.status == 'error') & 
+            (APIKeyTracker.error_message.ilike('%invalid%') | APIKeyTracker.error_message.ilike('%restricted%'))
+        ).all()
+        if broken_keys:
+            for k in broken_keys:
+                db.session.delete(k)
+            db.session.commit()
+            
+        # 2. Sync Ollama (Hardcoded for current ngrok session)
+        target_url = "https://nonbenevolent-zastinative.ngrok-free.dev"
+        current_ollama = APIKeyTracker.query.filter_by(provider='ollama').first()
+        if current_ollama:
+            if current_ollama.api_key != target_url:
+                current_ollama.api_key = target_url
+                current_ollama.status = 'active'
+                current_ollama.error_message = None
+                db.session.commit()
+        else:
+            new_ollama = APIKeyTracker(provider='ollama', api_key=target_url, status='active')
+            db.session.add(new_ollama)
+            db.session.commit()
+            
+    except Exception as e:
+        db.session.rollback()
+
     pulse = {
         'status': 'HEALTHY',
         'active_provider': 'None',
-        'diagnostic_msg': '核心系統掃描中...',
+        'diagnostic_msg': 'Antigravity Core V2.5 運行中。',
         'uptime_percent': 100,
         'threat_level': 'LOW'
     }
     
-    # 1. Check Groq (Primary Active)
+    # 3. Diagnostic Report
     groq_active = APIKeyTracker.query.filter_by(provider='groq', status='active').count()
     gemini_active = APIKeyTracker.query.filter_by(provider='gemini', status='active').count()
     ollama_active = APIKeyTracker.query.filter_by(provider='ollama', status='active').count()
     
-    # Identify Active Provider
     if groq_active > 0:
-        pulse['active_provider'] = 'Groq (LP)'
+        pulse['active_provider'] = 'Groq (Successor)'
     elif gemini_active > 0:
-        pulse['active_provider'] = 'Gemini (LP)'
+        pulse['active_provider'] = 'Gemini (Primary)'
     elif ollama_active > 0:
         pulse['active_provider'] = 'Ollama (Local)'
         pulse['diagnostic_msg'] = '線上金鑰暫時耗盡，切換至本地核心連線穩定。'
     else:
         pulse['active_provider'] = 'None'
         pulse['status'] = 'CRITICAL'
-        pulse['diagnostic_msg'] = '警告：所有 AI 通道已關閉，正在嘗試緊急修復。'
+        pulse['diagnostic_msg'] = '警告：所有 AI 通道已受損，正在嘗試緊急旁路恢復活。'
         pulse['threat_level'] = 'HIGH'
 
-    # Special logic for Groq succession
     if groq_active > 0 and gemini_active == 0:
         pulse['diagnostic_msg'] = 'Antigravity 成功攔截 Google 封鎖，目前由高性能 Groq 節點接管。'
         

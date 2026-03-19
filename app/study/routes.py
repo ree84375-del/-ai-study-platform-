@@ -210,7 +210,7 @@ def analyze_mistake(mistake_id):
         context_parts.append(f"學生學習目標：{current_user.learning_goals}")
     context = "\n".join(context_parts)
     
-    analysis = get_ai_tutor_response([], prompt, personality_key=current_user.ai_personality, context_summary=context)
+    analysis = get_ai_tutor_response([], prompt, personality_key=current_user.ai_personality, context_summary=context, user=current_user)
     
     # Optional: Automatically create a chat session for this analysis
     session = ChatSession(user_id=current_user.id, title=f"{_t('chat_session_mistake', current_user.language)}: {question.content_text[:15]}...")
@@ -316,7 +316,7 @@ def tutor_chat():
         curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
         user_msg_with_time = f"{_t('sys_prompt_time', lang=current_user.language, time=curr_time)}\n{user_msg}"
 
-        reply = get_ai_tutor_response(recent_history, user_msg_with_time, personality_key=current_user.ai_personality, context_summary=context)
+        reply = get_ai_tutor_response(recent_history, user_msg_with_time, personality_key=current_user.ai_personality, context_summary=context, user=current_user)
         
         # Save AI response
         try:

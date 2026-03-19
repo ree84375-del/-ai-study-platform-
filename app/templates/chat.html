@@ -83,12 +83,12 @@
         // High-end Neural/Natural voices priority
         const preferredVoices = [
             { name: 'Nanami Online (Natural)', lang: 'ja-JP' },
-            { name: 'Keita Online (Natural)', lang: 'ja-JP' }, 
-            { name: 'Xiaoxiao Online (Natural)', lang: 'zh-CN' },
-            { name: 'Yunxi Online (Natural)', lang: 'zh-CN' },
+            { name: 'Nanami', lang: 'ja-JP' },
+            { name: 'Google 日本語', lang: 'ja-JP' },
             { name: 'Haruka', lang: 'ja-JP' },
             { name: 'Ayumi', lang: 'ja-JP' },
-            { name: 'Google 日本語', lang: 'ja-JP' }
+            { name: 'Microsoft Ichiro', lang: 'ja-JP' },
+            { name: 'Xiaoxiao Online (Natural)', lang: 'zh-CN' }
         ];
 
         voiceSelect.innerHTML = '<option value="">{{ _t("chat_voice_default") }}</option>';
@@ -100,19 +100,22 @@
         });
         voiceSelect.style.display = autoSpeak ? 'block' : 'none';
 
+        // High-end search
         for (const pref of preferredVoices) {
             const found = voices.find(v => v.name.includes(pref.name) && v.lang.toLowerCase().includes(pref.lang.toLowerCase()));
             if (found) {
                 selectedVoice = found;
                 voiceSelect.value = found.name;
-                console.log("Voice selected:", selectedVoice.name);
+                console.log("🌸 Kawaii Voice Locked:", selectedVoice.name);
                 break;
             }
         }
 
-        // Final fallback to any Japanese or Chinese
+        // Final fallback to any Japanese female or soft voice
         if (!selectedVoice) {
-            selectedVoice = voices.find(v => v.lang.includes('ja-JP')) || voices.find(v => v.lang.includes('zh'));
+            selectedVoice = voices.find(v => v.lang.includes('ja-JP') && (v.name.includes('Female') || v.name.includes('Soft'))) 
+                          || voices.find(v => v.lang.includes('ja-JP'))
+                          || voices.find(v => v.lang.includes('zh'));
             if (selectedVoice) {
                 voiceSelect.value = selectedVoice.name;
                 console.log("Fallback voice used:", selectedVoice.name);
@@ -232,9 +235,11 @@
         const utterance = new SpeechSynthesisUtterance(cleanText);
         const hasJapanese = /[\u3040-\u30ff\u31f0-\u31ff]/.test(cleanText);
         
-        // Japanese girl profile (Higher pitch for Kawaii feel)
-        utterance.pitch = 1.7;
-        utterance.rate = 1.0; 
+        // --- Kawaii Tuning ---
+        // Higher pitch and slightly faster for that "energetic tech girl" feel
+        utterance.pitch = 1.45; 
+        utterance.rate = 1.1; 
+        utterance.volume = 1.0;
         
         if (selectedVoice) {
             utterance.voice = selectedVoice;
@@ -325,6 +330,22 @@
 
         const div = document.createElement('div');
         div.className = `chat-bubble ${role} ${isSpecial ? 'admin-gold' : ''}`;
+        
+        // Content Formatting (Markdown + Image Gen)
+        const formatContent = (raw) => {
+            let html = raw.replace(/\n/g, '<br>');
+            // 1. Handle [DRAW: description] injection
+            html = html.replace(/\[DRAW:\s*(.*?)\]/g, (match, desc) => {
+                const encoded = encodeURIComponent(desc.trim());
+                return `<div class="image-gen-container"><img src="https://image.pollinations.ai/prompt/${encoded}?width=800&height=600&nologo=true" class="chat-image" onload="scrollToBottom()"></div>`;
+            });
+            // 2. Handle Markdown Images ![alt](url)
+            html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<div class="image-gen-container"><img src="$2" alt="$1" class="chat-image" onload="scrollToBottom()"></div>');
+            // 3. Handle Bold **text**
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            return html;
+        };
+
         if (animate) {
             div.style.animation = 'popIn 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards';
         }
@@ -357,10 +378,10 @@
             labelContainer.appendChild(label);
             wrapper.appendChild(labelContainer);
 
-            // Format line breaks
-            div.innerHTML = text.replace(/\n/g, '<br>');
+            // Format content with our new clinical/kawaii formatter
+            div.innerHTML = formatContent(text);
         } else {
-            div.innerHTML = text;
+            div.innerHTML = formatContent(text);
         }
 
         wrapper.appendChild(div);
@@ -476,6 +497,10 @@
     }
 
     document.getElementById('send-chat-btn').addEventListener('click', sendMessage);
+    document.getElementById('send-chat-btn').addEventListener('touchstart', (e) => {
+        // Prevent double fire but ensure it works on touch
+        sendMessage();
+    });
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -550,11 +575,32 @@
     .chat-bubble {
         padding: 14px 20px;
         border-radius: 20px;
-        max-width: 80%;
+        max-width: 72%;
         line-height: 1.6;
         position: relative;
         font-size: 1.05rem;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+    }
+
+    .image-gen-container {
+        margin: 10px 0;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid rgba(0,0,0,0.05);
+        background: #f0f0f0;
+    }
+
+    .chat-image {
+        max-width: 100%;
+        max-height: 500px;
+        display: block;
+        cursor: zoom-in;
+        transition: transform 0.2s;
+    }
+    
+    .chat-image:hover {
+        transform: scale(1.02);
     }
 
     .chat-bubble.user {
@@ -700,7 +746,7 @@
 
     /* Responsive Chat Layout */
     .chat-container {
-        max-width: 1400px;
+        max-width: 1100px;
         margin: 0 auto;
         padding: 0 1rem;
         display: flex;
@@ -746,8 +792,20 @@
             padding: 1rem;
         }
         .chat-main {
-            height: 550px;
-            padding: 1.2rem;
+            height: 600px;
+            padding: 1rem;
+            flex: none;
+            width: 100%;
+        }
+        #chat-window {
+            height: 400px; /* Fixed height for mobile to prevent jitter */
+        }
+        #input-area {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 10px 0;
+            z-index: 100;
         }
         .navbar {
             padding: 0.5rem !important;
@@ -756,7 +814,7 @@
     
     @media (max-width: 480px) {
         .chat-main {
-            height: calc(100vh - 380px); /* Dynamic height for very small screens */
+            height: calc(100vh - 250px); 
         }
         .chat-bubble {
             max-width: 90%;
