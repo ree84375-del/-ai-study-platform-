@@ -17,7 +17,23 @@ from app import db
 from app.models import APIKeyTracker
 from datetime import timedelta
 
+_table_verified = False
+def verify_api_key_table():
+    global _table_verified
+    if _table_verified: return
+    try:
+        from sqlalchemy import text
+        # If the table doesn't exist, this fails and we create it. 
+        # But we can just issue a CREATE TABLE IF NOT EXISTS.
+        db.session.execute(text("CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"))
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+    
+    _table_verified = True
+
 def _sync_keys_to_db(provider, keys):
+    verify_api_key_table()
     if not keys: return
     existing = APIKeyTracker.query.filter_by(provider=provider).all()
     existing_keys = {t.api_key: t for t in existing}
@@ -124,6 +140,9 @@ def get_usable_keys(provider, base_keys):
         # so it attempts them just in case their status has secretly recovered.
         return usable if usable else base_keys
     except Exception:
+        try:
+            db.session.rollback()
+        except: pass
         return base_keys
 
 
