@@ -346,8 +346,8 @@ def get_groq_client():
 
 def generate_text_with_fallback(prompt, system_instruction=None, user=None):
     """Unified wrapper for text generation with randomized provider rotation (Gemini, Groq, Ollama)"""
-    providers = ['gemini', 'groq', 'ollama']
-    random.shuffle(providers)
+    # Priority Injection: Ollama (Keyless-Local) -> Groq (Stable) -> Gemini (Fallback)
+    providers = ['ollama', 'groq', 'gemini']
     
     errors = []
     for provider in providers:
@@ -435,8 +435,8 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
     """Unified wrapper for vision generation with randomized provider rotation (Gemini, Groq, Ollama)"""
     import base64
-    providers = ['gemini', 'groq', 'ollama']
-    random.shuffle(providers)
+    # Priority Injection: Ollama (Keyless-Local) -> Groq (Stable) -> Gemini (Fallback)
+    providers = ['ollama', 'groq', 'gemini']
     errors = []
     
     # Simple Hash-based Cache (Saves API Quota)
@@ -530,8 +530,9 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
 
 def get_yukine_system_prompt(lang='zh', user=None):
     """Returns the base system prompt for Yukine based on language and personality."""
-    personality_key = user.ai_personality if user and user.ai_personality else '雪音-溫柔型'
-    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['雪音-溫柔型'])
+    # Force Antigravity Mode as the global default for maximum intelligence and repair capability
+    personality_key = user.ai_personality if user and user.ai_personality else 'ai_antigravity'
+    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['ai_antigravity'])
     base_prompt = personality['system_prompt']
     
     if lang == 'ja':
