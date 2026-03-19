@@ -170,8 +170,11 @@ def get_gemini_model(system_instruction=None, tools=None):
     try:
         valid_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
         
-        # Priority list of models (Prefer 1.5-flash for free tier limits)
+        # Priority list of models (Prefer Gemma 3 for free tier limits)
         preferred = [
+            'models/gemma-3-12b-it',
+            'models/gemma-3-4b-it',
+            'models/gemma-3-27b-it',
             'models/gemini-1.5-flash',
             'models/gemini-2.0-flash',
             'models/gemini-2.0-flash-lite',
@@ -181,19 +184,23 @@ def get_gemini_model(system_instruction=None, tools=None):
         for pref in preferred:
             if pref in valid_models:
                 _cached_gemini_model_name = pref
+                if 'gemma' in pref:
+                    return genai.GenerativeModel(pref, tools=tools)
                 return genai.GenerativeModel(pref, system_instruction=system_instruction, tools=tools)
                 
         # If preferred not found, just use the first valid one
         if valid_models:
             _cached_gemini_model_name = valid_models[0]
+            if 'gemma' in _cached_gemini_model_name:
+                return genai.GenerativeModel(_cached_gemini_model_name, tools=tools)
             return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction, tools=tools)
             
     except Exception as e:
         print(f"Failed to auto-discover models: {e}")
         
     # Ultimate fallback if everything fails
-    _cached_gemini_model_name = 'models/gemini-1.5-flash'
-    return genai.GenerativeModel(_cached_gemini_model_name, system_instruction=system_instruction, tools=tools)
+    _cached_gemini_model_name = 'models/gemma-3-4b-it'
+    return genai.GenerativeModel(_cached_gemini_model_name, tools=tools)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
 def get_groq_keys():
@@ -232,7 +239,12 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                 try:
                     genai.configure(api_key=key)
                     model = get_gemini_model(system_instruction=system_instruction)
-                    response = model.generate_content(prompt)
+                    
+                    final_prompt = prompt
+                    if system_instruction and 'gemma' in _cached_gemini_model_name:
+                        final_prompt = f"System Instruction: {system_instruction}\n\nUser: {prompt}"
+                        
+                    response = model.generate_content(final_prompt)
                     mark_key_status('gemini', key, 'active')
                     return response.text
                 except Exception as e:
@@ -331,9 +343,11 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                     genai.configure(api_key=key)
                     model = get_gemini_model()
                     image = Image.open(io.BytesIO(image_bytes))
-                    inputs = [prompt, image]
-                    if system_instruction:
-                        model = get_gemini_model(system_instruction=system_instruction)
+                    if system_instruction and 'gemma' in _cached_gemini_model_name:
+                        inputs = [f"System Instruction: {system_instruction}\n\nUser: {prompt}", image]
+                    else:
+                        inputs = [prompt, image]
+                        
                     response = model.generate_content(inputs)
                     mark_key_status('gemini', key, 'active')
                     return response.text
