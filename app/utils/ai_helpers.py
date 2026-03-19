@@ -48,12 +48,15 @@ def get_all_api_key_statuses():
     
     # Perform Auto-Repair here
     now = datetime.now()
+    active_threshold = now - timedelta(seconds=12) # Active keys revert to standby after 12 seconds
     cooldown_threshold = now - timedelta(minutes=15)
     error_threshold = now - timedelta(minutes=60)
     
     trackers = APIKeyTracker.query.all()
     for t in trackers:
-        if t.status == 'cooldown' and t.last_used and t.last_used < cooldown_threshold:
+        if t.status == 'active' and t.last_used and t.last_used < active_threshold:
+            t.status = 'standby'
+        elif t.status == 'cooldown' and t.last_used and t.last_used < cooldown_threshold:
             t.status = 'standby'
             t.error_message = None
         elif t.status == 'error' and t.last_used and t.last_used < error_threshold:

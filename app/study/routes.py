@@ -163,21 +163,25 @@ def ai_vision():
             return jsonify({'status': 'success', 'question_id': new_q.id, 'data': data})
         
         # Default analysis mode
-        analysis_result = analyze_question_image(image_bytes, user=current_user, lang=current_user.language)
-        
-        if "[ERROR_INVALID_CONTENT]" in analysis_result:
-             return jsonify({'error': _t('msg_vision_invalid', current_user.language)}), 400
-        
-        # Create a chat session for the vision analysis
-        session = ChatSession(user_id=current_user.id, title=_t('chat_session_vision', current_user.language))
-        db.session.add(session)
-        db.session.commit()
-        
-        ai_msg = ChatMessage(session_id=session.id, role='ai', content=analysis_result)
-        db.session.add(ai_msg)
-        db.session.commit()
+        try:
+            analysis_result = analyze_question_image(image_bytes, user=current_user, lang=current_user.language)
+            
+            if "[ERROR_INVALID_CONTENT]" in analysis_result:
+                 return jsonify({'error': _t('msg_vision_invalid', current_user.language)}), 400
+            
+            # Create a chat session for the vision analysis
+            session = ChatSession(user_id=current_user.id, title=_t('chat_session_vision', current_user.language))
+            db.session.add(session)
+            db.session.commit()
+            
+            ai_msg = ChatMessage(session_id=session.id, role='ai', content=analysis_result)
+            db.session.add(ai_msg)
+            db.session.commit()
 
-        return jsonify({'result': analysis_result, 'session_id': session.id})
+            return jsonify({'result': analysis_result, 'session_id': session.id})
+        except Exception as e:
+            # Return JSON instead of causing a Flask 500 HTML so the frontend can display the exact error message
+            return jsonify({'error': str(e)}), 200
         
     return render_template('ai_vision.html', title=_t('nav_vision', current_user.language))
 
