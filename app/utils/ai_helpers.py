@@ -356,11 +356,17 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             return response.choices[0].message.content
                         elif provider == 'ollama':
                             from openai import OpenAI
-                            client = OpenAI(base_url=os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1'), api_key=key)
-                            # Ollama usually doesn't have 429s, but we'll follow the pattern
-                            response = client.chat.completions.create(model=os.environ.get('OLLAMA_MODEL', 'llama3'), messages=[{"role": "user", "content": prompt}])
-                            mark_key_status('ollama', key, 'active')
-                            return response.choices[0].message.content
+                            host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+                            try:
+                                client = OpenAI(base_url=host, api_key=key)
+                                # Ollama usually doesn't have 429s, but we'll follow the pattern
+                                response = client.chat.completions.create(model=os.environ.get('OLLAMA_MODEL', 'llama3'), messages=[{"role": "user", "content": prompt}])
+                                mark_key_status('ollama', key, 'active')
+                                return response.choices[0].message.content
+                            except Exception as e:
+                                error_msg = f"Connection error to {host}: {str(e)}"
+                                mark_key_status('ollama', key, 'error', error_msg)
+                                raise Exception(error_msg)
                     except Exception as e:
                         if ('429' in str(e) or 'quota' in str(e).lower()) and attempt < max_retries - 1:
                             import time
