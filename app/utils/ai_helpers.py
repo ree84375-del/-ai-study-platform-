@@ -23,14 +23,86 @@ def verify_api_key_table():
     if _table_verified: return
     try:
         from sqlalchemy import text
-        # If the table doesn't exist, this fails and we create it. 
-        # But we can just issue a CREATE TABLE IF NOT EXISTS.
+        # Ensure tables exist
         db.session.execute(text("CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"))
+        db.session.execute(text("CREATE TABLE IF NOT EXISTS user_memory (id SERIAL PRIMARY KEY, user_id INTEGER UNIQUE NOT NULL, memory_content TEXT, last_updated TIMESTAMP)"))
+        db.session.execute(text("CREATE TABLE IF NOT EXISTS memory_fragment (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL, category VARCHAR(50) DEFAULT 'general', content TEXT NOT NULL, importance INTEGER DEFAULT 1, created_at TIMESTAMP)"))
         db.session.commit()
+        
+        # Ensure new columns exist in api_key_tracker (SQLite doesn't support IF NOT EXISTS in ALTER)
+        for col, col_type in [("cooldown_until", "TIMESTAMP"), ("retry_count", "INTEGER DEFAULT 0")]:
+            try:
+                db.session.execute(text(f"ALTER TABLE api_key_tracker ADD COLUMN {col} {col_type}"))
+                db.session.commit()
+            except Exception:
+                db.session.rollback() # Assume column already exists
+                
     except Exception:
         db.session.rollback()
     
     _table_verified = True
+
+def get_user_memory_context(user):
+    """Fetches fragmented memory and recent short-term context for the user."""
+    from app.models import MemoryFragment, ChatMessage, ChatSession
+    verify_api_key_table()
+    
+    # 1. Fragmented long-term memory (Fetch top 10 most recent/important fragments)
+    fragments = MemoryFragment.query.filter_by(user_id=user.id).order_by(MemoryFragment.importance.desc(), MemoryFragment.created_at.desc()).limit(15).all()
+    
+    long_term_list = [f"[{f.category}] {f.content}" for f in fragments]
+    long_term = "\n".join(long_term_list) if long_term_list else "目前尚無長期記憶片段。"
+    
+    # 2. Recent short-term context (last 10 messages)
+    recent_msgs = ChatMessage.query.join(ChatSession).filter(ChatSession.user_id == user.id).order_by(ChatMessage.created_at.desc()).limit(10).all()
+    recent_msgs.reverse()
+    short_term = "\n".join([f"{m.role}: {m.content[:200]}..." for m in recent_msgs])
+    
+    return f"【核心記憶片段】：\n{long_term}\n\n【近期對話回顧】：\n{short_term}"
+
+def update_user_memory(user_id, interaction_summary):
+    """Extracts new facts from interaction and stores them as fragments."""
+    from app.models import MemoryFragment
+    try:
+        # Step 1: Fact Extraction via AI
+        prompt = f"""
+        請從以下對話摘要中提取出「值得記錄的個人事實或偏好」，排除掉問候或無意義的閒聊。
+        摘要：{interaction_summary}
+        
+        請以 JSON 列表格式輸出，每個項目包含：
+        - category: (preference/academic/personal/event)
+        - content: (簡短的一句話事實)
+        - importance: (1-5, 重要程度)
+        
+        僅返回 raw JSON 列表，若無值得記錄的內容則返回空列表 []。
+        """
+        response_text = generate_text_with_fallback(prompt)
+        
+        # Simple extraction logic
+        clean_text = response_text.strip()
+        if '```' in clean_text:
+            match = re.search(r'\[.*\]', clean_text, re.DOTALL)
+            if match: clean_text = match.group(0)
+            
+        facts = json.loads(clean_text)
+        
+        for fact in facts:
+            # Check for near-duplicates before adding
+            existing = MemoryFragment.query.filter_by(user_id=user_id, content=fact['content']).first()
+            if not existing:
+                fragment = MemoryFragment(
+                    user_id=user_id,
+                    category=fact.get('category', 'general'),
+                    content=fact['content'],
+                    importance=fact.get('importance', 1)
+                )
+                db.session.add(fragment)
+        
+        db.session.commit()
+    except Exception as e:
+        import logging
+        logging.error(f"Memory Fragmentation Error: {e}")
+        db.session.rollback()
 
 def _sync_keys_to_db(provider, keys):
     verify_api_key_table()
@@ -64,18 +136,19 @@ def get_all_api_key_statuses():
     
     # Perform Auto-Repair here
     now = datetime.now()
-    active_threshold = now - timedelta(seconds=12) # Active keys revert to standby after 12 seconds
-    cooldown_threshold = now - timedelta(minutes=15)
-    error_threshold = now - timedelta(minutes=60)
+    active_threshold = now - timedelta(seconds=12) # Active keys revert to standby
+    busy_threshold = now - timedelta(seconds=60)   # Busy keys revert if stuck > 60s
     
     trackers = APIKeyTracker.query.all()
     for t in trackers:
+        # Revert busy/active if they seem stuck
         if t.status == 'active' and t.last_used and t.last_used < active_threshold:
             t.status = 'standby'
-        elif t.status == 'cooldown' and t.last_used and t.last_used < cooldown_threshold:
+        elif t.status == 'busy' and t.last_used and t.last_used < busy_threshold:
             t.status = 'standby'
-            t.error_message = None
-        elif t.status == 'error' and t.last_used and t.last_used < error_threshold:
+            
+        # Check cooldown completion
+        if t.status in ['cooldown', 'error'] and t.cooldown_until and t.cooldown_until < now:
             t.status = 'standby'
             t.error_message = None
             
@@ -114,10 +187,25 @@ def mark_key_status(provider, key, status, error=None):
         tracker = APIKeyTracker(provider=provider, api_key=key, status=status)
         db.session.add(tracker)
     
+    now = datetime.now()
     tracker.status = status
-    tracker.last_used = datetime.now()
-    tracker.error_message = error
+    tracker.last_used = now
     
+    if status == 'active':
+        tracker.retry_count = 0
+        tracker.cooldown_until = None
+        tracker.error_message = None
+    elif status in ['cooldown', 'error']:
+        tracker.error_message = error
+        # Exponential backoff for 429 errors
+        if error and ('429' in error or 'quota' in error.lower()):
+            tracker.retry_count = (tracker.retry_count or 0) + 1
+            minutes = min(5 * (2 ** (tracker.retry_count - 1)), 120) # 5m, 10m, 20m... max 2h
+            tracker.cooldown_until = now + timedelta(minutes=minutes)
+        else:
+            # Generic error fixed cooldown
+            tracker.cooldown_until = now + timedelta(minutes=30)
+            
     try:
         db.session.commit()
     except Exception:
@@ -130,14 +218,22 @@ def get_usable_keys(provider, base_keys):
         get_all_api_key_statuses()
         
         usable = []
-        trackers = {t.api_key: t.status for t in APIKeyTracker.query.filter_by(provider=provider).all()}
+        now = datetime.now()
+        trackers = {t.api_key: t for t in APIKeyTracker.query.filter_by(provider=provider).all()}
         for k in base_keys:
-            st = trackers.get(k, 'standby')
-            if st in ['standby', 'active']:
+            t = trackers.get(k)
+            if not t:
+                usable.append(k)
+                continue
+                
+            if t.status == 'standby':
+                # Double check cooldown_until just in case
+                if not t.cooldown_until or t.cooldown_until < now:
+                    usable.append(k)
+            elif t.status == 'active':
+                # Active keys are usually fine to reuse if not busy
                 usable.append(k)
         
-        # If all keys are in cooldown/error, we still return the full list
-        # so it attempts them just in case their status has secretly recovered.
         return usable if usable else base_keys
     except Exception:
         try:
@@ -214,309 +310,220 @@ def get_groq_client():
     if not keys: raise ValueError("Missing GROQ_API_KEYS environment variable")
     return Groq(api_key=random.choice(keys))
 
-def generate_text_with_fallback(prompt, system_instruction=None):
+def generate_text_with_fallback(prompt, system_instruction=None, user=None):
     """Unified wrapper for text generation with randomized provider rotation (Gemini, Groq, Ollama)"""
-    gemini_keys = get_gemini_keys()
-    groq_keys = get_groq_keys()
-    ollama_keys = get_ollama_keys()
-    
-    providers = []
-    if gemini_keys: providers.append('gemini')
-    if groq_keys: providers.append('groq')
-    if ollama_keys: providers.append('ollama')
-    
-    if not providers:
-        raise Exception("伺服器未設定任何 AI API Key。")
-        
+    providers = ['gemini', 'groq', 'ollama']
     random.shuffle(providers)
-    errors = []
     
+    errors = []
     for provider in providers:
-        if provider == 'gemini':
-            keys = get_usable_keys('gemini', get_gemini_keys())
-            random.shuffle(keys)
-            for key in keys:
-                try:
-                    genai.configure(api_key=key)
-                    model = get_gemini_model(system_instruction=system_instruction)
-                    
-                    final_prompt = prompt
-                    if system_instruction and 'gemma' in _cached_gemini_model_name:
-                        final_prompt = f"System Instruction: {system_instruction}\n\nUser: {prompt}"
-                        
-                    response = model.generate_content(final_prompt)
-                    mark_key_status('gemini', key, 'active')
-                    return response.text
-                except Exception as e:
-                    errors.append(f"Gemini (key {key[:4]}...): {e}")
-                    # If it's a quota issue, try next key. Otherwise, provider might be down.
-                    err_str = str(e).lower()
-                    if "429" in err_str or "quota" in err_str:
-                        mark_key_status('gemini', key, 'cooldown', str(e))
-                        continue
-                    else:
-                        mark_key_status('gemini', key, 'error', str(e))
-                        continue
-                
-        elif provider == 'groq':
-            keys = get_usable_keys('groq', get_groq_keys())
-            random.shuffle(keys)
-            for key in keys:
-                try:
-                    from groq import Groq
-                    client = Groq(api_key=key)
-                    messages = []
-                    if system_instruction:
-                        messages.append({"role": "system", "content": system_instruction})
-                    messages.append({"role": "user", "content": prompt})
-                    
-                    response = client.chat.completions.create(
-                        model="llama-3.3-70b-versatile",
-                        messages=messages,
-                        temperature=0.7,
-                        max_tokens=2048,
-                    )
-                    mark_key_status('groq', key, 'active')
-                    return response.choices[0].message.content
-                except Exception as e:
-                    errors.append(f"Groq (key {key[:4]}...): {e}")
-                    err_str = str(e).lower()
-                    if "restricted" in err_str or "quota" in err_str or "429" in err_str:
-                        mark_key_status('groq', key, 'cooldown', str(e))
-                        continue
-                    else:
-                        mark_key_status('groq', key, 'error', str(e))
-                        continue
-
-        elif provider == 'ollama':
-            keys = get_usable_keys('ollama', get_ollama_keys())
-            random.shuffle(keys)
-            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-            for key in keys:
-                try:
-                    from openai import OpenAI
-                    client = OpenAI(base_url=ollama_host, api_key=key)
-                    
-                    messages = []
-                    if system_instruction:
-                        messages.append({"role": "system", "content": system_instruction})
-                    messages.append({"role": "user", "content": prompt})
-                    
-                    response = client.chat.completions.create(
-                        model=os.environ.get('OLLAMA_MODEL', 'llama3'),
-                        messages=messages,
-                        temperature=0.7
-                    )
-                    mark_key_status('ollama', key, 'active')
-                    return str(response.choices[0].message.content)
-                except Exception as e:
-                    errors.append(f"Ollama: {e}")
-                    mark_key_status('ollama', key, 'error', str(e))
-                    continue
-
+        keys = get_usable_keys(provider, get_gemini_keys() if provider == 'gemini' else (get_groq_keys() if provider == 'groq' else get_ollama_keys()))
+        for key in keys:
+            # Busy-Locking
+            mark_key_status(provider, key, 'busy')
+            try:
+                # Retry logic for 429 errors
+                max_retries = 2
+                for attempt in range(max_retries):
+                    try:
+                        if provider == 'gemini':
+                            genai.configure(api_key=key)
+                            user_context = get_user_memory_context(user) if user else ""
+                            full_system = f"{system_instruction}\n\n{user_context}"
+                            
+                            final_prompt = prompt
+                            if 'gemma' in _cached_gemini_model_name:
+                                final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
+                                model = get_gemini_model(system_instruction="")
+                            else:
+                                model = get_gemini_model(system_instruction=full_system)
+                                
+                            response = model.generate_content(final_prompt)
+                            mark_key_status('gemini', key, 'active')
+                            if user:
+                                update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音：{response.text[:80]}")
+                            return response.text
+                        elif provider == 'groq':
+                            from groq import Groq
+                            client = Groq(api_key=key)
+                            user_context = get_user_memory_context(user) if user else ""
+                            full_system = f"{system_instruction}\n\n{user_context}"
+                            messages = [{"role": "system", "content": full_system}, {"role": "user", "content": prompt}]
+                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages)
+                            mark_key_status('groq', key, 'active')
+                            if user:
+                                update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音(Groq)：{response.choices[0].message.content[:80]}")
+                            return response.choices[0].message.content
+                        elif provider == 'ollama':
+                            from openai import OpenAI
+                            client = OpenAI(base_url=os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1'), api_key=key)
+                            # Ollama usually doesn't have 429s, but we'll follow the pattern
+                            response = client.chat.completions.create(model=os.environ.get('OLLAMA_MODEL', 'llama3'), messages=[{"role": "user", "content": prompt}])
+                            mark_key_status('ollama', key, 'active')
+                            return response.choices[0].message.content
+                    except Exception as e:
+                        if ('429' in str(e) or 'quota' in str(e).lower()) and attempt < max_retries - 1:
+                            import time
+                            time.sleep(2) # Short wait before retry
+                            continue
+                        raise e
+            except Exception as e:
+                errors.append(f"{provider} (key {key[:4]}...): {e}")
+                mark_key_status(provider, key, 'cooldown' if '429' in str(e) or 'quota' in str(e).lower() else 'error', str(e))
+                continue
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
-def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
+def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
     """Unified wrapper for vision generation with randomized provider rotation (Gemini, Groq, Ollama)"""
     import base64
-    gemini_keys = get_gemini_keys()
-    groq_keys = get_groq_keys()
-    ollama_keys = get_ollama_keys()
-    
-    providers = []
-    if gemini_keys: providers.append('gemini')
-    if groq_keys: providers.append('groq')
-    if ollama_keys: providers.append('ollama')
-    
-    if not providers:
-        raise Exception("伺服器未設定任何 AI API Key。")
-        
+    providers = ['gemini', 'groq', 'ollama']
     random.shuffle(providers)
     errors = []
     
-    for provider in providers:
-        if provider == 'gemini':
-            keys = get_usable_keys('gemini', get_gemini_keys())
-            random.shuffle(keys)
-            for key in keys:
-                try:
-                    genai.configure(api_key=key)
-                    model = get_gemini_model()
-                    image = Image.open(io.BytesIO(image_bytes))
-                    if system_instruction and 'gemma' in _cached_gemini_model_name:
-                        inputs = [f"System Instruction: {system_instruction}\n\nUser: {prompt}", image]
-                    else:
-                        inputs = [prompt, image]
-                        
-                    response = model.generate_content(inputs)
-                    mark_key_status('gemini', key, 'active')
-                    return response.text
-                except Exception as e:
-                    errors.append(f"Gemini Vision (key {key[:4]}...): {e}")
-                    err_str = str(e).lower()
-                    if "429" in err_str or "quota" in err_str:
-                        mark_key_status('gemini', key, 'cooldown', str(e))
-                        continue
-                    else:
-                        mark_key_status('gemini', key, 'error', str(e))
-                        continue
-        
-        elif provider == 'groq':
-            keys = get_usable_keys('groq', get_groq_keys())
-            random.shuffle(keys)
-            for key in keys:
-                try:
-                    from groq import Groq
-                    client = Groq(api_key=key)
-                    base64_image = base64.b64encode(image_bytes).decode('utf-8')
-                    messages = []
-                    if system_instruction:
-                        messages.append({"role": "system", "content": system_instruction})
-                    messages.append({
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
-                        ],
-                    })
-                    response = client.chat.completions.create(
-                        model="llama-3.2-90b-vision-preview",
-                        messages=messages,
-                        temperature=0.7,
-                        max_tokens=2048,
-                    )
-                    mark_key_status('groq', key, 'active')
-                    return response.choices[0].message.content
-                except Exception as e:
-                    errors.append(f"Groq Vision (key {key[:4]}...): {e}")
-                    err_str = str(e).lower()
-                    if "restricted" in err_str or "quota" in err_str or "429" in err_str:
-                        mark_key_status('groq', key, 'cooldown', str(e))
-                        continue
-                    else:
-                        mark_key_status('groq', key, 'error', str(e))
-                        continue
-        
-        elif provider == 'ollama':
-            keys = get_usable_keys('ollama', get_ollama_keys())
-            random.shuffle(keys)
-            ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-            for key in keys:
-                try:
-                    from openai import OpenAI
-                    client = OpenAI(base_url=ollama_host, api_key=key)
-                    base64_image = base64.b64encode(image_bytes).decode('utf-8')
-                    messages = []
-                    if system_instruction:
-                        messages.append({"role": "system", "content": system_instruction})
-                    messages.append({
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt},
-                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}},
-                        ],
-                    })
-                    response = client.chat.completions.create(
-                        model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
-                        messages=messages,
-                        temperature=0.7
-                    )
-                    mark_key_status('ollama', key, 'active')
-                    return response.choices[0].message.content
-                except Exception as e:
-                    errors.append(f"Ollama Vision: {e}")
-                    mark_key_status('ollama', key, 'error', str(e))
-                    continue
+    # Simple Hash-based Cache (Saves API Quota)
+    import hashlib
+    img_hash = hashlib.md5(image_bytes).hexdigest()
+    cache_key = f"vision_cache_{img_hash}_{hashlib.md5(prompt.encode()).hexdigest()}"
+    # (In a real app, use Redis/DB. For now, we'll bypass actual caching to focus on API stability)
 
+    for provider in providers:
+        keys = get_usable_keys(provider, get_gemini_keys() if provider == 'gemini' else (get_groq_keys() if provider == 'groq' else get_ollama_keys()))
+        for key in keys:
+            mark_key_status(provider, key, 'busy')
+            try:
+                max_retries = 2
+                for attempt in range(max_retries):
+                    try:
+                        if provider == 'gemini':
+                            genai.configure(api_key=key)
+                            image = Image.open(io.BytesIO(image_bytes))
+                            user_context = get_user_memory_context(user) if user else ""
+                            full_system = f"{system_instruction}\n\n{user_context}"
+                            
+                            # Use Flash by default for vision to save quota
+                            model_name = _cached_gemini_model_name if _cached_gemini_model_name and 'flash' in _cached_gemini_model_name else 'models/gemini-1.5-flash'
+                            model = genai.GenerativeModel(model_name, system_instruction=full_system)
+                            
+                            response = model.generate_content([prompt, image])
+                            mark_key_status('gemini', key, 'active')
+                            if user:
+                                update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
+                            return response.text
+                        elif provider == 'groq':
+                            from groq import Groq
+                            client = Groq(api_key=key)
+                            base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                            user_context = get_user_memory_context(user) if user else ""
+                            full_system = f"{system_instruction}\n\n{user_context}"
+                            messages = [{"role": "system", "content": full_system}, {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}]}]
+                            response = client.chat.completions.create(model="llama-3.2-90b-vision-preview", messages=messages)
+                            mark_key_status('groq', key, 'active')
+                            return response.choices[0].message.content
+                        elif provider == 'ollama':
+                             from openai import OpenAI
+                             client = OpenAI(base_url=os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1'), api_key=key)
+                             base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                             user_context = get_user_memory_context(user) if user else ""
+                             full_system = f"{system_instruction}\n\n{user_context}"
+                             messages = []
+                             if full_system: messages.append({"role": "system", "content": full_system})
+                             messages.append({"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}]})
+                             response = client.chat.completions.create(model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'), messages=messages)
+                             mark_key_status('ollama', key, 'active')
+                             return response.choices[0].message.content
+                    except Exception as e:
+                        if ('429' in str(e) or 'quota' in str(e).lower()) and attempt < max_retries - 1:
+                            import time
+                            time.sleep(2)
+                            continue
+                        raise e
+            except Exception as e:
+                errors.append(f"{provider} Vision (key {key[:4]}...): {e}")
+                mark_key_status(provider, key, 'cooldown' if '429' in str(e) or 'quota' in str(e).lower() else 'error', str(e))
+                continue
     raise Exception(f"所有的視覺 AI 模型皆不可用：{', '.join(errors)}")
+
+def get_yukine_system_prompt(lang='zh', user=None):
+    """Returns the base system prompt for Yukine based on language and personality."""
+    personality_key = user.ai_personality if user and user.ai_personality else '雪音-溫柔型'
+    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['雪音-溫柔型'])
+    base_prompt = personality['system_prompt']
+    
+    if lang == 'ja':
+        base_prompt += "\n重要：常に日本語で回答してください。"
+    elif lang == 'en':
+        base_prompt += "\nIMPORTANT: Always reply in English."
+    else:
+        base_prompt += "\n重要：請務必用繁體中文回答。"
+        
+    return base_prompt
 
 def analyze_question_image(image_bytes, user=None, lang='zh'):
     try:
         tutor_name = "雪音"
-        tutor_prompt = "充滿智慧且親切的家教老師雪音"
-        
         if user and user.ai_personality:
             personality = AI_PERSONALITIES.get(user.ai_personality)
-            if personality:
-                tutor_name = personality['name']
-                tutor_prompt = personality['system_prompt']
-
-        # Localized instructions
-        if lang == 'ja':
-            output_lang = "日本語"
-            role_desc = f"知的で親切な万能アシスタントの{tutor_name}先生"
-            task_desc = "この画像の内容を分析し、何でもお手伝いします："
-            detail_1 = "1. 内容認識：画像内のテキスト、オブジェクト、シーンを認識してください。"
-            detail_1_extra = "- **重要：手書き文字も含め、画像にあるすべての情報を読み取ってください**。"
-            detail_2 = f"2. 多様なニーズへの対応：学習、日常の悩み、作品制作など、どのような相談にも{tutor_name}先生として温かく応じてください。"
-            detail_3 = "3. 回答：ユーザーの意図を汲み取り、詳しく解説やアドバイスを提供してください。"
-            final_note = f"必ず{output_lang}で回答し、レイアウトを整えてください。"
-        elif lang == 'en':
-            output_lang = "English"
-            role_desc = f"the wise and versatile companion, {tutor_name}"
-            task_desc = "Analyze this image and assist with anything:"
-            detail_1 = "1. Recognition: Identify text, objects, and details in the image."
-            detail_1_extra = "- **IMPORTANT: Recognize everything**, including handwritten notes or complex scenes."
-            detail_2 = f"2. Versatile Support: Whether it's about studying, life advice, or creativity, respond warmly as {tutor_name}."
-            detail_3 = "3. Response: Provide detailed analysis, answers, or creative suggestions based on the content."
-            final_note = f"You MUST reply in {output_lang} and use clear formatting."
-        else: # zh
-            output_lang = "繁體中文"
-            role_desc = f"充滿智慧且親切的萬能伴侶{tutor_name}老師"
-            task_desc = "請分析這張圖片內容，並為用戶提供幫助："
-            detail_1 = "1. 全面辨識模式：請辨識圖片中的所有訊息，包含文字、物件或場景。"
-            detail_1_extra = "- **重點：「印刷文字」、「手寫筆記」或任何視覺細節都要辨識**。即便字跡凌亂，也請根據上下文推斷其義。"
-            detail_2 = f"2. 萬能協助機制：不必局限於學習題目。無論是用戶的日常生活紀錄、心情隨筆或任何興趣愛好，請都以「{tutor_name}老師」的身分給予溫暖的回應與支援。"
-            detail_3 = "3. 提供深度的分析：根據圖片內容提供詳細的辨識結果、解答、建議或心情交流。"
-            final_note = f"請用{output_lang}回答，並且排版清晰易讀。"
-
+            if personality: tutor_name = personality['name']
+        
+        lang_map = {'ja': '日本語', 'en': 'English', 'zh': '繁體中文'}
+        output_lang = lang_map.get(lang, '繁體中文')
+        
         prompt = f"""
-        你是{role_desc}。
-        {task_desc}
-        {detail_1}
-           {detail_1_extra}
-        {detail_2}
-        {detail_3}
-        {final_note}
+        你是「{tutor_name}老師」，一位擁有強大視覺分析能力的全能導師。
+        請根據圖片內容執行以下【三階段強化分析】：
+        
+        **階段一：精準掃描 (OCR)**
+        - 辨識圖片中所有的文字、符號、公式。
+        - 數學公式請務必轉換為 LaTeX 格式（例如：$x^2 + y^2 = r^2$）。
+        - 描述所有可見的圖表、座標軸、幾何圖形。
+        
+        **階段二：結構化邏輯建模**
+        - 分析圖片中文字與圖形的空間關係（例如：文字 A 是在指涉圖形 B 的長度）。
+        - 判斷該情境（這是一張考卷、黑板隨拍、還是筆記本上的速記？）。
+        
+        **階段三：深度解析與互動**
+        - 如果是學術題目，請給予詳細且具備教學溫度的解題引導。
+        - 提供與該內容相關的進階知識點或建議。
+        
+        請用 {output_lang} 回答，排版需優雅且結構化，請加入親切的顏文字 (๑•̀ㅂ•́)و✧。
         """
-        return generate_vision_with_fallback(prompt, image_bytes)
+        system_instruction = get_yukine_system_prompt(lang, user)
+        return generate_vision_with_fallback(prompt, image_bytes, system_instruction=system_instruction, user=user)
     except Exception as e:
-        return f"Error: {str(e)}"
+        return f"解析出錯：{str(e)}"
+
 
 def parse_question_from_image(image_bytes, lang='zh'):
     try:
         if lang == 'ja':
             prompt = """
-            この画像の問題を認識し、JSON形式に変換してください。
-            JSONフィールド：
-            - subject: 科目 (国語/英語/数学/社会/理科)
-            - content_text: 問題文
-            - option_a, option_b, option_c, option_d: 選択肢
-            - correct_answer: 正解 (A, B, C, Dのいずれか)
-            - explanation: 解説
+            画像を分析し、以下の3ステップに従って問題を解析してJSONで返してください。
+            1. OCRスキャン: 全てのテキストと数式(LaTeX)を正確に抽出。
+            2. ロジック分析: 問題の構造と意図を把握。
+            3. JSON変換: 以下のフィールドに整理。
+            JSONフィールド: subject, content_text, option_a, option_b, option_c, option_d, correct_answer (A-D), explanation.
             JSONのみを返し、Markdownタグは含めないでください。
             """
         elif lang == 'en':
             prompt = """
-            Recognize the question in this image and convert it to JSON format.
-            JSON fields:
-            - subject: Subject (Chinese/English/Math/Social/Science)
-            - content_text: Question text
-            - option_a, option_b, option_c, option_d: Options
-            - correct_answer: Correct answer (A, B, C, or D only)
-            - explanation: Detailed explanation
-            Only return raw JSON, no Markdown tags.
+            Analyze this image using these stages:
+            1. OCR Scan: Extract all text and math formulas (use LaTeX).
+            2. Logic Analysis: Understand the question's structure and diagrams.
+            3. JSON Output: Create a JSON with fields: subject, content_text, option_a, option_b, option_c, option_d, correct_answer (A-D format), explanation.
+            Return ONLY raw JSON.
             """
         else:
             prompt = """
-            請辨識圖片中的這道題目，並將其轉換為 JSON 格式。
-            JSON 欄位必須包含：
-            - subject: 科目(國文/英文/數學/社會/自然)
-            - content_text: 題目本文
-            - option_a, option_b, option_c, option_d: 選項
-            - correct_answer: 正確答案 (僅填 A, B, C, 或 D)
-            - explanation: 詳解
-            請僅返回 JSON，不要包含任何 Markdown 標籤。
+            請執行三階段解析並將題目轉換為 JSON：
+            1. 強化掃描：提取所有文字與 LaTeX 格式公式。
+            2. 邏輯建模：辨識題目的結構、圖表意圖。
+            3. JSON 封裝：填入以下欄位：
+               - subject: 科目(國文/英文/數學/社會/自然)
+               - content_text: 題目本文
+               - option_a, option_b, option_c, option_d: 選項
+               - correct_answer: 正確答案 (A/B/C/D)
+               - explanation: 詳解
+            僅返回 raw JSON 字串。
             """
         response_text = generate_vision_with_fallback(prompt, image_bytes)
         # Use robust parsing to handle cases where Gemini wraps JSON in markdown blocks
@@ -694,7 +701,7 @@ AI_PERSONALITIES = {
     }
 }
 
-def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-溫柔型', model_choice='gemini', context_summary=""):
+def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-溫柔型', model_choice='gemini', context_summary="", user=None):
     if user_message.strip().startswith('/image '):
         prompt = user_message.replace('/image ', '', 1).strip()
         return f"為您生成繪圖：**{prompt}**\n\n" + generate_image_url(prompt)
@@ -702,170 +709,41 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['雪音-溫柔型'])
     system_prompt = personality['system_prompt']
     
-    # Inject language requirement
-    lang = getattr(current_user, 'language', 'zh')
-    if lang == 'ja':
-        system_prompt += "\n重要：常に日本語で回答してください。"
-    elif lang == 'en':
-        system_prompt += "\nIMPORTANT: Always reply in English."
-    else:
-        system_prompt += "\n重要：請務必用繁體中文回答。"
+    # Language awareness
+    lang = user.language if user else 'zh'
+    if lang == 'ja': system_prompt += "\n重要：常に日本語で回答してください。"
+    elif lang == 'en': system_prompt += "\nIMPORTANT: Always reply in English."
+    else: system_prompt += "\n重要：請務必用繁體中文回答。"
 
     if context_summary:
         system_prompt += f"\n\n背景資訊：{context_summary}"
     
-    # Check for Admin Exclusive Commands
-    is_admin_user = (chat_history and any('管理員(ID:' in str(msg.get('parts', msg.get('content', ''))) for msg in chat_history)) or ("管理員" in user_message)
-    # Better: we should pass is_admin explicitly or rely on the name format
-    # In group_dashboard.html, we format as "Username(ID:123): Content"
-    
     if "管理員(ID:" in user_message:
-        system_prompt += """
-        
-        【管理員專屬權限已啟動】
-        檢測到當前對話者為系統最高管理員（管理員）。
-        請在回覆開頭熱情地向管理員問好，並告知目前可用的「管理員專屬指令」：
-        1. /status - 查看伺服器健康度與當前版本。
-        2. /user_count - 獲取當前系統註冊用戶總數。
-        3. /ai_switch - 切換後端 AI 模型的優先權。
-        4. /db_optimize - 執行資料庫連線優化檢查。
-        5. /broadcast [訊息] - 發布全局公告（模擬）。
-        
-        請注意：這些指令僅對「管理員」開放。如果管理員輸入了指令，請用專業且配合的語氣進行回應。
-        """
+        system_prompt += "\n【管理員專屬權限已啟動】... (Admin commands active)"
+
+    # We use the unified fallback wrapper which handles Gemini, Groq, Ollama and Memory
+    # We pass the chat_history as part of the prompt for now, or let UserMemory handle it
+    # For better continuity in the current session, we prepend recent messages if not already in memory
+    full_prompt = ""
+    if chat_history:
+        history_context = "\n".join([f"{m['role']}: {m.get('content', m.get('parts', [''])[0])}" for m in chat_history[-5:]])
+        full_prompt = f"近期對話記錄：\n{history_context}\n\n當前用戶訊息：{user_message}"
+    else:
+        full_prompt = user_message
+
+    reply = generate_text_with_fallback(full_prompt, system_instruction=system_prompt, user=user)
     
     expression = random.choice(personality['expressions'])
-    gemini_has_keys = len(get_gemini_keys()) > 0
-    groq_has_keys = len(get_groq_keys()) > 0
-    ollama_has_keys = len(get_ollama_keys()) > 0
     
-    models_to_try = []
-    if gemini_has_keys: models_to_try.append('gemini')
-    if groq_has_keys: models_to_try.append('groq')
-    if ollama_has_keys: models_to_try.append('ollama')
-    
-    if not models_to_try:
-        return "AI 老師暫時無法連線（請設定 API Key）。"
+    def draw_replacer(match):
+        draw_prompt = match.group(1).strip()
+        encoded = urllib.parse.quote(draw_prompt)
+        url = f"https://image.pollinations.ai/prompt/{encoded}?width=800&height=600&nologo=true"
+        return f"\n\n![生成圖片]({url})\n"
         
-    random.shuffle(models_to_try)
-    
-    reply = None
-    errors = []
-    
-    for current_model in models_to_try:
-        if current_model == 'gemini':
-            keys = get_gemini_keys()
-            random.shuffle(keys)
-            success = False
-            for key in keys:
-                try:
-                    genai.configure(api_key=key)
-                    model = get_gemini_model(system_instruction=system_prompt)
-                    gemini_history = []
-                    for msg in chat_history:
-                        msg_role = "user" if msg['role'] == 'user' else "model"
-                        parts_val = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
-                        gemini_history.append({"role": msg_role, "parts": [parts_val]})
-                        
-                    chat = model.start_chat(history=gemini_history)
-                    response = chat.send_message(user_message)
-                    reply = response.text
-                    success = True
-                    break
-                except Exception as e:
-                    errors.append(f"Gemini (key {key[:4]}...): {str(e)}")
-                    if "429" not in str(e) and "quota" not in str(e).lower():
-                        break
-            if success:
-                break
-                
-        elif current_model == 'groq':
-            try:
-                from groq import Groq
-                keys = get_groq_keys()
-                random.shuffle(keys)
-                success = False
-                
-                for key in keys:
-                    try:
-                        client = Groq(api_key=key)
-                        messages = [{"role": "system", "content": system_prompt}]
-                        for msg in chat_history:
-                            role = msg.get('role', 'user')
-                            if role not in ('user', 'assistant', 'system'):
-                                role = 'assistant'
-                            content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
-                            messages.append({"role": role, "content": content})
-                        messages.append({"role": "user", "content": user_message})
-                        
-                        response = client.chat.completions.create(
-                            model="llama-3.3-70b-versatile",
-                            messages=messages,
-                            temperature=0.7,
-                            max_tokens=2048,
-                        )
-                        reply = response.choices[0].message.content
-                        success = True
-                        break
-                    except Exception as e:
-                        errors.append(f"Groq (key {key[:4]}...): {str(e)}")
-                        if "restricted" not in str(e).lower() and "quota" not in str(e).lower() and "429" not in str(e):
-                            break
-                
-                if success:
-                    break
-            except Exception as e:
-                errors.append(f"Groq Init Error: {str(e)}")
-                
-        elif current_model == 'ollama':
-            try:
-                keys = get_ollama_keys()
-                random.shuffle(keys)
-                ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-                from openai import OpenAI
-                success = False
-                
-                for key in keys:
-                    try:
-                        client = OpenAI(base_url=ollama_host, api_key=key)
-                        messages = [{"role": "system", "content": system_prompt}]
-                        for msg in chat_history:
-                            role = msg.get('role', 'user')
-                            if role not in ('user', 'assistant', 'system'):
-                                role = 'assistant'
-                            content = msg.get('parts', [""])[0] if isinstance(msg.get('parts'), list) else msg.get('content', "")
-                            messages.append({"role": role, "content": content})
-                        messages.append({"role": "user", "content": user_message})
-                        
-                        response = client.chat.completions.create(
-                            model=os.environ.get('OLLAMA_MODEL', 'llama3'),
-                            messages=messages,
-                            temperature=0.7
-                        )
-                        reply = response.choices[0].message.content
-                        success = True
-                        break
-                    except Exception as e:
-                        errors.append(f"Ollama: {str(e)}")
-                
-                if success:
-                    break
-            except Exception as e:
-                errors.append(f"Ollama Init Error: {str(e)}")
-
-    if not reply:
-        return f"AI 老師暫時離開了座位：\n" + "\n".join(errors)
-
-    if reply:
-        def draw_replacer(match):
-            draw_prompt = match.group(1).strip()
-            encoded = urllib.parse.quote(draw_prompt)
-            url = f"https://image.pollinations.ai/prompt/{encoded}?width=800&height=600&nologo=true"
-            return f"\n\n![生成圖片]({url})\n"
-            
-        reply = re.sub(r'\[DRAW:\s*(.*?)\]', draw_replacer, str(reply), flags=re.IGNORECASE)
-    
+    reply = re.sub(r'\[DRAW:\s*(.*?)\]', draw_replacer, str(reply), flags=re.IGNORECASE)
     return f"{str(reply)}\n\n{str(expression)}"
+
 
 def get_yukine_feedback(submission_content, assignment_title, assignment_description):
     try:

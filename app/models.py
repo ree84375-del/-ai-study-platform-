@@ -283,7 +283,27 @@ class APIKeyTracker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     provider = db.Column(db.String(50), nullable=False) # 'gemini', 'groq', 'ollama'
     api_key = db.Column(db.String(255), unique=True, nullable=False)
-    status = db.Column(db.String(20), default='standby') # 'active', 'standby', 'cooldown', 'error'
+    status = db.Column(db.String(20), default='standby') # 'active', 'standby', 'cooldown', 'error', 'busy'
     last_used = db.Column(db.DateTime, nullable=True)
     error_message = db.Column(db.Text, nullable=True)
+    cooldown_until = db.Column(db.DateTime, nullable=True)
+    retry_count = db.Column(db.Integer, default=0)
+
+class UserMemory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    memory_content = db.Column(db.Text, nullable=True) # Legacy distilled context
+    last_updated = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    user = db.relationship('User', backref=db.backref('memory', uselist=False, lazy=True))
+
+class MemoryFragment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    category = db.Column(db.String(50), default='general') # 'preference', 'academic', 'personal', 'event'
+    content = db.Column(db.Text, nullable=False)
+    importance = db.Column(db.Integer, default=1) # 1-5
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    user = db.relationship('User', backref=db.backref('fragments', lazy=True, cascade="all, delete-orphan"))
 
