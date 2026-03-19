@@ -159,7 +159,7 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                         continue
                     else:
                         mark_key_status('gemini', key, 'error', str(e))
-                        break
+                        continue
                 
         elif provider == 'groq':
             keys = get_groq_keys()
@@ -189,7 +189,7 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                         continue
                     else:
                         mark_key_status('groq', key, 'error', str(e))
-                        break
+                        continue
 
         elif provider == 'ollama':
             keys = get_ollama_keys()
@@ -215,7 +215,7 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                 except Exception as e:
                     errors.append(f"Ollama: {e}")
                     mark_key_status('ollama', key, 'error', str(e))
-                    break
+                    continue
 
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
@@ -260,7 +260,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         continue
                     else:
                         mark_key_status('gemini', key, 'error', str(e))
-                        break
+                        continue
         
         elif provider == 'groq':
             keys = get_groq_keys()
@@ -281,7 +281,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         ],
                     })
                     response = client.chat.completions.create(
-                        model="llama-3.2-11b-vision-preview",
+                        model="llama-3.2-90b-vision-preview",
                         messages=messages,
                         temperature=0.7,
                         max_tokens=2048,
@@ -296,7 +296,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         continue
                     else:
                         mark_key_status('groq', key, 'error', str(e))
-                        break
+                        continue
         
         elif provider == 'ollama':
             keys = get_ollama_keys()
@@ -327,7 +327,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                 except Exception as e:
                     errors.append(f"Ollama Vision: {e}")
                     mark_key_status('ollama', key, 'error', str(e))
-                    break
+                    continue
 
     raise Exception(f"所有的視覺 AI 模型皆不可用：{', '.join(errors)}")
 
