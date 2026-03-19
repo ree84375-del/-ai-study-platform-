@@ -37,7 +37,8 @@ def dashboard():
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS recognized_content TEXT",
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
-            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
+            "CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"
         ]
         for stmt in auto_fixes:
             try:

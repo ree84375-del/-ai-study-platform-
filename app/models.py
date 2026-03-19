@@ -278,3 +278,12 @@ class GlobalStat(db.Model):
             db.session.add(instance)
             db.session.commit()
         return instance
+
+class APIKeyTracker(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    provider = db.Column(db.String(50), nullable=False) # 'gemini', 'groq', 'ollama'
+    api_key = db.Column(db.String(255), unique=True, nullable=False)
+    status = db.Column(db.String(20), default='standby') # 'active', 'standby', 'cooldown', 'error'
+    last_used = db.Column(db.DateTime, nullable=True)
+    error_message = db.Column(db.Text, nullable=True)
+

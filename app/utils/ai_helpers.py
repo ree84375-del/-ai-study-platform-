@@ -13,52 +13,115 @@ import urllib.parse
 _cached_gemini_model_name = None
 
 # API Key Status Tracking
-API_KEY_STATUS = {}
+from app import db
+from app.models import APIKeyTracker
+from datetime import timedelta
+
+def _sync_keys_to_db(provider, keys):
+    if not keys: return
+    existing = APIKeyTracker.query.filter_by(provider=provider).all()
+    existing_keys = {t.api_key: t for t in existing}
+    
+    # Add newly discovered keys from .env
+    for k in keys:
+        if k not in existing_keys:
+            tracker = APIKeyTracker(provider=provider, api_key=k, status='standby')
+            db.session.add(tracker)
+            existing_keys[k] = tracker
+    
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+    
+    return existing_keys
 
 def get_all_api_key_statuses():
     gemini_keys = get_gemini_keys()
     groq_keys = get_groq_keys()
     ollama_keys = get_ollama_keys()
     
-    # Initialize defaults if not in dict
-    for provider, keys in [('gemini', gemini_keys), ('groq', groq_keys), ('ollama', ollama_keys)]:
-        if provider not in API_KEY_STATUS:
-            API_KEY_STATUS[provider] = {}
-        for k in keys:
-            if k not in API_KEY_STATUS[provider]:
-                API_KEY_STATUS[provider][k] = {
-                    'status': 'standby',
-                    'last_used': None,
-                    'error': None
-                }
+    # Sync all current keys to DB
+    _sync_keys_to_db('gemini', gemini_keys)
+    _sync_keys_to_db('groq', groq_keys)
+    _sync_keys_to_db('ollama', ollama_keys)
     
-    masked_status = {}
-    for provider, keys_dict in API_KEY_STATUS.items():
-        masked_status[provider] = []
-        for k, info in keys_dict.items():
-            if not k: continue
-            masked_k = k[:6] + '...' + k[-4:] if len(k) > 10 else k
-            # Ensure we only track currently valid keys in env
-            active_keys = gemini_keys if provider == 'gemini' else groq_keys if provider == 'groq' else ollama_keys
-            if k in active_keys:
-                masked_status[provider].append({
-                    'key': masked_k,
-                    'full_key': k,
-                    'status': info['status'],
-                    'last_used': info['last_used'].strftime('%Y-%m-%d %H:%M:%S') if info['last_used'] else '從未使用',
-                    'error': info['error']
-                })
+    # Perform Auto-Repair here
+    now = datetime.now()
+    cooldown_threshold = now - timedelta(minutes=15)
+    error_threshold = now - timedelta(minutes=60)
+    
+    trackers = APIKeyTracker.query.all()
+    for t in trackers:
+        if t.status == 'cooldown' and t.last_used and t.last_used < cooldown_threshold:
+            t.status = 'standby'
+            t.error_message = None
+        elif t.status == 'error' and t.last_used and t.last_used < error_threshold:
+            t.status = 'standby'
+            t.error_message = None
+            
+    try:
+        if db.session.is_modified():
+            db.session.commit()
+    except Exception:
+        db.session.rollback()
+    
+    masked_status = {'gemini': [], 'groq': [], 'ollama': []}
+    trackers = APIKeyTracker.query.all()
+    
+    all_env_keys = gemini_keys + groq_keys + ollama_keys
+    
+    for t in trackers:
+        # Only show keys that are currently in the .env variables
+        if t.api_key not in all_env_keys:
+            continue
+            
+        k = t.api_key
+        masked_k = k[:6] + '...' + k[-4:] if len(k) > 10 else k
+        
+        masked_status[t.provider].append({
+            'key': masked_k,
+            'full_key': k,
+            'status': t.status,
+            'last_used': t.last_used.strftime('%Y-%m-%d %H:%M:%S') if t.last_used else '從未使用',
+            'error': t.error_message
+        })
+        
     return masked_status
 
 def mark_key_status(provider, key, status, error=None):
-    if provider not in API_KEY_STATUS:
-        API_KEY_STATUS[provider] = {}
-    if key not in API_KEY_STATUS[provider]:
-         API_KEY_STATUS[provider][key] = {}
+    tracker = APIKeyTracker.query.filter_by(provider=provider, api_key=key).first()
+    if not tracker:
+        tracker = APIKeyTracker(provider=provider, api_key=key, status=status)
+        db.session.add(tracker)
     
-    API_KEY_STATUS[provider][key]['status'] = status
-    API_KEY_STATUS[provider][key]['last_used'] = datetime.now()
-    API_KEY_STATUS[provider][key]['error'] = error
+    tracker.status = status
+    tracker.last_used = datetime.now()
+    tracker.error_message = error
+    
+    try:
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+
+def get_usable_keys(provider, base_keys):
+    if not base_keys: return []
+    try:
+        # Trigger auto-repair sweep
+        get_all_api_key_statuses()
+        
+        usable = []
+        trackers = {t.api_key: t.status for t in APIKeyTracker.query.filter_by(provider=provider).all()}
+        for k in base_keys:
+            st = trackers.get(k, 'standby')
+            if st in ['standby', 'active']:
+                usable.append(k)
+        
+        # If all keys are in cooldown/error, we still return the full list
+        # so it attempts them just in case their status has secretly recovered.
+        return usable if usable else base_keys
+    except Exception:
+        return base_keys
 
 
 def get_gemini_keys():
@@ -85,12 +148,12 @@ def get_gemini_model(system_instruction=None, tools=None):
     try:
         valid_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
         
-        # Priority list of models
+        # Priority list of models (Prefer 1.5-flash for free tier limits)
         preferred = [
+            'models/gemini-1.5-flash',
             'models/gemini-2.0-flash',
             'models/gemini-2.0-flash-lite',
             'models/gemini-1.5-pro',
-            'models/gemini-1.5-flash',
         ]
         
         for pref in preferred:
@@ -141,7 +204,7 @@ def generate_text_with_fallback(prompt, system_instruction=None):
     
     for provider in providers:
         if provider == 'gemini':
-            keys = get_gemini_keys()
+            keys = get_usable_keys('gemini', get_gemini_keys())
             random.shuffle(keys)
             for key in keys:
                 try:
@@ -162,7 +225,7 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                         continue
                 
         elif provider == 'groq':
-            keys = get_groq_keys()
+            keys = get_usable_keys('groq', get_groq_keys())
             random.shuffle(keys)
             for key in keys:
                 try:
@@ -192,7 +255,7 @@ def generate_text_with_fallback(prompt, system_instruction=None):
                         continue
 
         elif provider == 'ollama':
-            keys = get_ollama_keys()
+            keys = get_usable_keys('ollama', get_ollama_keys())
             random.shuffle(keys)
             ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
             for key in keys:
@@ -239,7 +302,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
     
     for provider in providers:
         if provider == 'gemini':
-            keys = get_gemini_keys()
+            keys = get_usable_keys('gemini', get_gemini_keys())
             random.shuffle(keys)
             for key in keys:
                 try:
@@ -263,7 +326,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         continue
         
         elif provider == 'groq':
-            keys = get_groq_keys()
+            keys = get_usable_keys('groq', get_groq_keys())
             random.shuffle(keys)
             for key in keys:
                 try:
@@ -299,7 +362,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None):
                         continue
         
         elif provider == 'ollama':
-            keys = get_ollama_keys()
+            keys = get_usable_keys('ollama', get_ollama_keys())
             random.shuffle(keys)
             ollama_host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
             for key in keys:
