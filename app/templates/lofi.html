@@ -467,312 +467,63 @@
         updateTimeTheme();
         setInterval(updateTimeTheme, 60000);
 
-        // ========== Web Audio API Procedural Sound Engine ==========
-        let audioCtx = null;
-        const activeSounds = {}; // { type: { nodes... } }
-        const audioKeys = ['lofi', 'rain', 'cafe', 'forest', 'break'];
+        // --- High-Quality Lyrical Music System ---
+        const musicSources = {
+            'lofi': 'https://cdn.pixabay.com/audio/2022/05/27/audio_1808f3030c.mp3', // Lofi Study
+            'rain': 'https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a7315b.mp3', // Piano After Rain
+            'cafe': 'https://cdn.pixabay.com/audio/2022/10/25/audio_5174092b67.mp3', // Coffee Shop Jazz
+            'forest': 'https://cdn.pixabay.com/audio/2021/11/25/audio_91b325ef6d.mp3' // Forest Nocturne/Harp
+        };
+
+        let currentAudio = new Audio();
+        currentAudio.loop = true;
         let globalVolume = 0.5;
+        let activeMusicType = null;
 
-        function getAudioContext() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            return audioCtx;
-        }
-
-        // --- Noise Buffer Generator ---
-        function createNoiseBuffer(ctx, seconds = 2) {
-            const sampleRate = ctx.sampleRate;
-            const bufferSize = sampleRate * seconds;
-            const buffer = ctx.createBuffer(1, bufferSize, sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-            return buffer;
-        }
-
-        // --- Rain Sound (filtered white noise with droplet modulation) ---
-        function startRain(ctx) {
-            const gainNode = ctx.createGain();
-            gainNode.gain.value = globalVolume * 0.6;
-            gainNode.connect(ctx.destination);
-
-            const noiseBuffer = createNoiseBuffer(ctx, 4);
-            const noise = ctx.createBufferSource();
-            noise.buffer = noiseBuffer;
-            noise.loop = true;
-
-            const lpFilter = ctx.createBiquadFilter();
-            lpFilter.type = 'lowpass';
-            lpFilter.frequency.value = 2500;
-            lpFilter.Q.value = 0.7;
-
-            const hpFilter = ctx.createBiquadFilter();
-            hpFilter.type = 'highpass';
-            hpFilter.frequency.value = 200;
-
-            // LFO for gentle volume modulation (simulates rain intensity changes)
-            const lfo = ctx.createOscillator();
-            lfo.frequency.value = 0.15;
-            const lfoGain = ctx.createGain();
-            lfoGain.gain.value = 0.08;
-            lfo.connect(lfoGain);
-            lfoGain.connect(gainNode.gain);
-            lfo.start();
-
-            noise.connect(hpFilter);
-            hpFilter.connect(lpFilter);
-            lpFilter.connect(gainNode);
-            noise.start();
-
-            return { gainNode, sources: [noise, lfo], filters: [lpFilter, hpFilter, lfoGain] };
-        }
-
-        // --- Cafe Sound (warm brownish noise + subtle clinking) ---
-        function startCafe(ctx) {
-            const gainNode = ctx.createGain();
-            gainNode.gain.value = globalVolume * 0.4;
-            gainNode.connect(ctx.destination);
-
-            const noiseBuffer = createNoiseBuffer(ctx, 4);
-            const noise = ctx.createBufferSource();
-            noise.buffer = noiseBuffer;
-            noise.loop = true;
-
-            // Warm low-pass for cafe murmur
-            const lpFilter = ctx.createBiquadFilter();
-            lpFilter.type = 'lowpass';
-            lpFilter.frequency.value = 1200;
-            lpFilter.Q.value = 0.5;
-
-            const hpFilter = ctx.createBiquadFilter();
-            hpFilter.type = 'highpass';
-            hpFilter.frequency.value = 100;
-
-            noise.connect(hpFilter);
-            hpFilter.connect(lpFilter);
-            lpFilter.connect(gainNode);
-            noise.start();
-
-            // Subtle periodic "clink" (high frequency burst)
-            const clinkInterval = setInterval(() => {
-                if (audioCtx && audioCtx.state === 'running') {
-                    const clinkOsc = ctx.createOscillator();
-                    const clinkGain = ctx.createGain();
-                    clinkOsc.frequency.value = 2000 + Math.random() * 2000;
-                    clinkOsc.type = 'sine';
-                    clinkGain.gain.setValueAtTime(globalVolume * 0.03, ctx.currentTime);
-                    clinkGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-                    clinkOsc.connect(clinkGain);
-                    clinkGain.connect(ctx.destination);
-                    clinkOsc.start(ctx.currentTime);
-                    clinkOsc.stop(ctx.currentTime + 0.15);
-                }
-            }, 2000 + Math.random() * 4000);
-
-            return { gainNode, sources: [noise], filters: [lpFilter, hpFilter], intervals: [clinkInterval] };
-        }
-
-        // --- Forest Sound (wind noise + bird chirps) ---
-        function startForest(ctx) {
-            const gainNode = ctx.createGain();
-            gainNode.gain.value = globalVolume * 0.5;
-            gainNode.connect(ctx.destination);
-
-            const noiseBuffer = createNoiseBuffer(ctx, 4);
-            const noise = ctx.createBufferSource();
-            noise.buffer = noiseBuffer;
-            noise.loop = true;
-
-            // Band-pass for wind sound
-            const bpFilter = ctx.createBiquadFilter();
-            bpFilter.type = 'bandpass';
-            bpFilter.frequency.value = 600;
-            bpFilter.Q.value = 0.3;
-
-            // LFO for wind gusts
-            const lfo = ctx.createOscillator();
-            lfo.frequency.value = 0.08;
-            const lfoGain = ctx.createGain();
-            lfoGain.gain.value = 0.15;
-            lfo.connect(lfoGain);
-            lfoGain.connect(gainNode.gain);
-            lfo.start();
-
-            noise.connect(bpFilter);
-            bpFilter.connect(gainNode);
-            noise.start();
-
-            // Periodic bird chirps
-            const birdInterval = setInterval(() => {
-                if (audioCtx && audioCtx.state === 'running') {
-                    const birdOsc = ctx.createOscillator();
-                    const birdGain = ctx.createGain();
-                    const baseFreq = 1800 + Math.random() * 1500;
-                    birdOsc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-                    birdOsc.frequency.linearRampToValueAtTime(baseFreq + 400, ctx.currentTime + 0.08);
-                    birdOsc.frequency.linearRampToValueAtTime(baseFreq - 200, ctx.currentTime + 0.15);
-                    birdOsc.type = 'sine';
-                    birdGain.gain.setValueAtTime(globalVolume * 0.04, ctx.currentTime);
-                    birdGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
-                    birdOsc.connect(birdGain);
-                    birdGain.connect(ctx.destination);
-                    birdOsc.start(ctx.currentTime);
-                    birdOsc.stop(ctx.currentTime + 0.2);
-                }
-            }, 3000 + Math.random() * 5000);
-
-            return { gainNode, sources: [noise, lfo], filters: [bpFilter, lfoGain], intervals: [birdInterval] };
-        }
-
-        // --- Lofi Beats (kick + hi-hat rhythm) ---
-        function startLofi(ctx) {
-            const gainNode = ctx.createGain();
-            gainNode.gain.value = globalVolume * 0.45;
-            gainNode.connect(ctx.destination);
-
-            const bpm = 75;
-            const beatInterval = (60 / bpm) * 1000;
-            let beat = 0;
-
-            function playKick(time) {
-                const osc = ctx.createOscillator();
-                const g = ctx.createGain();
-                osc.frequency.setValueAtTime(150, time);
-                osc.frequency.exponentialRampToValueAtTime(40, time + 0.12);
-                g.gain.setValueAtTime(globalVolume * 0.5, time);
-                g.gain.exponentialRampToValueAtTime(0.001, time + 0.3);
-                osc.connect(g);
-                g.connect(gainNode);
-                osc.start(time);
-                osc.stop(time + 0.3);
-            }
-
-            function playHat(time) {
-                const bufferSize = ctx.sampleRate * 0.05;
-                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-                const noise = ctx.createBufferSource();
-                noise.buffer = buffer;
-                const hp = ctx.createBiquadFilter();
-                hp.type = 'highpass';
-                hp.frequency.value = 7000;
-                const g = ctx.createGain();
-                g.gain.setValueAtTime(globalVolume * 0.15, time);
-                g.gain.exponentialRampToValueAtTime(0.001, time + 0.06);
-                noise.connect(hp);
-                hp.connect(g);
-                g.connect(gainNode);
-                noise.start(time);
-                noise.stop(time + 0.06);
-            }
-
-            // Warm bass pad
-            const padOsc = ctx.createOscillator();
-            padOsc.type = 'sine';
-            padOsc.frequency.value = 110;
-            const padGain = ctx.createGain();
-            padGain.gain.value = globalVolume * 0.12;
-            const padFilter = ctx.createBiquadFilter();
-            padFilter.type = 'lowpass';
-            padFilter.frequency.value = 400;
-            padOsc.connect(padFilter);
-            padFilter.connect(padGain);
-            padGain.connect(gainNode);
-            padOsc.start();
-
-            const loopInterval = setInterval(() => {
-                if (!audioCtx || audioCtx.state !== 'running') return;
-                const now = ctx.currentTime;
-                if (beat % 4 === 0) playKick(now);
-                if (beat % 2 === 1) playHat(now);
-                // Change bass note every 8 beats
-                if (beat % 8 === 0) {
-                    const notes = [110, 130.81, 146.83, 98];
-                    padOsc.frequency.setValueAtTime(notes[Math.floor(Math.random() * notes.length)], now);
-                }
-                beat++;
-            }, beatInterval);
-
-            return { gainNode, sources: [padOsc], filters: [padFilter, padGain], intervals: [loopInterval] };
-        }
-
-        // --- Start/Stop Sound ---
-        function startSound(type) {
-            const ctx = getAudioContext();
-            let sound;
-            switch (type) {
-                case 'lofi': case 'break': sound = startLofi(ctx); break;
-                case 'rain': sound = startRain(ctx); break;
-                case 'cafe': sound = startCafe(ctx); break;
-                case 'forest': sound = startForest(ctx); break;
-                default: return;
-            }
-            activeSounds[type] = sound;
-        }
-
-        function stopSound(type) {
-            const sound = activeSounds[type];
-            if (!sound) return;
-            // Stop all sources
-            (sound.sources || []).forEach(s => { try { s.stop(); } catch(e) {} });
-            // Clear intervals
-            (sound.intervals || []).forEach(i => clearInterval(i));
-            // Disconnect gain
-            try { sound.gainNode.disconnect(); } catch(e) {}
-            delete activeSounds[type];
-        }
-
-        function isSoundPlaying(type) {
-            return !!activeSounds[type];
-        }
-
-        // --- Toggle Audio (replaces old safeToggleAudio) ---
         function safeToggleAudio(type) {
             const btn = document.getElementById(type + '-btn');
-            if (isSoundPlaying(type)) {
-                stopSound(type);
+            
+            // If clicking the same one that's already playing, stop it
+            if (activeMusicType === type) {
+                currentAudio.pause();
+                activeMusicType = null;
                 if (btn) {
                     btn.classList.remove('active');
                     const icon = btn.querySelector('i');
                     if (icon) icon.style.animation = 'none';
                 }
-            } else {
-                // Stop others (except break which coexists)
-                audioKeys.forEach(key => {
-                    if (key !== type && isSoundPlaying(key)) {
-                        stopSound(key);
-                        const otherBtn = document.getElementById(key + '-btn');
-                        if (otherBtn) {
-                            otherBtn.classList.remove('active');
-                            const icon = otherBtn.querySelector('i');
-                            if (icon) icon.style.animation = 'none';
-                        }
-                    }
-                });
+                return;
+            }
 
-                startSound(type);
-                if (btn) {
-                    btn.classList.add('active');
-                    const icon = btn.querySelector('i');
-                    if (icon) icon.style.animation = 'audio-pulse 2s infinite ease-in-out';
+            // Stop any existing music
+            if (activeMusicType) {
+                const prevBtn = document.getElementById(activeMusicType + '-btn');
+                if (prevBtn) {
+                    prevBtn.classList.remove('active');
+                    const prevIcon = prevBtn.querySelector('i');
+                    if (prevIcon) prevIcon.style.animation = 'none';
                 }
+            }
+
+            // Start new music
+            activeMusicType = type;
+            currentAudio.src = musicSources[type];
+            currentAudio.volume = globalVolume;
+            currentAudio.play().catch(err => {
+                console.log("Audio play blocked:", err);
+                alert(document.getElementById('i18n-data').dataset.audioPermMsg);
+            });
+
+            if (btn) {
+                btn.classList.add('active');
+                const icon = btn.querySelector('i');
+                if (icon) icon.style.animation = 'audio-pulse 2s infinite ease-in-out';
             }
         }
 
         document.getElementById('volume-slider').addEventListener('input', (e) => {
             globalVolume = parseFloat(e.target.value);
-            // Update gain of all active sounds
-            Object.values(activeSounds).forEach(sound => {
-                if (sound && sound.gainNode) {
-                    sound.gainNode.gain.value = globalVolume * 0.5;
-                }
-            });
+            currentAudio.volume = globalVolume;
         });
 
         // --- Pomodoro Timer Logic ---
