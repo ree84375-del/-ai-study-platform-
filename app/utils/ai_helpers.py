@@ -2,6 +2,13 @@ import os
 import json
 import re
 from datetime import datetime
+# Gemini Safety Settings - Relaxed to avoid over-filtering
+GEMINI_SAFETY_SETTINGS = [
+    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+]
 import google.generativeai as genai
 from PIL import Image
 import io
@@ -147,22 +154,16 @@ def get_all_api_key_statuses():
         elif t.status == 'busy' and t.last_used and t.last_used < busy_threshold:
             t.status = 'standby'
             
-        # Check cooldown completion (Revert even if cooldown_until is missing - safety fallback)
-        if t.status in ['cooldown', 'error']:
-            if not t.cooldown_until or t.cooldown_until < now:
-                t.status = 'standby'
-                t.error_message = None
-    
     # SYSTEM-WIDE RECOVERY PULSE:
     # If every single key in the system is in an error or cooldown state,
-    # something is wrong with the system state. Force a partial reset.
+    # force them back to standby to guarantee a retry attempt.
     if trackers:
         bad_count = sum(1 for t in trackers if t.status in ['cooldown', 'error'])
         if bad_count == len(trackers):
-            # All keys are dead. Force reset all trackers to standby.
             for t in trackers:
                 t.status = 'standby'
-                t.error_message = f"Auto-recovered at {now.strftime('%H:%M:%S')}"
+                if not t.error_message or "Auto-recovered" not in t.error_message:
+                    t.error_message = f"Auto-recovered at {now.strftime('%H:%M:%S')}"
                 t.cooldown_until = None
     
     try:
@@ -426,7 +427,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             
                             # Use Flash by default for vision to save quota
                             model_name = _cached_gemini_model_name if _cached_gemini_model_name and 'flash' in _cached_gemini_model_name else 'models/gemini-1.5-flash'
-                            model = genai.GenerativeModel(model_name, system_instruction=full_system)
+                            model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
                             
                             response = model.generate_content([prompt, image])
                             mark_key_status('gemini', key, 'active')
