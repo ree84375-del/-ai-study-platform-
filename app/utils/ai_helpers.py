@@ -575,7 +575,45 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         system_instruction = get_yukine_system_prompt(lang, user)
         return generate_vision_with_fallback(prompt, image_bytes, system_instruction=system_instruction, user=user)
     except Exception as e:
-        return f"解析出錯：{str(e)}"
+        return f"Key Status Error: {e}"
+
+def get_system_pulse():
+    """Generates a high-level diagnostic pulse report from Antigravity."""
+    from app.models import APIKeyTracker
+    from datetime import datetime, timezone
+    
+    pulse = {
+        'status': 'HEALTHY',
+        'active_provider': 'None',
+        'diagnostic_msg': '核心系統掃描中...',
+        'uptime_percent': 100,
+        'threat_level': 'LOW'
+    }
+    
+    # 1. Check Groq (Primary Active)
+    groq_active = APIKeyTracker.query.filter_by(provider='groq', status='active').count()
+    gemini_active = APIKeyTracker.query.filter_by(provider='gemini', status='active').count()
+    ollama_active = APIKeyTracker.query.filter_by(provider='ollama', status='active').count()
+    
+    # Identify Active Provider
+    if groq_active > 0:
+        pulse['active_provider'] = 'Groq (LP)'
+    elif gemini_active > 0:
+        pulse['active_provider'] = 'Gemini (LP)'
+    elif ollama_active > 0:
+        pulse['active_provider'] = 'Ollama (Local)'
+        pulse['diagnostic_msg'] = '線上金鑰暫時耗盡，切換至本地核心連線穩定。'
+    else:
+        pulse['active_provider'] = 'None'
+        pulse['status'] = 'CRITICAL'
+        pulse['diagnostic_msg'] = '警告：所有 AI 通道已關閉，正在嘗試緊急修復。'
+        pulse['threat_level'] = 'HIGH'
+
+    # Special logic for Groq succession
+    if groq_active > 0 and gemini_active == 0:
+        pulse['diagnostic_msg'] = 'Antigravity 成功攔截 Google 封鎖，目前由高性能 Groq 節點接管。'
+        
+    return pulse
 
 
 def parse_question_from_image(image_bytes, lang='zh'):

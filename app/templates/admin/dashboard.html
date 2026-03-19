@@ -36,6 +36,35 @@
         </div>
     </div>
     
+    <!-- Antigravity Diagnostic Pulse Widget -->
+    <div id="antigravity-pulse-card" class="washi-card" style="margin-bottom: 2rem; border-left: 5px solid #ff7b72; position: relative; overflow: hidden; background: linear-gradient(135deg, #1a1b26 0%, #24283b 100%); color: #79dac8; padding: 1.5rem;">
+        <div style="position: absolute; top: 0; right: 0; padding: 10px; font-size: 0.7rem; opacity: 0.5; font-family: monospace;">ANTIGRAVITY_CORE_V2.5</div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div id="pulse-animation" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #79dac8; display: flex; align-items: center; justify-content: center; position: relative;">
+                <div style="width: 8px; height: 8px; background: #79dac8; border-radius: 50%; box-shadow: 0 0 10px #79dac8;"></div>
+                <div class="echo-ring" style="position: absolute; width: 100%; height: 100%; border: 1px solid #79dac8; border-radius: 50%; animation: pulse-ring 2s infinite;"></div>
+            </div>
+            <div style="flex: 1;">
+                <h3 style="margin: 0; color: #bb9af7; display: flex; align-items: center; gap: 10px; font-size: 1.2rem;">
+                    <i class="fa-solid fa-heart-pulse"></i> {{ _t('admin_diagnostic_pulse') or 'AI 系統運作脈衝 (Antigravity)' }}
+                    <span id="pulse-status-badge" style="font-size: 0.65rem; padding: 2px 10px; border-radius: 10px; background: #2e7d32; color: white; letter-spacing: 1px;">HEALTHY</span>
+                </h3>
+                <p id="pulse-msg" style="margin: 8px 0 0; font-size: 1rem; font-weight: bold; color: #ff9e64; font-family: 'Noto Sans TC';">探測器初始化中...</p>
+                <div style="font-size: 0.8rem; color: #78a9ff; margin-top: 6px; display: flex; gap: 15px;">
+                    <span><i class="fa-solid fa-tower-broadcast"></i> 通道: <span id="pulse-provider" style="color: #bb9af7; font-weight: bold;">--</span></span>
+                    <span><i class="fa-solid fa-shield-halved"></i> 威脅等級: <span id="pulse-threat" style="color: #79dac8;">LOW</span></span>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            @keyframes pulse-ring {
+                0% { transform: scale(0.8); opacity: 0.8; }
+                100% { transform: scale(1.6); opacity: 0; }
+            }
+        </style>
+    </div>
+
     <div class="washi-card" style="margin-bottom: 2rem;">
         <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count', count=users|length) }})</h3>
         <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
@@ -175,26 +204,24 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在重設...';
 
-        fetch('{{ url_for("admin.reset_api_keys") }}', { // Use url_for for Flask endpoint
+        fetch('/admin/api_keys/reset', { // Use relative URL to avoid scheme issues
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': '{{ csrf_token() }}' // Add CSRF token for POST requests
+                'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value || '{{ csrf_token() }}'
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
+        .then(async response => {
+            const data = await response.json();
+            if (response.ok && data.message) {
                 alert('成功！所有金鑰已恢復待機狀態。頁面即將重新整理。');
                 location.reload();
             } else {
-                alert('重設失敗：' + (data.error || '未知錯誤'));
-                btn.disabled = false;
-                btn.innerHTML = originalText;
+                throw new Error(data.error || '伺服器回應錯誤');
             }
         })
         .catch(err => {
-            alert('發生網路錯誤，請稍後再試。');
+            alert('重設失敗 (網路或權限問題)：' + err.message);
             btn.disabled = false;
             btn.innerHTML = originalText;
         });
@@ -264,6 +291,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Polling interval: dynamically grab updates every 3 seconds
     setInterval(fetchAPIKeyStatus, 3000);
+
+    // --- Antigravity System Pulse Logic ---
+    function updateSystemPulse() {
+        fetch('/admin/system_pulse')
+            .then(res => res.json())
+            .then(data => {
+                const msgEl = document.getElementById('pulse-msg');
+                const badgeEl = document.getElementById('pulse-status-badge');
+                const providerEl = document.getElementById('pulse-provider');
+                const threatEl = document.getElementById('pulse-threat');
+                const animationEl = document.getElementById('pulse-animation');
+
+                if (msgEl) msgEl.innerText = data.diagnostic_msg;
+                if (providerEl) providerEl.innerText = data.active_provider;
+                if (threatEl) {
+                    threatEl.innerText = data.threat_level;
+                    threatEl.style.color = data.threat_level === 'HIGH' ? '#ff7b72' : '#79dac8';
+                }
+                
+                if (badgeEl) {
+                    badgeEl.innerText = data.status;
+                    badgeEl.style.background = data.status === 'HEALTHY' ? '#2e7d32' : '#c62828';
+                }
+
+                // Visual flicker to show live data
+                if (animationEl) {
+                    animationEl.style.opacity = "0.5";
+                    setTimeout(() => animationEl.style.opacity = "1", 100);
+                }
+            })
+            .catch(err => console.error("Pulse dead:", err));
+    }
+    setInterval(updateSystemPulse, 5000);
+    updateSystemPulse(); 
 });
 </script>
 

@@ -65,6 +65,11 @@ def api_keys_status():
     from app.utils.ai_helpers import get_all_api_key_statuses
     return jsonify(get_all_api_key_statuses())
 
+@admin.route('/system_pulse')
+def system_pulse():
+    from app.utils.ai_helpers import get_system_pulse
+    return jsonify(get_system_pulse())
+
 @admin.route('/api_keys/reset', methods=['POST'])
 @login_required
 def reset_api_keys():
