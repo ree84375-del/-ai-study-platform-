@@ -357,6 +357,8 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                         elif provider == 'ollama':
                             from openai import OpenAI
                             host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
+                            if host and not host.endswith('/v1') and not host.endswith('/v1/'):
+                                host = host.rstrip('/') + '/v1'
                             try:
                                 client = OpenAI(base_url=host, api_key=key)
                                 # Ollama usually doesn't have 429s, but we'll follow the pattern
