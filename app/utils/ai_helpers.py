@@ -155,16 +155,20 @@ def get_all_api_key_statuses():
             t.status = 'standby'
             
     # SYSTEM-WIDE RECOVERY PULSE:
-    # If every single key in the system is in an error or cooldown state,
-    # force them back to standby to guarantee a retry attempt.
-    if trackers:
-        bad_count = sum(1 for t in trackers if t.status in ['cooldown', 'error'])
-        if bad_count == len(trackers):
-            for t in trackers:
+    # If a key stays in 'error' or 'cooldown' for more than 30 seconds, 
+    # force it back to standby. We want to be very aggressive in retrying.
+    for t in trackers:
+        if t.status in ['cooldown', 'error']:
+            if not t.cooldown_until or t.cooldown_until < now:
                 t.status = 'standby'
-                if not t.error_message or "Auto-recovered" not in t.error_message:
-                    t.error_message = f"Auto-recovered at {now.strftime('%H:%M:%S')}"
+                t.error_message = None
                 t.cooldown_until = None
+    
+    # SPECIAL CASE: Skip Restricted Keys from Recovery
+    for t in trackers:
+        if t.error_message and "restricted" in t.error_message.lower():
+            t.status = 'error' # Stay in error
+            t.cooldown_until = now + timedelta(days=1)
     
     try:
         if db.session.is_modified():
@@ -238,6 +242,19 @@ def get_usable_keys(provider, base_keys):
             t = trackers.get(k)
             if not t:
                 usable.append(k)
+                continue
+            
+            # AGGRESSIVE RECOVERY:
+            # If the key was in 'error' or 'cooldown' but hasn't been checked in 30 seconds,
+            # reset it to 'standby' to allow a fresh retry.
+            # (The 30-second check is handled by get_all_api_key_statuses, this just ensures a reset if needed)
+            if t.status in ['error', 'cooldown'] and t.cooldown_until and t.cooldown_until < now:
+                t.status = 'standby'
+                t.error_message = None
+                t.cooldown_until = None
+                
+            # DO NOT EVER use keys that have "restricted" in the error message (Billings/Ban)
+            if t.error_message and "restricted" in t.error_message.lower():
                 continue
                 
             if t.status == 'standby':
@@ -372,18 +389,29 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音(Groq)：{response.choices[0].message.content[:80]}")
                             return response.choices[0].message.content
                         elif provider == 'ollama':
-                            from openai import OpenAI
-                            host = os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1')
-                            if host and not host.endswith('/v1') and not host.endswith('/v1/'):
-                                host = host.rstrip('/') + '/v1'
+                            import requests
+                            # Use specific headers to bypass ngrok browser warnings
+                            headers = {'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true'}
                             try:
-                                client = OpenAI(base_url=host, api_key=key)
-                                # Ollama usually doesn't have 429s, but we'll follow the pattern
-                                response = client.chat.completions.create(model=os.environ.get('OLLAMA_MODEL', 'llama3'), messages=[{"role": "user", "content": prompt}])
-                                mark_key_status('ollama', key, 'active')
-                                return response.choices[0].message.content
+                                ollama_url = key if key.startswith('http') else f"http://{key}"
+                                # Test connection with timeout
+                                requests.get(f"{ollama_url}/api/tags", timeout=3, headers=headers)
+                                
+                                payload = {
+                                    "model": os.environ.get('OLLAMA_MODEL', 'llama3.2:latest'),
+                                    "messages": [{"role": "user", "content": prompt}],
+                                    "stream": False
+                                }
+                                resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=30, headers=headers)
+                                if resp.status_code == 200:
+                                    mark_key_status('ollama', key, 'active')
+                                    return resp.json()['message']['content']
+                                else:
+                                    error_msg = f"Ollama error {resp.status_code}: {resp.text}"
+                                    mark_key_status('ollama', key, 'error', error_msg)
+                                    raise Exception(error_msg)
                             except Exception as e:
-                                error_msg = f"Connection error to {host}: {str(e)}"
+                                error_msg = f"Ollama connection error on {ollama_url}: {e}"
                                 mark_key_status('ollama', key, 'error', error_msg)
                                 raise Exception(error_msg)
                     except Exception as e:
