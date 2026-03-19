@@ -68,6 +68,7 @@
                             <option value="ai_gentle" {% if current_user.ai_personality in ['ai_gentle', '雪音-溫柔型', '雪音-温柔型'] %}selected{% endif %}>{{ _t('ai_gentle') }}</option>
                             <option value="ai_coach" {% if current_user.ai_personality in ['ai_coach', '雪音-嚴格型', '雪音-严格型'] %}selected{% endif %}>{{ _t('ai_coach') }}</option>
                             <option value="ai_guy" {% if current_user.ai_personality in ['ai_guy', '雪音-幽默型'] %}selected{% endif %}>{{ _t('ai_guy') }}</option>
+                            <option value="ai_antigravity" {% if current_user.ai_personality == 'ai_antigravity' %}selected{% endif %}>{{ _t('ai_antigravity') }}</option>
                         </select>
                     </div>
                     
