@@ -420,16 +420,16 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             time.sleep(2) # Short wait before retry
                             continue
                         raise e
-                    except Exception as e:
-                        error_msg = str(e)
-                        if '400' in error_msg and 'key not valid' in error_msg.lower():
-                            error_msg = "Google says: API Key is invalid or deactivated."
-                        elif '403' in error_msg:
-                            error_msg = "Google says: API Key is restricted or blocked."
-                        
-                        errors.append(f"gemini (key {key[:4]}...): {error_msg}")
-                        mark_key_status('gemini', key, 'error', error_msg)
-                        continue
+            except Exception as e:
+                error_msg = str(e)
+                if '400' in error_msg and 'key not valid' in error_msg.lower():
+                    error_msg = "Google says: API Key is invalid or deactivated."
+                elif '403' in error_msg:
+                    error_msg = "Google says: API Key is restricted or blocked."
+                
+                errors.append(f"{provider} (key {key[:4]}...): {error_msg}")
+                mark_key_status(provider, key, 'error', error_msg)
+                continue
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
