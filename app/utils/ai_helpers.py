@@ -152,7 +152,19 @@ def get_all_api_key_statuses():
             if not t.cooldown_until or t.cooldown_until < now:
                 t.status = 'standby'
                 t.error_message = None
-            
+    
+    # SYSTEM-WIDE RECOVERY PULSE:
+    # If every single key in the system is in an error or cooldown state,
+    # something is wrong with the system state. Force a partial reset.
+    if trackers:
+        bad_count = sum(1 for t in trackers if t.status in ['cooldown', 'error'])
+        if bad_count == len(trackers):
+            # All keys are dead. Force reset all trackers to standby.
+            for t in trackers:
+                t.status = 'standby'
+                t.error_message = "Auto-recovered from system-wide lockout"
+                t.cooldown_until = None
+    
     try:
         if db.session.is_modified():
             db.session.commit()
@@ -235,6 +247,9 @@ def get_usable_keys(provider, base_keys):
                 # Active keys are usually fine to reuse if not busy
                 usable.append(k)
         
+        # SELF-HEALING FALLBACK: If all keys are in cooldown/error, don't just give up.
+        # Fallback to the original base_keys and let the try/except block in generation handle the failure.
+        # This prevents the UI from just showing "All keys dead" if some are actually recovered but not synced yet.
         return usable if usable else base_keys
     except Exception:
         try:
