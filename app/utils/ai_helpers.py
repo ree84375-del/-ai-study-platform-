@@ -420,10 +420,16 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             time.sleep(2) # Short wait before retry
                             continue
                         raise e
-            except Exception as e:
-                errors.append(f"{provider} (key {key[:4]}...): {e}")
-                mark_key_status(provider, key, 'cooldown' if '429' in str(e) or 'quota' in str(e).lower() else 'error', str(e))
-                continue
+                    except Exception as e:
+                        error_msg = str(e)
+                        if '400' in error_msg and 'key not valid' in error_msg.lower():
+                            error_msg = "Google says: API Key is invalid or deactivated."
+                        elif '403' in error_msg:
+                            error_msg = "Google says: API Key is restricted or blocked."
+                        
+                        errors.append(f"gemini (key {key[:4]}...): {error_msg}")
+                        mark_key_status('gemini', key, 'error', error_msg)
+                        continue
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
@@ -469,21 +475,47 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             user_context = get_user_memory_context(user) if user else ""
                             full_system = f"{system_instruction}\n\n{user_context}"
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}]}]
-                            response = client.chat.completions.create(model="llama-3.2-90b-vision-preview", messages=messages)
-                            mark_key_status('groq', key, 'active')
-                            return response.choices[0].message.content
+                            try:
+                                response = client.chat.completions.create(model="llama-3.2-90b-vision-preview", messages=messages)
+                                mark_key_status('groq', key, 'active')
+                                return response.choices[0].message.content
+                            except Exception as e:
+                                error_msg = str(e)
+                                if "restricted" in error_msg.lower():
+                                    error_msg = "Groq says: Organization Restricted (Billing Issue)."
+                                mark_key_status('groq', key, 'error', error_msg)
+                                raise Exception(error_msg)
                         elif provider == 'ollama':
-                             from openai import OpenAI
-                             client = OpenAI(base_url=os.environ.get('OLLAMA_HOST', 'http://localhost:11434/v1'), api_key=key)
-                             base64_image = base64.b64encode(image_bytes).decode('utf-8')
-                             user_context = get_user_memory_context(user) if user else ""
-                             full_system = f"{system_instruction}\n\n{user_context}"
-                             messages = []
-                             if full_system: messages.append({"role": "system", "content": full_system})
-                             messages.append({"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}]})
-                             response = client.chat.completions.create(model=os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'), messages=messages)
-                             mark_key_status('ollama', key, 'active')
-                             return response.choices[0].message.content
+                            import requests
+                            ollama_url = key if key.startswith('http') else f"http://{key}"
+                            base64_image = base64.b64encode(image_bytes).decode('utf-8')
+                            user_context = get_user_memory_context(user) if user else ""
+                            full_system = f"{system_instruction}\n\n{user_context}"
+                            
+                            headers = {'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true'}
+                            payload = {
+                                "model": os.environ.get('OLLAMA_MODEL', 'llama3.2-vision'),
+                                "messages": [
+                                    {"role": "user", "content": prompt, "images": [base64_image]}
+                                ],
+                                "stream": False
+                            }
+                            if full_system:
+                                payload["system"] = full_system
+                                
+                            try:
+                                resp = requests.post(f"{ollama_url}/api/chat", json=payload, headers=headers, timeout=60)
+                                if resp.status_code == 200:
+                                    mark_key_status('ollama', key, 'active')
+                                    return resp.json()['message']['content']
+                                else:
+                                    error_msg = f"Ollama vision error {resp.status_code}: {resp.text}"
+                                    mark_key_status('ollama', key, 'error', error_msg)
+                                    raise Exception(error_msg)
+                            except Exception as e:
+                                error_msg = f"Ollama vision connection error on {ollama_url}: {e}"
+                                mark_key_status('ollama', key, 'error', error_msg)
+                                raise Exception(error_msg)
                     except Exception as e:
                         if ('429' in str(e) or 'quota' in str(e).lower()) and attempt < max_retries - 1:
                             import time
