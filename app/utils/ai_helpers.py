@@ -147,10 +147,11 @@ def get_all_api_key_statuses():
         elif t.status == 'busy' and t.last_used and t.last_used < busy_threshold:
             t.status = 'standby'
             
-        # Check cooldown completion
-        if t.status in ['cooldown', 'error'] and t.cooldown_until and t.cooldown_until < now:
-            t.status = 'standby'
-            t.error_message = None
+        # Check cooldown completion (Revert even if cooldown_until is missing - safety fallback)
+        if t.status in ['cooldown', 'error']:
+            if not t.cooldown_until or t.cooldown_until < now:
+                t.status = 'standby'
+                t.error_message = None
             
     try:
         if db.session.is_modified():
@@ -203,8 +204,8 @@ def mark_key_status(provider, key, status, error=None):
             minutes = min(5 * (2 ** (tracker.retry_count - 1)), 120) # 5m, 10m, 20m... max 2h
             tracker.cooldown_until = now + timedelta(minutes=minutes)
         else:
-            # Generic error fixed cooldown
-            tracker.cooldown_until = now + timedelta(minutes=30)
+            # Generic error fixed cooldown (Reduced from 30m to 2m for better recovery)
+            tracker.cooldown_until = now + timedelta(minutes=2)
             
     try:
         db.session.commit()

@@ -65,6 +65,28 @@ def api_keys_status():
     from app.utils.ai_helpers import get_all_api_key_statuses
     return jsonify(get_all_api_key_statuses())
 
+@admin.route('/api_keys/reset', methods=['POST'])
+@login_required
+def reset_api_keys():
+    if current_user.role != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    from app.models import APIKeyTracker
+    from app.extensions import db
+    try:
+        # Hard reset all trackers to standby
+        trackers = APIKeyTracker.query.all()
+        for t in trackers:
+            t.status = 'standby'
+            t.error_message = None
+            t.cooldown_until = None
+            t.retry_count = 0
+        db.session.commit()
+        return jsonify({'message': 'All API keys reset to standby'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 
 @admin.route('/user/<int:user_id>/role', methods=['POST'])
 def change_user_role(user_id):

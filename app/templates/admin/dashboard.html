@@ -105,6 +105,15 @@
             .dot-error { background-color: #f44336; box-shadow: 0 0 5px #f44336; }
         </style>
 
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div style="font-size: 0.9rem; color: #666;">
+                <i class="fa-solid fa-circle-info"></i> 系統會自動監測金鑰狀態。若金鑰卡在冷卻中，可點擊重設。
+            </div>
+            <button id="reset-api-keys-btn" class="btn btn-sm btn-outline-danger" style="border-radius: 20px; padding: 5px 15px;">
+                <i class="fa-solid fa-rotate"></i> 強制重設所有金鑰狀態
+            </button>
+        </div>
+
         <div id="api-keys-container">
         {% for provider, keys in api_key_statuses.items() %}
         <div style="margin-bottom: 1.5rem;">
@@ -154,6 +163,43 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // API Key Status Auto-refresh
+    // The existing fetchAPIKeyStatus already handles this, so we'll integrate the reset logic.
+
+    // Reset API Keys logic
+    document.getElementById('reset-api-keys-btn').addEventListener('click', function() {
+        if (!confirm('確定要強制重設所有金鑰狀態回「待機」嗎？\n這將會清除所有目前的報錯紀錄與冷卻時間。')) return;
+        
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在重設...';
+
+        fetch('{{ url_for("admin.reset_api_keys") }}', { // Use url_for for Flask endpoint
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': '{{ csrf_token() }}' // Add CSRF token for POST requests
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert('成功！所有金鑰已恢復待機狀態。頁面即將重新整理。');
+                location.reload();
+            } else {
+                alert('重設失敗：' + (data.error || '未知錯誤'));
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }
+        })
+        .catch(err => {
+            alert('發生網路錯誤，請稍後再試。');
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        });
+    });
+
     function fetchAPIKeyStatus() {
         fetch('{{ url_for("admin.api_keys_status") }}')
             .then(response => response.json())
