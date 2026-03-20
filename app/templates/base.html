@@ -52,6 +52,7 @@
         html.is-loading, html.is-loading body {
             background-color: #000000 !important;
             background-image: none !important;
+            transition: background-color 0.5s ease;
         }
 
         .pulse-core {
@@ -333,13 +334,16 @@
             function hideLoader() {
                 if (preloader) {
                     clearTimeout(safetyTimeout);
+                    // Start fade out
+                    preloader.style.opacity = '0';
+                    preloader.classList.add('fade-out');
+                    
+                    // Remove loading class and hide element after transition
                     setTimeout(function() {
-            preloader.style.opacity = '0';
-            setTimeout(function() {
-                preloader.style.display = 'none';
-                document.documentElement.classList.remove('is-loading');
-            }, 300); // Give CSS transition time to finish
-        }, 150); // Small initial delay to ensure it's visible
+                        preloader.style.display = 'none';
+                        preloader.style.visibility = 'hidden';
+                        document.documentElement.classList.remove('is-loading');
+                    }, 400); // Wait for opacity transition
                 }
             }
 
