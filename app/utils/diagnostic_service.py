@@ -11,14 +11,27 @@ def validate_one_key(tracker):
     try:
         if tracker.provider == 'gemini':
             genai.configure(api_key=tracker.api_key)
-            # Use specific model name that is widely supported
-            model = genai.GenerativeModel('gemini-1.5-flash-latest')
-            model.generate_content("ping", generation_config={"max_output_tokens": 5})
             
-            tracker.status = 'active'
-            tracker.error_message = None
-            tracker.last_used = now
-            return True
+            # Try multiple model IDs as fallbacks
+            test_models = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.0-pro', 'gemini-pro']
+            last_err = None
+            
+            for m_name in test_models:
+                try:
+                    model = genai.GenerativeModel(m_name)
+                    model.generate_content("ping", generation_config={"max_output_tokens": 5})
+                    
+                    tracker.status = 'active'
+                    tracker.error_message = None
+                    tracker.last_used = now
+                    return True
+                except Exception as e:
+                    last_err = str(e)
+                    continue
+            
+            tracker.status = 'error'
+            tracker.error_message = f"All models failed. Last error: {last_err[:150]}"
+            return False
             
         elif tracker.provider == 'groq':
             url = "https://api.groq.com/openai/v1/chat/completions"
