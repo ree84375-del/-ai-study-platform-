@@ -30,19 +30,27 @@
         #antigravity-preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #000000; /* Pitch Black as requested */
+            background: #000000 !important;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 99999;
-            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s;
+            z-index: 999999;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.4s ease-out; /* Only transition out */
         }
         
         #antigravity-preloader.fade-out {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
+        }
+
+        /* Prevent white flash during transition */
+        html.is-loading, html.is-loading body {
+            background-color: #000000 !important;
+            background-image: none !important;
         }
 
         .pulse-core {
@@ -304,42 +312,54 @@
 
             // Preloader logic
             const preloader = document.getElementById('antigravity-preloader');
+            const html = document.documentElement;
             
-            // Fade-out on page load
-            window.addEventListener('load', function() {
+            function showLoader() {
+                if (preloader) {
+                    html.classList.add('is-loading');
+                    preloader.classList.remove('fade-out');
+                    preloader.style.opacity = '1';
+                    preloader.style.visibility = 'visible';
+                }
+            }
+
+            function hideLoader() {
                 if (preloader) {
                     setTimeout(() => {
                         preloader.classList.add('fade-out');
-                    }, 400); 
+                        html.classList.remove('is-loading');
+                    }, 300); 
                 }
-            });
+            }
 
-            // Fade-in on navigation (Link click)
+            // Fade-out on page load
+            window.addEventListener('load', hideLoader);
+
+            // Instant show on navigation
             document.addEventListener('click', function(e) {
                 const link = e.target.closest('a');
                 if (link && 
                     link.href && 
                     link.href.startsWith(window.location.origin) && 
                     !link.href.includes('#') && 
+                    !link.getAttribute('href').startsWith('javascript:') &&
                     !link.hasAttribute('download') &&
                     link.target !== '_blank') {
                     
-                    if (preloader) {
-                        preloader.classList.remove('fade-out');
-                        // Optional: Smoothly hide current content
-                        document.body.style.opacity = '0.7';
-                        document.body.style.transition = 'opacity 0.3s';
-                    }
+                    showLoader();
                 }
             });
 
-            // Fade-in on form submission
+            // Instant show on form submission
             document.addEventListener('submit', function(e) {
-                if (preloader) {
-                    preloader.classList.remove('fade-out');
-                    document.body.style.opacity = '0.7';
+                // Don't show for AJAX forms if they handle their own loading
+                if (!e.target.hasAttribute('data-ajax')) {
+                    showLoader();
                 }
             });
+
+            // Show on beforeunload as a fallback for the white flash
+            window.addEventListener('beforeunload', showLoader);
         });
     </script>
 </body>
