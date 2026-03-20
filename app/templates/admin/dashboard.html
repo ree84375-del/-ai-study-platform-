@@ -182,11 +182,11 @@
                     
                     <div style="margin-left: 15px;">
                         {% if k.status == 'active' %}
-                            <span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 正在運作</span>
+                            <span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 運作中</span>
                         {% elif k.status == 'standby' %}
-                            <span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機狀態</span>
+                            <span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機中</span>
                         {% elif k.status == 'cooldown' %}
-                            <span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻狀態</span>
+                            <span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻中</span>
                         {% else %}
                             <span class="api-status-badge status-error"><div class="status-dot dot-error"></div> 壞掉了</span>
                         {% endif %}
@@ -261,11 +261,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         for (const k of keys) {
                             let badgeHtml = '';
                             if (k.status === 'active') {
-                                badgeHtml = '<span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 正在運作</span>';
+                                badgeHtml = '<span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 運作中</span>';
                             } else if (k.status === 'standby') {
-                                badgeHtml = '<span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機狀態</span>';
+                                badgeHtml = '<span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機中</span>';
                             } else if (k.status === 'cooldown') {
-                                badgeHtml = '<span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻狀態</span>';
+                                badgeHtml = '<span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻中</span>';
                             } else {
                                 badgeHtml = '<span class="api-status-badge status-error"><div class="status-dot dot-error"></div> 壞掉了</span>';
                             }

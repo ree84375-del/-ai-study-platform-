@@ -11,8 +11,8 @@ def validate_one_key(tracker):
     try:
         if tracker.provider == 'gemini':
             genai.configure(api_key=tracker.api_key)
-            # Test Flash (cheapest)
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            # Use specific model name that is widely supported
+            model = genai.GenerativeModel('gemini-1.5-flash-latest')
             model.generate_content("ping", generation_config={"max_output_tokens": 5})
             
             tracker.status = 'active'
