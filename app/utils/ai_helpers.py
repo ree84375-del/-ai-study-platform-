@@ -201,9 +201,9 @@ def get_all_api_key_statuses():
     
     # SPECIAL CASE: Skip Restricted Keys from Recovery
     for t in trackers:
-        if t.error_message and "restricted" in t.error_message.lower():
+        if t.error_message and ("restricted" in t.error_message.lower() or "organization" in t.error_message.lower() or "ban" in t.error_message.lower()):
             t.status = 'error' # Stay in error
-            t.cooldown_until = now + timedelta(days=1)
+            t.cooldown_until = now + timedelta(days=7) # Long-term cooldown for banned/restricted accounts
     
     try:
         if db.session.is_modified():
@@ -261,6 +261,9 @@ def mark_key_status(provider, key, status, error=None):
             tracker.retry_count = (tracker.retry_count or 0) + 1
             minutes = min(5 * (2 ** (tracker.retry_count - 1)), 120) 
             tracker.cooldown_until = now + timedelta(minutes=minutes)
+        elif error and ('restricted' in error.lower() or 'organization' in error.lower() or 'ban' in error.lower()):
+            # Organization/Account level restrictions are usually permanent or long-term
+            tracker.cooldown_until = now + timedelta(days=7)
         elif error and '403' in error:
             # 403 Forbidden usually means the key is restricted for a longer period
             tracker.cooldown_until = now + timedelta(hours=1)
@@ -298,7 +301,7 @@ def get_usable_keys(provider, base_keys):
                 t.cooldown_until = None
                 
             # DO NOT use keys that have "restricted" in the error message (Billings/Ban)
-            if t.error_message and ("restricted" in t.error_message.lower() or "organization" in t.error_message.lower()):
+            if t.error_message and ("restricted" in t.error_message.lower() or "organization" in t.error_message.lower() or "ban" in t.error_message.lower()):
                 continue
                 
             # DO NOT use Ollama keys with Invalid URL
