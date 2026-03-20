@@ -104,7 +104,7 @@
                         </select>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>{{ _t('admin_btn_change') }}</button>
                     </form>
-                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm({{ _t("admin_confirm_delete", username=u.username)|tojson }});'>
+                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm("確定要刪除使用者嗎？");'>
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
                     </form>
@@ -134,14 +134,26 @@
             .dot-error { background-color: #f44336; box-shadow: 0 0 5px #f44336; }
         </style>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <div style="font-size: 0.9rem; color: #666;">
-                <i class="fa-solid fa-circle-info"></i> 系統會自動監測金鑰狀態。若金鑰卡在冷卻中，可點擊重設。
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="live-dot" style="width: 10px; height: 10px; background: #4caf50; border-radius: 50%; box-shadow: 0 0 8px #4caf50; animation: pulse-green 2s infinite;"></div>
+                <div>
+                    <span style="font-weight: bold; color: var(--color-text);">系統即時監控中</span>
+                    <div id="last-sync-time" style="font-size: 0.75rem; color: #888; margin-top: 2px;">最後同步：正在初始化...</div>
+                </div>
             </div>
             <button id="reset-api-keys-btn" class="btn btn-sm btn-outline-danger" style="border-radius: 20px; padding: 5px 15px;">
                 <i class="fa-solid fa-rotate"></i> 強制重設所有狀態
             </button>
         </div>
+        
+        <style>
+            @keyframes pulse-green {
+                0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+                70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+                100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+            }
+        </style>
 
         <div id="api-keys-container">
         {% for provider, keys in api_key_statuses.items() %}
@@ -285,12 +297,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 container.innerHTML = newHtml;
+                
+                // Update Sync Timestamp
+                const syncEl = document.getElementById('last-sync-time');
+                if (syncEl) {
+                    const now = new Date();
+                    syncEl.innerText = `最後同步：${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+                }
             })
             .catch(error => console.error('Error fetching API key status:', error));
     }
 
-    // Polling interval: dynamically grab updates every 3 seconds
-    setInterval(fetchAPIKeyStatus, 3000);
+    // Polling interval: dynamically grab updates every 1.5 seconds for real-time feel
+    setInterval(fetchAPIKeyStatus, 1500);
 
     // --- Antigravity System Pulse Logic ---
     function updateSystemPulse() {

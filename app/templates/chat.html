@@ -334,13 +334,37 @@
         // Content Formatting (Markdown + Image Gen)
         const formatContent = (raw) => {
             let html = raw.replace(/\n/g, '<br>');
+            
             // 1. Handle [DRAW: description] injection
             html = html.replace(/\[DRAW:\s*(.*?)\]/g, (match, desc) => {
-                const encoded = encodeURIComponent(desc.trim());
-                return `<div class="image-gen-container"><img src="https://image.pollinations.ai/prompt/${encoded}?width=800&height=600&nologo=true" class="chat-image" onload="scrollToBottom()"></div>`;
+                const prompt = desc.trim();
+                const encoded = encodeURIComponent(prompt);
+                const seed = Math.floor(Math.random() * 1000000);
+                const url = "https://pollinations.ai/p/" + encoded + "?width=1024&height=1024&seed=" + seed + "&nologo=true";
+                
+                return '<div class="image-gen-container" style="position: relative; margin-top: 10px; background: #fafafa; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">' +
+                        '<div class="image-loader" style="padding: 30px; text-align: center; color: #888; font-size: 0.85rem; background: rgba(0,0,0,0.02);">' +
+                            '<i class="fa-solid fa-compact-disc fa-spin" style="color: var(--color-primary);"></i> 雪音正在努力畫圖中...' +
+                        '</div>' +
+                        '<img src="' + url + '" class="chat-image" style="display: none; width: 100%; border-radius: 8px; cursor: zoom-in;" ' +
+                             'onload="this.style.display=\'block\'; this.previousElementSibling.style.display=\'none\'; scrollToBottom();" ' +
+                             'onclick="window.open(this.src, \'_blank\')" ' +
+                             'onerror="this.style.display=\'none\'; this.previousElementSibling.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';">' +
+                        '<div class="image-error" style="display: none; padding: 25px; text-align: center; color: #cc0000; font-size: 0.85rem; background: #fff5f5;">' +
+                            '<i class="fa-solid fa-face-frown-open"></i> 圖片生成失敗 (´･ω･`)' +
+                        '</div>' +
+                    '</div>';
             });
+
             // 2. Handle Markdown Images ![alt](url)
-            html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<div class="image-gen-container"><img src="$2" alt="$1" class="chat-image" onload="scrollToBottom()"></div>');
+            html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+                return '<div class="image-gen-container" style="margin-top: 10px;">' +
+                        '<img src="' + src + '" alt="' + alt + '" class="chat-image" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" ' +
+                             'onload="scrollToBottom()" ' +
+                             'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';">' +
+                        '<div class="image-error" style="display: none; padding: 10px; color: #cc0000; font-size: 0.8rem;"><i class="fa-solid fa-triangle-exclamation"></i> 無法載入圖片</div>' +
+                    '</div>';
+            });
             // 3. Handle Bold **text**
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
             return html;
@@ -792,19 +816,23 @@
             padding: 1rem;
         }
         .chat-main {
-            height: 600px;
-            padding: 1rem;
+            height: calc(100vh - 350px);
+            min-height: 500px;
+            padding: 1.2rem;
             flex: none;
             width: 100%;
         }
         #chat-window {
-            height: 400px; /* Fixed height for mobile to prevent jitter */
+            flex-grow: 1;
+            height: auto;
         }
         #input-area {
             position: sticky;
             bottom: 0;
-            background: white;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(5px);
             padding: 10px 0;
+            margin-top: auto;
             z-index: 100;
         }
         .navbar {
