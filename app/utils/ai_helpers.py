@@ -435,34 +435,30 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             return response.choices[0].message.content
                         elif provider == 'ollama':
                             import requests
-                            # Use specific headers to bypass ngrok browser warnings
                             headers = {'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true'}
-                            try:
-                                ollama_url = key if key.startswith('http') else f"http://{key}"
-                                # Test connection with timeout
-                                requests.get(f"{ollama_url}/api/tags", timeout=3, headers=headers)
-                                
-                                payload = {
-                                    "model": os.environ.get('OLLAMA_MODEL', 'llama3.2:latest'),
-                                    "messages": [{"role": "user", "content": prompt}],
-                                    "stream": False
-                                }
-                                resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=30, headers=headers)
-                                if resp.status_code == 200:
-                                    mark_key_status('ollama', key, 'standby')
-                                    return resp.json()['message']['content']
-                                else:
-                                    error_msg = f"Ollama error {resp.status_code}: {resp.text}"
-                                    mark_key_status('ollama', key, 'error', error_msg)
-                                    raise Exception(error_msg)
-                            except Exception as e:
-                                error_msg = f"Ollama connection error on {ollama_url}: {e}"
-                                mark_key_status('ollama', key, 'error', error_msg)
-                                raise Exception(error_msg)
+                            ollama_url = key if key.startswith('http') else f"http://{key}"
+                            payload = {
+                                "model": os.environ.get('OLLAMA_MODEL', 'llama3.2:latest'),
+                                "messages": [{"role": "user", "content": prompt}],
+                                "stream": False
+                            }
+                            resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=15, headers=headers)
+                            if resp.status_code == 200:
+                                mark_key_status('ollama', key, 'standby')
+                                return resp.json()['message']['content']
+                            else:
+                                raise Exception(f"Ollama error {resp.status_code}: {resp.text}")
+
                     except Exception as e:
-                        if ('429' in str(e) or 'quota' in str(e).lower()) and attempt < max_retries - 1:
+                        error_msg = str(e)
+                        # RAPID QUARANTINE FOR LEAKED KEYS
+                        if '403' in error_msg and 'leaked' in error_msg.lower():
+                            mark_key_status(provider, key, 'error', error=f"LEAKED: {error_msg}")
+                            break # Move to next key immediately
+                        
+                        if ('429' in error_msg or 'quota' in error_msg.lower()) and attempt < max_retries - 1:
                             import time
-                            time.sleep(2) # Short wait before retry
+                            time.sleep(1) 
                             continue
                         raise e
             except Exception as e:
@@ -474,6 +470,8 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                 
                 errors.append(f"{provider} (key {key[:4]}...): {error_msg}")
                 mark_key_status(provider, key, 'error', error_msg)
+                import time
+                time.sleep(0.3) # Very short wait for faster failover
                 continue
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 

@@ -132,8 +132,19 @@ def validate_one_key(tracker):
                 return False
                 
     except Exception as e:
-        tracker.status = 'error'
-        tracker.error_message = str(e)[:200]
+        error_msg = str(e)
+        if '403' in error_msg and 'leaked' in error_msg.lower():
+            tracker.status = 'error'
+            tracker.error_message = "金鑰已外洩 (Leaked) - 請更換！"
+            tracker.cooldown_until = now + timedelta(days=7) # Long quarantine
+        elif '429' in error_msg or 'quota' in error_msg.lower():
+            tracker.status = 'cooldown'
+            tracker.error_message = "額度已滿 (Quota Exceeded)"
+            tracker.cooldown_until = now + timedelta(minutes=30)
+        else:
+            tracker.status = 'error'
+            tracker.error_message = f"連線失敗: {error_msg[:100]}"
+            tracker.cooldown_until = now + timedelta(minutes=5)
         return False
 
 def proactive_self_heal():
