@@ -315,26 +315,37 @@
             const preloader = document.getElementById('antigravity-preloader');
             const html = document.documentElement;
             
+            let safetyTimeout;
+
             function showLoader() {
                 if (preloader) {
                     html.classList.add('is-loading');
                     preloader.classList.remove('fade-out');
                     preloader.style.opacity = '1';
                     preloader.style.visibility = 'visible';
+                    
+                    // Safety: hide after 8 seconds if page is stuck
+                    clearTimeout(safetyTimeout);
+                    safetyTimeout = setTimeout(hideLoader, 8000);
                 }
             }
 
             function hideLoader() {
                 if (preloader) {
+                    clearTimeout(safetyTimeout);
                     setTimeout(() => {
                         preloader.classList.add('fade-out');
                         html.classList.remove('is-loading');
-                    }, 300); 
+                    }, 50); // Minimal delay for smoother perception
                 }
             }
 
             // Fade-out on page load
-            window.addEventListener('load', hideLoader);
+            if (document.readyState === 'complete') {
+                hideLoader();
+            } else {
+                window.addEventListener('load', hideLoader);
+            }
 
             // Instant show on navigation
             document.addEventListener('click', function(e) {
@@ -345,7 +356,8 @@
                     !link.href.includes('#') && 
                     !link.getAttribute('href').startsWith('javascript:') &&
                     !link.hasAttribute('download') &&
-                    link.target !== '_blank') {
+                    link.target !== '_blank' &&
+                    !e.metaKey && !e.ctrlKey) {
                     
                     showLoader();
                 }
@@ -353,14 +365,17 @@
 
             // Instant show on form submission
             document.addEventListener('submit', function(e) {
-                // Don't show for AJAX forms if they handle their own loading
-                if (!e.target.hasAttribute('data-ajax')) {
+                if (!e.target.hasAttribute('data-ajax') && !e.defaultPrevented) {
                     showLoader();
                 }
             });
 
-            // Show on beforeunload as a fallback for the white flash
-            window.addEventListener('beforeunload', showLoader);
+            // Handle back/forward cache
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    hideLoader();
+                }
+            });
         });
     </script>
 </body>
