@@ -133,6 +133,20 @@ def _sync_keys_to_db(provider, keys):
 
 def get_all_api_key_statuses():
     from app.utils.diagnostic_service import proactive_self_heal
+    from app.models import APIKeyTracker
+    
+    # EMERGENCY FORCE SYNC (Runs once upon deployment/reboot if needed)
+    global _emergency_sync_done
+    if '_emergency_sync_done' not in globals():
+        _emergency_sync_done = True
+        try:
+            # Clear all current tracked keys and re-initialize from .env
+            APIKeyTracker.query.delete()
+            db.session.commit()
+            print("EMERGENCY: API TRACKER FLUSHED")
+        except Exception: 
+            db.session.rollback()
+
     gemini_keys = get_gemini_keys()
     groq_keys = get_groq_keys()
     ollama_keys = get_ollama_keys()
@@ -142,12 +156,12 @@ def get_all_api_key_statuses():
     _sync_keys_to_db('groq', groq_keys)
     _sync_keys_to_db('ollama', ollama_keys)
     
-    # Perform Throttled Proactive Audit (Every 5 mins)
+    # Force a full audit immediately since user requested "NOW"
     global _last_audit_time
     now = datetime.now()
-    if '_last_audit_time' not in globals() or (now - _last_audit_time) > timedelta(minutes=5):
+    # Trigger full audit if it's the first time or 1 min passed (more aggressive than 5m)
+    if '_last_audit_time' not in globals() or (now - _last_audit_time) > timedelta(minutes=1):
         _last_audit_time = now
-        # Execute audit safely
         try:
             proactive_self_heal()
         except Exception as e:
