@@ -345,10 +345,12 @@
                 if (link && 
                     link.href && 
                     link.href.startsWith(window.location.origin) && 
-                    link.href.split('#')[0] !== window.location.href.split('#')[0] && // Don't show if it's the current page
-                    !link.href.includes('#') && 
+                    link.href.split('#')[0] !== window.location.href.split('#')[0] && 
                     !link.getAttribute('href').startsWith('javascript:') &&
                     !link.hasAttribute('download') &&
+                    !link.hasAttribute('data-bs-toggle') &&
+                    !link.hasAttribute('data-toggle') &&
+                    !link.classList.contains('no-loader') &&
                     link.target !== '_blank' &&
                     !e.metaKey && !e.ctrlKey) {
                     
