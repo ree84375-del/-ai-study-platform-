@@ -1,13 +1,14 @@
-import sys
 import os
-sys.path.append(os.getcwd())
-from app import create_app, db
-from app.models import APIKeyTracker
+import requests
+from dotenv import load_dotenv
 
-app = create_app()
-with app.app_context():
-    keys = APIKeyTracker.query.all()
-    print("--- API KEY AUDIT START ---")
-    for k in keys:
-        print(f"ID: {k.id} | Provider: {k.provider} | Key: {k.api_key[:15]}... | Status: {k.status} | Error: {k.error_message}")
-    print("--- API KEY AUDIT END ---")
+load_dotenv()
+groq_keys = os.environ.get('GROQ_API_KEYS', '').split(',')
+valid_groq = []
+for k in groq_keys:
+    if not k.strip(): continue
+    resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": f"Bearer {k.strip()}"}, json={"model": "llama-3.1-8b-instant", "messages": [{"role": "user", "content": "ping"}], "max_tokens": 5})
+    if resp.status_code == 200:
+        valid_groq.append(k)
+
+print(f"Valid Groq: {valid_groq}")
