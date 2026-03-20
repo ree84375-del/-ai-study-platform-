@@ -334,16 +334,15 @@
             function hideLoader() {
                 if (preloader) {
                     clearTimeout(safetyTimeout);
-                    // Start fade out
-                    preloader.style.opacity = '0';
-                    preloader.classList.add('fade-out');
+                    // Remove class immediately to restore background
+                    document.documentElement.classList.remove('is-loading');
                     
-                    // Remove loading class and hide element after transition
+                    // Fade out the overlay
+                    preloader.style.opacity = '0';
                     setTimeout(function() {
                         preloader.style.display = 'none';
                         preloader.style.visibility = 'hidden';
-                        document.documentElement.classList.remove('is-loading');
-                    }, 400); // Wait for opacity transition
+                    }, 400);
                 }
             }
 
@@ -360,6 +359,7 @@
                 if (link && 
                     link.href && 
                     link.href.startsWith(window.location.origin) && 
+                    link.href.split('#')[0] !== window.location.href.split('#')[0] && // Don't show if it's the current page
                     !link.href.includes('#') && 
                     !link.getAttribute('href').startsWith('javascript:') &&
                     !link.hasAttribute('download') &&
