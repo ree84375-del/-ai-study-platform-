@@ -52,12 +52,12 @@
     </div>
     
     <!-- Row 1: Hero & Zen Bonsai + Omikuji -->
-    <div style="display: grid; grid-template-columns: 1.8fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+    <div class="res-grid res-grid-home" style="margin-bottom: 3rem;">
         
         <!-- Welcome Hero & Zen Bonsai -->
-        <div class="washi-card" style="padding: 2.5rem 2rem; display: flex; align-items: center; justify-content: space-between;">
+        <div class="washi-card washi-card-hero">
             <div style="z-index: 1;">
-                <h1 style="color: var(--color-primary); font-size: 2.2rem; margin-bottom: 0.5rem;">
+                <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">
                     {{ _t('welcome_back') }}
                     {% if current_user.is_admin %}
                         <span style="color: #d4af37;">{{ getattr(current_user, 'display_name', current_user.username) }}</span>
@@ -72,12 +72,6 @@
                         <div style="font-size: 2rem; font-weight: bold; color: var(--color-accent);">{{ current_user.current_streak }}</div>
                         <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('streak_uninterrupted') }}</div>
                     </div>
-                    {% if current_user.is_admin %}
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; font-weight: bold; color: {% if mistakes_to_review > 0 %}#ff7b72{% else %}var(--color-primary){% endif %};">{{ mistakes_to_review }}</div>
-                        <div style="font-size: 0.8rem; color: var(--color-text_light);">{{ _t('mistakes_to_review', count=mistakes_to_review) }}</div>
-                    </div>
-                    {% endif %}
                 </div>
                 {% if current_user.is_admin %}
                 <a href="{{ url_for('study.practice') }}" class="btn" style="padding: 10px 20px;"><i class="fa-solid fa-pen-nib"></i> {{ _t('start_daily_practice') }}</a>
@@ -85,24 +79,13 @@
             </div>
             
             <!-- Zen Bonsai Graphic -->
-            <div style="text-align: center; z-index: 1; min-width: 150px;">
+            <div class="m-hide" style="text-align: center; z-index: 1; min-width: 150px;">
                 <!-- Dynamic Animated Bonsai -->
                 <div id="home-bonsai-container" style="width: 150px; height: 180px; margin: 0 auto;"></div>
-                {% if hasattr(current_user, 'current_streak') %}
-                    {% if current_user.current_streak >= 7 %}
-                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_flower') }}<br>{{ _t('bonsai_streak_high') }}</div>
-                    {% elif current_user.current_streak > 0 %}
-                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_evergreen') }}<br>{{ _t('bonsai_streak_mid') }}</div>
-                    {% else %}
-                        <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_zen') }}<br>{{ _t('bonsai_rest') }}</div>
-                    {% endif %}
-                {% else %}
-                    <div style="font-size: 0.85rem; color: var(--color-text_light); margin-top: 10px;">{{ _t('bonsai_garden') }}<br>{{ _t('bonsai_focus') }}</div>
-                {% endif %}
             </div>
             
             <!-- Decorative background element -->
-            <i class="fa-solid fa-mountain-sun" style="position: absolute; right: -20px; bottom: -20px; font-size: 15rem; color: var(--color-border); opacity: 0.3; z-index: 0;"></i>
+            <i class="fa-solid fa-mountain-sun m-hide" style="position: absolute; right: -20px; bottom: -20px; font-size: 15rem; color: var(--color-border); opacity: 0.3; z-index: 0;"></i>
         </div>
         
         <!-- Omikuji (Daily Fortune) -->
@@ -201,7 +184,7 @@
     </div>
 
     <!-- Row 2: Daruma & Ema Board -->
-    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 3rem;">
+    <div class="res-grid res-grid-home" style="margin-bottom: 3rem;">
         
         <!-- Daruma Goal -->
         <div class="washi-card" style="padding: 2rem; text-align: center;">

@@ -152,6 +152,51 @@ body {
     width: 100%;
 }
 
+/* Responsive Grid System */
+.res-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+/* Desktop (Large Screens > 1440px) */
+@media (min-width: 1441px) {
+    .container { max-width: 1300px; }
+    .res-grid-home { grid-template-columns: 2fr 1fr; }
+    .res-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Laptop (Standard Screens 1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+    .container { max-width: 1100px; }
+    .res-grid-home { grid-template-columns: 1.5fr 1fr; }
+    .res-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    body { font-size: 0.95rem; }
+}
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+    .container { padding: 0 1rem; }
+    .res-grid-home { grid-template-columns: 1fr; }
+    .res-grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .navbar { padding: 0.6rem 1.2rem; }
+}
+
+/* Mobile (< 768px) */
+@media (max-width: 767px) {
+    .container { padding: 0 0.8rem; padding-bottom: 80px; }
+    .res-grid-home, .res-grid-3 { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.2rem; margin-bottom: 1rem; }
+    .washi-card { padding: 1.2rem !important; }
+    h1 { font-size: 1.8rem !important; }
+}
+
+/* Responsive Utilities */
+.m-hide { display: none !important; }
+@media (min-width: 768px) { .m-hide { display: flex !important; } }
+
+.tablet-stack { display: flex; flex-direction: column; }
+@media (min-width: 1025px) { .tablet-stack { flex-direction: row; } }
+
 body::before {
     content: "";
     position: fixed;
@@ -178,7 +223,39 @@ body::before {
     transform: translateX(-5px) rotate(-15deg);
 }
 
-/* Organic Botanical Vignette */
+/* Navbar Responsiveness */
+@media (max-width: 1200px) {
+    .nav-link { font-size: 0.9rem; padding: 0 8px; }
+}
+
+@media (max-width: 1024px) {
+    .navbar-nav { gap: 10px; }
+    .brand { font-size: 1.2rem; }
+}
+
+/* Lofi Room Responsive Layout */
+.lofi-container {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    height: calc(100vh - 100px);
+}
+
+@media (max-width: 1024px) {
+    .lofi-container {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+    }
+    .lofi-main { width: 100% !important; }
+    .lofi-sidebar { width: 100% !important; flex: none; }
+}
+
+/* Tablet (Small) */
+@media (min-width: 768px) and (max-width: 900px) {
+     .navbar-nav .nav-link span { display: none; } /* Show only icons if space is tight */
+}
+
 [data-theme="leaf"] body::after {
     content: "";
     position: fixed;
@@ -447,6 +524,67 @@ body::before {
 
 .mob-nav-item.active i {
     filter: drop-shadow(0 0 8px rgba(133, 163, 146, 0.6));
+}
+
+/* Responsive Chat Layout */
+.chat-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    gap: 1.5rem;
+    height: calc(100vh - 120px);
+}
+
+.chat-sidebar {
+    flex: 0 0 300px;
+    border-radius: 12px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+.chat-main {
+    flex: 1;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Mobile Chat specific overrides */
+@media (max-width: 992px) {
+    .chat-container {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 100px);
+        gap: 1rem;
+    }
+    .chat-sidebar {
+        flex: none;
+        max-width: 100%;
+        height: 200px; /* Scrollable list of sessions */
+        overflow-y: hidden;
+    }
+    #session-list {
+        flex-direction: row !important;
+        overflow-x: auto;
+        gap: 10px !important;
+    }
+    .session-item {
+        min-width: 150px;
+        margin-bottom: 0 !important;
+    }
+    .chat-main {
+        height: 500px;
+        padding: 1rem;
+    }
+    .chat-bubble {
+        max-width: 85%;
+    }
 }
 
 @media (max-width: 768px) {
