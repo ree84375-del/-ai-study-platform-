@@ -132,6 +132,7 @@ def _sync_keys_to_db(provider, keys):
     return existing_keys
 
 def get_all_api_key_statuses():
+    from app.utils.diagnostic_service import proactive_self_heal
     gemini_keys = get_gemini_keys()
     groq_keys = get_groq_keys()
     ollama_keys = get_ollama_keys()
@@ -141,7 +142,18 @@ def get_all_api_key_statuses():
     _sync_keys_to_db('groq', groq_keys)
     _sync_keys_to_db('ollama', ollama_keys)
     
-    # Perform Auto-Repair here
+    # Perform Throttled Proactive Audit (Every 5 mins)
+    global _last_audit_time
+    now = datetime.now()
+    if '_last_audit_time' not in globals() or (now - _last_audit_time) > timedelta(minutes=5):
+        _last_audit_time = now
+        # Execute audit safely
+        try:
+            proactive_self_heal()
+        except Exception as e:
+            print(f"Background Audit Error: {e}")
+
+    # Perform Basic Auto-Repair here
     now = datetime.now()
     active_threshold = now - timedelta(seconds=12) # Active keys revert to standby
     busy_threshold = now - timedelta(seconds=60)   # Busy keys revert if stuck > 60s
