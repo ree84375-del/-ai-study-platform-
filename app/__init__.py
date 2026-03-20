@@ -17,7 +17,6 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
-print(f"DEBUG: LoginManager.login_view is set to: {login_manager.login_view}")
 login_manager.login_message_category = 'info'
 migrate = Migrate()
 csrf = CSRFProtect()
