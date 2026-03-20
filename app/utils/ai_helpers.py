@@ -248,6 +248,12 @@ def mark_key_status(provider, key, status, error=None):
         tracker.retry_count = 0
         tracker.cooldown_until = None
         tracker.error_message = None
+    elif status == 'standby':
+        # Success Cooldown: If the key was just used, give it a rest
+        # This prevents "bursting" a single key and keeps it healthy
+        tracker.status = 'cooldown'
+        tracker.cooldown_until = now + timedelta(seconds=45) # 45s safety buffer
+        tracker.error_message = "成功後冷卻中 (安全維護)"
     elif status in ['cooldown', 'error']:
         tracker.error_message = error
         # Exponential backoff for 429 errors
