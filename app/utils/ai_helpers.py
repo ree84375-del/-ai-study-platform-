@@ -159,8 +159,8 @@ def get_all_api_key_statuses():
     # Force a full audit immediately since user requested "NOW"
     global _last_audit_time
     now = datetime.now()
-    # Trigger full audit if it's the first time or 1 min passed (more aggressive than 5m)
-    if '_last_audit_time' not in globals() or (now - _last_audit_time) > timedelta(minutes=1):
+    # Trigger full audit if it's the first time or 30 seconds passed (Extreme Real-time)
+    if '_last_audit_time' not in globals() or (now - _last_audit_time) > timedelta(seconds=30):
         _last_audit_time = now
         try:
             proactive_self_heal()
