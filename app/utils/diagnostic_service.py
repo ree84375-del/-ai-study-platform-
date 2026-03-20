@@ -12,29 +12,60 @@ def validate_one_key(tracker):
         if tracker.provider == 'gemini':
             genai.configure(api_key=tracker.api_key)
             
-            # Try multiple model IDs as fallbacks
-            test_models = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.0-pro', 'gemini-pro']
-            last_err = None
-            
-            for m_name in test_models:
-                try:
-                    model = genai.GenerativeModel(m_name)
-                    model.generate_content("ping", generation_config={"max_output_tokens": 5})
-                    
-                    tracker.status = 'active'
-                    tracker.error_message = None
-                    tracker.last_used = now
-                    tracker.cooldown_until = None
-                    return True
-                except Exception as e:
-                    last_err = str(e)
-                    continue
-            
-            tracker.status = 'error'
-            tracker.error_message = f"All models failed. Last error: {last_err[:150]}"
-            # Set a 2 minute cooldown even for generic errors to prevent oscillation
-            tracker.cooldown_until = now + timedelta(minutes=2)
-            return False
+            # Dynamic Discovery: List models available for this specific key
+            try:
+                available_models = []
+                for m in genai.list_models():
+                    if 'generateContent' in m.supported_generation_methods:
+                        available_models.append(m.name)
+                
+                if not available_models:
+                    tracker.status = 'error'
+                    tracker.error_message = "No models available for this key."
+                    tracker.cooldown_until = now + timedelta(days=1)
+                    return False
+                
+                # Try the discovered models
+                last_err = None
+                # Prioritize flash for speed, then others
+                priority_order = ['gemini-1.5-flash', 'gemini-1.5-flash-8b', 'gemini-1.0-pro', 'gemini-pro']
+                
+                # Re-sort available_models to put priority ones first
+                test_list = []
+                for p in priority_order:
+                    full_p = f"models/{p}" if not p.startswith("models/") else p
+                    if full_p in available_models:
+                        test_list.append(full_p)
+                
+                # Add the rest
+                for m_name in available_models:
+                    if m_name not in test_list:
+                        test_list.append(m_name)
+                
+                for m_name in test_list:
+                    try:
+                        model = genai.GenerativeModel(m_name)
+                        model.generate_content("ping", generation_config={"max_output_tokens": 5})
+                        
+                        tracker.status = 'active'
+                        tracker.error_message = None
+                        tracker.last_used = now
+                        tracker.cooldown_until = None
+                        return True
+                    except Exception as e:
+                        last_err = str(e)
+                        continue
+                
+                tracker.status = 'error'
+                tracker.error_message = f"All discovered models failed. Last error: {last_err[:150]}"
+                tracker.cooldown_until = now + timedelta(minutes=10)
+                return False
+                
+            except Exception as e:
+                tracker.status = 'error'
+                tracker.error_message = f"Discovery failed: {str(e)[:150]}"
+                tracker.cooldown_until = now + timedelta(minutes=5)
+                return False
             
         elif tracker.provider == 'groq':
             url = "https://api.groq.com/openai/v1/chat/completions"
