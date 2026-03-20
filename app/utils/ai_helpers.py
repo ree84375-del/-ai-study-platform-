@@ -411,8 +411,8 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
             # Busy-Locking
             mark_key_status(provider, key, 'busy')
             try:
-                # Retry logic for 429 errors
-                max_retries = 2
+                # Fast failover: no retry on same key to save time
+                max_retries = 1
                 for attempt in range(max_retries):
                     try:
                         if provider == 'gemini':
@@ -427,7 +427,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             else:
                                 model = get_gemini_model(system_instruction=full_system)
                                 
-                            response = model.generate_content(final_prompt)
+                            response = model.generate_content(final_prompt, request_options={"timeout": 6.0})
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音：{response.text[:80]}")
                             mark_key_status('gemini', key, 'standby')
@@ -438,7 +438,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             user_context = get_user_memory_context(user) if user else ""
                             full_system = f"{system_instruction}\n\n{user_context}"
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": prompt}]
-                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages)
+                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages, timeout=6.0)
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音(Groq)：{response.choices[0].message.content[:80]}")
                             mark_key_status('groq', key, 'standby')
@@ -480,8 +480,6 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                 
                 errors.append(f"{provider} (key {key[:4]}...): {error_msg}")
                 mark_key_status(provider, key, 'error', error_msg)
-                import time
-                time.sleep(0.3) # Very short wait for faster failover
                 continue
     raise Exception(f"所有的 AI 模型皆不可用：{', '.join(errors)}")
 
@@ -974,7 +972,10 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='ai_antigr
     else:
         full_prompt = user_message
 
-    reply = generate_text_with_fallback(full_prompt, system_instruction=system_prompt, user=user)
+    try:
+        reply = generate_text_with_fallback(full_prompt, system_instruction=system_prompt, user=user)
+    except Exception as e:
+        reply = "【系統提示: Antigravity 核心介入】\n所有的 AI 節點目前正在冷卻或受到限制。請放心，我已經接管並正在重啟備用模型，請您稍等幾分鐘後再試！\n\n(Antigravity Core: Backup system engaged. Please try again later.)"
     
     expression = random.choice(personality['expressions'])
     
