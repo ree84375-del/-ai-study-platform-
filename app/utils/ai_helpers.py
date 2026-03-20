@@ -452,7 +452,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                                 "messages": [{"role": "user", "content": prompt}],
                                 "stream": False
                             }
-                            resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=15, headers=headers)
+                            resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=(3.0, 30.0), headers=headers)
                             if resp.status_code == 200:
                                 mark_key_status('ollama', key, 'standby')
                                 return resp.json()['message']['content']
@@ -516,11 +516,20 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             user_context = get_user_memory_context(user) if user else ""
                             full_system = f"{system_instruction}\n\n{user_context}"
                             
-                            # Use Flash by default for vision to save quota
-                            model_name = _cached_gemini_model_name if _cached_gemini_model_name and 'flash' in _cached_gemini_model_name else 'models/gemini-1.5-flash'
-                            model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
-                            
-                            response = model.generate_content([prompt, image])
+                            # Use Flash by default for vision to save quota, but allow gemma
+                            if _cached_gemini_model_name and ('flash' in _cached_gemini_model_name or 'gemma' in _cached_gemini_model_name):
+                                model_name = _cached_gemini_model_name
+                            else:
+                                model_name = 'models/gemini-1.5-flash'
+                                
+                            if 'gemma' in model_name:
+                                final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
+                                model = genai.GenerativeModel(model_name)
+                                response = model.generate_content([final_prompt, image])
+                            else:
+                                model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
+                                response = model.generate_content([prompt, image])
+                                
                             if user:
                                 update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
                             mark_key_status('gemini', key, 'standby')
@@ -561,7 +570,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                                 payload["system"] = full_system
                                 
                             try:
-                                resp = requests.post(f"{ollama_url}/api/chat", json=payload, headers=headers, timeout=60)
+                                resp = requests.post(f"{ollama_url}/api/chat", json=payload, headers=headers, timeout=(3.0, 60.0))
                                 if resp.status_code == 200:
                                     mark_key_status('ollama', key, 'standby')
                                     return resp.json()['message']['content']
