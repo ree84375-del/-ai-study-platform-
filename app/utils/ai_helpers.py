@@ -305,7 +305,7 @@ def get_usable_keys(provider, base_keys):
                 continue
                 
             # DO NOT use Ollama keys with Invalid URL
-            if t.provider == 'ollama' and t.error_message and "Invalid URL" in t.error_message:
+            if t.provider == 'ollama' and t.error_message and ("Invalid URL" in t.error_message or "Invalid Schema" in t.error_message):
                 continue
                 
             if t.status == 'standby':
@@ -403,6 +403,10 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
     errors = []
     for provider in providers:
         keys = get_usable_keys(provider, get_gemini_keys() if provider == 'gemini' else (get_groq_keys() if provider == 'groq' else get_ollama_keys()))
+        if not keys:
+            errors.append(f"{provider}: 所有金鑰均已被封鎖或無效，跳過此提供商")
+            continue
+            
         for key in keys:
             # Busy-Locking
             mark_key_status(provider, key, 'busy')
@@ -496,6 +500,10 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
 
     for provider in providers:
         keys = get_usable_keys(provider, get_gemini_keys() if provider == 'gemini' else (get_groq_keys() if provider == 'groq' else get_ollama_keys()))
+        if not keys:
+            errors.append(f"{provider}: 所有金鑰均已被封鎖或無效，跳過此提供商")
+            continue
+            
         for key in keys:
             mark_key_status(provider, key, 'busy')
             try:
