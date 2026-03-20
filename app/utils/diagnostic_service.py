@@ -47,7 +47,7 @@ def validate_one_key(tracker):
                         model = genai.GenerativeModel(m_name)
                         model.generate_content("ping", generation_config={"max_output_tokens": 5})
                         
-                        tracker.status = 'active'
+                        tracker.status = 'standby'
                         tracker.error_message = None
                         tracker.last_used = now
                         tracker.cooldown_until = None
@@ -81,7 +81,7 @@ def validate_one_key(tracker):
             try:
                 resp = requests.post(url, headers=headers, json=data, timeout=10)
                 if resp.status_code == 200:
-                    tracker.status = 'active'
+                    tracker.status = 'standby'
                     tracker.error_message = None
                     tracker.last_used = now
                     tracker.cooldown_until = None
@@ -115,7 +115,7 @@ def validate_one_key(tracker):
             try:
                 resp = requests.get(base_url, timeout=5)
                 if resp.status_code == 200:
-                    tracker.status = 'active'
+                    tracker.status = 'standby'
                     tracker.error_message = None
                     tracker.last_used = now
                     tracker.cooldown_until = None

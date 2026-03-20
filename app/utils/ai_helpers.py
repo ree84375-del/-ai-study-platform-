@@ -412,9 +412,9 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                                 model = get_gemini_model(system_instruction=full_system)
                                 
                             response = model.generate_content(final_prompt)
-                            mark_key_status('gemini', key, 'active')
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音：{response.text[:80]}")
+                            mark_key_status('gemini', key, 'standby')
                             return response.text
                         elif provider == 'groq':
                             from groq import Groq
@@ -423,9 +423,9 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             full_system = f"{system_instruction}\n\n{user_context}"
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": prompt}]
                             response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages)
-                            mark_key_status('groq', key, 'active')
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音(Groq)：{response.choices[0].message.content[:80]}")
+                            mark_key_status('groq', key, 'standby')
                             return response.choices[0].message.content
                         elif provider == 'ollama':
                             import requests
@@ -443,7 +443,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                                 }
                                 resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=30, headers=headers)
                                 if resp.status_code == 200:
-                                    mark_key_status('ollama', key, 'active')
+                                    mark_key_status('ollama', key, 'standby')
                                     return resp.json()['message']['content']
                                 else:
                                     error_msg = f"Ollama error {resp.status_code}: {resp.text}"
@@ -503,9 +503,9 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
                             
                             response = model.generate_content([prompt, image])
-                            mark_key_status('gemini', key, 'active')
                             if user:
                                 update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
+                            mark_key_status('gemini', key, 'standby')
                             return response.text
                         elif provider == 'groq':
                             from groq import Groq
@@ -516,7 +516,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}]}]
                             try:
                                 response = client.chat.completions.create(model="llama-3.2-90b-vision-preview", messages=messages)
-                                mark_key_status('groq', key, 'active')
+                                mark_key_status('groq', key, 'standby')
                                 return response.choices[0].message.content
                             except Exception as e:
                                 error_msg = str(e)
@@ -545,7 +545,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             try:
                                 resp = requests.post(f"{ollama_url}/api/chat", json=payload, headers=headers, timeout=60)
                                 if resp.status_code == 200:
-                                    mark_key_status('ollama', key, 'active')
+                                    mark_key_status('ollama', key, 'standby')
                                     return resp.json()['message']['content']
                                 else:
                                     error_msg = f"Ollama vision error {resp.status_code}: {resp.text}"
