@@ -249,20 +249,23 @@ def mark_key_status(provider, key, status, error=None):
         tracker.cooldown_until = None
         tracker.error_message = None
     elif status == 'standby':
-        # Success Cooldown: If the key was just used, give it a rest
-        # This prevents "bursting" a single key and keeps it healthy
+        # Success Cooldown: If the key was just used, give it a very short rest
+        # Reduced from 45s to 2s for better responsiveness (Antigravity Optimization)
         tracker.status = 'cooldown'
-        tracker.cooldown_until = now + timedelta(seconds=45) # 45s safety buffer
-        tracker.error_message = "成功後冷卻中 (安全維護)"
+        tracker.cooldown_until = now + timedelta(seconds=2) 
+        tracker.error_message = "成功後短暫冷卻 (安全維護)"
     elif status in ['cooldown', 'error']:
         tracker.error_message = error
         # Exponential backoff for 429 errors
         if error and ('429' in error or 'quota' in error.lower()):
             tracker.retry_count = (tracker.retry_count or 0) + 1
-            minutes = min(5 * (2 ** (tracker.retry_count - 1)), 120) # 5m, 10m, 20m... max 2h
+            minutes = min(5 * (2 ** (tracker.retry_count - 1)), 120) 
             tracker.cooldown_until = now + timedelta(minutes=minutes)
+        elif error and '403' in error:
+            # 403 Forbidden usually means the key is restricted for a longer period
+            tracker.cooldown_until = now + timedelta(hours=1)
         else:
-            # Generic error fixed cooldown (Reduced from 30m to 2m for better recovery)
+            # Generic error fixed cooldown (Reduced to 2m for faster retry)
             tracker.cooldown_until = now + timedelta(minutes=2)
             
     try:
