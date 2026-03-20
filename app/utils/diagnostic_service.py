@@ -24,6 +24,7 @@ def validate_one_key(tracker):
                     tracker.status = 'active'
                     tracker.error_message = None
                     tracker.last_used = now
+                    tracker.cooldown_until = None
                     return True
                 except Exception as e:
                     last_err = str(e)
@@ -31,6 +32,8 @@ def validate_one_key(tracker):
             
             tracker.status = 'error'
             tracker.error_message = f"All models failed. Last error: {last_err[:150]}"
+            # Set a 2 minute cooldown even for generic errors to prevent oscillation
+            tracker.cooldown_until = now + timedelta(minutes=2)
             return False
             
         elif tracker.provider == 'groq':
@@ -44,28 +47,57 @@ def validate_one_key(tracker):
                 "messages": [{"role": "user", "content": "ping"}],
                 "max_tokens": 5
             }
-            resp = requests.post(url, headers=headers, json=data, timeout=10)
-            if resp.status_code == 200:
-                tracker.status = 'active'
-                tracker.error_message = None
-                tracker.last_used = now
-                return True
-            else:
+            try:
+                resp = requests.post(url, headers=headers, json=data, timeout=10)
+                if resp.status_code == 200:
+                    tracker.status = 'active'
+                    tracker.error_message = None
+                    tracker.last_used = now
+                    tracker.cooldown_until = None
+                    return True
+                else:
+                    tracker.status = 'error'
+                    err_msg = f"HTTP {resp.status_code}: {resp.text[:100]}"
+                    tracker.error_message = err_msg
+                    
+                    # Permanent Block: Restricted organization
+                    if "restricted" in resp.text.lower() or resp.status_code == 403:
+                        tracker.cooldown_until = now + timedelta(days=7) # Wait 7 days for restricted
+                    else:
+                        tracker.cooldown_until = now + timedelta(minutes=5)
+                    return False
+            except Exception as e:
                 tracker.status = 'error'
-                tracker.error_message = f"HTTP {resp.status_code}: {resp.text[:100]}"
+                tracker.error_message = f"Connection error: {str(e)[:100]}"
+                tracker.cooldown_until = now + timedelta(minutes=2)
                 return False
                 
         elif tracker.provider == 'ollama':
             # Ollama "key" is actually the Base URL
-            resp = requests.get(tracker.api_key, timeout=5)
-            if resp.status_code == 200:
-                tracker.status = 'active'
-                tracker.error_message = None
-                tracker.last_used = now
-                return True
-            else:
+            base_url = tracker.api_key.strip() if tracker.api_key else ""
+            if not base_url.startswith("http"):
                 tracker.status = 'error'
-                tracker.error_message = f"Local Ollama unreachable: {resp.status_code}"
+                tracker.error_message = "Invalid URL format (Must start with http:// or https://)"
+                tracker.cooldown_until = now + timedelta(days=365) # Permanent error for junk strings
+                return False
+                
+            try:
+                resp = requests.get(base_url, timeout=5)
+                if resp.status_code == 200:
+                    tracker.status = 'active'
+                    tracker.error_message = None
+                    tracker.last_used = now
+                    tracker.cooldown_until = None
+                    return True
+                else:
+                    tracker.status = 'error'
+                    tracker.error_message = f"Local Ollama unreachable: {resp.status_code}"
+                    tracker.cooldown_until = now + timedelta(minutes=5)
+                    return False
+            except Exception as e:
+                tracker.status = 'error'
+                tracker.error_message = f"Ollama Connect Error: {str(e)[:100]}"
+                tracker.cooldown_until = now + timedelta(minutes=5)
                 return False
                 
     except Exception as e:

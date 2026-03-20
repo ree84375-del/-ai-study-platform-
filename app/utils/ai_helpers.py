@@ -180,10 +180,19 @@ def get_all_api_key_statuses():
         elif t.status == 'busy' and t.last_used and t.last_used < busy_threshold:
             t.status = 'standby'
             
-    # SYSTEM-WIDE RECOVERY PULSE:
-    # If a key stays in 'error' or 'cooldown' for more than 30 seconds, 
-    # force it back to standby. We want to be very aggressive in retrying.
+    # If a key stays in 'error' or 'cooldown' but has NO cooldown_until or it's passed,
+    # then we can try to reset it to standby.
     for t in trackers:
+        # DO NOT reset keys with "restricted" in error message (Long term block)
+        if t.error_message and ("restricted" in t.error_message.lower() or "organization" in t.error_message.lower()):
+            if not t.cooldown_until or t.cooldown_until < now:
+                t.cooldown_until = now + timedelta(days=7) # Ensure long block persists
+            continue
+            
+        # DO NOT reset Ollama keys that have Invalid URL format (No point retrying junk)
+        if t.provider == 'ollama' and t.error_message and "Invalid URL" in t.error_message:
+            continue
+
         if t.status in ['cooldown', 'error']:
             if not t.cooldown_until or t.cooldown_until < now:
                 t.status = 'standby'
@@ -279,8 +288,12 @@ def get_usable_keys(provider, base_keys):
                 t.error_message = None
                 t.cooldown_until = None
                 
-            # DO NOT EVER use keys that have "restricted" in the error message (Billings/Ban)
-            if t.error_message and "restricted" in t.error_message.lower():
+            # DO NOT use keys that have "restricted" in the error message (Billings/Ban)
+            if t.error_message and ("restricted" in t.error_message.lower() or "organization" in t.error_message.lower()):
+                continue
+                
+            # DO NOT use Ollama keys with Invalid URL
+            if t.provider == 'ollama' and t.error_message and "Invalid URL" in t.error_message:
                 continue
                 
             if t.status == 'standby':
