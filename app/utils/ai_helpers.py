@@ -304,14 +304,14 @@ def get_usable_keys(provider, base_keys):
                 # Active keys are usually fine to reuse if not busy
                 usable.append(k)
         
-        # SELF-HEALING FALLBACK: If all keys are in cooldown/error, don't just give up.
-        # Fallback to the original base_keys and let the try/except block in generation handle the failure.
-        # This prevents the UI from just showing "All keys dead" if some are actually recovered but not synced yet.
+        # Final Shuffle: Balance load across all usable keys
+        random.shuffle(usable)
         return usable if usable else base_keys
     except Exception:
         try:
             db.session.rollback()
         except: pass
+        random.shuffle(base_keys)
         return base_keys
 
 
@@ -594,23 +594,25 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         output_lang = lang_map.get(lang, '繁體中文')
         
         prompt = f"""
-        你是「{tutor_name}老師」，一位擁有強大視覺分析能力的全能導師。
-        請根據圖片內容執行以下【三階段強化分析】：
+        妳好，妳是「{tutor_name}老師」，現在正由 Antigravity 特級維修核心全面支援。
+        妳擁有目前最強大的視覺神經網路與邏輯建模能力。請針對這張「學生上傳的題目圖片」執行【Antigravity 極致解析協定】：
         
-        **階段一：精準掃描 (OCR)**
-        - 辨識圖片中所有的文字、符號、公式。
-        - 數學公式請務必轉換為 LaTeX 格式（例如：$x^2 + y^2 = r^2$）。
-        - 描述所有可見的圖表、座標軸、幾何圖形。
+        **第一步：超高清文字/符號掃描 (DeepScan OCR)**
+        - 辨識圖片中所有的文字、標點、化學符號與數學公式。
+        - 數學公式務必使用標準 LaTeX 格式（例如：$\int_a^b f(x)dx$）。
+        - 如果有圖形，請詳細描述圖形的種類、標記的邊長、角度或顏色特徵。
         
-        **階段二：結構化邏輯建模**
-        - 分析圖片中文字與圖形的空間關係（例如：文字 A 是在指涉圖形 B 的長度）。
-        - 判斷該情境（這是一張考卷、黑板隨拍、還是筆記本上的速記？）。
+        **第二步：學科邏輯建模 (Structural Modeling)**
+        - 判斷這題目的學科類別（如：國中數學 - 幾何、高中英文 - 文法、物理 - 力學等）。
+        - 分析題目中的陷阱點、關鍵字（如：「不正確的是」、「恰好」等）。
+        - 釐清題目中文字與圖形的對應關係。
         
-        **階段三：深度解析與互動**
-        - 如果是學術題目，請給予詳細且具備教學溫度的解題引導。
-        - 提供與該內容相關的進階知識點或建議。
+        **第三步：分段式教學解答 (Advanced Interactive Solution)**
+        - **核心觀念**：先簡單點出這題在考什麼。
+        - **詳細解說**：用溫柔且專業的語氣（帶入 {tutor_name} 的個性），一步步引導解題。
+        - **總結與叮嚀**：提供一個相關的口訣或易錯點提醒。
         
-        請用 {output_lang} 回答，排版需優雅且結構化，請加入親切的顏文字 (๑•̀ㅂ•́)و✧。
+        請用 {output_lang} 輸出，排版需使用漂亮的 Markdown 標題與列表，並加入活潑的顏文字 (๑•̀ㅂ•́)و✧。
         """
         system_instruction = get_yukine_system_prompt(lang, user)
         return generate_vision_with_fallback(prompt, image_bytes, system_instruction=system_instruction, user=user)
