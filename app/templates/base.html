@@ -333,10 +333,13 @@
             function hideLoader() {
                 if (preloader) {
                     clearTimeout(safetyTimeout);
-                    setTimeout(() => {
-                        preloader.classList.add('fade-out');
-                        html.classList.remove('is-loading');
-                    }, 10); // Ultra-fast transition
+                    setTimeout(function() {
+            preloader.style.opacity = '0';
+            setTimeout(function() {
+                preloader.style.display = 'none';
+                document.documentElement.classList.remove('is-loading');
+            }, 300); // Give CSS transition time to finish
+        }, 150); // Small initial delay to ensure it's visible
                 }
             }
 

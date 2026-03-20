@@ -83,7 +83,21 @@ def create_app():
         app.logger.warning("No DATABASE_URL found. Using local SQLite.")
         db_uri = 'sqlite:///site.db'
     
+    # --- Emergency Database Connectivity Check ---
+    try:
+        # Purity check without Flask overhead
+        from sqlalchemy import create_engine
+        engine_check = create_engine(db_uri)
+        with engine_check.connect():
+            pass 
+        app.logger.info("Remote database connection verified.")
+    except Exception as e:
+        app.logger.warning(f"Remote database unreachable ({e}). Mapping to local SQLite.")
+        db_uri = 'sqlite:///site.db'
+    # --- End Check ---
+
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Engine options for Vercel/Supabase stability
@@ -118,6 +132,13 @@ def create_app():
     csrf.init_app(app)
     oauth.init_app(app)
     
+    # Auto-initialize SQLite tables if needed
+    if db_uri == 'sqlite:///site.db':
+        with app.app_context():
+            from app import models
+            db.create_all()
+            app.logger.info("Local SQLite initialized/verified.")
+
     app.logger.info("Extensions initialized.")
 
     # Blueprints
@@ -134,11 +155,6 @@ def create_app():
     
     app.logger.info("Blueprints registered correctly.")
 
-    # Database initialization is now moved to a separate step or handled lazily
-    # to avoid Vercel timeouts during cold starts.
-    # We will ONLY rely on migrations via /debug/setup_db or manual scripts.
-    # if os.environ.get('SKIP_DB_INIT') != 'true':
-    #     with app.app_context():
     #         try:
     #             db.create_all()
     #             app.logger.info("db.create_all() executed.")
