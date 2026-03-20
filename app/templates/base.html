@@ -47,13 +47,6 @@
             pointer-events: none;
         }
 
-        /* Prevent white flash during transition */
-        html.is-loading, html.is-loading body {
-            background-color: #000000 !important;
-            background-image: none !important;
-            transition: background-color 0.5s ease;
-        }
-
         .pulse-core {
             width: 12px;
             height: 12px;
@@ -319,7 +312,6 @@
 
             function showLoader() {
                 if (preloader) {
-                    document.documentElement.classList.add('is-loading');
                     preloader.style.opacity = '1';
                     preloader.style.display = 'flex';
                     preloader.style.visibility = 'visible';
