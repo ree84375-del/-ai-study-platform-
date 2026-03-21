@@ -137,9 +137,54 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; border-radius: 12px; font-weight: 600; font-size: 1.1rem; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; border: none; cursor: pointer; box-shadow: 0 4px 15px color-mix(in srgb, var(--color-primary) 30%, transparent); margin-bottom: 3rem; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                <i class="fa-solid fa-floppy-disk" style="margin-right: 8px;"></i> {{ _t('save_changes') }}
-            </button>
+            <div id="auto-save-indicator" style="text-align: center; padding: 0.8rem; margin-bottom: 3rem; border-radius: 12px; display: none; font-size: 0.9rem; transition: all 0.3s;"></div>
+            <input type="submit" style="display: none;" id="hidden-submit-btn">
+            <script>
+            (function() {
+                const form = document.getElementById('update-form');
+                const indicator = document.getElementById('auto-save-indicator');
+                let saveTimeout = null;
+
+                function showIndicator(msg, color) {
+                    indicator.style.display = 'block';
+                    indicator.style.background = color;
+                    indicator.style.color = 'white';
+                    indicator.innerHTML = msg;
+                    setTimeout(() => { indicator.style.display = 'none'; }, 2500);
+                }
+
+                function autoSave() {
+                    const formData = new FormData(form);
+                    fetch(form.action, { method: 'POST', body: formData })
+                    .then(r => {
+                        if (r.ok || r.redirected) {
+                            showIndicator('<i class="fa-solid fa-circle-check"></i> 已自動儲存', 'rgba(34,139,34,0.85)');
+                        } else {
+                            showIndicator('<i class="fa-solid fa-circle-xmark"></i> 儲存失敗', 'rgba(220,53,69,0.85)');
+                        }
+                    })
+                    .catch(() => showIndicator('<i class="fa-solid fa-circle-xmark"></i> 網路錯誤', 'rgba(220,53,69,0.85)'));
+                }
+
+                function debouncedSave() {
+                    if (saveTimeout) clearTimeout(saveTimeout);
+                    saveTimeout = setTimeout(autoSave, 800);
+                }
+
+                // AI personality auto-save immediately
+                form.querySelector('select[name="ai_personality"]').addEventListener('change', autoSave);
+
+                // Text fields debounced save
+                const bioEl = form.querySelector('textarea[name="bio"]');
+                const goalsEl = form.querySelector('input[name="learning_goals"]');
+                if (bioEl) bioEl.addEventListener('input', debouncedSave);
+                if (goalsEl) goalsEl.addEventListener('input', debouncedSave);
+
+                // Username: only auto-save on blur (more careful)
+                const usernameEl = form.querySelector('input[name="username"]');
+                if (usernameEl && !usernameEl.readOnly) usernameEl.addEventListener('blur', autoSave);
+            })();
+            </script>
         </form>
 
         <!-- 🔒 {{ _t('acc_secret_zone') }} -->

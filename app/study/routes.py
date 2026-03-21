@@ -317,15 +317,72 @@ def tutor_chat():
         # Time injection has been moved to ai_helpers.py system prompt to avoid constant reporting
         user_msg_with_time = user_msg
 
-        # --- Admin-only chat commands for Antigravity Mode ---
-        if user_msg.strip().lower() == '/antigravity' and current_user.is_admin:
-            current_user.ai_personality = 'ai_antigravity'
-            db.session.commit()
-            return jsonify({'status': 'success', 'reply': '🚀 **Antigravity Mode 已啟動！**\n\n雪音已切換至「極效修復型」模式。所有對話將以 Antigravity 核心回應。\n\n輸入 `/normal` 可恢復為一般模式。(๑•̀ㅂ•́)و✧'})
-        if user_msg.strip().lower() == '/normal' and current_user.is_admin:
-            current_user.ai_personality = 'ai_gentle'
-            db.session.commit()
-            return jsonify({'status': 'success', 'reply': '🌸 **已恢復一般模式**\n\n雪音已切換回溫柔陪伴型。如需再次啟動 Antigravity，請輸入 `/antigravity`。'})
+        # --- Admin-only chat commands ---
+        cmd = user_msg.strip().lower()
+        if current_user.is_admin:
+            if cmd == '/antigravity':
+                current_user.ai_personality = 'ai_antigravity'
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': '🚀 **Antigravity Mode 已啟動！**\n\n雪音已切換至「極效修復型」模式。所有對話將以 Antigravity 核心回應。\n\n輸入 `/normal` 可恢復為一般模式。(๑•̀ㅂ•́)و✧'})
+            if cmd == '/normal':
+                current_user.ai_personality = 'ai_gentle'
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': '🌸 **已恢復一般模式**\n\n雪音已切換回溫柔陪伴型。如需再次啟動 Antigravity，請輸入 `/antigravity`。'})
+            if cmd == '/help':
+                help_text = (
+                    "🔧 **管理員專屬指令列表**\n\n"
+                    "| 指令 | 功能 |\n"
+                    "|------|------|\n"
+                    "| `/antigravity` | 啟動 Antigravity 極效修復模式 |\n"
+                    "| `/normal` | 恢復一般溫柔模式 |\n"
+                    "| `/status` | 查看系統狀態 (API Key、用戶數等) |\n"
+                    "| `/broadcast 訊息` | 發布全站公告 |\n"
+                    "| `/clearkeys` | 清除所有失效的 API Key |\n"
+                    "| `/coach` | 切換為魔鬼教練模式 |\n"
+                    "| `/senior` | 切換為學長模式 |\n"
+                    "| `/image 描述` | 生成圖片 |\n"
+                    "| `/help` | 顯示此列表 |\n"
+                )
+                return jsonify({'status': 'success', 'reply': help_text})
+            if cmd == '/status':
+                from app.models import User, APIKeyTracker
+                total_users = User.query.count()
+                active_keys = APIKeyTracker.query.filter_by(is_active=True).count()
+                total_keys = APIKeyTracker.query.count()
+                import datetime
+                now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                status_text = (
+                    f"⚙️ **系統狀態報告**\n\n"
+                    f"📅 目前時間：{now}\n"
+                    f"👥 註冊用戶數：**{total_users}**\n"
+                    f"🔑 API Key 總數：**{total_keys}** (活躍：**{active_keys}**)\n"
+                    f"🎭 當前 AI 人格：**{current_user.ai_personality}**\n"
+                )
+                return jsonify({'status': 'success', 'reply': status_text})
+            if user_msg.strip().lower().startswith('/broadcast '):
+                msg_content = user_msg.strip()[11:]
+                if msg_content:
+                    from app.models import Announcement
+                    ann = Announcement(title='📢 管理員公告', content=msg_content, created_by_id=current_user.id, is_ai_generated=False)
+                    db.session.add(ann)
+                    db.session.commit()
+                    return jsonify({'status': 'success', 'reply': f'📢 **公告已發布！**\n\n內容：{msg_content}'})
+            if cmd == '/clearkeys':
+                from app.models import APIKeyTracker
+                bad = APIKeyTracker.query.filter(APIKeyTracker.is_active == False).all()
+                count = len(bad)
+                for k in bad:
+                    db.session.delete(k)
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': f'🗑️ **已清除 {count} 個失效 API Key**'})
+            if cmd == '/coach':
+                current_user.ai_personality = 'ai_coach'
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': '🔥 **魔鬼教練模式已啟動！**\n\n準備好接受嚴格督促了嗎？給我認真讀書！'})
+            if cmd == '/senior':
+                current_user.ai_personality = 'ai_guy'
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': '😎 **學長模式已啟動！**\n\n嘿嘿，學長我來陪你讀書囉～有什麼不懂的儘管問！'})
 
         if image_data:
             from app.utils.ai_helpers import generate_vision_with_fallback

@@ -86,10 +86,13 @@
 }
 
 [data-theme="matcha"] {
-    --color-primary: #7d906a;
-    --color-secondary: #f4faeb;
-    --color-accent: #8b7355;
-    --color-bg: #fdfdf9;
+    --color-primary: #7c6dab;
+    --color-secondary: #f3f0fa;
+    --color-accent: #c084cf;
+    --color-bg: #faf8ff;
+    --color-text_main: #2d2540;
+    --color-text_light: #756b8a;
+    --color-border: #c8bee0;
 }
 
 [data-theme="sunset"] {
