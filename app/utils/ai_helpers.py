@@ -413,7 +413,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             else:
                                 model = get_gemini_model(system_instruction=full_system)
                                 
-                            response = model.generate_content(final_prompt, request_options={"timeout": 6.0})
+                            response = model.generate_content(final_prompt, request_options={"timeout": 8.0, "retry": None})
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音：{response.text[:80]}")
                             mark_key_status('gemini', key, 'standby')
@@ -522,10 +522,10 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                                     if 'gemma' in model_name:
                                         final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
                                         model = genai.GenerativeModel(model_name)
-                                        response = model.generate_content([final_prompt, image], request_options={"timeout": 15.0})
+                                        response = model.generate_content([final_prompt, image], request_options={"timeout": 12.0, "retry": None})
                                     else:
                                         model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
-                                        response = model.generate_content([prompt, image], request_options={"timeout": 15.0})
+                                        response = model.generate_content([prompt, image], request_options={"timeout": 12.0, "retry": None})
                                         
                                     if user:
                                         update_user_memory(user.id, f"視覺分析：{response.text[:100]}")

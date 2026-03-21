@@ -529,26 +529,41 @@
             document.getElementById('remove-image-btn').click();
         }
 
-        // Block UI
+        // Block UI + Cancel Button
         const sendBtn = document.getElementById('send-chat-btn');
         chatInput.disabled = true;
         chatInput.placeholder = "等待 AI 回覆中...";
-        sendBtn.disabled = true;
-        sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        sendBtn.style.opacity = '0.5';
+        sendBtn.style.display = 'none';
+
+        let cancelBtn = document.getElementById('cancel-ai-btn');
+        if (!cancelBtn) {
+            cancelBtn = document.createElement('button');
+            cancelBtn.id = 'cancel-ai-btn';
+            cancelBtn.innerHTML = '<i class="fa-solid fa-stop"></i> 取消';
+            cancelBtn.className = 'send-btn';
+            cancelBtn.style.background = '#ff4d4f';
+            cancelBtn.onclick = (e) => {
+                e.preventDefault();
+                if (window.currentChatController) {
+                    window.currentChatController.abort();
+                }
+            };
+        }
+        sendBtn.parentNode.insertBefore(cancelBtn, sendBtn);
 
         const enableUI = () => {
             chatInput.disabled = false;
             chatInput.placeholder = "{{ _t('chat_input_placeholder') }}";
-            sendBtn.disabled = false;
-            sendBtn.innerHTML = "{{ _t('chat_send_btn') }}";
-            sendBtn.style.opacity = '1';
+            sendBtn.style.display = 'inline-block';
+            if (cancelBtn.parentNode) cancelBtn.parentNode.removeChild(cancelBtn);
             chatInput.focus();
         };
 
         try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s timeout
+            window.currentChatController = new AbortController();
+            const timeoutId = setTimeout(() => {
+                if (window.currentChatController) window.currentChatController.abort("Timeout");
+            }, 90000); // 90s timeout
 
             const response = await fetch("{{ url_for('study.tutor_chat') }}", {
                 method: 'POST',
@@ -557,7 +572,7 @@
                     'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').content
                 },
                 body: JSON.stringify(payload),
-                signal: controller.signal
+                signal: window.currentChatController.signal
             });
             clearTimeout(timeoutId);
 
@@ -594,7 +609,11 @@
             removeTypingIndicator();
             console.error("Chat Error:", e);
             if (e.name === 'AbortError') {
-                addMessage('ai', '回應超時了，AI 老師可能在思考比較久的問題，請稍後再試！');
+                if (e.message === "Timeout") {
+                     addMessage('ai', '回應超時了，AI 老師可能在思考比較久的問題，請稍後再試！');
+                } else {
+                     console.log('User cancelled AI chat');
+                }
             } else {
                 addMessage('ai', '對不起，連線似乎有點問題...請確認伺服器是否正在運行。');
             }
