@@ -472,10 +472,10 @@
 
         // --- High-Quality Lyrical Music System ---
         const musicSources = {
-            'lofi': 'https://cdn.pixabay.com/audio/2022/05/27/audio_1808f3030c.mp3', // Lofi Study
-            'rain': 'https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a7315b.mp3', // Piano After Rain
-            'cafe': 'https://cdn.pixabay.com/audio/2022/10/25/audio_5174092b67.mp3', // Coffee Shop Jazz
-            'forest': 'https://cdn.pixabay.com/audio/2021/11/25/audio_91b325ef6d.mp3' // Forest Nocturne/Harp
+            'lofi': "{{ url_for('static', filename='audio/lofi.ogg') }}", // Lofi Study (Debussy)
+            'rain': "{{ url_for('static', filename='audio/rain.ogg') }}", // Piano After Rain (Chopin)
+            'cafe': "{{ url_for('static', filename='audio/cafe.ogg') }}", // Coffee Shop Jazz (Satie)
+            'forest': "{{ url_for('static', filename='audio/forest.ogg') }}" // Forest Sounds
         };
 
         let currentAudio = new Audio();

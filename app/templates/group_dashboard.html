@@ -1786,22 +1786,34 @@ function cancelAiDraft() {
             const originalText = submitText.innerText;
             const originalIconClass = submitIcon.className;
 
+            let cancelBtn = document.getElementById('cancel-ai-btn');
+            if (!cancelBtn) {
+                cancelBtn = document.createElement('button');
+                cancelBtn.id = 'cancel-ai-btn';
+                cancelBtn.innerHTML = '<i class="fa-solid fa-stop"></i> 取消';
+                cancelBtn.className = 'btn-primary';
+                cancelBtn.style.background = '#ff4d4f';
+                cancelBtn.style.marginLeft = '8px';
+                cancelBtn.onclick = (e) => {
+                    e.preventDefault();
+                    if (window.currentAiController) {
+                        window.currentAiController.abort();
+                    }
+                };
+            }
+
             const disableInputUI = () => {
                 chatInput.disabled = true;
                 chatInput.placeholder = "等待 AI 回覆中...";
-                submitBtn.disabled = true;
-                submitBtn.style.background = "#ccc";
-                submitIcon.className = "fa-solid fa-spinner fa-spin";
-                submitText.innerText = "傳送中...";
+                submitBtn.style.display = 'none';
+                submitBtn.parentNode.insertBefore(cancelBtn, submitBtn);
             };
 
             const enableInputUI = () => {
                 chatInput.disabled = false;
                 chatInput.placeholder = "{{ _t('chat_placeholder') }}";
-                submitBtn.disabled = false;
-                submitBtn.style.background = "var(--color-primary)";
-                submitIcon.className = originalIconClass;
-                submitText.innerText = originalText;
+                submitBtn.style.display = 'inline-block';
+                if (cancelBtn.parentNode) cancelBtn.parentNode.removeChild(cancelBtn);
                 chatInput.focus();
             };
 
@@ -1862,13 +1874,17 @@ function cancelAiDraft() {
             messageContainer.appendChild(div.firstElementChild);
             scrollToBottom();
         }
+        
+        window.currentAiController = new AbortController();
+        
         try {
             const res = await fetch(CONFIG.aiReplyUrl, { 
                 method: 'POST', 
                 headers: { 
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRFToken': CONFIG.csrfToken
-                } 
+                },
+                signal: window.currentAiController.signal
             });
             const data = await res.json();
             const thinkingEl = document.getElementById(thinkingId);
@@ -1878,7 +1894,11 @@ function cancelAiDraft() {
         } catch (err) { 
             const thinkingEl = document.getElementById(thinkingId);
             if (thinkingEl) thinkingEl.remove();
-            console.error('AI Reply Error:', err); 
+            if (err.name === 'AbortError') {
+                console.log('AI Reply Cancelled by User');
+            } else {
+                console.error('AI Reply Error:', err); 
+            }
         }
     }
 

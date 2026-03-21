@@ -500,24 +500,46 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             user_context = get_user_memory_context(user) if user else ""
                             full_system = f"{system_instruction}\n\n{user_context}"
                             
-                            # Use Flash by default for vision to save quota, but allow gemma
+                            # Fallback chain for Vision models to avoid "limit: 0" on free tier
+                            fallback_models = [
+                                'models/gemini-2.0-flash-lite',
+                                'models/gemma-3-12b-it',
+                                'models/gemma-3-4b-it',
+                                'models/gemini-1.5-flash',
+                                'models/gemini-1.5-flash-8b'
+                            ]
+                            
+                            # If a specific cached model is known to work, prioritize it
                             if _cached_gemini_model_name and ('flash' in _cached_gemini_model_name or 'gemma' in _cached_gemini_model_name):
-                                model_name = _cached_gemini_model_name
+                                if _cached_gemini_model_name not in fallback_models:
+                                    fallback_models.insert(0, _cached_gemini_model_name)
                             else:
-                                model_name = 'models/gemini-2.0-flash'
+                                fallback_models.insert(0, 'models/gemini-2.0-flash')
                                 
-                            if 'gemma' in model_name:
-                                final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
-                                model = genai.GenerativeModel(model_name)
-                                response = model.generate_content([final_prompt, image])
-                            else:
-                                model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
-                                response = model.generate_content([prompt, image])
-                                
-                            if user:
-                                update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
-                            mark_key_status('gemini', key, 'standby')
-                            return response.text
+                            last_err = None
+                            for model_name in fallback_models:
+                                try:
+                                    if 'gemma' in model_name:
+                                        final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
+                                        model = genai.GenerativeModel(model_name)
+                                        response = model.generate_content([final_prompt, image])
+                                    else:
+                                        model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
+                                        response = model.generate_content([prompt, image])
+                                        
+                                    if user:
+                                        update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
+                                    mark_key_status('gemini', key, 'standby')
+                                    return response.text
+                                except Exception as model_err:
+                                    last_err = model_err
+                                    # If the error is not 429 quota related, break and throw
+                                    if '429' not in str(model_err) and 'quota' not in str(model_err).lower() and 'limit' not in str(model_err).lower():
+                                        raise model_err
+                                    continue
+                                    
+                            if last_err:
+                                raise last_err
                         elif provider == 'groq':
                             from groq import Groq
                             client = Groq(api_key=key)
