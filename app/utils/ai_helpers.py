@@ -204,7 +204,7 @@ def get_all_api_key_statuses():
     masked_status = {'gemini': [], 'groq': [], 'ollama': []}
     trackers = APIKeyTracker.query.all()
     
-    all_env_keys = gemini_keys + groq_keys + ollama_keys
+    all_env_keys = get_gemini_keys() + get_groq_keys() + get_ollama_keys()
     
     for t in trackers:
         # Only show keys that are currently in the .env variables
