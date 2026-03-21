@@ -279,8 +279,7 @@ def mark_key_status(provider, key, status, error=None):
 def get_usable_keys(provider, base_keys):
     if not base_keys: return []
     try:
-        # Trigger auto-repair sweep
-        get_all_api_key_statuses()
+        # Avoid synchronous proactive_self_heal here as it blocks generation
         
         usable = []
         now = datetime.now()
