@@ -318,13 +318,12 @@ def get_usable_keys(provider, base_keys):
         
         # Final Shuffle: Balance load across all usable keys
         random.shuffle(usable)
-        return usable if usable else base_keys
+        return usable if usable else [random.choice(base_keys)]
     except Exception:
         try:
             db.session.rollback()
         except: pass
-        random.shuffle(base_keys)
-        return base_keys
+        return [random.choice(base_keys)] if base_keys else []
 
 
 def get_gemini_keys():
