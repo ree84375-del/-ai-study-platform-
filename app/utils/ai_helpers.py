@@ -977,13 +977,6 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='ai_antigr
     
     expression = random.choice(personality['expressions'])
     
-    def draw_replacer(match):
-        draw_prompt = match.group(1).strip()
-        encoded = urllib.parse.quote(draw_prompt)
-        url = f"https://image.pollinations.ai/prompt/{encoded}?width=800&height=600&nologo=true"
-        return f"\n\n![生成圖片]({url})\n"
-        
-    reply = re.sub(r'\[DRAW:\s*(.*?)\]', draw_replacer, str(reply), flags=re.IGNORECASE)
     return f"{str(reply)}\n\n{str(expression)}"
 
 
