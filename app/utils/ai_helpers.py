@@ -413,7 +413,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             else:
                                 model = get_gemini_model(system_instruction=full_system)
                                 
-                            response = model.generate_content(final_prompt, request_options={"timeout": 8.0, "retry": None})
+                            response = model.generate_content(final_prompt, request_options={"timeout": 15.0, "retry": None})
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音：{response.text[:80]}")
                             mark_key_status('gemini', key, 'standby')
@@ -424,7 +424,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             user_context = get_user_memory_context(user) if user else ""
                             full_system = f"{system_instruction}\n\n{user_context}"
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": prompt}]
-                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages, timeout=6.0)
+                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages, timeout=15.0)
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音(Groq)：{response.choices[0].message.content[:80]}")
                             mark_key_status('groq', key, 'standby')
@@ -522,10 +522,10 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                                     if 'gemma' in model_name:
                                         final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
                                         model = genai.GenerativeModel(model_name)
-                                        response = model.generate_content([final_prompt, image], request_options={"timeout": 12.0, "retry": None})
+                                        response = model.generate_content([final_prompt, image], request_options={"timeout": 30.0, "retry": None})
                                     else:
                                         model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
-                                        response = model.generate_content([prompt, image], request_options={"timeout": 12.0, "retry": None})
+                                        response = model.generate_content([prompt, image], request_options={"timeout": 30.0, "retry": None})
                                         
                                     if user:
                                         update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
@@ -548,7 +548,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             full_system = f"{system_instruction}\n\n{user_context}"
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": [{"type": "text", "text": prompt}, {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}]}]
                             try:
-                                response = client.chat.completions.create(model="llama-3.2-90b-vision-preview", messages=messages)
+                                response = client.chat.completions.create(model="llama-3.2-90b-vision-preview", messages=messages, timeout=30.0)
                                 mark_key_status('groq', key, 'standby')
                                 return response.choices[0].message.content
                             except Exception as e:
