@@ -592,9 +592,9 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
 
 def get_yukine_system_prompt(lang='zh', user=None):
     """Returns the base system prompt for Yukine based on language and personality."""
-    # Force Antigravity Mode as the global default for maximum intelligence and repair capability
-    personality_key = user.ai_personality if user and user.ai_personality else 'ai_antigravity'
-    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['ai_antigravity'])
+    # Default to gentle Yukine personality; Antigravity is admin-only via chat command
+    personality_key = user.ai_personality if user and user.ai_personality else 'ai_gentle'
+    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['ai_gentle'])
     base_prompt = personality['system_prompt']
     
     if lang == 'ja':
@@ -943,7 +943,7 @@ AI_PERSONALITIES = {
     }
 }
 
-def get_ai_tutor_response(chat_history, user_message, personality_key='ai_antigravity', model_choice='gemini', context_summary="", user=None):
+def get_ai_tutor_response(chat_history, user_message, personality_key='ai_gentle', model_choice='gemini', context_summary="", user=None):
     if user_message.strip().startswith('/image '):
         prompt = user_message.replace('/image ', '', 1).strip()
         return f"為您生成繪圖：**{prompt}**\n\n" + generate_image_url(prompt)

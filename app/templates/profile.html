@@ -68,9 +68,7 @@
                             <option value="ai_gentle" {% if current_user.ai_personality in ['ai_gentle', '雪音-溫柔型', '雪音-温柔型'] %}selected{% endif %}>{{ _t('ai_gentle') }}</option>
                             <option value="ai_coach" {% if current_user.ai_personality in ['ai_coach', '雷恩教練', '魔鬼教練'] %}selected{% endif %}>{{ _t('ai_coach') }}</option>
                             <option value="ai_guy" {% if current_user.ai_personality in ['ai_guy', '阿哲學長'] %}selected{% endif %}>{{ _t('ai_guy') }}</option>
-                            {% if current_user.is_admin %}
-                            <option value="ai_antigravity" {% if current_user.ai_personality == 'ai_antigravity' %}selected{% endif %}>{{ _t('ai_antigravity') }}</option>
-                            {% endif %}
+                            {# Antigravity Mode is admin-only and accessible via chat command /antigravity #}
                         </select>
                         <script>
                         document.querySelector('select[name="ai_personality"]').addEventListener('change', function(e) {

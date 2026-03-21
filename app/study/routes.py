@@ -317,6 +317,16 @@ def tutor_chat():
         # Time injection has been moved to ai_helpers.py system prompt to avoid constant reporting
         user_msg_with_time = user_msg
 
+        # --- Admin-only chat commands for Antigravity Mode ---
+        if user_msg.strip().lower() == '/antigravity' and current_user.is_admin:
+            current_user.ai_personality = 'ai_antigravity'
+            db.session.commit()
+            return jsonify({'status': 'success', 'reply': '🚀 **Antigravity Mode 已啟動！**\n\n雪音已切換至「極效修復型」模式。所有對話將以 Antigravity 核心回應。\n\n輸入 `/normal` 可恢復為一般模式。(๑•̀ㅂ•́)و✧'})
+        if user_msg.strip().lower() == '/normal' and current_user.is_admin:
+            current_user.ai_personality = 'ai_gentle'
+            db.session.commit()
+            return jsonify({'status': 'success', 'reply': '🌸 **已恢復一般模式**\n\n雪音已切換回溫柔陪伴型。如需再次啟動 Antigravity，請輸入 `/antigravity`。'})
+
         if image_data:
             from app.utils.ai_helpers import generate_vision_with_fallback
             import base64
