@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: yukine-study-platform
+    env: python
+    buildCommand: "pip install -r requirements.txt && flask db upgrade"
+    startCommand: "gunicorn -w 2 -b 0.0.0.0:$PORT run:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: FLASK_APP
+        value: run.py
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      # USER needs to provide GEMINI_API_KEYS manually in dashboard
