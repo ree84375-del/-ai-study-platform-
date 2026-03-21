@@ -635,7 +635,7 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         2. 輸出請嚴格遵循以下 6 個 Markdown 區塊結構：
 
         ### 📝 題目 (Question)
-        (提取圖片中的完整題目文字)
+        (提取圖片中的完整題目文字。重要：請務必過濾並排除所有人工手寫的字跡、塗鴉或計算過程，只擷取最原始的印刷題目內容)
 
         ### 🎯 選項 (Options)
         (列出所有選項)
@@ -748,7 +748,7 @@ def parse_question_from_image(image_bytes, lang='zh'):
         else:
             prompt = """
             請執行三階段解析並將題目轉換為 JSON：
-            1. 強化掃描：提取所有文字與 LaTeX 格式公式。
+            1. 強化掃描：提取所有文字與 LaTeX 格式公式（重要：請自動排除所有人工手寫的字跡、算式與塗鴉，只讀取印刷字體）。
             2. 邏輯建模：辨識題目的結構、圖表意圖。
             3. JSON 封裝：填入以下欄位：
                - subject: 科目(國文/英文/數學/社會/自然)

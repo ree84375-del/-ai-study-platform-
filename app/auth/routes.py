@@ -82,6 +82,9 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             # Force Admin name
             if user.role == 'admin' and user.username != '管理員':
+                conflict_user = User.query.filter_by(username='管理員').first()
+                if conflict_user and conflict_user.id != user.id:
+                    conflict_user.username = f"管理員_備份_{conflict_user.id}"
                 user.username = '管理員'
             
             user.last_login = datetime.now(timezone.utc)
@@ -168,6 +171,9 @@ def google_auth():
             
             # Force Admin name
             if user.role == 'admin' and user.username != '管理員':
+                conflict_user = User.query.filter_by(username='管理員').first()
+                if conflict_user and conflict_user.id != user.id:
+                    conflict_user.username = f"管理員_備份_{conflict_user.id}"
                 user.username = '管理員'
             
             db.session.commit()
