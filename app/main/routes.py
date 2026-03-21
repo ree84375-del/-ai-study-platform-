@@ -202,9 +202,22 @@ def home():
                            study_plan=study_plan,
                            garden_stats=garden_stats)
 
-@main.route("/about")
+@main.route('/about')
 def about():
-    return render_template('about.html')
+    # Only load necessary user options statically
+    # Ensure current_user is passed correctly if authenticated
+    return render_template('about.html', title=_t('nav_about', 'zh'))
+
+@main.route('/fix_schema_emergency')
+def fix_schema_emergency():
+    from app import db
+    from sqlalchemy import text
+    try:
+        db.session.execute(text("ALTER TABLE chat_message ADD COLUMN IF NOT EXISTS image_data TEXT"))
+        db.session.commit()
+        return "SUCCESS: 'image_data' column added to chat_message table."
+    except Exception as e:
+        return f"ERROR: {e}"
 
 @main.route("/privacy")
 def privacy():
