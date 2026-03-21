@@ -696,8 +696,9 @@
     ];
     let selectedCommandIndex = -1;
 
+    const isAdmin = {{ 'true' if current_user.is_admin else 'false' }};
     function updateCommandSuggestions(filter = '') {
-        {% if current_user.is_admin %}
+        if (!isAdmin) return;
         const filtered = adminCommands.filter(cmd => cmd.name.startsWith(filter));
         if (filtered.length > 0 && filter.startsWith('/')) {
             commandSuggestions.innerHTML = filtered.map((cmd, idx) => `
@@ -713,7 +714,6 @@
         } else {
             commandSuggestions.style.display = 'none';
         }
-        {% endif %}
     }
 
     window.selectCommand = function(cmdName) {

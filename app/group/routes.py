@@ -651,8 +651,8 @@ def ai_reply(group_id):
     greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
     is_greeting = any(g in last_msg.content.lower() for g in greetings)
     
-    # If it's a greeting, we reply 100% of the time. Otherwise, 80% chance or if keywords matched.
-    trigger_ai = is_greeting or random.random() < 0.8
+    # 只要有邀請老師進入群組，則 100% 機率必定回覆
+    trigger_ai = True
     
     if not trigger_ai:
         current_app.logger.info(f"AI skipped reply for group {group_id} (Random skip)")

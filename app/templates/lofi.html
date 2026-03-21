@@ -35,9 +35,9 @@
         left: -10px;
         right: -10px;
         bottom: -10px;
-        {% set scene_prefix = current_user.ai_scene_prefix if current_user.is_authenticated else 'img/yukine_scene' %}
+        {% set scene_prefix = current_user.ai_scene_prefix if current_user.is_authenticated and current_user.ai_scene_prefix else 'img/yukine_scene' %}
         background-image: linear-gradient(rgba(10, 10, 20, 0.4), rgba(5, 5, 10, 0.7)),
-        url('{{ url_for("static", filename=scene_prefix + "_night.png") }}');
+        url('{{ url_for("static", filename=scene_prefix ~ "_night.png") }}');
         background-size: cover;
         background-position: center;
         animation: bgKenBurns 30s ease-in-out infinite alternate;
@@ -47,19 +47,19 @@
 
     .lofi-container-bg.morning::before {
         background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)),
-        url('{{ url_for("static", filename=scene_prefix + "_morning.png") }}');
+        url('{{ url_for("static", filename=scene_prefix ~ "_morning.png") }}');
     }
     .lofi-container-bg.afternoon::before {
         background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(181, 155, 142, 0.1)),
-        url('{{ url_for("static", filename=scene_prefix + "_afternoon.png") }}');
+        url('{{ url_for("static", filename=scene_prefix ~ "_afternoon.png") }}');
     }
     .lofi-container-bg.evening::before {
         background-image: linear-gradient(rgba(221, 122, 86, 0.1), rgba(0, 0, 0, 0.3)),
-        url('{{ url_for("static", filename=scene_prefix + "_dusk.png") }}');
+        url('{{ url_for("static", filename=scene_prefix ~ "_dusk.png") }}');
     }
     .lofi-container-bg.night::before {
         background-image: linear-gradient(rgba(10, 10, 20, 0.5), rgba(5, 5, 10, 0.8)),
-        url('{{ url_for("static", filename=scene_prefix + "_night.png") }}');
+        url('{{ url_for("static", filename=scene_prefix ~ "_night.png") }}');
     }
 
     @keyframes bgKenBurns {

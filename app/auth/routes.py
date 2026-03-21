@@ -131,12 +131,32 @@ def google_auth():
         assigned_role = 'admin' if is_admin else 'student'
         
         if not user:
-            random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
-            final_name = '管理員' if assigned_role == 'admin' else name
-            user = User(username=final_name, email=email, password=random_password, role=assigned_role, auth_provider='google')
-            db.session.add(user)
-            db.session.commit()
-            flash('成功透過 Google 註冊並登入系統！', 'success')
+            final_name = name
+            
+            # Handle admin unique name collision
+            if is_admin:
+                existing_admin = User.query.filter_by(username='管理員').first()
+                if existing_admin:
+                    # Link google auth with the existing admin account
+                    existing_admin.email = email
+                    if getattr(existing_admin, 'auth_provider', 'local') != 'google':
+                        existing_admin.auth_provider = 'google'
+                    db.session.commit()
+                    user = existing_admin
+            
+            # If still not found, create new user
+            if not user:
+                random_password = bcrypt.generate_password_hash(secrets.token_hex(16)).decode('utf-8')
+                base_name = '管理員' if assigned_role == 'admin' else name
+                final_name = base_name
+                counter = 1
+                while User.query.filter_by(username=final_name).first():
+                    final_name = f"{base_name}_{counter}"
+                    counter += 1
+                user = User(username=final_name, email=email, password=random_password, role=assigned_role, auth_provider='google')
+                db.session.add(user)
+                db.session.commit()
+                flash('成功透過 Google 註冊並登入系統！', 'success')
         else:
             # Healing/Upgrade logic: Ensure existing OAuth users are marked as Google
             if getattr(user, 'auth_provider', 'local') != 'google':
