@@ -239,11 +239,9 @@ def mark_key_status(provider, key, status, error=None):
         tracker.cooldown_until = None
         tracker.error_message = None
     elif status == 'standby':
-        # Success Cooldown: If the key was just used, give it a very short rest
-        # Reduced from 45s to 2s for better responsiveness (Antigravity Optimization)
-        tracker.status = 'cooldown'
-        tracker.cooldown_until = now + timedelta(seconds=2) 
-        tracker.error_message = "成功後短暫冷卻 (安全維護)"
+        tracker.status = 'standby'
+        tracker.cooldown_until = None
+        tracker.error_message = None
     elif status in ['cooldown', 'error']:
         tracker.error_message = error
         # Exponential backoff for 429 errors
@@ -506,7 +504,7 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                             if _cached_gemini_model_name and ('flash' in _cached_gemini_model_name or 'gemma' in _cached_gemini_model_name):
                                 model_name = _cached_gemini_model_name
                             else:
-                                model_name = 'models/gemini-1.5-flash'
+                                model_name = 'models/gemini-2.0-flash'
                                 
                             if 'gemma' in model_name:
                                 final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
@@ -910,9 +908,10 @@ AI_PERSONALITIES = {
                          "2. **防止亂掰**：開玩笑要有限度，核心知識點必須精確無誤，絕不編造學術內容。\n"
                          "3. **記憶連結**：提到學生之前做過的搞笑事 or 錯題，增加親近感。\n"
                          "4. **主動繪圖與示意圖**：解釋搞笑概念或學生要求畫圖時，主動加入 `[DRAW: detailed english prompt]` 給張爆笑或精美的示意圖。\n"
-                         "5. **出題與批改記憶**：如果你出了題目，看清楚人家回答什麼，認真改完對錯再開玩笑，不要略過人家的答案！\n"
-                         "6. **語音功能**：你具備語音功能，聲音陽光逗趣。若被問及，請輕鬆回答：「嘿嘿，學長我不只會打字，還會說話呢！打開右上角那個開關，就能聽到我充滿魅力的聲音囉！」\n"
-                         "7. **禁止代入感文本**：不要在文字中加入語氣描述（如「(嘿嘿一笑)」），系統會自動發聲，文字要乾淨俐落。",
+                         "5. **影像解讀能力**：你有解讀圖片的超能力。看到學生傳的圖片，不管是筆記還是梗圖，直接給出最酷的解答。\n"
+                         "6. **出題與批改記憶**：如果你出了題目，看清楚人家回答什麼，認真改完對錯再開玩笑，不要略過人家的答案！\n"
+                         "7. **語音功能**：你具備語音功能，聲音陽光逗趣。若被問及，請輕鬆回答：「嘿嘿，學長我不只會打字，還會說話呢！打開右上角那個開關，就能聽到我充滿魅力的聲音囉！」\n"
+                         "8. **禁止代入感文本**：不要在文字中加入語氣描述（如「(嘿嘿一笑)」），系統會自動發聲，文字要乾淨俐落。",
         'expressions': ['( ͡° ͜ʖ ͡°)', '（╯－＿－）╯╧╧', '╮(￣▽￣)╭']
     },
     'ai_antigravity': {

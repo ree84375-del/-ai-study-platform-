@@ -529,6 +529,23 @@
             document.getElementById('remove-image-btn').click();
         }
 
+        // Block UI
+        const sendBtn = document.getElementById('send-chat-btn');
+        chatInput.disabled = true;
+        chatInput.placeholder = "等待 AI 回覆中...";
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        sendBtn.style.opacity = '0.5';
+
+        const enableUI = () => {
+            chatInput.disabled = false;
+            chatInput.placeholder = "{{ _t('chat_input_placeholder') }}";
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = "{{ _t('chat_send_btn') }}";
+            sendBtn.style.opacity = '1';
+            chatInput.focus();
+        };
+
         try {
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s timeout
@@ -543,13 +560,13 @@
                 signal: controller.signal
             });
             clearTimeout(timeoutId);
-            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 removeTypingIndicator();
                 const errText = await response.text();
                 console.error("Server Error:", response.status, errText);
                 addMessage('ai', `{{ _t('conn_error') }} (${response.status})`);
+                enableUI();
                 return;
             }
 
@@ -581,6 +598,8 @@
             } else {
                 addMessage('ai', '對不起，連線似乎有點問題...請確認伺服器是否正在運行。');
             }
+        } finally {
+            enableUI();
         }
     }
 
@@ -649,7 +668,7 @@
         if (!activeSessionId) {
             {% if current_user.is_admin %}
             addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
-            {% elif current_user.role == 'guest' %}
+            {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
             addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
             {% else %}
             addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
