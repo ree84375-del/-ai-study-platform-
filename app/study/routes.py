@@ -289,6 +289,7 @@ def tutor_chat():
         user_chat_content = f"{user_msg}\n[附圖]" if image_data else user_msg
         user_chat = ChatMessage(session_id=session.id, role='user', content=user_chat_content, image_data=image_data)
         db.session.add(user_chat)
+        db.session.commit()
         
         # Build comprehensive context
         context_parts = []
