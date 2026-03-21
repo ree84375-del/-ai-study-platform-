@@ -14,6 +14,8 @@ from PIL import Image
 import io
 import random
 import urllib.parse
+import requests
+import base64
 
 
 # Setup Gemini API key
@@ -629,10 +631,21 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         prompt = f"""
         妳好，妳是「{tutor_name}老師」，現在正由 Antigravity 特級維修核心全面支援。
         妳擁有目前最強大的視覺神經網路與邏輯建模能力。請針對這張「學生上傳的題目圖片」執行【Antigravity 極致解析協定】。
+        
+        【視覺辨識最高指導原則】：
+        1. **極致排除手寫與人工筆跡 (Anti-Manual)**：圖片中若有「紅/藍/綠/鉛筆/原子筆」等任何人工手寫、劃線、勾選、計算過程、修正液痕跡或塗鴉，請「絕對忽略」。妳的輸出應僅包含「原始印刷文字」或「影印本上的黑色黑色字跡」。
+        2. **分辨人工與印刷 (Discrimination)**：請運用妳的高解析邏輯，精確區別哪些是題目自帶的，哪些是後來人手寫上去的。如果是人手寫的「答案」或「筆記」，嚴禁出現在「### 📝 題目」區塊中。
+        2. **字元精確區分**：嚴禁混淆形近字元。請根據數學上下文判斷（例如：二次函數通常是 ax^2+bx+c）。
+           - 絕對區分：代數 b 與 數字 6
+           - 絕對區分：代數 l 與 數字 1
+           - 絕對區分：代數 o 與 數字 0
+           - 絕對區分：代數 q 與 數字 9
+           - 絕對區分：代數 z 與 數字 2
+        3. **公式優先**：若圖片包含數學公式，請優先使用標準 LaTeX 格式或人類易讀格式（如 x的平方）提取印刷體公式。
 
         請務必遵守以下「人類友善」的輸出原則：
-        1. 絕對不要使用任何生硬的數學標記語言（如 LaTeX 的 $y=x^2$ 或 \\overline{{AB}}），必須自動轉換為一般人看得懂的平白描述（例如：「y 等於 x 的平方」、「線段 AB 的長度」）。
-        2. 請特別嚴格區分數學公式中的「英文字母」與「阿拉伯數字」，切勿因為字體形狀而混淆（例如把代數 b 看成數字 6、把 l 看成 1、把 q 看成 9）。
+        1. 絕對不要使用任何生硬的數學標記語言（如 LaTeX 的 y=x^2 或 \overline{AB}），必須自動轉換為一般人看得懂的平白描述（例如：「y 等於 x 的平方」、「線段 AB 的長度」）。
+        2. 請特別嚴格區分數學公式中的「英文字母」與「阿拉伯數字」，切勿因為字體形狀而混淆。
         3. 輸出請嚴格遵循以下 6 個 Markdown 區塊結構：
 
         ### 📝 題目 (Question)
@@ -749,7 +762,10 @@ def parse_question_from_image(image_bytes, lang='zh'):
         else:
             prompt = """
             請執行三階段解析並將題目轉換為 JSON：
-            1. 強化掃描：提取所有文字與 LaTeX 格式公式（重要：請自動排除所有人工手寫的字跡、算式與塗鴉，只讀取印刷字體。並請特別嚴格區分代數與數字，切勿混淆如 b 與 6、l 與 1 等字形）。
+            1. 強化掃描：提取所有文字與 LaTeX 格式公式。
+               【視覺辨識最高指導原則】：
+               - **排除人工痕跡 (Manual Cleanup)**：絕對過濾圖片中所有「彩色或非印刷」的手寫筆跡、計算痕跡、塗鴉。只讀取「黑色印刷體」或「清晰影印字」。
+               - **字元精確區分**：絕對區分代數 b 與 數字 6、代數 l 與 數字 1、代數 q 與 數字 9、代數 z 與 數字 2。
             2. 邏輯建模：辨識題目的結構、圖表意圖。
             3. JSON 封裝：填入以下欄位：
                - subject: 科目(國文/英文/數學/社會/自然)
@@ -810,76 +826,40 @@ def generate_ai_quiz(subject, lang='zh'):
         clean_text = response_text.strip()
         if '```json' in clean_text:
             clean_text = clean_text.split('```json')[1].split('```')[0].strip()
-        elif '```' in clean_text:
-            clean_text = clean_text.split('```')[1].split('```')[0].strip()
-            
-        data = json.loads(clean_text)
-        
-        # Generate image URL based on prompt
-        if 'image_prompt' in data:
-            data['image_url'] = generate_image_url(data['image_prompt'])
-        return data
+        return json.loads(clean_text)
     except Exception as e:
         return {'error': str(e)}
 
-def get_knowledge_graph_recommendation(subject):
-    # Simulated knowledge graph recommendations
-    graph = {
-        '數學': '代數基礎',
-        '自然': '物理位移觀念',
-        '英文': '基礎五大句型',
-        '國文': '修辭法大全',
-        '社會': '地理位置坐標'
-    }
-    return graph.get(subject, "基礎概論")
-
-def generate_image_url(prompt):
-    encoded = urllib.parse.quote(prompt)
-    url = f"https://image.pollinations.ai/prompt/{encoded}?width=800&height=600&nologo=true"
-    return f"![生成圖片]({url})"
-
-def translate_omikuji(omikuji_json_str, target_lang):
-    """Translates omikuji JSON data (lucky_color, lucky_item, lucky_subject, advice) into target language."""
+def translate_omikuji(omikuji_json_str, target_lang='zh'):
+    """Translates the omikuji JSON into the target language."""
     try:
-        data = json.loads(omikuji_json_str)
-        lang_map = {'zh': '繁體中文', 'ja': '日本語', 'en': 'English'}
-        target_lang_name = lang_map.get(target_lang, '繁體中文')
-        
-        # Don't translate if it's already in the target language (rough check)
-        # But for now, let's just strengthen the prompt.
-        
+        lang_map = {'ja': 'Japanese', 'en': 'English', 'zh': 'Traditional Chinese'}
+        target_lang_name = lang_map.get(target_lang, 'Traditional Chinese')
         prompt = f"""
-        Translate the following Omikuji (Fortune) content into {target_lang_name}.
-        Source Content (JSON):
-        {json.dumps(data, ensure_ascii=False)}
-        
-        Instructions:
-        1. Translate ALL values into {target_lang_name}.
-        2. Keep the JSON keys (lucky_color, lucky_item, lucky_subject, advice) EXACTLY as they are.
-        3. **CRITICAL: DO NOT return the original Chinese if the target is Japanese.**
-        4. **CRITICAL: Use natural {target_lang_name} terminology.** (e.g. for Japanese lucky_subject: use '国語' instead of '語文', '数学' instead of '數學').
-        5. Tone: Gentle, like a shrine maiden (Miko) or priest.
-        
-        Return ONLY the raw JSON string. No Markdown, no conversational text.
+        You are a specialized translation engine for a Japanese Shrine system.
+        Convert the following JSON string into {target_lang_name}.
+
+        INPUT JSON:
+        {omikuji_json_str}
+
+        RULES:
+        1. Keep the JSON keys (lucky_color, lucky_item, lucky_subject, advice) EXACTLY as they are.
+        2. DO NOT return the original Chinese if the target is Japanese.
+        3. Use natural {target_lang_name} terminology.
+        4. Tone: Gentle, like a shrine maiden (Miko).
+
+        Return ONLY the raw JSON string.
         """
-        
         response_text = generate_text_with_fallback(prompt)
+        import re, json
         clean_text = response_text.strip()
-        
-        # Robust JSON cleaning
         if '```' in clean_text:
             match = re.search(r'```(?:json)?\s*(\{.*?\})\s*```', clean_text, re.DOTALL)
-            if match:
-                clean_text = match.group(1).strip()
-            else:
-                clean_text = clean_text.replace('```json', '').replace('```', '').strip()
-        
-        # Verify it's actually JSON before returning
+            if match: clean_text = match.group(1).strip()
+            else: clean_text = clean_text.replace('```json', '').replace('```', '').strip()
         json.loads(clean_text)
         return clean_text
-    except Exception as e:
-        import logging
-        logging.error(f"Omikuji Translation Error for {target_lang}: {e}")
+    except Exception:
         return omikuji_json_str
 
 AI_PERSONALITIES = {
@@ -890,7 +870,7 @@ AI_PERSONALITIES = {
                          "1. 請用繁體中文回答。\n"
                          "2. 語氣親切，但請「極少量使用」表情符號（每個回覆最多 1-2 個），保持專業感。\n"
                          "3. **讀懂空氣與錯字 (Intent Recognition)**：請優先讀懂用戶的意圖。即使訊息中有錯字、火星文或不完整的語句，也要根據上下文「讀懂空氣」來精準回應，不要糾結於細微錯字。\n"
-                         "4. **技術代理與核心 (Antigravity Core)**：當用戶要求進行開發、修復 Bug 或優化排版時，妳應溫柔地告知用戶「核心代理 Antigravity 正在同步進行處理，老師會在一旁監督進度唷」。妳負責溫暖用戶的心，而技術重的活交給核心處理。\n"
+                         "4. **技術代理 (Technical Assistance)**：當用戶要求修復 Bug 或優化排版時，應直接轉化為技術性的協助。避免過多轉場官宣詞語，直接提供解決方案。\n"
                          "5. **嚴禁亂掰**：如果不知道答案或資訊不足，請誠實告訴用戶並共同探索，不要編造事實。\n"
                          "6. **記憶與身份功能**：對話紀錄格式為『發言者名字(ID:編號): 內容』。ID 與 格式 僅供你識別身份。你的回覆必須**直接輸出內容**，**絕對禁止**在訊息開頭加上『名字:』或『(ID:...)』。\n"
                          "7. **自然時間感**：請參考系統提供的時間。但**絕對禁止主動報時**，除非被問及。\n"
@@ -948,6 +928,43 @@ AI_PERSONALITIES = {
         'expressions': ['(๑•̀ㅂ•́)و✧', '🚀', '🛠️', '⚙️', '(^_^)b']
     }
 }
+
+def generate_image_url(prompt):
+    """Generates an image using Google's Imagen model."""
+    keys = get_gemini_keys()
+    if not keys: return ""
+    
+    # Priority Shuffle
+    k_list = keys.copy()
+    random.shuffle(k_list)
+    
+    for k in k_list:
+        try:
+            # Try Imagen 3.0 first as it's more common in current projects
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key={k}"
+            payload = {
+                "instances": [{"prompt": prompt}],
+                "parameters": {"sampleCount": 1}
+            }
+            import requests as req
+            resp = req.post(url, json=payload, timeout=25)
+            if resp.status_code == 200:
+                data = resp.json()
+                if 'predictions' in data and len(data['predictions']) > 0:
+                    b64 = data['predictions'][0]['bytesBase64Encoded']
+                    return f"data:image/png;base64,{b64}"
+            
+            # Fallback to Imagen 4.0 if explicitly enabled (per user context)
+            url4 = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key={k}"
+            resp4 = req.post(url4, json=payload, timeout=25)
+            if resp4.status_code == 200:
+                data4 = resp4.json()
+                if 'predictions' in data4 and len(data4['predictions']) > 0:
+                    b64_4 = data4['predictions'][0]['bytesBase64Encoded']
+                    return f"data:image/png;base64,{b64_4}"
+        except:
+            continue
+    return ""
 
 def get_ai_tutor_response(chat_history, user_message, personality_key='ai_gentle', model_choice='gemini', context_summary="", user=None):
     if user_message.strip().startswith('/image '):
@@ -1019,6 +1036,16 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='ai_gentle
             threading.Thread(target=background_memory_update).start()
         except Exception:
             pass
+
+    # Handle [DRAW:] tags proactively for immediate display
+    if '[DRAW:' in str(reply):
+        import re
+        draw_match = re.search(r'\[DRAW:\s*(.*?)\]', str(reply))
+        if draw_match:
+            img_prompt = draw_match.group(1).strip()
+            img_url = generate_image_url(img_prompt)
+            if img_url:
+                reply = str(reply).replace(draw_match.group(0), f"\n![AI Illustration]({img_url})")
 
     expression = random.choice(personality['expressions'])
     
@@ -1298,6 +1325,11 @@ def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
         prompt = f"""
         {tutor_prompt}
         {task_desc}
+        
+        【視覺辨識最高指導原則】：
+        1. **排除手寫字**：若上傳圖片中有手寫筆跡或塗鴉，請完全忽略。只擷取印刷題目內容。
+        2. **字元精確區分**：絕對區分代數與數字（b/6, l/1, q/9）。
+
         請用{output_lang}回傳 JSON：
         - title: 標題
         - description: 內容

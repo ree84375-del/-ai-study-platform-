@@ -218,7 +218,9 @@ def group_dashboard(group_id):
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS ai_explanation TEXT",
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
                 # Group type fix
-                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
+                # Group has_ai auto-enable fix
+                "UPDATE \"group\" SET has_ai = TRUE WHERE has_ai IS FALSE OR has_ai IS NULL"
             ]
             for stmt in auto_fixes:
                 try:
