@@ -16,7 +16,7 @@
             {% if yukine_reminders %}
             <div class="glass-panel" style="padding: 1rem; border-left: 5px solid #ffccce; background: #fff5f6; margin-bottom: 1.5rem; animation: pulse 2s infinite;">
                 <div style="display: flex; align-items: flex-start; gap: 10px;">
-                    <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 30px; height: 30px; border-radius: 50%;">
+                    <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 30px; height: 30px; border-radius: 50%;">
                     <div style="font-size: 0.85rem; color: #d63384; font-weight: bold;">
                         {% for reminder in yukine_reminders %}
                         <div>{{ reminder }}</div>
@@ -30,7 +30,7 @@
     <div class="glass-panel" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 1.2rem; margin-bottom: 2rem; border-left: 5px solid {% if group.has_ai %}var(--color-primary){% else %}#ccc{% endif %}; transition: all 0.3s ease;">
         <div style="display: flex; align-items: center; gap: 15px;">
             <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; {% if not group.has_ai %}filter: grayscale(1); opacity: 0.7;{% endif %}">
-                <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
+                <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div>
                 <h4 style="margin: 0; color: {% if group.has_ai %}var(--color-primary){% else %}var(--color-text_light){% endif %}; transition: color 0.3s;">
@@ -374,7 +374,7 @@
                             <div id="yukine-feedback-1" style="display: none; background: #fffcf0; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px; position: relative;">
                                 <div class="yukine-stamp"><i class="fa-solid fa-stamp"></i></div>
                                 <div style="display: flex; align-items: flex-start; gap: 8px;">
-                                    <img src="/static/img/yukine_avatar.png" style="width: 24px; height: 24px; border-radius: 50%;">
+                                    <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%;">
                                     <div id="yukine-text-1" style="font-size: 0.85rem; color: #856404; line-height: 1.4;"></div>
                                 </div>
                                 <button type="button" onclick="confirmAndNext(2)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
@@ -401,7 +401,7 @@
                             <div id="yukine-feedback-2" style="display: none; background: #fffcf0; padding: 12px; border-radius: 8px; border: 1px solid #ffeeba; margin-bottom: 12px; position: relative;">
                                 <div class="yukine-stamp"><i class="fa-solid fa-stamp"></i></div>
                                 <div style="display: flex; align-items: flex-start; gap: 8px;">
-                                    <img src="/static/img/yukine_avatar.png" style="width: 24px; height: 24px; border-radius: 50%;">
+                                    <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%;">
                                     <div id="yukine-text-2" style="font-size: 0.85rem; color: #856404; line-height: 1.4;"></div>
                                 </div>
                                 <button type="button" onclick="confirmAndNext(3)" style="margin-top: 8px; width: 100%; padding: 8px; background: #28a745; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
@@ -671,7 +671,7 @@
                             <!-- Yukine Student Pre-check Area -->
                             <div id="student-yukine-precheck" style="display: none; background: #f0f7ff; padding: 12px; border-radius: 8px; border: 1px solid #cce5ff; margin-top: 15px; position: relative;">
                                 <div style="display: flex; align-items: flex-start; gap: 8px;">
-                                    <img src="/static/img/yukine_avatar.png" style="width: 24px; height: 24px; border-radius: 50%;">
+                                    <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%;">
                                     <div id="student-yukine-text" style="font-size: 0.85rem; color: #004085; line-height: 1.4;"></div>
                                 </div>
                             </div>
@@ -685,7 +685,7 @@
                     <div id="step-confirm" style="display: none;">
                         <div style="background: #fff5f6; border-left: 5px solid #ff8da1; padding: 15px; border-radius: 8px; margin-bottom: 1.5rem;">
                             <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                                <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 35px; height: 35px; border-radius: 50%;">
+                                <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 35px; height: 35px; border-radius: 50%;">
                                 <h4 style="margin: 0; color: var(--color-primary); font-size: 0.95rem;">{{ _t('yukine_ocr_done') }}</h4>
                             </div>
                             <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">{{ _t('yukine_ocr_verify') }}</p>
@@ -727,7 +727,7 @@
                 {% if yukine_welcome %}
                 <div class="message-wrapper ephemeral-welcome" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; animation: fadeInDown 0.6s ease-out;">
                     <div style="flex-shrink: 0; width: 44px; height: 44px;">
-                        <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 8px rgba(255,141,161,0.2);">
+                        <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 100%; height: 100%; border-radius: 50%; border: 2px solid white; box-shadow: 0 4px 8px rgba(255,141,161,0.2);">
                     </div>
                     <div style="max-width: 85%;">
                         <div style="margin-bottom: 6px; font-size: 0.8rem; font-weight: 700; color: var(--color-text_main);">
@@ -756,7 +756,7 @@
                             <div style="flex-shrink: 0; width: 44px; height: 44px; position: relative;">
                                 <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                                     {% if msg.author and msg.author.username == '雪音老師' %}
-                                        <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     {% elif msg.author and msg.author.avatar_url %}
                                         <img src="{{ msg.author.avatar_url }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     {% else %}
@@ -935,7 +935,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userId: parseInt("{{ current_user.id }}"),
         csrfToken: "{{ csrf_token() }}",
         groupTypeLabel: "{{ group.group_type }}",
-        yukineAvatar: "{{ url_for('static', filename='img/yukine_avatar.png') }}",
+        yukineAvatar: "{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}",
         aiReplyUrl: `/api/groups/${CONFIG.groupId}/ai_reply`,
         isAdmin: JSON.parse("{{ current_user.is_admin | tojson | safe }}"),
         confirmRecallMsg: "{{ _t('confirm_recall') }}",

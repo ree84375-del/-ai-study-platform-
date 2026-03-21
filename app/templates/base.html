@@ -260,20 +260,20 @@
             const i18n = document.getElementById('i18n-data').dataset;
             
             if (6 <= hour && hour < 12) {
-                name = i18n.morningStudy;
-                shortName = i18n.morningShort;
+                name = i18n.morningStudy || '早安陪讀';
+                shortName = i18n.morningShort || '早安';
                 icon = "fa-sun";
             } else if (12 <= hour && hour < 17) {
-                name = i18n.afternoonStudy;
-                shortName = i18n.afternoonShort;
+                name = i18n.afternoonStudy || '午後陪讀';
+                shortName = i18n.afternoonShort || '午後';
                 icon = "fa-cloud-sun";
             } else if (17 <= hour && hour < 19) {
-                name = i18n.eveningStudy;
-                shortName = i18n.eveningShort;
+                name = i18n.eveningStudy || '黃昏陪讀';
+                shortName = i18n.eveningShort || '黃昏';
                 icon = "fa-mountain-sun";
             } else {
-                name = i18n.midnightStudy;
-                shortName = i18n.midnightShort;
+                name = i18n.midnightStudy || '深夜陪讀';
+                shortName = i18n.midnightShort || '深夜';
                 icon = "fa-moon";
             }
             

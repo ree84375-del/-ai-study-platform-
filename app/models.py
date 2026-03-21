@@ -55,6 +55,15 @@ class User(db.Model, UserMixin):
         if self.is_admin:
             return "管理員"
         return self.username
+
+    @property
+    def ai_avatar_filename(self):
+        if self.ai_personality in ['ai_coach', '雷恩教練', '魔鬼教練', '雪音-嚴格型', '雪音-严格型']:
+            return 'img/coach_avatar.png'
+        elif self.ai_personality in ['ai_guy', '阿哲學長', '雪音-幽默型']:
+            return 'img/senior_avatar.png'
+        else:
+            return 'img/yukine_avatar.png'
  
     # current_streak = db.Column(db.Integer, default=0)
     # last_study_date = db.Column(db.DateTime, nullable=True)

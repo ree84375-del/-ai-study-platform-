@@ -261,8 +261,9 @@ def tutor_chat():
     try:
         user_msg = request.json.get('message', '')
         session_id = request.json.get('session_id')
+        image_data = request.json.get('image', None)
         
-        if not user_msg:
+        if not user_msg and not image_data:
             return jsonify({'error': _t('msg_empty_message', current_user.language)}), 400
             
         # Get or create session
@@ -271,12 +272,13 @@ def tutor_chat():
             if session.user_id != current_user.id:
                 return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
         else:
-            session = ChatSession(user_id=current_user.id, title=user_msg[:20])
+            session = ChatSession(user_id=current_user.id, title=(user_msg[:20] if user_msg else "Image Analysis"))
             db.session.add(session)
             db.session.commit()
 
         # Save user message
-        user_chat = ChatMessage(session_id=session.id, role='user', content=user_msg)
+        user_chat_content = f"{user_msg}\n[附圖]" if image_data else user_msg
+        user_chat = ChatMessage(session_id=session.id, role='user', content=user_chat_content)
         db.session.add(user_chat)
         
         # Build comprehensive context
@@ -312,11 +314,27 @@ def tutor_chat():
             except Exception:
                 recent_history = []
 
-        # Inject local time (Taiwan UTC+8) for temporal awareness
-        curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-        user_msg_with_time = f"{_t('sys_prompt_time', lang=current_user.language, time=curr_time)}\n{user_msg}"
+        # Time injection has been moved to ai_helpers.py system prompt to avoid constant reporting
+        user_msg_with_time = user_msg
 
-        reply = get_ai_tutor_response(recent_history, user_msg_with_time, personality_key=current_user.ai_personality, context_summary=context, user=current_user)
+        if image_data:
+            from app.utils.ai_helpers import generate_vision_with_fallback
+            import base64
+            # Image data is in data URI format: "data:image/jpeg;base64,/9j/4AAQSk..."
+            if ',' in image_data:
+                base64_str = image_data.split(',')[1]
+            else:
+                base64_str = image_data
+            image_bytes = base64.b64decode(base64_str)
+            
+            # Use generate_vision_with_fallback directly
+            reply = generate_vision_with_fallback(
+                prompt=user_msg_with_time,
+                image_bytes=image_bytes,
+                system_instruction=context
+            )
+        else:
+            reply = get_ai_tutor_response(recent_history, user_msg_with_time, personality_key=current_user.ai_personality, context_summary=context, user=current_user)
         
         # Save AI response
         try:

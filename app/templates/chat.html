@@ -19,7 +19,7 @@
         <div id="chat-header"
             style="border-bottom: 1px solid var(--color-border); padding-bottom: 1rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
             <h2 id="chat-title" style="font-size: 1.2rem; color: var(--color-text); display: flex; align-items: center; margin: 0;">
-                <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_welcome_header') }}
+                <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_welcome_header') }}
             </h2>
             {% if current_user.is_admin %}
             <div style="display: flex; gap: 8px; align-items: center;">
@@ -43,13 +43,29 @@
             </div>
         </div>
 
-        <div id="input-area" style="display: flex; gap: 10px; align-items: center;">
+        <div id="image-preview-container" style="display: none; position: relative; width: max-content; margin-bottom: 10px; margin-left: 55px;">
+            <img id="image-preview" src="#" alt="Preview" style="max-height: 100px; border-radius: 8px; border: 1px solid var(--color-border); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <button id="remove-image-btn" style="position: absolute; top: -8px; right: -8px; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="input-area" style="display: flex; gap: 10px; align-items: center; position: relative; border-radius: 10px; transition: border 0.3s;" 
+             ondragover="event.preventDefault(); this.style.boxShadow='0 0 0 2px var(--color-primary)';" 
+             ondragleave="this.style.boxShadow='none';" 
+             ondrop="handleDrop(event)">
+            <!-- File input (hidden) -->
+            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+            
             <button id="voice-input-btn" title="語音輸入"
                 style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
                 <i class="fa-solid fa-microphone"></i>
             </button>
-            <input type="text" id="chat-input" placeholder="{{ _t('chat_input_placeholder') }}"
-                style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none;">
+            <button id="image-upload-btn" title="上傳圖片" onclick="document.getElementById('image-upload').click();"
+                style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
+                <i class="fa-solid fa-image"></i>
+            </button>
+            <textarea id="chat-input" placeholder="{{ _t('chat_input_placeholder') }}" rows="1"
+                style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none; background: #fff; resize: none; overflow: hidden; font-family: inherit; font-size: 1rem; min-height: 52px; max-height: 150px;"></textarea>
             <button id="send-chat-btn"
                 style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
                 {{ _t('chat_send_btn') }}
@@ -301,7 +317,7 @@
 
     async function loadHistory(id, title) {
         activeSessionId = id;
-        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${title}`;
+        chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${title}`;
         messagesContainer.innerHTML = '';
         loadSessions(); // Update active state in sidebar
 
@@ -340,7 +356,7 @@
                 const prompt = desc.trim();
                 const encoded = encodeURIComponent(prompt);
                 const seed = Math.floor(Math.random() * 1000000);
-                const url = "https://pollinations.ai/p/" + encoded + "?width=1024&height=1024&seed=" + seed + "&nologo=true";
+                const url = "https://image.pollinations.ai/prompt/" + encoded + "?width=1024&height=1024&seed=" + seed + "&nologo=true";
                 
                 return '<div class="image-gen-container" style="position: relative; margin-top: 10px; background: #fafafa; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">' +
                         '<div class="image-loader" style="padding: 30px; text-align: center; color: #888; font-size: 0.85rem; background: rgba(0,0,0,0.02);">' +
@@ -382,7 +398,7 @@
             labelContainer.style.marginLeft = '8px';
             
             const avatar = document.createElement('img');
-            avatar.src = "{{ url_for('static', filename='img/yukine_avatar.png') }}";
+            avatar.src = "{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}";
             avatar.className = 'breathing-avatar';
             avatar.style.width = '24px';
             avatar.style.height = '24px';
@@ -449,12 +465,50 @@
         chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: 'smooth' });
     }
 
+    let currentImageBase64 = null;
+
+    document.getElementById('image-upload').addEventListener('change', function() {
+        if (this.files && this.files[0]) processImageFile(this.files[0]);
+    });
+
+    document.getElementById('remove-image-btn').addEventListener('click', function() {
+        currentImageBase64 = null;
+        document.getElementById('image-upload').value = '';
+        document.getElementById('image-preview-container').style.display = 'none';
+        document.getElementById('image-preview').src = '#';
+    });
+
+    function handleDrop(event) {
+        event.preventDefault();
+        document.getElementById('input-area').style.boxShadow = 'none';
+        if (event.dataTransfer.files && event.dataTransfer.files[0]) {
+            processImageFile(event.dataTransfer.files[0]);
+        }
+    }
+
+    function processImageFile(file) {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentImageBase64 = e.target.result;
+            document.getElementById('image-preview').src = currentImageBase64;
+            document.getElementById('image-preview-container').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
     async function sendMessage() {
         const text = chatInput.value.trim();
-        if (!text) return;
+        if (!text && !currentImageBase64) return;
 
         chatInput.value = '';
-        addMessage('user', text);
+        
+        let displayHtml = text;
+        if (currentImageBase64) {
+             displayHtml = `<img src="${currentImageBase64}" style="max-height: 150px; border-radius: 8px; margin-bottom: 8px; display: block; max-width: 100%;">` + displayHtml;
+        }
+        
+        addMessage('user', displayHtml);
         showTypingIndicator();
 
         const currentLocalHistory = JSON.parse(localStorage.getItem(`chat_history_${activeSessionId}`) || '[]');
@@ -465,6 +519,15 @@
             session_id: activeSessionId,
             history: geminiHistory
         };
+        
+        if (currentImageBase64) {
+            payload.image = currentImageBase64;
+        }
+        
+        // Reset image input immediately
+        if (currentImageBase64) {
+            document.getElementById('remove-image-btn').click();
+        }
 
         try {
             const controller = new AbortController();
@@ -479,6 +542,7 @@
                 body: JSON.stringify(payload),
                 signal: controller.signal
             });
+            clearTimeout(timeoutId);
             clearTimeout(timeoutId);
 
             if (!response.ok) {
@@ -496,7 +560,7 @@
                 if (!activeSessionId) {
                     activeSessionId = data.session_id;
                     loadSessions();
-                    chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
+                    chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
                 }
                 addMessage('ai', data.reply);
 
@@ -521,19 +585,49 @@
     }
 
     document.getElementById('send-chat-btn').addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
+    
+    // Auto-resize textarea
+    chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+        if (this.value === '') this.style.height = 'auto';
+    });
+
+    let lastEnterTime = 0;
+    
+    chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            e.preventDefault();
-            sendMessage();
+            const isMobile = window.innerWidth <= 768; // simple mobile check
+            
+            if (isMobile) {
+                // Mobile: Enter inserts newline. Double enter sends.
+                const now = new Date().getTime();
+                if (now - lastEnterTime < 400) { // 400ms double tap threshold
+                    e.preventDefault();
+                    sendMessage();
+                    lastEnterTime = 0;
+                    chatInput.style.height = 'auto'; // reset height
+                } else {
+                    lastEnterTime = now;
+                    // Allow default new line behavior
+                }
+            } else {
+                // Desktop: Shift+Enter = newline. Enter = send.
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                    chatInput.style.height = 'auto'; // reset height
+                }
+            }
         }
     });
 
     document.getElementById('new-chat-btn').addEventListener('click', () => {
                     activeSessionId = null;
-        chatTitle.innerHTML = `<img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
+        chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
         messagesContainer.innerHTML = `
             <div style="text-align: center; margin-top: 50px; animation: popIn 0.5s ease;">
-                <img src="{{ url_for('static', filename='img/yukine_avatar.png') }}" style="width: 120px; border-radius: 50%; object-fit: cover; opacity: 0.9; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
+                <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 120px; border-radius: 50%; object-fit: cover; opacity: 0.9; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
                 <h3 style="color: var(--color-primary); margin-bottom: 10px;">{{ _t('chat_welcome_yukine_h3', username=current_user.username) }}</h3>
                 <p style="color: var(--color-text_light);">
                     {% if current_user.learning_goals %}
