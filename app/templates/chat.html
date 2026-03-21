@@ -545,7 +545,7 @@
             cancelBtn.onclick = (e) => {
                 e.preventDefault();
                 if (window.currentChatController) {
-                    window.currentChatController.abort();
+                    window.currentChatController.abort("UserCanceled");
                 }
             };
         }
@@ -608,11 +608,14 @@
         } catch (e) {
             removeTypingIndicator();
             console.error("Chat Error:", e);
-            if (e.name === 'AbortError') {
-                if (e.message === "Timeout") {
+            if (e.name === 'AbortError' || e === "Timeout" || e.message === "Timeout" || (typeof e === 'string' && e.includes('Timeout'))) {
+                const reason = typeof e === 'string' ? e : e.message;
+                if (reason === "Timeout") {
                      addMessage('ai', '回應超時了，AI 老師可能在思考比較久的問題，請稍後再試！');
-                } else {
+                } else if (reason === "UserCanceled" || !reason) {
                      console.log('User cancelled AI chat');
+                } else {
+                     addMessage('ai', '回應超時了，請稍後再試！');
                 }
             } else {
                 addMessage('ai', '對不起，連線似乎有點問題...請確認伺服器是否正在運行。');
