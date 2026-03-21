@@ -143,9 +143,14 @@
                     <div id="last-sync-time" style="font-size: 0.75rem; color: #888; margin-top: 2px;">最後同步：正在初始化...</div>
                 </div>
             </div>
-            <button id="reset-api-keys-btn" class="btn btn-sm btn-outline-danger" style="border-radius: 20px; padding: 5px 15px;">
-                <i class="fa-solid fa-rotate"></i> 強制重設所有狀態
-            </button>
+            <div style="display: flex; gap: 8px;">
+                <button id="reset-api-keys-btn" class="btn btn-sm" style="border-radius: 20px; padding: 5px 15px; background: rgba(0,0,0,0.05); color: var(--color-text); border: 1px solid var(--color-border); font-size: 0.85rem;">
+                    <i class="fa-solid fa-rotate-left"></i> 重設為待機
+                </button>
+                <button id="cleanup-api-keys-btn" class="btn btn-sm" style="border-radius: 20px; padding: 5px 15px; background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; font-size: 0.85rem;">
+                    <i class="fa-solid fa-trash-can"></i> 刪除損壞金鑰
+                </button>
+            </div>
         </div>
         
         <style>
@@ -221,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
             method: 'POST',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': document.querySelector('input[name="csrf_token"]').value || '{{ csrf_token() }}'
+                'X-CSRFToken': document.querySelector('input[name="csrf_token"]') ? document.querySelector('input[name="csrf_token"]').value : '{{ csrf_token() }}'
             }
         })
         .then(async response => {
@@ -235,6 +240,38 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(err => {
             alert('重設失敗 (網路或權限問題)：' + err.message);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        });
+    });
+
+    // Cleanup API Keys logic
+    document.getElementById('cleanup-api-keys-btn').addEventListener('click', function() {
+        if (!confirm('確定要【永久刪除】所有標記為損壞 (Error/Leaked) 的 API Keys 嗎？\n此動作無法復原！')) return;
+        
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在清理...';
+
+        fetch('/admin/api_keys/deep_cleanup', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': document.querySelector('input[name="csrf_token"]') ? document.querySelector('input[name="csrf_token"]').value : '{{ csrf_token() }}'
+            }
+        })
+        .then(async response => {
+            const data = await response.json();
+            if (response.ok && data.message) {
+                alert('清理成功！' + data.message + '\n頁面即將重新整理。');
+                location.reload();
+            } else {
+                throw new Error(data.error || '伺服器回應錯誤');
+            }
+        })
+        .catch(err => {
+            alert('清理失敗：' + err.message);
             btn.disabled = false;
             btn.innerHTML = originalText;
         });
