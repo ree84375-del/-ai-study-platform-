@@ -217,6 +217,7 @@ class ChatMessage(db.Model):
     session_id = db.Column(db.Integer, db.ForeignKey('chat_session.id'), nullable=False)
     role = db.Column(db.String(20), nullable=False) # 'user' or 'ai'
     content = db.Column(db.Text, nullable=False)
+    image_data = db.Column(db.Text, nullable=True) # Base64 image data
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
 class Announcement(db.Model):

@@ -271,6 +271,15 @@ def tutor_chat():
             session = ChatSession.query.get_or_404(session_id)
             if session.user_id != current_user.id:
                 return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
+            
+            # Persistent Vision: If no image in current request, try to find the last image in this session
+            if not image_data:
+                last_msg_with_image = ChatMessage.query.filter(
+                    ChatMessage.session_id == session.id, 
+                    ChatMessage.image_data != None
+                ).order_by(ChatMessage.created_at.desc()).first()
+                if last_msg_with_image:
+                    image_data = last_msg_with_image.image_data
         else:
             session = ChatSession(user_id=current_user.id, title=(user_msg[:20] if user_msg else "Image Analysis"))
             db.session.add(session)
@@ -278,7 +287,7 @@ def tutor_chat():
 
         # Save user message
         user_chat_content = f"{user_msg}\n[附圖]" if image_data else user_msg
-        user_chat = ChatMessage(session_id=session.id, role='user', content=user_chat_content)
+        user_chat = ChatMessage(session_id=session.id, role='user', content=user_chat_content, image_data=image_data)
         db.session.add(user_chat)
         
         # Build comprehensive context
