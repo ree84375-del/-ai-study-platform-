@@ -67,7 +67,7 @@ class User(db.Model, UserMixin):
     language = db.Column(db.String(5), default='zh') # zh, ja, en
     
     # 網站偏好設定
-    # preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.
+    preferred_theme = db.Column(db.String(20), default='sakura') # sakura, moon, classic, midnight, etc.
     # pomodoro_duration = db.Column(db.Integer, default=25)
     
     # Study Roadmap

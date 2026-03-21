@@ -5,7 +5,7 @@ import secrets
 from datetime import datetime, timezone
 from sqlalchemy import text
 from sqlalchemy.exc import ProgrammingError
-from app.utils.i18n import _t
+from app.utils.i18n import get_text as _t
 
 auth = Blueprint('auth', __name__)
 
@@ -177,6 +177,7 @@ def logout():
 def guest_login():
     from app import db, bcrypt
     from app.models import User
+    from flask import session
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
     import random
@@ -184,12 +185,51 @@ def guest_login():
     random_suffix = ''.join(random.choices(string.ascii_letters + string.digits, k=5))
     guest_username = f"訪客_{random_suffix}"
     
-    hashed_pw = bcrypt.generate_password_hash('guestpassword').decode('utf-8')
+    guest_pw = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    hashed_pw = bcrypt.generate_password_hash(guest_pw).decode('utf-8')
     user = User(username=guest_username, email=f"{guest_username}@guest.local", password=hashed_pw, role='guest', auth_provider='guest')
     user.last_login = datetime.now(timezone.utc)
     db.session.add(user)
     db.session.commit()
     
     login_user(user)
-    flash(f'已使用訪客身分 ({guest_username}) 登入！', 'info')
+    session['guest_pw'] = guest_pw
+    
+    flash(f'''已為您建立專屬訪客帳號！請務必記下以下登入資訊：
+    <br><strong>帳號：</strong>{guest_username}
+    <br><strong>密碼：</strong>{guest_pw}
+    <hr style="margin:5px 0" />您可以隨時到「個人設定」將帳號轉正。''', 'warning')
     return redirect(url_for('main.home'))
+
+@auth.route("/upgrade_guest", methods=["POST"])
+@login_required
+def upgrade_guest():
+    from app import db, bcrypt
+    from app.models import User
+    if getattr(current_user, 'auth_provider', 'local') != 'guest':
+        flash('只有訪客帳號可以升級！', 'danger')
+        return redirect(url_for('main.profile'))
+        
+    new_email = request.form.get('new_email', '').strip()
+    new_password = request.form.get('new_password', '')
+    
+    if len(new_password) < 6:
+        flash('新密碼長度至少需要 6 分碼！', 'danger')
+        return redirect(url_for('main.profile'))
+        
+    existing_user = User.query.filter_by(email=new_email).first()
+    if existing_user:
+        flash('該 Email 已被註冊（或是被您的 Google 登入帳號綁定）。', 'danger')
+        return redirect(url_for('main.profile'))
+        
+    # Upgrade current user preserving ID and chat history
+    current_user.email = new_email
+    current_user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    current_user.role = 'student'
+    current_user.auth_provider = 'local'
+    if current_user.username.startswith('訪客_'):
+        current_user.username = current_user.username.replace('訪客_', '學員_')
+        
+    db.session.commit()
+    flash('帳號已成功升級轉正！已為您保留原本訪客的所有對話與學習紀錄！', 'success')
+    return redirect(url_for('main.profile'))

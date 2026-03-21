@@ -145,6 +145,17 @@ def home():
             db.session.commit()
         except Exception: db.session.rollback()
 
+    # Fix 5: theme preference column
+    try:
+        db.session.execute(text("SELECT preferred_theme FROM \"user\" LIMIT 1"))
+    except ProgrammingError:
+        db.session.rollback()
+        current_app.logger.warning("Adding preferred_theme to User table...")
+        try:
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS preferred_theme VARCHAR(20) DEFAULT 'sakura'"))
+            db.session.commit()
+        except Exception: db.session.rollback()
+
     # --- END HEALTH CHECK ---
 
     # Collaborative Garden Stats logic
