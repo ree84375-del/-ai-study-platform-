@@ -340,7 +340,7 @@
                 const prompt = desc.trim();
                 const encoded = encodeURIComponent(prompt);
                 const seed = Math.floor(Math.random() * 1000000);
-                const url = "https://pollinations.ai/p/" + encoded + "?width=1024&height=1024&seed=" + seed + "&nologo=true";
+                const url = "https://image.pollinations.ai/prompt/" + encoded + "?width=1024&height=1024&seed=" + seed + "&nologo=true";
                 
                 return '<div class="image-gen-container" style="position: relative; margin-top: 10px; background: #fafafa; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.05);">' +
                         '<div class="image-loader" style="padding: 30px; text-align: center; color: #888; font-size: 0.85rem; background: rgba(0,0,0,0.02);">' +
