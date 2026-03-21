@@ -522,10 +522,10 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                                     if 'gemma' in model_name:
                                         final_prompt = f"System Instruction: {full_system}\n\nUser: {prompt}"
                                         model = genai.GenerativeModel(model_name)
-                                        response = model.generate_content([final_prompt, image])
+                                        response = model.generate_content([final_prompt, image], request_options={"timeout": 15.0})
                                     else:
                                         model = genai.GenerativeModel(model_name, system_instruction=full_system, safety_settings=GEMINI_SAFETY_SETTINGS)
-                                        response = model.generate_content([prompt, image])
+                                        response = model.generate_content([prompt, image], request_options={"timeout": 15.0})
                                         
                                     if user:
                                         update_user_memory(user.id, f"視覺分析：{response.text[:100]}")
