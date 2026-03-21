@@ -53,6 +53,7 @@
              ondragover="event.preventDefault(); this.style.boxShadow='0 0 0 2px var(--color-primary)';" 
              ondragleave="this.style.boxShadow='0 -4px 15px rgba(0,0,0,0.03)';" 
              ondrop="handleDrop(event)">
+            <div id="command-suggestions" class="command-suggestions"></div>
             <!-- File input (hidden) -->
             <input type="file" id="image-upload" accept="image/*" style="display: none;">
             
@@ -681,6 +682,80 @@
         loadSessions(); // update sidebar selection
     });
 
+    // Admin Commands Logic
+    const commandSuggestions = document.getElementById('command-suggestions');
+    const adminCommands = [
+        { name: '/antigravity', desc: '啟動 Antigravity 極效修復模式', icon: 'rocket' },
+        { name: '/normal', desc: '恢復一般溫柔模式', icon: 'leaf' },
+        { name: '/status', desc: '查看系統狀態 (API、用戶數等)', icon: 'microchip' },
+        { name: '/broadcast', desc: '發布全站公告 (後接訊息)', icon: 'bullhorn' },
+        { name: '/clearkeys', desc: '清除所有失效的 API Key', icon: 'trash-can' },
+        { name: '/coach', desc: '切換為魔鬼教練模式', icon: 'fire' },
+        { name: '/senior', desc: '切換為學長模式', icon: 'user-graduate' },
+        { name: '/help', desc: '顯示完整管理員功能列表', icon: 'circle-question' }
+    ];
+    let selectedCommandIndex = -1;
+
+    function updateCommandSuggestions(filter = '') {
+        {% if current_user.is_admin %}
+        const filtered = adminCommands.filter(cmd => cmd.name.startsWith(filter));
+        if (filtered.length > 0 && filter.startsWith('/')) {
+            commandSuggestions.innerHTML = filtered.map((cmd, idx) => `
+                <div class="command-item ${idx === selectedCommandIndex ? 'active' : ''}" onclick="selectCommand('${cmd.name}')">
+                    <div class="command-icon"><i class="fa-solid fa-${cmd.icon}"></i></div>
+                    <div class="command-info">
+                        <span class="command-name">${cmd.name}</span>
+                        <span class="command-desc">${cmd.desc}</span>
+                    </div>
+                </div>
+            `).join('');
+            commandSuggestions.style.display = 'block';
+        } else {
+            commandSuggestions.style.display = 'none';
+        }
+        {% endif %}
+    }
+
+    window.selectCommand = function(cmdName) {
+        chatInput.value = cmdName + ' ';
+        commandSuggestions.style.display = 'none';
+        chatInput.focus();
+    };
+
+    chatInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (val.startsWith('/')) {
+            updateCommandSuggestions(val);
+        } else {
+            commandSuggestions.style.display = 'none';
+        }
+    });
+
+    chatInput.addEventListener('keydown', (e) => {
+        if (commandSuggestions.style.display === 'block') {
+            const items = commandSuggestions.querySelectorAll('.command-item');
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedCommandIndex = (selectedCommandIndex + 1) % items.length;
+                updateCommandSuggestions(chatInput.value);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedCommandIndex = (selectedCommandIndex - 1 + items.length) % items.length;
+                updateCommandSuggestions(chatInput.value);
+            } else if (e.key === 'Enter' && selectedCommandIndex > -1) {
+                e.preventDefault();
+                const activeItem = items[selectedCommandIndex];
+                if (activeItem) {
+                    const cmdName = activeItem.querySelector('.command-name').textContent;
+                    selectCommand(cmdName);
+                    selectedCommandIndex = -1;
+                }
+            } else if (e.key === 'Escape') {
+                commandSuggestions.style.display = 'none';
+            }
+        }
+    });
+
     // Initial setup
     chatInput.focus();
     loadSessions();
@@ -980,6 +1055,72 @@
             font-size: 0.95rem;
             padding: 10px 15px;
         }
+    }
+    # Command Suggestions
+    .command-suggestions {
+        position: absolute;
+        bottom: 100%;
+        left: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+        display: none;
+        z-index: 1000;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
+        margin-bottom: 10px;
+        animation: slideUp 0.2s ease;
+    }
+
+    @keyframes slideUp {
+        from { transform: translateY(10px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .command-item {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(0,0,0,0.03);
+        color: #333;
+    }
+
+    .command-item:last-child { border-bottom: none; }
+
+    .command-item:hover, .command-item.active {
+        background: rgba(106, 92, 230, 0.05);
+        color: var(--color-primary);
+    }
+
+    .command-icon {
+        width: 32px;
+        height: 32px;
+        background: rgba(106, 92, 230, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        font-size: 14px;
+    }
+
+    .command-info {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+    .command-name {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .command-desc {
+        font-size: 12px;
+        opacity: 0.6;
     }
 </style>
 {% endblock %}
