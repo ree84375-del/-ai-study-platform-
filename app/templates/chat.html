@@ -49,25 +49,25 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-        <div id="input-area" style="display: flex; gap: 10px; align-items: center; position: relative; border-radius: 10px; transition: border 0.3s;" 
+        <div id="input-area" style="display: flex; gap: 10px; align-items: center; position: relative; border-radius: 14px; transition: border 0.3s; background: linear-gradient(135deg, rgba(133,163,146,0.08), rgba(210,168,255,0.08)); padding: 12px; border: 2px solid rgba(133,163,146,0.2); box-shadow: 0 -4px 15px rgba(0,0,0,0.03);" 
              ondragover="event.preventDefault(); this.style.boxShadow='0 0 0 2px var(--color-primary)';" 
-             ondragleave="this.style.boxShadow='none';" 
+             ondragleave="this.style.boxShadow='0 -4px 15px rgba(0,0,0,0.03)';" 
              ondrop="handleDrop(event)">
             <!-- File input (hidden) -->
             <input type="file" id="image-upload" accept="image/*" style="display: none;">
             
             <button id="voice-input-btn" title="語音輸入"
-                style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
+                style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border); color: var(--color-primary); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
                 <i class="fa-solid fa-microphone"></i>
             </button>
             <button id="image-upload-btn" title="上傳圖片" onclick="document.getElementById('image-upload').click();"
-                style="background: none; border: 1px solid var(--color-border); color: var(--color-text_light); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
+                style="background: rgba(255,255,255,0.7); border: 1px solid var(--color-border); color: var(--color-accent); padding: 10px; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; transition: all 0.2s;">
                 <i class="fa-solid fa-image"></i>
             </button>
             <textarea id="chat-input" placeholder="{{ _t('chat_input_placeholder') }}" rows="1"
-                style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--color-border); outline: none; background: #fff; resize: none; overflow: hidden; font-family: inherit; font-size: 1rem; min-height: 52px; max-height: 150px;"></textarea>
+                style="flex-grow: 1; padding: 15px; border-radius: 10px; border: 1px solid rgba(133,163,146,0.3); outline: none; background: rgba(255,255,255,0.85); resize: none; overflow: hidden; font-family: inherit; font-size: 1rem; min-height: 52px; max-height: 150px; backdrop-filter: blur(5px);"></textarea>
             <button id="send-chat-btn"
-                style="background-color: var(--color-primary); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px;">
+                style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: bold; height: 45px; box-shadow: 0 2px 8px rgba(133,163,146,0.3); transition: all 0.2s;">
                 {{ _t('chat_send_btn') }}
             </button>
         </div>

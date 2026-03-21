@@ -135,17 +135,7 @@ def get_all_api_key_statuses():
     from app.utils.diagnostic_service import proactive_self_heal
     from app.models import APIKeyTracker
     
-    # EMERGENCY FORCE SYNC (Runs once upon deployment/reboot if needed)
-    global _emergency_sync_done
-    if '_emergency_sync_done' not in globals():
-        _emergency_sync_done = True
-        try:
-            # Clear all current tracked keys and re-initialize from .env
-            APIKeyTracker.query.delete()
-            db.session.commit()
-            print("EMERGENCY: API TRACKER FLUSHED")
-        except Exception: 
-            db.session.rollback()
+    # Sync keys to DB without destructive flush
 
     gemini_keys = get_gemini_keys()
     groq_keys = get_groq_keys()
@@ -484,8 +474,8 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
     """Unified wrapper for vision generation with randomized provider rotation (Gemini, Groq, Ollama)"""
     import base64
-    # Priority Injection: Ollama (Keyless-Local) -> Groq (Stable) -> Gemini (Fallback)
-    providers = ['ollama', 'groq', 'gemini']
+    # Priority: Gemini (Most Reliable) -> Groq (Backup) -> Ollama (Local, often offline)
+    providers = ['gemini', 'groq', 'ollama']
     errors = []
     
     # Simple Hash-based Cache (Saves API Quota)
