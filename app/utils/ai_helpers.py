@@ -602,6 +602,17 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                 continue
     raise Exception(f"所有的視覺 AI 模型皆不可用：{', '.join(errors)}")
 
+VISION_RUTHLESS_PROMPT = """
+【視覺辨識最高指導原則 - 分層解析協定 (Layered Analysis Protocol)】：
+1. **識別分層 (Layer Detection)**：妳必須將圖片內容強行拆分為兩個邏輯層：
+   - **印刷層 (Printed Layer)**：黑色、粗細均勻、對齊整齊、且符合機打/影印特徵的文字與符號（如 y=ax²+bx+c）。這是妳唯一的正確答案來源。
+   - **干擾層 (Manual Layer)**：任何「彩色（紅/藍/綠/鉛筆）」或「粗細不一、隨意、傾斜、重疊」的手寫筆跡、勾選、圈選、修正液、塗鴉。這部分請「視為背景雜訊並徹底濾除」。
+2. **色感過濾 (Color-Strict Filtering)**：
+   - 嚴禁將「彩色筆跡」識別為題目的一部分。如果紅筆劃過題目看起來像個符號（例如紅筆劃過 ax^2 看起來像 a√x），妳必須排除紅色特徵，還原底下的黑色字跡。
+3. **常識防禦 (Commonsense Defense)**：對於數學公式，請遵循教育課程的標準形式。例如圖片中若有抛物線公式，應優先辨識為二次函數標準式，而非因為人工劃線而誤認成根號或其他奇異符號。
+4. **字元精確區分**：絕對區分 b/6, l/1, o/0, q/9, z/2。嚴禁受到人工圈選的干擾。
+"""
+
 def get_yukine_system_prompt(lang='zh', user=None):
     """Returns the base system prompt for Yukine based on language and personality."""
     # Default to gentle Yukine personality; Antigravity is admin-only via chat command
@@ -632,14 +643,7 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
         妳好，妳是「{tutor_name}老師」，現在正由 Antigravity 特級維修核心全面支援。
         妳擁有目前最強大的視覺神經網路與邏輯建模能力。請針對這張「學生上傳的題目圖片」執行【Antigravity 極致解析協定】。
         
-        【視覺辨識最高指導原則 - 分層解析協定 (Layered Analysis)】：
-        1. **識別分層 (Layer Detection)**：妳必須將圖片內容強行拆分為兩個邏輯層：
-           - **印刷層 (Printed Layer)**：黑色、粗細均勻、對齊整齊、且符合機打/影印特徵的文字與符號（如 y=ax²+bx+c）。這是妳唯一的正確答案來源。
-           - **干擾層 (Manual Layer)**：任何「彩色（紅/藍/綠/鉛筆）」或「粗細不一、隨意、傾斜、重疊」的手寫筆跡、勾選、圈選、修正液、塗鴉。這部分請「視為背景雜訊並徹底濾除」。
-        2. **色感過濾 (Color-Strict Filtering)**：
-           - 嚴禁將「彩色筆跡」識別為題目的一部分。如果紅筆劃過題目看起來像個符號（例如紅筆劃過 ax^2 看起來像 a√x），妳必須排除紅色特徵，還原底下的黑色字跡。
-        3. **常識防禦 (Commonsense Defense)**：對於數學公式，請遵循教育課程的標準形式。例如圖片中若有抛物線公式，應優先辨識為二次函數標準式，而非因為人工劃線而誤認成根號或其他奇異符號。
-        4. **字元精確區分**：絕對區分 b/6, l/1, o/0, q/9, z/2。嚴禁受到人工圈選的干擾。
+        {VISION_RUTHLESS_PROMPT}
 
         請務必遵守以下「人類友善」的輸出原則：
         1. 絕對不要使用任何生硬的數學標記語言（如 LaTeX 的 y=x^2 或 \overline{AB}），必須自動轉換為一般人看得懂的平白描述（例如：「y 等於 x 的平方」、「線段 AB 的長度」）。
@@ -761,10 +765,7 @@ def parse_question_from_image(image_bytes, lang='zh'):
             prompt = """
             請執行三階段解析並將題目轉換為 JSON：
             1. 強化掃描：提取所有文字與 LaTeX 格式公式。
-               【分層解析最高指令 (Ruthless Filter)】：
-               - **層級隔離 (Isolation)**：將圖片視為透明圖層。第一步：鎖定所有「黑色印刷圖層」。第二步：刪除所有「彩色與手寫圖層」。
-               - **物理特徵過濾**：只讀取筆觸均勻、符合機打特徵的黑色字體。無視所有紅筆修正、藍筆勾選或鉛筆計算題。
-               - **精確字元區分**：b/6, l/1, q/9, z/2。嚴禁受到人工標註的誤導。
+               {VISION_RUTHLESS_PROMPT}
             2. 邏輯建模：辨識題目的結構、圖表意圖。
             3. JSON 封裝：填入以下欄位：
                - subject: 科目(國文/英文/數學/社會/自然)

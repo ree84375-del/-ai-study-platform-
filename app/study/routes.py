@@ -385,7 +385,7 @@ def tutor_chat():
                 return jsonify({'status': 'success', 'reply': '😎 **學長模式已啟動！**\n\n嘿嘿，學長我來陪你讀書囉～有什麼不懂的儘管問！'})
 
         if image_data:
-            from app.utils.ai_helpers import generate_vision_with_fallback
+            from app.utils.ai_helpers import generate_vision_with_fallback, VISION_RUTHLESS_PROMPT
             import base64
             # Image data is in data URI format: "data:image/jpeg;base64,/9j/4AAQSk..."
             if ',' in image_data:
@@ -394,9 +394,12 @@ def tutor_chat():
                 base64_str = image_data
             image_bytes = base64.b64decode(base64_str)
             
+            # Prepend the ruthless vision instructions to ensure manual marks are filtered
+            vision_prompt = f"{VISION_RUTHLESS_PROMPT}\n\n學生訊息：{user_msg_with_time}\n\n請根據圖片內容與上述分層指令進行解析。"
+            
             # Use generate_vision_with_fallback directly
             reply = generate_vision_with_fallback(
-                prompt=user_msg_with_time,
+                prompt=vision_prompt,
                 image_bytes=image_bytes,
                 system_instruction=context
             )
