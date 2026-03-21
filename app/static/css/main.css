@@ -25,11 +25,11 @@
     --color-bg: #faf9f6;
 }
 
-/* Mist Blue Theme - Soft Pale Blue (Light Mode - Eye Protection) */
+/* Mist Blue Theme w/ Warm Moonlight (Light Mode - Eye Protection) */
 [data-theme="moon"] {
     --color-primary: #5c7c99;      /* Slate Blue */
-    --color-secondary: #e2e8f0;    /* Muted Gray Blue */
-    --color-accent: #7b9acc;       /* Soft Blue Accent */
+    --color-secondary: #fef6e0;    /* Warm Pale Yellow (Moonlight glow) */
+    --color-accent: #dca750;       /* Warm Gold Accent */
     --color-bg: #f1f5f9;           /* Softest Pale Blue */
     --color-text_main: #1e293b;    /* Deep Slate */
     --color-text_light: #64748b;
@@ -72,7 +72,7 @@
     display: none !important;
 }
 
-/* Moonlight Vignette */
+/* Moonlight Vignette w/ Warm Glow */
 [data-theme="moon"] body::after {
     content: "";
     position: fixed;
@@ -80,7 +80,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at top right, rgba(241, 196, 15, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle at top right, rgba(246, 211, 101, 0.15) 0%, transparent 65%);
     pointer-events: none;
     z-index: 1000;
 }
