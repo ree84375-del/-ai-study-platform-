@@ -5,6 +5,7 @@ import secrets
 from datetime import datetime, timezone
 from sqlalchemy import text
 from sqlalchemy.exc import ProgrammingError
+from app.utils.i18n import _t
 
 auth = Blueprint('auth', __name__)
 
