@@ -427,7 +427,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             else:
                                 model = get_gemini_model(system_instruction=full_system)
                                 
-                            response = model.generate_content(final_prompt, request_options={"timeout": 6.0})
+                            response = model.generate_content(final_prompt, request_options={"timeout": 30.0})
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音：{response.text[:80]}")
                             mark_key_status('gemini', key, 'standby')
@@ -438,7 +438,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                             user_context = get_user_memory_context(user) if user else ""
                             full_system = f"{system_instruction}\n\n{user_context}"
                             messages = [{"role": "system", "content": full_system}, {"role": "user", "content": prompt}]
-                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages, timeout=6.0)
+                            response = client.chat.completions.create(model="llama-3.3-70b-versatile", messages=messages, timeout=30.0)
                             if user:
                                 update_user_memory(user.id, f"用戶：{prompt[:80]} -> 雪音(Groq)：{response.choices[0].message.content[:80]}")
                             mark_key_status('groq', key, 'standby')
