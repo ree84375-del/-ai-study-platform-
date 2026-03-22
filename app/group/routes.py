@@ -339,6 +339,25 @@ def group_dashboard(group_id):
                 if group_obj.teacher_id == current_user.id:
                     group_obj.has_ai = not group_obj.has_ai
                     db.session.commit()
+                    
+                    if group_obj.has_ai:
+                        # Auto-welcome message when invited
+                        from app.models import User, GroupMessage
+                        from app import bcrypt
+                        yukine = User.query.filter_by(username='雪音老師').first()
+                        if not yukine:
+                            yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
+                            db.session.add(yukine)
+                            db.session.commit()
+                        
+                        welcome_msg = GroupMessage(
+                            group_id=group_id,
+                            user_id=yukine.id,
+                            content="呀吼～雪音老師來啦！(๑•̀ㅂ•́)و✧ 大家有什麼學習上的問題，或是想跟我聊天，都可以隨時告訴我唷！"
+                        )
+                        db.session.add(welcome_msg)
+                        db.session.commit()
+                        
                     status = "開啟" if group_obj.has_ai else "關閉"
                     flash(f'雪音老師討論功能已{status}', 'info')
 
