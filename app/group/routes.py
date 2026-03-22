@@ -543,8 +543,7 @@ def group_dashboard(group_id):
                                    messages=messages, 
                                    announcements=announcements,
                                    assignments=sorted_assignments,
-                                   yukine_reminders=yukine_reminders,
-                                   yukine_welcome=yukine_welcome)
+                                   yukine_reminders=yukine_reminders)
 
     except Exception as e:
         err_msg = traceback.format_exc()
