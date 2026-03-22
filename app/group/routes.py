@@ -792,17 +792,38 @@ def ai_reply(group_id):
         curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
         context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
         
-        if yukine.ai_personality != '雪音-Antigravity輔助型':
-            yukine.ai_personality = '雪音-Antigravity輔助型'
+        # Determine personality from Teacher's setting
+        teacher = group_obj.teacher
+        personality_key = '雪音-溫柔型'
+        if teacher and teacher.ai_personality:
+            p_map = {
+                'ai_personality_gentle': '雪音-溫柔型',
+                'ai_personality_strict': '嚴厲教練',
+                'ai_personality_humor': '幽默學長',
+                '雪音-溫柔型': '雪音-溫柔型',
+                '雪音-嚴格型': '嚴厲教練',
+                '雪音-幽默型': '幽默學長',
+                '雪音-Antigravity輔助型': '雪音-Antigravity輔助型'
+            }
+            personality_key = p_map.get(teacher.ai_personality, teacher.ai_personality)
+            
+        # Ensure Yukine record reflects the chosen personality if needed (for memory etc)
+        if yukine and yukine.ai_personality != personality_key:
+            yukine.ai_personality = personality_key
             db.session.commit()
 
-        ai_reply_text = get_ai_tutor_response(
-            chat_history, 
-            context_with_time, 
-            personality_key='雪音-Antigravity輔助型', 
-            user=yukine,
-            image_bytes=image_bytes
-        )
+        from app.utils.ai_helpers import get_ai_tutor_response
+        try:
+            ai_reply_text = get_ai_tutor_response(
+                chat_history, 
+                context_with_time, 
+                personality_key=personality_key, 
+                user=yukine,
+                image_bytes=image_bytes
+            )
+        except Exception as e:
+            current_app.logger.error(f"AI Generation Error: {e}")
+            ai_reply_text = f"【核心連線異常】目前 AI 無法生成回覆，可能是金鑰已達上限或網路不穩。({str(e)})"
         
         db.session.refresh(last_msg)
         if last_msg.is_recalled:
