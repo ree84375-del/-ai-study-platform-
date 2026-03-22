@@ -375,10 +375,14 @@
 
             // 2. Handle Markdown Images ![alt](url)
             html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
-                return '<div class="image-gen-container" style="margin-top: 10px;">' +
+                const isAI = alt.includes('AI');
+                return '<div class="image-gen-container" style="margin-top: 10px; position: relative;">' +
                         '<img src="' + src + '" alt="' + alt + '" class="chat-image" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" ' +
-                             'onload="scrollToBottom()" ' +
-                             'onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'block\';">' +
+                             'onload="this.nextElementSibling.style.display=\'block\'; scrollToBottom();" ' +
+                             'onerror="this.style.display=\'none\'; this.nextElementSibling.nextElementSibling.style.display=\'block\';">' +
+                        '<div class="image-success" style="display: none; position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; backdrop-filter: blur(4px);">' +
+                            '<i class="fa-solid fa-check-circle" style="color: #4ade80;"></i> ' + (isAI ? '雪音已為您繪製完成' : '圖片已載入') +
+                        '</div>' +
                         '<div class="image-error" style="display: none; padding: 10px; color: #cc0000; font-size: 0.8rem;"><i class="fa-solid fa-triangle-exclamation"></i> 無法載入圖片</div>' +
                     '</div>';
             });
@@ -677,22 +681,41 @@
                     {% endif %}
                     {{ _t('chat_welcome_sub') }}
                 </p>
+                <div id="welcome-loader" style="margin-top: 15px; color: var(--color-primary); font-size: 0.9rem;">
+                    <i class="fa-solid fa-sync fa-spin"></i> 雪音正在為您準備專屬歡迎語...
+                </div>
             </div>
         `;
         loadSessions(); // update sidebar selection
         
+        async function fetchWelcomeMessage() {
+            if (activeSessionId) return;
+            try {
+                const res = await fetch("/api/study/personal_welcome");
+                const data = await res.json();
+                if (data.message) {
+                    addMessage('ai', data.message, true, false);
+                    if (autoSpeak) speak(data.message);
+                    return;
+                }
+            } catch (e) { console.error("Welcome API Error:", e); }
+            
+            // Fallback
+            {% if current_user.is_admin %}
+            addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
+            {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
+            addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
+            {% else %}
+            addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
+            {% endif %}
+        }
+
         // Auto Greeting based on user role
-        setTimeout(() => {
-            if (!activeSessionId) {
-                {% if current_user.is_admin %}
-                addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
-                {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
-                addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
-                {% else %}
-                addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
-                {% endif %}
-            }
-        }, 300);
+        setTimeout(async () => {
+            await fetchWelcomeMessage();
+            const loader = document.getElementById('welcome-loader');
+            if (loader) loader.style.display = 'none';
+        }, 500);
     });
 
     // Admin Commands Logic
@@ -773,16 +796,30 @@
     chatInput.focus();
     loadSessions();
 
-    // Auto Greeting based on user role
+    // Auto Greeting based on user role (initial load)
     setTimeout(() => {
         if (!activeSessionId) {
-            {% if current_user.is_admin %}
-            addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
-            {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
-            addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
-            {% else %}
-            addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
-            {% endif %}
+            // Re-fetch or use static if desired, but let's call the same logic
+            // We need the function to be accessible or just re-implement briefly
+            fetch("/api/study/personal_welcome")
+                .then(r => r.json())
+                .then(data => {
+                    if (data.message && !activeSessionId) {
+                        addMessage('ai', data.message, true, false);
+                        if (autoSpeak) speak(data.message);
+                    }
+                })
+                .catch(() => {
+                    if (!activeSessionId) {
+                        {% if current_user.is_admin %}
+                        addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
+                        {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
+                        addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
+                        {% else %}
+                        addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
+                        {% endif %}
+                    }
+                });
         }
     }, 1000);
 </script>
@@ -1134,6 +1171,35 @@
     .command-desc {
         font-size: 12px;
         opacity: 0.6;
+    }
+
+    /* Premium Calculation Result Styling */
+    .calc-result {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(133, 163, 146, 0.1);
+        border: 1px solid rgba(133, 163, 146, 0.3);
+        color: var(--color-primary);
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        margin: 2px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        cursor: help;
+        transition: all 0.2s;
+    }
+    
+    .calc-result:hover {
+        background: rgba(133, 163, 146, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    
+    .calc-result i {
+        font-size: 0.9rem;
+        opacity: 0.8;
     }
 </style>
 {% endblock %}

@@ -247,15 +247,15 @@ def group_dashboard(group_id):
             try:
                 yukine_user = User.query.filter_by(username='雪音老師').first()
                 if yukine_user:
-                    # Check if we already welcomed this user recently (last 2 hours)
-                    two_hours_ago = datetime.now(timezone.utc) - timedelta(hours=2)
+                    # Check if we already welcomed this user recently (last 1 minute)
+                    one_minute_ago = datetime.now(timezone.utc) - timedelta(minutes=1)
                     recent_welcome = GroupMessage.query.filter_by(
                         group_id=group_id, 
                         user_id=yukine_user.id
                     ).filter(
                         GroupMessage.content.like(f"%{current_user.username}%")
                     ).filter(
-                        GroupMessage.created_at >= two_hours_ago
+                        GroupMessage.created_at >= one_minute_ago
                     ).first()
                     
                     if not recent_welcome:
@@ -686,28 +686,72 @@ def ai_reply(group_id):
 
         greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
         is_greeting = any(g in last_msg.content.lower() for g in greetings)
+        is_mention = '雪音' in last_msg.content or '老師' in last_msg.content
+        is_asking_about_upload = any(w in last_msg.content for w in ['上傳', '圖片', '這張', '那張', '作業', '看一下'])
         
-        trigger_ai = True
+        # trigger_ai = is_greeting or is_mention or is_asking_about_upload or last_msg.image_data
         
-        if not trigger_ai:
-            return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
+        # if not trigger_ai:
+        #     return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
+        
+        # User requested: AI replies to every message
+        trigger_ai = True 
 
         recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
         chat_history = []
         if not yukine:
-            yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
-            db.session.add(yukine)
-            db.session.commit()
+            try:
+                yukine = User(
+                    username='雪音老師', 
+                    email='yukine_bot@internal.ai', 
+                    password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), 
+                    role='teacher',
+                    ai_personality='雪音-溫柔型'
+                )
+                db.session.add(yukine)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                yukine = User.query.filter_by(username='雪音老師').first()
         
         for m in reversed(recent_msgs):
             author_name = m.author.username if m.author else "匿名用戶"
-            role = 'assistant' if m.user_id == yukine.id else 'user'
+            role = 'assistant' if yukine and m.user_id == yukine.id else 'user'
             content_with_id = f"{author_name}(ID:{m.user_id}): {m.content}"
             chat_history.append({'role': role, 'content': content_with_id})
         
         from app.utils.ai_helpers import get_ai_tutor_response
         
         user_context = last_msg.content
+        image_bytes = None
+        
+        # Determine if we should use vision
+        target_img_data = last_msg.image_data
+        
+        # If the user is asking about an upload but didn't attach one to the CURRENT message, 
+        # look at the parent or the very last image in history
+        if not target_img_data and is_asking_about_upload:
+            if last_msg.parent_id:
+                p_msg = GroupMessage.query.get(last_msg.parent_id)
+                if p_msg and p_msg.image_data:
+                    target_img_data = p_msg.image_data
+            if not target_img_data:
+                # Search back 5 messages for an image
+                for m in recent_msgs[:5]:
+                    if m.image_data:
+                        target_img_data = m.image_data
+                        break
+        
+        if target_img_data:
+            import base64
+            try:
+                if ',' in target_img_data:
+                    image_bytes = base64.b64decode(target_img_data.split(',')[1])
+                else:
+                    image_bytes = base64.b64decode(target_img_data)
+            except Exception as e:
+                current_app.logger.error(f"Failed to decode image: {e}")
+
         if last_msg.parent_id:
             p_msg = GroupMessage.query.get(last_msg.parent_id)
             if p_msg:
@@ -715,7 +759,14 @@ def ai_reply(group_id):
                 
         curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
         context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
-        ai_reply_text = get_ai_tutor_response(chat_history, context_with_time, personality_key='雪音-溫柔型')
+        
+        ai_reply_text = get_ai_tutor_response(
+            chat_history, 
+            context_with_time, 
+            personality_key='雪音-溫柔型', 
+            image_bytes=image_bytes,
+            user=yukine
+        )
         
         db.session.refresh(last_msg)
         if last_msg.is_recalled:
