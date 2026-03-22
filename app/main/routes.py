@@ -10,6 +10,35 @@ main = Blueprint('main', __name__)
 def ping():
     return jsonify({"status": "ok", "message": "Backend is alive!"})
 
+@main.route('/api/debug_ai_reply')
+def debug_ai_reply():
+    try:
+        from app.models import GroupMessage, Group, User
+        from app.utils.ai_helpers import get_ai_tutor_response
+        from datetime import datetime, timedelta, timezone
+        
+        group_id = 1
+        last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
+        yukine = User.query.filter_by(username='雪音老師').first()
+        
+        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(3).all()
+        chat_history = []
+        for m in reversed(recent_msgs):
+            author_name = m.author.username if m.author else "匿名用戶"
+            role = 'assistant' if (yukine and m.user_id == yukine.id) else 'user'
+            content_with_id = f"{author_name}(ID:{m.user_id}): {m.content}"
+            chat_history.append({'role': role, 'content': content_with_id})
+            
+        user_context = last_msg.content if last_msg else "測試"
+        curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+        context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
+        
+        ai_reply_text = get_ai_tutor_response(chat_history, context_with_time, personality_key='雪音-溫柔型')
+        return jsonify({"status": "SUCCESS", "reply": ai_reply_text})
+    except Exception as e:
+        import traceback
+        return "ERROR:\n" + traceback.format_exc(), 500
+
 @main.before_app_request
 def before_request():
     from app import db

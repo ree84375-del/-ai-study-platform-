@@ -339,14 +339,14 @@ def get_gemini_model(system_instruction=None, tools=None):
     try:
         valid_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
         
-        # Priority list of models (Prefer Gemma 3 for free tier limits)
+        # Priority list of models (Prefer Flash to guarantee responses under 10 seconds for Vercel)
         preferred = [
+            'models/gemini-1.5-flash',
+            'models/gemini-2.0-flash-lite',
+            'models/gemini-2.0-flash',
             'models/gemma-3-12b-it',
             'models/gemma-3-4b-it',
             'models/gemma-3-27b-it',
-            'models/gemini-1.5-flash',
-            'models/gemini-2.0-flash',
-            'models/gemini-2.0-flash-lite',
             'models/gemini-1.5-pro',
         ]
         
@@ -368,7 +368,7 @@ def get_gemini_model(system_instruction=None, tools=None):
         print(f"Failed to auto-discover models: {e}")
         
     # Ultimate fallback if everything fails
-    _cached_gemini_model_name = 'models/gemma-3-4b-it'
+    _cached_gemini_model_name = 'models/gemini-1.5-flash'
     return genai.GenerativeModel(_cached_gemini_model_name, tools=tools)
 
 # Groq Keys Pool - Load from environment variable (comma-separated)
