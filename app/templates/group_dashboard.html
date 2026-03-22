@@ -49,6 +49,37 @@
                 </p>
             </div>
         </div>
+        {% if group.teacher_id == current_user.id %}
+        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
+            <form method="POST" action="" style="display: flex; align-items: center; gap: 8px;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="action" value="update_ai_personality"/>
+                <label style="font-size: 0.75rem; color: var(--color-text_light); font-weight: bold;">AI 性格:</label>
+                <select name="ai_personality" onchange="this.form.submit()" style="padding: 4px 10px; border-radius: 12px; border: 1px solid var(--color-primary); font-size: 0.8rem; background: white; color: var(--color-primary); cursor: pointer; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>🌸 溫柔模式</option>
+                    <option value="雪音-嚴格型" {% if current_user.ai_personality == '雪音-嚴格型' %}selected{% endif %}>🔥 嚴厲模式</option>
+                    <option value="雪音-幽默型" {% if current_user.ai_personality == '雪音-幽默型' %}selected{% endif %}>🤣 幽默模式</option>
+                    <option value="雪音-Antigravity輔助型" {% if current_user.ai_personality == '雪音-Antigravity輔助型' or not current_user.ai_personality %}selected{% endif %}>🚀 修復模式</option>
+                </select>
+            </form>
+            <form method="POST" action="">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="action" value="toggle_ai"/>
+                <button type="submit" class="btn" style="padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; border: none; transition: all 0.2s; 
+                    {% if group.has_ai %}
+                        background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary);
+                    {% else %}
+                        background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    {% endif %}">
+                    {% if group.has_ai %}
+                        <i class="fa-solid fa-person-walking-arrow-right"></i> {{ _t('rest_yukine_btn') }}
+                    {% else %}
+                        <i class="fa-solid fa-snowflake"></i> {{ _t('invite_yukine_btn') }}
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+        {% else %}
         <form method="POST" action="">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="action" value="toggle_ai"/>
@@ -65,6 +96,7 @@
                 {% endif %}
             </button>
         </form>
+        {% endif %}
     </div>
 
     <!-- Announcement Board (Class Groups Only) -->

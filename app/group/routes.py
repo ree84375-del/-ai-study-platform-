@@ -264,17 +264,16 @@ def group_dashboard(group_id):
                     yukine_user.ai_personality = '雪音-Antigravity輔助型'
                     db.session.commit()
                 
-                # Force welcome if chat is empty OR no welcome in last 1 min
-                msg_count = GroupMessage.query.filter_by(group_id=group_id).count()
-                one_minute_ago = datetime.now(timezone.utc) - timedelta(minutes=1)
-                recent_welcome = GroupMessage.query.filter_by(
-                    group_id=group_id, 
-                    user_id=yukine_user.id
-                ).filter(
-                    GroupMessage.created_at >= one_minute_ago
-                ).first()
+                # Use session to ensure we only greet ONCE per "entry" (session-based)
+                from flask import session
+                session_greet_key = f'yukine_greeted_{group_id}'
                 
-                if msg_count == 0 or not recent_welcome:
+                # Force welcome if chat is empty OR not greeted in this session
+                msg_count = GroupMessage.query.filter_by(group_id=group_id).count()
+                
+                if msg_count == 0 or not session.get(session_greet_key):
+                    # Flag as greeted for this session
+                    session[session_greet_key] = True
                     # Determine role for greeting
                     role = 'student'
                     if current_user.is_admin: role = 'admin'
@@ -372,6 +371,15 @@ def group_dashboard(group_id):
                         group_obj.name = new_name
                         db.session.commit()
                         flash('群組設定已更新', 'success')
+
+            elif action == 'update_ai_personality':
+                current_app.logger.info("Updating AI personality...")
+                if group_obj.teacher_id == current_user.id:
+                    new_p = request.form.get('ai_personality')
+                    if new_p:
+                        current_user.ai_personality = new_p
+                        db.session.commit()
+                        flash(f'雪音老師已切換至 {new_p.replace("雪音-", "")} 模式！✨', 'success')
             
             elif action == 'toggle_ai':
                 current_app.logger.info("Toggling AI...")
