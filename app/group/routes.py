@@ -681,8 +681,14 @@ def ai_reply(group_id):
         last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
         yukine = User.query.filter_by(username='雪音老師').first()
         
-        if not last_msg or (yukine and last_msg.user_id == yukine.id):
-            return jsonify({'status': 'error', 'message': 'No user message to reply to'}), 400
+        # For debugging: log the IDs
+        yukine_id = yukine.id if yukine else "None"
+        current_app.logger.info(f"AI Reply [Group {group_id}]: last_msg.user_id={last_msg.user_id if last_msg else 'None'}, yukine.id={yukine_id}")
+        
+        # User requested: AI replies to every message. 
+        # Even if the last message was from "yukine", we proceed if it's triggered.
+        if not last_msg:
+            return jsonify({'status': 'error', 'message': 'No messages found in group'}), 400
 
         greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
         is_greeting = any(g in last_msg.content.lower() for g in greetings)
