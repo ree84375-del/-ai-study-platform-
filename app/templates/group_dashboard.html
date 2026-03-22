@@ -1912,29 +1912,7 @@ function cancelAiDraft() {
         });
     }
 
-    // Automatic Greeting - once per session per language
-    const chatSessionKey = `yukine_greeted_dashboard_${CONFIG.groupId}_${CONFIG.userLang}`;
-    if (!sessionStorage.getItem(chatSessionKey)) {
-        setTimeout(() => { 
-            if (messageContainer) {
-                let greeting = "";
-                if (CONFIG.isAdmin) {
-                    greeting = "{{ _t('chat_admin_greeting') }}";
-                } else if (CONFIG.userRole === 'guest') {
-                    greeting = "{{ _t('chat_guest_greeting') }}";
-                } else {
-                    greeting = "{{ _t('chat_user_greeting', username=current_user.username) | safe }}";
-                }
-                
-                appendMessage({ 
-                    is_ai: true, is_mine: false, is_special: true,
-                    username: "{{ _t('chat_label_yukine') }}", 
-                    content: greeting
-                });
-                sessionStorage.setItem(chatSessionKey, 'true');
-            }
-        }, 1500);
-    }
+    // Automatic Greeting (Removed: Now handled natively by backend DB insertion upon user entry)
 });
 
 // --- Global Functions ---

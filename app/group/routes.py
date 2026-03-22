@@ -241,30 +241,47 @@ def group_dashboard(group_id):
             flash('您沒有權限進入此討論板', 'danger')
             return redirect(url_for('group.groups'))
             
-        # --- EPHEMERAL WELCOME GREETING ---
-        # Generate a personalized greeting for the current user in their current language.
-        # This is NOT saved to the DB to avoid clutter/spam and ensure correct language display.
-        yukine_welcome = None
-        try:
-            lang = getattr(current_user, 'language', 'zh')
-            # Determine role for greeting
-            role = 'student'
-            if current_user.is_admin: role = 'admin'
-            elif current_user.role == 'teacher' or group_obj.teacher_id == current_user.id: role = 'teacher'
-            elif current_user.role == 'guest': role = 'guest'
-            
-            # Pick random greeting based on role
-            import random
-            if role == 'admin': greeting_num = random.randint(1, 15)
-            elif role == 'teacher': greeting_num = random.randint(1, 15)
-            elif role == 'student': greeting_num = random.randint(1, 15)
-            else: greeting_num = random.randint(1, 15)
-            
-            greeting_key = f'yukine_welcome_{role}_{greeting_num}'
-            yukine_welcome = _t(greeting_key, lang, username=current_user.username)
-            current_app.logger.info(f"Generated ephemeral welcome for {current_user.username} in {lang}")
-        except Exception as welcome_e:
-            current_app.logger.error(f"Ephemeral welcome generation failed: {welcome_e}")
+        # --- BACKEND PERSISTENT WELCOME (User Request) ---
+        # 只要有群組的人點入就發送一條歡迎語
+        if group_obj.has_ai:
+            try:
+                yukine_user = User.query.filter_by(username='雪音老師').first()
+                if yukine_user:
+                    # Check if we already welcomed this user recently (last 2 hours)
+                    two_hours_ago = datetime.now(timezone.utc) - timedelta(hours=2)
+                    recent_welcome = GroupMessage.query.filter_by(
+                        group_id=group_id, 
+                        user_id=yukine_user.id
+                    ).filter(
+                        GroupMessage.content.like(f"%{current_user.username}%")
+                    ).filter(
+                        GroupMessage.created_at >= two_hours_ago
+                    ).first()
+                    
+                    if not recent_welcome:
+                        # Determine role for greeting
+                        role = 'student'
+                        if current_user.is_admin: role = 'admin'
+                        elif current_user.role == 'teacher' or group_obj.teacher_id == current_user.id: role = 'teacher'
+                        elif current_user.role == 'guest': role = 'guest'
+                        
+                        import random
+                        greeting_num = random.randint(1, 15)
+                        lang = getattr(current_user, 'language', 'zh')
+                        greeting_key = f'yukine_welcome_{role}_{greeting_num}'
+                        welcome_text = _t(greeting_key, lang, username=current_user.username)
+                        
+                        welcome_msg = GroupMessage(
+                            group_id=group_id,
+                            user_id=yukine_user.id,
+                            content=welcome_text
+                        )
+                        db.session.add(welcome_msg)
+                        db.session.commit()
+                        current_app.logger.info(f"Generated BACKEND welcome for {current_user.username}")
+            except Exception as e:
+                db.session.rollback()
+                current_app.logger.error(f"Backend welcome generation failed: {e}")
         # --- END WELCOME ---
 
         if request.method == 'POST':
@@ -652,101 +669,116 @@ def delete_message(message_id):
 @group.route('/api/groups/<int:group_id>/ai_reply', methods=['POST'], strict_slashes=False)
 @login_required
 def ai_reply(group_id):
-    current_app.logger.info(f"AI Reply triggered for group {group_id} by user {current_user.username}")
-    from app import db, bcrypt
-    from app.models import User, Group, GroupMessage
-    import random
-    
-    group_obj = Group.query.get_or_404(group_id)
-    if not group_obj.has_ai:
-        return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
+    try:
+        current_app.logger.info(f"AI Reply triggered for group {group_id} by user {current_user.username}")
+        from app import db, bcrypt
+        from app.models import User, Group, GroupMessage
+        import random
         
-    # Get last message from user to react to
-    last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
-    yukine = User.query.filter_by(username='雪音老師').first()
-    
-    if not last_msg or (yukine and last_msg.user_id == yukine.id):
-        return jsonify({'status': 'error', 'message': 'No user message to reply to'}), 400
-
-    # AI Trigger Logic
-    greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
-    is_greeting = any(g in last_msg.content.lower() for g in greetings)
-    
-    # 只要有邀請老師進入群組，則 100% 機率必定回覆
-    trigger_ai = True
-    
-    if not trigger_ai:
-        current_app.logger.info(f"AI skipped reply for group {group_id} (Random skip)")
-        return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
-
-    # Generate AI Response
-    recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
-    chat_history = []
-    if not yukine:
-        yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
-        db.session.add(yukine)
-        db.session.commit()
-    
-    for m in reversed(recent_msgs):
-        author_name = m.author.username if m.author else "匿名用戶"
-        role = 'assistant' if m.user_id == yukine.id else 'user'
-        # Include username + short unique ID in content for perfect identity tracking
-        # even if filenames or display names were ever non-unique.
-        content_with_id = f"{author_name}(ID:{m.user_id}): {m.content}"
-        chat_history.append({'role': role, 'content': content_with_id})
-    
-    from app.utils.ai_helpers import get_ai_tutor_response
-    
-    # Prepare context if this is a reply
-    user_context = last_msg.content
-    if last_msg.parent_id:
-        p_msg = GroupMessage.query.get(last_msg.parent_id)
-        if p_msg:
-            user_context = f"(正在回覆 {p_msg.author.username} 說過的話: \"{p_msg.content}\") -> {last_msg.content}"
+        group_obj = Group.query.get_or_404(group_id)
+        if not group_obj.has_ai:
+            return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
             
-    # Use Taiwan Time (UTC+8)
-    curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-    context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
-    ai_reply_text = get_ai_tutor_response(chat_history, context_with_time, personality_key='雪音-溫柔型')
-    
-    # 最終檢查：在存檔前確認父訊息是否已被收回 (避免時間差導致聯動失效)
-    db.session.refresh(last_msg)
-    if last_msg.is_recalled:
-        current_app.logger.info(f"AI reply cancelled for group {group_id} because parent msg {last_msg.id} was recalled while thinking.")
-        return jsonify({'status': 'skipped', 'message': 'Parent message recalled'})
+        last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
+        yukine = User.query.filter_by(username='雪音老師').first()
+        
+        if not last_msg or (yukine and last_msg.user_id == yukine.id):
+            return jsonify({'status': 'error', 'message': 'No user message to reply to'}), 400
 
-    if ai_reply_text:
-        ai_msg = GroupMessage(
-            group_id=group_id, 
-            user_id=yukine.id, 
-            content=ai_reply_text,
-            parent_id=last_msg.id  # 建立關聯以便聯動收回
-        )
-        db.session.add(ai_msg)
-        db.session.commit()
+        greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
+        is_greeting = any(g in last_msg.content.lower() for g in greetings)
         
-        # Prepare parent info for frontend UI
-        parent_preview = {
-            'username': last_msg.author.username,
-            'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
-        }
+        trigger_ai = True
         
-        return jsonify({
-            'status': 'success',
-            'ai_message': {
-                'id': ai_msg.id,
-                'content': ai_msg.content,
-                'username': '雪音老師',
-                'user_id': yukine.id,
-                'is_mine': False,
-                'is_ai': True,
-                'created_at': ai_msg.created_at.isoformat() + 'Z',
-                'parent_id': ai_msg.parent_id,
-                'parent_preview': parent_preview
+        if not trigger_ai:
+            return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
+
+        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
+        chat_history = []
+        if not yukine:
+            yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
+            db.session.add(yukine)
+            db.session.commit()
+        
+        for m in reversed(recent_msgs):
+            author_name = m.author.username if m.author else "匿名用戶"
+            role = 'assistant' if m.user_id == yukine.id else 'user'
+            content_with_id = f"{author_name}(ID:{m.user_id}): {m.content}"
+            chat_history.append({'role': role, 'content': content_with_id})
+        
+        from app.utils.ai_helpers import get_ai_tutor_response
+        
+        user_context = last_msg.content
+        if last_msg.parent_id:
+            p_msg = GroupMessage.query.get(last_msg.parent_id)
+            if p_msg:
+                user_context = f"(正在回覆 {p_msg.author.username} 說過的話: \"{p_msg.content}\") -> {last_msg.content}"
+                
+        curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
+        context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
+        ai_reply_text = get_ai_tutor_response(chat_history, context_with_time, personality_key='雪音-溫柔型')
+        
+        db.session.refresh(last_msg)
+        if last_msg.is_recalled:
+            return jsonify({'status': 'skipped', 'message': 'Parent message recalled'})
+
+        if ai_reply_text:
+            ai_msg = GroupMessage(
+                group_id=group_id, 
+                user_id=yukine.id, 
+                content=ai_reply_text,
+                parent_id=last_msg.id
+            )
+            db.session.add(ai_msg)
+            db.session.commit()
+            
+            parent_preview = {
+                'username': last_msg.author.username,
+                'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
             }
-        })
-    
-    return jsonify({'status': 'error', 'message': 'AI failed to generate reply'}), 500
+            
+            return jsonify({
+                'status': 'success',
+                'ai_message': {
+                    'id': ai_msg.id,
+                    'content': ai_msg.content,
+                    'username': '雪音老師',
+                    'user_id': yukine.id,
+                    'is_mine': False,
+                    'is_ai': True,
+                    'created_at': ai_msg.created_at.isoformat() + 'Z',
+                    'parent_id': ai_msg.parent_id,
+                    'parent_preview': parent_preview
+                }
+            })
+        
+        return jsonify({'status': 'error', 'message': 'AI failed to generate reply'}), 500
+    except Exception as e:
+        import traceback
+        err_msg = traceback.format_exc()
+        try:
+            from app.models import User, GroupMessage
+            from app import db
+            yukine = User.query.filter_by(username='雪音老師').first()
+            if yukine:
+                err_record = GroupMessage(group_id=group_id, user_id=yukine.id, content=f"【DEBUG ERROR】:\n{err_msg}")
+                db.session.add(err_record)
+                db.session.commit()
+                return jsonify({
+                    'status': 'success',
+                    'ai_message': {
+                        'id': err_record.id,
+                        'content': err_record.content,
+                        'username': '雪音老師',
+                        'user_id': yukine.id,
+                        'is_mine': False,
+                        'is_ai': True,
+                        'created_at': err_record.created_at.isoformat() + 'Z'
+                    }
+                })
+        except:
+            pass
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @group.route('/api/groups/<int:group_id>/assignment/recognize', methods=['POST'], strict_slashes=False)
 @login_required
