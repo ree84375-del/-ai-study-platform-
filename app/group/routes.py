@@ -541,7 +541,6 @@ def group_dashboard(group_id):
 
         current_app.logger.info("Step 6: Rendering template")
         if group_obj.teacher_id == current_user.id:
-            from datetime import datetime
             now = datetime.now(timezone.utc)
             
             # Check assignments that have passed or are approaching
@@ -744,6 +743,9 @@ def ai_reply(group_id):
         # User requested: AI replies to every message
         trigger_ai = True 
 
+        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
+        chat_history = []
+        
         for m in reversed(recent_msgs):
             author_name = m.author.username if m.author else "匿名用戶"
             role = 'assistant' if yukine and m.user_id == yukine.id else 'user'
