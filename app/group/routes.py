@@ -245,40 +245,51 @@ def group_dashboard(group_id):
         # 只要有群組的人點入就發送一條歡迎語
         if group_obj.has_ai:
             try:
+                # Ensure Yukon exists
                 yukine_user = User.query.filter_by(username='雪音老師').first()
-                if yukine_user:
-                    # Check if we already welcomed this user recently (last 1 minute)
-                    one_minute_ago = datetime.now(timezone.utc) - timedelta(minutes=1)
-                    recent_welcome = GroupMessage.query.filter_by(
-                        group_id=group_id, 
-                        user_id=yukine_user.id
-                    ).filter(
-                        GroupMessage.content.like(f"%{current_user.username}%")
-                    ).filter(
-                        GroupMessage.created_at >= one_minute_ago
-                    ).first()
+                if not yukine_user:
+                    yukine_user = User(
+                        username='雪音老師', 
+                        email='yukine_bot@internal.ai', 
+                        password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), 
+                        role='teacher',
+                        ai_personality='雪音-溫柔型'
+                    )
+                    db.session.add(yukine_user)
+                    db.session.commit()
+                
+                # Check for recent greeting (Simplified: just ANY message from Yukine in last 1 min)
+                # To be more precise, we check if she has said something to this user.
+                # But even a general hello is better than nothing.
+                one_minute_ago = datetime.now(timezone.utc) - timedelta(minutes=1)
+                recent_welcome = GroupMessage.query.filter_by(
+                    group_id=group_id, 
+                    user_id=yukine_user.id
+                ).filter(
+                    GroupMessage.created_at >= one_minute_ago
+                ).first()
+                
+                if not recent_welcome:
+                    # Determine role for greeting
+                    role = 'student'
+                    if current_user.is_admin: role = 'admin'
+                    elif current_user.role == 'teacher' or group_obj.teacher_id == current_user.id: role = 'teacher'
+                    elif current_user.role == 'guest': role = 'guest'
                     
-                    if not recent_welcome:
-                        # Determine role for greeting
-                        role = 'student'
-                        if current_user.is_admin: role = 'admin'
-                        elif current_user.role == 'teacher' or group_obj.teacher_id == current_user.id: role = 'teacher'
-                        elif current_user.role == 'guest': role = 'guest'
-                        
-                        import random
-                        greeting_num = random.randint(1, 15)
-                        lang = getattr(current_user, 'language', 'zh')
-                        greeting_key = f'yukine_welcome_{role}_{greeting_num}'
-                        welcome_text = _t(greeting_key, lang, username=current_user.username)
-                        
-                        welcome_msg = GroupMessage(
-                            group_id=group_id,
-                            user_id=yukine_user.id,
-                            content=welcome_text
-                        )
-                        db.session.add(welcome_msg)
-                        db.session.commit()
-                        current_app.logger.info(f"Generated BACKEND welcome for {current_user.username}")
+                    import random
+                    greeting_num = random.randint(1, 15)
+                    lang = getattr(current_user, 'language', 'zh')
+                    greeting_key = f'yukine_welcome_{role}_{greeting_num}'
+                    welcome_text = _t(greeting_key, lang, username=current_user.username)
+                    
+                    welcome_msg = GroupMessage(
+                        group_id=group_id,
+                        user_id=yukine_user.id,
+                        content=welcome_text
+                    )
+                    db.session.add(welcome_msg)
+                    db.session.commit()
+                    current_app.logger.info(f"Generated BACKEND welcome for {current_user.username}")
             except Exception as e:
                 db.session.rollback()
                 current_app.logger.error(f"Backend welcome generation failed: {e}")
@@ -681,12 +692,26 @@ def ai_reply(group_id):
         last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
         yukine = User.query.filter_by(username='雪音老師').first()
         
+        # Ensure Yukine exists even here
+        if not yukine:
+            try:
+                yukine = User(
+                    username='雪音老師', 
+                    email='yukine_bot@internal.ai', 
+                    password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), 
+                    role='teacher',
+                    ai_personality='雪音-溫柔型'
+                )
+                db.session.add(yukine)
+                db.session.commit()
+            except Exception:
+                db.session.rollback()
+                yukine = User.query.filter_by(username='雪音老師').first()
+
         # For debugging: log the IDs
         yukine_id = yukine.id if yukine else "None"
         current_app.logger.info(f"AI Reply [Group {group_id}]: last_msg.user_id={last_msg.user_id if last_msg else 'None'}, yukine.id={yukine_id}")
         
-        # User requested: AI replies to every message. 
-        # Even if the last message was from "yukine", we proceed if it's triggered.
         if not last_msg:
             return jsonify({'status': 'error', 'message': 'No messages found in group'}), 400
 
@@ -788,10 +813,12 @@ def ai_reply(group_id):
             db.session.add(ai_msg)
             db.session.commit()
             
-            parent_preview = {
-                'username': last_msg.author.username,
-                'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
-            }
+            parent_preview = None
+            if last_msg.author:
+                parent_preview = {
+                    'username': last_msg.author.username,
+                    'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
+                }
             
             return jsonify({
                 'status': 'success',
@@ -808,7 +835,23 @@ def ai_reply(group_id):
                 }
             })
         
-        return jsonify({'status': 'error', 'message': 'AI failed to generate reply'}), 500
+        # If ai_reply_text is empty, return an error message recorded in chat
+        reason = "AI 生成結果為空，可能是 API 金鑰次數已達上限。"
+        err_msg = GroupMessage(group_id=group_id, user_id=yukine.id, content=f"【系統通知】老師現在太忙了，沒辦法回覆唷。({reason})")
+        db.session.add(err_msg)
+        db.session.commit()
+        return jsonify({
+            'status': 'success',
+            'ai_message': {
+                'id': err_msg.id,
+                'content': err_msg.content,
+                'username': '雪音老師',
+                'user_id': yukine.id,
+                'is_mine': False,
+                'is_ai': True,
+                'created_at': err_msg.created_at.isoformat() + 'Z'
+            }
+        })
     except Exception as e:
         import traceback
         err_msg = traceback.format_exc()
