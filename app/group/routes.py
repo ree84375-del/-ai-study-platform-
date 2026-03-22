@@ -831,7 +831,7 @@ def ai_reply(group_id):
             )
         except Exception as e:
             current_app.logger.error(f"AI Generation Error: {e}")
-            ai_reply_text = f"【核心連線異常】目前 AI 無法生成回覆，可能是金鑰已達上限或網路不穩。({str(e)})"
+            ai_reply_text = f"【雪音老師通訊中斷】哎呀... 目前核心連線有點擁擠（或額度用完囉），請稍等 30 秒再試試看！(T_T)\n(詳細錯誤：{str(e)})"
         
         db.session.refresh(last_msg)
         if last_msg.is_recalled:

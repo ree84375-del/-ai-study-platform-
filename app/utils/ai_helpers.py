@@ -172,10 +172,17 @@ def get_gemini_model(system_instruction=None, tools=None):
     return genai.GenerativeModel(_cached_gemini_model_name, tools=tools)
 
 def generate_text_with_fallback(prompt, system_instruction=None, user=None):
-    providers = ['ollama', 'groq', 'gemini']
+    providers = ['gemini', 'groq', 'ollama']
     errors = []
+    
+    # Ensure system_instruction is not None for providers that require it
+    if not system_instruction:
+        system_instruction = "妳是雪音老師，一位親切的學習夥伴。"
+
     for provider in providers:
-        keys = get_usable_keys(provider, get_gemini_keys() if provider == 'gemini' else (get_groq_keys() if provider == 'groq' else get_ollama_keys()))
+        keys_func = get_gemini_keys if provider == 'gemini' else (get_groq_keys if provider == 'groq' else get_ollama_keys)
+        keys = get_usable_keys(provider, keys_func())
+        
         for key in keys:
             mark_key_status(provider, key, 'busy')
             try:
@@ -197,20 +204,35 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                 elif provider == 'ollama':
                     ollama_url = key if key.startswith('http') else f"http://{key}"
                     payload = {"model": os.environ.get('OLLAMA_MODEL', 'llama3.2:latest'), "messages": [{"role": "user", "content": prompt}], "stream": False}
-                    resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=30.0)
+                    resp = requests.post(f"{ollama_url}/api/chat", json=payload, timeout=20.0)
                     if resp.status_code == 200:
                         mark_key_status('ollama', key, 'standby')
                         return resp.json()['message']['content']
+                    else:
+                        raise Exception(f"HTTP {resp.status_code}")
             except Exception as e:
-                errors.append(f"{provider}: {str(e)}")
-                mark_key_status(provider, key, 'error', str(e))
-    raise Exception(f"所有 AI 模式均不可用：{', '.join(errors)}")
+                err_str = str(e)
+                if '429' in err_str or 'quota' in err_str.lower():
+                    clean_err = "API 額度已達上限 (429)"
+                elif 'NameResolutionError' in err_str or 'ConnectionError' in err_str:
+                    clean_err = "伺服器連線失敗"
+                else:
+                    clean_err = err_str[:100] # Keep it short
+                errors.append(f"{provider}: {clean_err}")
+                mark_key_status(provider, key, 'error', err_str)
+    
+    raise Exception(f"所有服務均暫時繁忙或失效 ({' | '.join(errors)})")
 
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
     providers = ['gemini', 'groq', 'ollama']
     errors = []
+    if not system_instruction:
+        system_instruction = "妳是雪音老師，請解析這張圖片。"
+
     for provider in providers:
-        keys = get_usable_keys(provider, get_gemini_keys() if provider == 'gemini' else (get_groq_keys() if provider == 'groq' else get_ollama_keys()))
+        keys_func = get_gemini_keys if provider == 'gemini' else (get_groq_keys if provider == 'groq' else get_ollama_keys)
+        keys = get_usable_keys(provider, keys_func())
+        
         for key in keys:
             mark_key_status(provider, key, 'busy')
             try:
@@ -230,9 +252,12 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
                     mark_key_status('groq', key, 'standby')
                     return response.choices[0].message.content
             except Exception as e:
-                errors.append(f"{provider} Vision: {str(e)}")
-                mark_key_status(provider, key, 'error', str(e))
-    raise Exception(f"所有視覺 AI 模式均不可用：{', '.join(errors)}")
+                err_str = str(e)
+                clean_err = "連線異常"
+                if '429' in err_str: clean_err = "額度上限"
+                errors.append(f"{provider}: {clean_err}")
+                mark_key_status(provider, key, 'error', err_str)
+    raise Exception(f"視覺 AI 繁忙中 ({' | '.join(errors)})")
 
 VISION_RUTHLESS_PROMPT = """
 【視覺辨識最高指示：終極消除干擾】
