@@ -843,7 +843,8 @@ def ai_reply(group_id):
                 context_with_time, 
                 personality_key=personality_key, 
                 user=yukine,
-                image_bytes=image_bytes
+                image_bytes=image_bytes,
+                group_id=group_id
             )
         except Exception as e:
             current_app.logger.error(f"AI Generation Error: {e}")
