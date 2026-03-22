@@ -9,6 +9,7 @@ from app.utils.ai_helpers import get_ai_tutor_response
 from app.utils.i18n import get_text as _t
 
 group = Blueprint('group', __name__)
+AI_NAME = '雪音 (Antigravity 核心)'
 
 @group.route("/groups", methods=['GET', 'POST'], strict_slashes=False)
 @login_required
@@ -245,22 +246,26 @@ def group_dashboard(group_id):
         # 只要有群組的人點入就發送一條歡迎語
         if group_obj.has_ai:
             try:
-                # Ensure Yukon exists
-                yukine_user = User.query.filter_by(username='雪音老師').first()
+                # Use a more robust check for Yukine
+                yukine_user = User.query.filter(User.username.like('%雪音%')).first()
                 if not yukine_user:
                     yukine_user = User(
-                        username='雪音老師', 
-                        email='yukine_bot@internal.ai', 
-                        password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), 
+                        username=AI_NAME, 
+                        email='yukine_bot_ag@internal.ai', 
+                        password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
                         role='teacher',
-                        ai_personality='雪音-溫柔型'
+                        ai_personality='雪音-Antigravity輔助型'
                     )
                     db.session.add(yukine_user)
                     db.session.commit()
+                elif yukine_user.username != AI_NAME:
+                    # Update name/personality to show it's "inserted"
+                    yukine_user.username = AI_NAME
+                    yukine_user.ai_personality = '雪音-Antigravity輔助型'
+                    db.session.commit()
                 
-                # Check for recent greeting (Simplified: just ANY message from Yukine in last 1 min)
-                # To be more precise, we check if she has said something to this user.
-                # But even a general hello is better than nothing.
+                # Force welcome if chat is empty OR no welcome in last 1 min
+                msg_count = GroupMessage.query.filter_by(group_id=group_id).count()
                 one_minute_ago = datetime.now(timezone.utc) - timedelta(minutes=1)
                 recent_welcome = GroupMessage.query.filter_by(
                     group_id=group_id, 
@@ -269,7 +274,7 @@ def group_dashboard(group_id):
                     GroupMessage.created_at >= one_minute_ago
                 ).first()
                 
-                if not recent_welcome:
+                if msg_count == 0 or not recent_welcome:
                     # Determine role for greeting
                     role = 'student'
                     if current_user.is_admin: role = 'admin'
@@ -282,6 +287,10 @@ def group_dashboard(group_id):
                     greeting_key = f'yukine_welcome_{role}_{greeting_num}'
                     welcome_text = _t(greeting_key, lang, username=current_user.username)
                     
+                    # Add explicit mention of Antigravity in first greeting if chat empty
+                    if msg_count == 0:
+                        welcome_text = f"【Antigravity 核心已接入】{welcome_text} 我是雪音老師（目前由 Antigravity 支援修復中），讓我們開始學習吧！🚀"
+                    
                     welcome_msg = GroupMessage(
                         group_id=group_id,
                         user_id=yukine_user.id,
@@ -293,6 +302,8 @@ def group_dashboard(group_id):
             except Exception as e:
                 db.session.rollback()
                 current_app.logger.error(f"Backend welcome generation failed: {e}")
+                if current_user.role == 'teacher' or current_user.is_admin:
+                    flash(f"【DEBUG】歡迎語生成出錯: {e}", 'warning')
         # --- END WELCOME ---
 
         if request.method == 'POST':
@@ -689,24 +700,29 @@ def ai_reply(group_id):
         if not group_obj.has_ai:
             return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
             
+        AI_NAME = '雪音 (Antigravity 核心)'
         last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
-        yukine = User.query.filter_by(username='雪音老師').first()
+        yukine = User.query.filter_by(username=AI_NAME).first()
         
+        # Fallback to any Yukine
+        if not yukine:
+            yukine = User.query.filter(User.username.like('%雪音%')).first()
+
         # Ensure Yukine exists even here
         if not yukine:
             try:
                 yukine = User(
-                    username='雪音老師', 
-                    email='yukine_bot@internal.ai', 
-                    password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), 
+                    username=AI_NAME, 
+                    email='yukine_bot_ag@internal.ai', 
+                    password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
                     role='teacher',
-                    ai_personality='雪音-溫柔型'
+                    ai_personality='雪音-Antigravity輔助型'
                 )
                 db.session.add(yukine)
                 db.session.commit()
             except Exception:
                 db.session.rollback()
-                yukine = User.query.filter_by(username='雪音老師').first()
+                yukine = User.query.filter(User.username.like('%雪音%')).first()
 
         # For debugging: log the IDs
         yukine_id = yukine.id if yukine else "None"
@@ -728,23 +744,6 @@ def ai_reply(group_id):
         # User requested: AI replies to every message
         trigger_ai = True 
 
-        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
-        chat_history = []
-        if not yukine:
-            try:
-                yukine = User(
-                    username='雪音老師', 
-                    email='yukine_bot@internal.ai', 
-                    password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), 
-                    role='teacher',
-                    ai_personality='雪音-溫柔型'
-                )
-                db.session.add(yukine)
-                db.session.commit()
-            except Exception as e:
-                db.session.rollback()
-                yukine = User.query.filter_by(username='雪音老師').first()
-        
         for m in reversed(recent_msgs):
             author_name = m.author.username if m.author else "匿名用戶"
             role = 'assistant' if yukine and m.user_id == yukine.id else 'user'
@@ -791,12 +790,16 @@ def ai_reply(group_id):
         curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
         context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
         
+        if yukine.ai_personality != '雪音-Antigravity輔助型':
+            yukine.ai_personality = '雪音-Antigravity輔助型'
+            db.session.commit()
+
         ai_reply_text = get_ai_tutor_response(
             chat_history, 
             context_with_time, 
-            personality_key='雪音-溫柔型', 
-            image_bytes=image_bytes,
-            user=yukine
+            personality_key='雪音-Antigravity輔助型', 
+            user=yukine,
+            image_bytes=image_bytes
         )
         
         db.session.refresh(last_msg)
@@ -825,7 +828,7 @@ def ai_reply(group_id):
                 'ai_message': {
                     'id': ai_msg.id,
                     'content': ai_msg.content,
-                    'username': '雪音老師',
+                    'username': AI_NAME,
                     'user_id': yukine.id,
                     'is_mine': False,
                     'is_ai': True,
@@ -868,7 +871,7 @@ def ai_reply(group_id):
                     'ai_message': {
                         'id': err_record.id,
                         'content': err_record.content,
-                        'username': '雪音老師',
+                        'username': AI_NAME,
                         'user_id': yukine.id,
                         'is_mine': False,
                         'is_ai': True,
