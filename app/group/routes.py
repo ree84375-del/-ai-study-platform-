@@ -246,12 +246,17 @@ def group_dashboard(group_id):
         # 只要有群組的人點入就發送一條歡迎語
         if group_obj.has_ai:
             try:
-                # Use a more robust check for Yukine
-                yukine_user = User.query.filter(User.username.like('%雪音%')).first()
+                # Use email as unique identifier
+                ai_email = 'yukine_bot_ag@internal.ai'
+                yukine_user = User.query.filter_by(email=ai_email).first()
+                if not yukine_user:
+                    # Fallback to name search if email is different for old users
+                    yukine_user = User.query.filter(User.username.like('%雪音%')).first()
+                
                 if not yukine_user:
                     yukine_user = User(
                         username=AI_NAME, 
-                        email='yukine_bot_ag@internal.ai', 
+                        email=ai_email, 
                         password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
                         role='teacher',
                         ai_personality='雪音-Antigravity輔助型'
@@ -261,7 +266,7 @@ def group_dashboard(group_id):
                 elif yukine_user.username != AI_NAME:
                     # Update name/personality to show it's "inserted"
                     yukine_user.username = AI_NAME
-                    yukine_user.ai_personality = '雪音-Antigravity輔助型'
+                    yukine_user.email = ai_email # Ensure correct email
                     db.session.commit()
                 
                 # Use session to ensure we only greet ONCE per "entry" (session-based)
@@ -391,9 +396,19 @@ def group_dashboard(group_id):
                         # Auto-welcome message when invited
                         from app.models import User, GroupMessage
                         from app import bcrypt
-                        yukine = User.query.filter_by(username='雪音老師').first()
+                        ai_email = 'yukine_bot_ag@internal.ai'
+                        yukine = User.query.filter_by(email=ai_email).first()
                         if not yukine:
-                            yukine = User(username='雪音老師', email='yukine_bot@internal.ai', password=bcrypt.generate_password_hash('ai_placeholder').decode('utf-8'), role='teacher')
+                            yukine = User.query.filter(User.username.like('%雪音%')).first()
+                        
+                        if not yukine:
+                            yukine = User(
+                                username=AI_NAME, 
+                                email=ai_email, 
+                                password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
+                                role='teacher',
+                                ai_personality='雪音-Antigravity輔助型'
+                            )
                             db.session.add(yukine)
                             db.session.commit()
                         
@@ -708,10 +723,11 @@ def ai_reply(group_id):
             return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
             
         AI_NAME = '雪音 (Antigravity 核心)'
+        ai_email = 'yukine_bot_ag@internal.ai'
+        yukine = User.query.filter_by(email=ai_email).first()
         last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
-        yukine = User.query.filter_by(username=AI_NAME).first()
         
-        # Fallback to any Yukine
+        # Fallback to name search
         if not yukine:
             yukine = User.query.filter(User.username.like('%雪音%')).first()
 
@@ -720,7 +736,7 @@ def ai_reply(group_id):
             try:
                 yukine = User(
                     username=AI_NAME, 
-                    email='yukine_bot_ag@internal.ai', 
+                    email=ai_email, 
                     password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
                     role='teacher',
                     ai_personality='雪音-Antigravity輔助型'
