@@ -1694,7 +1694,7 @@ function cancelAiDraft() {
         let parentMsgHtml = '';
         if (data.parent_preview) {
             parentMsgHtml = `
-                <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-${data.parent_preview.id}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
+                <div class="quoted-msg" onclick="event.stopPropagation(); const pEl = document.getElementById('msg-box-${data.parent_preview.id}'); if(pEl) pEl.scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
                     <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">${data.parent_preview.username} {{ _t('said') }}：</div>
                     <div style="font-size: 0.85rem; color: rgba(0,0,0,0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${data.parent_preview.content}</div>
                 </div>
@@ -1740,7 +1740,7 @@ function cancelAiDraft() {
                         </div>
 
                         <!-- Trigger -->
-                        <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls(${msgId})">
+                        <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls('${msgId}')">
                             <i class="fa-solid fa-ellipsis"></i>
                         </div>
                     </div>
@@ -1754,9 +1754,9 @@ function cancelAiDraft() {
                             <i class="fa-solid fa-pen message-more-btn" style="opacity: 1; color: var(--color-accent);" title="編輯" 
                                data-id="${msgId}" data-content="${(data.content || '').replace(/"/g, '&quot;')}"
                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
-                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage(${msgId})"></i>
+                            <i class="fa-solid fa-rotate-left message-more-btn" style="opacity: 1;" title="收回" onclick="event.stopPropagation(); recallMessage('${msgId}')"></i>
                         ` : ''}
-                        ${(!isAI && (isMine || data.user_id == CONFIG.teacherId)) ? `<i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage(${msgId})"></i>` : ''}
+                        ${(!isAI && (isMine || data.user_id == CONFIG.teacherId)) ? `<i class="fa-solid fa-trash-can message-more-btn" style="opacity: 1; color: #ff4444;" title="刪除" onclick="event.stopPropagation(); deleteMessage('${msgId}')"></i>` : ''}
                     </div>
                 </div>
             </div>
@@ -1827,10 +1827,26 @@ function cancelAiDraft() {
 
                 const action = document.querySelector('[name="action"]').value;
                 if (action === 'edit_message') {
-                     // ... (Edit logic) ...
-                     // Simplified for brevity in this replace, assume it points to a separate function or handles normally
+                     // Edit handled via standard refresh for safety in this version
+                     this.submit();
+                     return;
                 }
 
+                // Local Echo: Show the message immediately to prevent "eaten" feeling
+                const tempMsgId = 'temp-' + Date.now();
+                const localMsg = {
+                    id: tempMsgId,
+                    content: content,
+                    image_data: imageData,
+                    username: CONFIG.username || '我',
+                    user_id: CONFIG.userId,
+                    created_at: new Date().toISOString(),
+                    is_local: true
+                };
+                appendMessage(localMsg);
+                const localElement = document.getElementById('msg-box-' + tempMsgId);
+                if (localElement) localElement.style.opacity = '0.5'; // Indicate pending
+                
                 const formData = new FormData(this);
                 chatInput.value = '';
                 chatInput.style.height = 'auto';
@@ -1845,22 +1861,36 @@ function cancelAiDraft() {
                         body: formData, 
                         headers: { 'X-Requested-With': 'XMLHttpRequest' } 
                     });
+                    
+                    if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+                    
                     const data = await res.json();
                     if (data.status === 'success') {
+                        // Replace local echo with server-confirmed message
+                        if (localElement) localElement.remove();
                         appendMessage(data.user_message);
+                        
                         if (data.ai_triggered) {
                             console.log("AI Triggered for msg:", data.user_message.id);
-                            setTimeout(() => handleAIReply(data.user_message.id), 300);
+                            handleAIReply(data.user_message.id);
                         } else {
                             window.enableInputUI();
                         }
                     } else {
-                        alert("發送失敗: " + (data.message || "未知錯誤"));
-                        window.enableInputUI();
+                        throw new Error(data.message || "未知錯誤");
                     }
                 } catch (err) { 
                     console.error("Submit Error:", err);
-                    alert("連線失敗: " + err.message); 
+                    if (localElement) {
+                        localElement.style.opacity = '1';
+                        localElement.style.border = '2px solid red';
+                        const errNote = document.createElement('div');
+                        errNote.style.color = 'red';
+                        errNote.style.fontSize = '0.7rem';
+                        errNote.innerText = "⚠️ 發送失敗: " + err.message;
+                        localElement.appendChild(errNote);
+                    }
+                    alert("發送失敗，請重試: " + err.message); 
                     window.enableInputUI();
                 }
             });
