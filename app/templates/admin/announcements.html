@@ -24,7 +24,7 @@
             </tr>
             {% for a in announcements %}
             <tr style="border-bottom: 1px solid var(--color-border);">
-                <td style="padding: 10px; color: var(--color-text_light);">#{{ a.id }}</td>
+                <td style="padding: 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
                 <td style="padding: 10px; font-weight: bold;">
                     {% if a.is_ai_generated %}
                     <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--color-primary);" title="AI 生成"></i> 

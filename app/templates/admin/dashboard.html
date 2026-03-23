@@ -79,7 +79,7 @@
             </tr>
             {% for u in users %}
             <tr style="border-bottom: 1px solid var(--color-border);">
-                <td style="padding: 10px; color: var(--color-text_light);">#{{ u.id }}</td>
+                <td style="padding: 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
                 <td style="padding: 10px; font-weight: 500;">{{ u.email }}</td>
                 <td style="padding: 10px;">{{ u.username }}</td>
                 <td style="padding: 10px;">
@@ -151,7 +151,7 @@
                 </tr>
                 {% for u in users %}
                 <tr style="border-bottom: 1px solid var(--color-border);">
-                    <td style="padding: 10px; color: var(--color-text_light);">#{{ u.id }}</td>
+                    <td style="padding: 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
                     <td style="padding: 10px; font-weight: 500;">{{ u.email }}</td>
                     <td style="padding: 10px;">{{ u.username }}</td>
                     <td style="padding: 10px;">

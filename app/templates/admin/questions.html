@@ -24,7 +24,7 @@
             </tr>
             {% for q in questions %}
             <tr style="border-bottom: 1px solid var(--color-border);">
-                <td style="padding: 10px; color: var(--color-text_light);">#{{ q.id }}</td>
+                <td style="padding: 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
                 <td style="padding: 10px;"><span style="background: var(--color-secondary); padding: 3px 8px; border-radius: 4px; font-size: 0.8rem;">{{ q.subject }}</span></td>
                 <td style="padding: 10px; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ q.content_text }}</td>
                 <td style="padding: 10px; color: var(--color-text_light);">{{ q.difficulty }}</td>
