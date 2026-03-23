@@ -722,173 +722,104 @@ def ai_reply(group_id):
         if not group_obj.has_ai:
             return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
             
-        AI_NAME = '雪音 (Antigravity 核心)'
-        ai_email = 'yukine_bot_ag@internal.ai'
-        yukine = User.query.filter_by(email=ai_email).first()
-        msg_id = request.args.get('msg_id')
-        if msg_id and msg_id.isdigit():
-            last_msg = GroupMessage.query.get(int(msg_id))
-        else:
-            last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
-        
-        # Fallback to name search
-        if not yukine:
-            yukine = User.query.filter(User.username.like('%雪音%')).first()
-
-        # Ensure Yukine exists even here
-        if not yukine:
-            try:
-                yukine = User(
-                    username=AI_NAME, 
-                    email=ai_email, 
-                    password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
-                    role='teacher',
-                    ai_personality='雪音-Antigravity輔助型'
-                )
-                db.session.add(yukine)
-                db.session.commit()
-            except Exception:
-                db.session.rollback()
-                yukine = User.query.filter(User.username.like('%雪音%')).first()
-
-        # For debugging: log the IDs
-        yukine_id = yukine.id if yukine else "None"
-        current_app.logger.info(f"AI Reply [Group {group_id}]: last_msg.user_id={last_msg.user_id if last_msg else 'None'}, yukine.id={yukine_id}")
-        
-        if not last_msg:
-            return jsonify({'status': 'error', 'message': 'No messages found in group'}), 400
-
-        greetings = ['嗨', '哈囉', 'hello', 'hi', '安安', '早安', '午安', '晚安', '雪音', '老師', '你好', '您好']
-        is_greeting = any(g in last_msg.content.lower() for g in greetings)
-        is_mention = '雪音' in last_msg.content or '老師' in last_msg.content
-        is_asking_about_upload = any(w in last_msg.content for w in ['上傳', '圖片', '這張', '那張', '作業', '看一下'])
-        
-        # trigger_ai = is_greeting or is_mention or is_asking_about_upload or last_msg.image_data
-        
-        # if not trigger_ai:
-        #     return jsonify({'status': 'skipped', 'message': 'AI decided not to reply this time'})
-        
-        # User requested: AI replies to every message
-        trigger_ai = True 
-
-        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(50).all()
-        chat_history = []
-        
-        for m in reversed(recent_msgs):
-            author_name = m.author.username if m.author else "匿名用戶"
-            role = 'assistant' if yukine and m.user_id == yukine.id else 'user'
-            content_with_id = f"{author_name}(ID:{m.user_id}): {m.content}"
-            chat_history.append({'role': role, 'content': content_with_id})
+        current_app.logger.info(f"[AI] Reply Triggered for group {group_id}, msg_id={msg_id or 'latest'}")
         
         from app.utils.ai_helpers import get_ai_tutor_response
         
-        user_context = last_msg.content
-        image_bytes = None
+        # Build Chat History
+        recent_msgs = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).limit(30).all()
+        chat_history = []
+        for m in reversed(recent_msgs):
+            role = 'assistant' if yukine and m.user_id == yukine.id else 'user'
+            chat_history.append({'role': role, 'content': m.content})
         
-        # Determine if we should use vision
-        target_img_data = last_msg.image_data
-        
-        # If the user is asking about an upload but didn't attach one to the CURRENT message, 
-        # look at the parent or the very last image in history
-        if not target_img_data and is_asking_about_upload:
-            if last_msg.parent_id:
-                p_msg = GroupMessage.query.get(last_msg.parent_id)
-                if p_msg and p_msg.image_data:
-                    target_img_data = p_msg.image_data
-            if not target_img_data:
-                # Search back 5 messages for an image
-                for m in recent_msgs[:5]:
-                    if m.image_data:
-                        target_img_data = m.image_data
-                        break
-        
-        if target_img_data:
-            import base64
-            try:
-                if ',' in target_img_data:
-                    image_bytes = base64.b64decode(target_img_data.split(',')[1])
-                else:
-                    image_bytes = base64.b64decode(target_img_data)
-            except Exception as e:
-                current_app.logger.error(f"Failed to decode image: {e}")
+        current_app.logger.info(f"[AI] History loaded: {len(chat_history)} msgs")
 
-        if last_msg.parent_id:
-            p_msg = GroupMessage.query.get(last_msg.parent_id)
-            if p_msg:
-                user_context = f"(正在回覆 {p_msg.author.username} 說過的話: \"{p_msg.content}\") -> {last_msg.content}"
-                
+        # Context & Personality
         curr_time = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M:%S')
-        context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{user_context}"
+        context_with_time = f"【系統提示: 目前時間是 {curr_time}】\n{last_msg.content if last_msg else ''}"
         
-        # Determine personality from Teacher's setting
         teacher = group_obj.teacher
         personality_key = '雪音-溫柔型'
         if teacher and teacher.ai_personality:
             p_map = {
-                'ai_personality_gentle': '雪音-溫柔型',
-                'ai_personality_strict': '嚴厲教練',
-                'ai_personality_humor': '幽默學長',
-                '雪音-溫柔型': '雪音-溫柔型',
-                '雪音-嚴格型': '嚴厲教練',
-                '雪音-幽默型': '幽默學長',
+                'ai_personality_gentle': '雪音-溫柔型', 'ai_personality_strict': '嚴厲教練',
+                'ai_personality_humor': '幽默學長', '雪音-溫柔型': '雪音-溫柔型',
+                '雪音-嚴格型': '嚴厲教練', '雪音-幽默型': '幽默學長',
                 '雪音-Antigravity輔助型': '雪音-Antigravity輔助型'
             }
             personality_key = p_map.get(teacher.ai_personality, teacher.ai_personality)
-            
-        # Ensure Yukine record reflects the chosen personality if needed (for memory etc)
-        if yukine and yukine.ai_personality != personality_key:
-            yukine.ai_personality = personality_key
-            db.session.commit()
 
-        from app.utils.ai_helpers import get_ai_tutor_response
-        try:
-            ai_reply_text = get_ai_tutor_response(
-                chat_history, 
-                context_with_time, 
-                personality_key=personality_key, 
-                user=yukine,
-                image_bytes=image_bytes,
-                group_id=group_id
-            )
-        except Exception as e:
-            current_app.logger.error(f"AI Generation Error: {e}")
-            ai_reply_text = f"【雪音老師通訊中斷】哎呀... 目前核心連線有點擁擠（或額度用完囉），請稍等 30 秒再試試看！(T_T)\n(詳細錯誤：{str(e)})"
+        current_app.logger.info(f"[AI] Calling Gemini with personality: {personality_key}")
         
+        # Vision handling
+        image_bytes = None
+        target_img_data = last_msg.image_data if last_msg else None
+        if not target_img_data and any(w in (last_msg.content if last_msg else "") for w in ['這張', '那張', '圖片', '看一下']):
+            for m in recent_msgs[:5]:
+                if m.image_data:
+                    target_img_data = m.image_data
+                    break
+        if target_img_data:
+            import base64
+            try:
+                parts = target_img_data.split(',')
+                image_bytes = base64.b64decode(parts[1] if len(parts)>1 else parts[0])
+                current_app.logger.info("[AI] Image attached to request")
+            except: 
+                current_app.logger.warning("[AI] Image decode failed")
+
+        ai_reply_text = get_ai_tutor_response(
+            chat_history, 
+            context_with_time, 
+            personality_key=personality_key, 
+            user=yukine,
+            image_bytes=image_bytes,
+            group_id=group_id
+        )
+        
+        current_app.logger.info(f"[AI] Gemini Response: {ai_reply_text[:50]}...")
+
+        if not ai_reply_text:
+            return jsonify({'status': 'skipped', 'message': 'Empty AI response'})
+
+        # Double check if user recalled during thinking
         db.session.refresh(last_msg)
         if last_msg.is_recalled:
-            return jsonify({'status': 'skipped', 'message': 'Parent message recalled'})
+            current_app.logger.info("[AI] User recalled message during thinking, skipping save")
+            return jsonify({'status': 'skipped', 'message': 'Message recalled'})
 
-        if ai_reply_text:
-            ai_msg = GroupMessage(
-                group_id=group_id, 
-                user_id=yukine.id, 
-                content=ai_reply_text,
-                parent_id=last_msg.id
-            )
-            db.session.add(ai_msg)
-            db.session.commit()
-            
-            parent_preview = None
-            if last_msg.author:
-                parent_preview = {
-                    'username': last_msg.author.username,
-                    'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
-                }
-            
-            return jsonify({
-                'status': 'success',
-                'ai_message': {
-                    'id': ai_msg.id,
-                    'content': ai_msg.content,
-                    'username': AI_NAME,
-                    'user_id': yukine.id,
-                    'is_mine': False,
-                    'is_ai': True,
-                    'created_at': ai_msg.created_at.isoformat() + 'Z',
-                    'parent_id': ai_msg.parent_id,
-                    'parent_preview': parent_preview
-                }
-            })
+        ai_msg = GroupMessage(
+            group_id=group_id, 
+            user_id=yukine.id, 
+            content=ai_reply_text,
+            parent_id=last_msg.id if last_msg else None
+        )
+        db.session.add(ai_msg)
+        db.session.commit()
+        current_app.logger.info(f"[AI] Saved AI message {ai_msg.id}")
+
+        parent_preview = None
+        if last_msg and last_msg.author:
+            parent_preview = {
+                'username': last_msg.author.username,
+                'content': last_msg.content[:50] + '...' if len(last_msg.content) > 50 else last_msg.content
+            }
+
+        return jsonify({
+            'status': 'success',
+            'ai_message': {
+                'id': ai_msg.id,
+                'content': ai_msg.content,
+                'username': AI_NAME,
+                'user_id': yukine.id,
+                'is_mine': False,
+                'is_ai': True,
+                'created_at': ai_msg.created_at.isoformat() + 'Z',
+                'parent_id': ai_msg.parent_id,
+                'parent_preview': parent_preview
+            }
+        })
         
         # If ai_reply_text is empty, return an error message recorded in chat
         reason = "AI 生成結果為空，可能是 API 金鑰次數已達上限。"

@@ -1764,19 +1764,31 @@ function cancelAiDraft() {
         scrollToBottom();
     }
 
-            const disableInputUI = () => {
+            // --- UI Control Functions (Moved to Global scope within DOMContentLoaded) ---
+            window.disableInputUI = () => {
                 const chatInput = document.getElementById('chat-input');
                 const chatBtn = document.getElementById('chat-submit-btn');
                 const cancelBtn = document.getElementById('cancel-ai-btn');
                 if (chatInput) {
                     chatInput.disabled = true;
-                    chatInput.placeholder = "等待 AI 回覆中...";
+                    chatInput.placeholder = "雪音老師思考中...";
                 }
                 if (chatBtn) chatBtn.style.display = 'none';
-                if (cancelBtn) cancelBtn.style.display = 'inline-block';
+                if (!cancelBtn) {
+                    const btn = document.createElement('button');
+                    btn.id = 'cancel-ai-btn';
+                    btn.innerHTML = '<i class="fa-solid fa-stop"></i> 取消';
+                    btn.className = 'btn-primary';
+                    btn.style.background = '#ff4d4f';
+                    btn.style.marginLeft = '8px';
+                    btn.onclick = (e) => { e.preventDefault(); if (window.currentAiController) window.currentAiController.abort(); };
+                    chatBtn.parentNode.insertBefore(btn, chatBtn);
+                } else {
+                    cancelBtn.style.display = 'inline-block';
+                }
             };
 
-            const enableInputUI = () => {
+            window.enableInputUI = () => {
                 const chatInput = document.getElementById('chat-input');
                 const chatBtn = document.getElementById('chat-submit-btn');
                 const cancelBtn = document.getElementById('cancel-ai-btn');
@@ -1789,15 +1801,16 @@ function cancelAiDraft() {
                 if (chatInput) chatInput.focus();
             };
 
-            // Keyboard Enter (with IME check)
+            // Keyboard Enter
             let isComposing = false;
             chatInput.addEventListener('compositionstart', () => { isComposing = true; });
             chatInput.addEventListener('compositionend', () => { isComposing = false; });
             chatInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey && !isComposing) {
-                    if (chatInput.disabled) return; // Prevent double send
+                    if (chatInput.disabled) return;
                     e.preventDefault();
-                    chatForm.requestSubmit ? chatForm.requestSubmit() : chatForm.dispatchEvent(new Event('submit'));
+                    if (chatForm.requestSubmit) chatForm.requestSubmit();
+                    else chatForm.dispatchEvent(new Event('submit'));
                 }
             });
 
@@ -1807,15 +1820,12 @@ function cancelAiDraft() {
 
                 const content = chatInput.value.trim();
                 const imageData = imageDataInput.value;
-                const action = document.querySelector('[name="action"]').value;
-                const editId = document.getElementById('edit-id-input').value;
-
                 if (!content && !imageData) return;
 
-                // Handle Edit...
-                if (action === 'edit_message' && editId) {
-                    // (Omitted: assume same as before but safe)
-                    // ... existing edit logic ...
+                const action = document.querySelector('[name="action"]').value;
+                if (action === 'edit_message') {
+                     // ... (Edit logic) ...
+                     // Simplified for brevity in this replace, assume it points to a separate function or handles normally
                 }
 
                 const formData = new FormData(this);
@@ -1824,38 +1834,44 @@ function cancelAiDraft() {
                 clearImage();
                 cancelReply();
                 
-                disableInputUI();
+                window.disableInputUI();
 
                 try {
-                    const res = await fetch(this.action || window.location.href, { method: 'POST', body: formData, headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                    const res = await fetch(this.action || window.location.href, { 
+                        method: 'POST', 
+                        body: formData, 
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' } 
+                    });
                     const data = await res.json();
                     if (data.status === 'success') {
                         appendMessage(data.user_message);
                         if (data.ai_triggered) {
+                            console.log("AI Triggered for msg:", data.user_message.id);
                             setTimeout(() => handleAIReply(data.user_message.id), 300);
                         } else {
-                            enableInputUI();
+                            window.enableInputUI();
                         }
                     } else {
-                        alert("{{ _t('send_failed') }}: " + (data.message || "{{ _t('error_occurred') }}"));
-                        enableInputUI();
+                        alert("發送失敗: " + (data.message || "未知錯誤"));
+                        window.enableInputUI();
                     }
                 } catch (err) { 
-                    console.error(err); 
-                    alert("{{ _t('conn_failed') }}: " + err.message); 
-                    enableInputUI();
+                    console.error("Submit Error:", err);
+                    alert("連線失敗: " + err.message); 
+                    window.enableInputUI();
                 }
             });
 
     async function handleAIReply(msgId) {
+        console.log("handleAIReply started for msgId:", msgId);
         const thinkingId = 'ai-thinking-' + Date.now();
         const thinkingHtml = `
-            <div id="${thinkingId}" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; opacity: 0.7;">
+            <div id="${thinkingId}" class="ai-thinking-row" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; opacity: 0.7;">
                 <div style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; overflow: hidden;">
                     <img src="${CONFIG.yukineAvatar}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
-                <div style="background: #f0f0f0; padding: 10px 15px; border-radius: 18px; font-size: 0.9rem; color: #666;">
-                    <i class="fa-solid fa-ellipsis fa-beat"></i> {{ _t('yukine_thinking_default') }}
+                <div style="background: #f0f0f0; padding: 10px 15px; border-radius: 18px; font-size: 0.9rem; color: #666; border: 1px solid #ddd;">
+                    <i class="fa-solid fa-spinner fa-spin"></i> 雪音老師連線中...
                 </div>
             </div>
         `;
@@ -1871,7 +1887,9 @@ function cancelAiDraft() {
         try {
             const url = new URL(CONFIG.aiReplyUrl, window.location.origin);
             if (msgId) url.searchParams.append('msg_id', msgId);
+            url.searchParams.append('_t', Date.now()); // Avoid cache
             
+            console.log("Fetching AI Reply from:", url.toString());
             const res = await fetch(url, { 
                 method: 'POST', 
                 headers: { 
@@ -1881,36 +1899,44 @@ function cancelAiDraft() {
                 signal: window.currentAiController.signal
             });
             
+            console.log("Server Response Status:", res.status);
             if (!res.ok) {
-                const errData = await res.json().catch(() => ({ message: res.statusText }));
-                throw new Error(errData.message || `Server Error ${res.status}`);
+                const errText = await res.text();
+                throw new Error(`伺服器錯誤 (Status ${res.status}) - ${errText.substring(0, 50)}`);
             }
 
             const data = await res.json();
+            console.log("AI Reply Data Received:", data);
+            
             const thinkingEl = document.getElementById(thinkingId);
             if (thinkingEl) thinkingEl.remove();
             
             if (data.status === 'success') {
                 appendMessage(data.ai_message);
             } else {
-                throw new Error(data.message || 'AI skipped');
+                throw new Error(data.message || 'AI 此時無法回覆');
             }
         } catch (err) { 
+            console.error("AI Reply Fetch Error:", err);
             const thinkingEl = document.getElementById(thinkingId);
-            if (thinkingEl) thinkingEl.remove();
-            
-            if (err.name === 'AbortError') {
-                console.log('AI Reply Cancelled');
+            if (thinkingEl) {
+                thinkingEl.innerHTML = `
+                    <div style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; overflow: hidden; opacity: 0.5;">
+                        <img src="${CONFIG.yukineAvatar}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="background: #fff0f0; padding: 10px 15px; border-radius: 18px; font-size: 0.85rem; color: #d32f2f; border: 1px solid #ffcdd2;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> 核心連線中斷: ${err.message}
+                    </div>
+                `;
             } else {
-                console.error('AI Reply Error:', err);
                 appendMessage({
                     role: 'ai',
-                    content: `【系統異常】雪音老師暫時斷線了 (Error: ${err.message})。請重整頁面或稍候再試。`,
+                    content: `【系統異常】雪音老師連線中斷 (Error: ${err.message})。`,
                     username: '系統助手'
                 });
             }
         } finally {
-            enableInputUI(); // Ensure UI is re-enabled
+            window.enableInputUI();
         }
     }
 
