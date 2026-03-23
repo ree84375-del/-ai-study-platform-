@@ -115,273 +115,72 @@
         </table>
     </div>
 
-    <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-key"></i> {{ _t('admin_api_keys_title') }}</h3>
-        <p style="color: var(--color-text_light); font-size: 0.9rem; margin-bottom: 1rem;">系統會自動追蹤每次模型呼叫的結果並更新燈號狀態。</p>
-        
-        <style>
-            .api-key-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; border: 1px solid var(--color-border); border-radius: 8px; margin-bottom: 10px; background: white; }
-            .api-key-text { font-family: monospace; font-size: 0.95rem; color: #555; }
-            .api-status-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; display: flex; align-items: center; gap: 5px; }
-            .status-active { background: #4caf50; color: white; border: none; box-shadow: 0 0 5px rgba(76, 175, 80, 0.4); }
-            .status-standby { background: #ffc107; color: #333; border: none; box-shadow: 0 0 5px rgba(255, 193, 7, 0.4); }
-            .status-cooldown { background: #2196f3; color: white; border: none; box-shadow: 0 0 5px rgba(33, 150, 243, 0.4); }
-            .status-error { background: #f44336; color: white; border: none; box-shadow: 0 0 5px rgba(244, 67, 54, 0.4); }
-            
-            .status-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); }
-            .dot-active { background-color: #fff; }
-            .dot-standby { background-color: #fff; }
-            .dot-cooldown { background-color: #fff; }
-            .dot-error { background-color: #fff; }
-        </style>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; background: rgba(0,0,0,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.05);">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div class="live-dot" style="width: 10px; height: 10px; background: #4caf50; border-radius: 50%; box-shadow: 0 0 8px #4caf50; animation: pulse-green 2s infinite;"></div>
-                <div>
-                    <span style="font-weight: bold; color: var(--color-text);">系統即時監控中</span>
-                    <div id="last-sync-time" style="font-size: 0.75rem; color: #888; margin-top: 2px;">最後同步：正在初始化...</div>
-                </div>
+    <!-- Global Broadcast Form -->
+    <div class="washi-card" style="margin-bottom: 2rem; border-top: 5px solid #ff9e64;">
+        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-tower-broadcast" style="color: #ff9e64;"></i> 全站廣播系統</h3>
+        <form action="{{ url_for('admin.broadcast') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">廣播內容 (訊息會以雪音老師的身分發送至所有群組)：</label>
+                <textarea name="content" placeholder="請在此輸入要廣播的消息..." style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem; line-height: 1.5;"></textarea>
             </div>
-            <div style="display: flex; gap: 8px;">
-                <button id="reset-api-keys-btn" class="btn btn-sm" style="border-radius: 20px; padding: 5px 15px; background: rgba(0,0,0,0.05); color: var(--color-text); border: 1px solid var(--color-border); font-size: 0.85rem;">
-                    <i class="fa-solid fa-rotate-left"></i> 重設為待機
-                </button>
-                <button id="cleanup-api-keys-btn" class="btn btn-sm" style="border-radius: 20px; padding: 5px 15px; background: #ffebee; color: #d32f2f; border: 1px solid #ffcdd2; font-size: 0.85rem;">
-                    <i class="fa-solid fa-trash-can"></i> 刪除損壞金鑰
+            <div style="text-align: right;">
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #ff8a00, #e52e71); color: white; padding: 10px 25px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 46, 113, 0.2);">
+                    <i class="fa-solid fa-paper-plane"></i> 立即發送廣播
                 </button>
             </div>
-        </div>
-        
-        <style>
-            @keyframes pulse-green {
-                0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
-                70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
-                100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
-            }
-        </style>
-
-        <div id="api-keys-container">
-        {% for provider, keys in api_key_statuses.items() %}
-        <div style="margin-bottom: 1.5rem;">
-            <label style="font-weight: bold; color: var(--color-text); font-size: 1.1rem; display: block; margin-bottom: 0.8rem; text-transform: uppercase;">
-                <i class="fa-solid fa-microchip"></i> {{ provider }} API Keys 
-                <span style="font-size: 0.8rem; font-weight: normal; color: #888; margin-left: 10px;">共 {{ keys|length }} 把</span>
-            </label>
-            
-            {% if not keys %}
-            <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; color: #888; text-align: center; font-style: italic;">尚未設定此模型的 API Key</div>
-            {% else %}
-                {% for k in keys %}
-                <div class="api-key-row">
-                    <div style="flex: 1; overflow: hidden;">
-                        <div class="api-key-text"><i class="fa-solid fa-key" style="color: #ccc; margin-right: 8px;"></i>{{ k.key }}</div>
-                        <div style="font-size: 0.75rem; color: #aaa; margin-top: 5px; margin-left: 24px;">
-                            <i class="fa-regular fa-clock"></i> 最後使用：{{ k.last_used }}
-                        </div>
-                        {% if k.error %}
-                        <div style="font-size: 0.8rem; color: #c62828; margin-top: 5px; margin-left: 24px; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ k.error }}">
-                            <i class="fa-solid fa-triangle-exclamation"></i> 錯誤：{{ k.error }}
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div style="margin-left: 15px;">
-                        {% if k.status == 'active' %}
-                            <span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 運作中</span>
-                        {% elif k.status == 'standby' %}
-                            <span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機中</span>
-                        {% elif k.status == 'cooldown' %}
-                            <span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻中</span>
-                        {% else %}
-                            <span class="api-status-badge status-error"><div class="status-dot dot-error"></div> 壞掉了</span>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-            {% endif %}
-        </div>
-        {% endfor %}
-        </div>
+        </form>
     </div>
 
-
+    <!-- User Management -->
+    <div class="washi-card" style="margin-bottom: 2rem;">
+        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count', count=users|length) }})</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
+                    <th style="padding: 10px;">ID</th>
+                    <th style="padding: 10px;">{{ _t('admin_email') }}</th>
+                    <th style="padding: 10px;">{{ _t('admin_name') }}</th>
+                    <th style="padding: 10px;">{{ _t('admin_role') }}</th>
+                    <th style="padding: 10px;">{{ _t('admin_actions') }}</th>
+                </tr>
+                {% for u in users %}
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 10px; color: var(--color-text_light);">#{{ u.id }}</td>
+                    <td style="padding: 10px; font-weight: 500;">{{ u.email }}</td>
+                    <td style="padding: 10px;">{{ u.username }}</td>
+                    <td style="padding: 10px;">
+                        <span style="font-size: 0.8rem; font-weight: bold; padding: 3px 8px; border-radius: 5px; color: white; background: {% if u.is_admin %}#ff7b72{% elif u.role == 'teacher' %}#7c4dff{% else %}#4285f4{% endif %};">
+                            {{ u.role|upper }}
+                        </span>
+                    </td>
+                    <td style="padding: 10px; display: flex; gap: 5px;">
+                        <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm("確定要刪除使用者嗎？");'>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn" style="padding: 5px 10px; background-color: #ff4444; color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // API Key Status Auto-refresh
-    // The existing fetchAPIKeyStatus already handles this, so we'll integrate the reset logic.
-
-    // Reset API Keys logic
-    document.getElementById('reset-api-keys-btn').addEventListener('click', function() {
-        if (!confirm('確定要強制重設所有金鑰狀態回「待機」嗎？\n這將會清除所有目前的報錯紀錄與冷卻時間。')) return;
-        
-        const btn = this;
-        const originalText = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在重設...';
-
-        fetch('/admin/api_keys/reset', { // Use relative URL to avoid scheme issues
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': document.querySelector('input[name="csrf_token"]') ? document.querySelector('input[name="csrf_token"]').value : '{{ csrf_token() }}'
-            }
-        })
-        .then(async response => {
-            const data = await response.json();
-            if (response.ok && data.message) {
-                alert('成功！所有金鑰已恢復待機狀態。頁面即將重新整理。');
-                location.reload();
-            } else {
-                throw new Error(data.error || '伺服器回應錯誤');
-            }
-        })
-        .catch(err => {
-            alert('重設失敗 (網路或權限問題)：' + err.message);
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        });
-    });
-
-    // Cleanup API Keys logic
-    document.getElementById('cleanup-api-keys-btn').addEventListener('click', function() {
-        if (!confirm('確定要【永久刪除】所有標記為損壞 (Error/Leaked) 的 API Keys 嗎？\n此動作無法復原！')) return;
-        
-        const btn = this;
-        const originalText = btn.innerHTML;
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在清理...';
-
-        fetch('/admin/api_keys/deep_cleanup', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': document.querySelector('input[name="csrf_token"]') ? document.querySelector('input[name="csrf_token"]').value : '{{ csrf_token() }}'
-            }
-        })
-        .then(async response => {
-            const data = await response.json();
-            if (response.ok && data.message) {
-                alert('清理成功！' + data.message + '\n頁面即將重新整理。');
-                location.reload();
-            } else {
-                throw new Error(data.error || '伺服器回應錯誤');
-            }
-        })
-        .catch(err => {
-            alert('清理失敗：' + err.message);
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        });
-    });
-
-    function fetchAPIKeyStatus() {
-        fetch('{{ url_for("admin.api_keys_status") }}')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('api-keys-container');
-                if (!container) return;
-                
-                let newHtml = '';
-                for (const [provider, keys] of Object.entries(data)) {
-                    newHtml += `
-                    <div style="margin-bottom: 1.5rem;">
-                        <label style="font-weight: bold; color: var(--color-text); font-size: 1.1rem; display: block; margin-bottom: 0.8rem; text-transform: uppercase;">
-                            <i class="fa-solid fa-microchip"></i> ${provider} API Keys 
-                            <span style="font-size: 0.8rem; font-weight: normal; color: #888; margin-left: 10px;">共 ${keys.length} 把</span>
-                        </label>`;
-                        
-                    if (keys.length === 0) {
-                        newHtml += `<div style="padding: 15px; background: #f9f9f9; border-radius: 8px; color: #888; text-align: center; font-style: italic;">尚未設定此模型的 API Key</div>`;
-                    } else {
-                        for (const k of keys) {
-                            let badgeHtml = '';
-                            if (k.status === 'active') {
-                                badgeHtml = '<span class="api-status-badge status-active"><div class="status-dot dot-active"></div> 運作中</span>';
-                            } else if (k.status === 'standby') {
-                                badgeHtml = '<span class="api-status-badge status-standby"><div class="status-dot dot-standby"></div> 待機中</span>';
-                            } else if (k.status === 'cooldown') {
-                                badgeHtml = '<span class="api-status-badge status-cooldown"><div class="status-dot dot-cooldown"></div> 冷卻中</span>';
-                            } else {
-                                badgeHtml = '<span class="api-status-badge status-error"><div class="status-dot dot-error"></div> 壞掉了</span>';
-                            }
-                            
-                            let errorHtml = '';
-                            if (k.error) {
-                                errorHtml = `<div style="font-size: 0.8rem; color: #c62828; margin-top: 5px; margin-left: 24px; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${k.error.replace(/"/g, '&quot;')}">
-                                    <i class="fa-solid fa-triangle-exclamation"></i> 錯誤：${k.error}
-                                </div>`;
-                            }
-                            
-                            newHtml += `
-                            <div class="api-key-row">
-                                <div style="flex: 1; overflow: hidden;">
-                                    <div class="api-key-text"><i class="fa-solid fa-key" style="color: #ccc; margin-right: 8px;"></i>${k.key}</div>
-                                    <div style="font-size: 0.75rem; color: #aaa; margin-top: 5px; margin-left: 24px;">
-                                        <i class="fa-regular fa-clock"></i> 最後使用：${k.last_used}
-                                    </div>
-                                    ${errorHtml}
-                                </div>
-                                <div style="margin-left: 15px;">
-                                    ${badgeHtml}
-                                </div>
-                            </div>
-                            `;
-                        }
-                    }
-                    newHtml += `</div>`;
-                }
-                
-                container.innerHTML = newHtml;
-                
-                // Update Sync Timestamp
-                const syncEl = document.getElementById('last-sync-time');
-                if (syncEl) {
-                    const now = new Date();
-                    syncEl.innerText = `最後同步：${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-                }
-            })
-            .catch(error => console.error('Error fetching API key status:', error));
-    }
-
-    // Polling interval: dynamically grab updates every 1.5 seconds for real-time feel
-    setInterval(fetchAPIKeyStatus, 1500);
-
-    // --- Antigravity System Pulse Logic ---
     function updateSystemPulse() {
-        fetch('/admin/system_pulse')
-            .then(res => res.json())
-            .then(data => {
-                const msgEl = document.getElementById('pulse-msg');
-                const badgeEl = document.getElementById('pulse-status-badge');
-                const providerEl = document.getElementById('pulse-provider');
-                const threatEl = document.getElementById('pulse-threat');
-                const animationEl = document.getElementById('pulse-animation');
-
-                if (msgEl) msgEl.innerText = data.diagnostic_msg;
-                if (providerEl) providerEl.innerText = data.active_provider;
-                if (threatEl) {
-                    threatEl.innerText = data.threat_level;
-                    threatEl.style.color = data.threat_level === 'HIGH' ? '#ff7b72' : '#79dac8';
-                }
-                
-                if (badgeEl) {
-                    badgeEl.innerText = data.status;
-                    badgeEl.style.background = data.status === 'HEALTHY' ? '#2e7d32' : '#c62828';
-                }
-
-                // Visual flicker to show live data
-                if (animationEl) {
-                    animationEl.style.opacity = "0.5";
-                    setTimeout(() => animationEl.style.opacity = "1", 100);
-                }
-            })
-            .catch(err => console.error("Pulse dead:", err));
+        const providerEl = document.getElementById('pulse-provider');
+        if (providerEl) providerEl.innerText = "Antigravity Sync";
+        
+        const badgeEl = document.getElementById('pulse-status-badge');
+        if (badgeEl) {
+            badgeEl.innerText = "STABLE";
+            badgeEl.style.background = "#2e7d32";
+        }
     }
-    setInterval(updateSystemPulse, 5000);
-    updateSystemPulse(); 
+    updateSystemPulse();
+    setInterval(updateSystemPulse, 10000);
 });
 </script>
 

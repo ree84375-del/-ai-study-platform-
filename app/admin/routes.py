@@ -48,8 +48,6 @@ def dashboard():
     # --- END DATABASE HEALTH CHECK ---
 
     users = User.query.order_by((User.role == 'admin').desc(), User.id).all()
-    from app.utils.ai_helpers import get_all_api_key_statuses
-    api_key_statuses = get_all_api_key_statuses()
     
     stats = {
         'total_users': User.query.count(),
@@ -58,12 +56,26 @@ def dashboard():
         'total_groups': Group.query.count()
     }
     
-    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, api_key_statuses=api_key_statuses, stats=stats)
+    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, stats=stats)
 
-@admin.route('/api_keys_status')
-def api_keys_status():
-    from app.utils.ai_helpers import get_all_api_key_statuses
-    return jsonify(get_all_api_key_statuses())
+@admin.route('/broadcast', methods=['POST'])
+@login_required
+def broadcast():
+    if not current_user.is_admin:
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    content = request.form.get('content')
+    if not content:
+        return jsonify({'error': 'No content provided'}), 400
+        
+    try:
+        from app.utils.ai_helpers import broadcast_to_all_groups
+        results = broadcast_to_all_groups(content)
+        flash(f'廣播成功！已發送至 {results["count"]} 個群組。', 'success')
+    except Exception as e:
+        flash(f'廣播失敗：{str(e)}', 'danger')
+        
+    return redirect(url_for('admin.dashboard'))
 
 @admin.route('/system_pulse')
 def system_pulse():
