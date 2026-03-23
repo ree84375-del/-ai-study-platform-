@@ -65,14 +65,34 @@
             {% else %}
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
                     {% for group in groups %}
-                        <div class="washi-card" style="position: relative;">
+                        <div class="washi-card" style="position: relative; border-left: 4px solid {% if group.group_type == 'class' %}var(--color-primary){% else %}var(--color-accent){% endif %};">
                             {% if group.teacher_id == current_user.id %}
                                 <span style="position: absolute; top: 20px; right: 20px; background-color: var(--color-accent); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;">{{ _t('teacher_label') }}</span>
                             {% endif %}
                             
-                            <h3 style="margin-top: 0; color: var(--color-primary);">{{ group.name }}</h3>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                {% if group.group_type == 'class' %}
+                                    <span style="background: linear-gradient(135deg, #4285f4, #6395e3); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; display: inline-flex; align-items: center; gap: 5px;">
+                                        <i class="fa-solid fa-chalkboard-teacher"></i> 班級群組
+                                    </span>
+                                {% else %}
+                                    <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; display: inline-flex; align-items: center; gap: 5px;">
+                                        <i class="fa-solid fa-comments"></i> 學生討論
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <h3 style="margin-top: 0; color: {% if group.group_type == 'class' %}var(--color-primary){% else %}var(--color-accent){% endif %};">
+                                {% if group.group_type == 'class' %}
+                                    <i class="fa-solid fa-school"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-user-group"></i>
+                                {% endif %}
+                                {{ group.name }}
+                            </h3>
                             <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 5px;"><i class="fa-solid fa-hashtag"></i> {{ _t('invite_code_label') }} <strong style="color: var(--color-text_main); letter-spacing: 1px;">{{ group.invite_code }}</strong></p>
                             <p style="font-size: 0.9rem; color: var(--color-text_light); margin-bottom: 15px;"><i class="fa-solid fa-user-graduate"></i> {{ _t('members_count_label') }} {{ group.members | length }}</p>
+
                             
                             <div style="border-top: 1px dashed var(--color-border); padding-top: 15px;">
                                 <a href="{{ url_for('group.group_dashboard', group_id=group.id) }}" class="btn-group-action" style="display: inline-block; background: none; border: 1px solid var(--color-primary); padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; color: var(--color-primary); transition: all 0.2s;">

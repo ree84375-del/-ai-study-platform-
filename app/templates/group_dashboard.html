@@ -2,8 +2,13 @@
 {% block title %}{{ _t('exchange_area') }} - {{ group.name }}{% endblock %}
 {% block content %}
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.8rem;">
-        <h2 style="color: var(--color-primary); margin: 0;">
+        <h2 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <i class="fa-solid fa-users"></i> {{ group.name }} - {{ _t('exchange_area') }}
+            {% if group.group_type == 'class' %}
+                <span style="background: linear-gradient(135deg, #4285f4, #6395e3); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-solid fa-chalkboard-teacher"></i> 班級</span>
+            {% else %}
+                <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-solid fa-comments"></i> 討論</span>
+            {% endif %}
         </h2>
         <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 10px 25px; background: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: bold; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; margin-top: 8px;">
             <i class="fa-solid fa-arrow-left"></i> {{ _t('nav_back') }}
