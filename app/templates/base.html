@@ -124,7 +124,6 @@
             {% endif %}
             <a href="{{ url_for('study.mistakes') }}" class="nav-link"><i class="fa-solid fa-book-journal-whills"></i> {{ _t('nav_mistakes') }}</a>
             <a href="{{ url_for('group.groups') }}" class="nav-link"><i class="fa-solid fa-users"></i> {{ _t('nav_groups') }}</a>
-            <a href="{{ url_for('study.ai_vision') }}" class="nav-link" style="color: var(--color-accent);"><i class="fa-solid fa-wand-magic-sparkles"></i> {{ _t('nav_vision') }}</a>
             <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> {{ _t('nav_chat') }}</a>
             <a href="{{ url_for('study.lofi_room') }}" class="nav-link" id="nav-lofi-room"><i class="fa-solid fa-moon"></i> {{ _t('nav_lofi') }}</a>
             
@@ -166,9 +165,6 @@
         </a>
         <a href="{{ url_for('group.groups') }}" class="mob-nav-item">
             <i class="fa-solid fa-users"></i><span>{{ _t('nav_groups') }}</span>
-        </a>
-        <a href="{{ url_for('study.ai_vision') }}" class="mob-nav-item">
-            <i class="fa-solid fa-wand-magic-sparkles"></i><span>{{ _t('nav_vision') }}</span>
         </a>
         <a href="{{ url_for('main.chat') }}" class="mob-nav-item">
             <i class="fa-solid fa-comments"></i><span>{{ _t('nav_yukine') }}</span>

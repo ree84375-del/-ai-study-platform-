@@ -14,16 +14,11 @@
             </div>
             
             <div class="tour-step" id="step-2" style="display: none;">
-                <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-wand-magic-sparkles"></i> {{ _t('step2_h4') }}</h4>
-                <p>{{ _t('step2_p') }}</p>
-            </div>
-            
-            <div class="tour-step" id="step-3" style="display: none;">
                 <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-users"></i> {{ _t('step3_h4') }}</h4>
                 <p>{{ _t('step3_p') }}</p>
             </div>
             
-            <div class="tour-step" id="step-4" style="display: none;">
+            <div class="tour-step" id="step-3" style="display: none;">
                 <h4 style="color: var(--color-secondary);"><i class="fa-solid fa-user-shield"></i> {{ _t('step4_h4') }}</h4>
                 <p>{{ _t('step4_p') }}</p>
             </div>
@@ -33,7 +28,6 @@
             <button id="tour-prev" class="btn" style="background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); display: none;">{{ _t('tour_prev') }}</button>
             <div style="flex-grow: 1; display: flex; justify-content: center; align-items: center;" id="tour-dots">
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-primary); border-radius: 50%; display: inline-block;"></span>
-                <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-border); border-radius: 50%; display: inline-block;"></span>
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-border); border-radius: 50%; display: inline-block;"></span>
                 <span class="dot" style="height: 8px; width: 8px; margin: 0 4px; background-color: var(--color-border); border-radius: 50%; display: inline-block;"></span>
             </div>
@@ -53,7 +47,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let currentStep = 1;
-        const totalSteps = 4;
+        const totalSteps = 3;
         
         const nextBtn = document.getElementById('tour-next');
         const prevBtn = document.getElementById('tour-prev');

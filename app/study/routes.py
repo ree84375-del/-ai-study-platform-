@@ -521,14 +521,18 @@ def personal_welcome():
     if current_user.learning_goals:
         context += f"學生的學習目標是：{current_user.learning_goals}。"
     
-    prompt = f"妳是雪音老師。請根據用戶的名字「{current_user.username}」和背景「{context}」寫一段 50 字以內的溫馨歡迎語。語氣要充滿關懷，提到與他們的目標相關的鼓勵內容。僅回傳歡迎語內容，不要有任何標題或引號。"
+    display_name = current_user.username
+    if '_備份_' in display_name:
+        display_name = '管理員'
+        
+    prompt = f"妳是雪音老師。請根據用戶的名字「{display_name}」和背景「{context}」寫一段 50 字以內的溫馨歡迎語。語氣要充滿關懷，提到與他們的目標相關的鼓勵內容。僅回傳歡迎語內容，不要有任何標題或引號。"
     
     try:
         # Use a consistent system instruction for the welcome message
-        system_instr = "妳是一位溫柔的日系老師「雪音」，語氣親切溫馨，充滿正能量。嚴格保持在 50 字以內。"
+        system_instr = "妳是一位溫柔的日系老師「雪音」，語氣親切溫馨，充滿正能量。嚴格保持在 50 字以內。務必使用繁體中文回答，絕對不可用簡體中文。"
         welcome_msg = generate_text_with_fallback(prompt, system_instruction=system_instr, user=current_user)
     except Exception:
-        welcome_msg = f"歡迎回來，{current_user.username}同學！今天也要跟著雪音一起朝著您的目標努力喔！(◕‿◕✿)"
+        welcome_msg = f"歡迎回來，{display_name}同學！今天也要跟著雪音一起朝著您的目標努力喔！(◕‿◕✿)"
     
     return jsonify({'message': welcome_msg})
 
