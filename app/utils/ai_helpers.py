@@ -610,7 +610,9 @@ def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
             clean_text = clean_text.split('```json')[1].split('```')[0].strip()
         return json.loads(clean_text)
     except Exception as e:
-  def broadcast_to_all_groups(content):
+        return {"title": "Error", "description": str(e), "reference_answer": ""}
+
+def broadcast_to_all_groups(content):
     """Sends a system message to all active groups."""
     try:
         from app.models import Group, GroupMessage, User
