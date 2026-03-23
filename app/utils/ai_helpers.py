@@ -448,7 +448,10 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     if '[SEARCH:' in reply:
         def replace_search(match):
             query = match.group(1).strip()
-            res = perform_web_search(query)
+            try:
+                res = perform_web_search(query)
+            except Exception as e:
+                res = f"搜尋出錯: {str(e)}"
             return f'\n> <i class="fa-solid fa-earth-asia"></i> **網路搜尋結果** ({query}):\n> {res}\n'
         reply = re.sub(r'\[SEARCH:\s*(.*?)\]', replace_search, reply, flags=re.DOTALL)
 
@@ -456,7 +459,10 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
     if '[KNOWLEDGE:' in reply:
         def replace_knowledge(match):
             query = match.group(1).strip()
-            res = lookup_group_data(group_id, query)
+            try:
+                res = lookup_group_data(group_id, query)
+            except Exception as e:
+                res = f"查詢出錯: {str(e)}"
             return f'\n> <i class="fa-solid fa-book-open-reader"></i> **課室知識庫查詢** ({query}):\n> {res}\n'
         reply = re.sub(r'\[KNOWLEDGE:\s*(.*?)\]', replace_knowledge, reply, flags=re.DOTALL)
 

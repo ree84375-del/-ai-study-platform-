@@ -1857,11 +1857,8 @@ function cancelAiDraft() {
                 if (data.status === 'success') {
                     appendMessage(data.user_message);
                     if (data.ai_triggered) {
-                        try {
-                            await handleAIReply();
-                        } finally {
-                            enableInputUI();
-                        }
+                        // Small delay to ensure DB consistency
+                        setTimeout(() => handleAIReply(), 500);
                     } else {
                         enableInputUI();
                     }
@@ -1918,19 +1915,37 @@ function cancelAiDraft() {
                 },
                 signal: window.currentAiController.signal
             });
+            
+            if (!res.ok) {
+                const errData = await res.json().catch(() => ({ message: res.statusText }));
+                throw new Error(errData.message || `Server Error ${res.status}`);
+            }
+
             const data = await res.json();
             const thinkingEl = document.getElementById(thinkingId);
             if (thinkingEl) thinkingEl.remove();
-            if (data.status === 'success') appendMessage(data.ai_message);
-            else console.warn('AI skipped or errored:', data.message);
+            
+            if (data.status === 'success') {
+                appendMessage(data.ai_message);
+            } else {
+                throw new Error(data.message || 'AI skipped');
+            }
         } catch (err) { 
             const thinkingEl = document.getElementById(thinkingId);
             if (thinkingEl) thinkingEl.remove();
+            
             if (err.name === 'AbortError') {
-                console.log('AI Reply Cancelled by User');
+                console.log('AI Reply Cancelled');
             } else {
-                console.error('AI Reply Error:', err); 
+                console.error('AI Reply Error:', err);
+                appendMessage({
+                    role: 'ai',
+                    content: `【系統異常】雪音老師暫時斷線了 (Error: ${err.message})。請重整頁面或稍候再試。`,
+                    username: '系統助手'
+                });
             }
+        } finally {
+            enableInputUI(); // Ensure UI is re-enabled
         }
     }
 
