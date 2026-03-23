@@ -725,7 +725,11 @@ def ai_reply(group_id):
         AI_NAME = '雪音 (Antigravity 核心)'
         ai_email = 'yukine_bot_ag@internal.ai'
         yukine = User.query.filter_by(email=ai_email).first()
-        last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
+        msg_id = request.args.get('msg_id')
+        if msg_id and msg_id.isdigit():
+            last_msg = GroupMessage.query.get(int(msg_id))
+        else:
+            last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
         
         # Fallback to name search
         if not yukine:
