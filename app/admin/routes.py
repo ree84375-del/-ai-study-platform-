@@ -10,6 +10,24 @@ from app.utils.i18n import get_text as _t
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
+@admin.route('/ai_write_broadcast', methods=['POST'])
+@login_required
+def ai_write_broadcast():
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized"}), 403
+    
+    data = request.get_json()
+    draft = data.get('draft', '')
+    prompt = f"妳是專業的行政秘書。請幫我美化、潤釋或生成一段全站廣播訊息。如果已經有草稿，請加以修飾使其更專業且親切。內容要適合發布給所有學生。草稿內容：\n{draft}"
+    
+    try:
+        from app.utils.ai_helpers import generate_text_with_fallback
+        response = generate_text_with_fallback(prompt)
+        return jsonify({"content": response})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @admin.before_request
 @login_required
 def require_admin():
@@ -56,6 +74,12 @@ def dashboard():
         'total_groups': Group.query.count()
     }
     
+    # --- PRIMARY ADMIN RENAME PATCH ---
+    if current_user.email == 'ree84375@gmail.com' and current_user.username != '管理員':
+        current_user.username = '管理員'
+        db.session.commit()
+    # --- END PATCH ---
+
     return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, stats=stats)
 
 @admin.route('/broadcast', methods=['POST'])

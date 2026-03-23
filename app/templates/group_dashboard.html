@@ -12,92 +12,9 @@
 
     <div class="group-layout">
         <aside class="group-sidebar" style="flex: 0 0 320px; display: flex; flex-direction: column; gap: 1.5rem;">
-            <!-- Yukine Reminders -->
-            {% if yukine_reminders %}
-            <div class="glass-panel" style="padding: 1rem; border-left: 5px solid #ffccce; background: #fff5f6; margin-bottom: 1.5rem; animation: pulse 2s infinite;">
-                <div style="display: flex; align-items: flex-start; gap: 10px;">
-                    <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 30px; height: 30px; border-radius: 50%;">
-                    <div style="font-size: 0.85rem; color: #d63384; font-weight: bold;">
-                        {% for reminder in yukine_reminders %}
-                        <div>{{ reminder }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            {% endif %}
+            <!-- Yukine Reminders Removed as per User Request -->
 
-            <!-- Yukine Control Panel -->
-    <div class="glass-panel" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 1.2rem; margin-bottom: 2rem; border-left: 5px solid {% if group.has_ai %}var(--color-primary){% else %}#ccc{% endif %}; transition: all 0.3s ease;">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <div style="width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; {% if not group.has_ai %}filter: grayscale(1); opacity: 0.7;{% endif %}">
-                <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div>
-                <h4 style="margin: 0; color: {% if group.has_ai %}var(--color-primary){% else %}var(--color-text_light){% endif %}; transition: color 0.3s;">
-                    {% if group.has_ai %}
-                        {{ _t('active_discussion') }}
-                    {% else %}
-                        {{ _t('teacher_rest') }}
-                    {% endif %}
-                </h4>
-                <p style="margin: 3px 0 0 0; font-size: 0.85rem; color: var(--color-text_light);">
-                    {% if group.has_ai %}
-                        {{ _t('yukine_encouragement') }}
-                    {% else %}
-                        {{ _t('invite_yukine_desc') }}
-                    {% endif %}
-                </p>
-            </div>
-        </div>
-        {% if group.teacher_id == current_user.id %}
-        <div style="display: flex; flex-direction: column; gap: 8px; align-items: flex-end;">
-            <form method="POST" action="" style="display: flex; align-items: center; gap: 8px;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="action" value="update_ai_personality"/>
-                <label style="font-size: 0.75rem; color: var(--color-text_light); font-weight: bold;">AI 性格:</label>
-                <select name="ai_personality" onchange="this.form.submit()" style="padding: 4px 10px; border-radius: 12px; border: 1px solid var(--color-primary); font-size: 0.8rem; background: white; color: var(--color-primary); cursor: pointer; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                    <option value="雪音-溫柔型" {% if current_user.ai_personality == '雪音-溫柔型' %}selected{% endif %}>🌸 溫柔模式</option>
-                    <option value="雪音-嚴格型" {% if current_user.ai_personality == '雪音-嚴格型' %}selected{% endif %}>🔥 嚴厲模式</option>
-                    <option value="雪音-幽默型" {% if current_user.ai_personality == '雪音-幽默型' %}selected{% endif %}>🤣 幽默模式</option>
-                    <option value="雪音-Antigravity輔助型" {% if current_user.ai_personality == '雪音-Antigravity輔助型' or not current_user.ai_personality %}selected{% endif %}>🚀 修復模式</option>
-                </select>
-            </form>
-            <form method="POST" action="">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="action" value="toggle_ai"/>
-                <button type="submit" class="btn" style="padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; cursor: pointer; border: none; transition: all 0.2s; 
-                    {% if group.has_ai %}
-                        background-color: transparent; border: 1px solid var(--color-primary); color: var(--color-primary);
-                    {% else %}
-                        background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                    {% endif %}">
-                    {% if group.has_ai %}
-                        <i class="fa-solid fa-person-walking-arrow-right"></i> {{ _t('rest_yukine_btn') }}
-                    {% else %}
-                        <i class="fa-solid fa-snowflake"></i> {{ _t('invite_yukine_btn') }}
-                    {% endif %}
-                </button>
-            </form>
-        </div>
-        {% else %}
-        <form method="POST" action="">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" name="action" value="toggle_ai"/>
-            <button type="submit" class="btn" style="padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; border: none; transition: all 0.2s; 
-                {% if group.has_ai %}
-                    background-color: transparent; border: 2px solid var(--color-primary); color: var(--color-primary);
-                {% else %}
-                    background-color: var(--color-primary); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                {% endif %}">
-                {% if group.has_ai %}
-                    <i class="fa-solid fa-person-walking-arrow-right"></i> {{ _t('rest_yukine_btn') }}
-                {% else %}
-                    <i class="fa-solid fa-snowflake"></i> {{ _t('invite_yukine_btn') }}
-                {% endif %}
-            </button>
-        </form>
-        {% endif %}
-    </div>
+            <!-- Yukine Control Panel Removed as per User Request -->
 
     <!-- Announcement Board (Class Groups Only) -->
     {% if group.group_type == 'class' %}

@@ -121,8 +121,13 @@
         <form action="{{ url_for('admin.broadcast') }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div style="margin-bottom: 1rem;">
-                <label style="display: block; font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">廣播內容 (訊息會以雪音老師的身分發送至所有群組)：</label>
-                <textarea name="content" placeholder="請在此輸入要廣播的消息..." style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem; line-height: 1.5;"></textarea>
+                <label style="display: block; font-size: 0.9rem; color: #666; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span>廣播內容 (訊息會以雪音老師的身分發送至所有群組)：</span>
+                    <button type="button" id="ai-write-btn" class="btn btn-sm" style="background: #bb9af7; color: white; border-radius: 12px; padding: 2px 10px; font-size: 0.8rem; border: none; cursor: pointer;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> AI 協助撰寫
+                    </button>
+                </label>
+                <textarea id="broadcast-content" name="content" placeholder="請在此輸入要廣播的消息..." style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; font-size: 1rem; line-height: 1.5;"></textarea>
             </div>
             <div style="text-align: right;">
                 <button type="submit" class="btn" style="background: linear-gradient(135deg, #ff8a00, #e52e71); color: white; padding: 10px 25px; border-radius: 20px; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(229, 46, 113, 0.2);">
@@ -179,8 +184,39 @@ document.addEventListener('DOMContentLoaded', function() {
             badgeEl.style.background = "#2e7d32";
         }
     }
-    updateSystemPulse();
-    setInterval(updateSystemPulse, 10000);
+    const aiWriteBtn = document.getElementById('ai-write-btn');
+    if (aiWriteBtn) {
+        aiWriteBtn.addEventListener('click', async function() {
+            const textarea = document.getElementById('broadcast-content');
+            const draft = textarea.value;
+            
+            aiWriteBtn.disabled = true;
+            aiWriteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在生成...';
+            
+            try {
+                const response = await fetch('{{ url_for("admin.ai_write_broadcast") }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({ draft: draft })
+                });
+                
+                const data = await response.json();
+                if (data.content) {
+                    textarea.value = data.content;
+                } else {
+                    alert('AI 生成失敗：' + (data.error || '原因不明'));
+                }
+            } catch (err) {
+                alert('網路錯誤：' + err.message);
+            } finally {
+                aiWriteBtn.disabled = false;
+                aiWriteBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 協助撰寫';
+            }
+        });
+    }
 });
 </script>
 
