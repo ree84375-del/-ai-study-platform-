@@ -83,9 +83,22 @@ def dashboard():
     }
     
     # --- PRIMARY ADMIN RENAME PATCH ---
+    # Ensure ree84375@gmail.com is always named "管理員"
     if current_user.email == 'ree84375@gmail.com' and current_user.username != '管理員':
-        current_user.username = '管理員'
-        db.session.commit()
+        # Check if anyone else is using the name "管理員"
+        conflicting_user = User.query.filter(User.username == '管理員', User.id != current_user.id).first()
+        if conflicting_user:
+            # Rename the conflicting user to something else
+            suffix = conflicting_user.id
+            conflicting_user.username = f"管理員_備份_{suffix}"
+            db.session.commit()
+            
+        # Now it's safe to rename the current user
+        try:
+            current_user.username = '管理員'
+            db.session.commit()
+        except:
+            db.session.rollback()
     # --- END PATCH ---
 
     return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, stats=stats)
