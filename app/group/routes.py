@@ -343,7 +343,7 @@ def group_dashboard(group_id):
                         
                         return jsonify({
                             'status': 'success',
-                            'ai_triggered': True if group_obj.has_ai else False,
+                            'ai_triggered': True, # FORCED for reliability
                             'user_message': {
                                 'id': new_msg.id,
                                 'content': new_msg.content,

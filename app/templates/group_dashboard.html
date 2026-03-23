@@ -758,6 +758,9 @@
         <main class="group-main" style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;">
             <!-- Message Board -->
             <div class="washi-card chat-scroll-area" style="padding: 1.5rem; margin-bottom: 0; min-height: 500px; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; background-color: var(--color-secondary);">
+                <div style="text-align: center; padding: 10px; color: #ff8a00; font-size: 0.75rem; font-family: monospace; border-bottom: 1px dashed #ffe0b2; margin-bottom: 20px;">
+                    <i class="fa-solid fa-microchip"></i> AI MODULE v5.0 (CORE SYNC) ONLINE
+                </div>
                 
                 <!-- Ephemeral Yukine Welcome (Not in DB) -->
                 {% if yukine_welcome %}
@@ -947,8 +950,8 @@
                                  <i class="fa-solid fa-circle-info"></i> {{ _t('paste_image_note') }}
                             </div>
                         </div>
-                        <button type="submit" id="chat-submit-btn" style="background-color: var(--color-primary); color: white; border: none; min-width: 120px; height: 45px; padding: 0 25px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" onmouseover="if(!this.disabled){this.style.opacity='0.9'; this.style.transform='translateY(-1px)';}" onmouseout="if(!this.disabled){this.style.opacity='1'; this.style.transform='translateY(0)';}">
-                            <i class="fa-solid fa-paper-plane" id="chat-submit-icon"></i> <span id="chat-submit-text">{{ _t('send_message') }}</span>
+                        <button type="submit" id="chat-submit-btn" style="background: linear-gradient(135deg, #ff8a00, #e52e71); color: white; border: none; min-width: 120px; height: 45px; padding: 0 25px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; box-shadow: 0 4px 15px rgba(229, 46, 113, 0.3);" onmouseover="if(!this.disabled){this.style.opacity='0.9'; this.style.transform='scale(1.05)';}" onmouseout="if(!this.disabled){this.style.opacity='1'; this.style.transform='scale(1)';}">
+                            <i class="fa-solid fa-paper-plane" id="chat-submit-icon"></i> <span id="chat-submit-text">發送(已強化)</span>
                         </button>
                     </div>
                 </form>
