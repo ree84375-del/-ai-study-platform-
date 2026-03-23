@@ -706,8 +706,9 @@
 
                 {% if messages %}
                     {% for msg in messages %}
+                        {% if not msg.is_deleted %}
                         <!-- Message Container -->
-                        <div class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
+                        <div id="msg-box-{{ msg.id }}" class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
                             <!-- Avatar Section -->
                             <div style="flex-shrink: 0; width: 44px; height: 44px; position: relative;">
                                 <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
@@ -795,7 +796,7 @@
                                     </div>
 
                                     <!-- Trigger -->
-                                    <div class="message-more-trigger" data-id="{{ msg.id }}" onclick="event.stopPropagation(); toggleControls(this.dataset.id)">
+                                    <div class="message-more-trigger" data-id="{{ msg.id }}" onclick="event.stopPropagation(); toggleControls(this.dataset.id)" style="{% if msg.user_id == current_user.id %}margin-right: 5px;{% else %}margin-left: 5px;{% endif %}">
                                         <i class="fa-solid fa-ellipsis"></i>
                                     </div>
                                 </div>
@@ -818,6 +819,7 @@
                                     </div>
                                 </div>
                             </div>
+                        {% endif %}
                         {% endfor %}
                     {% else %}
                     <div style="text-align: center; color: var(--color-text_light); margin-top: 3rem;">
@@ -882,6 +884,76 @@
             50% { transform: scale(1.02); opacity: 0.9; }
             100% { transform: scale(1); opacity: 1; }
         }
+        
+        /* Interaction Buttons Style */
+        .interaction-buttons {
+            display: none;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 14px;
+            border-radius: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            border: 1px solid rgba(0,0,0,0.05);
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            animation: fadeIn 0.2s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-more-btn {
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .message-more-btn:hover {
+            transform: scale(1.25) rotate(5deg);
+            background: rgba(0,0,0,0.05);
+        }
+
+        /* Reply Preview Container */
+        .reply-preview-container {
+            display: none;
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            border-left: 4px solid var(--color-primary);
+            padding: 12px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #eee;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        /* More Trigger */
+        .message-more-trigger {
+            opacity: 0;
+            transition: all 0.2s;
+            cursor: pointer;
+            color: #94a3b8;
+            padding: 5px;
+        }
+        
+        .message-wrapper:hover .message-more-trigger {
+            opacity: 1;
+        }
+        
+        .message-more-trigger:hover {
+            color: var(--color-primary);
+            transform: scale(1.1);
+        }
     </style>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -934,8 +1006,116 @@ document.addEventListener('DOMContentLoaded', () => {
                     const text = document.querySelector(`#msg-bubble-${id} .message-text`);
                     if (text) text.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${"{{ _t('msg_recalled') }}"}`;
                 });
+                // Update specific bubble if it's open
+                const controls = document.getElementById(`controls-${msgId}`);
+                if (controls) controls.style.display = 'none';
             }
         } catch (err) { console.error(err); }
+    };
+
+    window.startReply = (msgId, username, content) => {
+        const parentIdInput = document.getElementById('parent-id-input');
+        const replyPreview = document.getElementById('reply-preview');
+        const replyToUser = document.getElementById('reply-to-user');
+        const replyContent = document.getElementById('reply-preview-content');
+        
+        parentIdInput.value = msgId;
+        replyToUser.innerText = username;
+        replyContent.innerText = content;
+        replyPreview.style.display = 'block';
+        
+        // Cancel edit if active
+        window.cancelEdit();
+        
+        chatInput.focus();
+        scrollToBottom();
+        
+        // Hide controls
+        document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+    };
+
+    window.cancelReply = () => {
+        document.getElementById('parent-id-input').value = '';
+        document.getElementById('reply-preview').style.display = 'none';
+    };
+
+    window.startEdit = (msgId, content) => {
+        const editIdInput = document.getElementById('edit-id-input');
+        const formActionInput = document.querySelector('[name="action"]');
+        const submitText = document.getElementById('chat-submit-text');
+        
+        editIdInput.value = msgId;
+        chatInput.value = content;
+        formActionInput.value = 'edit_message';
+        submitText.innerText = "{{ _t('save_edit') }}";
+        
+        // Cancel reply if active
+        window.cancelReply();
+        
+        chatInput.focus();
+        chatInput.style.height = 'auto';
+        chatInput.style.height = chatInput.scrollHeight + 'px';
+        
+        // Hide controls
+        document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+        
+        // Add a cancel edit button if not exists
+        if (!document.getElementById('cancel-edit-btn')) {
+            const cancelBtn = document.createElement('button');
+            cancelBtn.id = 'cancel-edit-btn';
+            cancelBtn.type = 'button';
+            cancelBtn.className = 'btn';
+            cancelBtn.style.background = '#f1f5f9';
+            cancelBtn.style.color = '#64748b';
+            cancelBtn.style.borderRadius = '25px';
+            cancelBtn.style.padding = '0 15px';
+            cancelBtn.style.fontSize = '0.9rem';
+            cancelBtn.style.height = '45px';
+            cancelBtn.style.border = '1px solid #e2e8f0';
+            cancelBtn.innerText = "{{ _t('cancel') }}";
+            cancelBtn.onclick = window.cancelEdit;
+            document.getElementById('chat-submit-btn').parentNode.insertBefore(cancelBtn, document.getElementById('chat-submit-btn'));
+        }
+    };
+
+    window.cancelEdit = () => {
+        document.getElementById('edit-id-input').value = '';
+        document.querySelector('[name="action"]').value = 'post_message';
+        document.getElementById('chat-submit-text').innerText = "{{ _t('send_reinforced') if _t('send_reinforced') else '發送(已強化)' }}";
+        chatInput.value = '';
+        chatInput.style.height = 'auto';
+        
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+        if (cancelBtn) cancelBtn.remove();
+    };
+
+    window.deleteMessage = async (msgId) => {
+        if (!confirm("{{ _t('confirm_delete') }}")) return;
+        
+        const formData = new FormData();
+        formData.append('csrf_token', CONFIG.csrfToken);
+        
+        try {
+            const res = await fetch(`/api/groups/messages/${msgId}/delete`, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await res.json();
+            if (data.status === 'success') {
+                const msgBox = document.getElementById(`msg-box-${msgId}`);
+                if (msgBox) {
+                    msgBox.style.transition = 'all 0.4s';
+                    msgBox.style.opacity = '0';
+                    msgBox.style.transform = 'translateX(20px)';
+                    setTimeout(() => msgBox.remove(), 400);
+                }
+            } else {
+                alert(data.message || "Delete failed");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Network error during delete");
+        }
     };
 
     // --- Assignment Wizard Logic (Enhanced with Yukine Checks) ---
