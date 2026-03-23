@@ -533,12 +533,15 @@
         let timerInterval;
         let timeLeft = 25 * 60; // 25 minutes default
         let isRunning = false;
-        let currentMode = 25;
+        let currentMode = 25; // 25 = focus, 5 = break
+        let focusMusicType = null; // Remember what music was playing during focus
+        const REST_MUSIC = 'rain'; // Dedicated rest music track
 
         const display = document.getElementById('timer-display');
         const toggleBtn = document.getElementById('timer-toggle-btn');
         const focusBtn = document.getElementById('mode-focus');
         const breakBtn = document.getElementById('mode-break');
+        const pomoCard = document.querySelector('.pomodoro-card');
 
         function updateDisplay() {
             if (!display) return;
@@ -555,8 +558,9 @@
             updateDisplay();
             if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
             
-            // Update styling
+            // Update mode button styling
             if(minutes === 25) {
+                // Focus mode
                 if (focusBtn) {
                     focusBtn.style.background = 'rgba(255,255,255,0.1)';
                     focusBtn.style.border = '1px solid rgba(255,255,255,0.2)';
@@ -567,18 +571,51 @@
                     breakBtn.style.border = '1px solid transparent';
                     breakBtn.style.color = 'rgba(255,255,255,0.6)';
                 }
+                if (pomoCard) pomoCard.style.borderColor = 'rgba(255,255,255,0.1)';
             } else {
+                // Break mode
                 if (breakBtn) {
-                    breakBtn.style.background = 'rgba(255,255,255,0.1)';
-                    breakBtn.style.border = '1px solid rgba(255,255,255,0.2)';
-                    breakBtn.style.color = 'white';
+                    breakBtn.style.background = 'rgba(100, 200, 100, 0.15)';
+                    breakBtn.style.border = '1px solid rgba(100, 200, 100, 0.4)';
+                    breakBtn.style.color = '#a0f0a0';
                 }
                 if (focusBtn) {
                     focusBtn.style.background = 'transparent';
                     focusBtn.style.border = '1px solid transparent';
                     focusBtn.style.color = 'rgba(255,255,255,0.6)';
                 }
+                if (pomoCard) pomoCard.style.borderColor = 'rgba(100, 200, 100, 0.3)';
             }
+        }
+
+        // Play a notification bell sound
+        function playNotificationBell() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(830, ctx.currentTime);
+                gain.gain.setValueAtTime(0.4, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + 1.5);
+                // Second bell
+                setTimeout(() => {
+                    const osc2 = ctx.createOscillator();
+                    const gain2 = ctx.createGain();
+                    osc2.connect(gain2);
+                    gain2.connect(ctx.destination);
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(1046, ctx.currentTime);
+                    gain2.gain.setValueAtTime(0.3, ctx.currentTime);
+                    gain2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.5);
+                    osc2.start(ctx.currentTime);
+                    osc2.stop(ctx.currentTime + 1.5);
+                }, 300);
+            } catch (e) { console.log('Bell sound failed:', e); }
         }
 
         function toggleTimer() {
@@ -590,14 +627,10 @@
                 isRunning = true;
                 if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 
-                // --- Auto-play random audio logic ---
-                const soundKeys = ['lofi', 'rain', 'cafe', 'forest'];
-                const randomKey = soundKeys[Math.floor(Math.random() * soundKeys.length)];
-                
-                // Check if any audio is already playing. If not, play random.
-                let isAnyPlaying = Object.keys(activeSounds).length > 0;
-                
-                if (!isAnyPlaying) {
+                // Auto-play music if nothing is playing
+                if (!activeMusicType) {
+                    const soundKeys = ['lofi', 'rain', 'cafe', 'forest'];
+                    const randomKey = soundKeys[Math.floor(Math.random() * soundKeys.length)];
                     safeToggleAudio(randomKey);
                 }
 
@@ -608,28 +641,57 @@
                         clearInterval(timerInterval);
                         isRunning = false;
                         if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                        // Optional: play an alert bell here
+                        
+                        // Play notification bell
+                        playNotificationBell();
+                        
+                        // Speech announcement
                         if ('speechSynthesis' in window) {
-                            const msgText = currentMode === 25 ? document.getElementById('i18n-data').dataset.pomoFocusDone : document.getElementById('i18n-data').dataset.pomoBreakDone;
+                            const msgText = currentMode === 25 
+                                ? document.getElementById('i18n-data').dataset.pomoFocusDone 
+                                : document.getElementById('i18n-data').dataset.pomoBreakDone;
                             let msg = new SpeechSynthesisUtterance(msgText);
                             msg.lang = "{{ session.get('language', 'ja') }}" === 'ja' ? 'ja-JP' : ("{{ session.get('language', 'ja') }}" === 'en' ? 'en-US' : 'zh-TW');
                             window.speechSynthesis.speak(msg);
                         }
                         
-                        // Auto Transition Logic
+                        // --- Auto Transition Logic ---
                         if (currentMode === 25) {
-                            // Focus Ended -> Start Break
-                            setTimer(5);
-                            safeToggleAudio('break'); // Automatically start break music
-                            toggleTimer(); // Restart for 5 min
-                        } else {
-                            // Break Ended -> Back to Focus
-                            setTimer(25);
-                            // Stop break music
-                            if (isSoundPlaying('break')) {
-                                safeToggleAudio('break');
+                            // Focus Ended → Auto switch to Break
+                            focusMusicType = activeMusicType; // Remember current music
+                            
+                            // Switch to rest music (rain)
+                            if (activeMusicType && activeMusicType !== REST_MUSIC) {
+                                safeToggleAudio(activeMusicType); // Stop focus music
                             }
-                            // Don't auto-start focus timer to avoid surprising user
+                            
+                            setTimer(5);
+                            
+                            // Start rest music after a short delay
+                            setTimeout(() => {
+                                if (activeMusicType !== REST_MUSIC) {
+                                    safeToggleAudio(REST_MUSIC);
+                                }
+                                toggleTimer(); // Auto-start break timer
+                            }, 1500);
+                            
+                        } else {
+                            // Break Ended → Back to Focus setup
+                            // Stop rest music
+                            if (activeMusicType === REST_MUSIC) {
+                                safeToggleAudio(REST_MUSIC);
+                            }
+                            
+                            setTimer(25);
+                            
+                            // Restore the music that was playing during focus
+                            if (focusMusicType && focusMusicType !== REST_MUSIC) {
+                                setTimeout(() => {
+                                    safeToggleAudio(focusMusicType);
+                                }, 500);
+                            }
+                            
+                            // Don't auto-start focus timer to let user rest
                         }
                         updateDisplay();
                     }
