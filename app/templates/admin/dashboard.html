@@ -190,6 +190,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const textarea = document.getElementById('broadcast-content');
             const draft = textarea.value;
             
+            // --- NEW: Ask for instructions ---
+            const instruction = prompt("請輸入給 AI 的特定指令（選填）：\n(例如：請讓語氣更活潑、請改寫成正式公告、請幫我潤飾並加入 Emoji 等)", "請美化這段內容");
+            if (instruction === null) return; // User clicked Cancel
+            // ---------------------------------
+            
             aiWriteBtn.disabled = true;
             aiWriteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在生成...';
             
@@ -200,7 +205,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': '{{ csrf_token() }}'
                     },
-                    body: JSON.stringify({ draft: draft })
+                    body: JSON.stringify({ 
+                        draft: draft,
+                        instruction: instruction // Send instructions
+                    })
                 });
                 
                 const data = await response.json();

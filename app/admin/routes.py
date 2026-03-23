@@ -18,7 +18,15 @@ def ai_write_broadcast():
     
     data = request.get_json()
     draft = data.get('draft', '')
-    prompt = f"妳是專業的行政秘書。請幫我美化、潤釋或生成一段全站廣播訊息。如果已經有草稿，請加以修飾使其更專業且親切。內容要適合發布給所有學生。草稿內容：\n{draft}"
+    instruction = data.get('instruction', '請美化這段內容')
+    
+    prompt = f"妳是專業的行政秘書。請幫我依照以下「指令」來撰寫或美化一段全站廣播訊息。\n\n指令：{instruction}\n\n"
+    if draft:
+        prompt += f"目前草稿內容：\n{draft}\n\n"
+    else:
+        prompt += "目前尚未提供草稿，請根據指令直接生成一段合適的內容。\n\n"
+        
+    prompt += "生成要求：語氣要親切專業，適合發布給全體學生，使用繁體中文。"
     
     try:
         from app.utils.ai_helpers import generate_text_with_fallback

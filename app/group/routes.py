@@ -722,7 +722,21 @@ def ai_reply(group_id):
         if not group_obj.has_ai:
             return jsonify({'status': 'error', 'message': 'AI is disabled'}), 400
             
+        msg_id = request.args.get('msg_id')
         current_app.logger.info(f"[AI] Reply Triggered for group {group_id}, msg_id={msg_id or 'latest'}")
+        
+        # --- FIX: Define yukine and last_msg ---
+        yukine = User.query.filter_by(email='yukine_bot_ag@internal.ai').first()
+        if not yukine:
+            yukine = User.query.filter(User.username.like('%雪音%')).first()
+            
+        last_msg = None
+        if msg_id:
+            last_msg = GroupMessage.query.get(msg_id)
+        
+        if not last_msg:
+            last_msg = GroupMessage.query.filter_by(group_id=group_id).order_by(GroupMessage.created_at.desc()).first()
+        # ---------------------------------------
         
         from app.utils.ai_helpers import get_ai_tutor_response
         

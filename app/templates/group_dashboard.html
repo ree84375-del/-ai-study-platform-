@@ -1973,13 +1973,21 @@ function cancelAiDraft() {
                 window.disableInputUI();
 
                 try {
-                    const res = await fetch(this.action || window.location.href, { 
+                    const submitUrl = this.action || window.location.href;
+                    console.log("Submitting message to:", submitUrl);
+                    
+                    const res = await fetch(submitUrl, { 
                         method: 'POST', 
                         body: formData, 
                         headers: { 'X-Requested-With': 'XMLHttpRequest' } 
                     });
                     
-                    if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+                    console.log("Submit Response Status:", res.status);
+                    if (!res.ok) {
+                        const errText = await res.text();
+                        console.error("Submit Error Detail:", errText);
+                        throw new Error(`HTTP Error ${res.status}`);
+                    }
                     
                     const data = await res.json();
                     if (data.status === 'success') {
