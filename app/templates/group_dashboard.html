@@ -972,7 +972,7 @@ document.addEventListener('DOMContentLoaded', () => {
         csrfToken: "{{ csrf_token() }}",
         groupTypeLabel: "{{ group.group_type }}",
         yukineAvatar: "{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}",
-        aiReplyUrl: `/api/groups/${CONFIG.groupId}/ai_reply`,
+        aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
         isAdmin: JSON.parse("{{ current_user.is_admin | tojson | safe }}"),
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
