@@ -771,7 +771,7 @@
                                             border: 1px solid #e2e8f0;
                                             border-bottom-left-radius: 4px;
                                         {% endif %}
-                                    ">
+                                    " onclick="toggleControls('{{ msg.id }}')">
                                         {% if msg.parent_id and msg.parent %}
                                             <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
                                                 <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">{{ msg.parent.author.username }} {{ _t('said') }}：</div>
@@ -939,15 +939,24 @@
 
         /* More Trigger */
         .message-more-trigger {
-            opacity: 0;
+            opacity: 0.4;
             transition: all 0.2s;
             cursor: pointer;
             color: #94a3b8;
-            padding: 5px;
+            padding: 8px;
+            margin: 0 2px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
         }
         
         .message-wrapper:hover .message-more-trigger {
             opacity: 1;
+            background: rgba(0,0,0,0.08);
         }
         
         .message-more-trigger:hover {
@@ -990,8 +999,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const controls = document.getElementById(`controls-${msgId}`);
         const isVisible = controls.style.display === 'flex';
         document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
-        if (!isVisible) controls.style.display = 'flex';
+        if (!isVisible) {
+            controls.style.display = 'flex';
+            // Stop propagation to prevent immediate closing by global listener
+            event.stopPropagation();
+        }
     };
+
+    // Global click listener to close controls when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.interaction-buttons') && !e.target.closest('.message-more-trigger') && !e.target.closest('.message-bubble')) {
+            document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+        }
+    });
 
     window.recallMessage = async (msgId) => {
         if (!confirm(CONFIG.confirmRecallMsg)) return;
