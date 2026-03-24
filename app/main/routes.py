@@ -47,7 +47,22 @@ def before_request():
     
     # 1. IP Ban Enforcement (Applies to everyone)
     client_ip = get_real_ip()
-    ban = is_ip_banned(client_ip)
+    from sqlalchemy.exc import ProgrammingError, OperationalError
+    
+    try:
+        ban = is_ip_banned(client_ip)
+    except (ProgrammingError, OperationalError):
+        # Emergency schema repair if table is missing
+        from app.admin.routes import dashboard
+        # This will trigger the migration block inside dashboard() logic
+        # if we could call it - but simpler to just run the SQL here once.
+        try:
+            db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_ban (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, reason TEXT, banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expires_at TIMESTAMP, is_permanent BOOLEAN DEFAULT FALSE, admin_notes TEXT, banned_by_id INTEGER REFERENCES \"user\"(id))"))
+            db.session.execute(text("CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)"))
+            db.session.commit()
+        except: db.session.rollback()
+        ban = None
+
     if ban:
         # If the user is at /ping or a public asset, maybe allow? 
         # Typically we block everything. Let's redirect to a simple "Banned" 403.

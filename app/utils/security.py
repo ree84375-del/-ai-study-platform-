@@ -24,11 +24,17 @@ def get_real_ip():
 def is_ip_banned(ip):
     """
     Checks if an IP address is currently banned.
+    Handles cases where the database table might not exist yet (e.g. during migration).
     """
     if not ip:
         return None
-        
-    ban = IPBan.query.filter_by(ip=ip).first()
-    if ban and ban.is_active():
-        return ban
+    
+    from sqlalchemy.exc import ProgrammingError, OperationalError
+    try:
+        ban = IPBan.query.filter_by(ip=ip).first()
+        if ban and ban.is_active():
+            return ban
+    except (ProgrammingError, OperationalError):
+        # Table doesn't exist yet - allow access
+        return None
     return None
