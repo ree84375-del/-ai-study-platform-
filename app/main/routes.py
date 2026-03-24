@@ -113,38 +113,37 @@ def before_request():
         </div>
         """, 403
 
-    # 2. Security Logging & Threat Detection
-    from app.utils.security import log_ip_access, analyze_ip_threat
-    from app.models import IPAccessLog
-    from datetime import timedelta
-    from flask_login import current_user
-
-    # Log this access
-    try:
-        log_ip_access(
-            ip=client_ip,
-            user_id=current_user.id if current_user.is_authenticated else None,
-            path=request.path,
-            user_agent=request.user_agent.string if request.user_agent else "Unknown"
-        )
-        
-        # Simple frequency-based AI trigger
-        five_mins_ago = datetime.now(timezone.utc) - timedelta(minutes=5)
-        # We check count to see if it's suspicious
-        recent_count = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.timestamp > five_mins_ago).count()
-        
-        if recent_count > 30: # If more than 30 requests in 5 mins
-            # Only analyze if not recently analyzed (prevent redundant AI calls)
+    # 2. Security Logging & Monitoring (Optimized: Filter Assets & Internal APIs)
+    path = request.path
+    is_static = any(path.startswith(s) for s in ['/static/', '/favicon', '/admin/api/'])
+    is_ext = any(path.endswith(e) for e in ['.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.gif', '.ico'])
+    
+    if not is_static and not is_ext:
+        from app.utils.security import log_ip_access, analyze_ip_threat
+        from app.models import IPAccessLog
+        try:
+            log_ip_access(
+                ip=client_ip,
+                user_id=current_user.id if current_user.is_authenticated else None,
+                path=path,
+                user_agent=request.headers.get('User-Agent', 'Unknown')
+            )
+            
+            # Simple AI Analysis Trigger (Only if not recently analyzed)
+            from datetime import timedelta
             ten_mins_ago = datetime.now(timezone.utc) - timedelta(minutes=10)
-            last_flagged = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.threat_level != 'safe', IPAccessLog.timestamp > ten_mins_ago).first()
-            if not last_flagged:
-                # Trigger AI analysis (synchronous for now given small user base)
-                analyze_ip_threat(client_ip)
-    except Exception as e:
-        print(f"Logging fail: {str(e)}")
-        try: db.session.rollback()
-        except: pass
-        pass # Don't block the site if logging fails
+            
+            # Count recent non-static activities
+            recent_count = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.timestamp > ten_mins_ago).count()
+            if recent_count >= 30:
+                last_flagged = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.threat_level != 'safe', IPAccessLog.timestamp > ten_mins_ago).first()
+                if not last_flagged:
+                    analyze_ip_threat(client_ip)
+        except Exception as e:
+            print(f"Logging fail: {str(e)}")
+            try: db.session.rollback()
+            except: pass
+            pass 
 
     # 3. Authenticated User Tracking
     if current_user.is_authenticated:
