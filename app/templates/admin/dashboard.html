@@ -127,9 +127,6 @@
             .modal-textarea:focus {
                 border-color: #bb9af7;
             }
-            .modal-actions {
-                display: flex;
-                justify-content: flex-end;
                 gap: 12px;
             }
         </style>
@@ -137,51 +134,100 @@
 
     <div class="washi-card" style="margin-bottom: 2rem;">
         <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count', count=users|length) }})</h3>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-            <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
-                <th style="padding: 10px;">ID</th>
-                <th style="padding: 10px;">{{ _t('admin_email') }}</th>
-                <th style="padding: 10px;">{{ _t('admin_name') }}</th>
-                <th style="padding: 10px;">{{ _t('admin_role') }}</th>
-                <th style="padding: 10px;">{{ _t('admin_last_active') }}</th>
-                <th style="padding: 10px; width: 280px;">{{ _t('admin_actions') }}</th>
-            </tr>
-            {% for u in users %}
-            <tr style="border-bottom: 1px solid var(--color-border);">
-                <td style="padding: 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
-                <td style="padding: 10px; font-weight: 500;">{{ u.email }}</td>
-                <td style="padding: 10px;">{{ u.username }}</td>
-                <td style="padding: 10px;">
-                    {% if u.is_admin %}
-                        <span style="color: white; background: #ff7b72; border-radius: 5px; padding: 3px 8px; font-size: 0.8rem; font-weight: bold;">{{ _t('admin_role_admin') }}</span>
-                    {% elif u.auth_provider == 'guest' %}
-                        <span style="color: var(--color-text_light); font-size: 0.85rem;">{{ _t('admin_role_guest') }}</span>
-                    {% elif u.auth_provider == 'google' %}
-                        <span style="color: #4285f4; font-weight: 500;">{{ _t('admin_role_google') }}</span>
-                    {% else %}
-                        <span style="color: var(--color-primary);">{{ _t('admin_role_student') }}</span>
-                    {% endif %}
-                </td>
-                <td style="padding: 10px; font-size: 0.9rem; color: var(--color-text_light);">{% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}{{ _t('admin_never_logged_in') }}{% endif %}</td>
-                <td style="padding: 10px; display: flex; gap: 5px;">
-                    <form action="{{ url_for('admin.change_user_role', user_id=u.id) }}" method="POST" style="display: flex; gap: 5px; margin: 0;">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <select name="role" style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-border);" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>
-                            <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>{{ _t('admin_role_guest') }}</option>
-                            <option value="student" {% if u.role == 'student' %}selected{% endif %}>{{ _t('admin_role_student') }}</option>
-                            <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>{{ _t('admin_role_teacher') }}</option>
-                            <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>{{ _t('admin_role_admin') }}</option>
-                        </select>
-                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-primary); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' %}disabled{% endif %}>{{ _t('admin_btn_change') }}</button>
-                    </form>
-                    <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm("確定要刪除使用者嗎？");'>
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                        <button type="submit" class="btn" style="padding: 5px 10px; background-color: var(--color-accent); color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
+                    <th style="padding: 12px 10px;">ID</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_email') }}</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_name') }}</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_role') }}</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_last_ip') }}</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_last_active') }}</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_actions') }}</th>
+                </tr>
+                {% for u in users %}
+                <tr style="border-bottom: 1px solid var(--color-border);" class="hover-row">
+                    <td style="padding: 12px 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
+                    <td style="padding: 12px 10px; font-weight: 500;">{{ u.email }}</td>
+                    <td style="padding: 12px 10px;">{{ u.username }}</td>
+                    <td style="padding: 12px 10px;">
+                        <form action="{{ url_for('admin.change_user_role', user_id=u.id) }}" method="POST" style="display: flex; gap: 5px; margin: 0;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <select name="role" style="padding: 4px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 0.85rem;" {% if u.is_admin %}disabled{% endif %}>
+                                <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>{{ _t('admin_role_guest') }}</option>
+                                <option value="student" {% if u.role == 'student' %}selected{% endif %}>{{ _t('admin_role_student') }}</option>
+                                <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>{{ _t('admin_role_teacher') }}</option>
+                                <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>{{ _t('admin_role_admin') }}</option>
+                            </select>
+                            <button type="submit" class="btn-icon" title="{{ _t('admin_btn_change') }}" {% if u.is_admin %}disabled{% endif %} style="background: none; border: none; color: var(--color-primary); cursor: pointer;"><i class="fa-solid fa-rotate"></i></button>
+                        </form>
+                    </td>
+                    <td style="padding: 12px 10px; font-family: monospace; font-size: 0.85rem; color: #666;">
+                        {{ u.last_ip or '---' }}
+                    </td>
+                    <td style="padding: 12px 10px; font-size: 0.85rem; color: var(--color-text_light);">
+                        {% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}{{ _t('admin_never_logged_in') }}{% endif %}
+                    </td>
+                    <td style="padding: 12px 10px; display: flex; gap: 8px;">
+                        <button type="button" class="btn btn-sm suspend-btn" 
+                                data-user-id="{{ u.id }}" 
+                                data-username="{{ u.username }}" 
+                                data-ip="{{ u.last_ip or '' }}"
+                                style="background-color: #f39c12; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer;"
+                                {% if u.is_admin %}disabled{% endif %}>
+                            <i class="fa-solid fa-ban"></i> {{ _t('admin_btn_suspend') }}
+                        </button>
+                        <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm("確定要完全刪除使用者嗎？此操作不可逆。");'>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-sm" style="background-color: #e74c3c; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer;" {% if u.is_admin or u.id == current_user.id %}disabled{% endif %}>
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <!-- Active IP Bans Section -->
+    <div class="washi-card" style="margin-bottom: 2rem; border-left: 5px solid #e74c3c;">
+        <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-shield-virus" style="color: #e74c3c;"></i> {{ _t('admin_ip_ban_list') }}</h3>
+        {% if active_bans %}
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: rgba(231, 76, 60, 0.05);">
+                    <th style="padding: 10px;">IP</th>
+                    <th style="padding: 10px;">{{ _t('admin_ban_reason') }}</th>
+                    <th style="padding: 10px;">{{ _t('admin_ban_expiry') }}</th>
+                    <th style="padding: 10px;">{{ _t('admin_actions') }}</th>
+                </tr>
+                {% for b in active_bans %}
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 10px; font-family: monospace; font-weight: bold; color: #c0392b;">{{ b.ip }}</td>
+                    <td style="padding: 10px; font-size: 0.9rem;">{{ b.reason }}</td>
+                    <td style="padding: 10px; font-size: 0.85rem;">
+                        {% if b.is_permanent %}
+                            <span style="color: #e74c3c; font-weight: bold;">[凍結] 永久</span>
+                        {% else %}
+                            {{ b.expires_at.strftime('%Y-%m-%d %H:%M') if b.expires_at else '永久' }}
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px;">
+                        <form action="{{ url_for('admin.unban_ip', ban_id=b.id) }}" method="POST" style="margin: 0;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <button type="submit" class="btn btn-sm" style="background: #27ae60; color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer;">
+                                <i class="fa-solid fa-unlock"></i> {{ _t('admin_unban') }}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% else %}
+        <p style="color: var(--color-text_light); text-align: center; padding: 20px; border: 1px dashed var(--color-border); border-radius: 10px;">{{ _t('admin_no_bans') }}</p>
+        {% endif %}
     </div>
 
     <!-- Global Broadcast Form -->
@@ -205,47 +251,13 @@
             </div>
         </form>
     </div>
-
-    <!-- User Management -->
-    <div class="washi-card" style="margin-bottom: 2rem;">
-        <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count', count=users|length) }})</h3>
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
-                <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
-                    <th style="padding: 10px;">ID</th>
-                    <th style="padding: 10px;">{{ _t('admin_email') }}</th>
-                    <th style="padding: 10px;">{{ _t('admin_name') }}</th>
-                    <th style="padding: 10px;">{{ _t('admin_role') }}</th>
-                    <th style="padding: 10px;">{{ _t('admin_actions') }}</th>
-                </tr>
-                {% for u in users %}
-                <tr style="border-bottom: 1px solid var(--color-border);">
-                    <td style="padding: 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
-                    <td style="padding: 10px; font-weight: 500;">{{ u.email }}</td>
-                    <td style="padding: 10px;">{{ u.username }}</td>
-                    <td style="padding: 10px;">
-                        <span style="font-size: 0.8rem; font-weight: bold; padding: 3px 8px; border-radius: 5px; color: white; background: {% if u.is_admin %}#ff7b72{% elif u.role == 'teacher' %}#7c4dff{% else %}#4285f4{% endif %};">
-                            {{ u.role|upper }}
-                        </span>
-                    </td>
-                    <td style="padding: 10px; display: flex; gap: 5px;">
-                        <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm("確定要刪除使用者嗎？");'>
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <button type="submit" class="btn" style="padding: 5px 10px; background-color: #ff4444; color: white; border: none; border-radius: 4px; font-size: 0.8rem; cursor: pointer;" {% if u.email == 'ree84375@gmail.com' or u.id == current_user.id %}disabled{% endif %}><i class="fa-solid fa-trash"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
 </div>
 
-<!-- Custom AI Instruction Modal -->
+<!-- AI Instruction Modal -->
 <div id="ai-modal-overlay" class="antigravity-modal-overlay">
     <div class="antigravity-modal-card">
-        <h3 class="modal-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 撰寫指令</h3>
-        <p class="modal-instruction">請輸入給 AI 的特定指令（選填）：<br>(例如：請讓語氣更活潑、請改寫成正式公告、請幫我潤飾並加入 Emoji 等)</p>
+        <h3 class="modal-title" id="ai-modal-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 撰寫指令</h3>
+        <p class="modal-instruction" id="ai-modal-instruction">請輸入給 AI 的特定指令（選填）：</p>
         <textarea id="ai-modal-input" class="modal-textarea" placeholder="請美化這段內容"></textarea>
         <div class="modal-actions">
             <button id="ai-modal-cancel" class="btn" style="background: rgba(0,0,0,0.05); color: #666;">取消</button>
@@ -254,53 +266,145 @@
     </div>
 </div>
 
+<!-- IP Ban / Suspension Modal -->
+<div id="ban-modal-overlay" class="antigravity-modal-overlay">
+    <div class="antigravity-modal-card" style="max-width: 550px;">
+        <h3 class="modal-title"><i class="fa-solid fa-ban"></i> 用戶停權與 IP 封鎖</h3>
+        <form id="ban-form" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.9rem; color: #666;">目標用戶：<strong id="ban-target-name" style="color: #bb9af7;">--</strong></label><br>
+                <label style="font-size: 0.9rem; color: #666;">目標 IP：<input type="text" name="target_ip" id="ban-target-ip" style="border: none; background: none; font-family: monospace; font-weight: bold; color: #e74c3c; outline: none;" readonly /></label>
+            </div>
+
+            <div style="margin-bottom: 1.2rem; display: flex; gap: 15px; align-items: flex-end;">
+                <div style="flex: 1;">
+                    <label style="display: block; font-size: 0.85rem; margin-bottom: 4px;">{{ _t('admin_ban_type') }}</label>
+                    <select name="duration" id="ban-duration" class="modal-textarea" style="height: 45px; min-height: 45px; margin-bottom: 0;">
+                        <option value="warning">僅警告 (不封鎖 IP)</option>
+                        <option value="1">停權 1 天</option>
+                        <option value="3">停權 3 天</option>
+                        <option value="5">停權 5 天</option>
+                        <option value="7">停權 7 天</option>
+                        <option value="14">停權 14 天</option>
+                        <option value="30">停權 30 天</option>
+                        <option value="permanent">永久凍結 (IP Freeze)</option>
+                    </select>
+                </div>
+                <button type="button" id="ai-suggest-ban" class="btn" style="background: #79dac8; color: #1a1b26; font-weight: bold; padding: 0 15px; height: 45px;">
+                    <i class="fa-solid fa-brain"></i> {{ _t('admin_btn_ai_suggest') }}
+                </button>
+            </div>
+
+            <div style="margin-bottom: 1.2rem;">
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 4px;">{{ _t('admin_ban_reason') }}</label>
+                <input type="text" name="reason" id="ban-reason" class="modal-textarea" style="height: 45px; min-height: 45px; margin-bottom: 0;" placeholder="例如：惡意洗版、騷擾他人" required />
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-size: 0.85rem; margin-bottom: 4px;">{{ _t('admin_ban_notes') }} (僅限管理員可見)</label>
+                <textarea name="admin_notes" id="ban-notes" class="modal-textarea" style="min-height: 60px; margin-bottom: 0;" placeholder="紀錄具體違規事件..."></textarea>
+            </div>
+
+            <div id="ai-analysis-box" style="display: none; background: rgba(121, 218, 200, 0.1); border: 1px solid #79dac8; border-radius: 12px; padding: 12px; margin-bottom: 1.5rem; font-size: 0.85rem;">
+                <div style="color: #79dac8; font-weight: bold; margin-bottom: 5px;"><i class="fa-solid fa-robot"></i> AI 分析建議：</div>
+                <div id="ai-analysis-content" style="color: #79dac8; line-height: 1.4;">正在讀取用戶行為記錄並分析中...</div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" onclick="closeBanModal()" class="btn" style="background: rgba(0,0,0,0.05); color: #666;">{{ _t('cancel') }}</button>
+                <button type="submit" class="btn" style="background: #e74c3c; color: white; font-weight: bold;"><i class="fa-solid fa-lock"></i> 執行處分</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .hover-row:hover { background: rgba(0,0,0,0.02); }
+    .btn-icon:hover { opacity: 0.7; }
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Pulse animation logic
     function updateSystemPulse() {
         const providerEl = document.getElementById('pulse-provider');
         if (providerEl) providerEl.innerText = "Antigravity Sync";
-        
         const badgeEl = document.getElementById('pulse-status-badge');
         if (badgeEl) {
-            badgeEl.innerText = "STABLE";
+            badgeEl.innerText = "S-TIER";
             badgeEl.style.background = "#2e7d32";
         }
     }
+    updateSystemPulse();
+
+    // Ban Modal logic
+    const banModal = document.getElementById('ban-modal-overlay');
+    const suspendBtns = document.querySelectorAll('.suspend-btn');
+    const aiSuggestBtn = document.getElementById('ai-suggest-ban');
+
+    suspendBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            const username = this.getAttribute('data-username');
+            const ip = this.getAttribute('data-ip');
+            document.getElementById('ban-target-name').innerText = username;
+            document.getElementById('ban-target-ip').value = ip || "---";
+            document.getElementById('ban-form').action = `/admin/user/${userId}/ban`;
+            document.getElementById('ai-analysis-box').style.display = 'none';
+            document.getElementById('ban-reason').value = '';
+            document.getElementById('ban-notes').value = '';
+            banModal.classList.add('active');
+        });
+    });
+
+    window.closeBanModal = function() { banModal.classList.remove('active'); };
+
+    if (aiSuggestBtn) {
+        aiSuggestBtn.addEventListener('click', async function() {
+            const userId = document.getElementById('ban-form').action.split('/').slice(-2, -1)[0];
+            const analysisBox = document.getElementById('ai-analysis-box');
+            const analysisContent = document.getElementById('ai-analysis-content');
+            analysisBox.style.display = 'block';
+            analysisContent.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在分析行為模式...';
+            aiSuggestBtn.disabled = true;
+            try {
+                const response = await fetch(`/admin/ai_ban_recommendation/${userId}`);
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+                analysisContent.innerHTML = `<strong>判斷：</strong>${data.recommendation}<br><strong>原因：</strong>${data.reason}<hr style="border:0; border-top:1px solid rgba(121,218,200,0.2); margin:8px 0;">${data.analysis}`;
+                if (data.days !== undefined) {
+                    const daysMap = { "-1": "permanent", "0": "warning" };
+                    document.getElementById('ban-duration').value = daysMap[data.days.toString()] || data.days.toString();
+                }
+                document.getElementById('ban-reason').value = data.reason;
+            } catch (err) { analysisContent.innerHTML = `<span style="color:#e74c3c;">失敗：${err.message}</span>`; }
+            finally { aiSuggestBtn.disabled = false; }
+        });
+    }
+
+    // AI Broadcast UI logic
     const aiWriteBtn = document.getElementById('ai-write-btn');
     const modalOverlay = document.getElementById('ai-modal-overlay');
     const modalInput = document.getElementById('ai-modal-input');
     const modalConfirm = document.getElementById('ai-modal-confirm');
     const modalCancel = document.getElementById('ai-modal-cancel');
 
-    function showAIPrompt() {
+    function showAIPrompt(title, instruction) {
         return new Promise((resolve) => {
+            document.getElementById('ai-modal-title').innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> ${title}`;
+            document.getElementById('ai-modal-instruction').innerHTML = instruction;
             modalOverlay.classList.add('active');
             modalInput.focus();
-            
-            const handleConfirm = () => {
-                cleanup();
-                resolve(modalInput.value || "請美化這段內容");
-            };
-            
-            const handleCancel = () => {
-                cleanup();
-                resolve(null);
-            };
-            
+            const handleConfirm = () => { cleanup(); resolve(modalInput.value || "請美化這段內容"); };
+            const handleCancel = () => { cleanup(); resolve(null); };
             const cleanup = () => {
                 modalOverlay.classList.remove('active');
                 modalConfirm.removeEventListener('click', handleConfirm);
                 modalCancel.removeEventListener('click', handleCancel);
-                modalOverlay.removeEventListener('click', handleOverlayClick);
             };
-
-            const handleOverlayClick = (e) => {
-                if (e.target === modalOverlay) handleCancel();
-            };
-
             modalConfirm.addEventListener('click', handleConfirm);
             modalCancel.addEventListener('click', handleCancel);
-            modalOverlay.addEventListener('click', handleOverlayClick);
         });
     }
 
@@ -308,38 +412,21 @@ document.addEventListener('DOMContentLoaded', function() {
         aiWriteBtn.addEventListener('click', async function() {
             const textarea = document.getElementById('broadcast-content');
             const draft = textarea.value;
-            
-            const instruction = await showAIPrompt();
+            const instruction = await showAIPrompt("AI 撰寫指令", "請輸入給 AI 的特定指令（選填）：<br>(例如：請讓語氣更活潑、請改寫成正式公告等)");
             if (instruction === null) return;
-            
             aiWriteBtn.disabled = true;
             aiWriteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在生成...';
-            
             try {
                 const response = await fetch('{{ url_for("admin.ai_write_broadcast") }}', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ 
-                        draft: draft,
-                        instruction: instruction // Send instructions
-                    })
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}' },
+                    body: JSON.stringify({ draft: draft, instruction: instruction })
                 });
-                
                 const data = await response.json();
-                if (data.content) {
-                    textarea.value = data.content;
-                } else {
-                    alert('AI 生成失敗：' + (data.error || '原因不明'));
-                }
-            } catch (err) {
-                alert('網路錯誤：' + err.message);
-            } finally {
-                aiWriteBtn.disabled = false;
-                aiWriteBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 協助撰寫';
-            }
+                if (data.content) textarea.value = data.content;
+                else alert('AI 生成失敗：' + (data.error || '原因不明'));
+            } catch (err) { alert('網路錯誤：' + err.message); }
+            finally { aiWriteBtn.disabled = false; aiWriteBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 協助撰寫'; }
         });
     }
 });

@@ -64,6 +64,9 @@ def dashboard():
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
             "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
+            "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_ip VARCHAR(45)",
+            "CREATE TABLE IF NOT EXISTS ip_ban (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, reason TEXT, banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expires_at TIMESTAMP, is_permanent BOOLEAN DEFAULT FALSE, admin_notes TEXT, banned_by_id INTEGER REFERENCES \"user\"(id))",
+            "CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)",
             "CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"
         ]
         for stmt in auto_fixes:
@@ -101,7 +104,12 @@ def dashboard():
             db.session.rollback()
     # --- END PATCH ---
 
-    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, stats=stats)
+    # --- ACTIVE BANS ---
+    from app.models import IPBan
+    active_bans = IPBan.query.order_by(IPBan.banned_at.desc()).all()
+    # --- END ACTIVE BANS ---
+
+    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, stats=stats, active_bans=active_bans)
 
 @admin.route('/broadcast', methods=['POST'])
 @login_required
@@ -244,6 +252,90 @@ def delete_user(user_id):
         db.session.rollback()
         flash(f'刪除用戶失敗：{str(e)}', 'danger')
         
+    return redirect(url_for('admin.dashboard'))
+
+@admin.route('/ai_ban_recommendation/<int:user_id>')
+@login_required
+def ai_ban_recommendation(user_id):
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized"}), 403
+    
+    from app.utils.ai_moderator import get_ban_recommendation
+    result = get_ban_recommendation(user_id)
+    return jsonify(result)
+
+@admin.route('/user/<int:user_id>/ban', methods=['POST'])
+@login_required
+def ban_user(user_id):
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized"}), 403
+        
+    user = User.query.get_or_404(user_id)
+    if user.is_admin:
+        flash("不能停權管理員！", "danger")
+        return redirect(url_for('admin.dashboard'))
+        
+    ip = user.last_ip or request.form.get('target_ip')
+    if not ip:
+        flash("找不到該用戶的 IP，無法進行 IP 停權。", "danger")
+        return redirect(url_for('admin.dashboard'))
+        
+    duration = request.form.get('duration') # "warning", "1", "3", "5", "7", "14", "30", "permanent"
+    reason = request.form.get('reason', '違反社群規範')
+    admin_notes = request.form.get('admin_notes', '')
+    
+    from datetime import datetime, timedelta, timezone
+    from app.models import IPBan
+    
+    # Check if already banned
+    existing_ban = IPBan.query.filter_by(ip=ip).first()
+    if existing_ban:
+        db.session.delete(existing_ban) # Overwrite
+    
+    expires_at = None
+    is_permanent = False
+    
+    if duration == "warning":
+        flash(f"已向用戶 {user.username} 發出警告。並未實際封鎖 IP。", "info")
+        # In this implementation, warning is just a flash. 
+        # Optionally record it in admin_notes but don't create IPBan entry.
+        return redirect(url_for('admin.dashboard'))
+    elif duration == "permanent":
+        is_permanent = True
+    else:
+        try:
+            days = int(duration)
+            expires_at = datetime.now(timezone.utc) + timedelta(days=days)
+        except ValueError:
+            flash("無效的停權天數", "danger")
+            return redirect(url_for('admin.dashboard'))
+            
+    new_ban = IPBan(
+        ip=ip,
+        reason=reason,
+        expires_at=expires_at,
+        is_permanent=is_permanent,
+        admin_notes=admin_notes,
+        banned_by_id=current_user.id
+    )
+    db.session.add(new_ban)
+    db.session.commit()
+    
+    flash(f"用戶 {user.username} (IP: {ip}) 已被封鎖。狀態：{duration}天", "success")
+    return redirect(url_for('admin.dashboard'))
+
+@admin.route('/ip_ban/delete/<int:ban_id>', methods=['POST'])
+@login_required
+def unban_ip(ban_id):
+    if not current_user.is_admin:
+        return jsonify({"error": "Unauthorized"}), 403
+        
+    from app.models import IPBan
+    ban = IPBan.query.get_or_404(ban_id)
+    ip = ban.ip
+    db.session.delete(ban)
+    db.session.commit()
+    flash(f"IP {ip} 已成功解封。", "success")
     return redirect(url_for('admin.dashboard'))
 
 @admin.route('/yukine_command', methods=['POST'])

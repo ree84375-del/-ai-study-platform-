@@ -45,6 +45,7 @@ class User(db.Model, UserMixin):
     auth_provider = db.Column(db.String(20), nullable=True, default='local')  # 'local', 'google', 'guest'
     role = db.Column(db.String(20), nullable=False, default='student') # student, teacher, guest, admin
     last_login = db.Column(db.DateTime, nullable=True, default=lambda: datetime.now(timezone.utc))
+    last_ip = db.Column(db.String(45), nullable=True) # Supports IPv4 and IPv6
  
     @property
     def is_admin(self):
@@ -325,4 +326,28 @@ class MemoryFragment(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     user = db.relationship('User', backref=db.backref('fragments', lazy=True, cascade="all, delete-orphan"))
+
+class IPBan(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(45), index=True, nullable=False)
+    reason = db.Column(db.Text, nullable=True)
+    banned_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    expires_at = db.Column(db.DateTime, nullable=True) # NULL means permanent
+    is_permanent = db.Column(db.Boolean, default=False)
+    admin_notes = db.Column(db.Text, nullable=True)
+    banned_by_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+
+    def is_active(self):
+        if self.is_permanent:
+            return True
+        if self.expires_at:
+            # Ensure comparison is timezone-aware to avoid TypeError
+            expires = self.expires_at
+            if expires.tzinfo is None:
+                expires = expires.replace(tzinfo=timezone.utc)
+            return expires > datetime.now(timezone.utc)
+        return False
+
+    def __repr__(self):
+        return f"IPBan('{self.ip}', Expires: '{self.expires_at}')"
 

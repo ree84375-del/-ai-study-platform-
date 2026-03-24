@@ -5,6 +5,7 @@ import secrets
 from datetime import datetime, timezone
 from sqlalchemy import text
 from sqlalchemy.exc import ProgrammingError
+from app import db
 from app.utils.i18n import get_text as _t
 
 auth = Blueprint('auth', __name__)
@@ -43,7 +44,7 @@ def repair_database():
 
 @auth.route("/register", methods=['GET', 'POST'])
 def register():
-    from app import db, bcrypt
+    from app import bcrypt
     from app.auth.forms import RegistrationForm
     from app.models import User
     if current_user.is_authenticated:
@@ -110,7 +111,7 @@ def google_login():
 
 @auth.route('/auth/google/callback')
 def google_auth():
-    from app import db, bcrypt
+    from app import bcrypt
     from app.models import User
     google = get_google_client()
     try:
@@ -201,7 +202,7 @@ def logout():
 
 @auth.route("/guest_login")
 def guest_login():
-    from app import db, bcrypt
+    from app import bcrypt
     from app.models import User
     from flask import session
     if current_user.is_authenticated:
@@ -230,7 +231,7 @@ def guest_login():
 @auth.route("/upgrade_guest", methods=["POST"])
 @login_required
 def upgrade_guest():
-    from app import db, bcrypt
+    from app import bcrypt
     from app.models import User
     if getattr(current_user, 'auth_provider', 'local') != 'guest':
         flash('只有訪客帳號可以升級！', 'danger')

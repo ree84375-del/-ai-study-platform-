@@ -43,26 +43,54 @@ def debug_ai_reply():
 def before_request():
     from app import db
     from app.models import User
+    from app.utils.security import get_real_ip, is_ip_banned
+    
+    # 1. IP Ban Enforcement (Applies to everyone)
+    client_ip = get_real_ip()
+    ban = is_ip_banned(client_ip)
+    if ban:
+        # If the user is at /ping or a public asset, maybe allow? 
+        # Typically we block everything. Let's redirect to a simple "Banned" 403.
+        from flask import abort
+        # Allow /ping for health checks, maybe? 
+        if request.path == url_for('main.ping'):
+            return
+        
+        reason = ban.reason or "違反社群規範"
+        expiry = ban.expires_at.strftime('%Y-%m-%d %H:%M:%S') if ban.expires_at else "永久停權"
+        
+        return f"""
+        <div style='padding:50px; font-family:sans-serif; text-align:center; background:#fff1f1; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;'>
+            <h1 style='color:#e74c3c; font-size:3rem;'>IP 已被封鎖</h1>
+            <p style='font-size:1.2rem; color:#555;'>由於 {reason}，您的 IP ({client_ip}) 已被限制存取。</p>
+            <p style='font-size:1.1rem; color:#888;'>封鎖到期時間：<strong style='color:#c0392b;'>{expiry}</strong></p>
+            <div style='margin-top:20px; padding:20px; border:1px dashed #e74c3c; border-radius:10px; max-width:500px;'>
+                <p style='margin:0; font-size:0.9rem; color:#666;'>「如果您的裝置永遠不能進來，這就是所謂的『凍結』。翻牆或 VPN 同樣無法躲避本系統的硬體級別追蹤。」</p>
+            </div>
+            <a href='mailto:support@internal.ai' style='margin-top:30px; color:#3498db; text-decoration:none;'>如有申訴需求，請聯繫管理員</a>
+        </div>
+        """, 403
+
+    # 2. Authenticated User Tracking
     if current_user.is_authenticated:
         try:
+            # Update last_ip
+            if current_user.last_ip != client_ip:
+                current_user.last_ip = client_ip
+                db.session.commit()
+
             # Force admin username to always be 管理員
             if current_user.is_admin and current_user.username != '管理員':
                 current_user.username = '管理員'
                 db.session.commit()
                 
-            # Temporarily disabled until DB column 'last_active_at' is added
-            pass
-            # now = datetime.now(timezone.utc)
-            # if getattr(current_user, 'last_active_at', None) is None or \
-            #    (now - current_user.last_active_at).total_seconds() > 60:
-            #     db.session.execute(
-            #         db.update(User).where(User.id == current_user.id).values(
-            #             last_active_at=now
-            #         )
-            #     )
-            #     db.session.commit()
+            # Update last_active_at (Throttled to once every minute)
+            now = datetime.now(timezone.utc)
+            if getattr(current_user, 'last_active_at', None) is None or \
+               (now - current_user.last_active_at).total_seconds() > 60:
+                current_user.last_active_at = now
+                db.session.commit()
         except Exception:
-            # Silently ignore — NEVER let a tracking update break the user session
             try:
                 db.session.rollback()
             except Exception:
