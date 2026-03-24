@@ -63,9 +63,10 @@ def log_ip_access(ip, user_id=None, path=None, user_agent=None):
         db.session.add(log)
         db.session.commit()
         return log
-    except (ProgrammingError, OperationalError):
+    except Exception as e:
         try: db.session.rollback()
         except: pass
+        print(f"log_ip_access fail: {str(e)}")
         return None
 
 def analyze_ip_threat(ip):
@@ -115,5 +116,7 @@ def analyze_ip_threat(ip):
         
         return latest_log.threat_level, latest_log.threat_reason
     except Exception as e:
+        try: db.session.rollback()
+        except: pass
         print(f"IP Threat Analysis Error: {str(e)}")
         return "safe", f"分析失敗: {str(e)}"

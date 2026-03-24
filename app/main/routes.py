@@ -141,6 +141,8 @@ def before_request():
                 analyze_ip_threat(client_ip)
     except Exception as e:
         print(f"Logging fail: {str(e)}")
+        try: db.session.rollback()
+        except: pass
         pass # Don't block the site if logging fails
 
     # 3. Authenticated User Tracking
