@@ -257,6 +257,10 @@
                 }
             </style>
 
+            {% if group.group_type == 'class' %}
+            <div class="admin-section-label" style="font-size: 0.8rem; font-weight: bold; color: var(--color-text_light); text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">
+                管理專區
+            </div>
             <div class="admin-card-grid">
                 <!-- Publish Assignment Card -->
                 <div class="admin-square-card" onclick="toggleManagedTool('publish-wizard', this)">
@@ -275,16 +279,27 @@
                     <h5>{{ _t('view_submissions') }}</h5>
                     <p>{{ _t('submissions_title') }}</p>
                 </div>
-                
+            </div>
+            {% endif %}
+
+
+            <div class="admin-section-label" style="font-size: 0.8rem; font-weight: bold; color: var(--color-text_light); text-transform: uppercase; margin: 20px 0 10px 0; letter-spacing: 1px;">
+                管理與成員角色
+            </div>
+            <div class="admin-card-grid" style="grid-template-columns: 1fr;">
                 <!-- Member Management Card -->
-                <div class="admin-square-card" onclick="toggleManagedTool('member-management-tool', this)">
-                    <div style="background: #f3e5f5; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                <div class="admin-square-card" onclick="toggleManagedTool('member-management-tool', this)" style="aspect-ratio: auto; min-height: 80px; flex-direction: row; justify-content: flex-start; gap: 20px; padding: 20px;">
+                    <div style="background: #f3e5f5; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <i class="fa-solid fa-users-gear" style="margin-bottom: 0; color: #9c27b0;"></i>
                     </div>
-                    <h5>{{ _t('members_roles') }}</h5>
-                    <p>{{ _t('group_settings') }}</p>
+                    <div style="text-align: left;">
+                        <h5 style="font-size: 1.1rem;">{{ _t('members_roles') }}</h5>
+                        <p style="font-size: 0.8rem;">{{ _t('group_settings') }}</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="margin-left: auto; color: #ccc; font-size: 1rem;"></i>
                 </div>
             </div>
+
 
             <div id="hidden-admin-tools" style="display: none;">
                 <!-- Tools are hidden here when not in modal -->
