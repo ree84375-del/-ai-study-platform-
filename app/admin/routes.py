@@ -105,12 +105,12 @@ def dashboard():
     # --- END PATCH ---
 
     # --- ACTIVE BANS ---
-    from app.models import IPBan
+    from app.models import IPBan, IPAccessLog
     active_bans = IPBan.query.order_by(IPBan.banned_at.desc()).all()
     # --- END ACTIVE BANS ---
-
+    
     # --- ACCESS LOGS ---
-    access_logs = AccessLog.query.order_by(AccessLog.timestamp.desc()).limit(50).all()
+    access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
     # --- END ACCESS LOGS ---
 
     return render_template('admin/dashboard.html', 
