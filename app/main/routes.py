@@ -135,8 +135,19 @@ def before_request():
             
             # Count recent non-static activities
             recent_count = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.timestamp > ten_mins_ago).count()
-            if recent_count >= 30:
-                last_flagged = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.threat_level != 'safe', IPAccessLog.timestamp > ten_mins_ago).first()
+            
+            # TRIGGER AI ANALYSIS:
+            # 1. On the very first entry (recent_count == 1)
+            # 2. Or if they hit the "suspicious" frequency threshold (recent_count == 30)
+            if recent_count == 1 or recent_count == 30:
+                # Check if we already have a recent analysis to avoid redundant API calls
+                from datetime import timedelta
+                one_day_ago = datetime.now(timezone.utc) - timedelta(hours=24)
+                last_flagged = IPAccessLog.query.filter(
+                    IPAccessLog.ip == client_ip, 
+                    IPAccessLog.threat_level != 'safe', 
+                    IPAccessLog.timestamp > one_day_ago
+                ).first()
                 if not last_flagged:
                     analyze_ip_threat(client_ip)
         except Exception as e:
