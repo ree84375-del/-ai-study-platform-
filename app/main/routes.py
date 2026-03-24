@@ -49,18 +49,40 @@ def before_request():
     client_ip = get_real_ip()
     from sqlalchemy.exc import ProgrammingError, OperationalError
     
+    # 1a. Verify and repair schemas if they are broken/missing (Production Migration Support)
     try:
         ban = is_ip_banned(client_ip)
+        # Also check if User table is up to date (column repair)
+        db.session.execute(text("SELECT last_ip FROM \"user\" LIMIT 1")).first()
     except (ProgrammingError, OperationalError):
-        # The is_ip_banned utility already performs a rollback on failure.
-        # We can now safely try to repair the schema in a new transaction block.
+        # Immediate rollback to clear the failed transaction state
+        try: db.session.rollback()
+        except: pass
+        
         try:
+            # 1. IP Ban Table
             db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_ban (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, reason TEXT, banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expires_at TIMESTAMP, is_permanent BOOLEAN DEFAULT FALSE, admin_notes TEXT, banned_by_id INTEGER REFERENCES \"user\"(id))"))
             db.session.execute(text("CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)"))
+            
+            # 2. User Table Columns (Emergency Migration)
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_ip VARCHAR(45)"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT 'ai_personality_gentle'"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS preferred_theme VARCHAR(20) DEFAULT 'sakura'"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS has_seen_tour BOOLEAN DEFAULT FALSE"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS bio TEXT"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS learning_goals TEXT"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS language VARCHAR(5) DEFAULT 'zh'"))
+            db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_active_at TIMESTAMP"))
+            
             db.session.commit()
-        except: 
+        except Exception as e:
+            # If repair fails, we just log and continue (to avoid total lockout if possible)
             db.session.rollback()
-        ban = None
+            print(f"Emergency Migration Failed: {str(e)}")
+        
+        # Retry the ban check if repair succeeded
+        try: ban = is_ip_banned(client_ip)
+        except: ban = None
 
     if ban:
         # If the user is at /ping or a public asset, maybe allow? 
