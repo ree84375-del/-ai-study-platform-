@@ -734,7 +734,7 @@
                                 <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
                                     {% if msg.author and msg.author.avatar_url %}
                                         <img src="{{ msg.author.avatar_url }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                    {% elif msg.author and 'yukine_bot_ag' in msg.author.email %}
+                                    {% elif msg.author and 'yukine' in msg.author.email %}
                                         {# Use the AI's own personality to determine fallback avatar #}
                                         <img src="{{ url_for('static', filename=msg.author.ai_avatar_filename) }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     {% elif msg.author and msg.author.image_file and msg.author.image_file != 'default.jpg' %}

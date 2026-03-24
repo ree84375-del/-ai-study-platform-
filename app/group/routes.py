@@ -246,17 +246,28 @@ def group_dashboard(group_id):
         # 只要有群組的人點入就發送一條歡迎語
         if group_obj.has_ai:
             try:
-                # Use email as unique identifier
-                ai_email = 'yukine_bot_ag@internal.ai'
-                yukine_user = User.query.filter_by(email=ai_email).first()
-                if not yukine_user:
-                    # Fallback to name search if email is different for old users
-                    yukine_user = User.query.filter(User.username.like('%雪音%')).first()
+                # Improved AI User Lookup: Prioritize the one with a custom avatar
+                primary_ai_email = 'yukine_bot_ag@internal.ai'
+                yukine_candidates = User.query.filter(
+                    (User.email == primary_ai_email) | 
+                    (User.email == 'yukine@internal.ai') | 
+                    (User.username.like('%雪音%'))
+                ).all()
+                
+                yukine_user = None
+                if yukine_candidates:
+                    # Sort prioritize: 1. Has custom avatar, 2. Has primary email, 3. Earliest ID
+                    yukine_candidates.sort(key=lambda u: (
+                        u.avatar_url is not None or (u.image_file and u.image_file != 'default.jpg'),
+                        u.email == primary_ai_email,
+                        -u.id # Newer IDs might be the one user just customized? Actually usually earlier is safer, but user says "I gave her", might be a new profile.
+                    ), reverse=True)
+                    yukine_user = yukine_candidates[0]
                 
                 if not yukine_user:
                     yukine_user = User(
                         username=AI_NAME, 
-                        email=ai_email, 
+                        email=primary_ai_email, 
                         password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'), 
                         role='teacher',
                         ai_personality='雪音-Antigravity輔助型'
