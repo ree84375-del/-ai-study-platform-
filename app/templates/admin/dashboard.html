@@ -462,12 +462,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify({ draft: draft, instruction: instruction })
                 });
                 const data = await response.json();
-                if (data.content) textarea.value = data.content;
+                if (data.content) {
+                    textarea.value = data.content;
+                    // Trigger auto-expand after AI content is set
+                    textarea.dispatchEvent(new Event('input'));
+                }
                 else alert('AI 生成失敗：' + (data.error || '原因不明'));
             } catch (err) { alert('網路錯誤：' + err.message); }
             finally { aiWriteBtn.disabled = false; aiWriteBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 協助撰寫'; }
         });
     }
+
+    // Auto-expand Textareas Logic
+    const autoExpand = function(field) {
+        field.style.height = 'inherit';
+        const computed = window.getComputedStyle(field);
+        const height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+                     + field.scrollHeight
+                     + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+        field.style.height = height + 'px';
+    };
+
+    document.querySelectorAll('textarea').forEach(el => {
+        el.addEventListener('input', function() { autoExpand(this); });
+        // Initial expand if content exists
+        if (el.value) autoExpand(el);
+    });
 });
 </script>
 
