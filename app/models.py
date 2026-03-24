@@ -351,3 +351,19 @@ class IPBan(db.Model):
     def __repr__(self):
         return f"IPBan('{self.ip}', Expires: '{self.expires_at}')"
 
+
+class IPAccessLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(45), index=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    user_agent = db.Column(db.String(255), nullable=True)
+    path = db.Column(db.String(255), nullable=True)
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    threat_level = db.Column(db.String(20), default='safe') # safe, suspicious, dangerous
+    threat_reason = db.Column(db.Text, nullable=True)
+
+    user = db.relationship('User', backref=db.backref('access_logs', lazy=True))
+
+    def __repr__(self):
+        return f"IPAccessLog('{self.ip}', '{self.path}', Level: '{self.threat_level}')"
+

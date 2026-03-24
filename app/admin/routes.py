@@ -109,7 +109,16 @@ def dashboard():
     active_bans = IPBan.query.order_by(IPBan.banned_at.desc()).all()
     # --- END ACTIVE BANS ---
 
-    return render_template('admin/dashboard.html', title=_t('admin_dashboard_title', lang=current_user.language), users=users, stats=stats, active_bans=active_bans)
+    # --- ACCESS LOGS ---
+    access_logs = AccessLog.query.order_by(AccessLog.timestamp.desc()).limit(50).all()
+    # --- END ACCESS LOGS ---
+
+    return render_template('admin/dashboard.html', 
+                            title=_t('admin_dashboard_title', lang=current_user.language), 
+                            users=users, 
+                            stats=stats, 
+                            active_bans=active_bans,
+                            access_logs=access_logs)
 
 @admin.route('/broadcast', methods=['POST'])
 @login_required

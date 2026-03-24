@@ -132,6 +132,45 @@
         </style>
     </div>
 
+    </div>
+    
+    <!-- Security Monitoring Section -->
+    <div class="washi-card" style="margin-bottom: 2rem; border-left: 5px solid #79dac8;">
+        <h3 style="margin-bottom: 1rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-shield-halved" style="color: #79dac8;"></i> 全站管理監視網 (Security Monitor)</h3>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: rgba(121, 218, 200, 0.05);">
+                    <th style="padding: 10px;">時間</th>
+                    <th style="padding: 10px;">IP 位址</th>
+                    <th style="padding: 10px;">用戶</th>
+                    <th style="padding: 10px;">存取路徑</th>
+                    <th style="padding: 10px;">威脅評估</th>
+                    <th style="padding: 10px;">AI 分析結果</th>
+                </tr>
+                {% for log in access_logs %}
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 10px; font-size: 0.8rem; color: #888;">{{ log.timestamp.strftime('%H:%M:%S') }}</td>
+                    <td style="padding: 10px; font-family: monospace; font-weight: bold; color: var(--color-primary);">{{ log.ip }}</td>
+                    <td style="padding: 10px; font-size: 0.85rem;">{{ log.user.username if log.user else '匿名訪客' }}</td>
+                    <td style="padding: 10px; font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ log.path }}">{{ log.path }}</td>
+                    <td style="padding: 10px;">
+                        {% if log.threat_level == 'dangerous' %}
+                            <span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-skull-crossbones"></i> 危險</span>
+                        {% elif log.threat_level == 'suspicious' %}
+                            <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-triangle-exclamation"></i> 可疑</span>
+                        {% else %}
+                            <span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-check"></i> 安全</span>
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px; font-size: 0.85rem; color: #555; font-style: italic;">
+                        {{ log.threat_reason or '<span style="color:#999;">等待分析中...</span>'|safe }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
     <div class="washi-card" style="margin-bottom: 2rem;">
         <h3 style="border-bottom: 2px solid var(--color-border); padding-bottom: 0.5rem;"><i class="fa-solid fa-users"></i> {{ _t('admin_user_mgmt') }} ({{ _t('admin_total_count', count=users|length) }})</h3>
         <div style="overflow-x: auto;">

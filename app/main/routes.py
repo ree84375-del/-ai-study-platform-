@@ -65,6 +65,10 @@ def before_request():
             db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_ban (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, reason TEXT, banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expires_at TIMESTAMP, is_permanent BOOLEAN DEFAULT FALSE, admin_notes TEXT, banned_by_id INTEGER REFERENCES \"user\"(id))"))
             db.session.execute(text("CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)"))
             
+            # 2. Access Log Table
+            db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_access_log (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, user_id INTEGER REFERENCES \"user\"(id), user_agent VARCHAR(255), path VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, threat_level VARCHAR(20) DEFAULT 'safe', threat_reason TEXT)"))
+            db.session.execute(text("CREATE INDEX IF NOT EXISTS ix_ip_access_log_ip ON ip_access_log (ip)"))
+            
             # 2. User Table Columns (Emergency Migration)
             db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_ip VARCHAR(45)"))
             db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT 'ai_personality_gentle'"))
@@ -108,7 +112,38 @@ def before_request():
         </div>
         """, 403
 
-    # 2. Authenticated User Tracking
+    # 2. Security Logging & Threat Detection
+    from app.utils.security import log_ip_access, analyze_ip_threat
+    from app.models import IPAccessLog
+    from datetime import timedelta
+    from flask_login import current_user
+
+    # Log this access
+    try:
+        log_ip_access(
+            ip=client_ip,
+            user_id=current_user.id if current_user.is_authenticated else None,
+            path=request.path,
+            user_agent=request.user_agent.string if request.user_agent else "Unknown"
+        )
+        
+        # Simple frequency-based AI trigger
+        five_mins_ago = datetime.now(timezone.utc) - timedelta(minutes=5)
+        # We check count to see if it's suspicious
+        recent_count = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.timestamp > five_mins_ago).count()
+        
+        if recent_count > 30: # If more than 30 requests in 5 mins
+            # Only analyze if not recently analyzed (prevent redundant AI calls)
+            ten_mins_ago = datetime.now(timezone.utc) - timedelta(minutes=10)
+            last_flagged = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.threat_level != 'safe', IPAccessLog.timestamp > ten_mins_ago).first()
+            if not last_flagged:
+                # Trigger AI analysis (synchronous for now given small user base)
+                analyze_ip_threat(client_ip)
+    except Exception as e:
+        print(f"Logging fail: {str(e)}")
+        pass # Don't block the site if logging fails
+
+    # 3. Authenticated User Tracking
     if current_user.is_authenticated:
         try:
             # Update last_ip
