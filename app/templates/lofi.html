@@ -500,140 +500,185 @@
         function startLofi() {
             const ctx = getAudioCtx();
             const chords = [
-                [261.6, 329.6, 392.0], // C major
-                [293.7, 349.2, 440.0], // D minor-ish
-                [246.9, 311.1, 370.0], // B♭ smooth
-                [220.0, 277.2, 329.6], // A minor
+                [130.81, 164.81, 196.00], // C3 major
+                [146.83, 174.61, 220.00], // D3 minor
+                [123.47, 155.56, 185.00], // B2 major
+                [110.00, 138.59, 164.81], // A2 minor
             ];
             let chordIdx = 0;
 
             function playChord() {
                 const chord = chords[chordIdx % chords.length];
                 chordIdx++;
+                
                 chord.forEach((freq, i) => {
-                    const osc = ctx.createOscillator();
+                    // Create multiple oscillators for thickness
+                    const osc1 = ctx.createOscillator();
+                    const osc2 = ctx.createOscillator();
+                    const sub = ctx.createOscillator(); // Add sub for warmth
                     const gain = ctx.createGain();
                     const filter = ctx.createBiquadFilter();
                     
-                    osc.type = 'sine';
-                    osc.frequency.value = freq * 0.5; // Lower octave for warmth
+                    osc1.type = 'triangle';
+                    osc1.frequency.value = freq;
+                    
+                    osc2.type = 'sine';
+                    osc2.frequency.value = freq;
+                    
+                    sub.type = 'sine';
+                    sub.frequency.value = freq * 0.5; // Sub-octave
+                    
+                    // Add slight detune for warmth
+                    osc1.detune.value = Math.random() * 12 - 6;
+                    osc2.detune.value = Math.random() * 8 - 4;
+                    sub.detune.value = Math.random() * 4 - 2;
                     
                     filter.type = 'lowpass';
-                    filter.frequency.value = 800;
-                    filter.Q.value = 1;
+                    filter.frequency.value = 350; // EVEN WARMER (Lowered from 450)
+                    filter.Q.value = 1.2;
                     
+                    // Soften envelopes (Longer attack/release)
                     gain.gain.setValueAtTime(0, ctx.currentTime);
-                    gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 2);
-                    gain.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 5);
-                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 8);
+                    gain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 4);
+                    gain.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 6);
+                    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 10);
                     
-                    osc.connect(filter);
+                    // Vibrato (Wow/Flutter)
+                    const lfo = ctx.createOscillator();
+                    const lfoGain = ctx.createGain();
+                    lfo.frequency.value = 0.4 + Math.random() * 0.4;
+                    lfoGain.gain.value = 4 + Math.random() * 4;
+                    lfo.connect(lfoGain);
+                    lfoGain.connect(osc1.frequency);
+                    lfoGain.connect(osc2.frequency);
+                    lfoGain.connect(sub.frequency);
+                    lfo.start();
+                    
+                    osc1.connect(filter);
+                    osc2.connect(filter);
+                    sub.connect(filter);
                     filter.connect(gain);
                     gain.connect(masterGain);
                     
-                    osc.start(ctx.currentTime + i * 0.3);
-                    osc.stop(ctx.currentTime + 8);
-                    activeNodes.push(osc);
+                    osc1.start(ctx.currentTime + i * 0.3); // Slower strum
+                    osc2.start(ctx.currentTime + i * 0.3);
+                    sub.start(ctx.currentTime + i * 0.3);
+                    osc1.stop(ctx.currentTime + 10);
+                    osc2.stop(ctx.currentTime + 10);
+                    sub.stop(ctx.currentTime + 10);
+                    lfo.stop(ctx.currentTime + 10);
+                    activeNodes.push(osc1, osc2, sub, lfo);
                 });
 
-                // Sub bass
-                const sub = ctx.createOscillator();
-                const subGain = ctx.createGain();
-                sub.type = 'sine';
-                sub.frequency.value = chord[0] * 0.25;
-                subGain.gain.setValueAtTime(0, ctx.currentTime);
-                subGain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 1.5);
-                subGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 7.5);
-                sub.connect(subGain);
-                subGain.connect(masterGain);
-                sub.start();
-                sub.stop(ctx.currentTime + 8);
-                activeNodes.push(sub);
+                // Soft Vinyl Crackles
+                if (Math.random() > 0.6) {
+                    const noise = ctx.createOscillator();
+                    const nGain = ctx.createGain();
+                    noise.type = 'square';
+                    noise.frequency.value = 40;
+                    nGain.gain.setValueAtTime(0.005, ctx.currentTime); // Lowered volume
+                    nGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.04);
+                    noise.connect(nGain);
+                    nGain.connect(masterGain);
+                    noise.start();
+                    noise.stop(ctx.currentTime + 0.04);
+                    activeNodes.push(noise);
+                }
             }
 
             playChord();
             const interval = setInterval(() => {
                 if (activeMusicType !== 'lofi') { clearInterval(interval); return; }
                 playChord();
-            }, 7000);
+            }, 8500); // Slightly longer cycle
             activeNodes.push({ stop: () => clearInterval(interval), disconnect: () => {} });
         }
 
-        // --- Rain: Continuous filtered white noise ---
+        // --- Improved Pink Noise Generator (More natural than white noise) ---
+        function createPinkNoise(ctx) {
+            const bufferSize = 4 * ctx.sampleRate;
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const output = buffer.getChannelData(0);
+            let b0, b1, b2, b3, b4, b5, b6;
+            b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                b0 = 0.99886 * b0 + white * 0.0555179;
+                b1 = 0.99332 * b1 + white * 0.0750759;
+                b2 = 0.96900 * b2 + white * 0.1538520;
+                b3 = 0.86650 * b3 + white * 0.3104856;
+                b4 = 0.55000 * b4 + white * 0.5329522;
+                b5 = -0.7616 * b5 - white * 0.0168980;
+                output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+                output[i] *= 0.11; // Normalize
+                b6 = white * 0.115926;
+            }
+            return buffer;
+        }
+
+        // --- Rain: Natural Pink noise based rain with intensity modulation ---
         function startRain() {
             const ctx = getAudioCtx();
-            const bufferSize = ctx.sampleRate * 4;
-            const buffer = ctx.createBuffer(2, bufferSize, ctx.sampleRate);
-            
-            for (let ch = 0; ch < 2; ch++) {
-                const data = buffer.getChannelData(ch);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = (Math.random() * 2 - 1) * 0.5;
-                }
-            }
-            
             const source = ctx.createBufferSource();
-            source.buffer = buffer;
+            source.buffer = createPinkNoise(ctx);
             source.loop = true;
             
             const lpFilter = ctx.createBiquadFilter();
             lpFilter.type = 'lowpass';
-            lpFilter.frequency.value = 2500;
-            lpFilter.Q.value = 0.7;
-            
-            const hpFilter = ctx.createBiquadFilter();
-            hpFilter.type = 'highpass';
-            hpFilter.frequency.value = 200;
+            lpFilter.frequency.value = 650; // Much WARMER rain (Lowered from 1000)
             
             const gain = ctx.createGain();
-            gain.gain.value = 0.15;
+            gain.gain.value = 0.18;
             
-            // Gentle volume modulation for realism
+            // Intensity modulation (Simulate gusts)
             const lfo = ctx.createOscillator();
             const lfoGain = ctx.createGain();
-            lfo.frequency.value = 0.15;
+            lfo.frequency.value = 0.08;
             lfoGain.gain.value = 0.03;
             lfo.connect(lfoGain);
             lfoGain.connect(gain.gain);
             lfo.start();
             
-            source.connect(hpFilter);
-            hpFilter.connect(lpFilter);
+            source.connect(lpFilter);
             lpFilter.connect(gain);
             gain.connect(masterGain);
             source.start();
-            
             activeNodes.push(source, lfo);
+
+            // Occasional "drip" sounds - softer
+            function playDrip() {
+                if (activeMusicType !== 'rain') return;
+                const osc = ctx.createOscillator();
+                const g = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400 + Math.random() * 300, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.15);
+                g.gain.setValueAtTime(0.01, ctx.currentTime);
+                g.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.15);
+                osc.connect(g);
+                g.connect(masterGain);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.15);
+                activeNodes.push(osc);
+                setTimeout(playDrip, 3000 + Math.random() * 6000);
+            }
+            playDrip();
         }
 
-        // --- Cafe: Warm brownian noise with muffled chatter feel ---
+        // --- Cafe: Brownian-filtered chatter and dynamic clinking ---
         function startCafe() {
             const ctx = getAudioCtx();
-            const bufferSize = ctx.sampleRate * 4;
-            const buffer = ctx.createBuffer(2, bufferSize, ctx.sampleRate);
-            
-            for (let ch = 0; ch < 2; ch++) {
-                const data = buffer.getChannelData(ch);
-                let lastOut = 0;
-                for (let i = 0; i < bufferSize; i++) {
-                    const white = Math.random() * 2 - 1;
-                    data[i] = (lastOut + (0.02 * white)) / 1.02;
-                    lastOut = data[i];
-                    data[i] *= 3.5;
-                }
-            }
-            
             const source = ctx.createBufferSource();
-            source.buffer = buffer;
+            source.buffer = createPinkNoise(ctx); // Use pink for base chatter feel
             source.loop = true;
             
             const bpFilter = ctx.createBiquadFilter();
             bpFilter.type = 'bandpass';
-            bpFilter.frequency.value = 600;
-            bpFilter.Q.value = 0.5;
+            bpFilter.frequency.value = 400; // Muffled chatter (Lowered from 500)
+            bpFilter.Q.value = 0.6;
             
             const gain = ctx.createGain();
-            gain.gain.value = 0.12;
+            gain.gain.value = 0.08;
             
             source.connect(bpFilter);
             bpFilter.connect(gain);
@@ -641,44 +686,40 @@
             source.start();
             activeNodes.push(source);
 
-            // Subtle clinking sounds
+            // Subtle dynamic chatter "bumps"
+            const bumpLfo = ctx.createOscillator();
+            const bumpGain = ctx.createGain();
+            bumpLfo.frequency.value = 0.2;
+            bumpGain.gain.value = 0.02;
+            bumpLfo.connect(bumpGain);
+            bumpGain.connect(gain.gain);
+            bumpLfo.start();
+            activeNodes.push(bumpLfo);
+
             function playClink() {
                 if (activeMusicType !== 'cafe') return;
                 const osc = ctx.createOscillator();
                 const clinkGain = ctx.createGain();
                 osc.type = 'sine';
-                osc.frequency.value = 2000 + Math.random() * 2000;
-                clinkGain.gain.setValueAtTime(0.02, ctx.currentTime);
-                clinkGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+                osc.frequency.value = 1500 + Math.random() * 3000;
+                clinkGain.gain.setValueAtTime(0, ctx.currentTime);
+                clinkGain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.01);
+                clinkGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
                 osc.connect(clinkGain);
                 clinkGain.connect(masterGain);
                 osc.start();
-                osc.stop(ctx.currentTime + 0.3);
+                osc.stop(ctx.currentTime + 0.4);
                 activeNodes.push(osc);
-                setTimeout(playClink, 3000 + Math.random() * 8000);
+                setTimeout(playClink, 4000 + Math.random() * 7000);
             }
-            setTimeout(playClink, 2000);
+            setTimeout(playClink, 1000);
         }
 
-        // --- Forest: Nature ambience with soft wind and bird chirps ---
+        // --- Forest: Wind-modulated pink noise and organic chirps ---
         function startForest() {
             const ctx = getAudioCtx();
-            // Wind base
-            const bufferSize = ctx.sampleRate * 4;
-            const buffer = ctx.createBuffer(2, bufferSize, ctx.sampleRate);
-            for (let ch = 0; ch < 2; ch++) {
-                const data = buffer.getChannelData(ch);
-                let lastOut = 0;
-                for (let i = 0; i < bufferSize; i++) {
-                    const white = Math.random() * 2 - 1;
-                    data[i] = (lastOut + (0.05 * white)) / 1.05;
-                    lastOut = data[i];
-                    data[i] *= 2;
-                }
-            }
-            
             const source = ctx.createBufferSource();
-            source.buffer = buffer;
+            source.buffer = createPinkNoise(ctx);
             source.loop = true;
             
             const lpFilter = ctx.createBiquadFilter();
@@ -686,13 +727,13 @@
             lpFilter.frequency.value = 1200;
             
             const gain = ctx.createGain();
-            gain.gain.value = 0.1;
+            gain.gain.value = 0.08;
             
-            // Wind modulation
+            // Wind LFO
             const windLfo = ctx.createOscillator();
             const windLfoGain = ctx.createGain();
-            windLfo.frequency.value = 0.08;
-            windLfoGain.gain.value = 400;
+            windLfo.frequency.value = 0.05;
+            windLfoGain.gain.value = 600;
             windLfo.connect(windLfoGain);
             windLfoGain.connect(lpFilter.frequency);
             windLfo.start();
@@ -703,51 +744,29 @@
             source.start();
             activeNodes.push(source, windLfo);
 
-            // Bird chirps
             function playChirp() {
                 if (activeMusicType !== 'forest') return;
                 const osc = ctx.createOscillator();
                 const chirpGain = ctx.createGain();
-                const baseFreq = 1800 + Math.random() * 2000;
+                const baseFreq = 2200 + Math.random() * 1500;
                 
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(baseFreq, ctx.currentTime);
-                osc.frequency.linearRampToValueAtTime(baseFreq * 1.3, ctx.currentTime + 0.05);
-                osc.frequency.linearRampToValueAtTime(baseFreq * 0.9, ctx.currentTime + 0.12);
-                osc.frequency.linearRampToValueAtTime(baseFreq * 1.1, ctx.currentTime + 0.18);
+                osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.8, ctx.currentTime + 0.2);
                 
                 chirpGain.gain.setValueAtTime(0, ctx.currentTime);
-                chirpGain.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 0.02);
-                chirpGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
+                chirpGain.gain.linearRampToValueAtTime(0.015, ctx.currentTime + 0.02);
+                chirpGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.18);
                 
                 osc.connect(chirpGain);
                 chirpGain.connect(masterGain);
                 osc.start();
-                osc.stop(ctx.currentTime + 0.25);
+                osc.stop(ctx.currentTime + 0.2);
                 activeNodes.push(osc);
                 
-                // Sometimes do double chirp
-                if (Math.random() > 0.5) {
-                    setTimeout(() => {
-                        if (activeMusicType !== 'forest') return;
-                        const osc2 = ctx.createOscillator();
-                        const g2 = ctx.createGain();
-                        osc2.type = 'sine';
-                        osc2.frequency.setValueAtTime(baseFreq * 1.2, ctx.currentTime);
-                        osc2.frequency.linearRampToValueAtTime(baseFreq * 1.5, ctx.currentTime + 0.06);
-                        g2.gain.setValueAtTime(0.02, ctx.currentTime);
-                        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-                        osc2.connect(g2);
-                        g2.connect(masterGain);
-                        osc2.start();
-                        osc2.stop(ctx.currentTime + 0.2);
-                        activeNodes.push(osc2);
-                    }, 200);
-                }
-                
-                setTimeout(playChirp, 4000 + Math.random() * 10000);
+                setTimeout(playChirp, 5000 + Math.random() * 8000);
             }
-            setTimeout(playChirp, 1500);
+            setTimeout(playChirp, 2000);
         }
 
         const soundGenerators = {

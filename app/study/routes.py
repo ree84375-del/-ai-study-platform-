@@ -108,6 +108,9 @@ def practice():
 @study.route("/mistakes")
 @login_required
 def mistakes():
+    if not current_user.is_admin:
+        flash(_t('msg_unauthorized', current_user.language), 'danger')
+        return redirect(url_for('main.home'))
     from app.models import Mistake
     from app.utils.i18n import get_text
     mistake_records = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).all()

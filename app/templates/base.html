@@ -122,7 +122,9 @@
             <a href="{{ url_for('study.practice') }}" class="nav-link"><i class="fa-solid fa-pen-clip"></i> {{ _t('nav_practice') }}</a>
             <a href="{{ url_for('study.generate_exam') }}" class="nav-link"><i class="fa-solid fa-file-contract"></i> {{ _t('nav_exam') }}</a>
             {% endif %}
+            {% if current_user.is_admin %}
             <a href="{{ url_for('study.mistakes') }}" class="nav-link"><i class="fa-solid fa-book-journal-whills"></i> {{ _t('nav_mistakes') }}</a>
+            {% endif %}
             <a href="{{ url_for('group.groups') }}" class="nav-link"><i class="fa-solid fa-users"></i> {{ _t('nav_groups') }}</a>
             <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> {{ _t('nav_chat') }}</a>
             <a href="{{ url_for('study.lofi_room') }}" class="nav-link" id="nav-lofi-room"><i class="fa-solid fa-moon"></i> {{ _t('nav_lofi') }}</a>
@@ -160,9 +162,11 @@
         <a href="{{ url_for('study.practice') }}" class="mob-nav-item">
             <i class="fa-solid fa-pen-clip"></i><span>{{ _t('nav_practice') }}</span>
         </a>
+        {% if current_user.is_admin %}
         <a href="{{ url_for('study.mistakes') }}" class="mob-nav-item">
             <i class="fa-solid fa-book-journal-whills"></i><span>{{ _t('nav_mistakes') }}</span>
         </a>
+        {% endif %}
         <a href="{{ url_for('group.groups') }}" class="mob-nav-item">
             <i class="fa-solid fa-users"></i><span>{{ _t('nav_groups') }}</span>
         </a>
