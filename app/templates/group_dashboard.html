@@ -800,7 +800,7 @@
                                             border: 1px solid #e2e8f0;
                                             border-bottom-left-radius: 4px;
                                         {% endif %}
-                                    " onclick="toggleControls('{{ msg.id }}')">
+                                    " onclick="toggleControls('{{ msg.id }}', event)">
                                         {% if msg.parent_id and msg.parent %}
                                             <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
                                                 <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">{{ msg.parent.author.username }} {{ _t('said') }}：</div>
@@ -825,7 +825,7 @@
                                     </div>
 
                                     <!-- Trigger -->
-                                    <div class="message-more-trigger" data-id="{{ msg.id }}" onclick="event.stopPropagation(); toggleControls(this.dataset.id)" style="{% if msg.user_id == current_user.id %}margin-right: 5px;{% else %}margin-left: 5px;{% endif %}">
+                                    <div class="message-more-trigger" data-id="{{ msg.id }}" onclick="toggleControls(this.dataset.id, event)" style="{% if msg.user_id == current_user.id %}margin-right: 5px;{% else %}margin-left: 5px;{% endif %}">
                                         <i class="fa-solid fa-ellipsis"></i>
                                     </div>
                                 </div>
@@ -1024,23 +1024,41 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollToBottom();
 
     // --- Message Controls ---
-    window.toggleControls = (msgId) => {
+    window.toggleControls = (msgId, event) => {
+        // Stop immediate propagation to prevent the global click listener from firing in this same event cycle
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+        }
+        
         const controls = document.getElementById(`controls-${msgId}`);
+        if (!controls) return;
+        
         const isVisible = controls.style.display === 'flex';
+        
+        // Hide all others first
         document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+        
         if (!isVisible) {
             controls.style.display = 'flex';
-            // Stop propagation to prevent immediate closing by global listener
-            event.stopPropagation();
         }
     };
 
     // Global click listener to close controls when clicking outside
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.interaction-buttons') && !e.target.closest('.message-more-trigger') && !e.target.closest('.message-bubble')) {
-            document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+        const isTrigger = e.target.closest('.message-more-trigger');
+        const isMenu = e.target.closest('.interaction-buttons');
+        
+        // Only close if we clicked outside both the trigger and the menu
+        if (!isTrigger && !isMenu) {
+            document.querySelectorAll('.interaction-buttons').forEach(el => {
+                if (el.style.display === 'flex') {
+                    el.style.display = 'none';
+                }
+            });
         }
-    });
+    }, { capture: true }); // Use capture phase to catch events early
 
     window.recallMessage = async (msgId) => {
         if (!confirm(CONFIG.confirmRecallMsg)) return;
@@ -1886,7 +1904,7 @@ function cancelAiDraft() {
                         </div>
 
                         <!-- Trigger -->
-                        <div class="message-more-trigger" onclick="event.stopPropagation(); toggleControls('${msgId}')">
+                        <div class="message-more-trigger" onclick="toggleControls('${msgId}', event)">
                             <i class="fa-solid fa-ellipsis"></i>
                         </div>
                     </div>

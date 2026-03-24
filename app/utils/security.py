@@ -122,6 +122,7 @@ def analyze_ip_threat(ip):
         latest_log = logs[0]
         latest_log.threat_level = data.get('level', 'safe')
         latest_log.threat_reason = data.get('reason', '分析完成')
+        db.session.add(latest_log)
         db.session.commit()
         
         return latest_log.threat_level, latest_log.threat_reason
@@ -129,4 +130,5 @@ def analyze_ip_threat(ip):
         try: db.session.rollback()
         except: pass
         print(f"IP Threat Analysis Error: {str(e)}")
-        return "safe", f"分析失敗: {str(e)}"
+        # If it failed but it's not a severe error, at least mark it as safe to avoid "尚未分析"
+        return "safe", f"分析暫時不可用: {str(e)}"

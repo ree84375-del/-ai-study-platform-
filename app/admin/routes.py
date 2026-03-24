@@ -141,7 +141,9 @@ def api_security_logs():
             'user': log.user.username if log.user else '匿名訪客',
             'path': log.path,
             'threat_level': log.threat_level,
-            'threat_reason': log.threat_reason or '尚未分析'
+            'threat_reason': log.threat_reason or (
+                '分析完成（安全）' if log.threat_level == 'safe' else '等待系統觸發分析...'
+            )
         })
     
     return jsonify({'logs': log_data})
