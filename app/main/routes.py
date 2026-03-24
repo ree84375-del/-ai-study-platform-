@@ -53,7 +53,8 @@ def before_request():
     # 1a. Verify and repair schemas if they are broken/missing (Production Migration Support)
     try:
         ban = is_ip_banned(client_ip)
-        # Also check if User table is up to date (column repair)
+        # Verify all essential tables/columns (Repair Trigger)
+        db.session.execute(text("SELECT id FROM ip_access_log LIMIT 1")).first()
         db.session.execute(text("SELECT last_ip FROM \"user\" LIMIT 1")).first()
     except (ProgrammingError, OperationalError):
         # Immediate rollback to clear the failed transaction state
