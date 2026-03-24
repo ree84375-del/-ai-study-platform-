@@ -47,6 +47,7 @@ def before_request():
     
     # 1. IP Ban Enforcement (Applies to everyone)
     client_ip = get_real_ip()
+    from sqlalchemy import text
     from sqlalchemy.exc import ProgrammingError, OperationalError
     
     # 1a. Verify and repair schemas if they are broken/missing (Production Migration Support)
