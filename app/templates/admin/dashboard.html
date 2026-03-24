@@ -159,8 +159,10 @@
                             <span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-skull-crossbones"></i> 危險</span>
                         {% elif log.threat_level == 'suspicious' %}
                             <span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-triangle-exclamation"></i> 可疑</span>
-                        {% else %}
+                        {% elif log.threat_level == 'safe' %}
                             <span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-check"></i> 安全</span>
+                        {% else %}
+                            <span style="background: #95a5a6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-clock"></i> 待分析</span>
                         {% endif %}
                     </td>
                     <td style="padding: 10px; font-size: 0.85rem; color: #555; font-style: italic;">
@@ -510,7 +512,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 '<span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-skull-crossbones"></i> 危險</span>' :
                               (log.threat_level === 'suspicious' ? 
                                 '<span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-triangle-exclamation"></i> 可疑</span>' :
-                                '<span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-check"></i> 安全</span>'
+                                (log.threat_level === 'safe' ? 
+                                    '<span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-check"></i> 安全</span>' :
+                                    '<span style="background: #95a5a6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-clock"></i> 待分析</span>'
+                                )
                               )
                             }
                         </td>

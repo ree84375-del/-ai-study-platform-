@@ -84,14 +84,24 @@ def analyze_ip_threat(ip):
     if not logs:
         return "safe", "無足夠紀錄"
 
-    log_data = [{"path": l.path, "time": str(l.timestamp), "ua": l.user_agent} for l in logs]
+    log_data = [{"path": l.path, "time": str(l.timestamp), "ua": l.user_agent, "user_id": l.user_id} for l in logs]
     
     prompt = f"""
-    分析此 IP 存取行為。IP: {ip}
-    紀錄: {json.dumps(log_data)}
+    你是一個資深的網路安全專家與威脅情報分析師。請分析以下 IP 的存取行為，判斷是否為惡意爬蟲、掃描器、VPN 或 Proxy：
     
-    請判斷是否為惡意行為（如攻擊、掃描、異常頻率）。
-    回傳 JSON 格式: {{"level": "safe"|"suspicious"|"dangerous", "reason": "中文理由"}}
+    IP: {ip}
+    存取次數：{len(logs)} 次
+    詳細紀錄 (JSON)：
+    {json.dumps(log_data, indent=2, ensure_ascii=False)}
+    
+    分析準則：
+    1. **DataCenter/Cloud 辨識**：如果該 IP 來自 AWS, DigitalOcean, Google Cloud, Azure, Linode 等雲端供應商且 UserID 為空，通常是自動化工具/機器人，請標註為「suspicious」或「dangerous」。
+    2. **行為模式**：頻繁存取 `/` 或 `/api` 但沒有明顯的用戶行為（由 UserID 判斷），可能是偵察。
+    3. **管理員安全**：如果 user_id 對應的是管理員（UserID 有值），則通常為安全。
+    4. **VPN/Proxy**：如果 UA 指向自動化工具、Python-requests、Headless Chrome 或與正常瀏覽器不符，應提高警覺。
+    
+    請給出專業且簡短的判斷格式：JSON
+    {{ "level": "safe/suspicious/dangerous", "reason": "理由（中文，15個字以內）" }}
     """
 
     api_key = os.environ.get('GEMINI_API_KEY')

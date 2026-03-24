@@ -138,17 +138,20 @@ def before_request():
             
             # TRIGGER AI ANALYSIS:
             # 1. On the very first entry (recent_count == 1)
-            # 2. Or if they hit the "suspicious" frequency threshold (recent_count == 30)
-            if recent_count == 1 or recent_count == 30:
-                # Check if we already have a recent analysis to avoid redundant API calls
+            # 2. Or if they hit a suspicious frequency threshold (intervals of 30)
+            if recent_count == 1 or (recent_count > 0 and recent_count % 30 == 0):
+                # Check if we already have a VERY recent analysis to avoid spamming the AI
+                # We re-analyze if the previous analysis is older than 6 hours OR if they hit a new frequency threshold
                 from datetime import timedelta
-                one_day_ago = datetime.now(timezone.utc) - timedelta(hours=24)
+                re_analyze_cutoff = datetime.now(timezone.utc) - timedelta(hours=6)
                 last_flagged = IPAccessLog.query.filter(
                     IPAccessLog.ip == client_ip, 
-                    IPAccessLog.threat_level != 'safe', 
-                    IPAccessLog.timestamp > one_day_ago
+                    IPAccessLog.threat_level.isnot(None), 
+                    IPAccessLog.timestamp > re_analyze_cutoff
                 ).first()
-                if not last_flagged:
+                
+                # If first hit, or hit 30/60/90... requests and haven't analyzed recently
+                if recent_count == 1 or not last_flagged or recent_count % 30 == 0:
                     analyze_ip_threat(client_ip)
         except Exception as e:
             print(f"Logging fail: {str(e)}")
