@@ -147,9 +147,10 @@
                     <th style="padding: 10px;">威脅評估</th>
                     <th style="padding: 10px;">AI 分析結果</th>
                 </tr>
+                <tbody id="security-log-body">
                 {% for log in access_logs %}
                 <tr style="border-bottom: 1px solid var(--color-border);">
-                    <td style="padding: 10px; font-size: 0.8rem; color: #888;">{{ log.timestamp.strftime('%H:%M:%S') }}</td>
+                    <td style="padding: 10px; font-size: 0.8rem; color: #888;">{{ (log.timestamp + timedelta(hours=8)).strftime('%H:%M:%S') }}</td>
                     <td style="padding: 10px; font-family: monospace; font-weight: bold; color: var(--color-primary);">{{ log.ip }}</td>
                     <td style="padding: 10px; font-size: 0.85rem;">{{ log.user.username if log.user else '匿名訪客' }}</td>
                     <td style="padding: 10px; font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ log.path }}">{{ log.path }}</td>
@@ -167,6 +168,7 @@
                     </td>
                 </tr>
                 {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
@@ -488,6 +490,40 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initial expand if content exists
         if (el.value) autoExpand(el);
     });
+
+    // Real-Time Security Monitor Update
+    async function refreshSecurityLogs() {
+        try {
+            const response = await fetch('/admin/api/security_logs');
+            const data = await response.json();
+            if (data.logs) {
+                const tbody = document.getElementById('security-log-body');
+                if (!tbody) return;
+                tbody.innerHTML = data.logs.map(log => `
+                    <tr style="border-bottom: 1px solid var(--color-border);">
+                        <td style="padding: 10px; font-size: 0.8rem; color: #888;">${log.time}</td>
+                        <td style="padding: 10px; font-family: monospace; font-weight: bold; color: var(--color-primary);">${log.ip}</td>
+                        <td style="padding: 10px; font-size: 0.85rem;">${log.user}</td>
+                        <td style="padding: 10px; font-size: 0.85rem; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${log.path}">${log.path}</td>
+                        <td style="padding: 10px;">
+                            ${log.threat_level === 'dangerous' ? 
+                                '<span style="background: #e74c3c; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-skull-crossbones"></i> 危險</span>' :
+                              (log.threat_level === 'suspicious' ? 
+                                '<span style="background: #f39c12; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-triangle-exclamation"></i> 可疑</span>' :
+                                '<span style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem;"><i class="fa-solid fa-check"></i> 安全</span>'
+                              )
+                            }
+                        </td>
+                        <td style="padding: 10px; font-size: 0.85rem; color: #555; font-style: italic;">
+                            ${log.threat_reason}
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        } catch (err) { console.error('Failed to refresh logs:', err); }
+    }
+    // Poll every 5 seconds
+    setInterval(refreshSecurityLogs, 5000);
 });
 </script>
 

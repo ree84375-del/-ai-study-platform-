@@ -118,7 +118,32 @@ def dashboard():
                             users=users, 
                             stats=stats, 
                             active_bans=active_bans,
-                            access_logs=access_logs)
+                            access_logs=access_logs,
+                            timedelta=timedelta)
+
+@admin.route('/api/security_logs')
+@login_required
+def api_security_logs():
+    if not current_user.is_admin:
+        return jsonify({'error': 'Unauthorized'}), 403
+    
+    from app.models import IPAccessLog
+    logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+    
+    log_data = []
+    for log in logs:
+        # Convert to Taiwan Time (UTC+8)
+        tw_time = log.timestamp + timedelta(hours=8)
+        log_data.append({
+            'time': tw_time.strftime('%H:%M:%S'),
+            'ip': log.ip,
+            'user': log.user.username if log.user else '匿名訪客',
+            'path': log.path,
+            'threat_level': log.threat_level,
+            'threat_reason': log.threat_reason or '尚未分析'
+        })
+    
+    return jsonify({'logs': log_data})
 
 @admin.route('/broadcast', methods=['POST'])
 @login_required
