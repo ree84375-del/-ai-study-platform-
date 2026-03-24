@@ -63,6 +63,75 @@
                 0% { transform: scale(0.8); opacity: 0.8; }
                 100% { transform: scale(1.6); opacity: 0; }
             }
+
+            /* Custom Modal Styles */
+            .antigravity-modal-overlay {
+                position: fixed;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                display: none;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .antigravity-modal-overlay.active {
+                display: flex;
+                opacity: 1;
+            }
+            .antigravity-modal-card {
+                width: 90%;
+                max-width: 500px;
+                background: var(--color-glass-bg);
+                border-radius: 28px;
+                padding: 2rem;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                transform: scale(0.9) translateY(20px);
+                transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                border: 1px solid rgba(255, 255, 255, 0.8);
+            }
+            .antigravity-modal-overlay.active .antigravity-modal-card {
+                transform: scale(1) translateY(0);
+            }
+            .modal-title {
+                font-family: 'Kaisei Tokumin', serif;
+                color: #bb9af7;
+                margin-top: 0;
+                font-size: 1.4rem;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .modal-instruction {
+                font-size: 0.9rem;
+                color: var(--color-text_light);
+                margin-bottom: 1.2rem;
+            }
+            .modal-textarea {
+                width: 100%;
+                min-height: 100px;
+                padding: 12px;
+                border-radius: 12px;
+                border: 1px solid var(--color-border);
+                background: rgba(255, 255, 255, 0.5);
+                font-family: inherit;
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                resize: vertical;
+                outline: none;
+                transition: border-color 0.3s;
+            }
+            .modal-textarea:focus {
+                border-color: #bb9af7;
+            }
+            .modal-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 12px;
+            }
         </style>
     </div>
 
@@ -172,6 +241,19 @@
     </div>
 </div>
 
+<!-- Custom AI Instruction Modal -->
+<div id="ai-modal-overlay" class="antigravity-modal-overlay">
+    <div class="antigravity-modal-card">
+        <h3 class="modal-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 撰寫指令</h3>
+        <p class="modal-instruction">請輸入給 AI 的特定指令（選填）：<br>(例如：請讓語氣更活潑、請改寫成正式公告、請幫我潤飾並加入 Emoji 等)</p>
+        <textarea id="ai-modal-input" class="modal-textarea" placeholder="請美化這段內容"></textarea>
+        <div class="modal-actions">
+            <button id="ai-modal-cancel" class="btn" style="background: rgba(0,0,0,0.05); color: #666;">取消</button>
+            <button id="ai-modal-confirm" class="btn" style="background: #bb9af7; color: white;">確定</button>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     function updateSystemPulse() {
@@ -185,15 +267,50 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     const aiWriteBtn = document.getElementById('ai-write-btn');
+    const modalOverlay = document.getElementById('ai-modal-overlay');
+    const modalInput = document.getElementById('ai-modal-input');
+    const modalConfirm = document.getElementById('ai-modal-confirm');
+    const modalCancel = document.getElementById('ai-modal-cancel');
+
+    function showAIPrompt() {
+        return new Promise((resolve) => {
+            modalOverlay.classList.add('active');
+            modalInput.focus();
+            
+            const handleConfirm = () => {
+                cleanup();
+                resolve(modalInput.value || "請美化這段內容");
+            };
+            
+            const handleCancel = () => {
+                cleanup();
+                resolve(null);
+            };
+            
+            const cleanup = () => {
+                modalOverlay.classList.remove('active');
+                modalConfirm.removeEventListener('click', handleConfirm);
+                modalCancel.removeEventListener('click', handleCancel);
+                modalOverlay.removeEventListener('click', handleOverlayClick);
+            };
+
+            const handleOverlayClick = (e) => {
+                if (e.target === modalOverlay) handleCancel();
+            };
+
+            modalConfirm.addEventListener('click', handleConfirm);
+            modalCancel.addEventListener('click', handleCancel);
+            modalOverlay.addEventListener('click', handleOverlayClick);
+        });
+    }
+
     if (aiWriteBtn) {
         aiWriteBtn.addEventListener('click', async function() {
             const textarea = document.getElementById('broadcast-content');
             const draft = textarea.value;
             
-            // --- NEW: Ask for instructions ---
-            const instruction = prompt("請輸入給 AI 的特定指令（選填）：\n(例如：請讓語氣更活潑、請改寫成正式公告、請幫我潤飾並加入 Emoji 等)", "請美化這段內容");
-            if (instruction === null) return; // User clicked Cancel
-            // ---------------------------------
+            const instruction = await showAIPrompt();
+            if (instruction === null) return;
             
             aiWriteBtn.disabled = true;
             aiWriteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在生成...';
