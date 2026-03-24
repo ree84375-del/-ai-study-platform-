@@ -30,11 +30,17 @@ def is_ip_banned(ip):
         return None
     
     from sqlalchemy.exc import ProgrammingError, OperationalError
+    from app import db
     try:
         ban = IPBan.query.filter_by(ip=ip).first()
         if ban and ban.is_active():
             return ban
     except (ProgrammingError, OperationalError):
-        # Table doesn't exist yet - allow access
+        # Table doesn't exist yet - rollback is CRITICAL here 
+        # to avoid "current transaction is aborted" errors in subsequent queries
+        try:
+            db.session.rollback()
+        except:
+            pass
         return None
     return None
