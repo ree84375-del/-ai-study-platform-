@@ -263,11 +263,7 @@ def group_dashboard(group_id):
                     )
                     db.session.add(yukine_user)
                     db.session.commit()
-                elif yukine_user.username != AI_NAME:
-                    # Update name/personality to show it's "inserted"
-                    yukine_user.username = AI_NAME
-                    yukine_user.email = ai_email # Ensure correct email
-                    db.session.commit()
+                # DO NOT overwrite username here to avoid "maliciously changing" user-provided names
                 
                 # Use session to ensure we only greet ONCE per "entry" (session-based)
                 from flask import session

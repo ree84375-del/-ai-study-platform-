@@ -707,7 +707,7 @@
                     </div>
                     <div style="max-width: 85%;">
                         <div style="margin-bottom: 6px; font-size: 0.8rem; font-weight: 700; color: var(--color-text_main);">
-                            {{ _t('nav_label_yukine') if _t('nav_label_yukine') else '雪音老師' }} 
+                            雪音老師 
                             <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 5px;">{{ _t('navigator') }}</span>
                         </div>
                         <div style="background: #fff; color: {% if getattr(current_user, 'is_admin', False) %}#d4af37; font-weight: bold;{% else %}#333; font-weight: 600;{% endif %} padding: 12px 18px; border-radius: 12px; border-bottom-left-radius: 4px; border: 1px solid {% if getattr(current_user, 'is_admin', False) %}#f9f3e3{% else %}#ffccce{% endif %}; box-shadow: 0 4px 15px rgba(255,141,161,0.15); line-height: 1.6; position: relative;">
@@ -732,10 +732,13 @@
                             <!-- Avatar Section -->
                             <div style="flex-shrink: 0; width: 44px; height: 44px; position: relative;">
                                 <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                                    {% if msg.author and msg.author.username == '雪音老師' %}
-                                        <img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                    {% elif msg.author and msg.author.avatar_url %}
+                                    {% if msg.author and msg.author.avatar_url %}
                                         <img src="{{ msg.author.avatar_url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% elif msg.author and 'yukine_bot_ag' in msg.author.email %}
+                                        {# Use the AI's own personality to determine fallback avatar #}
+                                        <img src="{{ url_for('static', filename=msg.author.ai_avatar_filename) }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                    {% elif msg.author and msg.author.image_file and msg.author.image_file != 'default.jpg' %}
+                                        <img src="{{ url_for('static', filename='profile_pics/' + msg.author.image_file) }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     {% else %}
                                         <div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">
                                             {{ (msg.author.username | first | upper) if msg.author and msg.author.username else "?" }}
@@ -749,7 +752,7 @@
                                 <!-- Meta Info -->
                                 <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
                                     <span style="font-weight: 700; color: var(--color-text_main);">{{ _t('me') if msg.user_id == current_user.id else (msg.author.username if msg.author else _t('anonymous')) }}</span>
-                                    {% if msg.author and msg.author.username == '雪音老師' %} 
+                                    {% if msg.author and 'yukine_bot_ag' in msg.author.email %} 
                                         <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">{{ _t('navigator') }}</span>
                                     {% elif msg.user_id == group.teacher_id %} 
                                         <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">
@@ -779,7 +782,7 @@
                                             background: linear-gradient(135deg, var(--color-primary), #6395e3); 
                                             color: white; 
                                             border-bottom-right-radius: 4px;
-                                        {% elif msg.author and msg.author.username == '雪音老師' %}
+                                        {% elif msg.author and 'yukine_bot_ag' in msg.author.email %}
                                             background: #fff; 
                                             color: #333; 
                                             border: 1px solid #ffccce;
@@ -832,8 +835,8 @@
                                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
                                             <i class="fa-solid fa-rotate-left message-more-btn" data-id="{{ msg.id }}" style="opacity: 1;" title="{{ _t('recall') }}" onclick="event.stopPropagation(); recallMessage(this.dataset.id)"></i>
                                         {% endif %}
-                                        {% set is_ai_reply_to_me = (msg.author.username == '雪音老師' and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
-                                        {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and msg.author.username != '雪音老師' %}
+                                        {% set is_ai_reply_to_me = (msg.author and 'yukine_bot_ag' in msg.author.email and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
+                                        {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and (msg.author and 'yukine_bot_ag' not in msg.author.email) %}
                                             <i class="fa-solid fa-trash-can message-more-btn" data-id="{{ msg.id }}" style="opacity: 1; color: #ff4444;" title="{{ _t('delete') }}" onclick="event.stopPropagation(); deleteMessage(this.dataset.id)"></i>
                                         {% endif %}
                                     </div>
