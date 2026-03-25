@@ -120,7 +120,6 @@ def dashboard():
             try:
                 # Attempt to add the column automatically
                 print("Self-healing: Adding missing 'category' column to 'ip_access_log'...")
-                from app import db
                 db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
                 db.session.commit()
                 # Retry the query
@@ -154,7 +153,6 @@ def api_security_logs():
     except Exception as e:
         if 'category' in str(e).lower() and 'column' in str(e).lower():
             try:
-                from app import db
                 db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
                 db.session.commit()
                 logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
