@@ -111,28 +111,13 @@ def dashboard():
     active_bans = IPBan.query.order_by(IPBan.banned_at.desc()).all()
     # --- END ACTIVE BANS ---
     
-    # --- ACCESS LOGS (Quick View) ---
-    try:
-        # Only show the 5 most recent logs on the dashboard
-        access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(5).all()
-    except Exception as e:
-        if 'category' in str(e).lower() and 'column' in str(e).lower():
-            try:
-                db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
-                db.session.commit()
-                access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(5).all()
-            except Exception:
-                access_logs = []
-        else:
-            access_logs = []
-    # --- END ACCESS LOGS ---
+    # --- END PATCH ---
 
     return render_template('admin/dashboard.html', 
                             title=_t('admin_dashboard_title', lang=current_user.language), 
                             users=users, 
                             stats=stats, 
                             active_bans=active_bans,
-                            access_logs=access_logs,
                             timedelta=timedelta,
                             current_time=datetime.now())
 

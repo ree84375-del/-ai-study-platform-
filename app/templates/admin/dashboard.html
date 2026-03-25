@@ -203,34 +203,6 @@
                 </div>
             </div>
 
-            <!-- Security Monitoring Summary -->
-            <div class="washi-card" style="border-left: 5px solid #79dac8; background: linear-gradient(135deg, white 0%, rgba(121, 218, 200, 0.05) 100%);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
-                    <h3 style="margin: 0; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved" style="color: #79dac8;"></i> 全站管理監視網</h3>
-                    <a href="{{ url_for('admin.security_monitor') }}" class="btn btn-sm" style="background: var(--color-primary); color: white; border-radius: 20px; padding: 5px 15px; font-size: 0.8rem; text-decoration: none;">查看完整報告 <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-                
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    {% if access_logs %}
-                        {% for log in access_logs %}
-                        <div style="display: flex; align-items: center; gap: 15px; padding: 10px; background: rgba(255,255,255,0.5); border-radius: 12px; border: 1px solid rgba(0,0,0,0.03);">
-                            <span style="font-size: 0.75rem; color: #888; min-width: 60px;">{{ (log.timestamp + timedelta(hours=8)).strftime('%H:%M:%S') }}</span>
-                            <span style="font-family: monospace; font-weight: bold; font-size: 0.85rem; color: var(--color-primary); flex: 1;">{{ log.ip }}</span>
-                            <span style="font-size: 0.8rem;">
-                                {% if log.category == 'user' %}<i class="fa-solid fa-user" style="color: #4facfe;"></i> 帳號
-                                {% elif log.category == 'hacker' %}<i class="fa-solid fa-user-secret" style="color: #f43f5e;"></i> 威脅
-                                {% elif log.category == 'ai' %}<i class="fa-solid fa-robot" style="color: #bb9af7;"></i> AI
-                                {% else %}<i class="fa-solid fa-bug" style="color: #94a3b8;"></i> 偵測
-                                {% endif %}
-                            </span>
-                            <span style="font-size: 0.75rem; background: {% if log.threat_level == 'dangerous' %}#fee2e2; color: #ef4444;{% else %}#f3f4f6; color: #6b7280;{% endif %} padding: 2px 8px; border-radius: 10px;">{{ log.threat_level }}</span>
-                        </div>
-                        {% endfor %}
-                    {% else %}
-                        <div style="padding: 20px; text-align: center; color: #999; font-size: 0.9rem;">目前尚無存取紀錄</div>
-                    {% endif %}
-                </div>
-            </div>
 
             <!-- User Management Section -->
             <div id="user-management" class="washi-card" style="margin-bottom: 2rem;">
