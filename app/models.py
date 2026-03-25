@@ -362,6 +362,7 @@ class IPAccessLog(db.Model):
     timestamp = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     threat_level = db.Column(db.String(20), default='safe') # safe, suspicious, dangerous
     threat_reason = db.Column(db.Text, nullable=True)
+    category = db.Column(db.String(20), default='unknown') # user, hacker, ai, scanner, unknown
 
     user = db.relationship('User', backref=db.backref('access_logs', lazy=True))
 

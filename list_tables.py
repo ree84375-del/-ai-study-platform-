@@ -1,15 +1,26 @@
-from app import create_app, db
-from sqlalchemy import inspect
-import logging
+import sqlite3
+import os
 
-logging.getLogger('sqlalchemy').setLevel(logging.ERROR)
+def list_tables():
+    db_paths = ['instance/app.db', 'app/app.db', 'app.db']
+    db_path = None
+    for p in db_paths:
+        if os.path.exists(p):
+            db_path = p
+            break
+            
+    if not db_path:
+        print("Database not found.")
+        return
 
-app = create_app()
-with app.app_context():
-    print("Listing all tables in the database...")
-    try:
-        inspector = inspect(db.engine)
-        tables = inspector.get_table_names()
-        print(f"Tables: {', '.join(tables)}")
-    except Exception as e:
-        print(f"Error listing tables: {e}")
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    print(f"Tables in {db_path}:")
+    for t in tables:
+        print(f" - {t[0]}")
+    conn.close()
+
+if __name__ == "__main__":
+    list_tables()
