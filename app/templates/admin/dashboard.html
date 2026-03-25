@@ -256,6 +256,7 @@
             <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
                 <tr style="border-bottom: 2px solid var(--color-border); text-align: left; background: var(--color-bg);">
                     <th style="padding: 12px 10px;">ID</th>
+                    <th style="padding: 12px 10px;">登入方式</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_email') }}</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_name') }}</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_role') }}</th>
@@ -266,7 +267,14 @@
                 </tr>
                 {% for u in users %}
                 <tr style="border-bottom: 1px solid var(--color-border);" class="hover-row">
-                    <td style="padding: 12px 10px; color: var(--color-text_light);">#{{ loop.index }}</td>
+                    <td style="padding: 12px 10px; color: var(--color-text_light);">#{{ (users_pagination.page - 1) * users_pagination.per_page + loop.index }}</td>
+                    <td style="padding: 12px 10px;">
+                        {% if u.auth_provider == 'google' %}
+                            <span style="background: #4285f4; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-brands fa-google"></i> Google</span>
+                        {% else %}
+                            <span style="background: #79dac8; color: #1a1b26; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-solid fa-desktop"></i> 平台</span>
+                        {% endif %}
+                    </td>
                     <td style="padding: 12px 10px; font-weight: 500;">{{ u.email }}</td>
                     <td style="padding: 12px 10px;">{{ u.username }}</td>
                     <td style="padding: 12px 10px;">
@@ -274,8 +282,8 @@
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <select name="role" style="padding: 4px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 0.85rem;" {% if u.is_admin %}disabled{% endif %}>
                                 <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>{{ _t('admin_role_guest') }}</option>
-                                <option value="student" {% if u.role == 'student' %}selected{% endif %}>{{ _t('admin_role_student') }}</option>
-                                <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>{{ _t('admin_role_teacher') }}</option>
+                                <option value="student" {% if u.role == 'student' %}selected{% endif %}>學生 (Student)</option>
+                                <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>AI (系統專用)</option>
                                 <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>{{ _t('admin_role_admin') }}</option>
                             </select>
                             <button type="submit" class="btn-icon" title="{{ _t('admin_btn_change') }}" {% if u.is_admin %}disabled{% endif %} style="background: none; border: none; color: var(--color-primary); cursor: pointer;"><i class="fa-solid fa-rotate"></i></button>
