@@ -78,7 +78,11 @@ def dashboard():
             except: db.session.rollback()
     # --- END DATABASE HEALTH CHECK ---
 
-    users = User.query.order_by((User.role == 'admin').desc(), User.id).all()
+    # --- PAGINATION ---
+    page = request.args.get('page', 1, type=int)
+    users_pagination = User.query.order_by((User.role == 'admin').desc(), User.id).paginate(page=page, per_page=10)
+    users = users_pagination.items
+    # --- END PAGINATION ---
     
     stats = {
         'total_users': User.query.count(),
@@ -116,6 +120,7 @@ def dashboard():
     return render_template('admin/dashboard.html', 
                             title=_t('admin_dashboard_title', lang=current_user.language), 
                             users=users, 
+                            users_pagination=users_pagination,
                             stats=stats, 
                             active_bans=active_bans,
                             timedelta=timedelta,

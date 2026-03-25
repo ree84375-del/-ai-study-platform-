@@ -105,6 +105,51 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* Pagination Styles */
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin-top: 1.5rem;
+        padding-bottom: 20px;
+    }
+
+    .pagination-btn {
+        padding: 8px 18px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 25px;
+        text-decoration: none;
+        color: var(--color-primary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        backdrop-filter: blur(5px);
+    }
+
+    .pagination-btn:hover {
+        background: var(--color-primary);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        border-color: var(--color-primary);
+    }
+
+    .pagination-info {
+        font-size: 0.9rem;
+        color: #555;
+        background: rgba(255,255,255,0.6);
+        padding: 8px 18px;
+        border-radius: 25px;
+        border: 1px solid rgba(255,255,255,0.8);
+        backdrop-filter: blur(5px);
+        font-weight: 500;
+    }
 </style>
 
 <div class="container" style="max-width: 1300px; margin: 0 auto; padding: 0 20px;">
@@ -264,6 +309,25 @@
                 </tr>
                 {% endfor %}
             </table>
+        </div>
+
+        <!-- User Pagination Controls -->
+        <div class="pagination-container">
+            {% if users_pagination.has_prev %}
+                <a href="{{ url_for('admin.dashboard', page=users_pagination.prev_num) }}#user-management" class="pagination-btn">
+                    <i class="fa-solid fa-chevron-left"></i> 上一頁
+                </a>
+            {% endif %}
+            
+            <div class="pagination-info">
+                第 {{ users_pagination.page }} / {{ users_pagination.pages }} 頁 (共 {{ users_pagination.total }} 名)
+            </div>
+            
+            {% if users_pagination.has_next %}
+                <a href="{{ url_for('admin.dashboard', page=users_pagination.next_num) }}#user-management" class="pagination-btn">
+                    下一頁 <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            {% endif %}
         </div>
     </div>
 
