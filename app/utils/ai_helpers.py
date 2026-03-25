@@ -35,7 +35,7 @@ def verify_api_key_table():
         db.session.execute(text("CREATE TABLE IF NOT EXISTS memory_fragment (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL, category VARCHAR(50) DEFAULT 'general', content TEXT NOT NULL, importance INTEGER DEFAULT 1, created_at TIMESTAMP)"))
         db.session.commit()
         
-        for col, col_type in [("cooldown_until", "TIMESTAMP"), ("retry_count", "INTEGER DEFAULT 0")]:
+        for col, col_type in [("cooldown_until", "TIMESTAMP"), ("retry_count", "INTEGER DEFAULT 0"), ("is_blocked", "BOOLEAN DEFAULT FALSE")]:
             try:
                 db.session.execute(text(f"ALTER TABLE api_key_tracker ADD COLUMN {col} {col_type}"))
                 db.session.commit()
@@ -122,18 +122,32 @@ def mark_key_status(provider, key, status, error=None):
     now = datetime.now()
     tracker.status = status
     tracker.last_used = now
-    if status == 'active':
+    
+    if status == 'active' or status == 'standby':
         tracker.retry_count = 0
         tracker.cooldown_until = None
         tracker.error_message = None
     elif status in ['cooldown', 'error']:
         tracker.error_message = error
-        if error and ('429' in error or 'quota' in error.lower()):
+        
+        # Check for permanent blocks
+        permanent_block_indicators = [
+            'api key not found', 'invalid api key', 'api key blocked', 
+            'api key is invalid', 'not found', 'apikey limited'
+        ]
+        is_permanent = any(ind in str(error).lower() for ind in permanent_block_indicators)
+        
+        if is_permanent:
+            tracker.is_blocked = True
+            tracker.status = 'error' # Permanent error
+        elif error and ('429' in error or 'quota' in error.lower()):
             tracker.retry_count = (tracker.retry_count or 0) + 1
+            # Exponential backoff up to 2 hours
             minutes = min(5 * (2 ** (tracker.retry_count - 1)), 120) 
             tracker.cooldown_until = now + timedelta(minutes=minutes)
         else:
             tracker.cooldown_until = now + timedelta(minutes=2)
+    
     try:
         db.session.commit()
     except Exception:
@@ -147,6 +161,10 @@ def get_usable_keys(provider, base_keys):
         trackers = {t.api_key: t for t in APIKeyTracker.query.filter_by(provider=provider).all()}
         for k in base_keys:
             t = trackers.get(k)
+            # Filter out permanently blocked keys
+            if t and t.is_blocked:
+                continue
+                
             if not t or t.status == 'standby' or (t.status in ['error', 'cooldown'] and t.cooldown_until and t.cooldown_until < now):
                 usable.append(k)
         random.shuffle(usable)

@@ -308,6 +308,7 @@ class APIKeyTracker(db.Model):
     error_message = db.Column(db.Text, nullable=True)
     cooldown_until = db.Column(db.DateTime, nullable=True)
     retry_count = db.Column(db.Integer, default=0)
+    is_blocked = db.Column(db.Boolean, default=False)
 
 class UserMemory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
