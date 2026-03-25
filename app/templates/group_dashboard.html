@@ -1040,16 +1040,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.interaction-buttons').forEach(el => {
             if (el.getAttribute('id') !== `controls-${msgId}`) {
                 el.style.display = 'none';
+                el.removeAttribute('data-active');
             }
         });
         
         if (!isVisible) {
             controls.style.display = 'flex';
-            // Mark as just opened to prevent immediate closing from any bubbling events
+            controls.setAttribute('data-active', 'true');
+            // Preventive mark to avoid immediate close from bubbling
             controls.setAttribute('data-just-opened', 'true');
-            setTimeout(() => controls.removeAttribute('data-just-opened'), 100);
+            setTimeout(() => controls.removeAttribute('data-just-opened'), 200);
         } else {
             controls.style.display = 'none';
+            controls.removeAttribute('data-active');
         }
     };
 
@@ -1057,16 +1060,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const isTrigger = e.target.closest('.message-more-trigger');
         const isMenu = e.target.closest('.interaction-buttons');
         
-        // Only close if we clicked outside both the trigger and the menu
+        // Only close if we clicked completely outside both the trigger and the menu
         if (!isTrigger && !isMenu) {
             document.querySelectorAll('.interaction-buttons').forEach(el => {
-                // Don't close if it was just opened in this same event cascade
                 if (el.style.display === 'flex' && !el.hasAttribute('data-just-opened')) {
                     el.style.display = 'none';
+                    el.removeAttribute('data-active');
                 }
             });
         }
-    }); // Removed capture: true to ensure standard event flow
+    });
 
     window.recallMessage = async (msgId) => {
         if (!confirm(CONFIG.confirmRecallMsg)) return;
