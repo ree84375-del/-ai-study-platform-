@@ -71,12 +71,12 @@ def log_ip_access(ip, user_id=None, path=None, user_agent=None):
 
 def analyze_ip_threat(ip):
     """
-    Uses Gemini to analyze recent access logs for a specific IP and determine threat level.
+    Uses Gemini (via the centralized fallback system) to analyze recent access logs 
+    for a specific IP and determine threat level.
     """
     from app.models import IPAccessLog
     from app import db
-    import google.generativeai as genai
-    import os
+    from app.utils.ai_helpers import generate_text_with_fallback
     import json
 
     # Get recent logs for context
@@ -87,7 +87,7 @@ def analyze_ip_threat(ip):
     log_data = [{"path": l.path, "time": str(l.timestamp), "ua": l.user_agent, "user_id": l.user_id} for l in logs]
     
     prompt = f"""
-    你是一個資深的網路安全專家與威脅情報分析師。請分析以下 IP 的存取行為，判斷是否為惡意爬蟲、掃描器、VPN 或 Proxy：
+    你是一個資長的網路安全專家與威脅情報分析師。請分析以下 IP 的存取行為，判斷是否為惡意爬蟲、掃描器、VPN 或 Proxy：
     
     IP: {ip}
     存取次數：{len(logs)} 次
@@ -95,27 +95,24 @@ def analyze_ip_threat(ip):
     {json.dumps(log_data, indent=2, ensure_ascii=False)}
     
     分析準則：
-    1. **DataCenter/Cloud 辨識**：如果該 IP 來自 AWS, DigitalOcean, Google Cloud, Azure, Linode 等雲端供應商且 UserID 為空，通常是自動化工具/機器人，請標註為「suspicious」或「dangerous」。
+    1. **雲端供應商辨識**：判斷該 IP 是否來自 AWS, DigitalOcean, Google Cloud, Azure, Linode, Vercel 等。如果是，標註理由如「AWS 雲端爬蟲」並分類為 safe 或 suspicious。
     2. **行為模式**：頻繁存取 `/` 或 `/api` 但沒有明顯的用戶行為（由 UserID 判斷），可能是偵察。
-    3. **管理員安全**：如果 user_id 對應的是管理員（UserID 有值），則通常為安全。
-    4. **VPN/Proxy**：如果 UA 指向自動化工具、Python-requests、Headless Chrome 或與正常瀏覽器不符，應提高警覺。
+    3. **管理員安全**：如果 user_id 對應的是管理員，則通常為安全。
+    4. **VPN/Proxy**：如果 UA 指向自動化工具（Python-requests, Headless Chrome），應提高警覺。
     
-    請給出專業且簡短的判斷格式：JSON
-    {{ "level": "safe/suspicious/dangerous", "reason": "理由（中文，15個字以內）" }}
+    請務必以 JSON 格式回應，不包含 markdown 片段：
+    {{ "level": "safe/suspicious/dangerous", "reason": "具體的理由（中文，包含供應商名稱如 AWS/DO 等，20個字以內）" }}
     """
 
-    api_key = os.environ.get('GEMINI_API_KEY')
-    if not api_key:
-        return "safe", "API Key 缺失"
-
     try:
-        genai.configure(api_key=api_key)
-        model = genai.generativemodels.GenerativeModel('gemini-1.5-flash')
-        response = model.generate_content(prompt)
-        result = response.text.strip()
-        # Clean markdown if present
+        # Use our centralized robust generation system
+        result = generate_text_with_fallback(prompt)
+        
+        # Clean up possible markdown or unexpected text
+        result = result.strip()
         if result.startswith("```json"):
             result = result[7:-3].strip()
+        
         data = json.loads(result)
         
         # Update the latest log with the threat info
@@ -130,5 +127,4 @@ def analyze_ip_threat(ip):
         try: db.session.rollback()
         except: pass
         print(f"IP Threat Analysis Error: {str(e)}")
-        # If it failed but it's not a severe error, at least mark it as safe to avoid "尚未分析"
-        return "safe", f"分析暫時不可用: {str(e)}"
+        return "safe", f"分析暫時不可用"
