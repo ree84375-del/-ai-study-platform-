@@ -117,7 +117,11 @@ def get_ollama_keys():
     return [k.strip() for k in keys_str.split(',') if k.strip()]
 
 def mark_key_status(provider, key, status, error=None):
-    tracker = APIKeyTracker.query.filter_by(provider=provider, api_key=key).first()
+    try:
+        tracker = APIKeyTracker.query.filter_by(provider=provider, api_key=key).first()
+    except Exception:
+        db.session.rollback()
+        return
     if not tracker: return
     now = datetime.now()
     tracker.status = status
@@ -158,7 +162,15 @@ def get_usable_keys(provider, base_keys):
     try:
         usable = []
         now = datetime.now()
-        trackers = {t.api_key: t for t in APIKeyTracker.query.filter_by(provider=provider).all()}
+        trackers = {}
+        try:
+            trackers = {t.api_key: t for t in APIKeyTracker.query.filter_by(provider=provider).all()}
+        except Exception:
+            # If DB is in a failed transaction or table missing, 
+            # fall back to using ALL base_keys to ensure AI doesn't stop working.
+            db.session.rollback()
+            return base_keys
+            
         for k in base_keys:
             t = trackers.get(k)
             # Filter out permanently blocked keys

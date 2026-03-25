@@ -384,6 +384,19 @@
                     hideLoader();
                 }
             });
+
+            // Heartbeat for exit tracking
+            {% if current_user.is_authenticated %}
+            setInterval(function() {
+                fetch('/api/heartbeat', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json'
+                    }
+                }).catch(err => console.debug("Heartbeat skipped"));
+            }, 30000); // 30 seconds
+            {% endif %}
         });
     </script>
 </body>

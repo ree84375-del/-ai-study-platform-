@@ -171,18 +171,22 @@ def before_request():
             if current_user.is_admin and current_user.username != '管理員':
                 current_user.username = '管理員'
                 db.session.commit()
-                
-            # Update last_active_at (Throttled to once every minute)
-            now = datetime.now(timezone.utc)
-            if getattr(current_user, 'last_active_at', None) is None or \
-               (now - current_user.last_active_at).total_seconds() > 10:
-                current_user.last_active_at = now
-                db.session.commit()
         except Exception:
             try:
                 db.session.rollback()
             except Exception:
                 pass
+
+@main.route("/api/heartbeat", methods=['POST'])
+@login_required
+def heartbeat():
+    """Update user's last_active_at every 30s while they are on the site."""
+    try:
+        current_user.last_active_at = datetime.now(timezone.utc)
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+    return '', 204
 
 @main.route("/")
 @main.route("/home")
