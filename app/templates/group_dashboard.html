@@ -1025,7 +1025,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Message Controls ---
     window.toggleControls = (msgId, event) => {
-        // Stop immediate propagation to prevent the global click listener from firing in this same event cycle
         if (event) {
             event.preventDefault();
             event.stopPropagation();
@@ -1038,14 +1037,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const isVisible = controls.style.display === 'flex';
         
         // Hide all others first
-        document.querySelectorAll('.interaction-buttons').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.interaction-buttons').forEach(el => {
+            if (el.getAttribute('id') !== `controls-${msgId}`) {
+                el.style.display = 'none';
+            }
+        });
         
         if (!isVisible) {
             controls.style.display = 'flex';
+            // Mark as just opened to prevent immediate closing from any bubbling events
+            controls.setAttribute('data-just-opened', 'true');
+            setTimeout(() => controls.removeAttribute('data-just-opened'), 100);
+        } else {
+            controls.style.display = 'none';
         }
     };
 
-    // Global click listener to close controls when clicking outside
     document.addEventListener('click', (e) => {
         const isTrigger = e.target.closest('.message-more-trigger');
         const isMenu = e.target.closest('.interaction-buttons');
@@ -1053,12 +1060,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Only close if we clicked outside both the trigger and the menu
         if (!isTrigger && !isMenu) {
             document.querySelectorAll('.interaction-buttons').forEach(el => {
-                if (el.style.display === 'flex') {
+                // Don't close if it was just opened in this same event cascade
+                if (el.style.display === 'flex' && !el.hasAttribute('data-just-opened')) {
                     el.style.display = 'none';
                 }
             });
         }
-    }, { capture: true }); // Use capture phase to catch events early
+    }); // Removed capture: true to ensure standard event flow
 
     window.recallMessage = async (msgId) => {
         if (!confirm(CONFIG.confirmRecallMsg)) return;

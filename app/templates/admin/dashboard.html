@@ -185,6 +185,7 @@
                     <th style="padding: 12px 10px;">{{ _t('admin_name') }}</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_role') }}</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_last_ip') }}</th>
+                    <th style="padding: 12px 10px;">{{ _t('admin_last_login') if _t('admin_last_login') else '最後登入' }}</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_last_active') }}</th>
                     <th style="padding: 12px 10px;">{{ _t('admin_actions') }}</th>
                 </tr>
@@ -209,7 +210,10 @@
                         {{ u.last_ip or '---' }}
                     </td>
                     <td style="padding: 12px 10px; font-size: 0.85rem; color: var(--color-text_light);">
-                        {% if u.last_active_at %}{{ u.last_active_at.strftime('%Y-%m-%d %H:%M') }}{% else %}{{ _t('admin_never_logged_in') }}{% endif %}
+                        {% if u.last_login %}{{ (u.last_login + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M') }}{% else %}---{% endif %}
+                    </td>
+                    <td style="padding: 12px 10px; font-size: 0.85rem; color: var(--color-text_light);">
+                        {% if u.last_active_at %}{{ (u.last_active_at + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M') }}{% else %}{{ _t('admin_never_logged_in') }}{% endif %}
                     </td>
                     <td style="padding: 12px 10px; display: flex; gap: 8px;">
                         <button type="button" class="btn btn-sm suspend-btn" 

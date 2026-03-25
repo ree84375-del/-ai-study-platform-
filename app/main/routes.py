@@ -175,7 +175,7 @@ def before_request():
             # Update last_active_at (Throttled to once every minute)
             now = datetime.now(timezone.utc)
             if getattr(current_user, 'last_active_at', None) is None or \
-               (now - current_user.last_active_at).total_seconds() > 60:
+               (now - current_user.last_active_at).total_seconds() > 10:
                 current_user.last_active_at = now
                 db.session.commit()
         except Exception:
