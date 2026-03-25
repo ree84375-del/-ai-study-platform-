@@ -388,10 +388,10 @@
     <div class="antigravity-modal-card">
         <h3 class="modal-title" id="ai-modal-title"><i class="fa-solid fa-wand-magic-sparkles"></i> AI 撰寫指令</h3>
         <p class="modal-instruction" id="ai-modal-instruction">請輸入給 AI 的特定指令（選填）：</p>
-        <textarea id="ai-modal-input" class="modal-textarea" placeholder="請美化這段內容"></textarea>
+        <textarea id="ai-modal-input" class="modal-textarea" placeholder="例如：請美化內容、改寫成正式語氣..."></textarea>
         <div class="modal-actions">
-            <button id="ai-modal-cancel" class="btn" style="background: rgba(0,0,0,0.05); color: #666;">取消</button>
-            <button id="ai-modal-confirm" class="btn" style="background: #bb9af7; color: white;">確定</button>
+            <button id="ai-modal-cancel" class="premium-btn btn-ghost">取消</button>
+            <button id="ai-modal-confirm" class="premium-btn btn-ai">確定指令</button>
         </div>
     </div>
 </div>
@@ -399,18 +399,21 @@
 <!-- IP Ban / Suspension Modal -->
 <div id="ban-modal-overlay" class="antigravity-modal-overlay">
     <div class="antigravity-modal-card" style="max-width: 550px;">
-        <h3 class="modal-title"><i class="fa-solid fa-ban"></i> 用戶停權與 IP 封鎖</h3>
+        <h3 class="modal-title"><i class="fa-solid fa-shield-halved"></i> 威脅處置與停權管理</h3>
         <form id="ban-form" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <div style="margin-bottom: 1rem;">
-                <label style="font-size: 0.9rem; color: #666;">目標用戶：<strong id="ban-target-name" style="color: #bb9af7;">--</strong></label><br>
-                <label style="font-size: 0.9rem; color: #666;">目標 IP：<input type="text" name="target_ip" id="ban-target-ip" style="border: none; background: none; font-family: monospace; font-weight: bold; color: #e74c3c; outline: none;" readonly /></label>
+            <div style="background: rgba(187, 154, 247, 0.08); padding: 15px; border-radius: 18px; margin-bottom: 20px; border: 1px solid rgba(187, 154, 247, 0.15);">
+                <div style="font-size: 0.85rem; color: #888; margin-bottom: 4px;">處分對象</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong id="ban-target-name" style="font-size: 1.2rem; color: #1a1b26;">--</strong>
+                    <input type="text" name="target_ip" id="ban-target-ip" style="border: none; background: none; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: bold; color: #f43f5e; text-align: right; outline: none;" readonly />
+                </div>
             </div>
 
-            <div style="margin-bottom: 1.2rem; display: flex; gap: 15px; align-items: flex-end;">
-                <div style="flex: 1;">
-                    <label style="display: block; font-size: 0.85rem; margin-bottom: 4px;">{{ _t('admin_ban_type') }}</label>
-                    <select name="duration" id="ban-duration" class="modal-textarea" style="height: 45px; min-height: 45px; margin-bottom: 0;">
+            <div style="display: grid; grid-template-columns: 1fr auto; gap: 15px; align-items: flex-end; margin-bottom: 20px;">
+                <div>
+                    <label class="modal-instruction">{{ _t('admin_ban_type') }}</label>
+                    <select name="duration" id="ban-duration" style="margin-bottom: 0;">
                         <option value="warning">僅警告 (不封鎖 IP)</option>
                         <option value="1">停權 1 天</option>
                         <option value="3">停權 3 天</option>
@@ -421,37 +424,104 @@
                         <option value="permanent">永久凍結 (IP Freeze)</option>
                     </select>
                 </div>
-                <button type="button" id="ai-suggest-ban" class="btn" style="background: #79dac8; color: #1a1b26; font-weight: bold; padding: 0 15px; height: 45px;">
-                    <i class="fa-solid fa-brain"></i> {{ _t('admin_btn_ai_suggest') }}
+                <button type="button" id="ai-suggest-ban" class="premium-btn" style="background: #2dd4bf; color: #00443d; height: 52px; font-size: 0.9rem;">
+                    <i class="fa-solid fa-brain"></i> AI 建議
                 </button>
             </div>
 
-            <div style="margin-bottom: 1.2rem;">
-                <label style="display: block; font-size: 0.85rem; margin-bottom: 4px;">{{ _t('admin_ban_reason') }}</label>
-                <input type="text" name="reason" id="ban-reason" class="modal-textarea" style="height: 45px; min-height: 45px; margin-bottom: 0;" placeholder="例如：惡意洗版、騷擾他人" required />
+            <div style="margin-bottom: 20px;">
+                <label class="modal-instruction">{{ _t('admin_ban_reason') }}</label>
+                <input type="text" name="reason" id="ban-reason" placeholder="例如：惡意洗版、騷擾他人" style="margin-bottom: 0;" required />
             </div>
 
-            <div style="margin-bottom: 1.5rem;">
-                <label style="display: block; font-size: 0.85rem; margin-bottom: 4px;">{{ _t('admin_ban_notes') }} (僅限管理員可見)</label>
-                <textarea name="admin_notes" id="ban-notes" class="modal-textarea" style="min-height: 60px; margin-bottom: 0;" placeholder="紀錄具體違規事件..."></textarea>
+            <div style="margin-bottom: 20px;">
+                <label class="modal-instruction">{{ _t('admin_ban_notes') }} (管理員內部備註)</label>
+                <textarea name="admin_notes" id="ban-notes" style="min-height: 80px; margin-bottom: 0;" placeholder="紀錄具體違規事件細節..."></textarea>
             </div>
 
-            <div id="ai-analysis-box" style="display: none; background: rgba(121, 218, 200, 0.1); border: 1px solid #79dac8; border-radius: 12px; padding: 12px; margin-bottom: 1.5rem; font-size: 0.85rem;">
-                <div style="color: #79dac8; font-weight: bold; margin-bottom: 5px;"><i class="fa-solid fa-robot"></i> AI 分析建議：</div>
-                <div id="ai-analysis-content" style="color: #79dac8; line-height: 1.4;">正在讀取用戶行為記錄並分析中...</div>
+            <div id="ai-analysis-box" style="display: none; background: linear-gradient(135deg, rgba(45, 212, 191, 0.1), rgba(45, 212, 191, 0.05)); border: 1px solid rgba(45, 212, 191, 0.3); border-radius: 18px; padding: 18px; margin-bottom: 20px;">
+                <div style="color: #0d9488; font-weight: 800; font-size: 0.9rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-sparkles"></i> AI 智能行為分析
+                </div>
+                <div id="ai-analysis-content" style="color: #0f766e; font-size: 0.88rem; line-height: 1.6;">正在掃描歷史行為記錄...</div>
             </div>
 
             <div class="modal-actions">
-                <button type="button" onclick="closeBanModal()" class="btn" style="background: rgba(0,0,0,0.05); color: #666;">{{ _t('cancel') }}</button>
-                <button type="submit" class="btn" style="background: #e74c3c; color: white; font-weight: bold;"><i class="fa-solid fa-lock"></i> 執行處分</button>
+                <button type="button" onclick="closeBanModal()" class="premium-btn btn-ghost">{{ _t('cancel') }}</button>
+                <button type="submit" class="premium-btn btn-danger"><i class="fa-solid fa-hammer"></i> 執行安全處分</button>
             </div>
         </form>
     </div>
 </div>
 
 <style>
-    .hover-row:hover { background: rgba(0,0,0,0.02); }
-    .btn-icon:hover { opacity: 0.7; }
+.antigravity-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 11, 16, 0.4);
+    backdrop-filter: blur(12px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 10000; opacity: 0; pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.antigravity-modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+.antigravity-modal-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 28px;
+    padding: 35px;
+    width: 90%; max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.antigravity-modal-overlay.active .antigravity-modal-card {
+    transform: translateY(0) scale(1);
+}
+
+.modal-title {
+    font-size: 1.6rem; font-weight: 800; margin-bottom: 20px;
+    background: linear-gradient(135deg, #1a1b26, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex; align-items: center; gap: 12px;
+}
+
+.modal-instruction { font-size: 0.95rem; color: #444; margin-bottom: 12px; font-weight: 500; }
+
+.modal-textarea, #ban-reason, #ban-notes, #ban-duration {
+    width: 100%; padding: 15px 18px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    font-size: 1rem; line-height: 1.5;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+.modal-textarea:focus, #ban-reason:focus, #ban-notes:focus, #ban-duration:focus {
+    outline: none; background: white;
+    border-color: #bb9af7;
+    box-shadow: 0 0 0 4px rgba(187, 154, 247, 0.15), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; }
+
+.premium-btn {
+    padding: 12px 28px; border-radius: 14px; border: none;
+    font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.premium-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+.premium-btn:active { transform: translateY(0); }
+
+.btn-ai { background: linear-gradient(135deg, #bb9af7, #7aa2f7); color: white; }
+.btn-danger { background: linear-gradient(135deg, #ff4d4d, #f43f5e); color: white; }
+.btn-ghost { background: rgba(0,0,0,0.05); color: #444; }
+.btn-ghost:hover { background: rgba(0,0,0,0.1); }
 </style>
 
 <script>
