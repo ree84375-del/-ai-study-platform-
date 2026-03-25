@@ -612,17 +612,42 @@ def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
     except Exception as e:
         return {"title": "Error", "description": str(e), "reference_answer": ""}
 
+def get_ai_user_by_personality(personality_key=None):
+    """
+    Returns the appropriate User object for the given personality key.
+    If no key or personality not found, defaults to Yukine.
+    """
+    from app.models import User
+    
+    # Mapping of personality keys (internal and Chinese) to bot emails
+    email_map = {
+        '雪音-溫柔型': 'yukine_bot@internal.ai',
+        '嚴厲教練': 'coach_bot@internal.ai',
+        '幽默學長': 'senior_bot@internal.ai',
+        'ai_coach': 'coach_bot@internal.ai',
+        'ai_guy': 'senior_bot@internal.ai',
+        '雪音-Antigravity輔助型': 'yukine_bot@internal.ai'
+    }
+    
+    target_email = email_map.get(personality_key, 'yukine_bot@internal.ai')
+    user = User.query.filter_by(email=target_email).first()
+    
+    if not user:
+        # Fallback to legacy/alt if first choice missing
+        user = User.query.filter_by(email='yukine_bot_ag@internal.ai').first()
+        if not user:
+             user = User.query.filter(User.username.like('%雪音%')).first()
+             
+    return user
+
 def broadcast_to_all_groups(content):
-    """Sends a system message to all active groups."""
+    """Sends a system message to all active groups using the primary AI bot."""
     try:
-        from app.models import Group, GroupMessage, User
+        from app.models import Group, GroupMessage
         from app import db
         
-        # System AI User
-        ai_email = 'yukine_bot_ag@internal.ai'
-        yukine = User.query.filter_by(email=ai_email).first()
-        if not yukine:
-            yukine = User.query.filter(User.username.like('%雪音%')).first()
+        # Primary AI User (Yukine)
+        yukine = get_ai_user_by_personality('雪音-溫柔型')
         
         groups = Group.query.all()
         count = 0

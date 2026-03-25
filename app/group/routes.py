@@ -246,25 +246,19 @@ def group_dashboard(group_id):
         # 只要有群組的人點入就發送一條歡迎語
         if group_obj.has_ai:
             try:
-                # Improved AI User Lookup: Prioritize the one with a custom avatar
-                primary_ai_email = 'yukine_bot_ag@internal.ai'
-                yukine_candidates = User.query.filter(
-                    (User.email == primary_ai_email) | 
-                    (User.email == 'yukine@internal.ai') | 
-                    (User.username.like('%雪音%'))
-                ).all()
+                # --- AI Bot Integration: Fetch by Personality ---
+                from app.utils.ai_helpers import get_ai_user_by_personality
                 
-                yukine_user = None
-                if yukine_candidates:
-                    # Sort prioritize: 1. Has custom avatar, 2. Has primary email, 3. Earliest ID
-                    yukine_candidates.sort(key=lambda u: (
-                        u.avatar_url is not None or (u.image_file and u.image_file != 'default.jpg'),
-                        u.email == primary_ai_email,
-                        -u.id # Newer IDs might be the one user just customized? Actually usually earlier is safer, but user says "I gave her", might be a new profile.
-                    ), reverse=True)
-                    yukine_user = yukine_candidates[0]
+                # Determine personality from teacher (as currently handled in update_ai_personality)
+                personality_key = '雪音-溫柔型'
+                if group_obj.teacher and group_obj.teacher.ai_personality:
+                    personality_key = group_obj.teacher.ai_personality
+                
+                yukine_user = get_ai_user_by_personality(personality_key)
                 
                 if not yukine_user:
+                    # Final fallback create if absolutely necessary (should not happen after init_bots.py)
+                    primary_ai_email = 'yukine_bot@internal.ai'
                     yukine_user = User(
                         username=AI_NAME, 
                         email=primary_ai_email, 
@@ -403,10 +397,10 @@ def group_dashboard(group_id):
                         # Auto-welcome message when invited
                         from app.models import User, GroupMessage
                         from app import bcrypt
-                        ai_email = 'yukine_bot_ag@internal.ai'
-                        yukine = User.query.filter_by(email=ai_email).first()
-                        if not yukine:
-                            yukine = User.query.filter(User.username.like('%雪音%')).first()
+                        # AI Bot Integration: Fetch by Personality
+                        from app.utils.ai_helpers import get_ai_user_by_personality
+                        personality_key = group_obj.teacher.ai_personality if group_obj.teacher else '雪音-溫柔型'
+                        yukine = get_ai_user_by_personality(personality_key)
                         
                         if not yukine:
                             yukine = User(
@@ -733,10 +727,21 @@ def ai_reply(group_id):
         msg_id = request.args.get('msg_id')
         current_app.logger.info(f"[AI] Reply Triggered for group {group_id}, msg_id={msg_id or 'latest'}")
         
-        # --- FIX: Define yukine and last_msg ---
-        yukine = User.query.filter_by(email='yukine_bot_ag@internal.ai').first()
-        if not yukine:
-            yukine = User.query.filter(User.username.like('%雪音%')).first()
+        # --- AI Bot Integration: Fetch by Personality ---
+        from app.utils.ai_helpers import get_ai_user_by_personality
+        
+        teacher = group_obj.teacher
+        personality_key = '雪音-溫柔型'
+        if teacher and teacher.ai_personality:
+            p_map = {
+                'ai_personality_gentle': '雪音-溫柔型', 'ai_personality_strict': '嚴厲教練',
+                'ai_personality_humor': '幽默學長', '雪音-溫柔型': '雪音-溫柔型',
+                '雪音-嚴格型': '嚴厲教練', '雪音-幽默型': '幽默學長',
+                '雪音-Antigravity輔助型': '雪音-Antigravity輔助型'
+            }
+            personality_key = p_map.get(teacher.ai_personality, teacher.ai_personality)
+            
+        yukine = get_ai_user_by_personality(personality_key)
             
         last_msg = None
         if msg_id:
