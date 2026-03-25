@@ -111,7 +111,25 @@ def dashboard():
     # --- END ACTIVE BANS ---
     
     # --- ACCESS LOGS ---
-    access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+    try:
+        access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+    except Exception as e:
+        # Check if the error is about the missing column
+        if 'category' in str(e).lower() and 'column' in str(e).lower():
+            try:
+                # Attempt to add the column automatically
+                print("Self-healing: Adding missing 'category' column to 'ip_access_log'...")
+                from app import db
+                db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
+                db.session.commit()
+                # Retry the query
+                access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+            except Exception as inner_e:
+                print(f"Self-healing failed: {inner_e}")
+                access_logs = []
+        else:
+            print(f"Database error in dashboard: {e}")
+            access_logs = []
     # --- END ACCESS LOGS ---
 
     return render_template('admin/dashboard.html', 
@@ -129,7 +147,21 @@ def api_security_logs():
         return jsonify({'error': 'Unauthorized'}), 403
     
     from app.models import IPAccessLog
-    logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+    from sqlalchemy import text
+    try:
+        logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+    except Exception as e:
+        if 'category' in str(e).lower() and 'column' in str(e).lower():
+            try:
+                from app import db
+                db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
+                db.session.commit()
+                logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+            except Exception as inner_e:
+                print(f"API self-healing failed: {inner_e}")
+                logs = []
+        else:
+            logs = []
     
     log_data = []
     for log in logs:
