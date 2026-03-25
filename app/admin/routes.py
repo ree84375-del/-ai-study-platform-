@@ -111,24 +111,19 @@ def dashboard():
     active_bans = IPBan.query.order_by(IPBan.banned_at.desc()).all()
     # --- END ACTIVE BANS ---
     
-    # --- ACCESS LOGS ---
+    # --- ACCESS LOGS (Quick View) ---
     try:
-        access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+        # Only show the 5 most recent logs on the dashboard
+        access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(5).all()
     except Exception as e:
-        # Check if the error is about the missing column
         if 'category' in str(e).lower() and 'column' in str(e).lower():
             try:
-                # Attempt to add the column automatically
-                print("Self-healing: Adding missing 'category' column to 'ip_access_log'...")
                 db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
                 db.session.commit()
-                # Retry the query
-                access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
-            except Exception as inner_e:
-                print(f"Self-healing failed: {inner_e}")
+                access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(5).all()
+            except Exception:
                 access_logs = []
         else:
-            print(f"Database error in dashboard: {e}")
             access_logs = []
     # --- END ACCESS LOGS ---
 
@@ -138,7 +133,37 @@ def dashboard():
                             stats=stats, 
                             active_bans=active_bans,
                             access_logs=access_logs,
-                            timedelta=timedelta)
+                            timedelta=timedelta,
+                            current_time=datetime.now())
+
+@admin.route('/security_monitor')
+@login_required
+def security_monitor():
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    from app.models import IPAccessLog
+    
+    # Load logs with self-healing migration protection
+    try:
+        # Dedicated monitor shows more logs (200)
+        access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(200).all()
+    except Exception as e:
+        if 'category' in str(e).lower() and 'column' in str(e).lower():
+            try:
+                db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
+                db.session.commit()
+                access_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(200).all()
+            except Exception:
+                access_logs = []
+        else:
+            access_logs = []
+        
+    return render_template('admin/security_monitor.html', 
+                            title="全站安全監控中心", 
+                            access_logs=access_logs,
+                            timedelta=timedelta,
+                            current_time=datetime.now())
 
 @admin.route('/api/security_logs')
 @login_required

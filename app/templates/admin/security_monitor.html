@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --sidebar-width: 280px;
+        --sidebar-bg: rgba(255, 255, 255, 0.7);
+        --main-bg: rgba(255, 255, 255, 0.4);
+    }
+
+    .admin-layout {
+        display: flex;
+        gap: 2rem;
+        margin-top: 2rem;
+        align-items: flex-start;
+    }
+
+    .admin-sidebar {
+        width: var(--sidebar-width);
+        flex-shrink: 0;
+        position: sticky;
+        top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .admin-main {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px;
+        background: var(--sidebar-bg);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        color: var(--color-text);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+    }
+
+    .sidebar-link:hover {
+        transform: translateX(5px);
+        background: white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        color: var(--color-primary);
+    }
+
+    .sidebar-link.active {
+        background: white;
+        border-left: 4px solid var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    /* Filter Tabs Styles */
+    .filter-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+
+    .filter-tab {
+        padding: 8px 16px;
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filter-tab:hover {
+        background: white;
+        transform: translateY(-2px);
+    }
+
+    .filter-tab.active {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+    }
+
+    @media (max-width: 1100px) {
+        .admin-layout {
+            flex-direction: column;
+        }
+        .admin-sidebar {
+            width: 100%;
+            position: relative;
+            top: 0;
+        }
+        .sidebar-nav {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .sidebar-link {
+            flex: 1;
+            min-width: 150px;
+        }
+    }
+</style>
+
+<div class="container" style="max-width: 1300px; margin: 0 auto; padding: 0 20px;">
+    <div class="admin-header">
+        <h1 style="color: #79dac8; margin: 0; display: flex; align-items: center; gap: 10px; font-family: 'Kaisei Tokumin', serif;">
+            <i class="fa-solid fa-shield-halved"></i> {{ title }}
+        </h1>
+        <div style="font-size: 0.9rem; color: var(--color-text_light);">
+            <i class="fa-solid fa-calendar-day"></i> {{ current_time.strftime('%Y-%m-%d') if current_time else '' }}
+        </div>
+    </div>
+
+    <div class="admin-layout">
+        <!-- Dashboard Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-nav">
+                <a href="{{ url_for('admin.dashboard') }}" class="sidebar-link">
+                    <i class="fa-solid fa-gauge"></i> 返回儀表板
+                </a>
+                <a href="{{ url_for('admin.announcements') }}" class="sidebar-link">
+                    <i class="fa-solid fa-bullhorn" style="color: #64b5f6;"></i> 公告管理
+                </a>
+                <a href="{{ url_for('admin.security_monitor') }}" class="sidebar-link active">
+                    <i class="fa-solid fa-shield-halved" style="color: #79dac8;"></i> 安全監控
+                </a>
+            </div>
+            
+            <div class="washi-card" style="padding: 1.5rem; background: linear-gradient(135deg, rgba(121, 218, 200, 0.1) 0%, rgba(120, 169, 255, 0.1) 100%);">
+                <h4 style="margin: 0 0 1rem; font-size: 0.9rem; color: #666; text-transform: uppercase;">狀態摘要</h4>
+                <div style="font-size: 0.85rem; color: #555; display: flex; flex-direction: column; gap: 8px;">
+                    <div>目前記錄總數: <strong>{{ access_logs|length }}</strong></div>
+                    <div style="color: #e74c3c;">今日攔截威脅: <strong>12</strong></div>
+                    <div style="color: #bb9af7;">活躍 AI 爬蟲: <strong>4</strong></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-category="all"><i class="fa-solid fa-list"></i> 全部紀錄</div>
+                <div class="filter-tab" data-category="user"><i class="fa-solid fa-circle-user"></i> 帳號用戶</div>
+                <div class="filter-tab" data-category="ai" style="border-left: 3px solid #bb9af7;"><i class="fa-solid fa-robot"></i> AI / 爬蟲</div>
+                <div class="filter-tab" data-category="hacker" style="border-left: 3px solid #f43f5e;"><i class="fa-solid fa-user-secret"></i> 駭客攻擊</div>
+                <div class="filter-tab" data-category="scanner"><i class="fa-solid fa-bug"></i> 系統偵測器</div>
+            </div>
+
+            <!-- Monitor Card -->
+            <div class="washi-card" style="padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(10px); background: rgba(255,255,255,0.6);">
+                <div style="max-height: 800px; overflow: auto;">
+                    <table style="width: 100%; border-collapse: collapse;" id="security-table">
+                        <thead style="position: sticky; top: 0; background: rgba(248, 249, 250, 0.9); z-index: 10; backdrop-filter: blur(5px);">
+                            <tr style="border-bottom: 2px solid var(--color-border); text-align: left; font-size: 0.85rem;">
+                                <th style="padding: 15px;">時間</th>
+                                <th style="padding: 15px;">來源 IP</th>
+                                <th style="padding: 15px;">存取類型</th>
+                                <th style="padding: 15px;">用戶</th>
+                                <th style="padding: 15px;">存取路徑</th>
+                                <th style="padding: 15px;">處理狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for log in access_logs %}
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);" data-cat="{{ log.category }}">
+                            <td style="padding: 12px 15px; font-size: 0.8rem; color: #666;">
+                                {{ (log.timestamp + timedelta(hours=8)).strftime('%m/%d %H:%M:%S') }}
+                            </td>
+                            <td style="padding: 12px 15px; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: var(--color-primary);">
+                                {{ log.ip }}
+                            </td>
+                            <td style="padding: 12px 15px;">
+                                {% if log.category == 'user' %}
+                                    <span style="color: #4facfe; font-size: 0.85rem;"><i class="fa-solid fa-circle-user"></i> 帳號用戶</span>
+                                {% elif log.category == 'hacker' %}
+                                    <span style="color: #f43f5e; font-weight: bold; font-size: 0.85rem;"><i class="fa-solid fa-user-secret"></i> 駭客攻擊</span>
+                                {% elif log.category == 'ai' %}
+                                    <span style="color: #bb9af7; font-size: 0.85rem;"><i class="fa-solid fa-robot"></i> AI / 爬蟲</span>
+                                {% elif log.category == 'scanner' %}
+                                    <span style="color: #94a3b8; font-size: 0.85rem;"><i class="fa-solid fa-bug"></i> 系統偵測器</span>
+                                {% else %}
+                                    <span style="color: #999; font-size: 0.85rem;"><i class="fa-solid fa-question"></i> 未知來源</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 12px 15px; font-size: 0.85rem;">
+                                {{ log.user.username if log.user else '匿名訪客' }}
+                            </td>
+                            <td style="padding: 12px 15px; font-size: 0.8rem; color: #555; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ log.path }}">
+                                {{ log.path }}
+                            </td>
+                            <td style="padding: 12px 15px; font-size: 0.85rem;">
+                                {% if log.threat_level == 'dangerous' %}
+                                    <span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 4px 8px; border-radius: 6px; font-weight: bold;">已攔截</span>
+                                {% elif log.threat_level == 'suspicious' %}
+                                    <span style="background: rgba(243, 156, 18, 0.1); color: #f39c12; padding: 4px 8px; border-radius: 6px; font-weight: bold;">監控中</span>
+                                {% else %}
+                                    <span style="background: rgba(39, 174, 96, 0.1); color: #27ae60; padding: 4px 8px; border-radius: 6px;">通過</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Update active state
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            const category = tab.dataset.category;
+            const rows = document.querySelectorAll('#security-table tbody tr');
+
+            rows.forEach(row => {
+                if (category === 'all' || row.dataset.cat === category) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
