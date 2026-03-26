@@ -83,11 +83,11 @@ def create_app():
     
     if db_uri:
         if db_uri.startswith("postgres://"):
-            app.logger.info("Normalizing postgres:// to postgresql://")
-            db_uri = db_uri.replace("postgres://", "postgresql://", 1)
-        
-        # General Supabase precaution: pooler address sometimes needs tweaking, 
-        # but we will rely on SQLAlchemy options mostly.
+            app.logger.info("Normalizing postgres:// to postgresql+pg8000://")
+            db_uri = db_uri.replace("postgres://", "postgresql+pg8000://", 1)
+        elif db_uri.startswith("postgresql://"):
+            app.logger.info("Normalizing postgresql:// to postgresql+pg8000://")
+            db_uri = db_uri.replace("postgresql://", "postgresql+pg8000://", 1)
     else:
         app.logger.warning("No DATABASE_URL found. Using local SQLite.")
         db_uri = 'sqlite:///site.db'
