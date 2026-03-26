@@ -34,6 +34,18 @@ def verify_api_key_table():
         db.session.execute(text("CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"))
         db.session.execute(text("CREATE TABLE IF NOT EXISTS user_memory (id SERIAL PRIMARY KEY, user_id INTEGER UNIQUE NOT NULL, memory_content TEXT, last_updated TIMESTAMP)"))
         db.session.execute(text("CREATE TABLE IF NOT EXISTS memory_fragment (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL, category VARCHAR(50) DEFAULT 'general', content TEXT NOT NULL, importance INTEGER DEFAULT 1, created_at TIMESTAMP)"))
+        
+        # Ensure pgvector extension and vector memory tables
+        try:
+            db.session.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+            db.session.commit()
+            # Vector columns require the extension to be active
+            db.session.execute(text("CREATE TABLE IF NOT EXISTS vector_memory (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL, content TEXT NOT NULL, embedding vector(768), metadata_json JSONB, created_at TIMESTAMP)"))
+            db.session.execute(text("CREATE TABLE IF NOT EXISTS vector_group_memory (id SERIAL PRIMARY KEY, group_id INTEGER NOT NULL, user_id INTEGER, content TEXT NOT NULL, embedding vector(768), metadata_json JSONB, created_at TIMESTAMP)"))
+        except Exception as e:
+            logging.error(f"Vector table creation failed: {e}")
+            db.session.rollback()
+
         db.session.commit()
         
         for col, col_type in [("cooldown_until", "TIMESTAMP"), ("retry_count", "INTEGER DEFAULT 0"), ("is_blocked", "BOOLEAN DEFAULT FALSE")]:
