@@ -298,22 +298,50 @@
                     <td style="padding: 12px 10px; font-size: 0.85rem; color: var(--color-text_light);">
                         {% if u.last_active_at %}{{ (u.last_active_at + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M') }}{% else %}{{ _t('admin_never_logged_in') }}{% endif %}
                     </td>
-                    <td style="padding: 12px 10px; display: flex; gap: 8px;">
-                        <button type="button" class="btn btn-sm suspend-btn" 
-                                data-user-id="{{ u.id }}" 
-                                data-username="{{ u.username }}" 
-                                data-ip="{{ u.last_ip or '' }}"
-                                style="background-color: #f39c12; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer;"
-                                {% if u.is_admin %}disabled{% endif %}>
-                            <i class="fa-solid fa-ban"></i> {{ _t('admin_btn_suspend') }}
-                        </button>
-                        <form action="{{ url_for('admin.delete_user', user_id=u.id) }}" method="POST" style="margin: 0;" onsubmit='return confirm("確定要完全刪除使用者嗎？此操作不可逆。");'>
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <button type="submit" class="btn btn-sm" style="background-color: #e74c3c; color: white; border: none; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem; cursor: pointer;" {% if u.is_admin or u.id == current_user.id %}disabled{% endif %}>
-                                <i class="fa-solid fa-trash"></i>
+                    <td style="padding: 12px 10px; position: relative;">
+                        {% if not u.is_admin %}
+                        <div class="action-dropdown" style="position: relative; display: inline-block;">
+                            <button type="button" class="action-trigger-btn"
+                                    onclick="this.parentElement.classList.toggle('open')"
+                                    style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border: none; border-radius: 8px; padding: 6px 14px; font-size: 0.78rem; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s;">
+                                <i class="fa-solid fa-gavel"></i> 處置 <i class="fa-solid fa-caret-down" style="font-size: 0.65rem;"></i>
                             </button>
-                        </form>
+                            <div class="action-menu" style="display: none; position: absolute; top: 100%; right: 0; margin-top: 6px; background: white; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.15); border: 1px solid rgba(0,0,0,0.06); z-index: 999; min-width: 180px; overflow: hidden; animation: menuSlide 0.2s ease;">
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; border-bottom: 1px solid #f0f0f0;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', 'warning')">
+                                    <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; width: 16px;"></i> 警告
+                                </div>
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; border-bottom: 1px solid #f0f0f0;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', '1')">
+                                    <i class="fa-solid fa-ban" style="color: #fb923c; width: 16px;"></i> 停權 1 天
+                                </div>
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; border-bottom: 1px solid #f0f0f0;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', '3')">
+                                    <i class="fa-solid fa-ban" style="color: #f97316; width: 16px;"></i> 停權 3 天
+                                </div>
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; border-bottom: 1px solid #f0f0f0;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', '5')">
+                                    <i class="fa-solid fa-ban" style="color: #ef4444; width: 16px;"></i> 停權 5 天
+                                </div>
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; border-bottom: 1px solid #f0f0f0;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', '7')">
+                                    <i class="fa-solid fa-ban" style="color: #dc2626; width: 16px;"></i> 停權 7 天
+                                </div>
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; border-bottom: 1px solid #f0f0f0;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', '30')">
+                                    <i class="fa-solid fa-ban" style="color: #b91c1c; width: 16px;"></i> 停權 30 天
+                                </div>
+                                <div class="action-menu-item" style="padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; transition: background 0.15s; background: #fef2f2; color: #991b1b; font-weight: 600;"
+                                     onclick="openBanWithDuration({{ u.id }}, '{{ u.username }}', '{{ u.last_ip or '' }}', 'permanent')">
+                                    <i class="fa-solid fa-snowflake" style="color: #7f1d1d; width: 16px;"></i> 永久凍結 IP
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <span style="color: #aaa; font-size: 0.8rem;"><i class="fa-solid fa-shield"></i> 管理員</span>
+                        {% endif %}
                     </td>
+
                 </tr>
                 {% endfor %}
             </table>
@@ -543,6 +571,12 @@
 .btn-danger { background: linear-gradient(135deg, #ff4d4d, #f43f5e); color: white; }
 .btn-ghost { background: rgba(0,0,0,0.05); color: #444; }
 .btn-ghost:hover { background: rgba(0,0,0,0.1); }
+
+/* Action Dropdown Styles */
+.action-dropdown.open .action-menu { display: block !important; }
+.action-dropdown.open .action-trigger-btn { background: linear-gradient(135deg, #e67e22, #d35400) !important; transform: scale(0.97); }
+.action-menu-item:hover { background: #f8f9fa !important; }
+@keyframes menuSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 <script>
@@ -561,22 +595,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ban Modal logic
     const banModal = document.getElementById('ban-modal-overlay');
-    const suspendBtns = document.querySelectorAll('.suspend-btn');
     const aiSuggestBtn = document.getElementById('ai-suggest-ban');
 
-    suspendBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const userId = this.getAttribute('data-user-id');
-            const username = this.getAttribute('data-username');
-            const ip = this.getAttribute('data-ip');
-            document.getElementById('ban-target-name').innerText = username;
-            document.getElementById('ban-target-ip').value = ip || "---";
-            document.getElementById('ban-form').action = `/admin/user/${userId}/ban`;
-            document.getElementById('ai-analysis-box').style.display = 'none';
-            document.getElementById('ban-reason').value = '';
-            document.getElementById('ban-notes').value = '';
-            banModal.classList.add('active');
-        });
+    // New: Open ban modal with pre-selected duration from dropdown
+    window.openBanWithDuration = function(userId, username, ip, duration) {
+        // Close all dropdowns first
+        document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
+        document.getElementById('ban-target-name').innerText = username;
+        document.getElementById('ban-target-ip').value = ip || '---';
+        document.getElementById('ban-form').action = `/admin/user/${userId}/ban`;
+        document.getElementById('ban-duration').value = duration;
+        document.getElementById('ai-analysis-box').style.display = 'none';
+        document.getElementById('ban-reason').value = '';
+        document.getElementById('ban-notes').value = '';
+        banModal.classList.add('active');
+    };
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.action-dropdown')) {
+            document.querySelectorAll('.action-dropdown.open').forEach(d => d.classList.remove('open'));
+        }
     });
 
     window.closeBanModal = function() { banModal.classList.remove('active'); };

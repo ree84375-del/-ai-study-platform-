@@ -314,29 +314,10 @@ def change_user_role(user_id):
 
 @admin.route('/user/<int:user_id>/delete', methods=['POST'])
 def delete_user(user_id):
-    user = User.query.get_or_404(user_id)
-    if user.email == 'ree84375@gmail.com' or user.id == current_user.id:
-        flash(_t('msg_delete_self_err', lang=current_user.language), 'danger')
-        return redirect(url_for('admin.dashboard'))
-        
-    try:
-        from app.models import Mistake, ChatSession, GroupMember, AssignmentStatus
-        # 手動刪除關聯資料避免 Foreign Key Constraint 失敗
-        Mistake.query.filter_by(user_id=user.id).delete()
-        sessions = ChatSession.query.filter_by(user_id=user.id).all()
-        for s in sessions:
-            db.session.delete(s)
-        GroupMember.query.filter_by(user_id=user.id).delete()
-        AssignmentStatus.query.filter_by(user_id=user.id).delete()
-        
-        db.session.delete(user)
-        db.session.commit()
-        flash(f'已成功刪除用戶 {user.username} 及其相關紀錄。', 'success')
-    except Exception as e:
-        db.session.rollback()
-        flash(f'刪除用戶失敗：{str(e)}', 'danger')
-        
+    """User deletion is permanently disabled. Use IP ban/freeze instead."""
+    flash("帳號刪除功能已停用。請使用 IP 停權或凍結功能。", "warning")
     return redirect(url_for('admin.dashboard'))
+
 
 @admin.route('/ai_ban_recommendation/<int:user_id>')
 @login_required
