@@ -1,6 +1,4 @@
 import os
-import google.generativeai as genai
-from app.utils.ai_helpers import get_gemini_keys, get_usable_keys, mark_key_status
 
 def get_embedding(text, model="models/text-embedding-004"):
     """
@@ -9,6 +7,9 @@ def get_embedding(text, model="models/text-embedding-004"):
     """
     if not text:
         return None
+    
+    import google.generativeai as genai
+    from app.utils.ai_helpers import get_gemini_keys, get_usable_keys, mark_key_status
     
     # Sanitization: Gemini embeddings have limits on input length
     text = text[:10000] # Safe limit for most embedding models
@@ -46,6 +47,9 @@ def get_query_embedding(text, model="models/text-embedding-004"):
     if not text:
         return None
         
+    import google.generativeai as genai
+    from app.utils.ai_helpers import get_gemini_keys, get_usable_keys, mark_key_status
+    
     keys = get_usable_keys('gemini', get_gemini_keys())
     
     for key in keys:

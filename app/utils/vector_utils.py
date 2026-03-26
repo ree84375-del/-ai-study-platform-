@@ -1,13 +1,13 @@
-import logging
 from app import db
-from app.models import VectorMemory, VectorGroupMemory, MemoryFragment
-from app.utils.embeddings import get_embedding, get_query_embedding
 from sqlalchemy import text
 
 def save_user_memory(user_id, content, category='general', importance=1):
     """
     Embeds content and saves it to VectorMemory.
     """
+    from app.models import VectorMemory
+    from app.utils.embeddings import get_embedding
+    import logging
     try:
         vector = get_embedding(content)
         if not vector:
@@ -33,6 +33,9 @@ def search_relevant_memories(user_id, query, limit=5):
     Searches for the most relevant memories for a user given a query.
     Uses cosine distance for semantic similarity.
     """
+    from app.models import VectorMemory
+    from app.utils.embeddings import get_query_embedding
+    import logging
     try:
         query_vector = get_query_embedding(query)
         if not query_vector:
@@ -55,6 +58,7 @@ def migrate_legacy_memories(user_id=None):
     Migrates existing MemoryFragment entries into VectorMemory.
     If user_id is provided, only migrates for that user.
     """
+    from app.models import MemoryFragment
     query = MemoryFragment.query
     if user_id:
         query = query.filter_by(user_id=user_id)
@@ -73,6 +77,7 @@ def ensure_pgvector_extension():
     """
     Attempts to enable the vector extension in PostgreSQL.
     """
+    import logging
     try:
         db.session.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
         db.session.commit()
