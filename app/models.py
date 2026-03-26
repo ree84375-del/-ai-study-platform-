@@ -381,7 +381,10 @@ class VectorMemory(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
     # Embedding dimensions: 768 for Gemini text-embedding-004
-    embedding = db.Column(Vector(768) if Vector else db.PickleType, nullable=True)
+    if Vector:
+        embedding = db.Column(Vector(768), nullable=True)
+    else:
+        embedding = db.Column(db.PickleType, nullable=True)
     metadata_json = db.Column(db.JSON, nullable=True) # For filtering (category, importance, etc.)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
@@ -393,7 +396,10 @@ class VectorGroupMemory(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) # Optional: who said it
     content = db.Column(db.Text, nullable=False)
-    embedding = db.Column(Vector(768) if Vector else db.PickleType, nullable=True)
+    if Vector:
+        embedding = db.Column(Vector(768), nullable=True)
+    else:
+        embedding = db.Column(db.PickleType, nullable=True)
     metadata_json = db.Column(db.JSON, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
