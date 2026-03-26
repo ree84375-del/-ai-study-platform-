@@ -270,9 +270,9 @@
                     <td style="padding: 12px 10px; color: var(--color-text_light);">#{{ (users_pagination.page - 1) * users_pagination.per_page + loop.index }}</td>
                     <td style="padding: 12px 10px;">
                         {% if u.auth_provider == 'google' %}
-                            <span style="background: #4285f4; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-brands fa-google"></i> Google</span>
+                            <span style="display: inline-flex; align-items: center; gap: 6px; background: #4285f4; color: white; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;"><i class="fa-brands fa-google"></i> Google</span>
                         {% else %}
-                            <span style="background: #79dac8; color: #1a1b26; padding: 2px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-solid fa-desktop"></i> 平台</span>
+                            <span style="display: inline-flex; align-items: center; gap: 6px; background: #79dac8; color: #1a1b26; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold;"><i class="fa-solid fa-desktop"></i> {{ _t('platform_login_text', default='平台') }}</span>
                         {% endif %}
                     </td>
                     <td style="padding: 12px 10px; font-weight: 500;">{{ u.email }}</td>

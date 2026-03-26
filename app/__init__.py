@@ -40,6 +40,14 @@ def create_app():
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', '5791628bb0b13ce0c676dfde280ba245')
     
+    # Session Persistence & Stability for Vercel
+    from datetime import timedelta
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+    app.config['SESSION_COOKIE_HTTPONLY'] = True
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    if os.environ.get('VERCEL'):
+        app.config['SESSION_COOKIE_SECURE'] = True
+    
     # Jinja Helpers
     from app.utils.i18n import get_text
     from flask_login import current_user

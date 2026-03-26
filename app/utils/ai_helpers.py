@@ -10,7 +10,8 @@ import urllib.parse
 import requests
 import base64
 from app import db
-from app.models import APIKeyTracker, MemoryFragment, ChatMessage, ChatSession
+from app.models import APIKeyTracker, MemoryFragment, ChatMessage, ChatSession, VectorMemory, VectorGroupMemory
+from app.utils.vector_utils import search_relevant_memories, save_user_memory, ensure_pgvector_extension
 from flask_login import current_user
 
 # Gemini Safety Settings - Relaxed to avoid over-filtering
@@ -43,21 +44,32 @@ def verify_api_key_table():
                 db.session.rollback()
     except Exception:
         db.session.rollback()
+    ensure_pgvector_extension() # Attempt to enable pgvector expansion
     _table_verified = True
 
-def get_user_memory_context(user):
+def get_user_memory_context(user, current_query=None):
     """Fetches fragmented memory and recent short-term context for the user."""
     if not user: return ""
     verify_api_key_table()
-    fragments = MemoryFragment.query.filter_by(user_id=user.id).order_by(MemoryFragment.importance.desc(), MemoryFragment.created_at.desc()).limit(15).all()
-    long_term_list = [f"[{f.category}] {f.content}" for f in fragments]
-    long_term = "\n".join(long_term_list) if long_term_list else "目前尚無長期記憶片段。"
     
+    # 1. Semantic Vector Memory (RAG) - Priority 1
+    semantic_context = ""
+    if current_query:
+        relevant_vectors = search_relevant_memories(user.id, current_query, limit=5)
+        if relevant_vectors:
+            semantic_context = "【相關回憶片段 (語意檢索)】：\n" + "\n".join([f"- {v.content}" for v in relevant_vectors])
+    
+    # 2. Legacy Fragment Memory - Priority 2
+    fragments = MemoryFragment.query.filter_by(user_id=user.id).order_by(MemoryFragment.importance.desc(), MemoryFragment.created_at.desc()).limit(8).all()
+    long_term_list = [f"[{f.category}] {f.content}" for f in fragments]
+    long_term = "\n".join(long_term_list) if long_term_list else "目前尚無核心事實片段。"
+    
+    # 3. Short-term Chat History
     recent_msgs = ChatMessage.query.join(ChatSession).filter(ChatSession.user_id == user.id).order_by(ChatMessage.created_at.desc()).limit(10).all()
     recent_msgs.reverse()
     short_term = "\n".join([f"{m.role}: {m.content[:200]}..." for m in recent_msgs])
     
-    return f"【核心記憶片段】：\n{long_term}\n\n【近期對話回顧】：\n{short_term}"
+    return f"{semantic_context}\n\n【核心記憶片段】：\n{long_term}\n\n【近期對話回顧】：\n{short_term}"
 
 def update_user_memory(user_id, interaction_summary):
     """Extracts new facts from interaction and stores them as fragments."""
@@ -80,10 +92,15 @@ def update_user_memory(user_id, interaction_summary):
             if match: clean_text = match.group(0)
         facts = json.loads(clean_text)
         for fact in facts:
-            existing = MemoryFragment.query.filter_by(user_id=user_id, content=fact['content']).first()
-            if not existing:
+            # Save to Legacy Fragment (for fallback/manual search)
+            existing_f = MemoryFragment.query.filter_by(user_id=user_id, content=fact['content']).first()
+            if not existing_f:
                 fragment = MemoryFragment(user_id=user_id, category=fact.get('category', 'general'), content=fact['content'], importance=fact.get('importance', 1))
                 db.session.add(fragment)
+            
+            # Save to Vector Memory (for semantic retrieval) - Highlight of RAG
+            save_user_memory(user_id, fact['content'], fact.get('category', 'general'), fact.get('importance', 1))
+
         db.session.commit()
     except Exception:
         db.session.rollback()
@@ -219,7 +236,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
             try:
                 if provider == 'gemini':
                     genai.configure(api_key=key)
-                    user_context = get_user_memory_context(user)
+                    user_context = get_user_memory_context(user, current_query=prompt) # Pass current prompt for RAG
                     full_system = f"{system_instruction}\n\n{user_context}"
                     model = get_gemini_model(system_instruction=full_system)
                     response = model.generate_content(prompt, request_options={"timeout": 15.0})

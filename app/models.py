@@ -2,7 +2,12 @@ from datetime import datetime, timezone
 import logging
 from app import db, login_manager
 from flask_login import UserMixin
-from sqlalchemy import desc
+from sqlalchemy import desc, text
+try:
+    from pgvector.sqlalchemy import Vector
+except ImportError:
+    # Fallback for environments where pgvector is not yet installed
+    Vector = None
 
 
 @login_manager.user_loader
@@ -369,3 +374,28 @@ class IPAccessLog(db.Model):
     def __repr__(self):
         return f"IPAccessLog('{self.ip}', '{self.path}', Level: '{self.threat_level}')"
 
+
+class VectorMemory(db.Model):
+    __tablename__ = 'vector_memory'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    # Embedding dimensions: 768 for Gemini text-embedding-004
+    embedding = db.Column(Vector(768) if Vector else db.PickleType, nullable=True)
+    metadata_json = db.Column(db.JSON, nullable=True) # For filtering (category, importance, etc.)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    user = db.relationship('User', backref=db.backref('vector_memories', lazy=True, cascade="all, delete-orphan"))
+
+class VectorGroupMemory(db.Model):
+    __tablename__ = 'vector_group_memory'
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) # Optional: who said it
+    content = db.Column(db.Text, nullable=False)
+    embedding = db.Column(Vector(768) if Vector else db.PickleType, nullable=True)
+    metadata_json = db.Column(db.JSON, nullable=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    group = db.relationship('Group', backref=db.backref('vector_memories', lazy=True, cascade="all, delete-orphan"))
+    author = db.relationship('User', backref=db.backref('group_vector_memories', lazy=True))

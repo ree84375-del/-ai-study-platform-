@@ -1028,44 +1028,38 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event) {
             event.preventDefault();
             event.stopPropagation();
-            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
         }
         
         const controls = document.getElementById(`controls-${msgId}`);
         if (!controls) return;
         
-        const isVisible = controls.style.display === 'flex';
+        const isCurrentlyVisible = controls.style.display === 'flex';
         
-        // Hide all others first
+        // Hide all other menus first
         document.querySelectorAll('.interaction-buttons').forEach(el => {
-            if (el.getAttribute('id') !== `controls-${msgId}`) {
+            if (el.id !== `controls-${msgId}`) {
                 el.style.display = 'none';
-                el.removeAttribute('data-active');
             }
         });
         
-        if (!isVisible) {
+        // Toggle this menu
+        if (!isCurrentlyVisible) {
             controls.style.display = 'flex';
-            controls.setAttribute('data-active', 'true');
-            // Preventive mark to avoid immediate close from bubbling
-            controls.setAttribute('data-just-opened', 'true');
-            setTimeout(() => controls.removeAttribute('data-just-opened'), 200);
         } else {
             controls.style.display = 'none';
-            controls.removeAttribute('data-active');
         }
     };
 
     document.addEventListener('click', (e) => {
         const isTrigger = e.target.closest('.message-more-trigger');
         const isMenu = e.target.closest('.interaction-buttons');
+        const isBubble = e.target.closest('.message-bubble');
         
-        // Only close if we clicked completely outside both the trigger and the menu
-        if (!isTrigger && !isMenu) {
+        // Only close if we didn't click a trigger, the menu itself, or a message bubble (which can toggle)
+        if (!isTrigger && !isMenu && !isBubble) {
             document.querySelectorAll('.interaction-buttons').forEach(el => {
-                if (el.style.display === 'flex' && !el.hasAttribute('data-just-opened')) {
+                if (el.style.display === 'flex') {
                     el.style.display = 'none';
-                    el.removeAttribute('data-active');
                 }
             });
         }
