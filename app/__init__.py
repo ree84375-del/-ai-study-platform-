@@ -90,7 +90,10 @@ def create_app():
             db_uri = db_uri.replace("postgresql://", "postgresql+pg8000://", 1)
     else:
         app.logger.warning("No DATABASE_URL found. Using local SQLite.")
-        db_uri = 'sqlite:///site.db'
+        if os.environ.get('VERCEL'):
+            db_uri = 'sqlite:////tmp/site.db'
+        else:
+            db_uri = 'sqlite:///site.db'
     
     # --- Emergency Database Connectivity Check ---
     try:
@@ -142,7 +145,7 @@ def create_app():
     oauth.init_app(app)
     
     # Auto-initialize SQLite tables if needed
-    if db_uri == 'sqlite:///site.db':
+    if db_uri.startswith('sqlite:'):
         with app.app_context():
             from app import models
             db.create_all()
