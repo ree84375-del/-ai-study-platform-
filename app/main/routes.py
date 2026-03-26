@@ -162,14 +162,33 @@ def before_request():
     # 3. Authenticated User Tracking
     if current_user.is_authenticated:
         try:
+            now_utc = datetime.now(timezone.utc)
+            needs_commit = False
+            
             # Update last_ip
             if current_user.last_ip != client_ip:
                 current_user.last_ip = client_ip
-                db.session.commit()
+                needs_commit = True
+
+            # Update last_active_at (throttled: max once per minute)
+            should_update_active = True
+            if current_user.last_active_at:
+                last = current_user.last_active_at
+                if last.tzinfo is None:
+                    last = last.replace(tzinfo=timezone.utc)
+                if (now_utc - last).total_seconds() < 60:
+                    should_update_active = False
+            
+            if should_update_active:
+                current_user.last_active_at = now_utc
+                needs_commit = True
 
             # Force admin username to always be 管理員
             if current_user.is_admin and current_user.username != '管理員':
                 current_user.username = '管理員'
+                needs_commit = True
+            
+            if needs_commit:
                 db.session.commit()
         except Exception:
             try:
