@@ -11,7 +11,6 @@ import requests
 import base64
 from app import db
 from app.models import APIKeyTracker, MemoryFragment, ChatMessage, ChatSession, VectorMemory, VectorGroupMemory
-from app.utils.vector_utils import search_relevant_memories, save_user_memory, ensure_pgvector_extension
 from flask_login import current_user
 
 # Gemini Safety Settings - Relaxed to avoid over-filtering
@@ -30,39 +29,47 @@ def verify_api_key_table():
     if _table_verified: return
     try:
         from sqlalchemy import text
-        # Ensure tables exist
-        db.session.execute(text("CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"))
-        db.session.execute(text("CREATE TABLE IF NOT EXISTS user_memory (id SERIAL PRIMARY KEY, user_id INTEGER UNIQUE NOT NULL, memory_content TEXT, last_updated TIMESTAMP)"))
-        db.session.execute(text("CREATE TABLE IF NOT EXISTS memory_fragment (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL, category VARCHAR(50) DEFAULT 'general', content TEXT NOT NULL, importance INTEGER DEFAULT 1, created_at TIMESTAMP)"))
+        # Detect engine
+        engine_name = db.engine.name
+        is_postgres = 'postgres' in engine_name.lower()
         
-        # Ensure pgvector extension and vector memory tables
-        try:
-            db.session.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-            db.session.commit()
-            # Vector columns require the extension to be active
-            db.session.execute(text("CREATE TABLE IF NOT EXISTS vector_memory (id SERIAL PRIMARY KEY, user_id INTEGER NOT NULL, content TEXT NOT NULL, embedding vector(768), metadata_json JSONB, created_at TIMESTAMP)"))
-            db.session.execute(text("CREATE TABLE IF NOT EXISTS vector_group_memory (id SERIAL PRIMARY KEY, group_id INTEGER NOT NULL, user_id INTEGER, content TEXT NOT NULL, embedding vector(768), metadata_json JSONB, created_at TIMESTAMP)"))
-        except Exception as e:
-            logging.error(f"Vector table creation failed: {e}")
-            db.session.rollback()
-
+        # 1. Tracker Table
+        id_type = "SERIAL" if is_postgres else "INTEGER PRIMARY KEY AUTOINCREMENT"
+        ts_type = "TIMESTAMP" if is_postgres else "DATETIME"
+        
+        db.session.execute(text(f"CREATE TABLE IF NOT EXISTS api_key_tracker (id {id_type}, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used {ts_type}, error_message TEXT)"))
+        
+        # 2. Vector Memory Tables (Only if pgvector check passes or fallback)
+        from app.utils.vector_utils import ensure_pgvector_extension
+        has_vector = ensure_pgvector_extension() if is_postgres else False
+        
+        vector_type = "vector(768)" if has_vector else "BLOB"
+        json_type = "JSONB" if is_postgres else "TEXT"
+        
+        db.session.execute(text(f"CREATE TABLE IF NOT EXISTS vector_memory (id {id_type}, user_id INTEGER NOT NULL, content TEXT NOT NULL, embedding {vector_type}, metadata_json {json_type}, created_at {ts_type})"))
+        db.session.execute(text(f"CREATE TABLE IF NOT EXISTS vector_group_memory (id {id_type}, group_id INTEGER NOT NULL, user_id INTEGER, content TEXT NOT NULL, embedding {vector_type}, metadata_json {json_type}, created_at {ts_type})"))
+        
         db.session.commit()
         
-        for col, col_type in [("cooldown_until", "TIMESTAMP"), ("retry_count", "INTEGER DEFAULT 0"), ("is_blocked", "BOOLEAN DEFAULT FALSE")]:
+        # 3. Add Columns defensively
+        for col, col_type in [("cooldown_until", ts_type), ("retry_count", "INTEGER DEFAULT 0"), ("is_blocked", "BOOLEAN DEFAULT FALSE")]:
             try:
                 db.session.execute(text(f"ALTER TABLE api_key_tracker ADD COLUMN {col} {col_type}"))
                 db.session.commit()
             except Exception:
                 db.session.rollback()
-    except Exception:
+    except Exception as e:
+        print(f"verify_api_key_table critical fail: {e}")
         db.session.rollback()
-    ensure_pgvector_extension() # Attempt to enable pgvector expansion
+    
     _table_verified = True
 
 def get_user_memory_context(user, current_query=None):
     """Fetches fragmented memory and recent short-term context for the user."""
     if not user: return ""
     verify_api_key_table()
+    
+    from app.utils.vector_utils import search_relevant_memories
     
     # 1. Semantic Vector Memory (RAG) - Priority 1
     semantic_context = ""
@@ -85,6 +92,7 @@ def get_user_memory_context(user, current_query=None):
 
 def update_user_memory(user_id, interaction_summary):
     """Extracts new facts from interaction and stores them as fragments."""
+    from app.utils.vector_utils import save_user_memory
     try:
         prompt = f"""
         請從以下對話摘要中提取出「值得記錄的個人事實或偏好」，剔除掉囉唆或無意義的閒聊。
