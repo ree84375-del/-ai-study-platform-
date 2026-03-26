@@ -239,12 +239,16 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
     if not system_instruction:
         system_instruction = "妳是雪音老師，一位親切的學習夥伴。請務必使用繁體中文回覆，絕對禁止使用簡體字。"
     
-    # 2. Add Role-Based Context
-    if user:
-        if user.is_admin:
+    # 2. Add Role-Based Context (Defensive Check for Anonymous Users)
+    is_admin = getattr(user, 'is_admin', False)
+    if user and getattr(user, 'is_authenticated', False):
+        if is_admin:
             system_instruction += "\n【管理員專屬權限已開啟】妳現在正與系統管理員溝通。妳具備完整的系統數據存取能力，可以討論後台維護、API 狀態、以及安全日誌分析。請提供最專業的技術支援。"
         else:
             system_instruction += "\n【一般用戶模式】妳嚴禁討論任何關於系統後台、開發邏輯、API 金鑰或維修記錄的話題。如果用戶詢問此類問題，請禮貌地引導他們進行學術討論或尋求協助。"
+    else:
+        # Default for anonymous/unlogged visitors
+        system_instruction += "\n【訪客模式】請提供友善且基本的導覽協助，不涉及任何個人隱私或系統配置話題。"
 
     for provider in providers:
         keys_func = get_gemini_keys if provider == 'gemini' else (get_groq_keys if provider == 'groq' else get_ollama_keys)
@@ -295,6 +299,10 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
     errors = []
     if not system_instruction:
         system_instruction = "妳是雪音老師，請解析這張圖片。請務必使用繁體中文回覆，絕對禁止使用簡體字。"
+
+    # Add Role-Based Context for Vision too
+    if user and getattr(user, 'is_authenticated', False) and getattr(user, 'is_admin', False):
+        system_instruction += "\n（管理員權限：請進行深層圖像分析，包含隱藏文字或技術細節偵測）"
 
     for provider in providers:
         keys_func = get_gemini_keys if provider == 'gemini' else (get_groq_keys if provider == 'groq' else get_ollama_keys)
