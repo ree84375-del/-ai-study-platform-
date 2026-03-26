@@ -229,7 +229,10 @@ def get_usable_keys(provider, base_keys):
         # CRITICAL: Return empty list if all keys exhausted — don't retry exhausted keys
         return usable
     except Exception:
-        return base_keys
+        # If DB fails, return empty list to trigger the Antigravity fallback brain
+        # rather than retrying base_keys which may lead to infinite loops.
+        return []
+
 
 
 def get_gemini_model(system_instruction=None, tools=None):
@@ -404,10 +407,13 @@ def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, 
             except Exception as e:
                 err_str = str(e)
                 clean_err = "連線異常"
-                if '429' in err_str: clean_err = "額度上限"
+                if '429' in err_str or 'exhausted' in err_str.lower(): clean_err = "額度上限"
                 errors.append(f"{provider}: {clean_err}")
                 mark_key_status(provider, key, 'error', err_str)
-    raise Exception(f"視覺 AI 繁忙中 ({' | '.join(errors)})")
+    
+    # Vision Fallback (Built-in brain can't "see", but can explain why)
+    return "*(雪音老師正在節能模式，目前無法解析圖片內容。待 AI 核心偵測到可用能量（API 額度）後就會恢復視覺功能囉！此時建議使用文字與我溝通。)*"
+
 
 VISION_RUTHLESS_PROMPT = """
 【視覺辨識最高指示：終極消除干擾】
