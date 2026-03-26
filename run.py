@@ -1,71 +1,58 @@
-# DIAGNOSTIC RUN.PY - Tests if Python works on Vercel at all
-# Does NOT import Flask or any dependency - pure stdlib only
 import sys
 import os
 import traceback
 
-# Phase 1: Test bare Python
-diagnostics = []
-diagnostics.append(f"Python: {sys.version}")
-diagnostics.append(f"Platform: {sys.platform}")
-diagnostics.append(f"CWD: {os.getcwd()}")
-diagnostics.append(f"Files: {sorted(os.listdir('.'))}")
+# Diagnostic info captured at module level
+_boot_diag = {
+    'python': sys.version,
+    'platform': sys.platform,
+    'cwd': os.getcwd(),
+}
 
-# Phase 2: Test if Flask can be imported
-flask_ok = False
-flask_error = None
+# Phase 1: Try importing Flask
 try:
     from flask import Flask
-    flask_ok = True
-    diagnostics.append("Flask import: OK")
+    _boot_diag['flask'] = 'OK'
 except Exception as e:
-    flask_error = traceback.format_exc()
-    diagnostics.append(f"Flask import: FAILED - {e}")
+    _boot_diag['flask'] = traceback.format_exc()
 
-# Phase 3: Test if app can be imported
-app_error = None
-real_app = None
-if flask_ok:
-    try:
-        from app import create_app
-        real_app = create_app()
-        diagnostics.append("App init: OK")
-    except Exception as e:
-        app_error = traceback.format_exc()
-        diagnostics.append(f"App init: FAILED - {e}")
+# Phase 2: Try creating the actual app
+_real_app = None
+_boot_error = None
+try:
+    from app import create_app
+    _real_app = create_app()
+    _boot_diag['app'] = 'OK'
+except Exception as e:
+    _boot_error = traceback.format_exc()
+    _boot_diag['app'] = _boot_error
 
-# Build the WSGI app
-if real_app:
-    app = real_app
+# Phase 3: Build final app
+if _real_app:
+    app = _real_app
+elif _boot_diag.get('flask') == 'OK':
+    app = Flask(__name__)
+
+    @app.route('/')
+    @app.route('/<path:path>')
+    def catch_all(path=None):
+        items = ''.join(f'<li><b>{k}:</b> {v}</li>' for k, v in _boot_diag.items())
+        error_block = ""
+        if _boot_error:
+            error_block = f"<pre style='white-space:pre-wrap;overflow:auto;background:#f5f5f5;padding:15px;border-radius:8px;font-size:13px;max-height:600px;'>{_boot_error}</pre>"
+        return f"""<div style='padding:40px;font-family:sans-serif;max-width:900px;margin:0 auto;'>
+            <h1 style='color:#e74c3c;'>應用程式啟動失敗 (Boot Crash)</h1>
+            <ul>{items}</ul>
+            {error_block}
+        </div>""", 500
 else:
-    if flask_ok:
-        from flask import Flask
-        app = Flask(__name__)
-        
-        @app.route('/')
-        @app.route('/<path:path>')
-        def catch_all(path=None):
-            error_html = ""
-            if app_error:
-                error_html = f"<h2>App Init Error</h2><pre style='white-space:pre-wrap;overflow:auto;background:#f5f5f5;padding:15px;border-radius:8px;font-size:13px;'>{app_error}</pre>"
-            return f"""<div style='padding:40px;font-family:sans-serif;max-width:900px;margin:0 auto;'>
-                <h1 style='color:#e74c3c;'>Boot Crash Diagnostics</h1>
-                <ul>{''.join(f'<li>{d}</li>' for d in diagnostics)}</ul>
-                {error_html}
-            </div>""", 500
-    else:
-        # Flask itself failed to import - use raw WSGI
-        def app(environ, start_response):
-            status = '500 Internal Server Error'
-            body = f"""<html><body style='padding:40px;font-family:sans-serif;max-width:900px;margin:0 auto;'>
-                <h1 style='color:#e74c3c;'>Flask Import Failed</h1>
-                <ul>{''.join(f'<li>{d}</li>' for d in diagnostics)}</ul>
-                <h2>Flask Error</h2>
-                <pre style='white-space:pre-wrap;overflow:auto;background:#f5f5f5;padding:15px;'>{flask_error}</pre>
-            </body></html>"""
-            response_headers = [('Content-Type', 'text/html'), ('Content-Length', str(len(body)))]
-            start_response(status, response_headers)
-            return [body.encode('utf-8')]
+    # Raw WSGI - Flask itself failed
+    _diag_html = ''.join(f'<li><b>{k}:</b> <pre>{v}</pre></li>' for k, v in _boot_diag.items())
+    _body = f"<html><body style='padding:40px;font-family:sans-serif;'><h1>Fatal: Flask Import Failed</h1><ul>{_diag_html}</ul></body></html>".encode('utf-8')
+    
+    def app(environ, start_response):
+        start_response('500 Internal Server Error', [('Content-Type', 'text/html'), ('Content-Length', str(len(_body)))])
+        return [_body]
 
 if __name__ == '__main__':
     if hasattr(app, 'run'):
