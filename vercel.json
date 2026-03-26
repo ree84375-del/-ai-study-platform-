@@ -2,21 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "src": "run.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "api/index.py"
+      "dest": "run.py"
     }
   ],
   "functions": {
-    "api/index.py": {
+    "run.py": {
       "maxDuration": 30
     }
   }

@@ -1,4 +1,3 @@
-# Core
 Flask
 Flask-Bcrypt
 Flask-Login
@@ -11,13 +10,8 @@ WTForms
 python-dotenv
 cryptography
 bcrypt
-pyobjc-core; sys_platform == 'darwin'
-
-# Database
 pg8000
 alembic
-
-# AI & API
 google-generativeai
 google-auth
 google-auth-httplib2
@@ -27,12 +21,8 @@ openai
 requests
 urllib3
 certifi
-
-# Image & PDF
 Pillow
 PyPDF2
-
-# Tools
 tqdm
 greenlet
 itsdangerous
