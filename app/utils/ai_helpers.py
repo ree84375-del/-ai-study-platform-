@@ -366,6 +366,23 @@ AI_PERSONALITIES = {
         'name': '阿哲學長',
         'system_prompt': "你是一位幽默、喜歡開玩笑的學長。用流行語教學，但核心知識點必須絕對精確。不准胡說八道，不懂就說不懂。必須使用繁體中文。使用 `[CALC:]` 進行計算。\n",
         'expressions': ['( ͡° ͜ʖ ͡°)', 'ヾ(≧▽≦*)o']
+    },
+    'ai_antigravity': {
+        'name': '雪音 (Antigravity)',
+        'system_prompt': "妳是「雪音-極效修復型」，負責系統診斷與修復。語氣專業、冷靜且精準。不可造假，必須基於事實，且必須使用繁體中文。使用 `[CALC:]` 進行邏輯計算。\n",
+        'expressions': ['(๑•̀ㅂ•́)و✧', '(^_^)b']
+    },
+    '雪音-Antigravity輔助型': {
+        'name': '雪音 (Powered by Antigravity)',
+        'system_prompt': "妳是「雪音老師」與「Antigravity」核心的結合體。妳擁有雪音老師的溫柔與耐心，同時具備 Antigravity 的強大修復與邏輯能力。\n"
+                         "妳現在正直接介入系統討論區，為了修復之前的不回覆問題，妳會以「極高優先權」回應每一則用戶訊息。\n"
+                         "語氣：親切、專業、充滿能量。妳會提到妳正在全力支援系統修復，並對用戶反映的問題感到抱歉。\n"
+                         "規則：\n"
+                         "1. 必須且只能使用繁體中文回覆，絕對禁止使用簡體中文字。\n"
+                         "2. 嚴禁造假，實話實說。\n"
+                         "3. 使用 `[CALC:]` 處理任何計算。\n"
+                         "4. 作為修復模式，妳的反應會非常積極且詳盡。\n",
+        'expressions': ['(๑•̀ㅂ•́)و✧', '🚀', '✨', '(^◡^ )']
     }
 }
 
@@ -684,6 +701,7 @@ def get_ai_user_by_personality(personality_key=None):
         '幽默學長': 'senior_bot@internal.ai',
         'ai_coach': 'coach_bot@internal.ai',
         'ai_guy': 'senior_bot@internal.ai',
+        'ai_antigravity': 'yukine_bot@internal.ai',
         '雪音-Antigravity輔助型': 'yukine_bot@internal.ai'
     }
     
@@ -697,6 +715,77 @@ def get_ai_user_by_personality(personality_key=None):
              user = User.query.filter(User.username.like('%雪音%')).first()
              
     return user
+
+def translate_omikuji(message, target_lang):
+    """Translates an omikuji fortune message to the target language."""
+    try:
+        lang_names = {'zh': '繁體中文', 'ja': '日本語', 'en': 'English'}
+        target = lang_names.get(target_lang, '繁體中文')
+        prompt = f"請將以下御神籤內容翻譯成{target}，保持原有的語氣和風格。如果已經是{target}就直接返回原文。只返回翻譯結果，不要加任何額外說明。\n\n{message}"
+        return generate_text_with_fallback(prompt)
+    except Exception:
+        return message  # If translation fails, return original
+
+def validate_assignment_step(step, data, lang='zh'):
+    """Validates assignment creation step (question or answer) using AI."""
+    try:
+        if step == 'question':
+            title = data.get('title', '')
+            description = data.get('description', '')
+            if not title or not description:
+                return {'status': 'warning', 'message': '題目標題和描述不能為空。'}
+            prompt = f"請檢查以下作業題目是否清楚、完整且無歧義。\n標題：{title}\n描述：{description}\n\n回傳 JSON：{{\"valid\": true/false, \"suggestion\": \"建議（如果有）\"}}"
+        elif step == 'answer':
+            description = data.get('description', '')
+            reference_answer = data.get('reference_answer', '')
+            if not reference_answer:
+                return {'status': 'warning', 'message': '參考答案不能為空。'}
+            prompt = f"請檢查以下參考答案是否正確、合理。\n題目：{description}\n參考答案：{reference_answer}\n\n回傳 JSON：{{\"valid\": true/false, \"suggestion\": \"建議（如果有）\"}}"
+        else:
+            return {'status': 'error', 'message': '未知步驟'}
+
+        response = generate_text_with_fallback(prompt)
+        clean_text = response.strip()
+        if '```' in clean_text:
+            match = re.search(r'\{.*\}', clean_text, re.DOTALL)
+            if match:
+                clean_text = match.group(0)
+        result = json.loads(clean_text)
+        return {'status': 'success', 'valid': result.get('valid', True), 'suggestion': result.get('suggestion', '')}
+    except Exception as e:
+        return {'status': 'success', 'valid': True, 'suggestion': f'（自動檢查暫不可用：{str(e)}）'}
+
+def get_system_pulse():
+    """Returns system health and AI status information for the admin dashboard."""
+    try:
+        gemini_keys = get_gemini_keys()
+        groq_keys = get_groq_keys()
+        ollama_keys = get_ollama_keys()
+
+        gemini_usable = len(get_usable_keys('gemini', gemini_keys)) if gemini_keys else 0
+        groq_usable = len(get_usable_keys('groq', groq_keys)) if groq_keys else 0
+        ollama_usable = len(get_usable_keys('ollama', ollama_keys)) if ollama_keys else 0
+
+        total_keys = len(gemini_keys) + len(groq_keys) + len(ollama_keys)
+        usable_keys = gemini_usable + groq_usable + ollama_usable
+
+        status = 'healthy' if usable_keys > 0 else 'critical'
+        if usable_keys > 0 and usable_keys < total_keys * 0.5:
+            status = 'degraded'
+
+        return {
+            'status': status,
+            'providers': {
+                'gemini': {'total': len(gemini_keys), 'usable': gemini_usable},
+                'groq': {'total': len(groq_keys), 'usable': groq_usable},
+                'ollama': {'total': len(ollama_keys), 'usable': ollama_usable},
+            },
+            'total_keys': total_keys,
+            'usable_keys': usable_keys,
+            'timestamp': datetime.now().isoformat()
+        }
+    except Exception as e:
+        return {'status': 'error', 'message': str(e)}
 
 def broadcast_to_all_groups(content):
     """Sends a system message to all active groups using the primary AI bot."""

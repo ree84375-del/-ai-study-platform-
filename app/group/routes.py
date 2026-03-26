@@ -164,6 +164,7 @@ def group_dashboard(group_id):
     
     # --- YUKINE REMINDERS LOGIC ---
     yukine_reminders = []
+    lang = getattr(current_user, 'language', 'zh')
     try:
         from app.models import Assignment
         # Taiwan Time (UTC+8)

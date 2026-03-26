@@ -226,7 +226,7 @@ def reset_api_keys():
         return jsonify({'error': 'Unauthorized'}), 403
     
     from app.models import APIKeyTracker
-    from app.extensions import db
+    from app import db
     try:
         # Hard reset all trackers to standby
         trackers = APIKeyTracker.query.all()
