@@ -19,6 +19,8 @@ try:
     load_dotenv(env_path)
 except Exception:
     pass
+# Gemini Safety Settings - Relaxed to avoid over-filtering
+GEMINI_SAFETY_SETTINGS = [
     {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
     {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
     {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
@@ -316,7 +318,12 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                         raise Exception(f"HTTP {resp.status_code}")
             except Exception as e:
                 err_str = str(e)
-                print(f"AI Helpers Error [{provider}]: {err_str}") # EXPLICIT TERMINAL LOGGING
+                # print(f"AI Helpers Error [{provider}]: {err_str}") # OLD TERMINAL LOGGING
+                try:
+                    with open('/tmp/ai_debug.log', 'a', encoding='utf-8') as f:
+                        f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Provider: {provider} | Key: {key[:6]}... | Error: {err_str}\n")
+                except:
+                    pass
                 if '429' in err_str or 'quota' in err_str.lower():
                     clean_err = "API 額度已達上限 (429)"
                 elif 'NameResolutionError' in err_str or 'ConnectionError' in err_str:
@@ -365,7 +372,7 @@ def _antigravity_fallback(prompt):
         return "我正在節能模式，無法進行複雜計算。不過你可以試試把算式直接告訴我，例如：『算 123 + 456』，我會盡力處理！"
     
     # Time/date questions
-    time_keywords = ['幾點', '時間', '今天', '日期', '什麼時候', '現在']
+    time_keywords = ['幾點', '日期', '什麼時候']
     if any(k in prompt_lower for k in time_keywords):
         return f"現在是台灣時間 **{now_tw}** 📅\n\n（Antigravity 系統時鐘回報）"
     
