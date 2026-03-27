@@ -320,8 +320,8 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                 err_str = str(e)
                 # print(f"AI Helpers Error [{provider}]: {err_str}") # OLD TERMINAL LOGGING
                 try:
-                    # Use project-root for guaranteed findability
-                    log_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'ai_debug.log')
+                    # HARDCODED ABSOLUTE PATH for Windows
+                    log_file = r"C:\ai_debug_HARD.log"
                     with open(log_file, 'a', encoding='utf-8') as f:
                         f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Provider: {provider} | Key: {key[:6]}... | Error: {err_str}\n")
                 except:
