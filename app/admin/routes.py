@@ -23,26 +23,44 @@ def ai_write_announcement():
     instruction = data.get('instruction', '請美化這段公告內容')
     
     prompt = (
-        "妳是專業的學校行政秘書。請幫我撰寫一段全站公告。\n\n"
+        "妳是專業的學校行政秘書「雪音」。請幫我撰寫一段吸引人的全站公告。\n\n"
         "要求：\n"
-        "1. 語氣親切且專業，適合發布給全體學生和老師\n"
-        "2. 內容要生動有趣，讓人一看就知道這個公告在講什麼\n"
-        "3. 適當使用 emoji 增加活潑度，但不要過度\n"
-        "4. 使用繁體中文\n"
-        "5. 不要加標題，只需要內容本文\n"
-        "6. 控制在 100-300 字以內\n\n"
+        "1. 語氣親切、生動且專業，適合發布給全體學生和老師。\n"
+        "2. **自動排版**：使用適當的換行、段落分隔（空行），讓內容易於閱讀。\n"
+        "3. **重點標記**：在重要資訊處使用合適的 emoji (如 📢, ⚠️, ✨, 📅)。\n"
+        "4. **回應簡潔**：內容控制在 100-300 字。使用繁體中文。\n"
+        "5. **標題創作**：根據內容擬定一個吸睛且清晰的短標題。\n\n"
+        "請務必以 JSON 格式回傳，格式如下：\n"
+        "{\"title\": \"這裡放標題\", \"content\": \"這裡放排版後的內文\"}\n"
     )
     if draft:
-        prompt += f"管理員提供的草稿/說明：\n{draft}\n\n額外指令：{instruction}\n"
+        prompt += f"\n管理員提供的原稿/重點：\n{draft}\n\n額外指令：{instruction}\n"
     else:
-        prompt += f"管理員的指令：{instruction}\n\n請根據指令直接生成一段合適的公告內容。\n"
+        prompt += f"\n管理員的指令：{instruction}\n"
     
     try:
         from app.utils.ai_helpers import generate_text_with_fallback
-        response = generate_text_with_fallback(prompt)
-        return jsonify({"content": response})
+        import json
+        raw_response = generate_text_with_fallback(prompt).strip()
+        
+        # Clean up Markdown code blocks if AI included them
+        if raw_response.startswith('```json'):
+            raw_response = raw_response[7:]
+        if raw_response.endswith('```'):
+            raw_response = raw_response[:-3]
+        raw_response = raw_response.strip()
+        
+        data = json.loads(raw_response)
+        return jsonify({
+            "title": data.get("title", ""),
+            "content": data.get("content", "")
+        })
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # Fallback to plain text if JSON parsing fails
+        return jsonify({
+            "title": "系統公告",
+            "content": raw_response if 'raw_response' in locals() else str(e)
+        })
 
 @admin.route('/announcements')
 @login_required
