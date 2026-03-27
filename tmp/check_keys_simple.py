@@ -12,10 +12,4 @@ with app.app_context():
     now = datetime.now(timezone.utc)
     print(f"Current UTC: {now}")
     for t in trackers:
-        status = t.status
-        cd = t.cooldown_until
-        if cd and cd.tzinfo is None:
-            cd = cd.replace(tzinfo=timezone.utc)
-        
-        is_expired = cd < now if cd else "N/A"
-        print(f"{t.provider}: {t.api_key[:10]}... Status: {status}, Cooldown: {cd}, Expired: {is_expired}")
+        print(f"{t.provider}: {t.status}, CD: {t.cooldown_until}")

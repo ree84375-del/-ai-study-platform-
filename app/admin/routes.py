@@ -162,27 +162,56 @@ def api_security_logs():
         return jsonify({'error': 'Unauthorized'}), 403
     
     from app.models import IPAccessLog
-    from sqlalchemy import text
+    from sqlalchemy import text, func
     try:
-        logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+        # Fetch latest 100 logs for the dashboard
+        logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(100).all()
+        
+        # Calculate Stats
+        total_count = IPAccessLog.query.count()
+        
+        # Today's blocked threats (threat_level='dangerous' within last 24h)
+        today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+        blocked_today = IPAccessLog.query.filter(
+            IPAccessLog.threat_level == 'dangerous',
+            IPAccessLog.timestamp >= today_start
+        ).count()
+        
+        # Active AI Crawlers (category='ai' within last 1 hour)
+        one_hour_ago = datetime.now(timezone.utc) - timedelta(hours=1)
+        active_ai = db.session.query(func.count(func.distinct(IPAccessLog.ip))).filter(
+            IPAccessLog.category == 'ai',
+            IPAccessLog.timestamp >= one_hour_ago
+        ).scalar() or 0
+
     except Exception as e:
         if 'category' in str(e).lower() and 'column' in str(e).lower():
             try:
                 db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
                 db.session.commit()
-                logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(50).all()
+                logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(100).all()
+                total_count = len(logs)
+                blocked_today = 0
+                active_ai = 0
             except Exception as inner_e:
                 print(f"API self-healing failed: {inner_e}")
                 logs = []
+                total_count = 0
+                blocked_today = 0
+                active_ai = 0
         else:
+            print(f"API Error: {e}")
             logs = []
+            total_count = 0
+            blocked_today = 0
+            active_ai = 0
     
     log_data = []
     for log in logs:
         # Convert to Taiwan Time (UTC+8)
         tw_time = log.timestamp + timedelta(hours=8)
         log_data.append({
-            'time': tw_time.strftime('%H:%M:%S'),
+            'time': tw_time.strftime('%m/%d %H:%M:%S'),
             'ip': log.ip,
             'user': log.user.username if log.user else '匿名訪客',
             'path': log.path,
@@ -193,7 +222,14 @@ def api_security_logs():
             )
         })
     
-    return jsonify({'logs': log_data})
+    return jsonify({
+        'logs': log_data,
+        'stats': {
+            'total_count': total_count,
+            'blocked_today': blocked_today,
+            'active_ai': active_ai
+        }
+    })
 
 @admin.route('/broadcast', methods=['POST'])
 @login_required
@@ -303,6 +339,12 @@ def change_user_role(user_id):
         return redirect(url_for('admin.dashboard'))
         
     new_role = request.form.get('role')
+    
+    # AI Account Restriction: ONLY @internal.ai accounts can be 'teacher' (AI 系統專用)
+    if new_role == 'teacher' and not user.is_ai_account:
+        flash("此稱號為 AI 專用，無法賦予一般用戶。", "danger")
+        return redirect(url_for('admin.dashboard'))
+        
     if new_role in ['student', 'teacher', 'admin', 'guest']:
         user.role = new_role
         db.session.commit()

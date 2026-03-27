@@ -280,10 +280,12 @@
                     <td style="padding: 12px 10px;">
                         <form action="{{ url_for('admin.change_user_role', user_id=u.id) }}" method="POST" style="display: flex; gap: 5px; margin: 0;">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                            <select name="role" style="padding: 4px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 0.85rem;" {% if u.is_admin %}disabled{% endif %}>
+                            <select name="role" style="padding: 4px; border-radius: 4px; border: 1px solid var(--color-border); font-size: 0.85rem;" {% if u.is_admin or u.is_ai_account %}disabled{% endif %}>
                                 <option value="guest" {% if u.role == 'guest' %}selected{% endif %}>{{ _t('admin_role_guest') }}</option>
                                 <option value="student" {% if u.role == 'student' %}selected{% endif %}>學生 (Student)</option>
-                                <option value="teacher" {% if u.role == 'teacher' %}selected{% endif %}>AI (系統專用)</option>
+                                {% if u.is_ai_account %}
+                                <option value="teacher" selected>AI (系統專用)</option>
+                                {% endif %}
                                 <option value="admin" {% if u.role == 'admin' %}selected{% endif %}>{{ _t('admin_role_admin') }}</option>
                             </select>
                             <button type="submit" class="btn-icon" title="{{ _t('admin_btn_change') }}" {% if u.is_admin %}disabled{% endif %} style="background: none; border: none; color: var(--color-primary); cursor: pointer;"><i class="fa-solid fa-rotate"></i></button>

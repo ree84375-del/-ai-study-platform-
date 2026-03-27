@@ -53,6 +53,10 @@ class User(db.Model, UserMixin):
     last_ip = db.Column(db.String(45), nullable=True) # Supports IPv4 and IPv6
  
     @property
+    def is_ai_account(self):
+        return self.email and self.email.endswith('@internal.ai')
+
+    @property
     def is_admin(self):
         return self.role == 'admin' or self.email == 'ree84375@gmail.com'
 

@@ -134,10 +134,21 @@
         <h1 style="color: #79dac8; margin: 0; display: flex; align-items: center; gap: 10px; font-family: 'Kaisei Tokumin', serif;">
             <i class="fa-solid fa-shield-halved"></i> {{ title }}
         </h1>
-        <div style="font-size: 0.9rem; color: var(--color-text_light);">
-            <i class="fa-solid fa-calendar-day"></i> {{ current_time.strftime('%Y-%m-%d') if current_time else '' }}
+        <div style="font-size: 0.9rem; color: var(--color-text_light); display: flex; align-items: center; gap: 15px;">
+            <div id="live-indicator" style="display: flex; align-items: center; gap: 6px; background: rgba(121, 218, 200, 0.1); padding: 4px 10px; border-radius: 20px; color: #79dac8; font-weight: bold; font-size: 0.8rem;">
+                <span style="width: 8px; height: 8px; background: #79dac8; border-radius: 50%; display: inline-block; animation: pulse 2s infinite;"></span>
+                LIVE
+            </div>
+            <span><i class="fa-solid fa-calendar-day"></i> {{ current_time.strftime('%Y-%m-%d') if current_time else '' }}</span>
         </div>
     </div>
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(121, 218, 200, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(121, 218, 200, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(121, 218, 200, 0); }
+        }
+    </style>
 
     <div class="admin-layout">
         <!-- Dashboard Sidebar -->
@@ -157,9 +168,9 @@
             <div class="washi-card" style="padding: 1.5rem; background: linear-gradient(135deg, rgba(121, 218, 200, 0.1) 0%, rgba(120, 169, 255, 0.1) 100%);">
                 <h4 style="margin: 0 0 1rem; font-size: 0.9rem; color: #666; text-transform: uppercase;">狀態摘要</h4>
                 <div style="font-size: 0.85rem; color: #555; display: flex; flex-direction: column; gap: 8px;">
-                    <div>目前記錄總數: <strong>{{ access_logs|length }}</strong></div>
-                    <div style="color: #e74c3c;">今日攔截威脅: <strong>12</strong></div>
-                    <div style="color: #bb9af7;">活躍 AI 爬蟲: <strong>4</strong></div>
+                    <div>目前記錄總數: <strong id="stat-total">{{ access_logs|length }}</strong></div>
+                    <div style="color: #e74c3c;">今日攔截威脅: <strong id="stat-blocked">12</strong></div>
+                    <div style="color: #bb9af7;">活躍 AI 爬蟲: <strong id="stat-ai">4</strong></div>
                 </div>
             </div>
         </aside>
@@ -237,23 +248,88 @@
 </div>
 
 <script>
+    let currentFilter = 'all';
+
+    function updateFilters() {
+        const rows = document.querySelectorAll('#security-table tbody tr');
+        rows.forEach(row => {
+            if (currentFilter === 'all' || row.dataset.cat === currentFilter) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
     document.querySelectorAll('.filter-tab').forEach(tab => {
         tab.addEventListener('click', () => {
-            // Update active state
             document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-
-            const category = tab.dataset.category;
-            const rows = document.querySelectorAll('#security-table tbody tr');
-
-            rows.forEach(row => {
-                if (category === 'all' || row.dataset.cat === category) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
+            currentFilter = tab.dataset.category;
+            updateFilters();
         });
     });
+
+    async function fetchLogs() {
+        try {
+            const response = await fetch('{{ url_for("admin.api_security_logs") }}');
+            const data = await response.json();
+            
+            if (data.logs) {
+                const tbody = document.querySelector('#security-table tbody');
+                tbody.innerHTML = '';
+                
+                data.logs.forEach(log => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid rgba(0,0,0,0.05)';
+                    tr.dataset.cat = log.category;
+                    
+                    let categoryHtml = '';
+                    if (log.category === 'user') categoryHtml = `<span style="color: #4facfe; font-size: 0.85rem;"><i class="fa-solid fa-circle-user"></i> 帳號用戶</span>`;
+                    else if (log.category === 'hacker') categoryHtml = `<span style="color: #f43f5e; font-weight: bold; font-size: 0.85rem;"><i class="fa-solid fa-user-secret"></i> 駭客攻擊</span>`;
+                    else if (log.category === 'ai') categoryHtml = `<span style="color: #bb9af7; font-size: 0.85rem;"><i class="fa-solid fa-robot"></i> AI / 爬蟲</span>`;
+                    else if (log.category === 'scanner') categoryHtml = `<span style="color: #94a3b8; font-size: 0.85rem;"><i class="fa-solid fa-bug"></i> 系統偵測器</span>`;
+                    else categoryHtml = `<span style="color: #999; font-size: 0.85rem;"><i class="fa-solid fa-question"></i> 未知來源</span>`;
+
+                    let statusHtml = '';
+                    if (log.threat_level === 'dangerous') statusHtml = `<span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 4px 8px; border-radius: 6px; font-weight: bold;">已攔截</span>`;
+                    else if (log.threat_level === 'suspicious') statusHtml = `<span style="background: rgba(243, 156, 18, 0.1); color: #f39c12; padding: 4px 8px; border-radius: 6px; font-weight: bold;">監控中</span>`;
+                    else statusHtml = `<span style="background: rgba(39, 174, 96, 0.1); color: #27ae60; padding: 4px 8px; border-radius: 6px;">通過</span>`;
+
+                    tr.innerHTML = `
+                        <td style="padding: 12px 15px; font-size: 0.8rem; color: #666;">${log.time}</td>
+                        <td style="padding: 12px 15px; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: var(--color-primary);">${log.ip}</td>
+                        <td style="padding: 12px 15px;">${categoryHtml}</td>
+                        <td style="padding: 12px 15px; font-size: 0.85rem;">${log.user}</td>
+                        <td style="padding: 12px 15px; font-size: 0.8rem; color: #555; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${log.path}">${log.path}</td>
+                        <td style="padding: 12px 15px; font-size: 0.85rem;">${statusHtml}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                
+                updateFilters();
+            }
+
+            if (data.stats) {
+                document.getElementById('stat-total').innerText = data.stats.total_count;
+                document.getElementById('stat-blocked').innerText = data.stats.blocked_today;
+                document.getElementById('stat-ai').innerText = data.stats.active_ai;
+            }
+
+            // Blink live indicator
+            const indicator = document.getElementById('live-indicator');
+            indicator.style.opacity = '0.5';
+            setTimeout(() => indicator.style.opacity = '1', 200);
+
+        } catch (error) {
+            console.error('Failed to fetch security logs:', error);
+        }
+    }
+
+    // Auto-refresh every 5 seconds
+    setInterval(fetchLogs, 5000);
+    
+    // Initial fetch to get correct stats
+    fetchLogs();
 </script>
 {% endblock %}
