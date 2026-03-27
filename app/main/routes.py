@@ -224,20 +224,26 @@ def heartbeat():
 @main.route("/home")
 def home():
     from app.models import Announcement, Omikuji, Ema, Daruma, Mistake
-    # Fetch latest 5 active (non-revoked) announcements
+    from app import db as _db
+    from sqlalchemy import text
+    # Auto-migrate: ensure is_revoked/revoked_at columns exist before ANY ORM query
+    # (ORM model defines these cols, so even a basic query will fail if they're missing)
+    try:
+        _db.session.execute(text(
+            "ALTER TABLE announcement ADD COLUMN IF NOT EXISTS is_revoked BOOLEAN DEFAULT FALSE"
+        ))
+        _db.session.execute(text(
+            "ALTER TABLE announcement ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMP"
+        ))
+        _db.session.commit()
+    except Exception:
+        _db.session.rollback()
+    # Now safe to query
     try:
         announcements = Announcement.query.filter_by(is_revoked=False).order_by(Announcement.created_at.desc()).limit(5).all()
     except Exception:
-        try:
-            from app import db as _db
-            _db.session.rollback()
-        except Exception:
-            pass
-        # Fallback: column might not exist yet, just show all
-        try:
-            announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(5).all()
-        except Exception:
-            announcements = []
+        _db.session.rollback()
+        announcements = []
     
     # Check Japanese Features if user is logged in
     today_omikuji = None
