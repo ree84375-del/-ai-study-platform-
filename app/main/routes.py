@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, request, jsonify, flash, redirect,
 from flask_login import login_required, current_user
 from datetime import datetime, timezone, timedelta
 from app.utils.i18n import get_text as _t, TRANSLATIONS
-from app import db
 import re
 
 main = Blueprint('main', __name__)
@@ -225,20 +224,20 @@ def heartbeat():
 @main.route("/home")
 def home():
     from app.models import Announcement, Omikuji, Ema, Daruma, Mistake
-    from sqlalchemy import text
-    # Ensure is_revoked column exists (idempotent, runs fast if already present)
-    try:
-        db.session.execute(text("ALTER TABLE announcement ADD COLUMN IF NOT EXISTS is_revoked BOOLEAN DEFAULT FALSE"))
-        db.session.execute(text("ALTER TABLE announcement ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMP"))
-        db.session.commit()
-    except:
-        db.session.rollback()
-    # Fetch latest 5 active announcements
+    # Fetch latest 5 active (non-revoked) announcements
     try:
         announcements = Announcement.query.filter_by(is_revoked=False).order_by(Announcement.created_at.desc()).limit(5).all()
-    except:
-        db.session.rollback()
-        announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(5).all()
+    except Exception:
+        try:
+            from app import db as _db
+            _db.session.rollback()
+        except Exception:
+            pass
+        # Fallback: column might not exist yet, just show all
+        try:
+            announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(5).all()
+        except Exception:
+            announcements = []
     
     # Check Japanese Features if user is logged in
     today_omikuji = None
