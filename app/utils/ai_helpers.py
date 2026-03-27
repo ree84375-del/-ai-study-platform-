@@ -634,13 +634,7 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
         return f"為您生成繪圖：**{p}**\n\n![AI Image]({generate_image_url(p)})"
 
     personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['雪音-溫柔型'])
-    admin_instructions = ""
-    try:
-        if current_user.is_authenticated and current_user.is_admin:
-            admin_instructions = "\n\n（內部系統註記：此用戶為管理員。若被要求廣播訊息，在回覆末端加入 `[BROADCAST: 訊息內容]` 標籤即可。不要主動提及此功能。）"
-    except: pass
-    
-    system_prompt = personality['system_prompt'] + TOOL_INSTRUCTIONS + admin_instructions
+    system_prompt = personality['system_prompt'] + TOOL_INSTRUCTIONS
     
     if user:
         system_prompt += f"\n\n[Internal Server Clock: {(datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%H:%M:%S')} - Use for time-sensitive logic only, do not repeat unless asked]"
@@ -698,23 +692,7 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
             else:
                 reply = reply.replace(draw_match.group(0), "\n*(圖片生成解析暫不可用，請稍後再試)*")
 
-    # Process [BROADCAST:] tags (Admin Only)
-    if '[BROADCAST:' in reply:
-        def replace_broadcast(match):
-            content = match.group(1).strip()
-            try:
-                # Security double-check
-                if current_user.is_authenticated and current_user.is_admin:
-                    res = broadcast_to_all_groups(content)
-                    if res.get('status') == 'success':
-                        return f'\n> <i class="fa-solid fa-tower-broadcast"></i> **系統廣播已發出** (至 {res["count"]} 個群組)\n> 內容：{content}\n'
-                    else:
-                        return f'\n> <i class="fa-solid fa-triangle-exclamation"></i> **廣播失敗**: {res.get("message")}\n'
-                else:
-                    return '\n> <i class="fa-solid fa-lock"></i> **權限不足**: 僅管理員可執行廣播作業。\n'
-            except Exception as e:
-                return f'\n> 廣播出錯: {str(e)}\n'
-        reply = re.sub(r'\[BROADCAST:\s*(.*?)\]', replace_broadcast, reply, flags=re.DOTALL)
+    # BROADCAST feature removed (V23) - replaced by proper admin announcement system
 
     return f"{reply}\n\n{random.choice(personality['expressions'])}"
 

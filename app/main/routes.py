@@ -224,8 +224,8 @@ def heartbeat():
 @main.route("/home")
 def home():
     from app.models import Announcement, Omikuji, Ema, Daruma, Mistake
-    # Fetch latest 3 announcements
-    announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(3).all()
+    # Fetch latest 5 active announcements
+    announcements = Announcement.query.filter_by(is_revoked=False).order_by(Announcement.created_at.desc()).limit(5).all()
     
     # Check Japanese Features if user is logged in
     today_omikuji = None

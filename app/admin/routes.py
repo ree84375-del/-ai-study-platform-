@@ -12,23 +12,30 @@ from app.utils.i18n import get_text as _t
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
-@admin.route('/ai_write_broadcast', methods=['POST'])
+@admin.route('/ai_write_announcement', methods=['POST'])
 @login_required
-def ai_write_broadcast():
+def ai_write_announcement():
     if not current_user.is_admin:
         return jsonify({"error": "Unauthorized"}), 403
     
     data = request.get_json()
     draft = data.get('draft', '')
-    instruction = data.get('instruction', '請美化這段內容')
+    instruction = data.get('instruction', '請美化這段公告內容')
     
-    prompt = f"妳是專業的行政秘書。請幫我依照以下「指令」來撰寫或美化一段全站廣播訊息。\n\n指令：{instruction}\n\n"
+    prompt = (
+        "妳是專業的學校行政秘書。請幫我撰寫一段全站公告。\n\n"
+        "要求：\n"
+        "1. 語氣親切且專業，適合發布給全體學生和老師\n"
+        "2. 內容要生動有趣，讓人一看就知道這個公告在講什麼\n"
+        "3. 適當使用 emoji 增加活潑度，但不要過度\n"
+        "4. 使用繁體中文\n"
+        "5. 不要加標題，只需要內容本文\n"
+        "6. 控制在 100-300 字以內\n\n"
+    )
     if draft:
-        prompt += f"目前草稿內容：\n{draft}\n\n"
+        prompt += f"管理員提供的草稿/說明：\n{draft}\n\n額外指令：{instruction}\n"
     else:
-        prompt += "目前尚未提供草稿，請根據指令直接生成一段合適的內容。\n\n"
-        
-    prompt += "生成要求：語氣要親切專業，適合發布給全體學生，使用繁體中文。"
+        prompt += f"管理員的指令：{instruction}\n\n請根據指令直接生成一段合適的公告內容。\n"
     
     try:
         from app.utils.ai_helpers import generate_text_with_fallback
@@ -36,6 +43,68 @@ def ai_write_broadcast():
         return jsonify({"content": response})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@admin.route('/announcements')
+@login_required
+def announcements():
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    all_announcements = Announcement.query.order_by(Announcement.created_at.desc()).all()
+    return render_template('admin/announcement_manage.html', 
+                           title="全站公告管理",
+                           announcements=all_announcements)
+
+@admin.route('/announcements/create', methods=['POST'])
+@login_required
+def create_announcement():
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    title = request.form.get('title', '').strip()
+    content = request.form.get('content', '').strip()
+    is_ai = request.form.get('is_ai_generated') == 'true'
+    
+    if not title or not content:
+        flash('標題和內容不能為空', 'danger')
+        return redirect(url_for('admin.announcements'))
+    
+    new_ann = Announcement(
+        title=title,
+        content=content,
+        is_ai_generated=is_ai,
+        created_by_id=current_user.id
+    )
+    db.session.add(new_ann)
+    db.session.commit()
+    flash(f'公告「{title}」已成功發布！', 'success')
+    return redirect(url_for('admin.announcements'))
+
+@admin.route('/announcements/<int:ann_id>/revoke', methods=['POST'])
+@login_required
+def revoke_announcement(ann_id):
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    ann = Announcement.query.get_or_404(ann_id)
+    ann.is_revoked = True
+    ann.revoked_at = datetime.now(timezone.utc)
+    db.session.commit()
+    flash(f'公告「{ann.title}」已撤銷', 'info')
+    return redirect(url_for('admin.announcements'))
+
+@admin.route('/announcements/<int:ann_id>/restore', methods=['POST'])
+@login_required
+def restore_announcement(ann_id):
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    ann = Announcement.query.get_or_404(ann_id)
+    ann.is_revoked = False
+    ann.revoked_at = None
+    db.session.commit()
+    flash(f'公告「{ann.title}」已恢復', 'success')
+    return redirect(url_for('admin.announcements'))
 
 
 @admin.before_request
@@ -69,7 +138,9 @@ def dashboard():
             "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_ip VARCHAR(45)",
             "CREATE TABLE IF NOT EXISTS ip_ban (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, reason TEXT, banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expires_at TIMESTAMP, is_permanent BOOLEAN DEFAULT FALSE, admin_notes TEXT, banned_by_id INTEGER REFERENCES \"user\"(id))",
             "CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)",
-            "CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)"
+            "CREATE TABLE IF NOT EXISTS api_key_tracker (id SERIAL PRIMARY KEY, provider VARCHAR(50) NOT NULL, api_key VARCHAR(255) UNIQUE NOT NULL, status VARCHAR(20) DEFAULT 'standby', last_used TIMESTAMP, error_message TEXT)",
+            "ALTER TABLE announcement ADD COLUMN IF NOT EXISTS is_revoked BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE announcement ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMP"
         ]
         for stmt in auto_fixes:
             try:
@@ -555,65 +626,4 @@ def delete_question(question_id):
         flash(_t('msg_question_delete_fail', lang=current_user.language, error=str(e)), 'danger')
     return redirect(url_for('admin.questions'))
 
-@admin.route('/announcements')
-def announcements():
-    announcements_list = Announcement.query.order_by(Announcement.id.desc()).all()
-    return render_template('admin/announcements.html', announcements=announcements_list)
 
-@admin.route('/announcements/new', methods=['GET', 'POST'])
-def new_announcement():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        content = request.form.get('content')
-        if title and content:
-            announcement = Announcement(title=title, content=content, created_by_id=current_user.id)
-            db.session.add(announcement)
-            db.session.commit()
-            flash(_t('msg_announcement_published', lang=current_user.language), 'success')
-            return redirect(url_for('admin.announcements'))
-        else:
-            flash(_t('msg_empty_announcement', lang=current_user.language), 'danger')
-            
-    return render_template('admin/announcement_edit.html')
-
-@admin.route('/announcements/ai_generate', methods=['POST'])
-def ai_generate_announcement():
-    from flask import jsonify
-    prompt = request.form.get('prompt')
-    if not prompt:
-        flash(_t('msg_empty_outline', lang=current_user.language), 'danger')
-        return redirect(url_for('admin.new_announcement'))
-        
-    try:
-        from app.utils.ai_helpers import generate_text_with_fallback
-        text = generate_text_with_fallback(prompt, system_instruction="你是「雪音」，AI 學習平台的系統管理員助理。請根據使用者提供的綱要，撰寫一篇生動、友善且帶有溫度的全站公告。語氣要活潑專業，可以適度使用 emoji。回傳必須為 JSON 格式：{\"title\": \"公告標題\", \"content\": \"公告內容（請包含對平台學生的問候）\"}。除了 JSON 之外，請勿回傳任何其他多餘的字或 Markdown syntax。").strip()
-        
-        if text.startswith('```json'):
-            text = text[7:]
-        if text.endswith('```'):
-            text = text[:-3]
-            
-        import json
-        data = json.loads(text)
-        
-        return jsonify({
-            'status': 'success',
-            'title': data.get('title', '系統公告'),
-            'content': data.get('content', prompt)
-        })
-        
-    except Exception as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
-
-@admin.route('/announcements/delete/<int:obj_id>', methods=['POST'])
-def delete_announcement(obj_id):
-    announcement = Announcement.query.get_or_404(obj_id)
-    try:
-        db.session.delete(announcement)
-        db.session.commit()
-        flash(_t('msg_announcement_deleted', lang=current_user.language), 'success')
-    except Exception as e:
-        db.session.rollback()
-        flash(_t('msg_delete_failed', lang=current_user.language, error=str(e)), 'danger')
-        
-    return redirect(url_for('admin.announcements'))
