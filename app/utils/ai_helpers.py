@@ -12,9 +12,13 @@ import base64
 from app import db
 from app.models import APIKeyTracker, MemoryFragment, ChatMessage, ChatSession, VectorMemory, VectorGroupMemory
 from flask_login import current_user
-
-# Gemini Safety Settings - Relaxed to avoid over-filtering
-GEMINI_SAFETY_SETTINGS = [
+try:
+    # Use absolute path to ensure .env is found regardless of CWD
+    from dotenv import load_dotenv
+    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), '.env')
+    load_dotenv(env_path)
+except Exception:
+    pass
     {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
     {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
     {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
@@ -143,11 +147,17 @@ def _sync_keys_to_db(provider, keys):
 
 def get_gemini_keys():
     keys_str = os.environ.get('GEMINI_API_KEYS', os.environ.get('GEMINI_API_KEY', ''))
-    return [k.strip() for k in keys_str.split(',') if k.strip()]
+    keys = [k.strip() for k in keys_str.split(',') if k.strip()]
+    if not keys:
+        print("AI Helpers Warning: No GEMINI_API_KEYS found in environment variables.")
+    return keys
 
 def get_groq_keys():
     keys_str = os.environ.get('GROQ_API_KEYS', os.environ.get('GROQ_API_KEY', ''))
-    return [k.strip() for k in keys_str.split(',') if k.strip()]
+    keys = [k.strip() for k in keys_str.split(',') if k.strip()]
+    if not keys:
+        print("AI Helpers Warning: No GROQ_API_KEYS found in environment variables.")
+    return keys
 
 def get_ollama_keys():
     keys_str = os.environ.get('OLLAMA_API_KEYS', os.environ.get('OLLAMA_API_KEY', ''))
@@ -225,13 +235,20 @@ def get_usable_keys(provider, base_keys):
                 if cooldown < now:
                     usable.append(k)
         
+        # --- Safety Net Fallback ---
+        # If DB filtering resulted in empty but we HAVE base_keys, use the first base_key as life-raft
+        if not usable and base_keys:
+            print(f"AI Helpers Critical: DB filtering returned 0 usable {provider} keys. Using first ENV key as life-raft.")
+            # Verify the key is not in a 'permanent block' state manually if it exists in DB
+            first_key = base_keys[0]
+            usable = [first_key]
+            
         random.shuffle(usable)
-        # CRITICAL: Return empty list if all keys exhausted — don't retry exhausted keys
         return usable
-    except Exception:
-        # If DB fails, return empty list to trigger the Antigravity fallback brain
-        # rather than retrying base_keys which may lead to infinite loops.
-        return []
+    except Exception as e:
+        print(f"AI Helpers DB Error in get_usable_keys: {e}")
+        db.session.rollback()
+        return base_keys
 
 
 
@@ -299,6 +316,7 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                         raise Exception(f"HTTP {resp.status_code}")
             except Exception as e:
                 err_str = str(e)
+                print(f"AI Helpers Error [{provider}]: {err_str}") # EXPLICIT TERMINAL LOGGING
                 if '429' in err_str or 'quota' in err_str.lower():
                     clean_err = "API 額度已達上限 (429)"
                 elif 'NameResolutionError' in err_str or 'ConnectionError' in err_str:
