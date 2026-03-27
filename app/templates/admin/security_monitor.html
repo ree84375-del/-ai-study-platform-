@@ -148,6 +148,15 @@
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(121, 218, 200, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(121, 218, 200, 0); }
         }
+        
+        @keyframes fadeInRow {
+            from { opacity: 0; transform: translateY(-10px); background: rgba(121, 218, 200, 0.1); }
+            to { opacity: 1; transform: translateY(0); background: transparent; }
+        }
+
+        .new-row {
+            animation: fadeInRow 0.6s ease-out forwards;
+        }
     </style>
 
     <div class="admin-layout">
@@ -270,6 +279,9 @@
         });
     });
 
+    // Store existing IDs to detect new ones
+    let knownLogIds = new Set();
+    
     async function fetchLogs() {
         try {
             const response = await fetch('{{ url_for("admin.api_security_logs") }}');
@@ -277,37 +289,48 @@
             
             if (data.logs) {
                 const tbody = document.querySelector('#security-table tbody');
-                tbody.innerHTML = '';
+                // Check if we have new logs
+                const firstLogContent = data.logs.length > 0 ? JSON.stringify(data.logs[0]) : '';
+                const currentFirstLog = tbody.firstElementChild ? tbody.firstElementChild.dataset.raw : '';
                 
-                data.logs.forEach(log => {
-                    const tr = document.createElement('tr');
-                    tr.style.borderBottom = '1px solid rgba(0,0,0,0.05)';
-                    tr.dataset.cat = log.category;
+                if (firstLogContent !== currentFirstLog) {
+                    tbody.innerHTML = '';
                     
-                    let categoryHtml = '';
-                    if (log.category === 'user') categoryHtml = `<span style="color: #4facfe; font-size: 0.85rem;"><i class="fa-solid fa-circle-user"></i> 帳號用戶</span>`;
-                    else if (log.category === 'hacker') categoryHtml = `<span style="color: #f43f5e; font-weight: bold; font-size: 0.85rem;"><i class="fa-solid fa-user-secret"></i> 駭客攻擊</span>`;
-                    else if (log.category === 'ai') categoryHtml = `<span style="color: #bb9af7; font-size: 0.85rem;"><i class="fa-solid fa-robot"></i> AI / 爬蟲</span>`;
-                    else if (log.category === 'scanner') categoryHtml = `<span style="color: #94a3b8; font-size: 0.85rem;"><i class="fa-solid fa-bug"></i> 系統偵測器</span>`;
-                    else categoryHtml = `<span style="color: #999; font-size: 0.85rem;"><i class="fa-solid fa-question"></i> 未知來源</span>`;
+                    data.logs.forEach((log, index) => {
+                        const tr = document.createElement('tr');
+                        tr.style.borderBottom = '1px solid rgba(0,0,0,0.05)';
+                        tr.dataset.cat = log.category;
+                        tr.dataset.raw = JSON.stringify(log);
+                        
+                        // Add animation class to new logs (index 0 implies newest if descending)
+                        if (index === 0 && currentFirstLog !== '') {
+                            tr.classList.add('new-row');
+                        }
+                        
+                        let categoryHtml = '';
+                        if (log.category === 'user') categoryHtml = `<span style="color: #4facfe; font-size: 0.85rem;"><i class="fa-solid fa-circle-user"></i> 帳號用戶</span>`;
+                        else if (log.category === 'hacker') categoryHtml = `<span style="color: #f43f5e; font-weight: bold; font-size: 0.85rem;"><i class="fa-solid fa-user-secret"></i> 駭客攻擊</span>`;
+                        else if (log.category === 'ai') categoryHtml = `<span style="color: #bb9af7; font-size: 0.85rem;"><i class="fa-solid fa-robot"></i> AI / 爬蟲</span>`;
+                        else if (log.category === 'scanner') categoryHtml = `<span style="color: #94a3b8; font-size: 0.85rem;"><i class="fa-solid fa-bug"></i> 系統偵測器</span>`;
+                        else categoryHtml = `<span style="color: #999; font-size: 0.85rem;"><i class="fa-solid fa-question"></i> 未知來源</span>`;
 
-                    let statusHtml = '';
-                    if (log.threat_level === 'dangerous') statusHtml = `<span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 4px 8px; border-radius: 6px; font-weight: bold;">已攔截</span>`;
-                    else if (log.threat_level === 'suspicious') statusHtml = `<span style="background: rgba(243, 156, 18, 0.1); color: #f39c12; padding: 4px 8px; border-radius: 6px; font-weight: bold;">監控中</span>`;
-                    else statusHtml = `<span style="background: rgba(39, 174, 96, 0.1); color: #27ae60; padding: 4px 8px; border-radius: 6px;">通過</span>`;
+                        let statusHtml = '';
+                        if (log.threat_level === 'dangerous') statusHtml = `<span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 4px 8px; border-radius: 6px; font-weight: bold;">已攔截</span>`;
+                        else if (log.threat_level === 'suspicious') statusHtml = `<span style="background: rgba(243, 156, 18, 0.1); color: #f39c12; padding: 4px 8px; border-radius: 6px; font-weight: bold;">監控中</span>`;
+                        else statusHtml = `<span style="background: rgba(39, 174, 96, 0.1); color: #27ae60; padding: 4px 8px; border-radius: 6px;">通過</span>`;
 
-                    tr.innerHTML = `
-                        <td style="padding: 12px 15px; font-size: 0.8rem; color: #666;">${log.time}</td>
-                        <td style="padding: 12px 15px; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: var(--color-primary);">${log.ip}</td>
-                        <td style="padding: 12px 15px;">${categoryHtml}</td>
-                        <td style="padding: 12px 15px; font-size: 0.85rem;">${log.user}</td>
-                        <td style="padding: 12px 15px; font-size: 0.8rem; color: #555; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${log.path}">${log.path}</td>
-                        <td style="padding: 12px 15px; font-size: 0.85rem;">${statusHtml}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-                
-                updateFilters();
+                        tr.innerHTML = `
+                            <td style="padding: 12px 15px; font-size: 0.8rem; color: #666;">${log.time}</td>
+                            <td style="padding: 12px 15px; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: var(--color-primary);">${log.ip}</td>
+                            <td style="padding: 12px 15px;">${categoryHtml}</td>
+                            <td style="padding: 12px 15px; font-size: 0.85rem;">${log.user}</td>
+                            <td style="padding: 12px 15px; font-size: 0.8rem; color: #555; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${log.path}">${log.path}</td>
+                            <td style="padding: 12px 15px; font-size: 0.85rem;">${statusHtml}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    updateFilters();
+                }
             }
 
             if (data.stats) {
@@ -316,18 +339,18 @@
                 document.getElementById('stat-ai').innerText = data.stats.active_ai;
             }
 
-            // Blink live indicator
+            // Blink live indicator subtly
             const indicator = document.getElementById('live-indicator');
-            indicator.style.opacity = '0.5';
-            setTimeout(() => indicator.style.opacity = '1', 200);
+            indicator.style.opacity = '0.7';
+            setTimeout(() => indicator.style.opacity = '1', 300);
 
         } catch (error) {
             console.error('Failed to fetch security logs:', error);
         }
     }
 
-    // Auto-refresh every 5 seconds
-    setInterval(fetchLogs, 5000);
+    // Auto-refresh every 2 seconds for high timeliness
+    setInterval(fetchLogs, 2000);
     
     // Initial fetch to get correct stats
     fetchLogs();

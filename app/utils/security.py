@@ -54,12 +54,36 @@ def log_ip_access(ip, user_id=None, path=None, user_agent=None):
     from app import db
     
     try:
-        # Check if it's a known user
+        # 1. Basic Heuristics
+        ua = (user_agent or '').lower()
+        path_lower = (path or '').lower()
         category = 'user' if user_id else 'unknown'
         
-        # Simple UA check for AI bots
-        ua = (user_agent or '').lower()
-        if any(bot in ua for bot in ['bot', 'crawler', 'spider', 'openai', 'gpt', 'bing', 'google', 'slurp']):
+        # 2. Malicious Path Detection (Immediate Hacker categorization)
+        hacker_paths = [
+            '.env', 'wp-admin', 'wp-login', 'config.php', 'setup.php',
+            '.git', '.vscode', '.ssh', 'phpinfo', 'shell', 'cmd.exe',
+            'bin/sh', 'etc/passwd', 'sql', 'backup', 'admin/config'
+        ]
+        if any(p in path_lower for p in hacker_paths):
+            category = 'hacker'
+        
+        # 3. Known Scanners & Automated Tools
+        scanner_uas = [
+            'zgrab', 'masscan', 'nmap', 'zmap', 'nikto', 'burp', 'sqlmap',
+            'nessus', 'openvas', 'python-requests', 'go-http-client',
+            'postman', 'curl', 'wget', 'httpx', 'censys'
+        ]
+        if any(sua in ua for sua in scanner_uas) and category != 'hacker':
+            category = 'scanner'
+
+        # 4. Expanded AI & Search Bot Detection
+        ai_bots = [
+            'bot', 'crawler', 'spider', 'openai', 'gpt', 'bing', 'google', 
+            'slurp', 'duckduckgo', 'yandex', 'baidu', 'facebookexternalhit',
+            'linkedinbot', 'twitterbot', 'ia_archiver', 'claudebot'
+        ]
+        if any(bot in ua for bot in ai_bots) and category not in ['hacker', 'scanner']:
             category = 'ai'
 
         log = IPAccessLog(
