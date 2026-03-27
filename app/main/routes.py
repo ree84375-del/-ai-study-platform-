@@ -188,6 +188,11 @@ def before_request():
                 current_user.username = '管理員'
                 needs_commit = True
             
+            # AI Account Role Enforcement: @internal.ai MUST be 'teacher'
+            if current_user.is_ai_account and current_user.role != 'teacher':
+                current_user.role = 'teacher'
+                needs_commit = True
+            
             if needs_commit:
                 db.session.commit()
         except Exception:
@@ -652,7 +657,17 @@ def draw_omikuji():
                 text = match.group(1)
             else:
                 text = text.replace('```json', '').replace('```', '')
-        data = json.loads(text)
+        try:
+            data = json.loads(text)
+        except (json.JSONDecodeError, TypeError):
+            # Fallback for when AI returns non-JSON (e.g. Antigravity Brain)
+            current_app.logger.warning(f"AI returned non-JSON for omikuji: {text[:100]}...")
+            data = {
+                'lucky_color': '白色 (純潔無暇)',
+                'lucky_item': '念珠 (守護心靈)',
+                'lucky_subject': '全科目 (全面發展)',
+                'advice': text if text and not text.startswith('⚡') else "今日宜靜心研習。即便通訊暫時中斷，心中的智慧依然長存。加油！"
+            }
 
         
         # Store raw JSON data in the message field for frontend localization

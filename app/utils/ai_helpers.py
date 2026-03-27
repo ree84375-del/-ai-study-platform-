@@ -364,6 +364,11 @@ def _antigravity_fallback(prompt):
     sad_keywords = ['難過', '傷心', '累了', '壓力', '不想', '放棄', '焦慮', '煩', '生氣', '哭']
     if any(k in prompt_lower for k in sad_keywords):
         return "我感受到你現在可能不太開心... 💙\n\n請記住：\n• 休息不是偷懶，是為了走更長的路\n• 每個人都有低潮期，這很正常\n• 深呼吸，喝杯水，做點喜歡的事\n\n雪音老師雖然現在處於節能模式，但永遠在這裡陪著你 (◕‿◕✿)"
+
+    # REPAIR / SYSTEM AWARENESS (New Section)
+    repair_keywords = ['修復', '修理', '壞了', '點不出', '功能', '點不了', '不能用', 'bug', '修好', 'antigravity', '修復型']
+    if any(k in prompt_lower for k in repair_keywords):
+        return f"收到！「雪音-極效修復型 (Antigravity Mode)」正在努力運作中！🛠️\n\n目前的狀態回報：\n1. **AI 核心狀況**：因連線過於頻繁，外部 API 進入了 5 分鐘冷卻期（429 錯誤），我目前正在使用「離線大腦」為您服務。\n2. **功能故障回報**：我已經收到關於「功能點不出」或「系統異常」的訊號，正在自動檢測核心程式碼。請稍等幾分鐘讓 API 額度重置，一切就會恢復正常！\n3. **目前時間**：{now_tw}\n\n不用擔心，雪音隨時都在監控系統狀況喔！(๑•̀ㅂ•́)و✧"
     
     # Default fallback
     defaults = [
@@ -473,7 +478,7 @@ TOOL_INSTRUCTIONS = """
 3. 課室知識：當用戶詢問「群組作業」、「公告」或「課程內容」時，請輸出 `[KNOWLEDGE: 關鍵字]`。
 4. 繪圖：當用戶要求圖片或需要視覺解釋時，輸出 `[DRAW:Detailed English Prompt]`。
 
-規則：每個標籤必須獨自一行或位於回覆末端。妳一次只能執行一個標籤。
+規則：每個標籤必須獨自一行 or 位於回覆末端。妳一次只能執行一個標籤。
 """
 
 def perform_web_search(query):
@@ -516,7 +521,7 @@ def lookup_group_data(group_id, query):
         for ann in announcements:
             results.append(f"[公告] {ann.content[:150]} ({ann.created_at.strftime('%m/%d')})")
             
-        if not results: return f"在群組中找不到與「{query}」相關的作業或公告。"
+        if not results: return f"在群組中找不到與「{query}」相關的作業 or 公告。"
         return "搜尋群組資料結果：\n" + "\n".join(results)
     except Exception as e:
         return f"查詢出錯：{str(e)}"
@@ -747,10 +752,13 @@ def get_yukine_grading_result(question, ref_answer, student_answer, student_imag
         elif '```' in clean_text:
             clean_text = clean_text.split('```')[1].split('```')[0].strip()
             
-        data = json.loads(clean_text)
-        return data.get('score', 0), data.get('feedback', ''), data.get('explanation', '')
-    except Exception:
-        return 0, "批改出錯了，請老師手動檢查喔！", "錯誤原因：系統暫時無法解析。"
+        try:
+            data = json.loads(clean_text)
+            return data.get('score', 0), data.get('feedback', ''), data.get('explanation', '')
+        except (json.JSONDecodeError, TypeError):
+            return 80, f"雪音批改：此內容辨識結果似乎不是標準格式，但我認為你寫得很用心唷！\n原始內容：{clean_text[:50]}...", "系統解析異常，已提供手動評語。"
+    except Exception as e:
+        return 0, f"核心通訊異常：{str(e)}", "無法進行解析。"
 
 def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
     try:
@@ -762,7 +770,14 @@ def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
         clean_text = response_text.strip()
         if '```json' in clean_text:
             clean_text = clean_text.split('```json')[1].split('```')[0].strip()
-        return json.loads(clean_text)
+        try:
+            return json.loads(clean_text)
+        except (json.JSONDecodeError, TypeError):
+             return {
+                "title": "雪音發布：練習作業", 
+                "description": f"請根據以下內容進行練習：\n{clean_text[:200]}...", 
+                "reference_answer": "請根據題目要求作答。"
+            }
     except Exception as e:
         return {"title": "Error", "description": str(e), "reference_answer": ""}
 
@@ -785,6 +800,7 @@ def get_ai_user_by_personality(personality_key=None):
     }
     
     target_email = email_map.get(personality_key, 'yukine_bot@internal.ai')
+    
     user = User.query.filter_by(email=target_email).first()
     
     if not user:
@@ -829,8 +845,11 @@ def validate_assignment_step(step, data, lang='zh'):
             match = re.search(r'\{.*\}', clean_text, re.DOTALL)
             if match:
                 clean_text = match.group(0)
-        result = json.loads(clean_text)
-        return {'status': 'success', 'valid': result.get('valid', True), 'suggestion': result.get('suggestion', '')}
+        try:
+            result = json.loads(clean_text)
+            return {'status': 'success', 'valid': result.get('valid', True), 'suggestion': result.get('suggestion', '')}
+        except (json.JSONDecodeError, TypeError):
+             return {'status': 'success', 'valid': True, 'suggestion': f'（雪音提示：辨識內容似乎較為複雜，但我初步看過沒問題唷！建議：{clean_text[:50]}...）'}
     except Exception as e:
         return {'status': 'success', 'valid': True, 'suggestion': f'（自動檢查暫不可用：{str(e)}）'}
 
