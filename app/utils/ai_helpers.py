@@ -320,7 +320,9 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
                 err_str = str(e)
                 # print(f"AI Helpers Error [{provider}]: {err_str}") # OLD TERMINAL LOGGING
                 try:
-                    with open('/tmp/ai_debug.log', 'a', encoding='utf-8') as f:
+                    # Use project-root for guaranteed findability
+                    log_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'ai_debug.log')
+                    with open(log_file, 'a', encoding='utf-8') as f:
                         f.write(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Provider: {provider} | Key: {key[:6]}... | Error: {err_str}\n")
                 except:
                     pass
@@ -342,65 +344,14 @@ def generate_text_with_fallback(prompt, system_instruction=None, user=None):
 
 
 def _antigravity_fallback(prompt):
-    """Built-in Antigravity Brain — provides responses when all API keys are exhausted."""
-    prompt_lower = prompt.lower()
-    now_tw = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime('%Y-%m-%d %H:%M')
-    
-    # Greeting patterns
-    greetings = ['你好', '哈囉', '嗨', 'hi', 'hello', '早安', '午安', '晚安', '安安', '嘿']
-    if any(g in prompt_lower for g in greetings):
-        responses = [
-            f"你好呀！我是雪音老師 ✨ 今天有什麼想學的嗎？",
-            f"嗨嗨～歡迎回來！(◕‿◕✿) 我隨時準備好幫你了！",
-            f"你好～很高興見到你！雖然我現在的大腦在節能模式，但基本的問候還是沒問題的！",
-        ]
-        return random.choice(responses)
-    
-    # Math/calculation requests
-    calc_keywords = ['算', '計算', '多少', '等於', '+', '-', '*', '/', '加', '減', '乘', '除', '平方', 'sqrt']
-    if any(k in prompt_lower for k in calc_keywords):
-        # Try to extract and compute
-        import re
-        calc_match = re.search(r'[\d\+\-\*\/\(\)\^\. ]+', prompt)
-        if calc_match:
-            expr = calc_match.group(0).strip()
-            try:
-                result = execute_python_calc(expr)
-                return f"讓我來算算... 📐\n\n**{expr} = {result}**\n\n（這是 Antigravity 離線計算引擎的結果哦！）"
-            except:
-                pass
-        return "我正在節能模式，無法進行複雜計算。不過你可以試試把算式直接告訴我，例如：『算 123 + 456』，我會盡力處理！"
-    
-    # Time/date questions
-    time_keywords = ['幾點', '日期', '什麼時候']
-    if any(k in prompt_lower for k in time_keywords):
-        return f"現在是台灣時間 **{now_tw}** 📅\n\n（Antigravity 系統時鐘回報）"
-    
-    # Study/learning questions
-    study_keywords = ['怎麼讀', '學習', '考試', '複習', '功課', '作業', '念書']
-    if any(k in prompt_lower for k in study_keywords):
-        tips = [
-            "📚 **雪音的學習建議（離線版）**\n\n1. 使用番茄鐘法：25分鐘專注 + 5分鐘休息\n2. 主動回想比被動閱讀更有效\n3. 睡前複習當天內容，記憶效果最好\n4. 不要一次念太久，分段學習更有效率！\n\n等 AI 核心恢復後，我可以為你制定更詳細的學習計畫哦～",
-            "📖 **學習小秘訣**\n\n• 先理解概念，再做題目\n• 錯題要記錄下來反覆練習\n• 找同學互相測驗效果更好\n• 保持充足睡眠，大腦才能好好記憶！\n\n雪音老師的 AI 引擎暫時在充電中，恢復後會更用心幫你的！",
-        ]
-        return random.choice(tips)
-    
-    # Emotional support
-    sad_keywords = ['難過', '傷心', '累了', '壓力', '不想', '放棄', '焦慮', '煩', '生氣', '哭']
-    if any(k in prompt_lower for k in sad_keywords):
-        return "我感受到你現在可能不太開心... 💙\n\n請記住：\n• 休息不是偷懶，是為了走更長的路\n• 每個人都有低潮期，這很正常\n• 深呼吸，喝杯水，做點喜歡的事\n\n雪音老師雖然現在處於節能模式，但永遠在這裡陪著你 (◕‿◕✿)"
-
-    # REPAIR / SYSTEM AWARENESS (New Section)
-    repair_keywords = ['修復', '修理', '壞了', '點不出', '功能', '點不了', '不能用', 'bug', '修好', 'antigravity', '修復型']
-    if any(k in prompt_lower for k in repair_keywords):
-        return f"收到！「雪音-極效修復型 (Antigravity Mode)」正在努力運作中！🛠️\n\n目前的狀態回報：\n1. **AI 核心狀況**：因連線過於頻繁，外部 API 暫時進入冷卻期（429 錯誤），我目前正在使用「離線大腦」為您服務。\n2. **功能故障回報**：我已經收到關於「功能點不出」或「系統異常」的訊號，正在自動檢測核心程式碼。請稍等幾分鐘讓 API 額度重置，一切就會恢復正常！\n\n不用擔心，雪音隨時都在監控系統狀況喔！(๑•̀ㅂ•́)و✧"
-    
-    # Default fallback
+    """Built-in Antigravity Brain — Minimalist fallback to prevent annoying random answers."""
     defaults = [
-        f"⚡ **Antigravity 離線模式啟動**\n\n雪音老師的 AI 核心正在冷卻中（API 額度暫時用完了），但我的基礎系統仍然運作中！\n\n我目前可以幫你：\n• 💬 基本對話和問候\n• 📐 簡單數學計算\n• 📅 查看時間日期\n• 📚 提供學習建議\n• 💙 情緒支持\n\n完整的 AI 功能將在額度恢復後自動回來，請稍等一下哦～",
-        f"嗨！雪音老師的外部 AI 引擎正在休息中，但 Antigravity 離線大腦還在喔！🧠\n\n你有什麼簡單的問題我可以幫忙嗎？\n\n（提示：等 API 額度恢復後我就會恢復全力運作！）",
+        "⚡ **Antigravity 系統備援模式**\n\n雪音老師的 AI 核心暫時斷開連線（外部 API 額度用罄或連線逾時）。\n目前正處於「精簡回答模式」，請稍等幾分鐘讓 API 額度恢復，一切就會正常囉！(◕‿◕✿)",
+        "嗨！雪音老師的外部 AI 引擎正在休息中，但我（Antigravity 離線核心）還在這裡守著喔！🧠\n\n（提示：偵測到 API 額度受限，核心功能將在幾分鐘後自動恢復！）",
     ]
     return random.choice(defaults)
+    # Unreachable code removed to simplify fallback responses.
+    pass
 
 def generate_vision_with_fallback(prompt, image_bytes, system_instruction=None, user=None):
     providers = ['gemini', 'groq', 'ollama']
