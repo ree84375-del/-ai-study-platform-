@@ -224,8 +224,29 @@ def heartbeat():
 @main.route("/home")
 def home():
     from app.models import Announcement, Omikuji, Ema, Daruma, Mistake
-    # Fetch latest 5 active announcements
-    announcements = Announcement.query.filter_by(is_revoked=False).order_by(Announcement.created_at.desc()).limit(5).all()
+    from sqlalchemy import text
+    from sqlalchemy.exc import ProgrammingError
+    # Fetch latest 5 active announcements (with migration fallback)
+    try:
+        announcements = Announcement.query.filter_by(is_revoked=False).order_by(Announcement.created_at.desc()).limit(5).all()
+    except (ProgrammingError, Exception) as e:
+        db.session.rollback()
+        # Auto-apply the missing columns
+        for stmt in [
+            "ALTER TABLE announcement ADD COLUMN IF NOT EXISTS is_revoked BOOLEAN DEFAULT FALSE",
+            "ALTER TABLE announcement ADD COLUMN IF NOT EXISTS revoked_at TIMESTAMP",
+        ]:
+            try:
+                db.session.execute(text(stmt))
+                db.session.commit()
+            except:
+                db.session.rollback()
+        # Retry with the new columns
+        try:
+            announcements = Announcement.query.filter_by(is_revoked=False).order_by(Announcement.created_at.desc()).limit(5).all()
+        except:
+            db.session.rollback()
+            announcements = Announcement.query.order_by(Announcement.created_at.desc()).limit(5).all()
     
     # Check Japanese Features if user is logged in
     today_omikuji = None
