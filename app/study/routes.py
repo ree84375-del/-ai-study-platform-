@@ -432,6 +432,7 @@ def tutor_chat():
         import traceback
         traceback.print_exc()
         db.session.rollback()
+        # Flask return ensures only one response per request. Double response likely browser-side retry.
         return jsonify({'reply': _t('msg_ai_offline', current_user.language).format(error=str(e)), 'error': str(e)}), 200
 
 @study.route("/api/chat/sessions")

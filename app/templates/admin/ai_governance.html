@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header Section -->
+    <div class="text-center mb-5 animate__animated animate__fadeInDown">
+        <h1 class="display-4 fw-bold text-gradient mb-3">AI 治理與最佳實踐指南</h1>
+        <p class="lead text-muted">確保 Antigravity 平台穩定、合規且高效運作的終極準則</p>
+        <div class="h-divider mx-auto" style="width: 100px; height: 4px; background: var(--accent-gradient); border-radius: 2px;"></div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Section 1: Capability & Collaboration -->
+        <div class="col-md-6 animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;">
+            <div class="card h-100 border-0 shadow-lg hover-up glass-card">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-box bg-primary-soft me-3">
+                            <i class="fas fa-brain text-primary fs-4"></i>
+                        </div>
+                        <h3 class="h4 mb-0 fw-bold">1. 能力協作 (Capability)</h3>
+                    </div>
+                    <ul class="list-unstyled custom-list">
+                        <li>
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Skills (技能)</strong>: 利用 Skill Creator 建立專屬技能（如 SEO 檢查、資料庫 CRUD）。避免盲目猜測。
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>MCP (模型上下文協議)</strong>: 透過 MCP Server 串接資料庫或知識庫，減少幻覺，提高即時性。
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>檔案引用</strong>: 在對話時使用 <code>@檔案名</code> 明確指出相關代碼。
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Planning Mode</strong>: 複雜任務必須先產生「實作計畫」，經審核後再動工，提升效率並降低錯誤率。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Environment & Stability -->
+        <div class="col-md-6 animate__animated animate__fadeInRight" style="animation-delay: 0.2s;">
+            <div class="card h-100 border-0 shadow-lg hover-up glass-card">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-box bg-info-soft me-3">
+                            <i class="fas fa-server text-info fs-4"></i>
+                        </div>
+                        <h3 class="h4 mb-0 fw-bold">2. 環境與穩定性 (Stability)</h3>
+                    </div>
+                    <ul class="list-unstyled custom-list">
+                        <li>
+                            <i class="fas fa-microchip text-info me-2"></i>
+                            <strong>環境配置</strong>: 定期檢查 Windows 路徑問題（HOME 變數）與終端機盲點。
+                        </li>
+                        <li>
+                            <i class="fas fa-tachometer-alt text-warning me-2"></i>
+                            <strong>配額管理 (Quota)</strong>: 若回應變慢或品質下降，應檢查是否觸發限額。視情況切換模型（如 Gemini -> Claude）。
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt text-danger me-2"></i>
+                            <strong>防濫用機制</strong>: 控制 API 調用頻率，避免產生大量 429/503 錯誤而被系統標記。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Security & Compliance -->
+        <div class="col-md-6 animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;">
+            <div class="card h-100 border-0 shadow-lg hover-up glass-card">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-box bg-danger-soft me-3">
+                            <i class="fas fa-lock text-danger fs-4"></i>
+                        </div>
+                        <h3 class="h4 mb-0 fw-bold">3. 安全性與合規性 (Compliance)</h3>
+                    </div>
+                    <ul class="list-unstyled custom-list">
+                        <li>
+                            <i class="fas fa-ban text-danger me-2"></i>
+                            <strong>拒絕包殼工具</strong>: 嚴禁使用 OpenClaw / OpenCode 等第三方插件，避免違反 ToS。
+                        </li>
+                        <li>
+                            <i class="fas fa-key text-primary me-2"></i>
+                            <strong>憑證安全</strong>: 不共用 OAuth Token。
+                        </li>
+                        <li>
+                            <i class="fas fa-user-shield text-info me-2"></i>
+                            <strong>人工審核</strong>: 將 Terminal/JS Execution 改為 "Request Review"。完全自動化執行易被標記為異常。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Behavior & Privacy -->
+        <div class="col-md-6 animate__animated animate__fadeInRight" style="animation-delay: 0.4s;">
+            <div class="card h-100 border-0 shadow-lg hover-up glass-card">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-box bg-success-soft me-3">
+                            <i class="fas fa-heart text-success fs-4"></i>
+                        </div>
+                        <h3 class="h4 mb-0 fw-bold">4. 行為準則 (Ethics)</h3>
+                    </div>
+                    <ul class="list-unstyled custom-list">
+                        <li>
+                            <i class="fas fa-user-secret text-secondary me-2"></i>
+                            <strong>隱私保護</strong>: 不讓 Agent 存取與專案無關的個人敏感資料。建議環境隔離。
+                        </li>
+                        <li>
+                            <i class="fas fa-gavel text-warning me-2"></i>
+                            <strong>合規內容</strong>: 嚴禁生成詐騙、釣魚、惡意軟體或侵權內容。
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="mt-5 text-center animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+        <div class="alert alert-info border-0 shadow-sm d-inline-block px-5">
+            <i class="fas fa-info-circle me-2"></i>
+            本指南應作為平台 AI 維護的最高準則。若有修補或更新，請對 Agent 下達同步指令。
+        </div>
+
+        <!-- New Section: Key Management & Sync -->
+        <div class="row mt-4 text-start">
+            <div class="col-12">
+                <div class="card border-0 shadow-lg glass-card p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="icon-box bg-primary-soft me-3">
+                            <i class="fas fa-key text-primary fs-4"></i>
+                        </div>
+                        <h3 class="h4 mb-0 fw-bold">系統關鍵金鑰同步 (Key Sync)</h3>
+                    </div>
+                    
+                    <p class="text-muted mb-4">若 Production 環境出現「備援模式」，請在此手動同步金鑰以恢復 AI 核心功能。</p>
+                    
+                    <form action="{{ url_for('admin.sync_ai_keys') }}" method="POST" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Gemini API Keys (以逗號分隔)</label>
+                            <textarea name="gemini_keys" class="form-control" rows="3" placeholder="AIzaSy... , AIzaSy..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Groq API Keys (以逗號分隔)</label>
+                            <textarea name="groq_keys" class="form-control" rows="3" placeholder="gsk_..."></textarea>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-primary px-5 rounded-pill shadow-sm">
+                                <i class="fas fa-sync-alt me-2"></i>立即強制同步至資料庫
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4">
+
+                    <h5 class="fw-bold mb-3">當前資料庫金鑰狀態 ({{ keys|length }})</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Provider</th>
+                                    <th>Key Prefix</th>
+                                    <th>Status</th>
+                                    <th>Last Success</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for k in keys %}
+                                <tr>
+                                    <td>{{ k.provider }}</td>
+                                    <td><code>{{ k.api_key[:10] }}...</code></td>
+                                    <td>
+                                        <span class="badge rounded-pill {% if k.status == 'ready' or k.status == 'standby' %}bg-success{% elif k.status == 'busy' %}bg-warning{% else %}bg-danger{% endif %} text-white">
+                                            {{ k.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ k.last_success.strftime('%m/%d %H:%M') if k.last_success else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-primary rounded-pill px-4 me-2">
+                <i class="fas fa-arrow-left me-2"></i>返回儀表板
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        --primary-soft: rgba(99, 102, 241, 0.1);
+        --info-soft: rgba(6, 182, 212, 0.1);
+        --danger-soft: rgba(239, 68, 68, 0.1);
+        --success-soft: rgba(34, 197, 94, 0.1);
+    }
+
+    .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .hover-up:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 1rem 3rem rgba(0,0,0,0.1) !important;
+    }
+
+    .icon-box {
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+    }
+
+    .text-gradient {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .custom-list li {
+        margin-bottom: 1.25rem;
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+</style>
+{% endblock %}

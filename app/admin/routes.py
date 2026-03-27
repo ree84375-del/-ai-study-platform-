@@ -155,6 +155,38 @@ def security_monitor():
                             timedelta=timedelta,
                             current_time=datetime.now())
 
+@admin.route('/ai_governance')
+@login_required
+def ai_governance():
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    from app.models import APIKeyTracker
+    keys = APIKeyTracker.query.all()
+    return render_template('admin/ai_governance.html', 
+                             title="AI 治理與最佳實踐指南", 
+                             keys=keys)
+
+@admin.route('/sync_ai_keys', methods=['POST'])
+@login_required
+def sync_ai_keys():
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+    
+    gemini_keys = request.form.get('gemini_keys', '')
+    groq_keys = request.form.get('groq_keys', '')
+    
+    from app.utils.ai_helpers import _sync_keys_to_db
+    g_list = [k.strip() for k in gemini_keys.split(',') if k.strip()]
+    gr_list = [k.strip() for k in groq_keys.split(',') if k.strip()]
+    
+    if g_list:
+        _sync_keys_to_db('gemini', g_list)
+    if gr_list:
+        _sync_keys_to_db('groq', gr_list)
+        
+    return redirect(url_for('admin.ai_governance'))
+
 @admin.route('/api/security_logs')
 @login_required
 def api_security_logs():
