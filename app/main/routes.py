@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify, flash, redirect,
 from flask_login import login_required, current_user
 from datetime import datetime, timezone, timedelta
 from app.utils.i18n import get_text as _t, TRANSLATIONS
+from app import db
 import re
 
 main = Blueprint('main', __name__)
