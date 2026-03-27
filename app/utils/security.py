@@ -75,6 +75,31 @@ def log_ip_access(ip, user_id=None, path=None, user_agent=None):
     except Exception as e:
         try: db.session.rollback()
         except: pass
+        
+        # Self-healing attempt: if its a missing column/table error
+        err_msg = str(e).lower()
+        if 'category' in err_msg or 'ip_access_log' in err_msg:
+            try:
+                from sqlalchemy import text
+                # 1. Create table if missing
+                db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_access_log (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, user_id INTEGER REFERENCES \"user\"(id), user_agent VARCHAR(255), path VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, threat_level VARCHAR(20) DEFAULT 'safe', threat_reason TEXT, category VARCHAR(20) DEFAULT 'unknown')"))
+                # 2. Add category column if missing
+                try:
+                    db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
+                except:
+                    try: db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN category VARCHAR(20) DEFAULT 'unknown'"))
+                    except: pass
+                db.session.commit()
+                # 3. Retry the log once
+                try:
+                    log = IPAccessLog(ip=ip, user_id=user_id, path=path, user_agent=user_agent, category=category or 'unknown')
+                    db.session.add(log)
+                    db.session.commit()
+                    return log
+                except: pass
+            except Exception as inner_e:
+                print(f"log_ip_access self-healing fail: {str(inner_e)}")
+        
         print(f"log_ip_access fail: {str(e)}")
         return None
 

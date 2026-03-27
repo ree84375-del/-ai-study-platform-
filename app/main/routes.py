@@ -54,7 +54,7 @@ def before_request():
     try:
         ban = is_ip_banned(client_ip)
         # Verify all essential tables/columns (Repair Trigger)
-        db.session.execute(text("SELECT id FROM ip_access_log LIMIT 1")).first()
+        db.session.execute(text("SELECT category FROM ip_access_log LIMIT 1")).first()
         db.session.execute(text("SELECT last_ip FROM \"user\" LIMIT 1")).first()
     except (ProgrammingError, OperationalError):
         # Immediate rollback to clear the failed transaction state
@@ -67,8 +67,16 @@ def before_request():
             db.session.execute(text("CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)"))
             
             # 2. Access Log Table
-            db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_access_log (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, user_id INTEGER REFERENCES \"user\"(id), user_agent VARCHAR(255), path VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, threat_level VARCHAR(20) DEFAULT 'safe', threat_reason TEXT)"))
+            db.session.execute(text("CREATE TABLE IF NOT EXISTS ip_access_log (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, user_id INTEGER REFERENCES \"user\"(id), user_agent VARCHAR(255), path VARCHAR(255), timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP, threat_level VARCHAR(20) DEFAULT 'safe', threat_reason TEXT, category VARCHAR(20) DEFAULT 'unknown')"))
             db.session.execute(text("CREATE INDEX IF NOT EXISTS ix_ip_access_log_ip ON ip_access_log (ip)"))
+            
+            # 2a. Column Self-healing for existing table
+            try:
+                db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN IF NOT EXISTS category VARCHAR(20) DEFAULT 'unknown'"))
+            except:
+                # Fallback for SQLite which doesn't support IF NOT EXISTS in ALTER
+                try: db.session.execute(text("ALTER TABLE ip_access_log ADD COLUMN category VARCHAR(20) DEFAULT 'unknown'"))
+                except: pass
             
             # 2. User Table Columns (Emergency Migration)
             db.session.execute(text("ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_ip VARCHAR(45)"))
