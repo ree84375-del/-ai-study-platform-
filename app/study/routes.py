@@ -360,7 +360,7 @@ def tutor_chat():
             if cmd == '/status':
                 from app.models import User, APIKeyTracker
                 total_users = User.query.count()
-                active_keys = APIKeyTracker.query.filter_by(is_active=True).count()
+                active_keys = APIKeyTracker.query.filter_by(is_blocked=False).count()
                 total_keys = APIKeyTracker.query.count()
                 import datetime
                 now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -382,7 +382,7 @@ def tutor_chat():
                     return jsonify({'status': 'success', 'reply': f'📢 **公告已發布！**\n\n內容：{msg_content}'})
             if cmd == '/clearkeys':
                 from app.models import APIKeyTracker
-                bad = APIKeyTracker.query.filter(APIKeyTracker.is_active == False).all()
+                bad = APIKeyTracker.query.filter(APIKeyTracker.is_blocked == True).all()
                 count = len(bad)
                 for k in bad:
                     db.session.delete(k)
