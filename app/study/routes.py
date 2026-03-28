@@ -20,101 +20,313 @@ def get_current_room_name():
     else:
         return "room_night"
 
+
+PRACTICE_SUBJECTS = [
+    {'slug': 'all', 'label': '\u5168\u90e8', 'icon': 'fa-globe', 'aliases': ['all', '\u5168\u90e8']},
+    {'slug': 'chinese', 'label': '\u570b\u6587', 'icon': 'fa-book-open', 'aliases': ['\u570b\u6587', '\u4e2d\u6587', 'Chinese', 'subject_chinese', 'subject_chinese_short']},
+    {'slug': 'english', 'label': '\u82f1\u6587', 'icon': 'fa-language', 'aliases': ['\u82f1\u6587', 'English', 'subject_english', 'subject_english_short']},
+    {'slug': 'math', 'label': '\u6578\u5b78', 'icon': 'fa-calculator', 'aliases': ['\u6578\u5b78', 'Math', 'subject_math', 'subject_math_short']},
+    {'slug': 'social', 'label': '\u793e\u6703', 'icon': 'fa-users', 'aliases': ['\u793e\u6703', 'Social']},
+    {'slug': 'geography', 'label': '\u5730\u7406', 'icon': 'fa-map-location-dot', 'aliases': ['\u5730\u7406', 'Geography']},
+    {'slug': 'history', 'label': '\u6b77\u53f2', 'icon': 'fa-landmark', 'aliases': ['\u6b77\u53f2', 'History']},
+    {'slug': 'civics', 'label': '\u516c\u6c11', 'icon': 'fa-scale-balanced', 'aliases': ['\u516c\u6c11', 'Civics']},
+    {'slug': 'science', 'label': '\u81ea\u7136', 'icon': 'fa-leaf', 'aliases': ['\u81ea\u7136', 'Science', 'Sciences']},
+    {'slug': 'physics', 'label': '\u7269\u7406', 'icon': 'fa-atom', 'aliases': ['\u7269\u7406', 'Physics']},
+    {'slug': 'chemistry', 'label': '\u5316\u5b78', 'icon': 'fa-flask', 'aliases': ['\u5316\u5b78', 'Chemistry']},
+    {'slug': 'integrated_science', 'label': '\u7406\u5316', 'icon': 'fa-magnet', 'aliases': ['\u7406\u5316']},
+    {'slug': 'earth_science', 'label': '\u5730\u79d1', 'icon': 'fa-earth-asia', 'aliases': ['\u5730\u79d1', 'Earth Science']},
+    {'slug': 'japanese', 'label': '\u65e5\u6587', 'icon': 'fa-torii-gate', 'aliases': ['\u65e5\u6587', 'Japanese']},
+]
+
+
+def normalize_subject_key(value):
+    return ''.join(str(value or '').strip().lower().split())
+
+
+def _build_subject_lookup():
+    translated_alias_keys = {
+        'all': ['subject_all'],
+        'chinese': ['subject_chinese', 'subject_chinese_short'],
+        'english': ['subject_english', 'subject_english_short'],
+        'math': ['subject_math', 'subject_math_short'],
+    }
+    lookup = {}
+    for definition in PRACTICE_SUBJECTS:
+        aliases = set(definition.get('aliases', []))
+        aliases.add(definition['slug'])
+        aliases.add(definition['label'])
+        for translation_key in translated_alias_keys.get(definition['slug'], []):
+            aliases.add(_t(translation_key, 'zh'))
+            aliases.add(_t(translation_key, 'en'))
+        for alias in aliases:
+            normalized = normalize_subject_key(alias)
+            if normalized:
+                lookup[normalized] = definition
+    return lookup
+
+
+SUBJECT_LOOKUP = _build_subject_lookup()
+
+
+def resolve_subject_definition(subject_value):
+    normalized = normalize_subject_key(subject_value)
+    if not normalized:
+        return None
+    return SUBJECT_LOOKUP.get(normalized)
+
+
+def build_subject_catalog():
+    from app.models import Question
+
+    questions = Question.query.all()
+    counts = {definition['slug']: 0 for definition in PRACTICE_SUBJECTS if definition['slug'] != 'all'}
+    extras = {}
+
+    for question in questions:
+        subject_label = (question.subject or '').strip()
+        definition = resolve_subject_definition(subject_label)
+        if definition and definition['slug'] != 'all':
+            counts[definition['slug']] += 1
+        elif subject_label:
+            extras[subject_label] = extras.get(subject_label, 0) + 1
+
+    catalog = []
+    total_count = len(questions)
+    for definition in PRACTICE_SUBJECTS:
+        count = total_count if definition['slug'] == 'all' else counts.get(definition['slug'], 0)
+        catalog.append({
+            **definition,
+            'count': count,
+            'available': count > 0,
+            'is_custom': False,
+            'query_value': definition['slug'],
+        })
+
+    for label, count in sorted(extras.items(), key=lambda item: item[0]):
+        catalog.append({
+            'slug': normalize_subject_key(label) or label,
+            'label': label,
+            'icon': 'fa-book',
+            'aliases': [label],
+            'count': count,
+            'available': count > 0,
+            'is_custom': True,
+            'query_value': label,
+        })
+
+    return catalog
+
+
+def build_practice_question_query(subject_value=None):
+    from app.models import Question
+
+    definition = resolve_subject_definition(subject_value)
+    query = Question.query
+
+    if definition and definition['slug'] != 'all':
+        aliases = sorted({definition['label'], *definition.get('aliases', [])})
+        query = query.filter(Question.subject.in_(aliases))
+        return definition, query
+
+    if subject_value and normalize_subject_key(subject_value) != 'all':
+        fallback_definition = {
+            'slug': normalize_subject_key(subject_value) or 'custom',
+            'label': subject_value,
+            'icon': 'fa-book',
+            'aliases': [subject_value],
+            'is_custom': True,
+        }
+        query = query.filter(Question.subject == subject_value)
+        return fallback_definition, query
+
+    return resolve_subject_definition('all'), query
+
+
+def get_question_option_text(question, answer_key):
+    options = {
+        'A': question.option_a,
+        'B': question.option_b,
+        'C': question.option_c,
+        'D': question.option_d,
+    }
+    return options.get((answer_key or '').strip().upper(), '')
+
+
+def apply_attempt_outcome(question, user_answer):
+    from app import db
+    from app.models import Mistake
+
+    now = datetime.now(timezone.utc)
+    answer_key = (user_answer or '').strip().upper()
+    is_correct = answer_key == question.correct_answer
+    mistake = Mistake.query.filter_by(user_id=current_user.id, question_id=question.id).first()
+    resolved_now = False
+
+    if is_correct:
+        if mistake:
+            current_level = mistake.srs_level or 0
+            mistake.last_attempt_date = now
+            mistake.srs_level = min(current_level + 1, 7)
+            intervals = [0, 1, 2, 4, 7, 14, 30, 60]
+            mistake.last_interval = intervals[mistake.srs_level]
+            mistake.next_review_date = now + timedelta(days=mistake.last_interval)
+            if mistake.srs_level >= 4 and not mistake.is_resolved:
+                resolved_now = True
+            if mistake.srs_level >= 4:
+                mistake.is_resolved = True
+    else:
+        if mistake:
+            mistake.mistake_count = (mistake.mistake_count or 0) + 1
+            mistake.srs_level = max((mistake.srs_level or 0) - 1, 0)
+            mistake.is_resolved = False
+            mistake.last_attempt_date = now
+        else:
+            mistake = Mistake(user_id=current_user.id, question_id=question.id, last_attempt_date=now)
+            db.session.add(mistake)
+
+        mistake.next_review_date = now + timedelta(hours=1)
+
+    return {
+        'correct': is_correct,
+        'mistake': mistake,
+        'resolved_now': resolved_now,
+        'answer_key': answer_key,
+    }
+
+
+def reward_correct_progress(correct_count=0, resolved_count=0):
+    if correct_count <= 0 and resolved_count <= 0:
+        return
+
+    from app import db
+    from app.models import GroupMember
+    from app.utils.garden_helpers import add_garden_xp
+
+    if correct_count > 0:
+        add_garden_xp(5 * correct_count)
+    if resolved_count > 0:
+        add_garden_xp(20 * resolved_count)
+
+    if correct_count <= 0:
+        return
+
+    try:
+        memberships = GroupMember.query.filter_by(user_id=current_user.id).all()
+        for membership in memberships:
+            group = membership.group_info
+            group.garden_exp += 10 * correct_count
+            next_level_exp = group.garden_level * 1000
+            while group.garden_exp >= next_level_exp:
+                group.garden_level += 1
+                next_level_exp = group.garden_level * 1000
+        db.session.commit()
+    except Exception:
+        db.session.rollback()
+
+
+def build_exam_feedback(score_percent, wrong_results):
+    if score_percent >= 90:
+        headline = "\u9019\u6b21\u72c0\u614b\u5f88\u597d\uff0c\u5e7e\u4e4e\u90fd\u638c\u63e1\u4f4f\u4e86\u3002"
+    elif score_percent >= 70:
+        headline = "\u6574\u9ad4\u4e0d\u932f\uff0c\u5269\u4e0b\u5e7e\u984c\u518d\u88dc\u5f37\u5c31\u6703\u66f4\u7a69\u3002"
+    elif score_percent >= 50:
+        headline = "\u57fa\u790e\u6709\u8d77\u4f86\uff0c\u4f46\u9084\u6709\u5e7e\u500b\u89c0\u5ff5\u8981\u518d\u91d0\u6e05\u3002"
+    else:
+        headline = "\u9019\u4efd\u6a21\u8003\u6709\u6293\u5230\u5e7e\u500b\u95dc\u9375\u5f31\u9ede\uff0c\u73fe\u5728\u88dc\u8d77\u4f86\u6700\u6709\u6548\u3002"
+
+    if not wrong_results:
+        return headline + " \u63a5\u4e0b\u4f86\u7dad\u6301\u7bc0\u594f\uff0c\u518d\u5237\u4e00\u8f2a\u5c31\u5f88\u597d\u3002"
+
+    weak_subjects = []
+    for result in wrong_results:
+        subject = result.get('subject')
+        if subject and subject not in weak_subjects:
+            weak_subjects.append(subject)
+
+    if weak_subjects:
+        return headline + f" \u5efa\u8b70\u512a\u5148\u56de\u982d\u8907\u7fd2\uff1a{'\u3001'.join(weak_subjects[:3])}\u3002"
+    return headline + " \u5efa\u8b70\u5148\u628a\u932f\u984c\u8a73\u89e3\u770b\u5b8c\uff0c\u518d\u91cd\u65b0\u5237\u4e00\u6b21\u3002"
+
 @study.route("/practice")
 @login_required
 def practice_hub():
-    from app import db
-    from app.models import Question
-    from sqlalchemy import func
-    
-    counts = db.session.query(Question.subject, func.count(Question.id)).group_by(Question.subject).all()
-    count_dict = {subj: cnt for subj, cnt in counts}
-    
-    return render_template('practice_hub.html', title=_t('nav_practice', current_user.language), counts=count_dict)
+    subject_cards = build_subject_catalog()
+    available_subject_count = sum(1 for card in subject_cards if card['slug'] != 'all' and card['available'])
+    total_questions = next((card['count'] for card in subject_cards if card['slug'] == 'all'), 0)
+
+    return render_template(
+        'practice_hub.html',
+        title=_t('nav_practice', current_user.language),
+        subject_cards=subject_cards,
+        available_subject_count=available_subject_count,
+        total_questions=total_questions,
+    )
+
+
+study.add_url_rule("/practice", endpoint="practice", view_func=practice_hub)
 
 @study.route("/practice/session", methods=['GET', 'POST'])
 @login_required
 def practice_session():
     from app import db
-    from app.models import Question, Mistake
+    from app.models import Question
+
     if request.method == 'POST':
         question_id = request.form.get('question_id')
         user_answer = request.form.get('answer')
-        
-        question = Question.query.get_or_404(question_id)
-        is_correct = (user_answer == question.correct_answer)
-        
-        mistake = Mistake.query.filter_by(user_id=current_user.id, question_id=question_id).first()
-        
-        if is_correct:
-            if mistake:
-                mistake.srs_level = min(mistake.srs_level + 1, 7)
-                intervals = [0, 1, 2, 4, 7, 14, 30, 60]
-                mistake.last_interval = intervals[mistake.srs_level]
-                mistake.next_review_date = datetime.now(timezone.utc) + timedelta(days=mistake.last_interval)
-                if mistake.srs_level >= 4:
-                    mistake.is_resolved = True
-                    from app.utils.i18n import get_text
-                    flash(_t('msg_study_done', current_user.language), 'success')
-                    from app.utils.garden_helpers import add_garden_xp
-                    add_garden_xp(20)
-            
-            from app.utils.garden_helpers import add_garden_xp
-            add_garden_xp(5)
-            
-            try:
-                from app.models import GroupMember, Group
-                memberships = GroupMember.query.filter_by(user_id=current_user.id).all()
-                for m in memberships:
-                    g = m.group_info
-                    g.garden_exp += 10
-                    next_level_exp = g.garden_level * 1000
-                    if g.garden_exp >= next_level_exp:
-                        g.garden_level += 1
-            except Exception:
-                pass
+        subject_value = request.form.get('subject') or 'all'
 
-            db.session.commit()
-        else:
-            if mistake:
-                mistake.mistake_count += 1
-                mistake.srs_level = max(mistake.srs_level - 1, 0)
-                mistake.is_resolved = False
-            else:
-                mistake = Mistake(user_id=current_user.id, question_id=question_id)
-                db.session.add(mistake)
-            
-            mistake.next_review_date = datetime.now(timezone.utc) + timedelta(hours=1)
-            db.session.commit()
-            
+        question = Question.query.get_or_404(question_id)
+        result = apply_attempt_outcome(question, user_answer)
+        db.session.commit()
+
+        if result['correct']:
+            reward_correct_progress(1, 1 if result['resolved_now'] else 0)
+
+        subject_definition = resolve_subject_definition(subject_value)
+        next_subject = subject_definition['slug'] if subject_definition else subject_value or 'all'
+
         return jsonify({
-            'correct': is_correct,
+            'correct': result['correct'],
             'correct_answer': question.correct_answer,
+            'correct_answer_text': get_question_option_text(question, question.correct_answer),
+            'selected_answer': result['answer_key'],
+            'selected_answer_text': get_question_option_text(question, result['answer_key']),
             'explanation': question.explanation,
-            'srs_level': mistake.srs_level if mistake else 0
+            'srs_level': result['mistake'].srs_level if result['mistake'] else 0,
+            'resolved_now': result['resolved_now'],
+            'next_question_url': url_for('study.practice_session', subject=next_subject),
         })
 
     subject_filter = request.args.get('subject')
-    time_limit = request.args.get('time', type=int, default=60)
-    question_count = request.args.get('count', type=int, default=40)
-    
-    query = Question.query
-    if subject_filter and subject_filter != '全部':
-        query = query.filter_by(subject=subject_filter)
-        
+    question_id = request.args.get('question_id', type=int)
+    if not subject_filter and not question_id:
+        return redirect(url_for('study.practice_hub'))
+
+    current_subject, query = build_practice_question_query(subject_filter or 'all')
     questions = query.all()
     if not questions:
-        from app.utils.i18n import get_text
         flash(_t('msg_no_questions', current_user.language), 'info')
         return redirect(url_for('study.practice_hub'))
-        
-    question = random.choice(questions)
-    return render_template('practice_session.html', 
-                           title=_t('nav_practice', current_user.language), 
-                           question=question,
-                           subject=subject_filter,
-                           time_limit=time_limit,
-                           question_count=question_count)
+
+    if question_id:
+        question = next((item for item in questions if item.id == question_id), None)
+        if question is None:
+            question = Question.query.get_or_404(question_id)
+    else:
+        question = random.choice(questions)
+
+    active_subject = current_subject or resolve_subject_definition('all')
+    current_subject_query = subject_filter or (active_subject['label'] if active_subject.get('is_custom') else active_subject['slug'])
+
+    return render_template(
+        'practice_session.html',
+        title=_t('nav_practice', current_user.language),
+        question=question,
+        current_subject=active_subject,
+        current_subject_query=current_subject_query,
+        question_pool_size=len(questions),
+    )
 
 @study.route("/mistakes")
 @login_required
@@ -242,14 +454,21 @@ def analyze_mistake(mistake_id):
 def generate_question_api():
     from app import db
     from app.models import Question
-    subject = request.args.get('subject', _t('subject_math', current_user.language))
+    requested_subject = request.args.get('subject', 'math')
+    subject_definition = resolve_subject_definition(requested_subject)
+    if subject_definition and subject_definition['slug'] != 'all':
+        subject = subject_definition['label']
+        redirect_subject = subject_definition['slug']
+    else:
+        subject = request.args.get('subject') or '\u6578\u5b78'
+        redirect_subject = normalize_subject_key(subject) or 'all'
+
     from app.utils.ai_helpers import generate_ai_quiz
     quiz_data = generate_ai_quiz(subject, lang=current_user.language)
-    
+
     if 'error' in quiz_data:
         return jsonify(quiz_data), 500
-        
-    # Save to database
+
     new_q = Question(
         subject=subject,
         content_text=quiz_data.get('content_text'),
@@ -263,8 +482,14 @@ def generate_question_api():
     )
     db.session.add(new_q)
     db.session.commit()
-    
-    return jsonify({'status': 'success', 'question_id': new_q.id, 'quiz': quiz_data})
+
+    return jsonify({
+        'status': 'success',
+        'question_id': new_q.id,
+        'quiz': quiz_data,
+        'practice_url': url_for('study.practice_session', subject=redirect_subject, question_id=new_q.id),
+    })
+
 
 @study.route("/tutor_chat", methods=['POST'])
 @login_required
@@ -593,16 +818,72 @@ def generate_roadmap():
     else:
         return jsonify({'error': _t('msg_roadmap_gen_fail', current_user.language)}), 500
 
-@study.route("/generate_exam")
+@study.route("/generate_exam", methods=['GET', 'POST'])
 @login_required
 def generate_exam():
+    from app import db
     from app.models import Mistake
-    from app.utils.i18n import get_text
+
     mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
+
+    if request.method == 'POST':
+        if not mistakes:
+            return jsonify({'status': 'empty', 'message': _t('msg_no_mistakes', current_user.language)}), 400
+
+        payload = request.get_json(silent=True) or {}
+        answers = payload.get('answers') or {}
+        results = []
+        correct_count = 0
+        resolved_count = 0
+
+        for index, mistake in enumerate(mistakes, start=1):
+            question = mistake.question
+            if not question:
+                continue
+
+            user_answer = (answers.get(str(question.id)) or '').strip().upper()
+            evaluation = apply_attempt_outcome(question, user_answer)
+            if evaluation['correct']:
+                correct_count += 1
+            if evaluation['resolved_now']:
+                resolved_count += 1
+
+            results.append({
+                'index': index,
+                'question_id': question.id,
+                'subject': question.subject,
+                'content_text': question.content_text,
+                'selected_answer': evaluation['answer_key'] or '\u672a\u4f5c\u7b54',
+                'selected_answer_text': get_question_option_text(question, evaluation['answer_key']) or '\u9019\u984c\u672a\u4f5c\u7b54',
+                'correct_answer': question.correct_answer,
+                'correct_answer_text': get_question_option_text(question, question.correct_answer),
+                'is_correct': evaluation['correct'],
+                'explanation': question.explanation or '\u9019\u984c\u76ee\u524d\u6c92\u6709\u984c\u76ee\u89e3\u6790\uff0c\u5efa\u8b70\u5148\u56de\u982d\u8907\u7fd2\u984c\u5e79\u95dc\u9375\u5b57\u8207\u6b63\u78ba\u9078\u9805\u3002',
+            })
+
+        db.session.commit()
+        reward_correct_progress(correct_count, resolved_count)
+
+        total_questions = len(results)
+        score_percent = round((correct_count / total_questions) * 100) if total_questions else 0
+        wrong_results = [item for item in results if not item['is_correct']]
+
+        return jsonify({
+            'status': 'success',
+            'score_percent': score_percent,
+            'correct_count': correct_count,
+            'wrong_count': total_questions - correct_count,
+            'total_questions': total_questions,
+            'feedback': build_exam_feedback(score_percent, wrong_results),
+            'results': results,
+        })
+
     if not mistakes:
         flash(_t('msg_no_mistakes', current_user.language), "info")
         return redirect(url_for('study.practice_hub'))
+
     return render_template('exam.html', title=_t('nav_exam', current_user.language), mistakes=mistakes)
+
 
 @study.route("/api/study/personal_welcome")
 @login_required

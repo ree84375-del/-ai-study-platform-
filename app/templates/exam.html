@@ -1,67 +1,682 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block title %}{{ _t('exam_title') }}{% endblock %}
 {% block content %}
-<div class="card" style="max-width: 800px; margin: 2rem auto; padding: 2rem; border-radius: 20px;">
-    <div style="text-align: center; margin-bottom: 2rem;">
-        <h1 style="color: var(--color-primary);"><i class="fa-solid fa-file-invoice"></i> {{ _t('ai_exam_header') }}</h1>
-        <p style="color: var(--color-text_light);">{{ _t('exam_subtitle', count=mistakes|length) }}</p>
+<style>
+    .exam-shell {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .exam-hero {
+        padding: 2rem;
+        border-radius: 30px;
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        background:
+            radial-gradient(circle at top right, rgba(255, 218, 150, 0.3), transparent 34%),
+            linear-gradient(135deg, rgba(255, 253, 247, 0.97), rgba(250, 242, 224, 0.94));
+        box-shadow: 0 24px 52px rgba(120, 94, 46, 0.12);
+    }
+
+    .exam-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.48rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(53, 48, 38, 0.92);
+        color: #fffaf2;
+        font-size: 0.92rem;
+        font-weight: 700;
+    }
+
+    .exam-hero h1 {
+        margin: 1rem 0 0.8rem;
+        color: #32271b;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: clamp(1.9rem, 3vw, 2.7rem);
+    }
+
+    .exam-hero p {
+        margin: 0;
+        max-width: 760px;
+        color: #6d614f;
+        line-height: 1.85;
+    }
+
+    .exam-summary-strip {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1.5rem;
+    }
+
+    .exam-summary-card {
+        padding: 1rem 1.1rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(214, 183, 112, 0.18);
+    }
+
+    .exam-summary-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #8a7c65;
+        font-size: 0.84rem;
+        letter-spacing: 0.05em;
+    }
+
+    .exam-summary-value {
+        color: #302517;
+        font-size: 1.55rem;
+        font-weight: 800;
+    }
+
+    .exam-progress-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        border-radius: 20px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.82);
+        color: #5f5037;
+        font-weight: 700;
+    }
+
+    .exam-list {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .exam-card {
+        padding: 1.6rem;
+        border-radius: 26px;
+        border: 1px solid rgba(210, 188, 150, 0.76);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 243, 229, 0.94));
+        box-shadow: 0 18px 36px rgba(120, 94, 46, 0.08);
+    }
+
+    .exam-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+
+    .exam-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+    }
+
+    .exam-index {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #ead8ae, #f8efd8);
+        color: #7a5c2d;
+        font-weight: 900;
+    }
+
+    .exam-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.46rem 0.82rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.95);
+        color: #8a6c37;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
+    .exam-question-text {
+        margin: 0;
+        color: #362b1f;
+        font-size: 1.08rem;
+        line-height: 1.9;
+    }
+
+    .exam-options {
+        display: grid;
+        gap: 0.85rem;
+        margin-top: 1.25rem;
+    }
+
+    .exam-option {
+        display: flex;
+        gap: 0.85rem;
+        align-items: flex-start;
+        padding: 0.95rem 1rem;
+        border-radius: 18px;
+        border: 1px solid rgba(205, 187, 151, 0.8);
+        background: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    .exam-option:hover {
+        transform: translateY(-2px);
+        border-color: rgba(214, 165, 61, 0.4);
+        box-shadow: 0 10px 18px rgba(120, 94, 46, 0.08);
+    }
+
+    .exam-option.is-active {
+        background: rgba(255, 248, 229, 0.95);
+        border-color: rgba(214, 165, 61, 0.72);
+    }
+
+    .exam-option.is-correct-answer {
+        border-color: rgba(92, 162, 113, 0.82);
+        background: rgba(232, 248, 236, 0.95);
+    }
+
+    .exam-option.is-wrong-answer {
+        border-color: rgba(223, 107, 82, 0.84);
+        background: rgba(255, 239, 234, 0.96);
+    }
+
+    .exam-option input {
+        margin-top: 0.25rem;
+    }
+
+    .exam-option-letter {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 13px;
+        background: rgba(239, 229, 207, 0.92);
+        color: #7e6540;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .exam-option-text {
+        color: #453628;
+        line-height: 1.75;
+    }
+
+    .exam-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.9rem;
+        flex-wrap: wrap;
+    }
+
+    .exam-primary-btn,
+    .exam-secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        min-height: 48px;
+        padding: 0.85rem 1.2rem;
+        border-radius: 16px;
+        border: none;
+        text-decoration: none;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .exam-primary-btn {
+        background: linear-gradient(135deg, #dbac5a 0%, #ef9155 100%);
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(226, 143, 84, 0.28);
+    }
+
+    .exam-secondary-btn {
+        border: 1px solid rgba(196, 168, 108, 0.26);
+        background: rgba(255, 255, 255, 0.88);
+        color: #5b4b2e;
+    }
+
+    .exam-result {
+        padding: 1.7rem;
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(249, 244, 233, 0.94));
+        box-shadow: 0 24px 46px rgba(120, 94, 46, 0.1);
+    }
+
+    .exam-result[hidden] {
+        display: none !important;
+    }
+
+    .exam-result-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.2rem;
+    }
+
+    .exam-score-circle {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 126px;
+        height: 126px;
+        border-radius: 50%;
+        background:
+            radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.94), rgba(255, 244, 218, 0.96));
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        color: #3f3224;
+        box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.84);
+    }
+
+    .exam-score-circle strong {
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    .exam-score-circle span {
+        margin-top: 0.35rem;
+        font-size: 0.86rem;
+        color: #856d46;
+    }
+
+    .exam-result h2 {
+        margin: 0 0 0.45rem;
+        color: #32271b;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: 1.8rem;
+    }
+
+    .exam-result p {
+        margin: 0;
+        color: #6b5c46;
+        line-height: 1.85;
+    }
+
+    .exam-result-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1.2rem;
+    }
+
+    .exam-result-card {
+        padding: 1rem 1.05rem;
+        border-radius: 20px;
+        border: 1px solid rgba(214, 183, 112, 0.14);
+        background: rgba(255, 255, 255, 0.74);
+    }
+
+    .exam-review-list {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.35rem;
+    }
+
+    .review-card {
+        padding: 1.2rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.16);
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .review-card.is-wrong {
+        border-color: rgba(223, 107, 82, 0.32);
+        background: rgba(255, 246, 242, 0.92);
+    }
+
+    .review-card.is-correct {
+        border-color: rgba(92, 162, 113, 0.24);
+        background: rgba(243, 250, 245, 0.92);
+    }
+
+    .review-card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.8rem;
+    }
+
+    .review-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.42rem 0.78rem;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 800;
+    }
+
+    .review-badge.correct {
+        background: rgba(225, 245, 231, 0.92);
+        color: #437552;
+    }
+
+    .review-badge.wrong {
+        background: rgba(255, 233, 227, 0.95);
+        color: #a85040;
+    }
+
+    .review-question {
+        margin: 0;
+        color: #382c1f;
+        line-height: 1.8;
+    }
+
+    .review-answer-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.8rem;
+        margin: 1rem 0 0.9rem;
+    }
+
+    .review-answer-box {
+        padding: 0.95rem 1rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(214, 183, 112, 0.14);
+    }
+
+    .review-answer-box strong {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #8a785f;
+        font-size: 0.84rem;
+        letter-spacing: 0.05em;
+    }
+
+    .review-answer-box span {
+        color: #372d21;
+        line-height: 1.7;
+        font-weight: 700;
+    }
+
+    .review-explanation {
+        color: #524330;
+        line-height: 1.85;
+        white-space: pre-line;
+    }
+
+    @media (max-width: 720px) {
+        .exam-hero,
+        .exam-card,
+        .exam-result {
+            padding: 1.3rem;
+            border-radius: 22px;
+        }
+
+        .exam-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .exam-primary-btn,
+        .exam-secondary-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="exam-shell">
+    <section class="exam-hero">
+        <span class="exam-kicker"><i class="fa-solid fa-file-lines"></i> 弱點模擬考</span>
+        <h1>把最近錯最多的題目，組成一份真正能檢討的模考。</h1>
+        <p>這份模考會直接從你的錯題資料出題。交卷後不是只看分數，而是會把每一題的對錯、你的答案、正確答案與完整詳解一起整理好。</p>
+
+        <div class="exam-summary-strip">
+            <div class="exam-summary-card">
+                <span class="exam-summary-label">本次題數</span>
+                <span class="exam-summary-value">{{ mistakes|length }}</span>
+            </div>
+            <div class="exam-summary-card">
+                <span class="exam-summary-label">模考目標</span>
+                <span class="exam-summary-value">補強弱點</span>
+            </div>
+            <div class="exam-summary-card">
+                <span class="exam-summary-label">交卷後內容</span>
+                <span class="exam-summary-value">完整詳解</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="exam-progress-bar">
+        <span><i class="fa-solid fa-pen-ruler"></i> 已作答 <strong id="answered-count">0</strong> / {{ mistakes|length }}</span>
+        <span>全部作答後即可交卷看檢討。</span>
     </div>
 
-    <form id="exam-form">
+    <form id="exam-form" class="exam-list">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         {% for mistake in mistakes %}
-        <div class="question-block" style="margin-bottom: 2.5rem; padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 12px; transition: transform 0.2s;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                <span style="background: var(--color-secondary); color: var(--color-primary); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
-                    {{ mistake.question.subject }}
-                </span>
-                <span style="color: #ff6b6b; font-size: 0.8rem;">
-                    {{ _t('mistake_count_label') }}: {{ mistake.mistake_count }}
-                </span>
+        <article class="exam-card" data-question-id="{{ mistake.question.id }}">
+            <div class="exam-card-top">
+                <div class="exam-card-meta">
+                    <span class="exam-index">{{ loop.index }}</span>
+                    <span class="exam-pill"><i class="fa-solid fa-book"></i> {{ mistake.question.subject }}</span>
+                    <span class="exam-pill"><i class="fa-solid fa-repeat"></i> 錯誤 {{ mistake.mistake_count }} 次</span>
+                </div>
             </div>
-            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">{{ mistake.question.content_text }}</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 10px;">
+
+            <p class="exam-question-text">{{ mistake.question.content_text }}</p>
+
+            <div class="exam-options">
                 {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
-                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px; border-radius: 8px; border: 1px solid transparent;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='none'">
+                <label class="exam-option" data-answer="{{ label }}">
                     <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}" required>
-                    <strong>{{ label }}:</strong> {{ text }}
+                    <span class="exam-option-letter">{{ label }}</span>
+                    <span class="exam-option-text">{{ text or '' }}</span>
                 </label>
                 {% endfor %}
             </div>
-        </div>
+        </article>
         {% endfor %}
 
-        <div style="text-align: center; margin-top: 3rem;">
-            <button type="submit" class="btn btn-primary" style="padding: 15px 50px; border-radius: 30px; font-size: 1.1rem;">
-                <i class="fa-solid fa-check-double"></i> {{ _t('submit_exam') }}
+        <div class="exam-actions">
+            <a href="{{ url_for('study.practice_hub') }}" class="exam-secondary-btn">
+                <i class="fa-solid fa-arrow-left"></i> 回去刷題
+            </a>
+            <button type="submit" id="submit-exam-btn" class="exam-primary-btn">
+                <i class="fa-solid fa-check-double"></i> 交卷並看詳解
             </button>
         </div>
     </form>
-</div>
 
-<div id="result-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px);">
-    <div class="card" style="width: 500px; padding: 3rem; text-align: center; border-radius: 25px;">
-        <h2 id="score-display" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;">0%</h2>
-        <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 2rem;"></p>
-        <a href="{{ url_for('study.mistakes') }}" class="btn btn-secondary" style="text-decoration: none; display: inline-block;">{{ _t('back_to_mistakes') }}</a>
-    </div>
+    <section class="exam-result" id="exam-result" hidden>
+        <div class="exam-result-top">
+            <div>
+                <h2>這份模考的結果出來了。</h2>
+                <p id="exam-feedback-text">你的整體表現與下一步補強方向會顯示在這裡。</p>
+            </div>
+            <div class="exam-score-circle">
+                <strong id="score-percent">0%</strong>
+                <span>本次正確率</span>
+            </div>
+        </div>
+
+        <div class="exam-result-grid">
+            <div class="exam-result-card">
+                <span class="exam-summary-label">答對題數</span>
+                <span class="exam-summary-value" id="correct-count">0</span>
+            </div>
+            <div class="exam-result-card">
+                <span class="exam-summary-label">答錯題數</span>
+                <span class="exam-summary-value" id="wrong-count">0</span>
+            </div>
+            <div class="exam-result-card">
+                <span class="exam-summary-label">總題數</span>
+                <span class="exam-summary-value" id="total-count">{{ mistakes|length }}</span>
+            </div>
+        </div>
+
+        <div class="exam-review-list" id="exam-review-list"></div>
+    </section>
 </div>
 
 <script>
-    document.getElementById('exam-form').onsubmit = (e) => {
-        e.preventDefault();
-        // In this mock version, we just show a generic "Good job" for finishing
-        document.getElementById('result-modal').style.display = 'flex';
-        document.getElementById('score-display').innerText = '100%';
-        document.getElementById('feedback-text').innerText = "{{ _t('exam_finish_feedback') }}";
-    };
-</script>
+    const examForm = document.getElementById('exam-form');
+    const submitExamBtn = document.getElementById('submit-exam-btn');
+    const examResult = document.getElementById('exam-result');
+    const answeredCount = document.getElementById('answered-count');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const totalQuestions = {{ mistakes|length }};
 
-<style>
-    .question-block:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        border-color: var(--color-primary);
+    function updateAnsweredCount() {
+        const answered = new Set();
+        document.querySelectorAll('.exam-card').forEach((card) => {
+            const checked = card.querySelector('input[type="radio"]:checked');
+            if (checked) {
+                answered.add(card.dataset.questionId);
+            }
+        });
+        answeredCount.textContent = answered.size;
     }
-</style>
+
+    document.querySelectorAll('.exam-option').forEach((option) => {
+        const input = option.querySelector('input[type="radio"]');
+        option.addEventListener('click', () => {
+            if (submitExamBtn.dataset.locked === 'true') {
+                return;
+            }
+            const card = option.closest('.exam-card');
+            card.querySelectorAll('.exam-option').forEach((item) => item.classList.remove('is-active'));
+            option.classList.add('is-active');
+            if (input) {
+                input.checked = true;
+            }
+            updateAnsweredCount();
+        });
+    });
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function renderReview(results) {
+        const reviewList = document.getElementById('exam-review-list');
+        reviewList.innerHTML = results.map((item) => {
+            const badgeClass = item.is_correct ? 'correct' : 'wrong';
+            const badgeLabel = item.is_correct ? '答對' : '答錯';
+            return `
+                <article class="review-card ${item.is_correct ? 'is-correct' : 'is-wrong'}">
+                    <div class="review-card-top">
+                        <div>
+                            <span class="exam-pill"><i class="fa-solid fa-book"></i> 第 ${escapeHtml(item.index)} 題 ・ ${escapeHtml(item.subject)}</span>
+                        </div>
+                        <span class="review-badge ${badgeClass}">
+                            <i class="fa-solid ${item.is_correct ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${badgeLabel}
+                        </span>
+                    </div>
+                    <p class="review-question">${escapeHtml(item.content_text)}</p>
+                    <div class="review-answer-grid">
+                        <div class="review-answer-box">
+                            <strong>你的答案</strong>
+                            <span>${escapeHtml(item.selected_answer)} ・ ${escapeHtml(item.selected_answer_text)}</span>
+                        </div>
+                        <div class="review-answer-box">
+                            <strong>正確答案</strong>
+                            <span>${escapeHtml(item.correct_answer)} ・ ${escapeHtml(item.correct_answer_text)}</span>
+                        </div>
+                    </div>
+                    <div class="review-explanation">${escapeHtml(item.explanation)}</div>
+                </article>
+            `;
+        }).join('');
+    }
+
+    function applyCardFeedback(results) {
+        results.forEach((item) => {
+            const card = document.querySelector(`.exam-card[data-question-id="${item.question_id}"]`);
+            if (!card) {
+                return;
+            }
+
+            card.querySelectorAll('.exam-option').forEach((option) => {
+                const input = option.querySelector('input[type="radio"]');
+                option.classList.remove('is-active');
+                input.disabled = true;
+
+                if (option.dataset.answer === item.correct_answer) {
+                    option.classList.add('is-correct-answer');
+                }
+                if (!item.is_correct && option.dataset.answer === item.selected_answer && item.selected_answer !== item.correct_answer) {
+                    option.classList.add('is-wrong-answer');
+                }
+            });
+        });
+    }
+
+    examForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        updateAnsweredCount();
+        if (Number(answeredCount.textContent) !== totalQuestions) {
+            window.alert('請先完成所有題目再交卷。');
+            return;
+        }
+
+        const answers = {};
+        document.querySelectorAll('.exam-card').forEach((card) => {
+            const checked = card.querySelector('input[type="radio"]:checked');
+            if (checked) {
+                answers[card.dataset.questionId] = checked.value;
+            }
+        });
+
+        submitExamBtn.disabled = true;
+        submitExamBtn.dataset.locked = 'true';
+        submitExamBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中';
+
+        try {
+            const response = await fetch('{{ url_for("study.generate_exam") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({ answers }),
+            });
+            const data = await response.json();
+
+            if (!response.ok || data.status !== 'success') {
+                throw new Error(data.message || data.error || '模考批改失敗');
+            }
+
+            document.getElementById('score-percent').textContent = `${data.score_percent}%`;
+            document.getElementById('correct-count').textContent = data.correct_count;
+            document.getElementById('wrong-count').textContent = data.wrong_count;
+            document.getElementById('total-count').textContent = data.total_questions;
+            document.getElementById('exam-feedback-text').textContent = data.feedback;
+
+            applyCardFeedback(data.results);
+            renderReview(data.results);
+
+            examResult.hidden = false;
+            examResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            submitExamBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已完成批改';
+        } catch (error) {
+            submitExamBtn.disabled = false;
+            submitExamBtn.dataset.locked = 'false';
+            submitExamBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> 交卷並看詳解';
+            window.alert(error.message || '模考批改失敗，請稍後再試。');
+        }
+    });
+</script>
 {% endblock %}
