@@ -151,6 +151,30 @@
     font-size: 0.8rem;
     color: var(--color-text_light);
 }
+
+/* 聊天側邊欄歷史紀錄按鈕UI優化 */
+.session-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.session-item:hover .session-actions { opacity: 1; }
+@media (max-width: 768px) {
+    .session-actions { opacity: 1; } /* 手機版永久顯示 */
+}
+.action-btn {
+    cursor: pointer;
+    color: #999;
+    font-size: 0.85rem;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background 0.2s, color 0.2s;
+}
+.action-btn:hover { background: rgba(0,0,0,0.05); color: var(--color-primary); }
+.session-item.active .action-btn { color: rgba(255,255,255,0.6); }
+.session-item.active .action-btn:hover { background: rgba(255,255,255,0.2); color: white; }
+.action-btn.delete-btn:hover { color: #ef4444; }
 </style>
 
 <script>
@@ -383,19 +407,124 @@
     function renderSessions(sessions) {
         sessionList.innerHTML = '';
         sessions.forEach(s => {
-            const btn = document.createElement('button');
+            const btn = document.createElement('div');
             btn.className = `session-item ${s.id === activeSessionId ? 'active' : ''}`;
-            btn.innerHTML = `
+            btn.style.display = 'flex';
+            btn.style.justifyContent = 'space-between';
+            btn.style.alignItems = 'center';
+            btn.style.padding = '12px 10px 12px 15px'; // Adjust padding slightly for icons
+            
+            const infoDiv = document.createElement('div');
+            infoDiv.style.flex = '1';
+            infoDiv.style.minWidth = '0'; // Allow text truncation
+            infoDiv.style.cursor = 'pointer';
+            infoDiv.onclick = () => loadHistory(s.id, s.title);
+            
+            infoDiv.innerHTML = `
                 <div style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${s.id === activeSessionId ? 'white' : 'var(--color-text)'};">
+                    ${s.is_pinned ? '<i class="fa-solid fa-thumbtack" style="font-size: 0.8rem; margin-right:6px; color:' + (s.id === activeSessionId ? 'white' : 'var(--color-primary)') + '; transform:rotate(-45deg);"></i>' : ''}
                     ${s.title}
                 </div>
                 <div style="font-size: 0.75rem; color: ${s.id === activeSessionId ? 'rgba(255,255,255,0.8)' : '#999'}; margin-top: 4px;">
                     ${new Date(s.created_at).toLocaleString([], { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                 </div>
             `;
-            btn.onclick = () => loadHistory(s.id, s.title);
+            
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'session-actions';
+            
+            // Toggle Pin
+            const pinBtn = document.createElement('div');
+            pinBtn.className = 'action-btn';
+            pinBtn.title = s.is_pinned ? '解除釘選' : '釘選';
+            pinBtn.onclick = (e) => togglePin(s.id, e);
+            pinBtn.innerHTML = `<i class="fa-solid fa-thumbtack" style="${s.is_pinned ? 'color:' + (s.id === activeSessionId ? 'white' : 'var(--color-primary)') : ''}"></i>`;
+            
+            // Rename
+            const editBtn = document.createElement('div');
+            editBtn.className = 'action-btn';
+            editBtn.title = '重新命名';
+            editBtn.onclick = (e) => renameSession(s.id, s.title, e);
+            editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+            
+            // Delete
+            const deleteBtn = document.createElement('div');
+            deleteBtn.className = 'action-btn delete-btn';
+            deleteBtn.title = '刪除紀錄';
+            deleteBtn.onclick = (e) => deleteSession(s.id, e);
+            deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+            
+            actionsDiv.appendChild(pinBtn);
+            actionsDiv.appendChild(editBtn);
+            actionsDiv.appendChild(deleteBtn);
+            
+            btn.appendChild(infoDiv);
+            btn.appendChild(actionsDiv);
             sessionList.appendChild(btn);
         });
+    }
+
+    async function deleteSession(id, event) {
+        if (event) event.stopPropagation();
+        if (!confirm('確定要刪除這個對話紀錄嗎？刪除後無法復原！')) return;
+        
+        try {
+            const res = await fetch(`{{ url_for('study.delete_chat_session', session_id=0) }}`.replace('0', id), {
+                method: 'DELETE',
+                headers: {'X-CSRFToken': '{{ csrf_token() }}'}
+            });
+            if (res.ok) {
+                if (activeSessionId === id) {
+                    activeSessionId = null;
+                    messagesContainer.innerHTML = '';
+                    chatTitle.innerHTML = '新對話紀錄';
+                }
+                loadSessions();
+            }
+        } catch (e) {
+            console.error(e);
+            alert('刪除失敗，請重新整理重試');
+        }
+    }
+
+    async function renameSession(id, oldTitle, event) {
+        if (event) event.stopPropagation();
+        const newTitle = prompt('請輸入新的對話歷史名稱：', oldTitle);
+        if (!newTitle || newTitle.trim() === '' || newTitle.trim() === oldTitle) return;
+        
+        try {
+            const res = await fetch(`{{ url_for('study.rename_chat_session', session_id=0) }}`.replace('0', id), {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}'},
+                body: JSON.stringify({title: newTitle.trim()})
+            });
+            if (res.ok) {
+                if (activeSessionId === id) {
+                    chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${newTitle.trim()}`;
+                }
+                loadSessions();
+            }
+        } catch (e) {
+            console.error(e);
+            alert('重新命名失敗，請重新整理重試');
+        }
+    }
+
+    async function togglePin(id, event) {
+        if (event) event.stopPropagation();
+        
+        try {
+            const res = await fetch(`{{ url_for('study.pin_chat_session', session_id=0) }}`.replace('0', id), {
+                method: 'PATCH',
+                headers: {'X-CSRFToken': '{{ csrf_token() }}'}
+            });
+            if (res.ok) {
+                loadSessions();
+            }
+        } catch (e) {
+            console.error(e);
+            alert('操作失敗，請重新整理重試');
+        }
     }
 
     async function loadHistory(id, title) {

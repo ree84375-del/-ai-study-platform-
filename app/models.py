@@ -219,6 +219,7 @@ class ChatSession(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     title = db.Column(db.String(100), nullable=False)
+    is_pinned = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     messages = db.relationship('ChatMessage', backref='session', lazy=True, cascade="all, delete-orphan")
 

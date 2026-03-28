@@ -439,8 +439,58 @@ def tutor_chat():
 @login_required
 def get_chat_sessions():
     from app.models import ChatSession
-    sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(ChatSession.created_at.desc()).all()
-    return jsonify([{'id': s.id, 'title': s.title, 'created_at': s.created_at.isoformat()} for s in sessions])
+    sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(
+        ChatSession.is_pinned.desc(), 
+        ChatSession.created_at.desc()
+    ).all()
+    return jsonify([{
+        'id': s.id, 
+        'title': s.title, 
+        'created_at': s.created_at.isoformat(),
+        'is_pinned': s.is_pinned
+    } for s in sessions])
+
+@study.route("/api/chat/session/<int:session_id>", methods=['DELETE'])
+@login_required
+def delete_chat_session(session_id):
+    from app.models import ChatSession
+    session = ChatSession.query.get_or_404(session_id)
+    if session.user_id != current_user.id:
+        return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
+    
+    db.session.delete(session)
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Session deleted successfully'})
+
+@study.route("/api/chat/session/<int:session_id>/pin", methods=['PATCH'])
+@login_required
+def pin_chat_session(session_id):
+    from app.models import ChatSession
+    session = ChatSession.query.get_or_404(session_id)
+    if session.user_id != current_user.id:
+        return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
+    
+    session.is_pinned = not session.is_pinned
+    db.session.commit()
+    return jsonify({'success': True, 'is_pinned': session.is_pinned})
+
+@study.route("/api/chat/session/<int:session_id>/rename", methods=['PATCH'])
+@login_required
+def rename_chat_session(session_id):
+    from app.models import ChatSession
+    session = ChatSession.query.get_or_404(session_id)
+    if session.user_id != current_user.id:
+        return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
+    
+    data = request.get_json()
+    new_title = data.get('title')
+    if not new_title or not new_title.strip():
+        return jsonify({'error': 'Title cannot be empty'}), 400
+        
+    session.title = new_title.strip()[:100]  # Max length 100
+    db.session.commit()
+    return jsonify({'success': True, 'title': session.title})
+
 
 @study.route("/api/chat/history/<int:session_id>")
 @login_required
