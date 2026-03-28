@@ -175,6 +175,24 @@
 .session-item.active .action-btn { color: rgba(255,255,255,0.6); }
 .session-item.active .action-btn:hover { background: rgba(255,255,255,0.2); color: white; }
 .action-btn.delete-btn:hover { color: #ef4444; }
+
+/* 釘選狀態特別標示 */
+.action-btn.active-pin {
+    background: rgba(133,163,146,0.15); /* var(--color-primary) with opacity */
+    color: var(--color-primary);
+}
+.session-item.active .action-btn.active-pin {
+    background: rgba(255,255,255,0.25);
+    color: white;
+}
+.session-item.pinned {
+    border-left: 4px solid var(--color-primary) !important;
+    background: linear-gradient(90deg, rgba(133,163,146,0.05) 0%, transparent 100%);
+}
+.session-item.pinned.active {
+    border-left: 4px solid white !important;
+    background: var(--color-primary) !important;
+}
 </style>
 
 <script>
@@ -408,7 +426,7 @@
         sessionList.innerHTML = '';
         sessions.forEach(s => {
             const btn = document.createElement('div');
-            btn.className = `session-item ${s.id === activeSessionId ? 'active' : ''}`;
+            btn.className = `session-item ${s.id === activeSessionId ? 'active' : ''} ${s.is_pinned ? 'pinned' : ''}`;
             btn.style.display = 'flex';
             btn.style.justifyContent = 'space-between';
             btn.style.alignItems = 'center';
@@ -422,7 +440,7 @@
             
             infoDiv.innerHTML = `
                 <div style="font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: ${s.id === activeSessionId ? 'white' : 'var(--color-text)'};">
-                    ${s.is_pinned ? '<i class="fa-solid fa-thumbtack" style="font-size: 0.8rem; margin-right:6px; color:' + (s.id === activeSessionId ? 'white' : 'var(--color-primary)') + '; transform:rotate(-45deg);"></i>' : ''}
+                    ${s.is_pinned ? '<i class="fa-solid fa-thumbtack" style="font-size: 0.85rem; margin-right:6px; color:' + (s.id === activeSessionId ? 'white' : 'var(--color-primary)') + '; transform:rotate(-45deg);"></i>' : ''}
                     ${s.title}
                 </div>
                 <div style="font-size: 0.75rem; color: ${s.id === activeSessionId ? 'rgba(255,255,255,0.8)' : '#999'}; margin-top: 4px;">
@@ -435,7 +453,7 @@
             
             // Toggle Pin
             const pinBtn = document.createElement('div');
-            pinBtn.className = 'action-btn';
+            pinBtn.className = `action-btn ${s.is_pinned ? 'active-pin' : ''}`;
             pinBtn.title = s.is_pinned ? '解除釘選' : '釘選';
             pinBtn.onclick = (e) => togglePin(s.id, e);
             pinBtn.innerHTML = `<i class="fa-solid fa-thumbtack" style="${s.is_pinned ? 'color:' + (s.id === activeSessionId ? 'white' : 'var(--color-primary)') : ''}"></i>`;
