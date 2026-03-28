@@ -1,4 +1,4 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}{{ _t('practice_title') }}{% endblock %}
 {% block content %}
 <style>
@@ -41,7 +41,7 @@
     }
 
     .practice-hero p {
-        max-width: 720px;
+        max-width: 760px;
         margin: 0;
         color: #6b604e;
         line-height: 1.8;
@@ -98,6 +98,7 @@
         align-items: center;
         gap: 0.75rem;
         flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .practice-chip {
@@ -111,6 +112,36 @@
         color: #725d36;
         font-size: 0.9rem;
         font-weight: 700;
+    }
+
+    .practice-mode-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem;
+        border-radius: 18px;
+        border: 1px solid rgba(196, 168, 108, 0.22);
+        background: rgba(255, 252, 244, 0.9);
+    }
+
+    .practice-mode-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 42px;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        color: #6d5834;
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-decoration: none;
+        transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .practice-mode-link.is-active {
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        box-shadow: 0 10px 22px rgba(226, 143, 84, 0.24);
     }
 
     .practice-primary-btn,
@@ -144,7 +175,7 @@
 
     .practice-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr);
+        grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
         gap: 1.15rem;
         align-items: start;
     }
@@ -153,8 +184,7 @@
     .result-panel {
         border-radius: 28px;
         border: 1px solid rgba(214, 183, 112, 0.18);
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
         box-shadow: 0 22px 46px rgba(123, 96, 44, 0.1);
     }
 
@@ -218,12 +248,14 @@
         background: rgba(255, 247, 225, 0.92);
     }
 
-    .answer-card.is-correct-answer {
+    .answer-card.is-correct-answer,
+    .answer-card.is-reviewed-correct {
         border-color: rgba(92, 162, 113, 0.78);
         background: rgba(231, 247, 236, 0.96);
     }
 
-    .answer-card.is-wrong-answer {
+    .answer-card.is-wrong-answer,
+    .answer-card.is-reviewed-wrong {
         border-color: rgba(227, 115, 85, 0.84);
         background: rgba(255, 237, 232, 0.96);
     }
@@ -318,6 +350,13 @@
         font-size: 0.95rem;
     }
 
+    .result-muted {
+        margin: 0.45rem 0 0;
+        color: #7f6d54;
+        line-height: 1.7;
+        font-size: 0.92rem;
+    }
+
     .result-tip-list {
         display: grid;
         gap: 0.8rem;
@@ -361,22 +400,30 @@
         }
 
         .practice-actions,
-        .result-panel-actions {
+        .result-panel-actions,
+        .practice-toolbar-right {
             flex-direction: column;
+            align-items: stretch;
         }
 
         .practice-primary-btn,
-        .practice-secondary-btn {
+        .practice-secondary-btn,
+        .practice-mode-link {
             width: 100%;
+        }
+
+        .practice-mode-switch {
+            width: 100%;
+            flex-direction: column;
         }
     }
 </style>
 
 <div class="practice-stage">
     <section class="practice-hero">
-        <span class="practice-kicker"><i class="fa-solid fa-pen-ruler"></i> {{ current_subject.label }} 刷題中</span>
-        <h1>這題答完就能看詳解，直接延續你的刷題節奏。</h1>
-        <p>先專心作答，系統會在送出後立即顯示正確答案、你選的答案與完整解析，讓你知道自己是觀念卡住還是粗心失分。</p>
+        <span class="practice-kicker"><i class="fa-solid {{ practice_mode_meta.icon }}"></i> {{ current_subject.label }} {{ practice_mode_meta.label }}</span>
+        <h1>{{ practice_mode_meta.hero_title }}</h1>
+        <p>{{ practice_mode_meta.hero_description }}</p>
 
         <div class="practice-hero-stats">
             <div class="practice-stat">
@@ -389,7 +436,7 @@
             </div>
             <div class="practice-stat">
                 <span class="practice-stat-label">作答方式</span>
-                <span class="practice-stat-value">即時詳解</span>
+                <span class="practice-stat-value">{{ practice_mode_meta.result_label }}</span>
             </div>
         </div>
     </section>
@@ -400,7 +447,19 @@
         </a>
 
         <div class="practice-toolbar-right">
+            <div class="practice-mode-switch" aria-label="作答模式切換">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', question_id=question.id) }}" class="practice-mode-link {% if practice_mode == 'preview' %}is-active{% endif %}">
+                    <i class="fa-solid fa-eye"></i> 預覽模式
+                </a>
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice', question_id=question.id, reset_round=1) }}" class="practice-mode-link {% if practice_mode == 'practice' %}is-active{% endif %}">
+                    <i class="fa-solid fa-dumbbell"></i> 練習模式
+                </a>
+            </div>
+
             <span class="practice-chip"><i class="fa-solid fa-layer-group"></i> 同科題庫 {{ question_pool_size }} 題</span>
+            {% if practice_mode == 'practice' %}
+            <span class="practice-chip"><i class="fa-solid fa-list-check"></i> 本輪已答 {{ round_attempts }} 題</span>
+            {% endif %}
             <button type="button" id="ai-generate-btn" class="practice-secondary-btn">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題
             </button>
@@ -414,12 +473,13 @@
                 {% if question.category %}<span>・{{ question.category }}</span>{% endif %}
             </span>
             <h2 class="practice-question-title">{{ question.content_text }}</h2>
-            <p class="practice-question-subtext">先選出你認為最正確的答案，送出後我會把這題的正解和詳解完整展開給你看。</p>
+            <p class="practice-question-subtext">{{ practice_mode_meta.question_prompt }}</p>
 
             <form id="practice-form" class="practice-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="question_id" value="{{ question.id }}">
                 <input type="hidden" name="subject" value="{{ current_subject_query }}">
+                <input type="hidden" name="mode" value="{{ practice_mode }}">
 
                 {% for label, text in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)] %}
                 <label class="answer-card" data-answer="{{ label }}">
@@ -449,8 +509,9 @@
                 <div class="result-tip-list">
                     <div class="result-tip">
                         <i class="fa-solid fa-check"></i>
-                        <span>先自己判斷再作答，這樣送出後的詳解才會更有感。</span>
+                        <span>先自己判斷再作答，這樣不管你現在選的是預覽模式還是練習模式，檢討都會更有感。</span>
                     </div>
+                    {% if practice_mode == 'preview' %}
                     <div class="result-tip">
                         <i class="fa-solid fa-book-open-reader"></i>
                         <span>送出後會直接標記對錯、顯示正解，並整理這題的完整解析。</span>
@@ -459,6 +520,16 @@
                         <i class="fa-solid fa-rotate-right"></i>
                         <span>看完詳解後可以立即刷下一題，維持同一科的練習節奏。</span>
                     </div>
+                    {% else %}
+                    <div class="result-tip">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>這一輪只會先告訴你答對或答錯，不會先把正解打開，避免你太早被答案帶著走。</span>
+                    </div>
+                    <div class="result-tip">
+                        <i class="fa-solid fa-flag-checkered"></i>
+                        <span>等你結束這輪練習後，系統才會把這輪所有題目的答案與詳解一次整理出來。</span>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -468,7 +539,7 @@
                     <span id="result-title">這題答對了</span>
                 </div>
 
-                <div class="result-grid">
+                <div id="preview-result-grid" class="result-grid" {% if practice_mode != 'preview' %}hidden{% endif %}>
                     <div class="result-block">
                         <span class="result-label">你的答案</span>
                         <div class="result-value" id="selected-answer-text">-</div>
@@ -483,12 +554,33 @@
                     </div>
                 </div>
 
-                <div class="result-panel-actions">
-                    <a id="next-question-link" href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="practice-primary-btn">
+                <div id="practice-result-grid" class="result-grid" {% if practice_mode != 'practice' %}hidden{% endif %}>
+                    <div class="result-block">
+                        <span class="result-label">你的答案</span>
+                        <div class="result-value" id="practice-selected-answer-text">-</div>
+                    </div>
+                    <div class="result-block">
+                        <span class="result-label">目前進度</span>
+                        <div class="result-value" id="practice-round-progress">本輪已完成 0 題</div>
+                        <p class="result-muted" id="practice-round-hint">這輪的正解與詳解會在結束後一起整理。</p>
+                    </div>
+                </div>
+
+                <div class="result-panel-actions" id="preview-actions" {% if practice_mode != 'preview' %}hidden{% endif %}>
+                    <a id="next-question-link" href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview') }}" class="practice-primary-btn">
                         <i class="fa-solid fa-arrow-right"></i> 下一題
                     </a>
                     <a href="{{ url_for('study.practice_hub') }}" class="practice-secondary-btn">
                         <i class="fa-solid fa-border-all"></i> 換科目
+                    </a>
+                </div>
+
+                <div class="result-panel-actions" id="practice-actions" {% if practice_mode != 'practice' %}hidden{% endif %}>
+                    <a id="practice-next-question-link" href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice') }}" class="practice-primary-btn">
+                        <i class="fa-solid fa-arrow-right"></i> 下一題
+                    </a>
+                    <a id="practice-review-link" href="{{ url_for('study.practice_review', subject=current_subject_query) }}" class="practice-secondary-btn">
+                        <i class="fa-solid fa-clipboard-check"></i> 結束這輪練習
                     </a>
                 </div>
             </div>
@@ -505,6 +597,7 @@
     const postSubmitState = document.getElementById('post-submit-state');
     const aiGenerateBtn = document.getElementById('ai-generate-btn');
     const subjectQuery = {{ current_subject_query|tojson }};
+    const practiceMode = {{ practice_mode|tojson }};
 
     answerCards.forEach((card) => {
         const input = card.querySelector('input[type="radio"]');
@@ -524,16 +617,25 @@
         answerCards.forEach((card) => {
             const input = card.querySelector('input[type="radio"]');
             const answer = card.dataset.answer;
-            card.classList.remove('is-active', 'is-correct-answer', 'is-wrong-answer');
+            const isSelected = answer === data.selected_answer;
+
+            card.classList.remove('is-active', 'is-correct-answer', 'is-wrong-answer', 'is-reviewed-correct', 'is-reviewed-wrong');
             if (input) {
                 input.disabled = true;
             }
 
-            if (answer === data.correct_answer) {
-                card.classList.add('is-correct-answer');
+            if (practiceMode === 'preview') {
+                if (answer === data.correct_answer) {
+                    card.classList.add('is-correct-answer');
+                }
+                if (!data.correct && isSelected && data.selected_answer !== data.correct_answer) {
+                    card.classList.add('is-wrong-answer');
+                }
+                return;
             }
-            if (!data.correct && answer === data.selected_answer && data.selected_answer !== data.correct_answer) {
-                card.classList.add('is-wrong-answer');
+
+            if (isSelected) {
+                card.classList.add(data.correct ? 'is-reviewed-correct' : 'is-reviewed-wrong');
             }
         });
     }
@@ -573,22 +675,39 @@
             const resultTitle = document.getElementById('result-title');
             const resultStatusIcon = document.getElementById('result-status-icon');
             if (data.correct) {
-                resultTitle.textContent = '這題答對了，可以直接接下一題。';
                 resultStatusIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
                 resultStatusIcon.style.background = 'linear-gradient(135deg, #5da271, #8dc99c)';
             } else {
-                resultTitle.textContent = '這題答錯了，先把詳解看完再往下。';
                 resultStatusIcon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
                 resultStatusIcon.style.background = 'linear-gradient(135deg, #d86f58, #f49f6c)';
             }
 
-            document.getElementById('selected-answer-text').textContent =
-                `${data.selected_answer || '未作答'}${data.selected_answer_text ? ` ・ ${data.selected_answer_text}` : ''}`;
-            document.getElementById('correct-answer-text').textContent =
-                `${data.correct_answer} ・ ${data.correct_answer_text || ''}`;
-            document.getElementById('explanation-text').textContent =
-                data.explanation || '目前這題沒有詳解，建議先回頭比對題幹與正確選項。';
-            document.getElementById('next-question-link').href = data.next_question_url;
+            if (practiceMode === 'practice') {
+                resultTitle.textContent = data.correct
+                    ? '這題答對了，繼續把這輪做完。'
+                    : '這題先記成錯題，結束這輪後再看正解。';
+
+                document.getElementById('practice-selected-answer-text').textContent =
+                    `${data.selected_answer || '未作答'}${data.selected_answer_text ? ` ・ ${data.selected_answer_text}` : ''}`;
+                document.getElementById('practice-round-progress').textContent =
+                    `本輪已完成 ${data.round_count || 0} 題`;
+                document.getElementById('practice-round-hint').textContent = data.correct
+                    ? '這題已記成答對，等你結束這輪時再一起回顧完整詳解。'
+                    : '這題已記入本輪檢討，結束這輪後會一次整理正解與詳解。';
+                document.getElementById('practice-next-question-link').href = data.next_question_url;
+                document.getElementById('practice-review-link').href = data.review_url;
+            } else {
+                resultTitle.textContent = data.correct
+                    ? '這題答對了，可以直接接下一題。'
+                    : '這題答錯了，先把詳解看完再往下。';
+                document.getElementById('selected-answer-text').textContent =
+                    `${data.selected_answer || '未作答'}${data.selected_answer_text ? ` ・ ${data.selected_answer_text}` : ''}`;
+                document.getElementById('correct-answer-text').textContent =
+                    `${data.correct_answer} ・ ${data.correct_answer_text || ''}`;
+                document.getElementById('explanation-text').textContent =
+                    data.explanation || '目前這題沒有詳解，建議先回頭比對題幹與正確選項。';
+                document.getElementById('next-question-link').href = data.next_question_url;
+            }
 
             submitBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已完成作答';
         } catch (error) {
@@ -605,7 +724,7 @@
         aiGenerateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中';
 
         try {
-            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}`);
+            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}&mode=${encodeURIComponent(practiceMode)}`);
             const data = await response.json();
             if (!response.ok || data.status !== 'success') {
                 throw new Error(data.error || 'AI 生成題目失敗');

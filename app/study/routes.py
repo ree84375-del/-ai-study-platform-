@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash, session
 from flask_login import login_required, current_user
 import random
 import json
@@ -6,6 +6,11 @@ from datetime import datetime, timedelta, timezone
 from app.utils.i18n import get_text as _t
 
 study = Blueprint('study', __name__)
+
+PRACTICE_MODE_PREVIEW = 'preview'
+PRACTICE_MODE_PRACTICE = 'practice'
+PRACTICE_ROUND_SESSION_KEY = 'practice_round_review'
+PRACTICE_ROUND_MAX_ITEMS = 20
 
 def get_current_room_name():
     """Returns the room name based on the current system time (Taiwan UTC+8)."""
@@ -213,17 +218,114 @@ def build_practice_question_query(subject_value=None):
         return definition, query
 
     if subject_value and normalize_subject_key(subject_value) != 'all':
-        fallback_definition = {
-            'slug': normalize_subject_key(subject_value) or 'custom',
-            'label': subject_value,
-            'icon': 'fa-book',
-            'aliases': [subject_value],
-            'is_custom': True,
-        }
+        fallback_definition = build_custom_subject_definition(subject_value)
         query = query.filter(Question.subject == subject_value)
         return fallback_definition, query
 
     return resolve_subject_definition('all'), query
+
+
+def build_custom_subject_definition(subject_value):
+    return {
+        'slug': normalize_subject_key(subject_value) or 'custom',
+        'label': subject_value,
+        'icon': 'fa-book',
+        'aliases': [subject_value],
+        'is_custom': True,
+    }
+
+
+def normalize_practice_mode(value):
+    normalized = normalize_subject_key(value)
+    if normalized in {'practice', 'drill', 'train', 'training', '練習', '練習模式'}:
+        return PRACTICE_MODE_PRACTICE
+    return PRACTICE_MODE_PREVIEW
+
+
+def get_practice_mode_meta(mode):
+    if mode == PRACTICE_MODE_PRACTICE:
+        return {
+            'label': '練習模式',
+            'icon': 'fa-dumbbell',
+            'hero_title': '這輪先專心作答，答案和詳解最後一次看完。',
+            'hero_description': '每題送出後只會先告訴你答對或答錯，不會提前公開正解。等你結束這輪練習後，再一次看完整答案與詳解。',
+            'result_label': '延後看詳解',
+            'question_prompt': '先選出你認為最正確的答案。這一輪只會先告訴你答對或答錯，完整答案與詳解會留到最後檢討。',
+        }
+
+    return {
+        'label': '預覽模式',
+        'icon': 'fa-eye',
+        'hero_title': '這題答完就能看正解與詳解，直接延續你的刷題節奏。',
+        'hero_description': '先專心作答，系統會在送出後立即顯示正確答案、你選的答案與完整解析，讓你知道自己是觀念卡住還是粗心失分。',
+        'result_label': '即時詳解',
+        'question_prompt': '先選出你認為最正確的答案，送出後我會把這題的正解和詳解完整展開給你看。',
+    }
+
+
+def clear_practice_round():
+    session.pop(PRACTICE_ROUND_SESSION_KEY, None)
+    session.modified = True
+
+
+def get_practice_round_state():
+    round_state = session.get(PRACTICE_ROUND_SESSION_KEY)
+    if isinstance(round_state, dict) and isinstance(round_state.get('items'), list):
+        return round_state
+    return None
+
+
+def start_practice_round(subject_value, subject_definition):
+    round_state = {
+        'mode': PRACTICE_MODE_PRACTICE,
+        'subject': subject_value or 'all',
+        'subject_label': (subject_definition or {}).get('label') or subject_value or '全部',
+        'items': [],
+    }
+    session[PRACTICE_ROUND_SESSION_KEY] = round_state
+    session.modified = True
+    return round_state
+
+
+def ensure_practice_round(subject_value, subject_definition):
+    expected_subject = subject_value or 'all'
+    round_state = get_practice_round_state()
+    if not round_state:
+        return start_practice_round(expected_subject, subject_definition)
+
+    if round_state.get('mode') != PRACTICE_MODE_PRACTICE:
+        return start_practice_round(expected_subject, subject_definition)
+
+    if normalize_subject_key(round_state.get('subject')) != normalize_subject_key(expected_subject):
+        return start_practice_round(expected_subject, subject_definition)
+
+    return round_state
+
+
+def append_practice_round_item(subject_value, subject_definition, question, result):
+    round_state = ensure_practice_round(subject_value, subject_definition)
+    items = list(round_state.get('items', []))
+    items.append({
+        'question_id': question.id,
+        'subject': (subject_definition or {}).get('label') or subject_value or '全部',
+        'category': question.category or '',
+        'content_text': question.content_text,
+        'selected_answer': result['answer_key'] or '未作答',
+        'selected_answer_text': get_question_option_text(question, result['answer_key']) or '這題未作答',
+        'correct_answer': question.correct_answer,
+        'correct_answer_text': get_question_option_text(question, question.correct_answer),
+        'explanation': question.explanation or '目前這題沒有詳解，建議先回頭比對題幹與正確選項。',
+        'correct': result['correct'],
+    })
+    if len(items) > PRACTICE_ROUND_MAX_ITEMS:
+        items = items[-PRACTICE_ROUND_MAX_ITEMS:]
+
+    round_state['items'] = items
+    round_state['subject'] = subject_value or 'all'
+    round_state['subject_label'] = (subject_definition or {}).get('label') or subject_value or '全部'
+    session[PRACTICE_ROUND_SESSION_KEY] = round_state
+    session.modified = True
+    return len(items)
 
 
 def get_question_option_text(question, answer_key):
@@ -362,6 +464,7 @@ def practice_session():
         question_id = request.form.get('question_id')
         user_answer = request.form.get('answer')
         subject_value = request.form.get('subject') or 'all'
+        practice_mode = normalize_practice_mode(request.form.get('mode'))
 
         question = Question.query.get_or_404(question_id)
         result = apply_attempt_outcome(question, user_answer)
@@ -372,21 +475,36 @@ def practice_session():
 
         subject_definition = resolve_subject_definition(subject_value)
         next_subject = subject_definition['slug'] if subject_definition else subject_value or 'all'
-
-        return jsonify({
+        base_payload = {
+            'mode': practice_mode,
             'correct': result['correct'],
-            'correct_answer': question.correct_answer,
-            'correct_answer_text': get_question_option_text(question, question.correct_answer),
             'selected_answer': result['answer_key'],
             'selected_answer_text': get_question_option_text(question, result['answer_key']),
-            'explanation': question.explanation,
             'srs_level': result['mistake'].srs_level if result['mistake'] else 0,
             'resolved_now': result['resolved_now'],
-            'next_question_url': url_for('study.practice_session', subject=next_subject),
+            'next_question_url': url_for('study.practice_session', subject=next_subject, mode=practice_mode),
+        }
+
+        if practice_mode == PRACTICE_MODE_PRACTICE:
+            round_count = append_practice_round_item(subject_value, subject_definition, question, result)
+            base_payload.update({
+                'round_count': round_count,
+                'review_url': url_for('study.practice_review', subject=next_subject),
+            })
+            return jsonify(base_payload)
+
+        clear_practice_round()
+        base_payload.update({
+            'correct_answer': question.correct_answer,
+            'correct_answer_text': get_question_option_text(question, question.correct_answer),
+            'explanation': question.explanation,
         })
+        return jsonify(base_payload)
 
     subject_filter = request.args.get('subject')
     question_id = request.args.get('question_id', type=int)
+    practice_mode = normalize_practice_mode(request.args.get('mode'))
+    should_reset_round = request.args.get('reset_round') == '1'
     if not subject_filter and not question_id:
         return redirect(url_for('study.practice_hub'))
 
@@ -405,6 +523,14 @@ def practice_session():
 
     active_subject = current_subject or resolve_subject_definition('all')
     current_subject_query = subject_filter or (active_subject['label'] if active_subject.get('is_custom') else active_subject['slug'])
+    if should_reset_round:
+        clear_practice_round()
+    elif practice_mode == PRACTICE_MODE_PRACTICE:
+        ensure_practice_round(current_subject_query, active_subject)
+
+    round_state = get_practice_round_state() if practice_mode == PRACTICE_MODE_PRACTICE else None
+    round_attempts = len((round_state or {}).get('items', []))
+    practice_mode_meta = get_practice_mode_meta(practice_mode)
 
     return render_template(
         'practice_session.html',
@@ -413,6 +539,42 @@ def practice_session():
         current_subject=active_subject,
         current_subject_query=current_subject_query,
         question_pool_size=len(questions),
+        practice_mode=practice_mode,
+        practice_mode_meta=practice_mode_meta,
+        round_attempts=round_attempts,
+    )
+
+
+@study.route("/practice/review")
+@login_required
+def practice_review():
+    subject_value = request.args.get('subject') or 'all'
+    round_state = get_practice_round_state()
+    review_items = list((round_state or {}).get('items', []))
+
+    if not review_items:
+        flash('目前還沒有練習紀錄，先完成一輪作答再來看詳解。', 'info')
+        return redirect(url_for('study.practice_session', subject=subject_value, mode=PRACTICE_MODE_PRACTICE, reset_round=1))
+
+    subject_definition = resolve_subject_definition(subject_value)
+    if not subject_definition and round_state and round_state.get('subject_label'):
+        subject_definition = build_custom_subject_definition(round_state['subject_label'])
+
+    total_count = len(review_items)
+    correct_count = sum(1 for item in review_items if item.get('correct'))
+    wrong_count = total_count - correct_count
+    accuracy = int(round((correct_count / total_count) * 100)) if total_count else 0
+
+    return render_template(
+        'practice_review.html',
+        title=_t('nav_practice', current_user.language),
+        current_subject=subject_definition or resolve_subject_definition('all'),
+        current_subject_query=subject_value,
+        review_items=review_items,
+        total_count=total_count,
+        correct_count=correct_count,
+        wrong_count=wrong_count,
+        accuracy=accuracy,
     )
 
 @study.route("/mistakes")
@@ -542,6 +704,7 @@ def generate_question_api():
     from app import db
     from app.models import Question
     requested_subject = request.args.get('subject', 'math')
+    requested_mode = normalize_practice_mode(request.args.get('mode'))
     subject_definition = resolve_subject_definition(requested_subject)
     if subject_definition and subject_definition['slug'] != 'all':
         subject = subject_definition['label']
@@ -574,7 +737,7 @@ def generate_question_api():
         'status': 'success',
         'question_id': new_q.id,
         'quiz': quiz_data,
-        'practice_url': url_for('study.practice_session', subject=redirect_subject, question_id=new_q.id),
+        'practice_url': url_for('study.practice_session', subject=redirect_subject, question_id=new_q.id, mode=requested_mode),
     })
 
 
