@@ -497,11 +497,21 @@
                     messagesContainer.innerHTML = '';
                     chatTitle.innerHTML = '新對話紀錄';
                 }
+                
+                // Clear from local storage cache
+                let localSessions = JSON.parse(localStorage.getItem('chat_sessions_backup') || '[]');
+                localSessions = localSessions.filter(s => s.id !== id);
+                localStorage.setItem('chat_sessions_backup', JSON.stringify(localSessions));
+                localStorage.removeItem(`chat_history_${id}`);
+                
                 loadSessions();
+            } else {
+                const errText = await res.text();
+                alert(`刪除失敗 (${res.status}): ${errText.substring(0, 100)}`);
             }
         } catch (e) {
             console.error(e);
-            alert('刪除失敗，請重新整理重試');
+            alert('刪除失敗，請重新整理重試或檢查網路連線');
         }
     }
 
@@ -521,6 +531,9 @@
                     chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${newTitle.trim()}`;
                 }
                 loadSessions();
+            } else {
+                const errText = await res.text();
+                alert(`重新命名失敗 (${res.status}): ${errText.substring(0, 100)}`);
             }
         } catch (e) {
             console.error(e);
@@ -538,6 +551,9 @@
             });
             if (res.ok) {
                 loadSessions();
+            } else {
+                const errText = await res.text();
+                alert(`操作失敗 (${res.status}): ${errText.substring(0, 100)}`);
             }
         } catch (e) {
             console.error(e);
