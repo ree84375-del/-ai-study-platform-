@@ -1008,12 +1008,22 @@ def rename_chat_session(session_id):
 @study.route("/api/chat/history/<int:session_id>")
 @login_required
 def get_chat_history(session_id):
-    from app.models import ChatSession
+    from app.models import ChatSession, ChatMessage
     session = ChatSession.query.get_or_404(session_id)
     if session.user_id != current_user.id:
         return jsonify({'error': _t('msg_unauthorized', current_user.language)}), 403
-    messages = [{'role': m.role, 'content': m.content} for m in session.messages]
-    return jsonify({'messages': messages})
+
+    messages = ChatMessage.query.filter_by(session_id=session.id).order_by(
+        ChatMessage.created_at.asc(),
+        ChatMessage.id.asc(),
+    ).all()
+
+    payload = [{
+        'role': message.role,
+        'content': message.content,
+        'created_at': message.created_at.isoformat() if message.created_at else None,
+    } for message in messages]
+    return jsonify({'messages': payload})
 
 @study.route("/lofi")
 @login_required
