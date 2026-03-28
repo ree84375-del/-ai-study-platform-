@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
 import random
+import json
 from datetime import datetime, timedelta, timezone
 from app.utils.i18n import get_text as _t
 
@@ -477,6 +478,7 @@ def get_chat_sessions():
 @study.route("/api/chat/session/<int:session_id>", methods=['DELETE'])
 @login_required
 def delete_chat_session(session_id):
+    from app import db
     from app.models import ChatSession
     session = ChatSession.query.get_or_404(session_id)
     if session.user_id != current_user.id:
@@ -489,6 +491,7 @@ def delete_chat_session(session_id):
 @study.route("/api/chat/session/<int:session_id>/pin", methods=['PATCH'])
 @login_required
 def pin_chat_session(session_id):
+    from app import db
     from app.models import ChatSession
     session = ChatSession.query.get_or_404(session_id)
     if session.user_id != current_user.id:
@@ -501,6 +504,7 @@ def pin_chat_session(session_id):
 @study.route("/api/chat/session/<int:session_id>/rename", methods=['PATCH'])
 @login_required
 def rename_chat_session(session_id):
+    from app import db
     from app.models import ChatSession
     session = ChatSession.query.get_or_404(session_id)
     if session.user_id != current_user.id:
