@@ -22,7 +22,15 @@
                         <option value="英文" {% if question and question.subject == '英文' %}selected{% endif %}>{{ _t('subject_english') }}</option>
                         <option value="數學" {% if question and question.subject == '數學' %}selected{% endif %}>{{ _t('subject_math') }}</option>
                         <option value="社會" {% if question and question.subject == '社會' %}selected{% endif %}>{{ _t('subject_social') }}</option>
+                        <option value="地理" {% if question and question.subject == '地理' %}selected{% endif %}>{{ _t('subject_geography') }}</option>
+                        <option value="歷史" {% if question and question.subject == '歷史' %}selected{% endif %}>{{ _t('subject_history') }}</option>
+                        <option value="公民" {% if question and question.subject == '公民' %}selected{% endif %}>{{ _t('subject_civics') }}</option>
                         <option value="自然" {% if question and question.subject == '自然' %}selected{% endif %}>{{ _t('subject_science') }}</option>
+                        <option value="物理" {% if question and question.subject == '物理' %}selected{% endif %}>{{ _t('subject_physics') }}</option>
+                        <option value="化學" {% if question and question.subject == '化學' %}selected{% endif %}>{{ _t('subject_chemistry') }}</option>
+                        <option value="理化" {% if question and question.subject == '理化' %}selected{% endif %}>{{ _t('subject_physical_science') }}</option>
+                        <option value="地科" {% if question and question.subject == '地科' %}selected{% endif %}>{{ _t('subject_earth_science') }}</option>
+                        <option value="日文" {% if question and question.subject == '日文' %}selected{% endif %}>{{ _t('subject_japanese') }}</option>
                     </select>
                 </div>
                 <div style="flex: 1;">
