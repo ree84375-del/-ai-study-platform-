@@ -571,14 +571,8 @@
             const res = await fetch(`{{ url_for('study.get_chat_history', session_id=0) }}`.replace('0', id));
             if (res.ok) {
                 const data = await res.json();
-                let isFirstAi = true;
                 data.messages.forEach(m => {
-                    let bubble = '';
-                    if (m.role === 'ai' && isFirstAi) {
-                        bubble = globalRoleBubbleClass;
-                        isFirstAi = false;
-                    }
-                    addMessage(m.role, m.content, false, bubble);
+                    addMessage(m.role, m.content, false, m.role === 'ai' ? globalRoleBubbleClass : '');
                 });
                 localStorage.setItem(`chat_history_${id}`, JSON.stringify(data.messages));
                 scrollToBottom();
@@ -587,14 +581,8 @@
         } catch (e) { console.log("Server history load failed, using local backup."); }
 
         const localHistory = JSON.parse(localStorage.getItem(`chat_history_${id}`) || '[]');
-        let isFirstAiLocal = true;
         localHistory.forEach(m => {
-            let bubble = '';
-            if (m.role === 'ai' && isFirstAiLocal) {
-                bubble = globalRoleBubbleClass;
-                isFirstAiLocal = false;
-            }
-            addMessage(m.role, m.content, false, bubble);
+            addMessage(m.role, m.content, false, m.role === 'ai' ? globalRoleBubbleClass : '');
         });
         scrollToBottom();
     }
@@ -875,8 +863,7 @@
                     chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
                 }
                 
-                let isFirstMsg = messagesContainer.querySelectorAll('.chat-bubble.ai:not(.typing-indicator)').length === 0;
-                addMessage('ai', data.reply, true, isFirstMsg ? globalRoleBubbleClass : '');
+                addMessage('ai', data.reply, true, globalRoleBubbleClass);
 
                 if (autoSpeak) {
                     speak(data.reply);
@@ -1004,7 +991,7 @@
             setTimeout(() => {
                 const loader = document.getElementById('welcome-loader');
                 if (loader) loader.style.display = 'none';
-                addMessage('ai', randomGreeting, true, bubbleClass);
+                addMessage('ai', randomGreeting, true, globalRoleBubbleClass);
                 if (autoSpeak) speak(randomGreeting);
             }, 600);
         }
@@ -1102,19 +1089,21 @@
                 .then(r => r.json())
                 .then(data => {
                     if (data.message && !activeSessionId) {
-                        addMessage('ai', data.message, true, false);
+                        addMessage('ai', data.message, true, globalRoleBubbleClass);
                         if (autoSpeak) speak(data.message);
                     }
                 })
                 .catch(() => {
                     if (!activeSessionId) {
+                        let greeting = "";
                         {% if current_user.is_admin %}
-                        addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
+                        greeting = {{ _t("chat_admin_greeting")|tojson }};
                         {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
-                        addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
+                        greeting = {{ _t("chat_guest_greeting")|tojson }};
                         {% else %}
-                        addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
+                        greeting = {{ _t("chat_user_greeting", username=current_user.username)|tojson }};
                         {% endif %}
+                        addMessage('ai', greeting, true, globalRoleBubbleClass);
                     }
                 });
         }
