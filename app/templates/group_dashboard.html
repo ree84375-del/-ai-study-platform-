@@ -104,6 +104,8 @@
                             {% set is_completed = user_status and user_status.is_completed %}
                             <div class="assignment-card open-detail-btn {% if not is_completed %}active-assignment-glow{% endif %}" 
                                  data-id="{{ assignment.id }}"
+                                 data-assignment-description="{{ assignment.description | default('', true) | e }}"
+                                 data-assignment-reference="{{ assignment.reference_answer | default('', true) | e }}"
                                  onclick="openViewAssignmentModal({{ assignment.id }})">
                                 
                                 {% if not is_completed %}
@@ -122,7 +124,8 @@
                                                 <span class="assignment-status-tag assignment-status-tag--pending">{{ _t('not_submitted') }}</span>
                                             {% endif %}
                                         </div>
-                                        <p class="assignment-card__desc">{{ assignment.description | truncate(60) }}</p>
+                                        <p class="assignment-card__desc" data-role="assignment-summary">整理作業重點中...</p>
+                                        <div class="assignment-card__highlights" data-role="assignment-highlights"></div>
 
                                         <div class="assignment-card__meta">
                                             <div class="assignment-card__meta-item">
@@ -209,6 +212,8 @@
             <div id="hidden-admin-tools" style="display: none;">
                 <!-- Tools are hidden here when not in modal -->
                 <div id="publish-wizard" class="managed-tool" style="background: #fffcfd; padding: 10px; position: relative;">
+                    <form id="publish-assignment-form" method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" enctype="multipart/form-data" class="assignment-wizard-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" id="draft-id" name="assignment_id">
                         
                         <!-- Phase 0: AI Prompt (Optional) -->
@@ -229,6 +234,18 @@
                                     {{ _t('wizard_start') }}
                                 </button>
                             </div>
+                        </div>
+
+                        <div class="assignment-live-preview">
+                            <div class="assignment-live-preview__header">
+                                <div>
+                                    <span class="assignment-live-preview__eyebrow"><i class="fa-solid fa-sparkles"></i> 學生預覽</span>
+                                    <h5 class="assignment-live-preview__title">發布後學生會看到的作業樣子</h5>
+                                    <p class="assignment-live-preview__desc">AI 生成後、你手動調整後，都會即時同步到這張預覽卡，不會再只是一整塊純文字。</p>
+                                </div>
+                                <span class="assignment-live-preview__status" id="assignment-preview-status">等待草稿內容</span>
+                            </div>
+                            <div id="assignment-live-preview-content"></div>
                         </div>
 
                         <!-- Phase 1: Question -->
@@ -301,7 +318,8 @@
                                 <button type="button" onclick="nextPublishPhase(2)" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">{{ _t('prev_step') }}</button>
                                 <button type="submit" name="action" value="publish_assignment" style="flex: 2; padding: 10px; background: var(--color-accent); color: white; border: none; border-radius: 8px; font-weight: bold;">{{ _t('confirm_publish') }}</button>
                             </div>
-                    </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div id="submissions-list-tool" class="managed-tool" style="padding: 10px; position: relative;">
@@ -446,7 +464,7 @@
                 </div>
                 
                 <div style="background: white; border: 1px solid var(--color-border); border-radius: 8px; padding: 15px;">
-                    <div id="vad-question-content" style="white-space: pre-wrap; margin-bottom: 15px; color: var(--color-text_main); font-size: 0.95rem; line-height: 1.5;"></div>
+                    <div id="vad-question-content" class="assignment-detail-render" style="margin-bottom: 15px;"></div>
                     
                     <!-- Optional: Render Question Image here if existing -->
                     <div id="vad-question-image-container" style="display: none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
@@ -460,7 +478,7 @@
             <div id="vad-ref-section" class="glass-panel" style="padding: 20px; margin-bottom: 20px; display: none; border-left: 4px solid #4CAF50;">
                 <h4 style="margin: 0 0 15px 0; color: #2e7d32;"><i class="fa-solid fa-key"></i> {{ _t('ref_answer') }}</h4>
                 <div style="background: white; border: 1px solid #c8e6c9; border-radius: 8px; padding: 15px;">
-                    <div id="vad-ref-content" style="white-space: pre-wrap; color: var(--color-text_main); font-size: 0.95rem; line-height: 1.5;"></div>
+                    <div id="vad-ref-content" class="assignment-detail-render assignment-detail-render--answer"></div>
                     
                     <div id="vad-ref-image-container" style="display: none; margin-top: 15px; border-top: 1px solid #c8e6c9; padding-top: 15px;">
                         <span style="font-size: 0.8rem; color: #2e7d32;"><i class="fa-solid fa-image"></i> 老師附圖：</span>
@@ -526,7 +544,7 @@
                                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: var(--color-primary); font-weight: bold; font-size: 0.9rem;">
                                     <i class="fa-solid fa-circle-question"></i> {{ _t('question_explanation') }}
                                 </div>
-                                <div id="modal-desc" style="font-size: 0.95rem; color: #444; white-space: pre-wrap; margin-bottom: 15px; line-height: 1.6;"></div>
+                                <div id="modal-desc" class="assignment-detail-render" style="margin-bottom: 15px;"></div>
                                 <div id="modal-q-image-container" style="display: none; margin-top: 15px; background: #f9f9f9; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
                                     <img id="modal-q-image" src="" style="max-width: 100%; display: block; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                                 </div>
@@ -1130,6 +1148,30 @@
             line-height: 1.55;
         }
 
+        .assignment-card__highlights {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.75rem;
+        }
+
+        .assignment-card__highlight {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.32rem 0.62rem;
+            border-radius: 999px;
+            background: rgba(255, 245, 225, 0.95);
+            color: #9a6b22;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .assignment-card__highlight--soft {
+            background: rgba(240, 244, 251, 0.98);
+            color: #68788d;
+        }
+
         .assignment-card__meta {
             display: flex;
             flex-wrap: wrap;
@@ -1173,6 +1215,264 @@
 
         .active-assignment-glow {
             animation: assignment-glow 2.4s infinite ease-in-out;
+        }
+
+        .assignment-wizard-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .assignment-live-preview {
+            border: 1px solid rgba(223, 170, 92, 0.22);
+            border-radius: 22px;
+            background: linear-gradient(180deg, rgba(255, 251, 244, 0.98), rgba(255, 246, 232, 0.92));
+            padding: 1rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 18px 34px rgba(157, 118, 52, 0.08);
+        }
+
+        .assignment-live-preview__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.9rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .assignment-live-preview__eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.32rem 0.62rem;
+            border-radius: 999px;
+            background: rgba(60, 45, 24, 0.92);
+            color: #fffaf2;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .assignment-live-preview__title {
+            margin: 0.7rem 0 0.3rem;
+            color: #4e3620;
+            font-size: 1rem;
+        }
+
+        .assignment-live-preview__desc {
+            margin: 0;
+            color: #886b49;
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        .assignment-live-preview__status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.38rem 0.72rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(214, 183, 112, 0.24);
+            color: #8b6b35;
+            font-size: 0.74rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .assignment-detail-render {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .assignment-detail-board {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .assignment-detail-board--answer .assignment-detail-hero {
+            background: linear-gradient(135deg, rgba(239, 250, 243, 0.96), rgba(233, 246, 237, 0.92));
+            border-color: rgba(112, 178, 125, 0.26);
+        }
+
+        .assignment-detail-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 1rem 1.1rem;
+            border-radius: 18px;
+            border: 1px solid rgba(215, 187, 129, 0.22);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 248, 234, 0.94));
+        }
+
+        .assignment-detail-hero h3 {
+            margin: 0.5rem 0 0.35rem;
+            color: #49311e;
+            font-size: 1.05rem;
+        }
+
+        .assignment-detail-hero p {
+            margin: 0;
+            color: #6f5a41;
+            line-height: 1.65;
+            font-size: 0.92rem;
+        }
+
+        .assignment-detail-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #a37735;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .assignment-detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            justify-content: flex-end;
+        }
+
+        .assignment-detail-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.72rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(214, 183, 112, 0.24);
+            color: #7d6132;
+            font-size: 0.74rem;
+            font-weight: 700;
+        }
+
+        .assignment-detail-grid {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .assignment-detail-section {
+            padding: 0.95rem 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(224, 226, 232, 0.92);
+            background: rgba(255, 255, 255, 0.96);
+        }
+
+        .assignment-detail-section--bonus {
+            background: linear-gradient(135deg, rgba(255, 246, 230, 0.96), rgba(255, 239, 215, 0.94));
+            border-color: rgba(225, 169, 79, 0.24);
+        }
+
+        .assignment-detail-section__title {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin: 0 0 0.75rem;
+            color: #614221;
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
+        .assignment-detail-pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .assignment-detail-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(245, 248, 255, 0.98);
+            color: #5c6f88;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .assignment-detail-task-list {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .assignment-detail-task {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 0.85rem 0.9rem;
+            border-radius: 14px;
+            background: rgba(255, 249, 238, 0.98);
+            border: 1px solid rgba(221, 202, 166, 0.28);
+        }
+
+        .assignment-detail-task-index {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0c675, #dca04e);
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 800;
+            box-shadow: 0 8px 16px rgba(220, 160, 78, 0.18);
+        }
+
+        .assignment-detail-task p {
+            margin: 0;
+            color: #5a4836;
+            line-height: 1.65;
+            font-size: 0.92rem;
+        }
+
+        .assignment-detail-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .assignment-detail-checklist li {
+            position: relative;
+            padding-left: 1.5rem;
+            color: #556474;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .assignment-detail-checklist li::before {
+            content: '\2713';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #d38b2c;
+            font-weight: 900;
+        }
+
+        .assignment-detail-bonus {
+            color: #6a4b25;
+            line-height: 1.7;
+            font-size: 0.92rem;
+        }
+
+        .assignment-detail-empty {
+            padding: 0.95rem 1rem;
+            border-radius: 14px;
+            background: rgba(245, 247, 250, 0.98);
+            color: #6f7b8b;
+            font-size: 0.86rem;
+            line-height: 1.6;
         }
 
         .admin-section-label {
@@ -2121,13 +2421,360 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const ASSIGNMENT_SECTION_ALIASES = {
+        intro: ['作業導語', '作業說明', '學習情境'],
+        objectives: ['任務目標', '學習目標'],
+        tasks: ['題目任務', '題目列表', '作業任務'],
+        requirements: ['作答要求', '作答規則', '提交方式'],
+        bonus: ['加分挑戰', '挑戰題'],
+        answerSummary: ['解題總覽', '參考解答', '答案總覽'],
+        answerSteps: ['逐題詳解', '詳解', '步驟拆解'],
+        gradingFocus: ['老師批改重點', '批改重點']
+    };
+
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function normalizeAssignmentLine(line) {
+        return String(line ?? '')
+            .trim()
+            .replace(/^[-*•]\s*/, '')
+            .replace(/^\d+[\.\)、]\s*/, '')
+            .trim();
+    }
+
+    function parseAssignmentSections(raw) {
+        const sections = [];
+        const lines = String(raw || '').split(/\r?\n/);
+        let current = null;
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            const match = trimmed.match(/^【(.+?)】$/);
+            if (match) {
+                current = { name: match[1].replace(/\s+/g, ''), lines: [] };
+                sections.push(current);
+                return;
+            }
+
+            if (!current) {
+                current = { name: '__preamble__', lines: [] };
+                sections.push(current);
+            }
+
+            current.lines.push(line);
+        });
+
+        return sections
+            .map(section => ({
+                name: section.name,
+                text: section.lines.join('\n').trim()
+            }))
+            .filter(section => section.text);
+    }
+
+    function findSectionText(sections, aliases) {
+        for (const alias of aliases) {
+            const key = alias.replace(/\s+/g, '');
+            const found = sections.find(section => section.name === key);
+            if (found && found.text) {
+                return found.text.trim();
+            }
+        }
+        return '';
+    }
+
+    function extractParagraphs(raw) {
+        return String(raw || '')
+            .split(/\n\s*\n/)
+            .map(block => block.replace(/\s*\n\s*/g, ' ').trim())
+            .filter(Boolean);
+    }
+
+    function extractItemsFromText(text) {
+        return String(text || '')
+            .split(/\r?\n/)
+            .map(line => normalizeAssignmentLine(line))
+            .filter(Boolean);
+    }
+
+    function extractLooseTaskItems(raw) {
+        const numbered = [];
+        String(raw || '').split(/\r?\n/).forEach(line => {
+            const trimmed = line.trim();
+            if (/^(\d+[\.\)、]|[-*•])/.test(trimmed)) {
+                const cleaned = normalizeAssignmentLine(trimmed);
+                if (cleaned) {
+                    numbered.push(cleaned);
+                }
+            }
+        });
+        return numbered;
+    }
+
+    function parseAssignmentDisplay(raw, kind = 'description') {
+        const source = String(raw || '').trim();
+        const sections = parseAssignmentSections(source);
+        const paragraphs = extractParagraphs(source);
+        const looseTasks = extractLooseTaskItems(source);
+
+        if (kind === 'reference') {
+            const answerSummary = findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.answerSummary) || paragraphs[0] || '';
+            let answerSteps = extractItemsFromText(findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.answerSteps));
+            if (!answerSteps.length) {
+                answerSteps = looseTasks.length ? looseTasks : paragraphs.slice(answerSummary ? 1 : 0);
+            }
+
+            const gradingFocus = extractItemsFromText(findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.gradingFocus));
+
+            return {
+                answerSummary,
+                answerSteps,
+                gradingFocus
+            };
+        }
+
+        const intro = findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.intro) || paragraphs[0] || '';
+        const objectives = extractItemsFromText(findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.objectives));
+        let tasks = extractItemsFromText(findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.tasks));
+        if (!tasks.length) {
+            tasks = looseTasks.length ? looseTasks : paragraphs.slice(intro ? 1 : 0);
+        }
+
+        const requirements = extractItemsFromText(findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.requirements));
+        const bonus = findSectionText(sections, ASSIGNMENT_SECTION_ALIASES.bonus);
+        const summary = intro || tasks[0] || paragraphs[0] || '這份作業已經準備好，打開後可以直接開始。';
+
+        const highlights = [];
+        if (tasks.length) highlights.push({ label: `${tasks.length} 個任務`, soft: false });
+        if (requirements.length) highlights.push({ label: `${requirements.length} 個作答提醒`, soft: true });
+        if (bonus) highlights.push({ label: '含加分挑戰', soft: false });
+        if (!highlights.length && objectives.length) highlights.push({ label: `${objectives.length} 個學習重點`, soft: true });
+        if (!highlights.length) highlights.push({ label: '作業草稿', soft: true });
+
+        return {
+            intro,
+            objectives,
+            tasks,
+            requirements,
+            bonus,
+            summary,
+            highlights
+        };
+    }
+
+    function buildBadge(label) {
+        return `<span class="assignment-detail-badge">${escapeHtml(label)}</span>`;
+    }
+
+    function buildDescriptionDetailMarkup(raw, options = {}) {
+        const parsed = parseAssignmentDisplay(raw, 'description');
+        const title = options.title || '未命名作業';
+        const eyebrow = options.eyebrow || '作業講義';
+
+        if (!String(raw || '').trim()) {
+            return `<div class="assignment-detail-empty">在上方填入題目後，這裡會自動整理成學生實際會看到的作業卡。</div>`;
+        }
+
+        const meta = [];
+        if (options.dueLabel) meta.push(buildBadge(options.dueLabel));
+        if (parsed.tasks.length) meta.push(buildBadge(`${parsed.tasks.length} 題任務`));
+        if (parsed.requirements.length) meta.push(buildBadge(`${parsed.requirements.length} 個提醒`));
+
+        const objectiveHtml = parsed.objectives.length
+            ? `<section class="assignment-detail-section">
+                    <h4 class="assignment-detail-section__title"><i class="fa-solid fa-bullseye"></i> 學習目標</h4>
+                    <div class="assignment-detail-pill-list">
+                        ${parsed.objectives.map(item => `<span class="assignment-detail-pill">${escapeHtml(item)}</span>`).join('')}
+                    </div>
+               </section>`
+            : '';
+
+        const taskHtml = parsed.tasks.length
+            ? `<section class="assignment-detail-section">
+                    <h4 class="assignment-detail-section__title"><i class="fa-solid fa-list-check"></i> 題目任務</h4>
+                    <div class="assignment-detail-task-list">
+                        ${parsed.tasks.map((task, index) => `
+                            <article class="assignment-detail-task">
+                                <span class="assignment-detail-task-index">${index + 1}</span>
+                                <p>${escapeHtml(task)}</p>
+                            </article>
+                        `).join('')}
+                    </div>
+               </section>`
+            : `<div class="assignment-detail-empty">目前還沒有拆解好的任務內容，老師可以再補充。</div>`;
+
+        const requirementHtml = parsed.requirements.length
+            ? `<section class="assignment-detail-section">
+                    <h4 class="assignment-detail-section__title"><i class="fa-solid fa-clipboard-list"></i> 作答要求</h4>
+                    <ul class="assignment-detail-checklist">
+                        ${parsed.requirements.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
+                    </ul>
+               </section>`
+            : '';
+
+        const bonusHtml = parsed.bonus
+            ? `<section class="assignment-detail-section assignment-detail-section--bonus">
+                    <h4 class="assignment-detail-section__title"><i class="fa-solid fa-crown"></i> 加分挑戰</h4>
+                    <div class="assignment-detail-bonus">${escapeHtml(parsed.bonus)}</div>
+               </section>`
+            : '';
+
+        return `
+            <div class="assignment-detail-board">
+                <div class="assignment-detail-hero">
+                    <div>
+                        <div class="assignment-detail-eyebrow"><i class="fa-solid fa-file-lines"></i> ${escapeHtml(eyebrow)}</div>
+                        <h3>${escapeHtml(title)}</h3>
+                        <p>${escapeHtml(parsed.summary)}</p>
+                    </div>
+                    <div class="assignment-detail-meta">${meta.join('')}</div>
+                </div>
+                <div class="assignment-detail-grid">
+                    ${objectiveHtml}
+                    ${taskHtml}
+                    ${requirementHtml}
+                    ${bonusHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    function buildReferenceDetailMarkup(raw, options = {}) {
+        const parsed = parseAssignmentDisplay(raw, 'reference');
+
+        if (!String(raw || '').trim()) {
+            return `<div class="assignment-detail-empty">尚未填入參考答案時，這裡會顯示老師版詳解與批改重點。</div>`;
+        }
+
+        const stepHtml = parsed.answerSteps.length
+            ? `<section class="assignment-detail-section">
+                    <h4 class="assignment-detail-section__title"><i class="fa-solid fa-lightbulb"></i> 逐題詳解</h4>
+                    <div class="assignment-detail-task-list">
+                        ${parsed.answerSteps.map((step, index) => `
+                            <article class="assignment-detail-task">
+                                <span class="assignment-detail-task-index">${index + 1}</span>
+                                <p>${escapeHtml(step)}</p>
+                            </article>
+                        `).join('')}
+                    </div>
+               </section>`
+            : '';
+
+        const focusHtml = parsed.gradingFocus.length
+            ? `<section class="assignment-detail-section">
+                    <h4 class="assignment-detail-section__title"><i class="fa-solid fa-square-check"></i> 批改重點</h4>
+                    <ul class="assignment-detail-checklist">
+                        ${parsed.gradingFocus.map(item => `<li>${escapeHtml(item)}</li>`).join('')}
+                    </ul>
+               </section>`
+            : '';
+
+        return `
+            <div class="assignment-detail-board assignment-detail-board--answer">
+                <div class="assignment-detail-hero">
+                    <div>
+                        <div class="assignment-detail-eyebrow"><i class="fa-solid fa-key"></i> 老師版詳解</div>
+                        <h3>${escapeHtml(options.title || '參考解答')}</h3>
+                        <p>${escapeHtml(parsed.answerSummary || '老師已經整理好這份作業的解題方向。')}</p>
+                    </div>
+                    <div class="assignment-detail-meta">
+                        ${parsed.answerSteps.length ? buildBadge(`${parsed.answerSteps.length} 段詳解`) : ''}
+                    </div>
+                </div>
+                <div class="assignment-detail-grid">
+                    ${stepHtml}
+                    ${focusHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    function formatDuePreviewLabel(rawValue, fallbackText = '未設定截止') {
+        if (!rawValue) return fallbackText;
+
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(rawValue)) {
+            return `截止 ${rawValue.replace('T', ' ')}`;
+        }
+
+        const parsed = new Date(rawValue);
+        if (Number.isNaN(parsed.getTime())) {
+            return fallbackText;
+        }
+
+        return `截止 ${parsed.toLocaleString()}`;
+    }
+
+    function syncAssignmentLivePreview() {
+        const previewContainer = document.getElementById('assignment-live-preview-content');
+        const statusEl = document.getElementById('assignment-preview-status');
+        if (!previewContainer || !statusEl) return;
+
+        const title = document.getElementById('draft-title')?.value?.trim() || '未命名作業';
+        const desc = document.getElementById('draft-desc')?.value || '';
+        const ref = document.getElementById('draft-ref')?.value || '';
+        const due = document.getElementById('draft-due')?.value || '';
+
+        const descriptionHtml = buildDescriptionDetailMarkup(desc, {
+            title,
+            eyebrow: '學生作業單',
+            dueLabel: formatDuePreviewLabel(due, '待設定截止時間')
+        });
+
+        const referenceHtml = ref ? buildReferenceDetailMarkup(ref, { title: '老師參考解答' }) : '';
+
+        previewContainer.innerHTML = descriptionHtml + referenceHtml;
+        statusEl.textContent = desc.trim() ? '已同步最新草稿' : '等待草稿內容';
+    }
+
+    function decorateAssignmentCards() {
+        document.querySelectorAll('.assignment-card').forEach(card => {
+            const raw = card.dataset.assignmentDescription || '';
+            const parsed = parseAssignmentDisplay(raw, 'description');
+            const summaryEl = card.querySelector('[data-role="assignment-summary"]');
+            const highlightsEl = card.querySelector('[data-role="assignment-highlights"]');
+
+            if (summaryEl) {
+                summaryEl.textContent = parsed.summary;
+            }
+
+            if (highlightsEl) {
+                highlightsEl.innerHTML = parsed.highlights.map(item => `
+                    <span class="assignment-card__highlight ${item.soft ? 'assignment-card__highlight--soft' : ''}">
+                        <i class="fa-solid ${item.soft ? 'fa-circle-info' : 'fa-sparkles'}"></i>
+                        ${escapeHtml(item.label)}
+                    </span>
+                `).join('');
+            }
+        });
+    }
+
+    function initAssignmentDraftPreview() {
+        ['draft-title', 'draft-desc', 'draft-ref', 'draft-due', 'ai-draft-prompt'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', syncAssignmentLivePreview);
+            }
+        });
+
+        decorateAssignmentCards();
+        syncAssignmentLivePreview();
+    }
+
     // --- Assignment Wizard Logic (Enhanced with Yukine Checks) ---
     window.nextPublishPhase = (phase) => {
         document.querySelectorAll('[id^="publish-phase-"]').forEach(el => el.style.display = 'none');
         document.getElementById(`publish-phase-${phase}`).style.display = 'block';
         const label = document.getElementById('publish-tool-label');
         const titles = { 1: "{{ _t('step1_title') }}", 2: "{{ _t('step2_title') }}", 3: "{{ _t('step3_title') }}" };
-        if (titles[phase]) label.innerText = titles[phase];
+        if (label && titles[phase]) label.innerText = titles[phase];
+        syncAssignmentLivePreview();
         
         // Reset feedback areas when moving back/forth
         if (phase === 1) {
@@ -2358,6 +3005,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
             if (data.status === 'success') {
                 targetEl.value = data.text;
+                syncAssignmentLivePreview();
                 statusEl.innerHTML = `<i class="fa-solid fa-check"></i> ${"{{ _t('success') }}"}`;
             } else { statusEl.innerHTML = "{{ _t('ocr_failed') }}"; }
         } catch (err) { statusEl.innerHTML = "{{ _t('conn_error') }}"; }
@@ -2406,6 +3054,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('draft-title').value = data.draft.title;
                 document.getElementById('draft-desc').value = data.draft.description;
                 document.getElementById('draft-ref').value = data.draft.reference_answer;
+                syncAssignmentLivePreview();
                 status.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#2ecc71"></i> {{ _t('design_done') }}`;
                 nextPublishPhase(1);
             } else {
@@ -2426,7 +3075,10 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openSubmissionModal = (data) => {
         document.getElementById('modal-assignment-id').value = data.id;
         document.getElementById('modal-title').innerText = data.title;
-        document.getElementById('modal-desc').innerText = data.desc;
+        document.getElementById('modal-desc').innerHTML = buildDescriptionDetailMarkup(data.desc, {
+            title: data.title,
+            eyebrow: '作業內容'
+        });
         
         // Handle Question Image
         const qImg = document.getElementById('modal-q-image');
@@ -2519,6 +3171,40 @@ function renderAssignmentInfo(assignment) {
         document.getElementById('vad-ref-content').innerText = assignment.ref_answer;
     } else {
         document.getElementById('vad-ref-section').style.display = 'none';
+    }
+}
+
+function renderAssignmentInfo(assignment) {
+    document.getElementById('vad-title').innerText = assignment.title || '作業詳情';
+    document.getElementById('vad-due-date').innerText = assignment.due_date
+        ? `截止：${new Date(assignment.due_date).toLocaleString()}`
+        : '無期限';
+
+    document.getElementById('vad-question-content').innerHTML = buildDescriptionDetailMarkup(assignment.description, {
+        title: assignment.title || '作業內容',
+        eyebrow: '作業內容',
+        dueLabel: formatDuePreviewLabel(assignment.due_date, '無期限')
+    });
+
+    const refSection = document.getElementById('vad-ref-section');
+    const refContent = document.getElementById('vad-ref-content');
+    const refImageContainer = document.getElementById('vad-ref-image-container');
+    const refImage = document.getElementById('vad-ref-image');
+
+    if (assignment.ref_answer) {
+        refSection.style.display = 'block';
+        refContent.innerHTML = buildReferenceDetailMarkup(assignment.ref_answer, { title: '參考解答' });
+    } else {
+        refSection.style.display = 'none';
+        refContent.innerHTML = '';
+    }
+
+    if (assignment.ref_image) {
+        refImage.src = `/static/${assignment.ref_image}`;
+        refImageContainer.style.display = 'block';
+    } else {
+        refImage.removeAttribute('src');
+        refImageContainer.style.display = 'none';
     }
 }
 
@@ -3155,6 +3841,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    initAssignmentDraftPreview();
 });
 
 window.recognizeTeacherRef = async (input) => {

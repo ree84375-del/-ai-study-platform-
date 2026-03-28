@@ -1607,6 +1607,364 @@ def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
 
         return {"title": "Error", "description": str(e), "reference_answer": ""}
 
+def _extract_json_from_text(response_text):
+
+    clean_text = (response_text or "").strip()
+
+    fence_match = re.search(r"```(?:json)?\s*(.*?)```", clean_text, re.DOTALL | re.IGNORECASE)
+
+    if fence_match:
+
+        clean_text = fence_match.group(1).strip()
+
+    start = clean_text.find('{')
+
+    end = clean_text.rfind('}')
+
+    if start != -1 and end != -1 and end > start:
+
+        clean_text = clean_text[start:end + 1]
+
+    return json.loads(clean_text)
+
+
+def _normalize_assignment_items(value):
+
+    if isinstance(value, list):
+
+        candidates = value
+
+    elif isinstance(value, str):
+
+        candidates = value.splitlines()
+
+    else:
+
+        candidates = []
+
+    results = []
+
+    seen = set()
+
+    for item in candidates:
+
+        text = str(item or "").strip()
+
+        if not text:
+
+            continue
+
+        text = re.sub(r'^[\-\*\u2022]\s*', '', text)
+
+        text = re.sub(r'^\d+[\.\)\u3001]\s*', '', text)
+
+        text = text.strip()
+
+        if not text:
+
+            continue
+
+        key = text.lower()
+
+        if key in seen:
+
+            continue
+
+        seen.add(key)
+
+        results.append(text)
+
+    return results
+
+
+def _first_non_empty(*values, default=""):
+
+    for value in values:
+
+        if isinstance(value, str) and value.strip():
+
+            return value.strip()
+
+    return default
+
+
+def _compose_assignment_description(intro, objectives, tasks, requirements, bonus):
+
+    sections = []
+
+    if intro:
+
+        sections.append(f"【作業導語】\n{intro}")
+
+    if objectives:
+
+        sections.append("【任務目標】\n" + "\n".join(f"- {item}" for item in objectives))
+
+    if tasks:
+
+        sections.append("【題目任務】\n" + "\n".join(f"{idx}. {item}" for idx, item in enumerate(tasks, start=1)))
+
+    if requirements:
+
+        sections.append("【作答要求】\n" + "\n".join(f"- {item}" for item in requirements))
+
+    if bonus:
+
+        sections.append(f"【加分挑戰】\n{bonus}")
+
+    return "\n\n".join(section for section in sections if section).strip()
+
+
+def _compose_reference_answer(answer_summary, answer_steps, grading_focus):
+
+    sections = []
+
+    if answer_summary:
+
+        sections.append(f"【解題總覽】\n{answer_summary}")
+
+    if answer_steps:
+
+        sections.append("【逐題詳解】\n" + "\n".join(f"{idx}. {item}" for idx, item in enumerate(answer_steps, start=1)))
+
+    if grading_focus:
+
+        sections.append("【老師批改重點】\n" + "\n".join(f"- {item}" for item in grading_focus))
+
+    return "\n\n".join(section for section in sections if section).strip()
+
+
+def _normalize_assignment_draft_payload(payload, teacher_input):
+
+    payload = payload or {}
+
+    teacher_input = str(teacher_input or "").strip()
+
+    raw_description = str(payload.get('description') or payload.get('question_content') or "").strip()
+
+    raw_reference = str(payload.get('reference_answer') or payload.get('answer') or "").strip()
+
+    raw_lines = [line.strip() for line in raw_description.splitlines() if line.strip()]
+
+    reference_lines = [line.strip() for line in raw_reference.splitlines() if line.strip()]
+
+    title = _first_non_empty(
+
+        payload.get('title'),
+
+        payload.get('assignment_title'),
+
+        default="雪音發布：練習作業"
+
+    )
+
+    intro = _first_non_empty(
+
+        payload.get('intro'),
+
+        payload.get('opening'),
+
+        payload.get('summary'),
+
+        raw_lines[0] if raw_lines else "",
+
+        default=f"請完成這份根據教師需求生成的作業：{teacher_input[:60]}" if teacher_input else "請完成這份練習作業。"
+
+    )
+
+    objectives = _normalize_assignment_items(
+
+        payload.get('objectives') or payload.get('goals') or payload.get('learning_targets')
+
+    )
+
+    tasks = _normalize_assignment_items(
+
+        payload.get('tasks') or payload.get('questions') or payload.get('task_list')
+
+    )
+
+    requirements = _normalize_assignment_items(
+
+        payload.get('requirements') or payload.get('submission_rules') or payload.get('answer_requirements')
+
+    )
+
+    bonus = _first_non_empty(
+
+        payload.get('bonus'),
+
+        payload.get('challenge'),
+
+        payload.get('bonus_task')
+
+    )
+
+    if not tasks:
+
+        line_tasks = _normalize_assignment_items(raw_lines[1:] if len(raw_lines) > 1 else raw_lines)
+
+        tasks = line_tasks or ([teacher_input] if teacher_input else ["請依照老師說明完成指定內容。"])
+
+    if not objectives:
+
+        objectives = ["掌握這次作業的核心概念", "完成後能獨立整理自己的作答思路"]
+
+    if not requirements:
+
+        requirements = ["請寫出完整作答內容", "完成後自行檢查一次再提交"]
+
+    answer_summary = _first_non_empty(
+
+        payload.get('answer_summary'),
+
+        payload.get('reference_overview'),
+
+        reference_lines[0] if reference_lines else "",
+
+        default="請對照逐題詳解完成最後檢查。"
+
+    )
+
+    answer_steps = _normalize_assignment_items(
+
+        payload.get('answer_steps') or payload.get('solutions') or payload.get('explanations')
+
+    )
+
+    grading_focus = _normalize_assignment_items(
+
+        payload.get('grading_focus') or payload.get('teacher_focus') or payload.get('rubric')
+
+    )
+
+    if not answer_steps:
+
+        answer_steps = _normalize_assignment_items(reference_lines[1:] if len(reference_lines) > 1 else reference_lines)
+
+    if not answer_steps:
+
+        answer_steps = [f"{task}：補上完整解題過程、關鍵步驟與最後答案。" for task in tasks]
+
+    if not grading_focus:
+
+        grading_focus = ["是否有完整作答步驟", "是否回答到題目要求的重點"]
+
+    description = _compose_assignment_description(intro, objectives, tasks, requirements, bonus)
+
+    reference_answer = _compose_reference_answer(answer_summary, answer_steps, grading_focus)
+
+    return {
+
+        "title": title,
+
+        "description": description,
+
+        "reference_answer": reference_answer,
+
+        "preview": {
+
+            "intro": intro,
+
+            "objectives": objectives,
+
+            "tasks": tasks,
+
+            "requirements": requirements,
+
+            "bonus": bonus,
+
+            "answer_summary": answer_summary,
+
+            "answer_steps": answer_steps,
+
+            "grading_focus": grading_focus,
+
+        }
+
+    }
+
+
+def generate_assignment_draft(teacher_input, image_bytes=None, lang='zh'):
+
+    try:
+
+        schema_hint = {
+
+            "title": "作業標題",
+
+            "intro": "給學生看的開場導語，2 到 3 句",
+
+            "objectives": ["這份作業要學生學會什麼"],
+
+            "tasks": ["具體題目或任務，一題一項"],
+
+            "requirements": ["作答要求或提交規則"],
+
+            "bonus": "可選填，加分挑戰或延伸任務",
+
+            "answer_summary": "老師用的解題總覽",
+
+            "answer_steps": ["逐題詳解，一題一項"],
+
+            "grading_focus": ["老師批改時要注意的重點"]
+
+        }
+
+        prompt = f"""
+你是雪音老師，正在幫教師設計一份學生看了會願意打開的作業單。
+
+請根據教師需求設計內容，輸出必須是 JSON，不能加任何說明文字，也不能用 Markdown code block。
+JSON 欄位請完全符合這個格式：
+{json.dumps(schema_hint, ensure_ascii=False, indent=2)}
+
+請遵守：
+1. 內容要有層次，不要只是一整段文字。
+2. tasks 至少 3 項，且每一項都要是學生可以直接完成的任務。
+3. requirements 要能直接拿去當作答提醒。
+4. answer_steps 要對應 tasks，寫成學生看得懂的詳解。
+5. grading_focus 要讓老師一眼知道這份作業在看什麼。
+6. 標題要精簡清楚，不要浮誇。
+
+教師需求：
+{teacher_input}
+""".strip()
+
+        if image_bytes:
+
+            response_text = generate_vision_with_fallback(prompt, image_bytes)
+
+        else:
+
+            response_text = generate_text_with_fallback(prompt)
+
+        try:
+
+            payload = _extract_json_from_text(response_text)
+
+        except (json.JSONDecodeError, TypeError, ValueError):
+
+            payload = {
+
+                "title": "雪音發布：練習作業",
+
+                "intro": "老師已經先整理好這份作業，請你依照題目一步一步完成。",
+
+                "tasks": _normalize_assignment_items((response_text or "").splitlines()),
+
+                "answer_summary": "請依照題目順序逐題訂正並完成最後檢查。",
+
+                "answer_steps": _normalize_assignment_items((response_text or "").splitlines()),
+
+            }
+
+        return _normalize_assignment_draft_payload(payload, teacher_input)
+
+    except Exception as e:
+
+        return {"error": str(e)}
+
+
 def get_ai_user_by_personality(personality_key=None):
 
     """
