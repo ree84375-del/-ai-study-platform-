@@ -95,6 +95,158 @@
         gap: 1rem;
     }
 
+    .subject-featured {
+        margin-top: 0.25rem;
+    }
+
+    .subject-featured-card {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.45rem 1.55rem;
+        border-radius: 26px;
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        background:
+            radial-gradient(circle at top right, rgba(255, 228, 168, 0.28), transparent 32%),
+            linear-gradient(135deg, rgba(255, 253, 247, 0.98), rgba(248, 240, 220, 0.95));
+        box-shadow: 0 18px 36px rgba(133, 111, 73, 0.14);
+        text-decoration: none;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .subject-featured-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(214, 165, 61, 0.55);
+        box-shadow: 0 24px 40px rgba(133, 111, 73, 0.18);
+    }
+
+    .subject-featured-card--disabled {
+        opacity: 0.72;
+        box-shadow: none;
+        filter: saturate(0.72);
+    }
+
+    .subject-featured-copy h2 {
+        margin: 0.7rem 0 0.4rem;
+        color: #392e20;
+        font-size: clamp(1.4rem, 2vw, 1.8rem);
+    }
+
+    .subject-featured-copy p {
+        margin: 0;
+        color: #7a6851;
+        line-height: 1.75;
+        max-width: 680px;
+    }
+
+    .subject-featured-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.78rem;
+        border-radius: 999px;
+        background: rgba(61, 52, 40, 0.92);
+        color: #fffaf2;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+    }
+
+    .subject-featured-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.7rem;
+        flex-shrink: 0;
+    }
+
+    .subject-featured-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.6rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.96);
+        color: #866734;
+        font-size: 0.92rem;
+        font-weight: 800;
+    }
+
+    .subject-featured-cta {
+        color: #5b4b2e;
+        font-size: 0.95rem;
+        font-weight: 800;
+    }
+
+    .subject-groups {
+        display: flex;
+        flex-direction: column;
+        gap: 1.35rem;
+    }
+
+    .subject-group-section {
+        padding: 1.25rem;
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.16);
+        background: rgba(255, 251, 242, 0.72);
+        box-shadow: 0 16px 34px rgba(133, 111, 73, 0.08);
+    }
+
+    .subject-group-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .subject-group-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.42rem;
+        color: #a07d45;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .subject-group-title-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 0.35rem;
+    }
+
+    .subject-group-title {
+        margin: 0;
+        color: #3a2f21;
+        font-size: 1.3rem;
+    }
+
+    .subject-group-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 56px;
+        padding: 0.28rem 0.72rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.92);
+        color: #88693a;
+        font-size: 0.82rem;
+        font-weight: 800;
+    }
+
+    .subject-group-desc {
+        margin: 0.45rem 0 0;
+        color: #7d6d55;
+        line-height: 1.7;
+        font-size: 0.93rem;
+    }
+
     .subject-card,
     .subject-card-disabled {
         position: relative;
@@ -193,6 +345,21 @@
             border-radius: 22px;
         }
 
+        .subject-featured-card,
+        .subject-group-section {
+            padding: 1.15rem;
+            border-radius: 22px;
+        }
+
+        .subject-featured-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .subject-featured-meta {
+            align-items: flex-start;
+        }
+
         .subject-grid {
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
@@ -221,35 +388,82 @@
         </div>
     </section>
 
-    <section class="subject-grid">
-        {% for card in subject_cards %}
-            {% if card.available %}
-            <a href="{{ url_for('study.practice_session', subject=card.query_value) }}" class="subject-card">
+    {% if featured_subject_card %}
+    <section class="subject-featured">
+        {% if featured_subject_card.available %}
+        <a href="{{ url_for('study.practice_session', subject=featured_subject_card.query_value) }}" class="subject-featured-card">
+            <div class="subject-featured-copy">
+                <span class="subject-featured-label"><i class="fa-solid fa-bolt"></i> 快速入口</span>
+                <h2>{{ featured_subject_card.label }}</h2>
+                <p>如果今天想直接開始刷題，不先挑分類，就從這裡進去。系統會立刻帶你進入練習節奏。</p>
+            </div>
+            <div class="subject-featured-meta">
+                <span class="subject-featured-count"><i class="fa-solid fa-layer-group"></i> {{ featured_subject_card.count }} 題</span>
+                <span class="subject-featured-cta">直接開始 <i class="fa-solid fa-arrow-right"></i></span>
+            </div>
+        </a>
+        {% else %}
+        <div class="subject-featured-card subject-featured-card--disabled">
+            <div class="subject-featured-copy">
+                <span class="subject-featured-label"><i class="fa-solid fa-bolt"></i> 快速入口</span>
+                <h2>{{ featured_subject_card.label }}</h2>
+                <p>等題庫建立完成後，這裡會變成最快速的刷題入口。</p>
+            </div>
+            <div class="subject-featured-meta">
+                <span class="subject-featured-count"><i class="fa-solid fa-triangle-exclamation"></i> 尚無題目</span>
+                <span class="subject-featured-cta">稍後補上</span>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <div class="subject-groups">
+        {% for group in grouped_subject_cards %}
+        <section class="subject-group-section">
+            <div class="subject-group-header">
                 <div>
-                    <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-                    <h3>{{ card.label }}</h3>
-                    <p>{% if card.count %}從這一科開始刷題，作答後會立即看到詳解。{% else %}目前暫時沒有題目。{% endif %}</p>
-                </div>
-                <div class="subject-card-footer">
-                    <span class="subject-card-count"><i class="fa-solid fa-layer-group"></i> {{ card.count }} 題</span>
-                    <span class="subject-card-cta">開始刷題 <i class="fa-solid fa-arrow-right"></i></span>
-                </div>
-            </a>
-            {% else %}
-            <div class="subject-card-disabled">
-                <div>
-                    <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-                    <h3>{{ card.label }}</h3>
-                    <p>這一科目前還沒有可練的題目，先保留位置給之後擴充。</p>
-                </div>
-                <div class="subject-card-footer">
-                    <span class="subject-card-count"><i class="fa-solid fa-triangle-exclamation"></i> 尚無題目</span>
-                    <span class="subject-card-cta">稍後補上</span>
+                    <span class="subject-group-eyebrow"><i class="fa-solid fa-grip"></i> 科目分類</span>
+                    <div class="subject-group-title-row">
+                        <h2 class="subject-group-title">{{ group.label }}</h2>
+                        <span class="subject-group-count">{{ group.available_count }}/{{ group.total_count }}</span>
+                    </div>
+                    <p class="subject-group-desc">{{ group.description }}</p>
                 </div>
             </div>
-            {% endif %}
+
+            <div class="subject-grid">
+                {% for card in group.cards %}
+                    {% if card.available %}
+                    <a href="{{ url_for('study.practice_session', subject=card.query_value) }}" class="subject-card">
+                        <div>
+                            <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                            <h3>{{ card.label }}</h3>
+                            <p>從這一科開始刷題，作答後會立即看到詳解。</p>
+                        </div>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-count"><i class="fa-solid fa-layer-group"></i> {{ card.count }} 題</span>
+                            <span class="subject-card-cta">開始刷題 <i class="fa-solid fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+                    {% else %}
+                    <div class="subject-card-disabled">
+                        <div>
+                            <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                            <h3>{{ card.label }}</h3>
+                            <p>這一科目前還沒有可練的題目，先保留位置給之後擴充。</p>
+                        </div>
+                        <div class="subject-card-footer">
+                            <span class="subject-card-count"><i class="fa-solid fa-triangle-exclamation"></i> 尚無題目</span>
+                            <span class="subject-card-cta">稍後補上</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </section>
         {% endfor %}
-    </section>
+    </div>
 
     {% if not total_questions %}
     <div class="practice-empty-state">

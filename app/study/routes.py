@@ -38,6 +38,33 @@ PRACTICE_SUBJECTS = [
     {'slug': 'japanese', 'label': '\u65e5\u6587', 'icon': 'fa-torii-gate', 'aliases': ['\u65e5\u6587', 'Japanese']},
 ]
 
+PRACTICE_SUBJECT_GROUPS = [
+    {
+        'key': 'main',
+        'label': '\u4e3b\u79d1',
+        'description': '\u5148\u5f9e\u570b\u82f1\u6578\u958b\u59cb\uff0c\u9019\u5340\u662f\u6700\u5e38\u7528\u7684\u6838\u5fc3\u7df4\u7fd2\u3002',
+        'slugs': ['chinese', 'english', 'math'],
+    },
+    {
+        'key': 'social',
+        'label': '\u793e\u6703',
+        'description': '\u6b77\u53f2\u3001\u5730\u7406\u3001\u516c\u6c11\u8207\u7d9c\u5408\u793e\u6703\u90fd\u6536\u5728\u9019\u88e1\uff0c\u627e\u79d1\u76ee\u6703\u66f4\u5feb\u3002',
+        'slugs': ['history', 'geography', 'civics', 'social'],
+    },
+    {
+        'key': 'science',
+        'label': '\u81ea\u7136',
+        'description': '\u81ea\u7136\u3001\u7269\u7406\u3001\u5316\u5b78\u3001\u7406\u5316\u8207\u5730\u79d1\u96c6\u4e2d\u5728\u9019\u5340\uff0c\u4e0d\u6703\u518d\u6563\u6210\u4e00\u7247\u3002',
+        'slugs': ['science', 'physics', 'chemistry', 'integrated_science', 'earth_science'],
+    },
+    {
+        'key': 'other',
+        'label': '\u5176\u4ed6',
+        'description': '\u65e5\u6587\u548c\u5f8c\u7e8c\u65b0\u589e\u7684\u5ef6\u4f38\u79d1\u76ee\u90fd\u6703\u6536\u5728\u9019\u88e1\u3002',
+        'slugs': ['japanese'],
+    },
+]
+
 
 def normalize_subject_key(value):
     return ''.join(str(value or '').strip().lower().split())
@@ -115,6 +142,63 @@ def build_subject_catalog():
         })
 
     return catalog
+
+
+def _order_subject_cards(cards):
+    available_cards = [card for card in cards if card.get('available')]
+    unavailable_cards = [card for card in cards if not card.get('available')]
+    return available_cards + unavailable_cards
+
+
+def build_grouped_subject_catalog(subject_cards):
+    cards_by_slug = {card['slug']: card for card in subject_cards}
+    featured_card = cards_by_slug.get('all')
+    used_slugs = {'all'}
+    grouped_sections = []
+
+    for group_definition in PRACTICE_SUBJECT_GROUPS:
+        cards = []
+        for slug in group_definition['slugs']:
+            card = cards_by_slug.get(slug)
+            if not card:
+                continue
+            cards.append(card)
+            used_slugs.add(slug)
+
+        ordered_cards = _order_subject_cards(cards)
+        if not ordered_cards:
+            continue
+
+        grouped_sections.append({
+            **group_definition,
+            'cards': ordered_cards,
+            'available_count': sum(1 for card in ordered_cards if card.get('available')),
+            'total_count': len(ordered_cards),
+        })
+
+    extra_cards = [
+        card for card in subject_cards
+        if card['slug'] not in used_slugs
+    ]
+    if extra_cards:
+        ordered_extra_cards = _order_subject_cards(sorted(extra_cards, key=lambda card: card['label']))
+        other_section = next((section for section in grouped_sections if section['key'] == 'other'), None)
+        if other_section:
+            merged_cards = _order_subject_cards(other_section['cards'] + ordered_extra_cards)
+            other_section['cards'] = merged_cards
+            other_section['available_count'] = sum(1 for card in merged_cards if card.get('available'))
+            other_section['total_count'] = len(merged_cards)
+        else:
+            grouped_sections.append({
+                'key': 'other',
+                'label': '\u5176\u4ed6',
+                'description': '\u5176\u4ed6\u5c1a\u672a\u5206\u985e\u7684\u79d1\u76ee\u6703\u96c6\u4e2d\u986f\u793a\u5728\u9019\u88e1\u3002',
+                'cards': ordered_extra_cards,
+                'available_count': sum(1 for card in ordered_extra_cards if card.get('available')),
+                'total_count': len(ordered_extra_cards),
+            })
+
+    return featured_card, grouped_sections
 
 
 def build_practice_question_query(subject_value=None):
@@ -251,6 +335,7 @@ def build_exam_feedback(score_percent, wrong_results):
 @login_required
 def practice_hub():
     subject_cards = build_subject_catalog()
+    featured_subject_card, grouped_subject_cards = build_grouped_subject_catalog(subject_cards)
     available_subject_count = sum(1 for card in subject_cards if card['slug'] != 'all' and card['available'])
     total_questions = next((card['count'] for card in subject_cards if card['slug'] == 'all'), 0)
 
@@ -258,6 +343,8 @@ def practice_hub():
         'practice_hub.html',
         title=_t('nav_practice', current_user.language),
         subject_cards=subject_cards,
+        featured_subject_card=featured_subject_card,
+        grouped_subject_cards=grouped_subject_cards,
         available_subject_count=available_subject_count,
         total_questions=total_questions,
     )
