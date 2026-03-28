@@ -601,7 +601,7 @@ def generate_exam():
     mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
     if not mistakes:
         flash(_t('msg_no_mistakes', current_user.language), "info")
-        return redirect(url_for('study.practice'))
+        return redirect(url_for('study.practice_hub'))
     return render_template('exam.html', title=_t('nav_exam', current_user.language), mistakes=mistakes)
 
 @study.route("/api/study/personal_welcome")

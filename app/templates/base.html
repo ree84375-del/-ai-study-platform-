@@ -124,7 +124,7 @@
             <a href="{{ url_for('main.home') }}" class="nav-link"><i class="fa-solid fa-house"></i> {{ _t('nav_home') }}</a>
             {% if current_user.is_authenticated %}
             {% if current_user.is_admin %}
-            <a href="{{ url_for('study.practice') }}" class="nav-link"><i class="fa-solid fa-pen-clip"></i> {{ _t('nav_practice') }}</a>
+            <a href="{{ url_for('study.practice_hub') }}" class="nav-link"><i class="fa-solid fa-pen-clip"></i> {{ _t('nav_practice') }}</a>
             <a href="{{ url_for('study.generate_exam') }}" class="nav-link"><i class="fa-solid fa-file-contract"></i> {{ _t('nav_exam') }}</a>
             {% endif %}
             {% if current_user.is_admin %}
@@ -164,7 +164,7 @@
         <a href="{{ url_for('main.home') }}" class="mob-nav-item">
             <i class="fa-solid fa-house"></i><span>{{ _t('nav_home') }}</span>
         </a>
-        <a href="{{ url_for('study.practice') }}" class="mob-nav-item">
+        <a href="{{ url_for('study.practice_hub') }}" class="mob-nav-item">
             <i class="fa-solid fa-pen-clip"></i><span>{{ _t('nav_practice') }}</span>
         </a>
         {% if current_user.is_admin %}
