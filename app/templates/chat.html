@@ -430,6 +430,20 @@
         }
 
         wrapper.appendChild(div);
+        
+        // Render math equations seamlessly if KaTeX is loaded
+        if (window.renderMathInElement) {
+            renderMathInElement(div, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false}
+                ],
+                throwOnError: false
+            });
+        }
+
         messagesContainer.appendChild(wrapper);
         scrollToBottom();
         return wrapper;
