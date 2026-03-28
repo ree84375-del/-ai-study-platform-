@@ -20,9 +20,21 @@ def get_current_room_name():
     else:
         return "room_night"
 
-@study.route("/practice", methods=['GET', 'POST'])
+@study.route("/practice")
 @login_required
-def practice():
+def practice_hub():
+    from app import db
+    from app.models import Question
+    from sqlalchemy import func
+    
+    counts = db.session.query(Question.subject, func.count(Question.id)).group_by(Question.subject).all()
+    count_dict = {subj: cnt for subj, cnt in counts}
+    
+    return render_template('practice_hub.html', title=_t('nav_practice', current_user.language), counts=count_dict)
+
+@study.route("/practice/session", methods=['GET', 'POST'])
+@login_required
+def practice_session():
     from app import db
     from app.models import Question, Mistake
     if request.method == 'POST':
@@ -35,52 +47,43 @@ def practice():
         mistake = Mistake.query.filter_by(user_id=current_user.id, question_id=question_id).first()
         
         if is_correct:
-            # SRS Logic for correct answer
             if mistake:
                 mistake.srs_level = min(mistake.srs_level + 1, 7)
                 intervals = [0, 1, 2, 4, 7, 14, 30, 60]
                 mistake.last_interval = intervals[mistake.srs_level]
                 mistake.next_review_date = datetime.now(timezone.utc) + timedelta(days=mistake.last_interval)
-                if mistake.srs_level >= 4: # Consider resolved if reached a high level
+                if mistake.srs_level >= 4:
                     mistake.is_resolved = True
                     from app.utils.i18n import get_text
                     flash(_t('msg_study_done', current_user.language), 'success')
-                    
-                    # Add Garden XP (SRS Level Bonus: 20 XP)
                     from app.utils.garden_helpers import add_garden_xp
                     add_garden_xp(20)
             
-            # Continuous Garden XP (5 XP per correct answer)
             from app.utils.garden_helpers import add_garden_xp
             add_garden_xp(5)
             
-            # Collaborative Garden Contribution
             try:
                 from app.models import GroupMember, Group
                 memberships = GroupMember.query.filter_by(user_id=current_user.id).all()
                 for m in memberships:
                     g = m.group_info
-                    g.garden_exp += 10 # 10 exp per correct answer
-                    # Level up logic: level * 1000 exp
+                    g.garden_exp += 10
                     next_level_exp = g.garden_level * 1000
                     if g.garden_exp >= next_level_exp:
                         g.garden_level += 1
-                        # We could send a group message here, but skipping for now to keep it simple
             except Exception:
                 pass
 
             db.session.commit()
         else:
-            # SRS Logic for wrong answer
             if mistake:
                 mistake.mistake_count += 1
-                mistake.srs_level = max(mistake.srs_level - 1, 0) # Drop one level
+                mistake.srs_level = max(mistake.srs_level - 1, 0)
                 mistake.is_resolved = False
             else:
                 mistake = Mistake(user_id=current_user.id, question_id=question_id)
                 db.session.add(mistake)
             
-            # Reset review clock for wrong answer
             mistake.next_review_date = datetime.now(timezone.utc) + timedelta(hours=1)
             db.session.commit()
             
@@ -91,20 +94,27 @@ def practice():
             'srs_level': mistake.srs_level if mistake else 0
         })
 
-    # GET request - fetch random questions
     subject_filter = request.args.get('subject')
+    time_limit = request.args.get('time', type=int, default=60)
+    question_count = request.args.get('count', type=int, default=40)
+    
     query = Question.query
-    if subject_filter:
+    if subject_filter and subject_filter != '全部':
         query = query.filter_by(subject=subject_filter)
         
     questions = query.all()
     if not questions:
         from app.utils.i18n import get_text
         flash(_t('msg_no_questions', current_user.language), 'info')
-        return redirect(url_for('main.home'))
+        return redirect(url_for('study.practice_hub'))
         
     question = random.choice(questions)
-    return render_template('practice.html', title=_t('nav_practice', current_user.language), question=question)
+    return render_template('practice_session.html', 
+                           title=_t('nav_practice', current_user.language), 
+                           question=question,
+                           subject=subject_filter,
+                           time_limit=time_limit,
+                           question_count=question_count)
 
 @study.route("/mistakes")
 @login_required

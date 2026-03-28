@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+{% block title %}{{ _t('practice_title') }} - 刷題中心{% endblock %}
+{% block content %}
+
+<style>
+    .hub-title {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: var(--color-text_main);
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    
+    .subject-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 25px;
+        margin-bottom: 3rem;
+    }
+
+    /* 超酷炫 3D 按鈕設計 */
+    .subject-btn-3d {
+        background: var(--color-bg);
+        border: 2px solid var(--color-primary);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 8px 0 var(--color-primary), 0 15px 20px rgba(0,0,0,0.1);
+        transition: all 0.1s ease;
+        cursor: pointer;
+        text-align: center;
+        position: relative;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 120px;
+    }
+
+    .subject-btn-3d:hover {
+        top: 2px;
+        box-shadow: 0 6px 0 var(--color-primary), 0 10px 15px rgba(0,0,0,0.1);
+        background: var(--color-secondary);
+    }
+
+    .subject-btn-3d:active {
+        top: 8px;
+        box-shadow: 0 0px 0 var(--color-primary), 0 5px 5px rgba(0,0,0,0.1);
+    }
+
+    .subject-btn-3d.disabled {
+        border-color: var(--color-border);
+        box-shadow: 0 8px 0 var(--color-border);
+        background: rgba(200, 200, 200, 0.2);
+        opacity: 0.7;
+    }
+
+    .subject-btn-3d.disabled:hover {
+        top: 0;
+        box-shadow: 0 8px 0 var(--color-border);
+        background: rgba(200, 200, 200, 0.2);
+    }
+
+    .subject-btn-3d.disabled:active {
+        top: 0;
+        box-shadow: 0 8px 0 var(--color-border);
+    }
+
+    .subject-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        color: var(--color-primary);
+    }
+
+    .subject-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--color-text_main);
+        margin-bottom: 5px;
+    }
+
+    .subject-count {
+        font-size: 0.9rem;
+        color: var(--color-text_sub);
+        background: rgba(0,0,0,0.05);
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+    /* 設定面板 Modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+        background: var(--color-bg);
+        border-radius: 20px;
+        padding: 30px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popIn {
+        0% { transform: scale(0.8); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid var(--color-secondary);
+        padding-bottom: 10px;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--color-primary);
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--color-text_sub);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: var(--color-text_main);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid var(--color-border);
+        border-radius: 10px;
+        font-size: 1.1rem;
+        transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+        border-color: var(--color-primary);
+        outline: none;
+    }
+
+    .start-session-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: transform 0.1s;
+    }
+
+    .start-session-btn:active {
+        transform: scale(0.98);
+    }
+</style>
+
+<div class="hub-title">
+    <h2><i class="fa-solid fa-gamepad"></i> 選擇刷題科目</h2>
+    <p>挑選您想挑戰的科目，進入摸擬考場！</p>
+</div>
+
+{% set subjects = [
+    {'id': '全部', 'name': _t('subject_all'), 'icon': 'fa-globe', 'default_mins': 60, 'default_q': 40},
+    {'id': '國文', 'name': _t('subject_chinese'), 'icon': 'fa-book-open', 'default_mins': 70, 'default_q': 42},
+    {'id': '英文', 'name': _t('subject_english'), 'icon': 'fa-language', 'default_mins': 60, 'default_q': 43},
+    {'id': '數學', 'name': _t('subject_math'), 'icon': 'fa-calculator', 'default_mins': 80, 'default_q': 25},
+    {'id': '社會', 'name': _t('subject_social'), 'icon': 'fa-users', 'default_mins': 70, 'default_q': 54},
+    {'id': '地理', 'name': '地理', 'icon': 'fa-map-location-dot', 'default_mins': 70, 'default_q': 54},
+    {'id': '歷史', 'name': '歷史', 'icon': 'fa-monument', 'default_mins': 70, 'default_q': 54},
+    {'id': '公民', 'name': '公民', 'icon': 'fa-scale-balanced', 'default_mins': 70, 'default_q': 54},
+    {'id': '自然', 'name': _t('subject_science'), 'icon': 'fa-leaf', 'default_mins': 70, 'default_q': 50},
+    {'id': '物理', 'name': '物理', 'icon': 'fa-atom', 'default_mins': 70, 'default_q': 50},
+    {'id': '化學', 'name': '化學', 'icon': 'fa-flask', 'default_mins': 70, 'default_q': 50},
+    {'id': '理化', 'name': '理化', 'icon': 'fa-magnet', 'default_mins': 70, 'default_q': 50},
+    {'id': '地科', 'name': '地科', 'icon': 'fa-earth-asia', 'default_mins': 70, 'default_q': 50},
+    {'id': '日文', 'name': '日文', 'icon': 'fa-torii-gate', 'default_mins': 60, 'default_q': 40}
+] %}
+
+<div class="subject-grid">
+    {% set total_q = counts.values() | sum %}
+    
+    {% for s in subjects %}
+        {% set cnt = counts.get(s.id, 0) if s.id != '全部' else total_q %}
+        
+        <div class="subject-btn-3d {% if cnt == 0 %}disabled{% endif %}" 
+             {% if cnt > 0 %} onclick="openSetup('{{ s.id }}', '{{ s.name }}', {{ s.default_mins }}, {{ s.default_q }}, {{ cnt }})" {% endif %}>
+            
+            <i class="fa-solid {{ s.icon }} subject-icon"></i>
+            <div class="subject-name">{{ s.name }}</div>
+            
+            <div class="subject-count">
+                {% if cnt > 0 %}
+                    <i class="fa-solid fa-layer-group"></i> 共 {{ cnt }} 題
+                {% else %}
+                    <i class="fa-solid fa-triangle-exclamation"></i> 尚無題目
+                {% endif %}
+            </div>
+            
+        </div>
+    {% endfor %}
+</div>
+
+<!-- 模擬會考設定 Modal -->
+<div class="modal-overlay" id="setupModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title" id="modalSubjectTitle">科目名稱</div>
+            <button class="close-btn" onclick="closeSetup()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <form id="sessionForm" action="{{ url_for('study.practice_session') }}" method="GET">
+            <input type="hidden" name="subject" id="subjectInput">
+            
+            <div class="form-group">
+                <label for="timeInput"><i class="fa-regular fa-clock"></i> 測驗時間 (分鐘)</label>
+                <input type="number" id="timeInput" name="time" min="1" max="180" required>
+                <small style="color:var(--color-text_sub); display:block; margin-top:5px;">預設為符合該科會考之標準時間</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="countInput"><i class="fa-solid fa-list-ol"></i> 挑戰題數</label>
+                <input type="number" id="countInput" name="count" min="1" required>
+                <small style="color:var(--color-text_sub); display:block; margin-top:5px;" id="maxCountHelp">預設為會考標準題數</small>
+            </div>
+            
+            <button type="button" class="start-session-btn" onclick="startSession()"><i class="fa-solid fa-rocket"></i> 開始測驗！</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openSetup(subjectId, subjectName, defaultMins, defaultQ, maxQ) {
+        document.getElementById('modalSubjectTitle').innerText = subjectName + ' 模擬測驗';
+        document.getElementById('subjectInput').value = subjectId;
+        
+        document.getElementById('timeInput').value = defaultMins;
+        
+        // 如果庫存題數少於標準會考題數，以庫存為準
+        let recommendedQ = Math.min(defaultQ, maxQ);
+        document.getElementById('countInput').value = recommendedQ;
+        document.getElementById('countInput').max = maxQ;
+        document.getElementById('maxCountHelp').innerText = `預設為會考標準題數 (此科目題庫剩餘 ${maxQ} 題)`;
+        
+        document.getElementById('setupModal').style.display = 'flex';
+    }
+    
+    function closeSetup() {
+        document.getElementById('setupModal').style.display = 'none';
+    }
+    
+    function startSession() {
+        // Clear old localstorage session data
+        localStorage.removeItem('examEndTime');
+        localStorage.removeItem('examTotal');
+        localStorage.removeItem('examCurrent');
+        // Submit the form
+        document.getElementById('sessionForm').submit();
+    }
+</script>
+
+{% endblock %}

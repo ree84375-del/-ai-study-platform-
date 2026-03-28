@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+{% block title %}{{ _t('practice_title') }} - 測驗進行中{% endblock %}
+{% block content %}
+
+<style>
+    /* 考試專屬頂部狀態列 */
+    .exam-status-bar {
+        background: linear-gradient(135deg, var(--color-bg), var(--color-secondary));
+        border: 2px solid var(--color-primary);
+        border-radius: 12px;
+        padding: 15px 25px;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        font-weight: bold;
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+    }
+
+    .exam-timer {
+        font-family: monospace;
+        font-size: 1.5rem;
+        color: var(--color-accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .exam-timer.danger {
+        color: #ff4757;
+        animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 1; }
+        100% { opacity: 0.5; }
+    }
+
+    .exam-progress {
+        font-size: 1.2rem;
+        color: var(--color-text_main);
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        height: 8px;
+        background: rgba(0,0,0,0.1);
+        border-radius: 4px;
+        margin-top: 5px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background: var(--color-primary);
+        width: 0%;
+        transition: width 0.3s;
+    }
+
+    .quit-btn {
+        background: none;
+        border: 1px solid var(--color-border);
+        color: var(--color-text_sub);
+        padding: 5px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+    .quit-btn:hover {
+        background: #ff4757;
+        color: white;
+        border-color: #ff4757;
+    }
+</style>
+
+<div class="exam-status-bar">
+    <div>
+        <a href="{{ url_for('study.practice_hub') }}" class="quit-btn" id="quitExamBtn"><i class="fa-solid fa-person-running"></i> 交卷離開</a>
+    </div>
+    <div style="text-align: center;">
+        <div class="exam-progress">
+            <i class="fa-solid fa-list-check"></i> 第 <span id="currentStatusText">1</span> / <span id="totalStatusText">{{ question_count }}</span> 題 
+            <span style="color:var(--color-primary); font-size: 0.9em; margin-left: 10px;">({{ subject }})</span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+    </div>
+    <div class="exam-timer" id="timerDisplay">
+        <i class="fa-solid fa-stopwatch"></i> --:--
+    </div>
+</div>
+
+<div class="washi-card" id="question-card" style="position: relative;">
+    <span style="position: absolute; top: -15px; left: 20px; background-color: var(--color-primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.9rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        {{ question.subject }} {% if question.category %} - {{ question.category }} {% endif %}
+    </span>
+    
+    <h3 style="margin-top: 1rem; margin-bottom: 2rem; font-weight: 500; line-height: 1.6; white-space: pre-wrap;">{{ question.content_text }}</h3>
+
+    <form id="practice-form" style="display: flex; flex-direction: column; gap: 1rem;">
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        
+        <label class="option-label" style="display: flex; align-items: center; padding: 15px; border: 1px solid var(--color-border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+            <input type="radio" name="answer" value="A" required style="margin-right: 15px;">
+            <span style="font-weight: bold; margin-right: 10px; color: var(--color-primary);">A.</span> <span>{{ question.option_a }}</span>
+        </label>
+        <label class="option-label" style="display: flex; align-items: center; padding: 15px; border: 1px solid var(--color-border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+            <input type="radio" name="answer" value="B" style="margin-right: 15px;">
+            <span style="font-weight: bold; margin-right: 10px; color: var(--color-primary);">B.</span> <span>{{ question.option_b }}</span>
+        </label>
+        <label class="option-label" style="display: flex; align-items: center; padding: 15px; border: 1px solid var(--color-border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+            <input type="radio" name="answer" value="C" style="margin-right: 15px;">
+            <span style="font-weight: bold; margin-right: 10px; color: var(--color-primary);">C.</span> <span>{{ question.option_c }}</span>
+        </label>
+        <label class="option-label" style="display: flex; align-items: center; padding: 15px; border: 1px solid var(--color-border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+            <input type="radio" name="answer" value="D" style="margin-right: 15px;">
+            <span style="font-weight: bold; margin-right: 10px; color: var(--color-primary);">D.</span> <span>{{ question.option_d }}</span>
+        </label>
+
+        <button type="submit" id="submit-btn" style="margin-top: 1.5rem; background-color: var(--color-primary); color: white; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-size: 1.1rem; width: 100%;">
+            {{ _t('submit_ans') }}
+        </button>
+    </form>
+
+    <!-- Result Section -->
+    <div id="result-section" style="display: none; margin-top: 2rem; padding: 1.5rem; border-radius: 8px; background-color: var(--color-secondary);">
+        <h4 id="result-title" style="margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;"></h4>
+        <p><strong>{{ _t('correct_ans') }}</strong> <span id="correct-answer-text"></span></p>
+        <p style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--color-border);">
+            <strong>{{ _t('explanation') }}</strong><br>
+            <span id="explanation-text" style="white-space: pre-wrap;"></span>
+        </p>
+        <div style="margin-top: 1.5rem; text-align: center;">
+            <button id="nextBtn" style="background-color: var(--color-text_main); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">{{ _t('next_question') }} <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 考卷狀態管理 (LocalStorage)
+    let totalQuestions = parseInt('{{ question_count }}');
+    let timeLimit = parseInt('{{ time_limit }}');
+    let subject = '{{ subject }}';
+    
+    // 初始化或讀取狀態
+    if (!localStorage.getItem('examTotal') || localStorage.getItem('examSubject') !== subject) {
+        localStorage.setItem('examTotal', totalQuestions);
+        localStorage.setItem('examSubject', subject);
+        localStorage.setItem('examCurrent', '1');
+        localStorage.setItem('examScore', '0');
+        localStorage.setItem('examEndTime', Date.now() + timeLimit * 60000);
+    }
+    
+    let currentQ = parseInt(localStorage.getItem('examCurrent') || '1');
+    let targetQ = parseInt(localStorage.getItem('examTotal') || totalQuestions);
+    let endTime = parseInt(localStorage.getItem('examEndTime'));
+    
+    // UI 更新
+    document.getElementById('currentStatusText').innerText = currentQ;
+    document.getElementById('totalStatusText').innerText = targetQ;
+    document.getElementById('progressBar').style.width = ((currentQ / targetQ) * 100) + '%';
+    
+    // 計時器邏輯
+    let timerInterval = setInterval(() => {
+        let now = Date.now();
+        let remaining = endTime - now;
+        let timerDisplay = document.getElementById('timerDisplay');
+        
+        if (remaining <= 0) {
+            clearInterval(timerInterval);
+            timerDisplay.innerHTML = '<i class="fa-solid fa-stopwatch"></i> 時間到！';
+            timerDisplay.classList.add('danger');
+            alert('測驗時間到，將強制交卷！');
+            finishExam();
+            return;
+        }
+        
+        let minutes = Math.floor(remaining / 60000);
+        let seconds = Math.floor((remaining % 60000) / 1000);
+        let formattedStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timerDisplay.innerHTML = `<i class="fa-solid fa-stopwatch"></i> ${formattedStr}`;
+        
+        if (minutes < 5) {
+            timerDisplay.classList.add('danger');
+        }
+    }, 1000);
+
+    // 表單送出
+    document.getElementById('practice-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const submitBtn = document.getElementById('submit-btn');
+        const resultSection = document.getElementById('result-section');
+        const resultTitle = document.getElementById('result-title');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerText = "{{ _t('grading') }}";
+
+        fetch("{{ url_for('study.practice_session') }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            submitBtn.style.display = 'none';
+            resultSection.style.display = 'block';
+            
+            document.getElementById('correct-answer-text').innerText = data.correct_answer;
+            document.getElementById('explanation-text').innerText = data.explanation || "{{ _t('no_explanation') }}";
+
+            // Highlight Logic
+            const labels = document.querySelectorAll('.option-label');
+            labels.forEach(l => {
+                let input = l.querySelector('input');
+                if(input.value === data.correct_answer) {
+                    l.style.borderColor = 'var(--color-primary)';
+                    l.style.backgroundColor = 'rgba(133, 163, 146, 0.1)';
+                    l.style.borderWidth = '3px';
+                }
+            });
+
+            const selectedOption = document.querySelector('input[name="answer"]:checked').parentElement;
+
+            if(data.correct) {
+                resultTitle.innerHTML = '<i class="fa-solid fa-check-circle" style="color: var(--color-primary); font-size: 1.5rem;"></i> {{ _t("correct_msg") }}';
+                let score = parseInt(localStorage.getItem('examScore') || '0');
+                localStorage.setItem('examScore', score + 1);
+            } else {
+                resultTitle.innerHTML = '<i class="fa-solid fa-times-circle" style="color: var(--color-accent); font-size: 1.5rem;"></i> {{ _t("wrong_msg") }}';
+                if(!data.correct && selectedOption.querySelector('input').value !== data.correct_answer) {
+                    selectedOption.style.borderColor = 'var(--color-accent)';
+                    selectedOption.style.backgroundColor = 'color-mix(in srgb, var(--color-accent) 10%, transparent)';
+                }
+            }
+            
+            // Check if last question
+            if (currentQ >= targetQ) {
+                let nxt = document.getElementById('nextBtn');
+                nxt.innerHTML = '<i class="fa-solid fa-flag-checkered"></i> 結束測驗，查看成績';
+                nxt.style.background = 'var(--color-primary)';
+            }
+        });
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', function() {
+        if (currentQ >= targetQ) {
+            finishExam();
+        } else {
+            localStorage.setItem('examCurrent', currentQ + 1);
+            // Include preserving the URL query string
+            window.location.reload();
+        }
+    });
+    
+    document.getElementById('quitExamBtn').addEventListener('click', function(e) {
+        if(!confirm('要提前交卷嗎？未完成的成績將會遺失！')) {
+            e.preventDefault();
+        } else {
+            localStorage.removeItem('examEndTime');
+        }
+    });
+
+    function finishExam() {
+        let finalScore = localStorage.getItem('examScore') || '0';
+        let total = localStorage.getItem('examTotal') || '1';
+        let grade = Math.round((parseInt(finalScore) / parseInt(total)) * 100);
+        
+        localStorage.removeItem('examEndTime');
+        localStorage.removeItem('examTotal');
+        localStorage.removeItem('examCurrent');
+        localStorage.removeItem('examScore');
+        localStorage.removeItem('examSubject');
+        
+        alert(`【模擬會考結束】\n\n您的正確題數：${finalScore} / ${total}\n得分：${grade} 分\n錯題已自動收錄至您的錯題本。`);
+        window.location.href = "{{ url_for('study.practice_hub') }}";
+    }
+
+    // Option highlight effect
+    const labels = document.querySelectorAll('.option-label');
+    labels.forEach(label => {
+        label.addEventListener('click', function() {
+            // only before submitted
+            if(document.getElementById('submit-btn').style.display !== 'none') {
+                labels.forEach(l => l.style.borderColor = 'var(--color-border)');
+                this.style.borderColor = 'var(--color-primary)';
+            }
+        });
+    });
+</script>
+
+{% endblock %}
