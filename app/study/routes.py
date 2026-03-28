@@ -439,16 +439,40 @@ def tutor_chat():
 @login_required
 def get_chat_sessions():
     from app.models import ChatSession
-    sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(
-        ChatSession.is_pinned.desc(), 
-        ChatSession.created_at.desc()
-    ).all()
-    return jsonify([{
-        'id': s.id, 
-        'title': s.title, 
-        'created_at': s.created_at.isoformat(),
-        'is_pinned': s.is_pinned
-    } for s in sessions])
+    from sqlalchemy.exc import ProgrammingError, OperationalError
+    from app import db
+    from sqlalchemy import text
+    
+    try:
+        sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(
+            ChatSession.is_pinned.desc(), 
+            ChatSession.created_at.desc()
+        ).all()
+        return jsonify([{
+            'id': s.id, 
+            'title': s.title, 
+            'created_at': s.created_at.isoformat(),
+            'is_pinned': s.is_pinned
+        } for s in sessions])
+    except (ProgrammingError, OperationalError):
+        db.session.rollback()
+        # Fallback to auto-migrate 'is_pinned' column (fixes Vercel DB sync issue)
+        try:
+            # Try SQLite/PostgreSQL syntax for adding column safely
+            db.session.execute(text("ALTER TABLE chat_session ADD COLUMN is_pinned BOOLEAN DEFAULT FALSE;"))
+            db.session.commit()
+        except:
+            db.session.rollback()
+            
+        sessions = ChatSession.query.filter_by(user_id=current_user.id).order_by(
+            ChatSession.created_at.desc()
+        ).all()
+        return jsonify([{
+            'id': s.id, 
+            'title': s.title, 
+            'created_at': s.created_at.isoformat(),
+            'is_pinned': getattr(s, 'is_pinned', False)
+        } for s in sessions])
 
 @study.route("/api/chat/session/<int:session_id>", methods=['DELETE'])
 @login_required

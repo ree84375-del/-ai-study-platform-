@@ -858,7 +858,9 @@
                     loadSessions();
                     chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
                 }
-                addMessage('ai', data.reply);
+                
+                let isFirstMsg = messagesContainer.querySelectorAll('.chat-bubble.ai:not(.typing-indicator)').length === 0;
+                addMessage('ai', data.reply, true, isFirstMsg ? globalRoleBubbleClass : '');
 
                 if (autoSpeak) {
                     speak(data.reply);
