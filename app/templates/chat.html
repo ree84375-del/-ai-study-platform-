@@ -154,6 +154,10 @@
 </style>
 
 <script>
+    const globalIsAdmin = {{ 'true' if current_user.is_admin else 'false' }};
+    const globalIsGuest = {{ 'true' if getattr(current_user, 'auth_provider', 'local') == 'guest' else 'false' }};
+    const globalRoleBubbleClass = globalIsAdmin ? 'admin-gold' : (globalIsGuest ? 'guest-red' : 'user-blue');
+
     // --- Voice Tutor Logic (Robust Windows Version) ---
     const voiceBtn = document.getElementById('voice-input-btn');
     const toggleVoiceBtn = document.getElementById('toggle-voice-btn');
@@ -404,7 +408,15 @@
             const res = await fetch(`{{ url_for('study.get_chat_history', session_id=0) }}`.replace('0', id));
             if (res.ok) {
                 const data = await res.json();
-                data.messages.forEach(m => addMessage(m.role, m.content, false));
+                let isFirstAi = true;
+                data.messages.forEach(m => {
+                    let bubble = '';
+                    if (m.role === 'ai' && isFirstAi) {
+                        bubble = globalRoleBubbleClass;
+                        isFirstAi = false;
+                    }
+                    addMessage(m.role, m.content, false, bubble);
+                });
                 localStorage.setItem(`chat_history_${id}`, JSON.stringify(data.messages));
                 scrollToBottom();
                 return;
@@ -412,7 +424,15 @@
         } catch (e) { console.log("Server history load failed, using local backup."); }
 
         const localHistory = JSON.parse(localStorage.getItem(`chat_history_${id}`) || '[]');
-        localHistory.forEach(m => addMessage(m.role, m.content, false));
+        let isFirstAiLocal = true;
+        localHistory.forEach(m => {
+            let bubble = '';
+            if (m.role === 'ai' && isFirstAiLocal) {
+                bubble = globalRoleBubbleClass;
+                isFirstAiLocal = false;
+            }
+            addMessage(m.role, m.content, false, bubble);
+        });
         scrollToBottom();
     }
 
