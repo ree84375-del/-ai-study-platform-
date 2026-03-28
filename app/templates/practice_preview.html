@@ -1,0 +1,434 @@
+{% extends "base.html" %}
+{% block title %}{{ _t('practice_title') }}{% endblock %}
+{% block content %}
+<style>
+    .preview-stage {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+    }
+
+    .preview-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 2rem;
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        background:
+            radial-gradient(circle at top right, rgba(255, 220, 145, 0.35), transparent 34%),
+            linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(255, 247, 230, 0.92));
+        box-shadow: 0 22px 50px rgba(127, 93, 36, 0.12);
+    }
+
+    .preview-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.45rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(60, 55, 44, 0.9);
+        color: #fffaf1;
+        font-size: 0.92rem;
+        font-weight: 700;
+    }
+
+    .preview-hero h1 {
+        margin: 1rem 0 0.7rem;
+        color: #3a3024;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: clamp(1.9rem, 3vw, 2.7rem);
+    }
+
+    .preview-hero p {
+        max-width: 760px;
+        margin: 0;
+        color: #6b604e;
+        line-height: 1.85;
+    }
+
+    .preview-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1.5rem;
+    }
+
+    .preview-stat {
+        padding: 1rem 1.1rem;
+        border-radius: 20px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background: rgba(255, 255, 255, 0.72);
+    }
+
+    .preview-stat-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #8a7b63;
+        font-size: 0.84rem;
+        letter-spacing: 0.05em;
+    }
+
+    .preview-stat-value {
+        color: #2f261b;
+        font-size: 1.55rem;
+        font-weight: 800;
+    }
+
+    .preview-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .preview-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: #6c5731;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .preview-toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .preview-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(196, 168, 108, 0.26);
+        background: rgba(255, 252, 244, 0.9);
+        color: #725d36;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .preview-actions {
+        display: inline-flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .preview-primary-btn,
+    .preview-secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        min-height: 48px;
+        padding: 0.85rem 1.2rem;
+        border-radius: 16px;
+        border: none;
+        cursor: pointer;
+        font-weight: 800;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .preview-primary-btn {
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(226, 143, 84, 0.28);
+    }
+
+    .preview-secondary-btn {
+        border: 1px solid rgba(196, 168, 108, 0.28);
+        background: rgba(255, 255, 255, 0.88);
+        color: #59492d;
+    }
+
+    .preview-list {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .preview-card {
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
+        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.1);
+        overflow: hidden;
+    }
+
+    .preview-card[open] {
+        border-color: rgba(214, 165, 61, 0.42);
+    }
+
+    .preview-card-summary {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.3rem 1.35rem;
+        cursor: pointer;
+        list-style: none;
+    }
+
+    .preview-card-summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .preview-summary-copy {
+        display: grid;
+        gap: 0.7rem;
+    }
+
+    .preview-badges {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+
+    .preview-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.96);
+        color: #8c6b33;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
+    .preview-question-title {
+        margin: 0;
+        color: #34291d;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: 1.25rem;
+        line-height: 1.85;
+    }
+
+    .preview-summary-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: #7f6d54;
+        font-weight: 700;
+    }
+
+    .preview-card-body {
+        padding: 0 1.35rem 1.35rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .preview-block {
+        padding: 1rem 1.05rem;
+        border-radius: 20px;
+        border: 1px solid rgba(214, 183, 112, 0.14);
+        background: rgba(255, 255, 255, 0.78);
+    }
+
+    .preview-block-title {
+        margin: 0 0 0.55rem;
+        color: #7d6b53;
+        font-size: 0.86rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .preview-block-copy {
+        color: #372d21;
+        line-height: 1.8;
+    }
+
+    .preview-option-list {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    .preview-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        padding: 0.95rem 1rem;
+        border-radius: 18px;
+        background: rgba(255, 252, 244, 0.82);
+        border: 1px solid rgba(214, 183, 112, 0.14);
+    }
+
+    .preview-option.is-correct {
+        border-color: rgba(92, 162, 113, 0.42);
+        background: rgba(231, 247, 236, 0.96);
+    }
+
+    .preview-option-letter {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background: rgba(240, 230, 205, 0.9);
+        color: #826947;
+        font-weight: 900;
+        flex-shrink: 0;
+    }
+
+    .preview-answer-highlight {
+        color: #2f7a46;
+        font-weight: 800;
+    }
+
+    @media (max-width: 720px) {
+        .preview-hero,
+        .preview-card,
+        .preview-card-summary,
+        .preview-card-body {
+            border-radius: 22px;
+        }
+
+        .preview-hero,
+        .preview-card-summary,
+        .preview-card-body {
+            padding: 1.3rem;
+        }
+
+        .preview-toolbar-right,
+        .preview-actions {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .preview-primary-btn,
+        .preview-secondary-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="preview-stage">
+    <section class="preview-hero">
+        <span class="preview-kicker"><i class="fa-solid {{ practice_mode_meta.icon }}"></i> {{ current_subject.label }} {{ practice_mode_meta.label }}</span>
+        <h1>{{ practice_mode_meta.hero_title }}</h1>
+        <p>{{ practice_mode_meta.hero_description }}</p>
+
+        <div class="preview-stats">
+            <div class="preview-stat">
+                <span class="preview-stat-label">目前科目</span>
+                <span class="preview-stat-value">{{ current_subject.label }}</span>
+            </div>
+            <div class="preview-stat">
+                <span class="preview-stat-label">同科題庫數</span>
+                <span class="preview-stat-value">{{ question_pool_size }}</span>
+            </div>
+            <div class="preview-stat">
+                <span class="preview-stat-label">作答方式</span>
+                <span class="preview-stat-value">不計分</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="preview-toolbar">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="preview-back-link">
+            <i class="fa-solid fa-arrow-left"></i> 回到模式選擇
+        </a>
+
+        <div class="preview-toolbar-right">
+            <span class="preview-chip"><i class="fa-solid fa-layer-group"></i> 共 {{ question_pool_size }} 題</span>
+            <div class="preview-actions">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice', question_id=focus_question_id) }}" class="preview-primary-btn">
+                    <i class="fa-solid fa-dumbbell"></i> 切到練習模式
+                </a>
+                <button type="button" id="ai-generate-btn" class="preview-secondary-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-list">
+        {% for item in question_items %}
+        <details class="preview-card" id="question-{{ item.id }}" {% if item.id == focus_question_id %}open{% endif %}>
+            <summary class="preview-card-summary">
+                <div class="preview-summary-copy">
+                    <div class="preview-badges">
+                        <span class="preview-badge"><i class="fa-solid fa-hashtag"></i> 第 {{ item.index }} 題</span>
+                        <span class="preview-badge"><i class="fa-solid fa-book-open"></i> {{ item.subject }}</span>
+                        {% if item.category %}
+                        <span class="preview-badge"><i class="fa-solid fa-tag"></i> {{ item.category }}</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="preview-question-title">{{ item.content_text }}</h2>
+                </div>
+                <span class="preview-summary-hint"><i class="fa-solid fa-chevron-down"></i> 點開看答案與詳解</span>
+            </summary>
+
+            <div class="preview-card-body">
+                <section class="preview-block">
+                    <h3 class="preview-block-title">題目選項</h3>
+                    <div class="preview-option-list">
+                        {% for option in item.options %}
+                        <div class="preview-option {% if option.is_correct %}is-correct{% endif %}">
+                            <span class="preview-option-letter">{{ option.key }}</span>
+                            <div class="preview-block-copy">
+                                {{ option.text }}
+                                {% if option.is_correct %}
+                                <div class="preview-answer-highlight">這題正確答案是 {{ item.correct_answer }}：{{ item.correct_answer_text }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="preview-block">
+                    <h3 class="preview-block-title">詳解</h3>
+                    <div class="preview-block-copy">{{ item.explanation }}</div>
+                </section>
+            </div>
+        </details>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const focusQuestionId = {{ focus_question_id|tojson }};
+    if (focusQuestionId) {
+        const focusedCard = document.getElementById(`question-${focusQuestionId}`);
+        if (focusedCard) {
+            focusedCard.open = true;
+            setTimeout(() => {
+                focusedCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 120);
+        }
+    }
+
+    const aiGenerateButton = document.getElementById('ai-generate-btn');
+    if (!aiGenerateButton) {
+        return;
+    }
+
+    const subjectQuery = {{ current_subject_query|tojson }};
+    aiGenerateButton.addEventListener('click', async () => {
+        aiGenerateButton.disabled = true;
+        aiGenerateButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
+
+        try {
+            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}&mode=preview`);
+            const data = await response.json();
+            if (!response.ok || data.error) {
+                throw new Error(data.error || 'AI 生成題目失敗');
+            }
+            window.location.href = data.practice_url;
+        } catch (error) {
+            window.alert(error.message || 'AI 生成題目失敗');
+            aiGenerateButton.disabled = false;
+            aiGenerateButton.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題';
+        }
+    });
+});
+</script>
+{% endblock %}

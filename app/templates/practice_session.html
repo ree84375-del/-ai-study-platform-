@@ -5,15 +5,15 @@
     .practice-stage {
         display: flex;
         flex-direction: column;
-        gap: 1.2rem;
+        gap: 1.25rem;
     }
 
     .practice-hero {
         position: relative;
         overflow: hidden;
         padding: 2rem;
-        border: 1px solid rgba(214, 183, 112, 0.28);
         border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.24);
         background:
             radial-gradient(circle at top right, rgba(255, 220, 145, 0.35), transparent 34%),
             linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(255, 247, 230, 0.92));
@@ -36,7 +36,7 @@
     .practice-hero h1 {
         margin: 1rem 0 0.7rem;
         font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.9rem, 3vw, 2.8rem);
+        font-size: clamp(1.9rem, 3vw, 2.7rem);
         color: #3a3024;
     }
 
@@ -44,8 +44,7 @@
         max-width: 760px;
         margin: 0;
         color: #6b604e;
-        line-height: 1.8;
-        font-size: 1rem;
+        line-height: 1.85;
     }
 
     .practice-hero-stats {
@@ -58,8 +57,8 @@
     .practice-stat {
         padding: 1rem 1.1rem;
         border-radius: 20px;
-        border: 1px solid rgba(214, 183, 112, 0.22);
-        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background: rgba(255, 255, 255, 0.72);
     }
 
     .practice-stat-label {
@@ -76,89 +75,113 @@
         font-weight: 800;
     }
 
-    .practice-toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    .mode-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 1rem;
-        flex-wrap: wrap;
     }
 
-    .practice-back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        color: #6c5731;
-        text-decoration: none;
-        font-weight: 700;
+    .mode-card,
+    .session-panel,
+    .summary-panel {
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
+        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.1);
     }
 
-    .practice-toolbar-right {
+    .mode-card {
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-        justify-content: flex-end;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
     }
 
-    .practice-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.55rem 0.9rem;
-        border-radius: 999px;
-        border: 1px solid rgba(196, 168, 108, 0.26);
-        background: rgba(255, 252, 244, 0.9);
-        color: #725d36;
-        font-size: 0.9rem;
-        font-weight: 700;
+    .mode-card.is-preview {
+        border-color: rgba(108, 146, 216, 0.26);
     }
 
-    .practice-mode-switch {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.4rem;
-        border-radius: 18px;
-        border: 1px solid rgba(196, 168, 108, 0.22);
-        background: rgba(255, 252, 244, 0.9);
+    .mode-card.is-practice {
+        border-color: rgba(224, 151, 84, 0.28);
     }
 
-    .practice-mode-link {
+    .mode-pill {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        min-height: 42px;
-        padding: 0.72rem 1rem;
-        border-radius: 14px;
-        color: #6d5834;
-        font-size: 0.92rem;
+        width: fit-content;
+        padding: 0.5rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.88rem;
         font-weight: 800;
-        text-decoration: none;
-        transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .practice-mode-link.is-active {
-        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
-        color: #fff;
-        box-shadow: 0 10px 22px rgba(226, 143, 84, 0.24);
+    .mode-card.is-preview .mode-pill {
+        background: rgba(226, 237, 255, 0.95);
+        color: #4469a8;
+    }
+
+    .mode-card.is-practice .mode-pill {
+        background: rgba(255, 238, 220, 0.95);
+        color: #a25b24;
+    }
+
+    .mode-card h2 {
+        margin: 0;
+        color: #3a3024;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: 1.55rem;
+    }
+
+    .mode-card p {
+        margin: 0;
+        color: #6d5d48;
+        line-height: 1.8;
+    }
+
+    .mode-list {
+        display: grid;
+        gap: 0.8rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .mode-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        padding: 0.85rem 0.95rem;
+        border-radius: 18px;
+        background: rgba(255, 251, 242, 0.92);
+        color: #5d4d37;
+        line-height: 1.75;
+    }
+
+    .mode-list i {
+        margin-top: 0.2rem;
     }
 
     .practice-primary-btn,
-    .practice-secondary-btn {
+    .practice-secondary-btn,
+    .jump-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 0.55rem;
-        min-height: 48px;
-        padding: 0.85rem 1.2rem;
         border-radius: 16px;
-        border: none;
-        cursor: pointer;
         font-weight: 800;
-        font-size: 0.95rem;
         text-decoration: none;
         transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+    }
+
+    .practice-primary-btn,
+    .practice-secondary-btn {
+        min-height: 48px;
+        padding: 0.85rem 1.2rem;
+        border: none;
+        cursor: pointer;
+        font-size: 0.95rem;
     }
 
     .practice-primary-btn {
@@ -173,56 +196,222 @@
         color: #59492d;
     }
 
-    .practice-layout {
-        display: grid;
-        grid-template-columns: minmax(0, 1.8fr) minmax(320px, 1fr);
-        gap: 1.15rem;
-        align-items: start;
+    .practice-primary-btn:disabled,
+    .practice-secondary-btn:disabled {
+        opacity: 0.56;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 
-    .practice-panel,
-    .result-panel {
-        border-radius: 28px;
-        border: 1px solid rgba(214, 183, 112, 0.18);
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
-        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.1);
+    .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
     }
 
-    .practice-panel {
-        padding: 2rem;
-    }
-
-    .practice-subject-badge {
+    .toolbar-back {
         display: inline-flex;
         align-items: center;
         gap: 0.55rem;
-        padding: 0.58rem 0.95rem;
+        color: #6c5731;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .toolbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .toolbar-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(196, 168, 108, 0.26);
+        background: rgba(255, 252, 244, 0.9);
+        color: #725d36;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .mode-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem;
+        border-radius: 18px;
+        border: 1px solid rgba(196, 168, 108, 0.22);
+        background: rgba(255, 252, 244, 0.9);
+    }
+
+    .mode-switch-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-height: 42px;
+        padding: 0.72rem 1rem;
+        border-radius: 14px;
+        color: #6d5834;
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .mode-switch-link.is-active {
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        box-shadow: 0 10px 22px rgba(226, 143, 84, 0.24);
+    }
+
+    .session-layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.75fr) minmax(300px, 0.95fr);
+        gap: 1rem;
+        align-items: start;
+    }
+
+    .session-panel {
+        padding: 1.7rem;
+    }
+
+    .summary-panel {
+        padding: 1.4rem;
+        position: sticky;
+        top: 90px;
+    }
+
+    .progress-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.95rem;
+    }
+
+    .progress-copy h2 {
+        margin: 0;
+        color: #362a1c;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: 1.5rem;
+    }
+
+    .progress-copy p {
+        margin: 0.35rem 0 0;
+        color: #85725a;
+        line-height: 1.7;
+    }
+
+    .progress-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.55rem 0.9rem;
         border-radius: 999px;
         background: rgba(255, 244, 216, 0.96);
-        color: #8c6b33;
+        color: #866734;
         font-size: 0.92rem;
         font-weight: 800;
     }
 
-    .practice-question-title {
-        margin: 1rem 0 0.7rem;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.35rem, 2.2vw, 1.85rem);
-        line-height: 1.9;
-        color: #362a1c;
+    .progress-bar {
+        width: 100%;
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(225, 214, 190, 0.72);
+        overflow: hidden;
+        margin-bottom: 1rem;
     }
 
-    .practice-question-subtext {
-        margin: 0 0 1.4rem;
-        color: #87745b;
-        line-height: 1.75;
-        font-size: 0.95rem;
+    .progress-bar-fill {
+        display: block;
+        height: 100%;
+        width: 0;
+        border-radius: inherit;
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        transition: width 0.2s ease;
     }
 
-    .practice-form {
+    .jump-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+        gap: 0.55rem;
+        margin-bottom: 1.15rem;
+    }
+
+    .jump-btn {
+        min-height: 46px;
+        border: 1px solid rgba(200, 178, 132, 0.38);
+        background: rgba(255, 255, 255, 0.88);
+        color: #6a5531;
+        cursor: pointer;
+    }
+
+    .jump-btn.is-active {
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 10px 20px rgba(226, 143, 84, 0.24);
+    }
+
+    .jump-btn.is-answered {
+        border-color: rgba(107, 166, 114, 0.42);
+        color: #2f7a46;
+    }
+
+    .question-card[hidden] {
+        display: none;
+    }
+
+    .question-card-head {
         display: flex;
-        flex-direction: column;
-        gap: 0.95rem;
+        justify-content: space-between;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.9rem;
+    }
+
+    .question-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 0.82rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.96);
+        color: #88693a;
+        font-size: 0.86rem;
+        font-weight: 800;
+    }
+
+    .question-badge.soft {
+        background: rgba(255, 252, 244, 0.95);
+        color: #78654a;
+    }
+
+    .question-title {
+        margin: 0;
+        color: #34291d;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: clamp(1.35rem, 2vw, 1.8rem);
+        line-height: 1.9;
+    }
+
+    .question-subtext {
+        margin: 0.7rem 0 1.25rem;
+        color: #85745a;
+        line-height: 1.78;
+    }
+
+    .option-list {
+        display: grid;
+        gap: 0.9rem;
     }
 
     .answer-card {
@@ -243,21 +432,9 @@
         box-shadow: 0 12px 20px rgba(123, 96, 44, 0.08);
     }
 
-    .answer-card.is-active {
+    .answer-card.is-selected {
         border-color: rgba(222, 160, 63, 0.72);
         background: rgba(255, 247, 225, 0.92);
-    }
-
-    .answer-card.is-correct-answer,
-    .answer-card.is-reviewed-correct {
-        border-color: rgba(92, 162, 113, 0.78);
-        background: rgba(231, 247, 236, 0.96);
-    }
-
-    .answer-card.is-wrong-answer,
-    .answer-card.is-reviewed-wrong {
-        border-color: rgba(227, 115, 85, 0.84);
-        background: rgba(255, 237, 232, 0.96);
     }
 
     .answer-card input {
@@ -282,144 +459,179 @@
         line-height: 1.8;
     }
 
-    .practice-actions {
-        display: flex;
-        gap: 0.9rem;
-        margin-top: 0.6rem;
-        flex-wrap: wrap;
+    .question-note {
+        margin: 1rem 0 0;
+        color: #7b6b53;
+        line-height: 1.7;
     }
 
-    .result-panel {
-        padding: 1.5rem;
-        position: sticky;
-        top: 90px;
+    .summary-section + .summary-section {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(214, 183, 112, 0.14);
     }
 
-    .result-headline {
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        margin-bottom: 1rem;
+    .summary-title {
+        margin: 0 0 0.85rem;
         color: #372d21;
         font-family: 'Kaisei Tokumin', serif;
-        font-size: 1.28rem;
+        font-size: 1.2rem;
     }
 
-    .result-status-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 16px;
-        font-size: 1.1rem;
-        color: #fff;
-        background: linear-gradient(135deg, #dba750, #f08d50);
-    }
-
-    .result-grid {
+    .summary-grid {
         display: grid;
-        gap: 0.9rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
     }
 
-    .result-block {
-        padding: 1rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.74);
-        border: 1px solid rgba(214, 183, 112, 0.14);
+    .summary-block {
+        padding: 0.95rem;
+        border-radius: 18px;
+        background: rgba(255, 252, 244, 0.82);
+        border: 1px solid rgba(214, 183, 112, 0.12);
     }
 
-    .result-label {
+    .summary-label {
         display: block;
         margin-bottom: 0.35rem;
         color: #8a785f;
-        font-size: 0.84rem;
+        font-size: 0.82rem;
         letter-spacing: 0.05em;
     }
 
-    .result-value {
-        color: #33291d;
+    .summary-value {
+        color: #2f261b;
+        font-size: 1.3rem;
+        font-weight: 800;
+    }
+
+    .summary-list {
+        display: grid;
+        gap: 0.75rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .summary-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        color: #5d4d37;
         line-height: 1.75;
-        font-weight: 700;
     }
 
-    .result-explanation {
-        color: #514331;
-        line-height: 1.85;
-        white-space: pre-line;
-        font-size: 0.95rem;
+    .summary-actions {
+        display: grid;
+        gap: 0.75rem;
     }
 
-    .result-muted {
-        margin: 0.45rem 0 0;
-        color: #7f6d54;
+    .submit-note {
+        margin: 0;
+        color: #7b6b53;
         line-height: 1.7;
         font-size: 0.92rem;
     }
 
-    .result-tip-list {
-        display: grid;
-        gap: 0.8rem;
-        margin-top: 1rem;
-    }
-
-    .result-tip {
-        display: flex;
-        gap: 0.8rem;
-        align-items: flex-start;
-        padding: 0.95rem 1rem;
-        border-radius: 18px;
-        background: rgba(255, 252, 244, 0.82);
-        color: #735f3d;
-        line-height: 1.7;
-    }
-
-    .result-panel-actions {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 1.15rem;
-        flex-wrap: wrap;
-    }
-
     @media (max-width: 980px) {
-        .practice-layout {
+        .session-layout {
             grid-template-columns: 1fr;
         }
 
-        .result-panel {
+        .summary-panel {
             position: static;
         }
     }
 
     @media (max-width: 720px) {
         .practice-hero,
-        .practice-panel,
-        .result-panel {
+        .mode-card,
+        .session-panel,
+        .summary-panel {
             padding: 1.3rem;
             border-radius: 22px;
         }
 
-        .practice-actions,
-        .result-panel-actions,
-        .practice-toolbar-right {
+        .toolbar-actions,
+        .mode-switch,
+        .summary-actions {
+            width: 100%;
             flex-direction: column;
             align-items: stretch;
         }
 
         .practice-primary-btn,
         .practice-secondary-btn,
-        .practice-mode-link {
+        .mode-switch-link {
             width: 100%;
         }
 
-        .practice-mode-switch {
-            width: 100%;
-            flex-direction: column;
+        .summary-grid {
+            grid-template-columns: 1fr;
         }
     }
 </style>
 
 <div class="practice-stage">
+    {% if show_mode_selector %}
+    <section class="practice-hero">
+        <span class="practice-kicker"><i class="fa-solid fa-compass"></i> {{ current_subject.label }} 模式分流</span>
+        <h1>先決定這一科要怎麼刷，再開始。</h1>
+        <p>你剛進的是 {{ current_subject.label }}。這裡會先分成預覽模式和練習模式，讓學生一開始就知道這次是要先看完整題庫，還是要正式做完整份再交卷。</p>
+
+        <div class="practice-hero-stats">
+            <div class="practice-stat">
+                <span class="practice-stat-label">目前科目</span>
+                <span class="practice-stat-value">{{ current_subject.label }}</span>
+            </div>
+            <div class="practice-stat">
+                <span class="practice-stat-label">同科題庫數</span>
+                <span class="practice-stat-value">{{ question_pool_size }}</span>
+            </div>
+            <div class="practice-stat">
+                <span class="practice-stat-label">進入方式</span>
+                <span class="practice-stat-value">先選模式</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="toolbar">
+        <a href="{{ url_for('study.practice_hub') }}" class="toolbar-back">
+            <i class="fa-solid fa-arrow-left"></i> 回到科目選擇
+        </a>
+        <span class="toolbar-chip"><i class="fa-solid fa-layer-group"></i> 共 {{ question_pool_size }} 題</span>
+    </div>
+
+    <section class="mode-grid">
+        <article class="mode-card is-preview">
+            <span class="mode-pill"><i class="fa-solid {{ preview_mode_meta.icon }}"></i> {{ preview_mode_meta.label }}</span>
+            <h2>先看完整題庫與解析</h2>
+            <p>{{ preview_mode_meta.hero_description }}</p>
+            <ul class="mode-list">
+                <li><i class="fa-solid fa-list"></i><span>顯示 {{ current_subject.label }} 這一科的全部題目，不會一題一題跳頁。</span></li>
+                <li><i class="fa-solid fa-circle-check"></i><span>點開任何一題，就直接看到題目、正確答案和詳解。</span></li>
+                <li><i class="fa-solid fa-ban"></i><span>不計分、不交卷，適合先看題庫或先帶學生講解。</span></li>
+            </ul>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', question_id=focus_question_id) }}" class="practice-secondary-btn">
+                <i class="fa-solid fa-eye"></i> 進入預覽模式
+            </a>
+        </article>
+
+        <article class="mode-card is-practice">
+            <span class="mode-pill"><i class="fa-solid {{ practice_mode_meta.icon }}"></i> {{ practice_mode_meta.label }}</span>
+            <h2>正式作答，最後一題再交卷</h2>
+            <p>{{ practice_mode_meta.hero_description }}</p>
+            <ul class="mode-list">
+                <li><i class="fa-solid fa-pen-to-square"></i><span>一次做完整科，支援上一題、下一題，途中都可以修改答案。</span></li>
+                <li><i class="fa-solid fa-flag-checkered"></i><span>只有最後一題才會出現交卷，交卷後才批改成績與顯示詳解。</span></li>
+                <li><i class="fa-solid fa-percent"></i><span>這一輪會用 100 分制計分，交卷後同時列出你的答案、正解和詳解。</span></li>
+            </ul>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice', question_id=focus_question_id) }}" class="practice-primary-btn">
+                <i class="fa-solid fa-dumbbell"></i> 進入練習模式
+            </a>
+        </article>
+    </section>
+    {% else %}
     <section class="practice-hero">
         <span class="practice-kicker"><i class="fa-solid {{ practice_mode_meta.icon }}"></i> {{ current_subject.label }} {{ practice_mode_meta.label }}</span>
         <h1>{{ practice_mode_meta.hero_title }}</h1>
@@ -435,307 +647,255 @@
                 <span class="practice-stat-value">{{ question_pool_size }}</span>
             </div>
             <div class="practice-stat">
-                <span class="practice-stat-label">作答方式</span>
-                <span class="practice-stat-value">{{ practice_mode_meta.result_label }}</span>
+                <span class="practice-stat-label">成績規則</span>
+                <span class="practice-stat-value">100 分制</span>
             </div>
         </div>
     </section>
 
-    <div class="practice-toolbar">
-        <a href="{{ url_for('study.practice_hub') }}" class="practice-back-link">
-            <i class="fa-solid fa-arrow-left"></i> 回到科目選擇
+    <div class="toolbar">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="toolbar-back">
+            <i class="fa-solid fa-arrow-left"></i> 回到模式選擇
         </a>
 
-        <div class="practice-toolbar-right">
-            <div class="practice-mode-switch" aria-label="作答模式切換">
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', question_id=question.id) }}" class="practice-mode-link {% if practice_mode == 'preview' %}is-active{% endif %}">
+        <div class="toolbar-actions">
+            <div class="mode-switch" aria-label="作答模式切換">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', question_id=focus_question_id) }}" class="mode-switch-link">
                     <i class="fa-solid fa-eye"></i> 預覽模式
                 </a>
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice', question_id=question.id, reset_round=1) }}" class="practice-mode-link {% if practice_mode == 'practice' %}is-active{% endif %}">
+                <span class="mode-switch-link is-active">
                     <i class="fa-solid fa-dumbbell"></i> 練習模式
-                </a>
+                </span>
             </div>
-
-            <span class="practice-chip"><i class="fa-solid fa-layer-group"></i> 同科題庫 {{ question_pool_size }} 題</span>
-            {% if practice_mode == 'practice' %}
-            <span class="practice-chip"><i class="fa-solid fa-list-check"></i> 本輪已答 {{ round_attempts }} 題</span>
-            {% endif %}
+            <span class="toolbar-chip"><i class="fa-solid fa-layer-group"></i> 全部 {{ question_pool_size }} 題</span>
             <button type="button" id="ai-generate-btn" class="practice-secondary-btn">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題
             </button>
         </div>
     </div>
 
-    <div class="practice-layout">
-        <section class="practice-panel">
-            <span class="practice-subject-badge">
-                <i class="fa-solid {{ current_subject.icon }}"></i> {{ current_subject.label }}
-                {% if question.category %}<span>・{{ question.category }}</span>{% endif %}
-            </span>
-            <h2 class="practice-question-title">{{ question.content_text }}</h2>
-            <p class="practice-question-subtext">{{ practice_mode_meta.question_prompt }}</p>
+    <form id="practice-exam-form" method="post" action="{{ url_for('study.practice_review') }}" class="session-layout">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="subject" value="{{ current_subject_query }}">
 
-            <form id="practice-form" class="practice-form">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="question_id" value="{{ question.id }}">
-                <input type="hidden" name="subject" value="{{ current_subject_query }}">
-                <input type="hidden" name="mode" value="{{ practice_mode }}">
-
-                {% for label, text in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)] %}
-                <label class="answer-card" data-answer="{{ label }}">
-                    <input type="radio" name="answer" value="{{ label }}" {% if text %}required{% endif %}>
-                    <span class="answer-letter">{{ label }}</span>
-                    <span class="answer-copy">{{ text or '' }}</span>
-                </label>
-                {% endfor %}
-
-                <div class="practice-actions">
-                    <button type="submit" id="submit-btn" class="practice-primary-btn">
-                        <i class="fa-solid fa-paper-plane"></i> 送出答案
-                    </button>
-                    <a href="{{ url_for('study.practice_hub') }}" class="practice-secondary-btn">
-                        <i class="fa-solid fa-shuffle"></i> 改選其他科目
-                    </a>
+        <section class="session-panel">
+            <div class="progress-head">
+                <div class="progress-copy">
+                    <h2 id="progress-title">第 {{ initial_question_index + 1 }} / {{ question_pool_size }} 題</h2>
+                    <p>這一輪可以上一題、下一題，也可以回頭改答案。只有最後一題才會出現交卷。</p>
                 </div>
-            </form>
+                <span class="progress-chip"><i class="fa-solid fa-file-lines"></i> 整份作答</span>
+            </div>
+
+            <div class="progress-bar" aria-hidden="true">
+                <span class="progress-bar-fill" id="progress-bar-fill"></span>
+            </div>
+
+            <div class="jump-grid" id="jump-grid">
+                {% for item in question_items %}
+                <button type="button" class="jump-btn" data-index="{{ loop.index0 }}">{{ item.index }}</button>
+                {% endfor %}
+            </div>
+
+            {% for item in question_items %}
+            <article class="question-card" data-question-index="{{ loop.index0 }}" {% if loop.index0 != initial_question_index %}hidden{% endif %}>
+                <div class="question-card-head">
+                    <span class="question-badge"><i class="fa-solid fa-hashtag"></i> 第 {{ item.index }} 題</span>
+                    <span class="question-badge soft">
+                        <i class="fa-solid fa-book-open"></i> {{ item.subject }}
+                        {% if item.category %}<span>・{{ item.category }}</span>{% endif %}
+                    </span>
+                </div>
+
+                <h2 class="question-title">{{ item.content_text }}</h2>
+                <p class="question-subtext">先專心作答，答案和詳解會等交卷後一次整理。現在可以先把這題選好，再決定要往前或往後。</p>
+
+                <div class="option-list">
+                    {% for option in item.options %}
+                    <label class="answer-card" data-question-id="{{ item.id }}" data-answer="{{ option.key }}">
+                        <input type="radio" name="answer_{{ item.id }}" value="{{ option.key }}">
+                        <span class="answer-letter">{{ option.key }}</span>
+                        <span class="answer-copy">{{ option.text }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <p class="question-note">作答狀態會保留在這份表單裡，回上一題時可以直接看到你剛剛選的答案。</p>
+            </article>
+            {% endfor %}
         </section>
 
-        <aside class="result-panel" id="result-panel">
-            <div id="pre-submit-state">
-                <div class="result-headline">
-                    <span class="result-status-icon"><i class="fa-solid fa-lightbulb"></i></span>
-                    <span>作答提示</span>
-                </div>
-                <div class="result-tip-list">
-                    <div class="result-tip">
-                        <i class="fa-solid fa-check"></i>
-                        <span>先自己判斷再作答，這樣不管你現在選的是預覽模式還是練習模式，檢討都會更有感。</span>
+        <aside class="summary-panel">
+            <div class="summary-section">
+                <h3 class="summary-title">本輪作答狀態</h3>
+                <div class="summary-grid">
+                    <div class="summary-block">
+                        <span class="summary-label">已作答</span>
+                        <div class="summary-value" id="answered-count">0</div>
                     </div>
-                    {% if practice_mode == 'preview' %}
-                    <div class="result-tip">
-                        <i class="fa-solid fa-book-open-reader"></i>
-                        <span>送出後會直接標記對錯、顯示正解，並整理這題的完整解析。</span>
+                    <div class="summary-block">
+                        <span class="summary-label">未作答</span>
+                        <div class="summary-value" id="unanswered-count">{{ question_pool_size }}</div>
                     </div>
-                    <div class="result-tip">
-                        <i class="fa-solid fa-rotate-right"></i>
-                        <span>看完詳解後可以立即刷下一題，維持同一科的練習節奏。</span>
-                    </div>
-                    {% else %}
-                    <div class="result-tip">
-                        <i class="fa-solid fa-lock"></i>
-                        <span>這一輪只會先告訴你答對或答錯，不會先把正解打開，避免你太早被答案帶著走。</span>
-                    </div>
-                    <div class="result-tip">
-                        <i class="fa-solid fa-flag-checkered"></i>
-                        <span>等你結束這輪練習後，系統才會把這輪所有題目的答案與詳解一次整理出來。</span>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
 
-            <div id="post-submit-state" hidden>
-                <div class="result-headline">
-                    <span class="result-status-icon" id="result-status-icon"><i class="fa-solid fa-circle-check"></i></span>
-                    <span id="result-title">這題答對了</span>
-                </div>
+            <div class="summary-section">
+                <h3 class="summary-title">練習模式規則</h3>
+                <ul class="summary-list">
+                    <li><i class="fa-solid fa-rotate"></i><span>可自由切換上一題、下一題，也可直接點題號跳轉。</span></li>
+                    <li><i class="fa-solid fa-pen"></i><span>交卷前都能修改答案，不會提早批改。</span></li>
+                    <li><i class="fa-solid fa-star"></i><span>交卷後用 100 分制計分，並顯示你的答案、正解與詳解。</span></li>
+                </ul>
+            </div>
 
-                <div id="preview-result-grid" class="result-grid" {% if practice_mode != 'preview' %}hidden{% endif %}>
-                    <div class="result-block">
-                        <span class="result-label">你的答案</span>
-                        <div class="result-value" id="selected-answer-text">-</div>
-                    </div>
-                    <div class="result-block">
-                        <span class="result-label">正確答案</span>
-                        <div class="result-value" id="correct-answer-text">-</div>
-                    </div>
-                    <div class="result-block">
-                        <span class="result-label">詳解</span>
-                        <div class="result-explanation" id="explanation-text">-</div>
-                    </div>
-                </div>
-
-                <div id="practice-result-grid" class="result-grid" {% if practice_mode != 'practice' %}hidden{% endif %}>
-                    <div class="result-block">
-                        <span class="result-label">你的答案</span>
-                        <div class="result-value" id="practice-selected-answer-text">-</div>
-                    </div>
-                    <div class="result-block">
-                        <span class="result-label">目前進度</span>
-                        <div class="result-value" id="practice-round-progress">本輪已完成 0 題</div>
-                        <p class="result-muted" id="practice-round-hint">這輪的正解與詳解會在結束後一起整理。</p>
-                    </div>
-                </div>
-
-                <div class="result-panel-actions" id="preview-actions" {% if practice_mode != 'preview' %}hidden{% endif %}>
-                    <a id="next-question-link" href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview') }}" class="practice-primary-btn">
+            <div class="summary-section">
+                <h3 class="summary-title">操作</h3>
+                <div class="summary-actions">
+                    <button type="button" id="prev-question-btn" class="practice-secondary-btn">
+                        <i class="fa-solid fa-arrow-left"></i> 上一題
+                    </button>
+                    <button type="button" id="next-question-btn" class="practice-primary-btn">
                         <i class="fa-solid fa-arrow-right"></i> 下一題
-                    </a>
-                    <a href="{{ url_for('study.practice_hub') }}" class="practice-secondary-btn">
-                        <i class="fa-solid fa-border-all"></i> 換科目
-                    </a>
-                </div>
-
-                <div class="result-panel-actions" id="practice-actions" {% if practice_mode != 'practice' %}hidden{% endif %}>
-                    <a id="practice-next-question-link" href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice') }}" class="practice-primary-btn">
-                        <i class="fa-solid fa-arrow-right"></i> 下一題
-                    </a>
-                    <a id="practice-review-link" href="{{ url_for('study.practice_review', subject=current_subject_query) }}" class="practice-secondary-btn">
-                        <i class="fa-solid fa-clipboard-check"></i> 結束這輪練習
-                    </a>
+                    </button>
+                    <button type="submit" id="submit-practice-btn" class="practice-primary-btn" hidden>
+                        <i class="fa-solid fa-flag-checkered"></i> 交卷批改
+                    </button>
+                    <p class="submit-note">只有在最後一題才會出現交卷，避免學生太早跳出整份流程。</p>
                 </div>
             </div>
         </aside>
-    </div>
+    </form>
+    {% endif %}
 </div>
 
+{% if not show_mode_selector %}
 <script>
-    const practiceForm = document.getElementById('practice-form');
-    const answerCards = Array.from(document.querySelectorAll('.answer-card'));
-    const submitBtn = document.getElementById('submit-btn');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-    const preSubmitState = document.getElementById('pre-submit-state');
-    const postSubmitState = document.getElementById('post-submit-state');
-    const aiGenerateBtn = document.getElementById('ai-generate-btn');
-    const subjectQuery = {{ current_subject_query|tojson }};
-    const practiceMode = {{ practice_mode|tojson }};
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('practice-exam-form');
+    if (!form) {
+        return;
+    }
 
-    answerCards.forEach((card) => {
-        const input = card.querySelector('input[type="radio"]');
-        card.addEventListener('click', () => {
-            if (submitBtn.dataset.locked === 'true') {
-                return;
-            }
-            answerCards.forEach((item) => item.classList.remove('is-active'));
-            card.classList.add('is-active');
-            if (input) {
-                input.checked = true;
-            }
+    const questionCards = Array.from(document.querySelectorAll('.question-card'));
+    const jumpButtons = Array.from(document.querySelectorAll('.jump-btn'));
+    const answerCards = Array.from(document.querySelectorAll('.answer-card'));
+    const prevButton = document.getElementById('prev-question-btn');
+    const nextButton = document.getElementById('next-question-btn');
+    const submitButton = document.getElementById('submit-practice-btn');
+    const progressTitle = document.getElementById('progress-title');
+    const progressFill = document.getElementById('progress-bar-fill');
+    const answeredCount = document.getElementById('answered-count');
+    const unansweredCount = document.getElementById('unanswered-count');
+    const aiGenerateButton = document.getElementById('ai-generate-btn');
+    const subjectQuery = {{ current_subject_query|tojson }};
+    const initialIndex = {{ initial_question_index|default(0) }};
+    let currentIndex = Math.max(0, Math.min(initialIndex, questionCards.length - 1));
+
+    function getAnsweredTotal() {
+        return questionCards.filter((card) => card.querySelector('input[type="radio"]:checked')).length;
+    }
+
+    function updateAnswerStyles() {
+        answerCards.forEach((card) => {
+            const input = card.querySelector('input[type="radio"]');
+            card.classList.toggle('is-selected', Boolean(input && input.checked));
+        });
+    }
+
+    function updateSummary() {
+        const answered = getAnsweredTotal();
+        answeredCount.textContent = answered;
+        unansweredCount.textContent = questionCards.length - answered;
+    }
+
+    function updateJumpButtons() {
+        jumpButtons.forEach((button, index) => {
+            const card = questionCards[index];
+            const answered = Boolean(card && card.querySelector('input[type="radio"]:checked'));
+            button.classList.toggle('is-active', index === currentIndex);
+            button.classList.toggle('is-answered', answered);
+        });
+    }
+
+    function renderCurrentQuestion() {
+        questionCards.forEach((card, index) => {
+            card.hidden = index !== currentIndex;
+        });
+
+        progressTitle.textContent = `第 ${currentIndex + 1} / ${questionCards.length} 題`;
+        progressFill.style.width = `${((currentIndex + 1) / questionCards.length) * 100}%`;
+
+        prevButton.disabled = currentIndex === 0;
+        nextButton.hidden = currentIndex === questionCards.length - 1;
+        submitButton.hidden = currentIndex !== questionCards.length - 1;
+
+        updateAnswerStyles();
+        updateSummary();
+        updateJumpButtons();
+    }
+
+    jumpButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            currentIndex = Number(button.dataset.index || 0);
+            renderCurrentQuestion();
         });
     });
 
-    function setAnswerState(data) {
-        answerCards.forEach((card) => {
-            const input = card.querySelector('input[type="radio"]');
-            const answer = card.dataset.answer;
-            const isSelected = answer === data.selected_answer;
+    prevButton.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex -= 1;
+            renderCurrentQuestion();
+        }
+    });
 
-            card.classList.remove('is-active', 'is-correct-answer', 'is-wrong-answer', 'is-reviewed-correct', 'is-reviewed-wrong');
-            if (input) {
-                input.disabled = true;
-            }
+    nextButton.addEventListener('click', () => {
+        if (currentIndex < questionCards.length - 1) {
+            currentIndex += 1;
+            renderCurrentQuestion();
+        }
+    });
 
-            if (practiceMode === 'preview') {
-                if (answer === data.correct_answer) {
-                    card.classList.add('is-correct-answer');
+    answerCards.forEach((card) => {
+        const input = card.querySelector('input[type="radio"]');
+        if (!input) {
+            return;
+        }
+
+        input.addEventListener('change', () => {
+            updateAnswerStyles();
+            updateSummary();
+            updateJumpButtons();
+        });
+    });
+
+    form.addEventListener('submit', () => {
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中...';
+    });
+
+    if (aiGenerateButton) {
+        aiGenerateButton.addEventListener('click', async () => {
+            aiGenerateButton.disabled = true;
+            aiGenerateButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
+
+            try {
+                const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}&mode=practice`);
+                const data = await response.json();
+                if (!response.ok || data.error) {
+                    throw new Error(data.error || 'AI 生成題目失敗');
                 }
-                if (!data.correct && isSelected && data.selected_answer !== data.correct_answer) {
-                    card.classList.add('is-wrong-answer');
-                }
-                return;
-            }
-
-            if (isSelected) {
-                card.classList.add(data.correct ? 'is-reviewed-correct' : 'is-reviewed-wrong');
+                window.location.href = data.practice_url;
+            } catch (error) {
+                window.alert(error.message || 'AI 生成題目失敗');
+                aiGenerateButton.disabled = false;
+                aiGenerateButton.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題';
             }
         });
     }
 
-    practiceForm?.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const checked = practiceForm.querySelector('input[name="answer"]:checked');
-        if (!checked) {
-            window.alert('請先選擇一個答案再送出。');
-            return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.dataset.locked = 'true';
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中';
-
-        try {
-            const response = await fetch('{{ url_for("study.practice_session") }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                },
-                body: new FormData(practiceForm),
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || '作答提交失敗');
-            }
-
-            setAnswerState(data);
-
-            preSubmitState.hidden = true;
-            postSubmitState.hidden = false;
-
-            const resultTitle = document.getElementById('result-title');
-            const resultStatusIcon = document.getElementById('result-status-icon');
-            if (data.correct) {
-                resultStatusIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-                resultStatusIcon.style.background = 'linear-gradient(135deg, #5da271, #8dc99c)';
-            } else {
-                resultStatusIcon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
-                resultStatusIcon.style.background = 'linear-gradient(135deg, #d86f58, #f49f6c)';
-            }
-
-            if (practiceMode === 'practice') {
-                resultTitle.textContent = data.correct
-                    ? '這題答對了，繼續把這輪做完。'
-                    : '這題先記成錯題，結束這輪後再看正解。';
-
-                document.getElementById('practice-selected-answer-text').textContent =
-                    `${data.selected_answer || '未作答'}${data.selected_answer_text ? ` ・ ${data.selected_answer_text}` : ''}`;
-                document.getElementById('practice-round-progress').textContent =
-                    `本輪已完成 ${data.round_count || 0} 題`;
-                document.getElementById('practice-round-hint').textContent = data.correct
-                    ? '這題已記成答對，等你結束這輪時再一起回顧完整詳解。'
-                    : '這題已記入本輪檢討，結束這輪後會一次整理正解與詳解。';
-                document.getElementById('practice-next-question-link').href = data.next_question_url;
-                document.getElementById('practice-review-link').href = data.review_url;
-            } else {
-                resultTitle.textContent = data.correct
-                    ? '這題答對了，可以直接接下一題。'
-                    : '這題答錯了，先把詳解看完再往下。';
-                document.getElementById('selected-answer-text').textContent =
-                    `${data.selected_answer || '未作答'}${data.selected_answer_text ? ` ・ ${data.selected_answer_text}` : ''}`;
-                document.getElementById('correct-answer-text').textContent =
-                    `${data.correct_answer} ・ ${data.correct_answer_text || ''}`;
-                document.getElementById('explanation-text').textContent =
-                    data.explanation || '目前這題沒有詳解，建議先回頭比對題幹與正確選項。';
-                document.getElementById('next-question-link').href = data.next_question_url;
-            }
-
-            submitBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已完成作答';
-        } catch (error) {
-            submitBtn.disabled = false;
-            submitBtn.dataset.locked = 'false';
-            submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 送出答案';
-            window.alert(error.message || '提交失敗，請稍後再試。');
-        }
-    });
-
-    aiGenerateBtn?.addEventListener('click', async () => {
-        const originalLabel = aiGenerateBtn.innerHTML;
-        aiGenerateBtn.disabled = true;
-        aiGenerateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中';
-
-        try {
-            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}&mode=${encodeURIComponent(practiceMode)}`);
-            const data = await response.json();
-            if (!response.ok || data.status !== 'success') {
-                throw new Error(data.error || 'AI 生成題目失敗');
-            }
-
-            window.location.href = data.practice_url;
-        } catch (error) {
-            window.alert(error.message || 'AI 生成題目失敗');
-            aiGenerateBtn.disabled = false;
-            aiGenerateBtn.innerHTML = originalLabel;
-        }
-    });
+    renderCurrentQuestion();
+});
 </script>
+{% endif %}
 {% endblock %}

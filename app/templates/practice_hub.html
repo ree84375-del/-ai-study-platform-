@@ -369,8 +369,8 @@
 <div class="practice-shell">
     <section class="practice-hero">
         <span class="practice-kicker"><i class="fa-solid fa-gamepad"></i> 選擇刷題科目</span>
-        <h1>挑選想練的科目，直接進入刷題節奏。</h1>
-        <p>先從你今天最想補強的科目開始。進去之後可以切換成預覽模式或練習模式，決定這輪要立刻看詳解，還是做完整輪後再一起檢討。</p>
+        <h1>挑選想練的科目，先選模式再開始。</h1>
+        <p>先從你今天最想補強的科目開始。點進科目後，系統會先清楚分成預覽模式和練習模式，讓學生一開始就知道這次是要先看完整題庫，還是要正式做完整份再交卷。</p>
 
         <div class="practice-hero-stats">
             <div class="practice-stat">
@@ -382,8 +382,8 @@
                 <span class="practice-stat-value">{{ available_subject_count }}</span>
             </div>
             <div class="practice-stat">
-                <span class="practice-stat-label">刷題節奏</span>
-                <span class="practice-stat-value">雙模式</span>
+                <span class="practice-stat-label">進入方式</span>
+                <span class="practice-stat-value">先選模式</span>
             </div>
         </div>
     </section>
@@ -395,11 +395,11 @@
             <div class="subject-featured-copy">
                 <span class="subject-featured-label"><i class="fa-solid fa-bolt"></i> 快速入口</span>
                 <h2>{{ featured_subject_card.label }}</h2>
-                <p>如果今天想直接開始刷題，不先挑分類，就從這裡進去。系統會立刻帶你進入練習節奏。</p>
+                <p>如果今天想直接開始刷題，不先挑分類，就從這裡進去。進去後會先讓你選擇預覽模式或練習模式，再開始這一科。</p>
             </div>
             <div class="subject-featured-meta">
                 <span class="subject-featured-count"><i class="fa-solid fa-layer-group"></i> {{ featured_subject_card.count }} 題</span>
-                <span class="subject-featured-cta">直接開始 <i class="fa-solid fa-arrow-right"></i></span>
+                <span class="subject-featured-cta">先選模式 <i class="fa-solid fa-arrow-right"></i></span>
             </div>
         </a>
         {% else %}
@@ -439,11 +439,11 @@
                         <div>
                             <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
                             <h3>{{ card.label }}</h3>
-                            <p>從這一科開始刷題，進去後可以選擇立即看詳解，或做完整輪再一起看答案。</p>
+                            <p>從這一科開始刷題，進去後會先分成預覽模式和練習模式，再決定要直接看詳解，還是完整作答後再交卷。</p>
                         </div>
                         <div class="subject-card-footer">
                             <span class="subject-card-count"><i class="fa-solid fa-layer-group"></i> {{ card.count }} 題</span>
-                            <span class="subject-card-cta">開始刷題 <i class="fa-solid fa-arrow-right"></i></span>
+                            <span class="subject-card-cta">進入選模式 <i class="fa-solid fa-arrow-right"></i></span>
                         </div>
                     </a>
                     {% else %}

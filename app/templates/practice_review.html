@@ -46,7 +46,7 @@
 
     .review-stats {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.9rem;
         margin-top: 1.5rem;
     }
@@ -105,6 +105,15 @@
         color: #59492d;
     }
 
+    .review-feedback {
+        padding: 1.15rem 1.2rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.16);
+        background: rgba(255, 252, 244, 0.88);
+        color: #5a4a36;
+        line-height: 1.8;
+    }
+
     .review-list {
         display: grid;
         gap: 1rem;
@@ -119,18 +128,18 @@
     }
 
     .review-card.is-correct {
-        border-color: rgba(92, 162, 113, 0.26);
+        border-color: rgba(92, 162, 113, 0.28);
     }
 
     .review-card.is-wrong {
-        border-color: rgba(216, 111, 88, 0.26);
+        border-color: rgba(216, 111, 88, 0.28);
     }
 
     .review-card-header {
         display: flex;
         justify-content: space-between;
         gap: 1rem;
-        padding: 1.2rem 1.35rem 0;
+        padding: 1.25rem 1.35rem 0;
         flex-wrap: wrap;
     }
 
@@ -241,13 +250,17 @@
 
 <div class="review-stage">
     <section class="review-hero">
-        <span class="review-kicker"><i class="fa-solid fa-clipboard-check"></i> {{ current_subject.label }} 練習模式檢討</span>
-        <h1>這一輪的答案和詳解都整理好了，現在一次看懂每一題。</h1>
-        <p>這裡會保留你剛剛練習模式的整輪作答結果。先看自己哪幾題答錯，再把正解和詳解連起來看，會比邊做邊看更有感。</p>
+        <span class="review-kicker"><i class="fa-solid fa-clipboard-check"></i> {{ current_subject.label }} 練習模式成績</span>
+        <h1>這一輪已經交卷，現在直接看 100 分制結果與逐題詳解。</h1>
+        <p>下面會列出總題數、答對題數、答錯題數，以及每一題的你的答案、正確答案和詳解。學生交卷後就能立刻完成完整檢討。</p>
 
         <div class="review-stats">
             <div class="review-stat">
-                <span class="review-stat-label">本輪題數</span>
+                <span class="review-stat-label">100 分制成績</span>
+                <span class="review-stat-value">{{ score_percent }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">總題數</span>
                 <span class="review-stat-value">{{ total_count }}</span>
             </div>
             <div class="review-stat">
@@ -259,35 +272,41 @@
                 <span class="review-stat-value">{{ wrong_count }}</span>
             </div>
             <div class="review-stat">
-                <span class="review-stat-label">正確率</span>
-                <span class="review-stat-value">{{ accuracy }}%</span>
+                <span class="review-stat-label">已作答</span>
+                <span class="review-stat-value">{{ answered_count }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">未作答</span>
+                <span class="review-stat-value">{{ unanswered_count }}</span>
             </div>
         </div>
     </section>
 
+    <div class="review-feedback">{{ feedback }}</div>
+
     <div class="review-actions">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice', reset_round=1) }}" class="review-primary-btn">
-            <i class="fa-solid fa-rotate-right"></i> 再練一輪
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="review-secondary-btn">
+            <i class="fa-solid fa-compass"></i> 回到模式選擇
         </a>
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', reset_round=1) }}" class="review-secondary-btn">
-            <i class="fa-solid fa-eye"></i> 改用預覽模式
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice') }}" class="review-primary-btn">
+            <i class="fa-solid fa-rotate-right"></i> 再做一次練習模式
         </a>
-        <a href="{{ url_for('study.practice_hub') }}" class="review-secondary-btn">
-            <i class="fa-solid fa-border-all"></i> 回到科目選擇
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview') }}" class="review-secondary-btn">
+            <i class="fa-solid fa-eye"></i> 改看預覽模式
         </a>
     </div>
 
     <div class="review-list">
         {% for item in review_items %}
-        <article class="review-card {% if item.correct %}is-correct{% else %}is-wrong{% endif %}">
+        <article class="review-card {% if item.is_correct %}is-correct{% else %}is-wrong{% endif %}">
             <div class="review-card-header">
                 <div class="review-badges">
-                    <span class="review-badge {% if item.correct %}status-correct{% else %}status-wrong{% endif %}">
-                        <i class="fa-solid {% if item.correct %}fa-circle-check{% else %}fa-circle-xmark{% endif %}"></i>
-                        {% if item.correct %}答對{% else %}答錯{% endif %}
+                    <span class="review-badge {% if item.is_correct %}status-correct{% else %}status-wrong{% endif %}">
+                        <i class="fa-solid {% if item.is_correct %}fa-circle-check{% else %}fa-circle-xmark{% endif %}"></i>
+                        {% if item.is_correct %}答對{% else %}答錯{% endif %}
                     </span>
                     <span class="review-badge subject">
-                        <i class="fa-solid fa-book-open"></i> 第 {{ loop.index }} 題
+                        <i class="fa-solid fa-hashtag"></i> 第 {{ item.index }} 題
                     </span>
                     {% if item.category %}
                     <span class="review-badge subject">
@@ -303,16 +322,16 @@
                 <div class="review-grid">
                     <div class="review-block">
                         <span class="review-label">你的答案</span>
-                        <div class="review-value">{{ item.selected_answer }} ・ {{ item.selected_answer_text }}</div>
+                        <div class="review-value">{{ item.selected_answer }}{% if item.selected_answer_text %}：{{ item.selected_answer_text }}{% endif %}</div>
                     </div>
                     <div class="review-block">
                         <span class="review-label">正確答案</span>
-                        <div class="review-value">{{ item.correct_answer }} ・ {{ item.correct_answer_text }}</div>
+                        <div class="review-value">{{ item.correct_answer }}：{{ item.correct_answer_text }}</div>
                     </div>
                 </div>
 
                 <div class="review-explanation">
-                    <strong>詳解：</strong><br>
+                    <strong>詳解</strong><br>
                     {{ item.explanation }}
                 </div>
             </div>
