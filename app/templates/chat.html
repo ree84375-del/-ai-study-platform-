@@ -75,6 +75,13 @@
     </div>
 </div>
 
+<style>
+/* 專屬歡迎語氣泡樣式 */
+.chat-bubble.admin-gold { background: linear-gradient(135deg, #fffbeb, #fef08a) !important; color: #854d0e !important; border: 1px solid #fde047 !important; box-shadow: 0 4px 15px rgba(253, 224, 71, 0.4) !important; text-shadow: none !important; }
+.chat-bubble.user-blue { background: linear-gradient(135deg, #eff6ff, #bfdbfe) !important; color: #1e3a8a !important; border: 1px solid #93c5fd !important; box-shadow: 0 4px 15px rgba(147, 197, 253, 0.4) !important; text-shadow: none !important; }
+.chat-bubble.guest-red { background: linear-gradient(135deg, #fef2f2, #fecaca) !important; color: #991b1b !important; border: 1px solid #fca5a5 !important; box-shadow: 0 4px 15px rgba(252, 165, 165, 0.4) !important; text-shadow: none !important; }
+</style>
+
 <script>
     // --- Voice Tutor Logic (Robust Windows Version) ---
     const voiceBtn = document.getElementById('voice-input-btn');
@@ -338,7 +345,7 @@
         scrollToBottom();
     }
 
-    function addMessage(role, text, animate = true, isSpecial = false) {
+    function addMessage(role, text, animate = true, bubbleClass = '') {
         const wrapper = document.createElement('div');
         wrapper.style.display = 'flex';
         wrapper.style.flexDirection = 'column';
@@ -346,7 +353,7 @@
         wrapper.style.alignItems = role === 'ai' ? 'flex-start' : 'flex-end';
 
         const div = document.createElement('div');
-        div.className = `chat-bubble ${role} ${isSpecial ? 'admin-gold' : ''}`;
+        div.className = `chat-bubble ${role} ${typeof bubbleClass === 'string' ? bubbleClass : (bubbleClass ? 'admin-gold' : '')}`;
         
         // Content Formatting (Markdown + Image Gen)
         const formatContent = (raw) => {
@@ -704,31 +711,51 @@
         
         async function fetchWelcomeMessage() {
             if (activeSessionId) return;
-            try {
-                const res = await fetch("/api/study/personal_welcome");
-                const data = await res.json();
-                if (data.message) {
-                    addMessage('ai', data.message, true, false);
-                    if (autoSpeak) speak(data.message);
-                    return;
-                }
-            } catch (e) { console.error("Welcome API Error:", e); }
+
+            const isAdmin = {{ 'true' if current_user.is_admin else 'false' }};
+            const isGuest = {{ 'true' if getattr(current_user, 'auth_provider', 'local') == 'guest' else 'false' }};
+            const username = "{{ current_user.username }}";
             
-            // Fallback
-            {% if current_user.is_admin %}
-            addMessage('ai', {{ _t("chat_admin_greeting")|tojson }}, true, true);
-            {% elif getattr(current_user, 'auth_provider', 'local') == 'guest' %}
-            addMessage('ai', {{ _t("chat_guest_greeting")|tojson }}, true, false);
-            {% else %}
-            addMessage('ai', {{ _t("chat_user_greeting", username=current_user.username)|tojson }}, true, false);
-            {% endif %}
+            let bubbleClass = '';
+            let greetings = [];
+
+            if (isAdmin) {
+                bubbleClass = 'admin-gold';
+                greetings = [
+                    `管理員您好，很高興見到您，祝福您在管理工作中取得卓越成就，勇往直前，無限成長。`,
+                    `歡迎回來，管理員！伺服器運作狀況良好，隨時準備好為大家服務！`,
+                    `管理員辛苦了！如果需要測試任何新功能，請隨時告訴我喔！(๑•̀ㅂ•́)و✧`
+                ];
+            } else if (isGuest) {
+                bubbleClass = 'guest-red';
+                greetings = [
+                    `歡迎來到雪音的聊天室！訪客請隨意看看，如果註冊帳號就可以保存聊天記錄哦。`,
+                    `您好呀，訪客！有甚麼不清楚的地方都歡迎提問，雪音會盡力回答您！`,
+                    `雖然您現在是訪客身分，但我還是一樣會熱情地教導您唷！🌸`
+                ];
+            } else {
+                bubbleClass = 'user-blue';
+                greetings = [
+                    `歡迎回來，${username}同學！今天也要跟著雪音一起朝著您的目標努力喔！(◕‿◕✿)`,
+                    `哈囉 ${username}！今天想複習哪一科呢？我都準備好囉！`,
+                    `來了呀 ${username}！如果有不會的題目，隨時都可以問我喔！✨`
+                ];
+            }
+            
+            const randomGreeting = greetings[Math.floor(Math.random() * greetings.length)];
+            
+            // Artificial tiny delay for immersion
+            setTimeout(() => {
+                const loader = document.getElementById('welcome-loader');
+                if (loader) loader.style.display = 'none';
+                addMessage('ai', randomGreeting, true, bubbleClass);
+                if (autoSpeak) speak(randomGreeting);
+            }, 600);
         }
 
         // Auto Greeting based on user role
         setTimeout(async () => {
             await fetchWelcomeMessage();
-            const loader = document.getElementById('welcome-loader');
-            if (loader) loader.style.display = 'none';
         }, 500);
     });
 
