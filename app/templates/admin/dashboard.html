@@ -680,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
             aiWriteBtn.disabled = true;
             aiWriteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 正在生成...';
             try {
-                const response = await fetch('{{ url_for("admin.ai_write_broadcast") }}', {
+                const response = await fetch('{{ url_for("admin.ai_write_announcement") }}', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token() }}' },
                     body: JSON.stringify({ draft: draft, instruction: instruction })
