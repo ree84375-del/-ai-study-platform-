@@ -1,56 +1,78 @@
 {% extends "base.html" %}
 {% block title %}{{ _t('exchange_area') }} - {{ group.name }}{% endblock %}
 {% block content %}
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 2px solid var(--color-border); padding-bottom: 0.8rem;">
-        <h2 style="color: var(--color-primary); margin: 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-            <i class="fa-solid fa-users"></i> {{ group.name }} - {{ _t('exchange_area') }}
-            {% if group.group_type == 'class' %}
-                <span style="background: linear-gradient(135deg, #4285f4, #6395e3); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-solid fa-chalkboard-teacher"></i> 班級</span>
-            {% else %}
-                <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: bold;"><i class="fa-solid fa-comments"></i> 討論</span>
-            {% endif %}
-        </h2>
-        <a href="{{ url_for('group.groups') }}" class="btn" style="padding: 10px 25px; background: var(--color-primary); color: white; text-decoration: none; border-radius: 8px; font-size: 1rem; font-weight: bold; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 8px; margin-top: 8px;">
-            <i class="fa-solid fa-arrow-left"></i> {{ _t('nav_back') }}
-        </a>
-    </div>
+    <div class="group-dashboard group-dashboard--{{ group.group_type }}">
+        <div class="group-page-header">
+            <div class="group-page-heading">
+                <div class="group-page-title-row">
+                    <h2 class="group-page-title">
+                        <i class="fa-solid fa-users"></i> {{ group.name }} - {{ _t('exchange_area') }}
+                    </h2>
+                    {% if group.group_type == 'class' %}
+                        <span class="group-type-badge">
+                            <i class="fa-solid fa-chalkboard-teacher"></i> 班級群組
+                        </span>
+                    {% else %}
+                        <span class="group-type-badge">
+                            <i class="fa-solid fa-comments"></i> 學生討論
+                        </span>
+                    {% endif %}
+                </div>
+                <p class="group-page-subtitle">
+                    {% if group.group_type == 'class' %}
+                        左側集中公告、作業與管理資訊，右側保留班級交流與回覆節奏。
+                    {% else %}
+                        這裡以聊天、討論與協作為主，讓學生互動和追問更順暢。
+                    {% endif %}
+                </p>
+            </div>
+            <a href="{{ url_for('group.groups') }}" class="group-page-back">
+                <i class="fa-solid fa-arrow-left"></i> {{ _t('nav_back') }}
+            </a>
+        </div>
 
-    <div class="group-layout">
-        <aside class="group-sidebar" style="flex: 0 0 320px; display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="group-layout">
+            <aside class="group-sidebar">
             <!-- Yukine Reminders Removed as per User Request -->
 
             <!-- Yukine Control Panel Removed as per User Request -->
 
     <!-- Announcement Board (Class Groups Only) -->
     {% if group.group_type == 'class' %}
-    <div class="washi-card" style="padding: 1.5rem; border-left: 5px solid var(--color-accent); background-color: var(--color-secondary);">
-        <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-bullhorn" style="color: var(--color-accent);"></i> {{ _t('announcement_board') }}
-        </h3>
-        
+    <div class="sidebar-card sidebar-card--announcement">
+        <div class="sidebar-card__header">
+            <div class="sidebar-card__title-wrap">
+                <span class="sidebar-card__icon"><i class="fa-solid fa-bullhorn"></i></span>
+                <div>
+                    <h3 class="sidebar-card__title">{{ _t('announcement_board') }}</h3>
+                    <p class="sidebar-card__subtitle">重要公告固定收在這裡，避免被聊天訊息往下洗掉。</p>
+                </div>
+            </div>
+        </div>
+
         {% if announcements %}
-            <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+            <div class="announcement-list">
                 {% for ann in announcements %}
-                <div style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <div style="font-size: 0.8rem; color: var(--color-text_light); margin-bottom: 0.5rem;">
+                <div class="announcement-item">
+                    <div class="sidebar-meta">
                         {{ _t('posted_at') }} <span class="utc-time" data-utc="{{ ann.created_at.isoformat() if ann.created_at else '' }}Z"></span>
                     </div>
-                    <div style="white-space: pre-wrap; line-height: 1.6;">{{ ann.content }}</div>
+                    <div class="sidebar-body-text">{{ ann.content }}</div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <p style="color: var(--color-text_light); font-style: italic;">{{ _t('no_announcements') }}</p>
+            <p class="sidebar-empty">{{ _t('no_announcements') }}</p>
         {% endif %}
-        
+
         <!-- Teacher Announcement Input -->
         {% if group.teacher_id == current_user.id %}
-        <div style="margin-top: 1.5rem; border-top: 1px dashed var(--color-border); padding-top: 1rem;">
-            <form method="POST" action="">
+        <div class="sidebar-form">
+            <form method="POST" action="" class="sidebar-form__inner">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="action" value="post_announcement"/>
-                <textarea name="content" placeholder="{% if group.group_type == 'class' %}{{ _t('post_announcement_placeholder_teacher') }}{% else %}{{ _t('post_announcement_placeholder_mod') }}{% endif %}" required style="width: 100%; padding: 10px; border: 1px solid var(--color-border); border-radius: 8px; resize: vertical; min-height: 60px; font-family: inherit; font-size: 1rem; margin-bottom: 10px; box-sizing: border-box;"></textarea>
-                <button type="submit" style="background-color: var(--color-accent); color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; font-weight: bold;">
+                <textarea name="content" placeholder="{% if group.group_type == 'class' %}{{ _t('post_announcement_placeholder_teacher') }}{% else %}{{ _t('post_announcement_placeholder_mod') }}{% endif %}" required class="sidebar-form__textarea"></textarea>
+                <button type="submit" class="sidebar-form__button">
                     {{ _t('post_announcement_btn') }}
                 </button>
             </form>
@@ -62,83 +84,64 @@
             <!-- Active Assignments Section (Class Groups Only) -->
             {% if group.group_type == 'class' %}
             <!-- Active Assignments Section -->
-            <div class="glass-panel" style="padding: 1.5rem; border-top: 4px solid var(--color-accent); margin-bottom: 2rem;">
-                <h3 style="margin-top: 0; color: var(--color-text_main); display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-file-signature" style="color: var(--color-accent);"></i> {{ _t('assignments_challenges') }}
-                </h3>
-                
+            <div class="sidebar-card sidebar-card--assignment">
+                <div class="sidebar-card__header">
+                    <div class="sidebar-card__title-wrap">
+                        <span class="sidebar-card__icon"><i class="fa-solid fa-file-signature"></i></span>
+                        <div>
+                            <h3 class="sidebar-card__title">{{ _t('assignments_challenges') }}</h3>
+                            <p class="sidebar-card__subtitle">把截止日、完成狀態和重點都收斂成一致卡片。</p>
+                        </div>
+                    </div>
+                </div>
+
                 {% if not assignments %}
-                    <p style="color: var(--color-text_light); text-align: center; padding: 20px; font-style: italic;">{{ _t('no_assignments_desc') }}</p>
+                    <p class="sidebar-empty">{{ _t('no_assignments_desc') }}</p>
                 {% else %}
-                    <div style="display: grid; gap: 1rem;">
+                    <div class="assignment-list">
                         {% for assignment in assignments %}
                             {% set user_status = assignment.statuses | selectattr('user_id', 'equalto', current_user.id) | first %}
                             {% set is_completed = user_status and user_status.is_completed %}
                             <div class="assignment-card open-detail-btn {% if not is_completed %}active-assignment-glow{% endif %}" 
                                  data-id="{{ assignment.id }}"
-                                 style="background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 18px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.02);"
                                  onclick="openViewAssignmentModal({{ assignment.id }})">
                                 
                                 {% if not is_completed %}
-                                <div style="position: absolute; top: -10px; right: -5px; background: #ff8da1; color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 5px rgba(255, 141, 161, 0.3);">
+                                <div class="assignment-card__flag">
                                     {{ _t('yukine_not_submitted') }}
                                 </div>
                                 {% endif %}
-                                
-                                <style>
-                                    .assignment-card:hover {
-                                        transform: translateY(-5px);
-                                        box-shadow: 0 8px 15px rgba(0,0,0,0.08);
-                                        border-color: var(--color-accent);
-                                    }
-                                    .assignment-status-tag {
-                                        font-size: 0.7rem;
-                                        padding: 3px 8px;
-                                        border-radius: 20px;
-                                        font-weight: bold;
-                                    }
-                                    /* Admin Exclusive Golden Bubble */
-                                    .admin-gold {
-                                        background: linear-gradient(135deg, #FFD700, #FFA500) !important;
-                                        color: #5C4033 !important;
-                                        border: 2px solid #FFD700 !important;
-                                        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4) !important;
-                                        font-weight: 600;
-                                    }
-                                </style>
 
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                                    <div style="flex: 1;">
-                                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                                            <h4 style="margin: 0; color: var(--color-primary); font-size: 1.1rem; font-weight: 700;">{{ assignment.title }}</h4>
+                                <div class="assignment-card__layout">
+                                    <div class="assignment-card__content">
+                                        <div class="assignment-card__title-row">
+                                            <h4 class="assignment-card__title">{{ assignment.title }}</h4>
                                             {% if is_completed %}
-                                                <span class="assignment-status-tag" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9;">{{ _t('graded') }}</span>
+                                                <span class="assignment-status-tag assignment-status-tag--done">{{ _t('graded') }}</span>
                                             {% else %}
-                                                <span class="assignment-status-tag" style="background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2;">{{ _t('not_submitted') }}</span>
+                                                <span class="assignment-status-tag assignment-status-tag--pending">{{ _t('not_submitted') }}</span>
                                             {% endif %}
                                         </div>
-                                        <p style="margin: 0; font-size: 0.85rem; color: var(--color-text_light); line-height: 1.4;">{{ assignment.description | truncate(60) }}</p>
-                                        
-                                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 15px;">
-                                            <div style="font-size: 0.75rem; color: #999;">
+                                        <p class="assignment-card__desc">{{ assignment.description | truncate(60) }}</p>
+
+                                        <div class="assignment-card__meta">
+                                            <div class="assignment-card__meta-item">
                                                 <i class="fa-regular fa-calendar-check"></i> {{ _t('due_date_label') }}{% if assignment.due_date %}{{ assignment.due_date.strftime('%Y-%m-%d') }}{% else %}{{ _t('no_deadline') }}{% endif %}
                                             </div>
                                             {% if is_completed %}
-                                            <div style="font-size: 0.75rem; font-weight: bold; color: var(--color-accent);">
+                                            <div class="assignment-card__meta-item assignment-card__meta-item--score">
                                                 <i class="fa-solid fa-star"></i> {{ _t('score_label') }}{{ user_status.score }}
                                             </div>
                                             {% endif %}
                                         </div>
                                     </div>
-                                    
-                                    <div style="margin-left: 10px;">
-                                        <div style="width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: {% if is_completed %}#f1f8e9{% else %}#fff8e1{% endif %};">
+
+                                    <div class="assignment-card__icon {% if is_completed %}assignment-card__icon--done{% else %}assignment-card__icon--pending{% endif %}">
                                             {% if is_completed %}
-                                                <i class="fa-solid fa-square-check" style="color: #4caf50; font-size: 1.2rem;"></i>
+                                                <i class="fa-solid fa-square-check"></i>
                                             {% else %}
-                                                <i class="fa-solid fa-chevron-right" style="color: var(--color-accent); font-size: 1rem;"></i>
+                                                <i class="fa-solid fa-chevron-right"></i>
                                             {% endif %}
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -148,124 +151,26 @@
             {% endif %}
         {% if group.teacher_id == current_user.id %}
         <!-- Teacher Management Section -->
-        <div class="glass-panel" style="padding: 1.5rem; border-top: 4px solid var(--color-primary); margin-bottom: 2rem;">
-            <h3 style="margin-top: 0; color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-screwdriver-wrench"></i> {{ _t('admin_management') }}
-            </h3>
-            
-            <style>
-                .admin-card-grid {
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 15px;
-                    margin-bottom: 20px;
-                }
-                .admin-square-card {
-                    aspect-ratio: 1 / 1;
-                    background: white;
-                    border: 1px solid var(--color-border);
-                    border-radius: 16px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    padding: 15px;
-                    cursor: pointer;
-                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                    text-align: center;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-                }
-                .admin-square-card:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
-                    border-color: var(--color-primary);
-                }
-                .admin-square-card i {
-                    font-size: 1.8rem;
-                    margin-bottom: 12px;
-                    color: var(--color-primary);
-                    transition: transform 0.3s;
-                }
-                .admin-square-card:hover i {
-                    transform: scale(1.15) rotate(5deg);
-                }
-                .admin-square-card h5 {
-                    margin: 0;
-                    font-size: 0.95rem;
-                    color: var(--color-text_main);
-                    font-weight: 700;
-                }
-                .admin-square-card p {
-                    margin: 4px 0 0 0;
-                    font-size: 0.7rem;
-                    color: var(--color-text_light);
-                    font-weight: 500;
-                }
-                .admin-square-card.active {
-                    background: #f0f7ff;
-                    border-color: var(--color-primary);
-                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-                }
-
-                #admin-modal-overlay {
-                    display: none;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.4);
-                    z-index: 2000;
-                    align-items: center;
-                    justify-content: center;
-                    backdrop-filter: blur(8px);
-                    -webkit-backdrop-filter: blur(8px);
-                }
-
-                #admin-modal-content {
-                    width: 90%;
-                    max-width: 600px;
-                    max-height: 85vh;
-                    overflow-y: auto;
-                    padding: 2rem;
-                    position: relative;
-                    background: white;
-                    border: 2px solid var(--color-primary);
-                    border-radius: 28px;
-                    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-                }
-
-                @keyframes assignment-glow {
-                    0% { box-shadow: 0 0 5px rgba(255, 141, 161, 0.2), 0 2px 4px rgba(0,0,0,0.02); border-color: var(--color-border); }
-                    50% { box-shadow: 0 0 20px rgba(255, 141, 161, 0.5), 0 4px 8px rgba(255, 141, 161, 0.2); border-color: rgba(255, 141, 161, 0.6); }
-                    100% { box-shadow: 0 0 5px rgba(255, 141, 161, 0.2), 0 2px 4px rgba(0,0,0,0.02); border-color: var(--color-border); }
-                }
-                .active-assignment-glow {
-                    animation: assignment-glow 2s infinite ease-in-out;
-                    background: linear-gradient(to right, white, #fffcfd) !important;
-                }
-                .yukine-stamp {
-                    position: absolute;
-                    right: 15px;
-                    bottom: 15px;
-                    font-size: 2rem;
-                    opacity: 0.1;
-                    transform: rotate(-15deg);
-                    pointer-events: none;
-                }
-            </style>
+        <div class="sidebar-card sidebar-card--management">
+            <div class="sidebar-card__header">
+                <div class="sidebar-card__title-wrap">
+                    <span class="sidebar-card__icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                    <div>
+                        <h3 class="sidebar-card__title">{{ _t('admin_management') }}</h3>
+                        <p class="sidebar-card__subtitle">保留原本功能，但統一成一致的管理入口與間距。</p>
+                    </div>
+                </div>
+            </div>
 
             {% if group.group_type == 'class' %}
-            <div class="admin-section-label" style="font-size: 0.8rem; font-weight: bold; color: var(--color-text_light); text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px;">
-                管理專區
+            <div class="admin-section-label">
+                管理工具
             </div>
             <div class="admin-card-grid">
                 <!-- Publish Assignment Card -->
                 <div class="admin-square-card" onclick="toggleManagedTool('publish-wizard', this)">
-                    <div style="background: rgba(var(--color-primary-rgb), 0.1); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                        <i class="fa-solid fa-file-circle-plus" style="margin-bottom: 0;"></i>
+                    <div class="admin-icon-chip admin-icon-chip--primary">
+                        <i class="fa-solid fa-file-circle-plus"></i>
                     </div>
                     <h5>{{ _t('publish_assignment') }}</h5>
                     <p>{{ _t('ai_precheck_note') }}</p>
@@ -273,8 +178,8 @@
 
                 <!-- View Submissions Card -->
                 <div class="admin-square-card" onclick="toggleManagedTool('submissions-list-tool', this)">
-                    <div style="background: rgba(255, 152, 0, 0.1); width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                        <i class="fa-solid fa-list-check" style="margin-bottom: 0; color: #f39c12;"></i>
+                    <div class="admin-icon-chip admin-icon-chip--warning">
+                        <i class="fa-solid fa-list-check"></i>
                     </div>
                     <h5>{{ _t('view_submissions') }}</h5>
                     <p>{{ _t('submissions_title') }}</p>
@@ -283,20 +188,20 @@
             {% endif %}
 
 
-            <div class="admin-section-label" style="font-size: 0.8rem; font-weight: bold; color: var(--color-text_light); text-transform: uppercase; margin: 20px 0 10px 0; letter-spacing: 1px;">
-                管理與成員角色
+            <div class="admin-section-label">
+                成員與角色
             </div>
-            <div class="admin-card-grid" style="grid-template-columns: 1fr;">
+            <div class="admin-card-grid admin-card-grid--single">
                 <!-- Member Management Card -->
-                <div class="admin-square-card" onclick="toggleManagedTool('member-management-tool', this)" style="aspect-ratio: auto; min-height: 80px; flex-direction: row; justify-content: flex-start; gap: 20px; padding: 20px;">
-                    <div style="background: #f3e5f5; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <i class="fa-solid fa-users-gear" style="margin-bottom: 0; color: #9c27b0;"></i>
+                <div class="admin-square-card admin-square-card--wide" onclick="toggleManagedTool('member-management-tool', this)">
+                    <div class="admin-icon-chip admin-icon-chip--violet">
+                        <i class="fa-solid fa-users-gear"></i>
                     </div>
-                    <div style="text-align: left;">
-                        <h5 style="font-size: 1.1rem;">{{ _t('members_roles') }}</h5>
-                        <p style="font-size: 0.8rem;">{{ _t('group_settings') }}</p>
+                    <div class="admin-square-card__copy">
+                        <h5>{{ _t('members_roles') }}</h5>
+                        <p>{{ _t('group_settings') }}</p>
                     </div>
-                    <i class="fa-solid fa-chevron-right" style="margin-left: auto; color: #ccc; font-size: 1rem;"></i>
+                    <i class="fa-solid fa-chevron-right admin-square-card__arrow"></i>
                 </div>
             </div>
 
@@ -692,10 +597,26 @@
             </div>
         </div>
 
-        <main class="group-main" style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem; min-width: 0;">
-            <!-- Message Board -->
-            <div class="washi-card chat-scroll-area" style="padding: 1.5rem; margin-bottom: 0; min-height: 500px; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; background-color: var(--color-secondary);">
-                <div style="text-align: center; padding: 10px; color: #ff8a00; font-size: 0.75rem; font-family: monospace; border-bottom: 1px dashed #ffe0b2; margin-bottom: 20px;">
+        <main class="group-main">
+            <section class="chat-shell">
+                <div class="chat-shell__topbar">
+                    <div>
+                        <h3 class="chat-shell__title">{{ _t('exchange_area') }}</h3>
+                        <p class="chat-shell__subtitle">
+                            {% if group.group_type == 'class' %}
+                                公告、作業與管理優先，聊天區維持清楚而不混亂。
+                            {% else %}
+                                以學生互動、追問與協作為主，討論內容更容易延續。
+                            {% endif %}
+                        </p>
+                    </div>
+                    <span class="chat-shell__mode">
+                        {% if group.group_type == 'class' %}班級模式{% else %}討論模式{% endif %}
+                    </span>
+                </div>
+
+                <div class="chat-scroll-area">
+                <div class="chat-system-banner">
                     <i class="fa-solid fa-microchip"></i> AI MODULE v5.0 (CORE SYNC) ONLINE
                 </div>
                 
@@ -733,20 +654,24 @@
                 {% if messages %}
                     {% for msg in messages %}
                         {% if not msg.is_deleted %}
+                        {% set is_ai_message = msg.author and msg.author.email and 'yukine' in msg.author.email %}
+                        {% set is_teacher_message = msg.user_id == group.teacher_id %}
+                        {% set is_announcement_message = group.group_type == 'class' and is_teacher_message and not msg.parent_id %}
+                        {% set is_self_message = msg.user_id == current_user.id %}
                         <!-- Message Container -->
-                        <div id="msg-box-{{ msg.id }}" class="message-wrapper" style="display: flex; gap: 12px; margin-bottom: 24px; width: 100%; align-items: flex-start; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
+                        <div id="msg-box-{{ msg.id }}" class="message-wrapper {% if is_self_message %}is-self{% endif %} {% if is_announcement_message %}is-announcement{% elif is_teacher_message %}is-teacher{% elif is_ai_message %}is-ai{% else %}is-student{% endif %}">
                             <!-- Avatar Section -->
-                            <div style="flex-shrink: 0; width: 44px; height: 44px; position: relative;">
-                                <div style="width: 100%; height: 100%; border-radius: 50%; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <div class="message-avatar">
+                                <div class="message-avatar__frame">
                                     {% if msg.author and msg.author.avatar_url %}
                                         <img src="{{ msg.author.avatar_url }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                    {% elif msg.author and 'yukine' in msg.author.email %}
+                                    {% elif is_ai_message %}
                                         {# Use the AI's own personality to determine fallback avatar #}
                                         <img src="{{ url_for('static', filename=msg.author.ai_avatar_filename) }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     {% elif msg.author and msg.author.image_file and msg.author.image_file != 'default.jpg' %}
                                         <img src="{{ url_for('static', filename='profile_pics/' + msg.author.image_file) }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     {% else %}
-                                        <div style="width: 100%; height: 100%; background: var(--color-accent); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem;">
+                                        <div class="message-avatar__fallback">
                                             {{ (msg.author.username | first | upper) if msg.author and msg.author.username else "?" }}
                                         </div>
                                     {% endif %}
@@ -754,62 +679,39 @@
                             </div>
 
                             <!-- Content Section -->
-                            <div style="max-width: 85%; display: flex; flex-direction: column; position: relative; {% if msg.user_id == current_user.id %}align-items: flex-end;{% else %}align-items: flex-start;{% endif %}">
+                            <div class="message-content">
                                 <!-- Meta Info -->
-                                <div style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;">
-                                    <span style="font-weight: 700; color: var(--color-text_main);">{{ _t('me') if msg.user_id == current_user.id else (msg.author.username if msg.author else _t('anonymous')) }}</span>
-                                    {% if msg.author and 'yukine_bot_ag' in msg.author.email %} 
-                                        <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">{{ _t('navigator') }}</span>
-                                    {% elif msg.user_id == group.teacher_id %} 
-                                        <span style="background: #7c4dff; color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold;">
+                                <div class="message-meta">
+                                    <span class="message-author">{{ _t('me') if is_self_message else (msg.author.username if msg.author else _t('anonymous')) }}</span>
+                                    {% if is_announcement_message %}
+                                        <span class="message-role message-role--announcement">公告</span>
+                                    {% elif is_ai_message %}
+                                        <span class="message-role message-role--ai">{{ _t('navigator') }}</span>
+                                    {% elif is_teacher_message %}
+                                        <span class="message-role message-role--teacher">
                                             {{ _t('role_teacher') if group.group_type == 'class' else _t('role_host') }}
                                         </span>
+                                    {% elif not is_self_message %}
+                                        <span class="message-role message-role--student">學生</span>
                                     {% endif %}
-                                    <span class="utc-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z" style="color: var(--color-text_light); font-size: 0.75rem;"></span>
+                                    <span class="utc-time message-time" data-utc="{{ msg.created_at.isoformat() if msg.created_at else '' }}Z"></span>
                                 </div>
 
                                 <!-- Bubble & Trigger Row -->
-                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; {% if msg.user_id == current_user.id %}flex-direction: row-reverse;{% endif %}">
+                                <div class="message-row">
                                     <!-- The Bubble -->
                                     <div id="msg-bubble-{{ msg.id }}" 
-                                        class="message-bubble"
-                                        style="
-                                        display: inline-block;
-                                        padding: 10px 16px; 
-                                        border-radius: 12px; 
-                                        font-size: 0.95rem;
-                                        line-height: 1.5;
-                                        word-break: break-word;
-                                        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-                                        max-width: 85%;
-                                        position: relative;
-                                        cursor: pointer;
-                                        {% if msg.user_id == current_user.id %}
-                                            background: linear-gradient(135deg, var(--color-primary), #6395e3); 
-                                            color: white; 
-                                            border-bottom-right-radius: 4px;
-                                        {% elif msg.author and 'yukine_bot_ag' in msg.author.email %}
-                                            background: #fff; 
-                                            color: #333; 
-                                            border: 1px solid #ffccce;
-                                            box-shadow: 0 4px 12px rgba(255, 141, 161, 0.1);
-                                            border-bottom-left-radius: 4px;
-                                        {% else %}
-                                            background: white; 
-                                            color: #222; 
-                                            border: 1px solid #e2e8f0;
-                                            border-bottom-left-radius: 4px;
-                                        {% endif %}
-                                    " onclick="toggleControls('{{ msg.id }}', event)">
+                                        class="message-bubble {% if is_self_message and not is_announcement_message %}message-bubble--self{% elif is_announcement_message %}message-bubble--announcement{% elif is_ai_message %}message-bubble--ai{% elif is_teacher_message %}message-bubble--teacher{% else %}message-bubble--student{% endif %}"
+                                        onclick="toggleControls('{{ msg.id }}', event)">
                                         {% if msg.parent_id and msg.parent %}
-                                            <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})" style="cursor: pointer; background: rgba(0,0,0,0.06); padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid rgba(0,0,0,0.15);">
-                                                <div style="font-weight: 800; font-size: 0.75rem; color: rgba(0,0,0,0.5); margin-bottom: 2px;">{{ msg.parent.author.username }} {{ _t('said') }}：</div>
-                                                <div style="font-size: 0.85rem; color: rgba(0,0,0,0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ msg.parent.content }}</div>
+                                            <div class="quoted-msg" onclick="event.stopPropagation(); document.getElementById('msg-box-{{ msg.parent_id }}').scrollIntoView({behavior: 'smooth'})">
+                                                <div class="quoted-msg__author">{{ msg.parent.author.username }} {{ _t('said') }}：</div>
+                                                <div class="quoted-msg__content">{{ msg.parent.content }}</div>
                                             </div>
                                         {% endif %}
                                         
                                         {% if msg.image_data %}
-                                            <div style="margin-bottom: 8px; border-radius: 8px; overflow: hidden; max-width: 300px;">
+                                            <div class="message-image">
                                                 <img src="{{ msg.image_data }}" style="width: 100%; display: block;">
                                             </div>
                                         {% endif %}
@@ -856,58 +758,1087 @@
                         <p>{{ _t('no_messages') }}</p>
                     </div>
                 {% endif %}
-            </div>
+                </div>
 
-            <div class="washi-card" style="padding: 1.5rem; margin-bottom: 2rem; border-top: 3px solid var(--color-primary);">
+                <div class="chat-composer">
                 <!-- Reply Preview -->
                 <div id="reply-preview" class="reply-preview-container">
-                    <div style="font-size: 0.8rem; color: var(--color-primary); font-weight: bold; margin-bottom: 3px;">
+                    <div class="reply-preview__label">
                         {{ _t('reply_to') }} <span id="reply-to-user"></span>
                     </div>
-                    <div id="reply-preview-content" style="font-size: 0.85rem; color: #666; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; word-break: break-all;"></div>
-                    <i class="fa-solid fa-xmark" style="position: absolute; right: 10px; top: 10px; cursor: pointer; color: #999;" onclick="cancelReply()"></i>
+                    <div id="reply-preview-content" class="reply-preview__content"></div>
+                    <i class="fa-solid fa-xmark reply-preview__close" onclick="cancelReply()"></i>
                 </div>
 
                 <!-- Image Preview -->
-                <div id="image-preview-container" style="display: none; position: relative; margin-bottom: 15px; width: fit-content;">
-                    <img id="image-preview" src="" style="max-width: 250px; max-height: 250px; border-radius: 8px; border: 2px solid var(--color-primary); box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <button type="button" onclick="clearImage()" style="position: absolute; top: -12px; right: -12px; background: #ff4444; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-weight: bold; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">×</button>
+                <div id="image-preview-container" class="image-preview-container">
+                    <img id="image-preview" src="" class="image-preview">
+                    <button type="button" onclick="clearImage()" class="image-preview__clear" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">×</button>
                 </div>
 
-                <form id="chat-form" method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" style="display: flex; flex-direction: column; gap: 15px;">
+                <form id="chat-form" method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" class="chat-form">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="post_message"/>
                     <input type="hidden" name="parent_id" id="parent-id-input" value="">
                     <input type="hidden" name="edit_id" id="edit-id-input" value="">
                     <input type="hidden" name="image_data" id="image-data-input">
                     
-                    <textarea id="chat-input" name="content" placeholder="{{ _t('chat_placeholder') }}" style="width: 100%; min-height: 45px; padding: 12px; border-radius: 8px; border: 1px solid var(--color-border); resize: vertical; display: block; overflow-y: auto;"></textarea>
+                    <textarea id="chat-input" name="content" placeholder="{{ _t('chat_placeholder') }}" class="chat-input"></textarea>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="chat-composer__footer">
+                        <div class="chat-composer__tools">
                             <!-- Hidden File Input -->
                             <input type="file" id="file-input" accept="image/*" style="display: none;">
                             <!-- Visible Upload Button (+) -->
                             <button type="button" onclick="document.getElementById('file-input').click()" 
-                                style="width: 45px; height: 45px; border-radius: 50%; border: 2px dashed var(--color-primary); background: transparent; color: var(--color-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.2s; box-sizing: border-box;"
+                                class="chat-upload-btn"
                                 onmouseover="this.style.background='rgba(100, 149, 237, 0.05)'; this.style.transform='scale(1.05)';" 
                                 onmouseout="this.style.background='transparent'; this.style.transform='scale(1)';">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
-                            <div style="font-size: 0.85rem; color: var(--color-text_light);">
+                            <div class="chat-help-text">
                                  <i class="fa-solid fa-circle-info"></i> {{ _t('paste_image_note') }}
                             </div>
                         </div>
-                        <button type="submit" id="chat-submit-btn" style="background: linear-gradient(135deg, #ff8a00, #e52e71); color: white; border: none; min-width: 120px; height: 45px; padding: 0 25px; border-radius: 25px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; transition: all 0.2s; box-shadow: 0 4px 15px rgba(229, 46, 113, 0.3);" onmouseover="if(!this.disabled){this.style.opacity='0.9'; this.style.transform='scale(1.05)';}" onmouseout="if(!this.disabled){this.style.opacity='1'; this.style.transform='scale(1)';}">
+                        <button type="submit" id="chat-submit-btn" class="chat-submit-btn" onmouseover="if(!this.disabled){this.style.opacity='0.9'; this.style.transform='scale(1.05)';}" onmouseout="if(!this.disabled){this.style.opacity='1'; this.style.transform='scale(1)';}">
                             <i class="fa-solid fa-paper-plane" id="chat-submit-icon"></i> <span id="chat-submit-text">發送(已強化)</span>
                         </button>
                     </div>
                 </form>
-            </div>
+                </div>
+            </section>
         </main>
+        </div>
     </div>
 
     <style>
+        @keyframes assignment-glow {
+            0% { box-shadow: 0 0 0 rgba(255, 141, 161, 0), 0 12px 24px rgba(56, 73, 92, 0.06); border-color: rgba(226, 229, 236, 0.95); }
+            50% { box-shadow: 0 0 0 6px rgba(255, 141, 161, 0.12), 0 18px 30px rgba(255, 141, 161, 0.14); border-color: rgba(255, 141, 161, 0.45); }
+            100% { box-shadow: 0 0 0 rgba(255, 141, 161, 0), 0 12px 24px rgba(56, 73, 92, 0.06); border-color: rgba(226, 229, 236, 0.95); }
+        }
+
+        .group-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .group-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(208, 195, 178, 0.65);
+        }
+
+        .group-page-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .group-page-title-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .group-page-title {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--color-primary);
+            font-size: clamp(1.45rem, 2vw, 1.9rem);
+        }
+
+        .group-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            color: white;
+            font-size: 0.78rem;
+            font-weight: 800;
+            box-shadow: 0 12px 22px rgba(80, 95, 120, 0.18);
+        }
+
+        .group-dashboard--class .group-type-badge {
+            background: linear-gradient(135deg, #4c7df0, #6aa1ff);
+        }
+
+        .group-dashboard--discussion .group-type-badge {
+            background: linear-gradient(135deg, #ff8da1, #ffabbd);
+        }
+
+        .group-page-subtitle {
+            margin: 0;
+            color: var(--color-text_light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .group-page-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.85rem 1.2rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--color-primary), #6c95f4);
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 14px 26px rgba(99, 149, 227, 0.22);
+        }
+
+        .group-layout {
+            display: grid;
+            grid-template-columns: minmax(290px, 330px) minmax(0, 1fr);
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .group-dashboard--discussion .group-layout {
+            grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+        }
+
+        .group-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(213, 190, 158, 0.35);
+            border-radius: 24px;
+            padding: 1.25rem;
+            box-shadow: 0 18px 36px rgba(116, 92, 68, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .sidebar-card--announcement {
+            background: linear-gradient(180deg, rgba(255, 249, 236, 0.96), rgba(255, 255, 255, 0.96));
+        }
+
+        .sidebar-card--assignment {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(253, 249, 241, 0.96));
+        }
+
+        .sidebar-card--management {
+            background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(255, 255, 255, 0.96));
+        }
+
+        .group-dashboard--discussion .sidebar-card {
+            border-color: rgba(255, 198, 210, 0.5);
+            box-shadow: 0 18px 34px rgba(182, 104, 129, 0.08);
+        }
+
+        .sidebar-card__header {
+            margin-bottom: 0.95rem;
+        }
+
+        .sidebar-card__title-wrap {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+        }
+
+        .sidebar-card__icon {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(255, 198, 111, 0.18), rgba(255, 255, 255, 0.9));
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+        }
+
+        .sidebar-card__title {
+            margin: 0;
+            color: var(--color-text_main);
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .sidebar-card__subtitle {
+            margin: 0.2rem 0 0;
+            color: var(--color-text_light);
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .announcement-list,
+        .assignment-list {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .announcement-item {
+            padding: 1rem;
+            border-radius: 18px;
+            border: 1px solid rgba(225, 212, 194, 0.9);
+            background: rgba(255, 255, 255, 0.92);
+            box-shadow: 0 10px 22px rgba(135, 105, 77, 0.05);
+        }
+
+        .sidebar-meta {
+            font-size: 0.78rem;
+            color: var(--color-text_light);
+            margin-bottom: 0.55rem;
+        }
+
+        .sidebar-body-text {
+            white-space: pre-wrap;
+            line-height: 1.7;
+            color: var(--color-text_main);
+        }
+
+        .sidebar-empty {
+            margin: 0.25rem 0 0;
+            padding: 1.25rem 0;
+            text-align: center;
+            color: var(--color-text_light);
+            font-style: italic;
+        }
+
+        .sidebar-form {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed rgba(180, 164, 143, 0.55);
+        }
+
+        .sidebar-form__inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-form__textarea {
+            width: 100%;
+            min-height: 92px;
+            resize: vertical;
+            border-radius: 16px;
+            border: 1px solid var(--color-border);
+            padding: 0.9rem 1rem;
+            font: inherit;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .sidebar-form__button {
+            align-self: flex-start;
+            border: none;
+            background: linear-gradient(135deg, #f0b44e, #df8b2c);
+            color: white;
+            padding: 0.8rem 1.15rem;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 12px 22px rgba(223, 139, 44, 0.22);
+        }
+
+        .assignment-card {
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(226, 229, 236, 0.95);
+            border-radius: 18px;
+            padding: 1rem 1rem 0.95rem;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 12px 24px rgba(56, 73, 92, 0.06);
+        }
+
+        .assignment-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 30px rgba(56, 73, 92, 0.09);
+            border-color: rgba(226, 161, 69, 0.55);
+        }
+
+        .assignment-card__flag {
+            position: absolute;
+            top: -9px;
+            right: 14px;
+            background: linear-gradient(135deg, #ff9b84, #ff7b9c);
+            color: white;
+            font-size: 0.68rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            font-weight: 700;
+            box-shadow: 0 8px 14px rgba(255, 123, 156, 0.24);
+        }
+
+        .assignment-card__layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.9rem;
+        }
+
+        .assignment-card__content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .assignment-card__title-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            align-items: center;
+            margin-bottom: 0.55rem;
+        }
+
+        .assignment-card__title {
+            margin: 0;
+            color: var(--color-primary);
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .assignment-status-tag {
+            font-size: 0.72rem;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            font-weight: 700;
+        }
+
+        .assignment-status-tag--done {
+            background: #e9f8ef;
+            color: #1b7b44;
+            border: 1px solid #bde4cb;
+        }
+
+        .assignment-status-tag--pending {
+            background: #fff3e4;
+            color: #c76a12;
+            border: 1px solid #ffd8b0;
+        }
+
+        .assignment-card__desc {
+            margin: 0;
+            color: var(--color-text_light);
+            font-size: 0.86rem;
+            line-height: 1.55;
+        }
+
+        .assignment-card__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            margin-top: 0.8rem;
+        }
+
+        .assignment-card__meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            color: #7a8493;
+        }
+
+        .assignment-card__meta-item--score {
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+
+        .assignment-card__icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.05rem;
+        }
+
+        .assignment-card__icon--done {
+            background: #ecf8ef;
+            color: #2d8a52;
+        }
+
+        .assignment-card__icon--pending {
+            background: #fff8e8;
+            color: #d4872a;
+        }
+
+        .active-assignment-glow {
+            animation: assignment-glow 2.4s infinite ease-in-out;
+        }
+
+        .admin-section-label {
+            margin: 0.1rem 0 0.8rem;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--color-text_light);
+            text-transform: uppercase;
+        }
+
+        .admin-card-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.85rem;
+        }
+
+        .admin-card-grid--single {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-square-card {
+            min-height: 142px;
+            border: 1px solid rgba(226, 229, 236, 0.95);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+            box-shadow: 0 12px 26px rgba(68, 84, 104, 0.06);
+        }
+
+        .admin-square-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 30px rgba(68, 84, 104, 0.08);
+            border-color: rgba(99, 149, 227, 0.35);
+        }
+
+        .admin-square-card.active {
+            background: rgba(243, 247, 255, 0.95);
+            border-color: rgba(107, 141, 201, 0.45);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 16px 30px rgba(68, 84, 104, 0.08);
+        }
+
+        .admin-square-card h5 {
+            margin: 0;
+            color: var(--color-text_main);
+            font-size: 0.96rem;
+            font-weight: 800;
+        }
+
+        .admin-square-card p {
+            margin: 0;
+            color: var(--color-text_light);
+            font-size: 0.76rem;
+            line-height: 1.5;
+        }
+
+        .admin-square-card--wide {
+            min-height: 92px;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .admin-square-card__copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            text-align: left;
+        }
+
+        .admin-square-card__arrow {
+            margin-left: auto;
+            color: #a8b3c0;
+            font-size: 1rem;
+        }
+
+        .admin-icon-chip {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+
+        .admin-icon-chip--primary {
+            background: rgba(99, 149, 227, 0.12);
+            color: var(--color-primary);
+        }
+
+        .admin-icon-chip--warning {
+            background: rgba(243, 156, 18, 0.12);
+            color: #f39c12;
+        }
+
+        .admin-icon-chip--violet {
+            background: rgba(156, 39, 176, 0.12);
+            color: #9c27b0;
+        }
+
+        #admin-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        #admin-modal-content {
+            width: 90%;
+            max-width: 600px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            background: white;
+            border: 2px solid var(--color-primary);
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .yukine-stamp {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            font-size: 2rem;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .admin-gold {
+            background: linear-gradient(135deg, #ffd700, #ffa500) !important;
+            color: #5c4033 !important;
+            border: 2px solid #ffd700 !important;
+            box-shadow: 0 14px 28px rgba(255, 215, 0, 0.28) !important;
+            font-weight: 700;
+        }
+
+        .group-main {
+            min-width: 0;
+        }
+
+        .chat-shell {
+            display: flex;
+            flex-direction: column;
+            min-height: 720px;
+            border-radius: 30px;
+            border: 1px solid rgba(215, 203, 184, 0.55);
+            overflow: hidden;
+            box-shadow: 0 24px 48px rgba(103, 81, 59, 0.1);
+            background: rgba(255, 255, 255, 0.76);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .group-dashboard--class .chat-shell {
+            background: linear-gradient(180deg, rgba(255, 250, 240, 0.92), rgba(255, 255, 255, 0.98));
+        }
+
+        .group-dashboard--discussion .chat-shell {
+            background: linear-gradient(180deg, rgba(255, 247, 250, 0.92), rgba(255, 255, 255, 0.98));
+        }
+
+        .chat-shell__topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.15rem 1.3rem 1rem;
+            border-bottom: 1px solid rgba(220, 210, 196, 0.7);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .chat-shell__title {
+            margin: 0;
+            color: var(--color-text_main);
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .chat-shell__subtitle {
+            margin: 0.35rem 0 0;
+            color: var(--color-text_light);
+            font-size: 0.85rem;
+            line-height: 1.55;
+        }
+
+        .chat-shell__mode {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 36px;
+            padding: 0.4rem 0.85rem;
+            border-radius: 999px;
+            color: white;
+            font-size: 0.76rem;
+            font-weight: 800;
+        }
+
+        .group-dashboard--class .chat-shell__mode {
+            background: linear-gradient(135deg, #5f85ec, #759df5);
+        }
+
+        .group-dashboard--discussion .chat-shell__mode {
+            background: linear-gradient(135deg, #ff8da1, #ffabbd);
+        }
+
+        .chat-scroll-area {
+            flex: 1;
+            min-height: 520px;
+            max-height: 620px;
+            overflow-y: auto;
+            padding: 1.25rem 1.25rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.15rem;
+            background-image:
+                radial-gradient(circle at top left, rgba(255, 232, 188, 0.18), transparent 35%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)),
+                repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0 18px, rgba(255, 255, 255, 0) 18px 36px);
+        }
+
+        .group-dashboard--discussion .chat-scroll-area {
+            background-image:
+                radial-gradient(circle at top left, rgba(255, 191, 208, 0.16), transparent 38%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05)),
+                repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0 18px, rgba(255, 255, 255, 0) 18px 36px);
+        }
+
+        .chat-system-banner {
+            text-align: center;
+            padding: 0.75rem 1rem;
+            color: #b06d13;
+            font-size: 0.74rem;
+            font-family: monospace;
+            border: 1px dashed rgba(236, 193, 120, 0.6);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .message-wrapper {
+            display: flex;
+            gap: 0.85rem;
+            width: 100%;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        .message-wrapper.is-self {
+            flex-direction: row-reverse;
+        }
+
+        .message-wrapper.is-announcement .message-avatar__frame {
+            box-shadow: 0 12px 24px rgba(233, 173, 73, 0.22);
+        }
+
+        .message-wrapper.is-teacher .message-avatar__frame {
+            box-shadow: 0 12px 24px rgba(96, 129, 186, 0.18);
+        }
+
+        .message-wrapper.is-ai .message-avatar__frame {
+            box-shadow: 0 12px 24px rgba(255, 141, 161, 0.2);
+        }
+
+        .message-avatar {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+
+        .message-avatar__frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 18px;
+            background: white;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-avatar__fallback {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--color-accent), #ffae68);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.15rem;
+        }
+
+        .message-content {
+            max-width: min(84%, 760px);
+            display: flex;
+            flex-direction: column;
+            gap: 0.38rem;
+            position: relative;
+        }
+
+        .message-wrapper.is-self .message-content {
+            align-items: flex-end;
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .message-author {
+            font-size: 0.84rem;
+            color: var(--color-text_main);
+            font-weight: 800;
+        }
+
+        .message-time {
+            color: var(--color-text_light);
+            font-size: 0.75rem;
+        }
+
+        .message-role {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.22rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.69rem;
+            font-weight: 800;
+            border: 1px solid transparent;
+        }
+
+        .message-role--announcement {
+            background: #fff3d9;
+            color: #a16308;
+            border-color: #f3c875;
+        }
+
+        .message-role--teacher {
+            background: #edf4ff;
+            color: #476fb1;
+            border-color: #c7daf9;
+        }
+
+        .message-role--student {
+            background: #f8fafc;
+            color: #64748b;
+            border-color: #e2e8f0;
+        }
+
+        .message-role--ai {
+            background: #fff1f5;
+            color: #d14a7d;
+            border-color: #ffc1d4;
+        }
+
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.55rem;
+            max-width: 100%;
+        }
+
+        .message-wrapper.is-self .message-row {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            display: inline-block;
+            max-width: min(100%, 760px);
+            position: relative;
+            cursor: pointer;
+            padding: 14px 18px !important;
+            border-radius: 22px !important;
+            font-size: 1rem !important;
+            line-height: 1.7 !important;
+            word-break: break-word;
+            box-shadow: 0 14px 30px rgba(50, 62, 79, 0.08) !important;
+        }
+
+        .message-bubble--self {
+            background: linear-gradient(135deg, var(--color-primary), #6f95f6) !important;
+            color: white !important;
+            border: 1px solid rgba(84, 120, 219, 0.28) !important;
+            border-bottom-right-radius: 8px !important;
+        }
+
+        .message-bubble--announcement {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 247, 229, 0.98)) !important;
+            color: #3f3122 !important;
+            border: 1px solid rgba(238, 187, 98, 0.45) !important;
+            border-bottom-left-radius: 8px !important;
+        }
+
+        .message-bubble--teacher {
+            background: #f8fbff !important;
+            color: #243140 !important;
+            border: 1px solid rgba(115, 152, 218, 0.33) !important;
+            border-bottom-left-radius: 8px !important;
+        }
+
+        .message-bubble--ai {
+            background: #fff7fa !important;
+            color: #3a3141 !important;
+            border: 1px solid rgba(255, 166, 193, 0.45) !important;
+            border-bottom-left-radius: 8px !important;
+        }
+
+        .message-bubble--student {
+            background: white !important;
+            color: #202938 !important;
+            border: 1px solid #e2e8f0 !important;
+            border-bottom-left-radius: 8px !important;
+        }
+
+        .message-image {
+            margin-bottom: 0.85rem;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 320px;
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.08);
+        }
+
+        .quoted-msg {
+            cursor: pointer;
+            background: rgba(15, 23, 42, 0.05);
+            padding: 0.75rem 0.9rem;
+            border-radius: 16px;
+            margin-bottom: 0.8rem;
+            border-left: 3px solid rgba(71, 111, 177, 0.4);
+        }
+
+        .quoted-msg__author {
+            margin-bottom: 0.18rem;
+            color: rgba(39, 51, 74, 0.65);
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .quoted-msg__content {
+            color: rgba(39, 51, 74, 0.8);
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .message-text {
+            white-space: pre-wrap;
+            color: inherit;
+            font-weight: 500;
+        }
+
+        .ephemeral-welcome {
+            margin-bottom: 0.35rem !important;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .chat-composer {
+            padding: 1rem 1.25rem 1.25rem;
+            border-top: 1px solid rgba(220, 210, 196, 0.7);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.94));
+        }
+
+        .chat-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .chat-input {
+            width: 100%;
+            min-height: 84px;
+            padding: 0.95rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(204, 210, 219, 0.95);
+            resize: vertical;
+            display: block;
+            overflow-y: auto;
+            background: white;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            font: inherit;
+            box-sizing: border-box;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: rgba(99, 149, 227, 0.55);
+            box-shadow: 0 0 0 4px rgba(99, 149, 227, 0.12);
+        }
+
+        .chat-composer__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .chat-composer__tools {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .chat-upload-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 16px;
+            border: 2px dashed rgba(99, 149, 227, 0.7);
+            background: transparent;
+            color: var(--color-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        .chat-help-text {
+            font-size: 0.84rem;
+            color: var(--color-text_light);
+        }
+
+        .chat-submit-btn {
+            background: linear-gradient(135deg, #ff8a00, #e52e71);
+            color: white;
+            border: none;
+            min-width: 136px;
+            height: 48px;
+            padding: 0 1.4rem;
+            border-radius: 999px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            transition: all 0.2s;
+            box-shadow: 0 14px 26px rgba(229, 46, 113, 0.26);
+        }
+
+        .reply-preview-container {
+            display: none;
+            background: linear-gradient(to right, #f8fbff, #ffffff);
+            border: 1px solid #dbe5f1;
+            border-left: 4px solid var(--color-primary);
+            padding: 0.85rem 1rem;
+            border-radius: 18px;
+            margin-bottom: 0.4rem;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(58, 84, 112, 0.05);
+        }
+
+        .reply-preview__label {
+            font-size: 0.78rem;
+            color: var(--color-primary);
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+
+        .reply-preview__content {
+            font-size: 0.84rem;
+            color: #667085;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.45;
+            word-break: break-all;
+        }
+
+        .reply-preview__close {
+            position: absolute;
+            right: 0.85rem;
+            top: 0.85rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .image-preview-container {
+            display: none;
+            position: relative;
+            margin-bottom: 0.2rem;
+            width: fit-content;
+        }
+
+        .image-preview {
+            max-width: 250px;
+            max-height: 250px;
+            border-radius: 18px;
+            border: 2px solid rgba(99, 149, 227, 0.35);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .image-preview__clear {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        @media (max-width: 1100px) {
+            .group-layout,
+            .group-dashboard--discussion .group-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .group-page-header,
+            .chat-shell__topbar,
+            .chat-composer__footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .group-page-back,
+            .chat-shell__mode,
+            .chat-submit-btn {
+                justify-content: center;
+            }
+
+            .admin-card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-scroll-area {
+                max-height: 460px;
+            }
+
+            .message-content {
+                max-width: calc(100% - 60px);
+            }
+        }
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.02); opacity: 0.9; }
