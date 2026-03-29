@@ -320,6 +320,47 @@ def sync_bundled_question_bank(bank: BundledQuestionBank, logger=None, force: bo
     return result
 
 
+def dedupe_questions_by_exact_text(logger=None, chunk_size: int = 500) -> dict[str, int]:
+    from app.models import Question
+
+    duplicates_by_key: dict[tuple[str, str], list[int]] = {}
+    for question_id, subject, content_text in db.session.query(
+        Question.id,
+        Question.subject,
+        Question.content_text,
+    ).order_by(Question.id.asc()):
+        normalized_text = normalize_question_text(content_text)
+        if not normalized_text:
+            continue
+        key = ((subject or "").strip(), normalized_text)
+        duplicates_by_key.setdefault(key, []).append(question_id)
+
+    delete_ids: list[int] = []
+    for ids in duplicates_by_key.values():
+        if len(ids) > 1:
+            delete_ids.extend(ids[1:])
+
+    deleted = 0
+    for start in range(0, len(delete_ids), chunk_size):
+        batch_ids = delete_ids[start:start + chunk_size]
+        if not batch_ids:
+            continue
+        deleted += db.session.query(Question).filter(Question.id.in_(batch_ids)).delete(synchronize_session=False)
+        db.session.commit()
+
+    summary = {
+        "duplicate_groups": sum(1 for ids in duplicates_by_key.values() if len(ids) > 1),
+        "deleted_rows": deleted,
+    }
+    if logger and deleted:
+        logger.info(
+            "Removed duplicate questions by exact text: groups=%s deleted=%s",
+            summary["duplicate_groups"],
+            summary["deleted_rows"],
+        )
+    return summary
+
+
 def seed_bundled_question_banks(logger=None, force: bool = False) -> list[dict[str, object]]:
     results = []
     for bank in BUNDLED_QUESTION_BANKS:

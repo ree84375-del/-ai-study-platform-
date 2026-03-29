@@ -641,12 +641,20 @@ def filter_guide_subjects(manifest, active_subject_slug='all'):
 def build_subject_catalog():
     from app.models import Question
 
-    questions = Question.query.all()
+    questions = Question.query.with_entities(Question.subject, Question.content_text).all()
     counts = {definition['slug']: 0 for definition in PRACTICE_SUBJECTS if definition['slug'] != 'all'}
     extras = {}
+    seen_pairs = set()
 
-    for question in questions:
-        subject_label = (question.subject or '').strip()
+    for subject_label, content_text in questions:
+        normalized_question = ' '.join((content_text or '').replace('\u3000', ' ').replace('\xa0', ' ').split())
+        subject_label = (subject_label or '').strip()
+        if not subject_label or not normalized_question:
+            continue
+        pair_key = (subject_label, normalized_question)
+        if pair_key in seen_pairs:
+            continue
+        seen_pairs.add(pair_key)
         definition = resolve_subject_definition(subject_label)
         if definition and definition['slug'] != 'all':
             counts[definition['slug']] += 1
@@ -654,7 +662,7 @@ def build_subject_catalog():
             extras[subject_label] = extras.get(subject_label, 0) + 1
 
     catalog = []
-    total_count = len(questions)
+    total_count = sum(counts.values()) + sum(extras.values())
     for definition in PRACTICE_SUBJECTS:
         count = total_count if definition['slug'] == 'all' else counts.get(definition['slug'], 0)
         catalog.append({
@@ -1108,12 +1116,15 @@ def build_selected_question_set(questions, selected_count):
 @study.route("/practice")
 @login_required
 def practice_entry():
-    from app.models import Question
-
     cap_manifest = load_cap_manifest()
     guide_manifest = load_guide_manifest()
     tracks = build_practice_tracks()
-    total_questions = Question.query.count()
+    subject_cards = build_subject_catalog()
+    total_questions = sum(
+        card['count']
+        for card in subject_cards
+        if card['slug'] != 'all' and not card.get('is_custom')
+    )
     general_subject_count = sum(1 for definition in PRACTICE_SUBJECTS if definition['slug'] != 'all' and definition.get('hub_visible', True))
     cap_year_count = len(get_cap_years(cap_manifest))
     cap_material_count = sum(len(item.get('subjects', [])) for item in cap_manifest.get('years', []))

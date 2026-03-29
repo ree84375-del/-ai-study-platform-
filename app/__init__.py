@@ -153,12 +153,19 @@ def create_app():
             app.logger.info("Local SQLite initialized/verified.")
 
         try:
-            from app.utils.bundled_question_bank import seed_bundled_question_banks
+            from app.utils.bundled_question_bank import seed_bundled_question_banks, dedupe_questions_by_exact_text
 
             sync_results = seed_bundled_question_banks(logger=app.logger)
             synced_subjects = [item["subject"] for item in sync_results if item.get("status") == "synced"]
             if synced_subjects:
                 app.logger.info("Bundled question banks synced: %s", ", ".join(synced_subjects))
+            dedupe_summary = dedupe_questions_by_exact_text(logger=app.logger)
+            if dedupe_summary.get("deleted_rows"):
+                app.logger.info(
+                    "Question bank dedupe complete: groups=%s deleted=%s",
+                    dedupe_summary["duplicate_groups"],
+                    dedupe_summary["deleted_rows"],
+                )
         except Exception as exc:
             app.logger.error(f"Bundled question bank sync skipped due to error: {exc}")
 
