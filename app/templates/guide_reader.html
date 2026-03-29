@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block title %}{{ selected_guide.title }}{% endblock %}
+{% block content %}
+<style>
+    .reader-shell {
+        --paper: rgba(255, 251, 244, 0.96);
+        --paper-soft: rgba(249, 241, 227, 0.94);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a2f24;
+        --subtle: #7a6a56;
+        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        display: grid;
+        gap: 1.35rem;
+    }
+
+    .reader-hero,
+    .reader-panel,
+    .chapter-card {
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .reader-hero,
+    .reader-panel {
+        padding: 1.5rem;
+    }
+
+    .reader-kicker,
+    .reader-chip,
+    .reader-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .reader-kicker {
+        background: rgba(58, 47, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .reader-chip,
+    .reader-count {
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.88rem;
+    }
+
+    .reader-copy {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .reader-copy h1,
+    .reader-panel h2,
+    .chapter-card h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+    }
+
+    .reader-copy h1 {
+        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
+        line-height: 1.2;
+    }
+
+    .reader-copy p,
+    .reader-panel p,
+    .section-card p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.82;
+    }
+
+    .reader-summary,
+    .reader-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+    }
+
+    .reader-nav a,
+    .reader-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 42px;
+        padding: 0.68rem 1rem;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .reader-nav a {
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        background: rgba(255, 255, 255, 0.74);
+        color: #745e41;
+    }
+
+    .reader-btn {
+        background: linear-gradient(135deg, #99bf6b, #6f9d58);
+        color: #fffaf2;
+        border: none;
+    }
+
+    .chapter-list {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .chapter-card {
+        padding: 1.35rem;
+    }
+
+    .chapter-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .section-list {
+        display: grid;
+        gap: 0.85rem;
+    }
+
+    .section-card {
+        padding: 1rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background: rgba(255, 255, 255, 0.76);
+    }
+
+    .section-card h3 {
+        margin: 0 0 0.55rem;
+        color: var(--ink);
+    }
+
+    .section-content {
+        white-space: pre-line;
+        color: #504232;
+        line-height: 1.82;
+    }
+
+    @media (max-width: 720px) {
+        .reader-hero,
+        .reader-panel,
+        .chapter-card {
+            border-radius: 24px;
+        }
+    }
+</style>
+
+<div class="reader-shell">
+    <section class="reader-hero">
+        <span class="reader-kicker"><i class="fa-solid fa-book"></i> AI 學習講義</span>
+        <div class="reader-copy">
+            <h1>{{ selected_guide.title }}</h1>
+            <p>{{ selected_subject.label }} / {{ selected_series.label }}。這份講義已拆成章與小節，方便直接閱讀、回看重點，再銜接到對應科目的刷題流程。</p>
+        </div>
+        <div class="reader-summary" style="margin-top:1rem;">
+            <span class="reader-count"><i class="fa-solid fa-layer-group"></i> {{ guide_summary.chapter_count }} 章</span>
+            <span class="reader-count"><i class="fa-solid fa-list-ul"></i> {{ guide_summary.section_count }} 小節</span>
+            <span class="reader-count"><i class="fa-solid fa-file-lines"></i> {{ guide_summary.page_count }} 頁</span>
+        </div>
+        <div class="reader-nav" style="margin-top:1rem;">
+            <a href="{{ back_href }}"><i class="fa-solid fa-arrow-left"></i> 回講義列表</a>
+            <a class="reader-btn" href="{{ practice_href }}"><i class="fa-solid fa-pen"></i> 去刷這科題目</a>
+        </div>
+    </section>
+
+    {% if guide_summary.summary %}
+    <section class="reader-panel">
+        <h2>這份講義重點</h2>
+        <div class="reader-summary" style="margin-top:1rem;">
+            {% for line in guide_summary.summary[:6] %}
+            <span class="reader-chip">{{ line }}</span>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="reader-panel">
+        <h2>章節導覽</h2>
+        <div class="reader-nav" style="margin-top:1rem;">
+            {% for chapter in guide_document.chapters %}
+            <a href="#chapter-{{ loop.index }}">{{ chapter.title }}</a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="chapter-list">
+        {% for chapter in guide_document.chapters %}
+        <article id="chapter-{{ loop.index }}" class="chapter-card">
+            <div class="chapter-top">
+                <div>
+                    <h2>{{ loop.index }}. {{ chapter.title }}</h2>
+                    <p>頁數：{{ chapter.page_start }} - {{ chapter.page_end }}</p>
+                </div>
+                <span class="reader-count">{{ chapter.sections|length }} 小節</span>
+            </div>
+            <div class="section-list">
+                {% for section in chapter.sections %}
+                <section class="section-card">
+                    <h3>{{ section.title }}</h3>
+                    <p>頁數：{{ section.page_start }} - {{ section.page_end }}</p>
+                    {% if section.summary_points %}
+                    <div class="reader-summary" style="margin:0.75rem 0 0.9rem;">
+                        {% for line in section.summary_points[:4] %}
+                        <span class="reader-chip">{{ line }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="section-content">{{ section.content }}</div>
+                </section>
+                {% endfor %}
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

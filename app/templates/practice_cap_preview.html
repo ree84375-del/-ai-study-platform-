@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}會考歷屆預覽{% endblock %}
+{% block content %}
+<style>
+    .cap-preview-shell {
+        --paper: rgba(255, 251, 244, 0.96);
+        --paper-soft: rgba(249, 241, 227, 0.94);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a2f24;
+        --subtle: #7a6a56;
+        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        display: grid;
+        gap: 1.35rem;
+    }
+
+    .cap-preview-hero,
+    .cap-preview-card {
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+        padding: 1.45rem;
+    }
+
+    .cap-preview-kicker,
+    .cap-preview-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .cap-preview-kicker {
+        background: rgba(58, 47, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .cap-preview-chip {
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.88rem;
+    }
+
+    .cap-preview-copy {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .cap-preview-copy h1,
+    .cap-preview-card h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+    }
+
+    .cap-preview-copy h1 {
+        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
+        line-height: 1.2;
+    }
+
+    .cap-preview-copy p,
+    .question-stem,
+    .question-context,
+    .explanation {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.82;
+    }
+
+    .cap-preview-actions,
+    .question-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+    }
+
+    .cap-link,
+    .cap-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 42px;
+        padding: 0.68rem 1rem;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .cap-link {
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        background: rgba(255, 255, 255, 0.74);
+        color: #745e41;
+    }
+
+    .cap-btn {
+        background: linear-gradient(135deg, #efb44f, #d9943f);
+        color: #fffaf2;
+        border: none;
+    }
+
+    .question-list {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .question-card {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .question-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .question-card h2 {
+        font-size: 1.2rem;
+    }
+
+    .options {
+        display: grid;
+        gap: 0.6rem;
+    }
+
+    .option,
+    .answer-box,
+    .explanation-box {
+        padding: 0.9rem 1rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(214, 183, 112, 0.18);
+    }
+
+    .answer-box strong,
+    .explanation-box strong {
+        display: block;
+        margin-bottom: 0.45rem;
+        color: #3d3020;
+    }
+</style>
+
+<div class="cap-preview-shell">
+    <section class="cap-preview-hero">
+        <span class="cap-preview-kicker"><i class="fa-solid fa-eye"></i> 會考預覽模式</span>
+        <div class="cap-preview-copy">
+            <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+            <p>這裡會把你選定年份範圍內的題目完整列出，直接看題目、答案和詳解。適合先熟悉題型，再切到練習模式正式作答。</p>
+        </div>
+        <div class="question-tags" style="margin-top:1rem;">
+            <span class="cap-preview-chip"><i class="fa-solid fa-list-ol"></i> 共 {{ question_bank_count }} 題</span>
+            <span class="cap-preview-chip"><i class="fa-solid fa-calendar"></i> {{ selected_years|length }} 個年份</span>
+        </div>
+        <div class="cap-preview-actions" style="margin-top:1rem;">
+            <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
+            <a class="cap-btn" href="{{ practice_href }}"><i class="fa-solid fa-pen-ruler"></i> 進入練習模式</a>
+        </div>
+    </section>
+
+    <section class="question-list">
+        {% for item in question_items %}
+        <article class="cap-preview-card question-card">
+            <div class="question-top">
+                <div>
+                    <h2>第 {{ item.display_number }} 題</h2>
+                    <div class="question-tags" style="margin-top:0.55rem;">
+                        <span class="cap-preview-chip">{{ item.year }} 年</span>
+                        <span class="cap-preview-chip">原始題號 {{ item.source_question_number }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if item.context %}
+            <p class="question-context">{{ item.context }}</p>
+            {% endif %}
+
+            <p class="question-stem">{{ item.stem }}</p>
+
+            <div class="options">
+                {% for key, text in item.options.items() %}
+                <div class="option"><strong>{{ key }}</strong> {{ text or '此選項暫無可讀文字。' }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="answer-box">
+                <strong>正確答案</strong>
+                <div>{{ item.correct_answer }}{% if item.options[item.correct_answer] %} / {{ item.options[item.correct_answer] }}{% endif %}</div>
+            </div>
+
+            <div class="explanation-box">
+                <strong>詳解</strong>
+                <div class="explanation">{{ item.explanation }}</div>
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

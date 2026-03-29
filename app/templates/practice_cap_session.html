@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+{% block title %}會考歷屆練習{% endblock %}
+{% block content %}
+<style>
+    .cap-session-shell {
+        --paper: rgba(255, 251, 244, 0.96);
+        --paper-soft: rgba(249, 241, 227, 0.94);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a2f24;
+        --subtle: #7a6a56;
+        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        display: grid;
+        gap: 1.35rem;
+    }
+
+    .cap-session-hero,
+    .cap-session-panel,
+    .cap-question-card {
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .cap-session-hero,
+    .cap-session-panel {
+        padding: 1.45rem;
+    }
+
+    .cap-session-kicker,
+    .cap-session-chip,
+    .cap-session-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .cap-session-kicker {
+        background: rgba(58, 47, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .cap-session-chip,
+    .cap-session-count {
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.88rem;
+    }
+
+    .cap-session-copy {
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1rem;
+    }
+
+    .cap-session-copy h1,
+    .cap-session-panel h2,
+    .cap-question-card h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+    }
+
+    .cap-session-copy h1 {
+        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
+        line-height: 1.2;
+    }
+
+    .cap-session-copy p,
+    .cap-session-panel p,
+    .cap-question-card p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.82;
+    }
+
+    .option-grid,
+    .question-chip-grid {
+        display: grid;
+        gap: 0.8rem;
+    }
+
+    .option-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .question-chip-grid {
+        grid-template-columns: repeat(auto-fit, minmax(52px, 1fr));
+    }
+
+    .choice-card,
+    .question-chip,
+    .cap-question-card {
+        background: rgba(255, 255, 255, 0.78);
+    }
+
+    .choice-card {
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        padding: 1rem;
+    }
+
+    .cap-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .cap-btn,
+    .cap-link,
+    .question-chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 42px;
+        padding: 0.68rem 1rem;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+        border: none;
+    }
+
+    .cap-btn {
+        background: linear-gradient(135deg, #efb44f, #d9943f);
+        color: #fffaf2;
+    }
+
+    .cap-link,
+    .question-chip {
+        border: 1px solid rgba(214, 183, 112, 0.26);
+        background: rgba(255, 255, 255, 0.72);
+        color: #7b6543;
+    }
+
+    .question-chip.is-active {
+        background: linear-gradient(135deg, #efb44f, #d9943f);
+        color: #fffaf2;
+    }
+
+    .cap-question-card {
+        padding: 1.2rem;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        display: none;
+        gap: 0.9rem;
+    }
+
+    .cap-question-card.is-active {
+        display: grid;
+    }
+
+    .cap-question-options {
+        display: grid;
+        gap: 0.7rem;
+    }
+
+    .cap-option {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+        padding: 0.85rem 0.95rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(214, 183, 112, 0.18);
+    }
+
+    .cap-option input {
+        margin-top: 0.3rem;
+    }
+
+    .timer-box {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        background: rgba(59, 48, 36, 0.92);
+        color: #fffaf2;
+        font-weight: 800;
+    }
+</style>
+
+<div class="cap-session-shell">
+    {% if view_state == 'setup' %}
+    <section class="cap-session-hero">
+        <span class="cap-session-kicker"><i class="fa-solid fa-pen-ruler"></i> 練習設定</span>
+        <div class="cap-session-copy">
+            <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+            <p>先設定這輪要做幾題和多久。系統已先帶入該科的會考預設值，你也可以改成自己的練習節奏。成績一律換算成 100 分制。</p>
+        </div>
+    </section>
+
+    <section class="cap-session-panel">
+        <h2>選擇這輪練習範圍</h2>
+        <p>目前可用題庫共有 {{ question_pool_size }} 題，會從這個範圍依順序取前面題目進入本輪練習。</p>
+
+        <form method="get" action="{{ url_for('study.practice_cap_session') }}" style="display:grid; gap:1rem; margin-top:1rem;">
+            <input type="hidden" name="years" value="{{ selected_years|join(',') }}">
+            <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
+            <input type="hidden" name="start" value="1">
+
+            <div class="choice-card">
+                <strong>題數</strong>
+                <div class="option-grid" style="margin-top:0.8rem;">
+                    {% for option in practice_count_options %}
+                    <label class="cap-link" style="justify-content:flex-start;">
+                        <input type="radio" name="count" value="{{ option.value }}" {% if option.value == selected_count %}checked{% endif %}>
+                        {{ option.label }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="choice-card">
+                <strong>時間</strong>
+                <div class="option-grid" style="margin-top:0.8rem;">
+                    {% for option in practice_duration_options %}
+                    <label class="cap-link" style="justify-content:flex-start;">
+                        <input type="radio" name="duration" value="{{ option.value }}" {% if option.value == selected_duration %}checked{% endif %}>
+                        {{ option.label }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="cap-actions">
+                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 先看預覽</a>
+                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
+                <button class="cap-btn" type="submit"><i class="fa-solid fa-play"></i> 開始作答</button>
+            </div>
+        </form>
+    </section>
+    {% else %}
+    <section class="cap-session-hero">
+        <span class="cap-session-kicker"><i class="fa-solid fa-stopwatch"></i> 正式作答中</span>
+        <div class="cap-session-copy">
+            <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+            <p>這輪共有 {{ selected_question_total }} 題。你可以自由切換題號、回上一題、改答案；時間到會自動交卷。</p>
+        </div>
+        <div class="cap-actions" style="margin-top:1rem;">
+            <span class="timer-box"><i class="fa-solid fa-clock"></i> 剩餘時間 <span id="cap-timer"></span></span>
+            <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 看預覽</a>
+            <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
+        </div>
+    </section>
+
+    <form method="post" action="{{ url_for('study.practice_cap_review') }}" id="cap-practice-form" style="display:grid; gap:1rem;">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="years" value="{{ selected_years|join(',') }}">
+        <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
+        <input type="hidden" name="count" value="{{ selected_count }}">
+        <input type="hidden" name="duration" value="{{ selected_duration }}">
+        <input type="hidden" name="question_keys" value="{{ selected_question_keys_csv }}">
+
+        <section class="cap-session-panel">
+            <h2>題號導覽</h2>
+            <div class="question-chip-grid" style="margin-top:1rem;">
+                {% for item in question_items %}
+                <button class="question-chip {% if loop.index0 == initial_question_index %}is-active{% endif %}" type="button" data-question-jump="{{ loop.index0 }}">
+                    {{ loop.index }}
+                </button>
+                {% endfor %}
+            </div>
+        </section>
+
+        {% for item in question_items %}
+        {% set field_name = 'answer_' ~ item.question_key|replace(':', '__') %}
+        <article class="cap-question-card {% if loop.index0 == initial_question_index %}is-active{% endif %}" data-question-card="{{ loop.index0 }}">
+            <div class="cap-actions" style="justify-content:space-between;">
+                <span class="cap-session-chip"><i class="fa-solid fa-hashtag"></i> 第 {{ loop.index }} 題</span>
+                <span class="cap-session-chip"><i class="fa-solid fa-calendar-days"></i> {{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
+            </div>
+
+            {% if item.context %}
+            <p>{{ item.context }}</p>
+            {% endif %}
+
+            <h2>{{ item.stem }}</h2>
+
+            <div class="cap-question-options">
+                {% for key, text in item.options.items() %}
+                <label class="cap-option">
+                    <input type="radio" name="{{ field_name }}" value="{{ key }}">
+                    <span><strong>{{ key }}</strong> {{ text or '此選項暫無可讀文字。' }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </article>
+        {% endfor %}
+
+        <section class="cap-session-panel">
+            <div class="cap-actions" style="justify-content:space-between;">
+                <div class="cap-actions">
+                    <button class="cap-link" type="button" id="cap-prev-btn"><i class="fa-solid fa-arrow-left"></i> 上一題</button>
+                    <button class="cap-link" type="button" id="cap-next-btn">下一題 <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <button class="cap-btn" type="submit"><i class="fa-solid fa-paper-plane"></i> 交卷批改</button>
+            </div>
+        </section>
+    </form>
+
+    <script>
+        (function() {
+            const cards = Array.from(document.querySelectorAll('[data-question-card]'));
+            const jumps = Array.from(document.querySelectorAll('[data-question-jump]'));
+            const prevBtn = document.getElementById('cap-prev-btn');
+            const nextBtn = document.getElementById('cap-next-btn');
+            const timerEl = document.getElementById('cap-timer');
+            const form = document.getElementById('cap-practice-form');
+            let activeIndex = Math.max(0, Math.min(cards.length - 1, Number('{{ initial_question_index or 0 }}')));
+            let remainingSeconds = Number('{{ (selected_duration or 0) * 60 }}');
+
+            function updateQuestionView(index) {
+                activeIndex = Math.max(0, Math.min(cards.length - 1, index));
+                cards.forEach((card, cardIndex) => {
+                    card.classList.toggle('is-active', cardIndex === activeIndex);
+                });
+                jumps.forEach((button, buttonIndex) => {
+                    button.classList.toggle('is-active', buttonIndex === activeIndex);
+                });
+                prevBtn.disabled = activeIndex === 0;
+                nextBtn.disabled = activeIndex === cards.length - 1;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            jumps.forEach((button) => {
+                button.addEventListener('click', () => updateQuestionView(Number(button.dataset.questionJump)));
+            });
+
+            prevBtn.addEventListener('click', () => updateQuestionView(activeIndex - 1));
+            nextBtn.addEventListener('click', () => updateQuestionView(activeIndex + 1));
+
+            function formatTime(seconds) {
+                const safe = Math.max(0, seconds);
+                const minutes = Math.floor(safe / 60);
+                const remainder = safe % 60;
+                return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
+            }
+
+            function tick() {
+                timerEl.textContent = formatTime(remainingSeconds);
+                if (remainingSeconds <= 0) {
+                    form.submit();
+                    return;
+                }
+                remainingSeconds -= 1;
+                window.setTimeout(tick, 1000);
+            }
+
+            updateQuestionView(activeIndex);
+            tick();
+        })();
+    </script>
+    {% endif %}
+</div>
+{% endblock %}

@@ -16,3 +16,14 @@ backups/
 test_*.py
 test_result.txt
 valid_keys.txt
+ai_debug.log
+tmp_*.pdf
+tmp_*.png
+tmp_*.txt
+
+# Local extraction assets
+data/ocr/
+data/guide_sources/
+data/guide_word/
+data/cap_practice_sources/
+data/cap_practice_word/

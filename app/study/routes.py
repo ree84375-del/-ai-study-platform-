@@ -7,6 +7,25 @@ from pathlib import Path
 from sqlalchemy import or_
 from app.utils.i18n import get_text as _t
 from app.utils.question_bank_metadata import detect_booklet_label, extract_question_hierarchy
+from app.utils.study_assets import (
+    CAP_SUBJECT_META,
+    build_cap_subject_cards as build_cap_library_subject_cards,
+    build_guide_library_catalog,
+    build_guide_subject_cards as build_guide_library_subject_cards,
+    count_available_cap_questions,
+    flatten_cap_questions,
+    get_cap_years as get_cap_library_years,
+    get_guide_catalog_guide,
+    get_guide_catalog_series,
+    get_guide_catalog_subject,
+    get_guide_document,
+    get_guide_series,
+    get_guide_subject,
+    load_cap_documents,
+    load_cap_library_manifest,
+    load_guide_library_manifest,
+    summarize_guide_document,
+)
 
 study = Blueprint('study', __name__)
 
@@ -16,6 +35,9 @@ PRACTICE_BANK_LABEL = '一般國中練習'
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CAP_MANIFEST_PATH = REPO_ROOT / 'data' / 'cap_review' / 'cap_manifest.json'
 GUIDE_MANIFEST_PATH = REPO_ROOT / 'data' / 'study_guides' / 'king_an_manifest.json'
+CAP_LIBRARY_MANIFEST_PATH = REPO_ROOT / 'data' / 'cap_review' / 'cap_practice_manifest.json'
+GUIDE_LIBRARY_MANIFEST_PATH = REPO_ROOT / 'data' / 'study_guides' / 'guide_library_manifest.json'
+PRACTICE_BANK_LABEL = '一般國中練習'
 
 def get_current_room_name():
     """Returns the room name based on the current system time (Taiwan UTC+8)."""
@@ -1113,12 +1135,130 @@ def build_selected_question_set(questions, selected_count):
     return questions[:selected_count]
 
 
+CAP_PRACTICE_DEFAULTS = {
+    'chinese': {'count': 42, 'duration': 70},
+    'english': {'count': 43, 'duration': 60},
+    'math': {'count': 25, 'duration': 80},
+    'social': {'count': 54, 'duration': 70},
+    'science': {'count': 50, 'duration': 70},
+}
+
+
+def get_guide_practice_href(subject_slug):
+    if subject_slug == 'social':
+        return f"{url_for('study.practice_hub')}#branch-social"
+    if subject_slug == 'nature':
+        return f"{url_for('study.practice_hub')}#branch-nature"
+    if subject_slug in {'chinese', 'english', 'math'}:
+        return url_for('study.practice_session', subject=subject_slug)
+    return url_for('study.practice_hub')
+
+
+def get_cap_defaults(subject_slug):
+    defaults = CAP_PRACTICE_DEFAULTS.get(subject_slug, {'count': 10, 'duration': 30})
+    return {
+        **defaults,
+        'count_choices': PRACTICE_COUNT_CHOICES,
+        'duration_choices': PRACTICE_DURATION_CHOICES,
+    }
+
+
+def parse_cap_question_key_list(raw_value):
+    question_keys = []
+    seen = set()
+    for chunk in str(raw_value or '').split(','):
+        chunk = chunk.strip()
+        if not chunk or ':' not in chunk or chunk in seen:
+            continue
+        seen.add(chunk)
+        question_keys.append(chunk)
+    return question_keys
+
+
+def build_cap_question_pool(documents):
+    return [item for item in flatten_cap_questions(documents) if (item.get('stem') or '').strip()]
+
+
+def build_cap_submission_results(question_items, submitted_answers):
+    results = []
+    correct_count = 0
+    answered_count = 0
+
+    for index, question in enumerate(question_items, start=1):
+        selected_answer = (submitted_answers.get(question['question_key']) or '').strip().upper()
+        if selected_answer:
+            answered_count += 1
+        is_correct = selected_answer and selected_answer == (question.get('correct_answer') or '').strip().upper()
+        if is_correct:
+            correct_count += 1
+
+        options = []
+        for key, text in (question.get('options') or {}).items():
+            options.append({
+                'key': key,
+                'text': text,
+                'is_correct': key == question.get('correct_answer'),
+                'is_selected': key == selected_answer,
+            })
+
+        results.append({
+            'index': index,
+            'question_key': question['question_key'],
+            'year': question.get('year'),
+            'subject': question.get('subject_label'),
+            'source_question_number': question.get('source_question_number'),
+            'context': question.get('context', ''),
+            'stem': question.get('stem', ''),
+            'options': options,
+            'selected_answer': selected_answer or '未作答',
+            'selected_answer_text': (question.get('options') or {}).get(selected_answer, '這題未作答') if selected_answer else '這題未作答',
+            'correct_answer': question.get('correct_answer', ''),
+            'correct_answer_text': (question.get('options') or {}).get(question.get('correct_answer', ''), ''),
+            'is_correct': bool(is_correct),
+            'explanation': question.get('explanation') or f"這題來自 {question.get('year')} 年會考 {question.get('subject_label')}，建議先回頭確認題幹關鍵詞與選項差異。",
+        })
+
+    return {
+        'results': results,
+        'correct_count': correct_count,
+        'answered_count': answered_count,
+    }
+
+
 @study.route("/practice")
 @login_required
 def practice_entry():
-    cap_manifest = load_cap_manifest()
-    guide_manifest = load_guide_manifest()
-    tracks = build_practice_tracks()
+    cap_manifest = load_cap_library_manifest()
+    guide_catalog = build_guide_library_catalog()
+    tracks = [
+        {
+            'slug': 'general',
+            'label': '一般國中練習',
+            'icon': 'fa-school',
+            'description': '從國文、英文、數學到社會與自然，先選科目，再往下挑冊別、主章節與細主題。',
+            'badge': '題庫已整理',
+            'accent': 'ink',
+            'href': url_for('study.practice_hub'),
+        },
+        {
+            'slug': 'cap',
+            'label': '會考歷屆練習',
+            'icon': 'fa-file-pen',
+            'description': '用 102 到 114 年官方題本做單科練習，可混合年份但不混科。',
+            'badge': '102-114',
+            'accent': 'gold',
+            'href': url_for('study.practice_cap_hub'),
+        },
+        {
+            'slug': 'guides',
+            'label': 'AI 學習講義',
+            'icon': 'fa-book-bookmark',
+            'description': '把講義抽成真正可閱讀的章節與小節，整理成可直接點開複習的閱讀功能。',
+            'badge': '章節整理',
+            'accent': 'sage',
+            'href': url_for('study.practice_guides'),
+        },
+    ]
     subject_cards = build_subject_catalog()
     total_questions = sum(
         card['count']
@@ -1126,14 +1266,18 @@ def practice_entry():
         if card['slug'] != 'all' and not card.get('is_custom')
     )
     general_subject_count = sum(1 for definition in PRACTICE_SUBJECTS if definition['slug'] != 'all' and definition.get('hub_visible', True))
-    cap_year_count = len(get_cap_years(cap_manifest))
-    cap_material_count = sum(len(item.get('subjects', [])) for item in cap_manifest.get('years', []))
-    guide_subject_count = len(guide_manifest.get('subjects', []))
-    guide_download_count = sum(int(item.get('download_count', 0) or 0) for item in guide_manifest.get('subjects', []))
+    cap_year_count = len(get_cap_library_years(cap_manifest))
+    cap_material_count = sum(
+        int(subject.get('question_count', 0) or 0)
+        for item in cap_manifest.get('years', [])
+        for subject in item.get('subjects', [])
+    )
+    guide_subject_count = sum(1 for subject in guide_catalog if subject.get('available'))
+    guide_download_count = sum(subject.get('guide_count', 0) for subject in guide_catalog)
 
     return render_template(
         'practice_entry.html',
-        title=_t('nav_practice', current_user.language),
+        title='刷題專區',
         tracks=tracks,
         total_questions=total_questions,
         general_subject_count=general_subject_count,
@@ -1178,47 +1322,345 @@ def practice_hub():
 @study.route("/practice/cap")
 @login_required
 def practice_cap_hub():
-    cap_manifest = load_cap_manifest()
-    available_years = get_cap_years(cap_manifest)
-    selected_years = parse_year_selection(request.args.getlist('years') or [request.args.get('years', '')], available_years)
-    selected_subject = resolve_cap_subject(request.args.get('subject'))
-    practice_mode = normalize_practice_mode(request.args.get('mode') or PRACTICE_MODE_PREVIEW)
-    mode_meta = get_practice_mode_meta(practice_mode)
-    subject_cards = build_cap_subject_cards(cap_manifest, selected_years, selected_subject['slug'])
-    material_cards = build_cap_material_cards(cap_manifest, selected_years, selected_subject)
-    all_years_query = ','.join(reversed(available_years)) if available_years else ''
+    cap_manifest = load_cap_library_manifest()
+    available_years = get_cap_library_years(cap_manifest)
+    selected_years = parse_year_selection(
+        request.args.getlist('years') or [request.args.get('years', '')],
+        available_years,
+    )
+    requested_subject_slug = normalize_subject_key(request.args.get('subject'))
+    subject_cards = build_cap_library_subject_cards(cap_manifest, selected_years, requested_subject_slug)
+    selected_subject = next(
+        (card for card in subject_cards if card['slug'] == requested_subject_slug and card['available']),
+        None,
+    ) or next((card for card in subject_cards if card['available']), subject_cards[0] if subject_cards else None)
+    selected_years_query = ','.join(selected_years)
+    all_years_query = ','.join(available_years)
+    preview_href = None
+    practice_href = None
+    question_bank_count = 0
+    preview_only_count = 0
+
+    if selected_subject:
+        documents = load_cap_documents(cap_manifest, selected_years, selected_subject['slug'])
+        question_bank_count = count_available_cap_questions(documents)
+        preview_only_count = sum(1 for document in documents if not document.get('practice_ready'))
+        preview_href = url_for(
+            'study.practice_cap_preview',
+            years=selected_years_query,
+            subject=selected_subject['slug'],
+        )
+        practice_href = url_for(
+            'study.practice_cap_session',
+            years=selected_years_query,
+            subject=selected_subject['slug'],
+        )
 
     return render_template(
         'practice_cap_hub.html',
         title='會考歷屆練習',
-        practice_mode=practice_mode,
-        mode_meta=mode_meta,
         available_years=available_years,
         selected_years=selected_years,
-        selected_years_query=','.join(selected_years),
+        selected_years_query=selected_years_query,
         all_years_query=all_years_query,
         selected_subject=selected_subject,
         cap_subject_cards=subject_cards,
-        cap_material_cards=material_cards,
-        question_bank_count=sum(card['count'] for card in subject_cards),
+        question_bank_count=question_bank_count,
+        preview_only_count=preview_only_count,
+        preview_href=preview_href,
+        practice_href=practice_href,
     )
-
 
 @study.route("/practice/guides")
 @login_required
 def practice_guides():
-    guide_manifest = load_guide_manifest()
-    active_subject = normalize_subject_key(request.args.get('subject') or 'all')
-    subjects = filter_guide_subjects(guide_manifest, active_subject)
-    subject_cards = build_guide_subject_cards(guide_manifest, active_subject)
+    guide_catalog = build_guide_library_catalog()
+    requested_subject = normalize_subject_key(request.args.get('subject') or '')
+    requested_series = str(request.args.get('series') or '').strip()
+    selected_subject = get_guide_catalog_subject(guide_catalog, requested_subject)
+    selected_series = get_guide_catalog_series(selected_subject, requested_series)
+
+    subject_cards = []
+    for subject in guide_catalog:
+        subject_cards.append({
+            'slug': subject['slug'],
+            'label': subject['label'],
+            'icon': subject['icon'],
+            'description': subject['description'],
+            'guide_count': subject['guide_count'],
+            'series_count': subject['series_count'],
+            'available': subject['available'],
+            'is_selected': bool(selected_subject and subject['slug'] == selected_subject['slug']),
+            'href': url_for('study.practice_guides', subject=subject['slug']),
+        })
+
+    series_cards = []
+    guide_cards = []
+    if selected_subject:
+        for series in selected_subject.get('series', []):
+            series_cards.append({
+                'series_value': series['series_value'],
+                'label': series['label'],
+                'guide_count': series['guide_count'],
+                'is_selected': bool(selected_series and series['series_value'] == selected_series['series_value']),
+                'href': url_for('study.practice_guides', subject=selected_subject['slug'], series=series['series_value']),
+            })
+        if selected_series:
+            for guide in selected_series.get('guides', []):
+                guide_cards.append({
+                    **guide,
+                    'reader_href': url_for(
+                        'study.practice_guide_reader',
+                        subject=selected_subject['slug'],
+                        series=selected_series['series_value'],
+                        guide=guide['guide_value'],
+                    ),
+                })
 
     return render_template(
         'practice_guides.html',
         title='AI 學習講義',
         guide_subject_cards=subject_cards,
-        guide_subjects=subjects,
-        active_subject=active_subject,
-        guide_download_count=sum(int(item.get('download_count', 0) or 0) for item in guide_manifest.get('subjects', [])),
+        selected_subject=selected_subject,
+        selected_series=selected_series,
+        series_cards=series_cards,
+        guide_cards=guide_cards,
+        guide_download_count=sum(subject['guide_count'] for subject in guide_catalog),
+    )
+
+@study.route("/practice/guides/read")
+@login_required
+def practice_guide_reader():
+    guide_catalog = build_guide_library_catalog()
+    requested_subject = normalize_subject_key(request.args.get('subject') or '')
+    selected_subject = get_guide_catalog_subject(guide_catalog, requested_subject)
+    if not selected_subject:
+        flash('目前還沒有可閱讀的講義內容。', 'info')
+        return redirect(url_for('study.practice_guides'))
+
+    requested_series = str(request.args.get('series') or '').strip()
+    selected_series = get_guide_catalog_series(selected_subject, requested_series)
+    if not selected_series:
+        flash('這個科目目前還沒有可閱讀的講義系列。', 'info')
+        return redirect(url_for('study.practice_guides', subject=selected_subject['slug']))
+
+    requested_guide = str(request.args.get('guide') or '').strip()
+    selected_guide = get_guide_catalog_guide(selected_series, requested_guide)
+    if not selected_guide:
+        flash('目前還找不到這份講義。', 'info')
+        return redirect(url_for('study.practice_guides', subject=selected_subject['slug'], series=selected_series['series_value']))
+
+    guide_document = get_guide_document(selected_subject, selected_series, selected_guide['guide_value'])
+    if not guide_document:
+        flash('這份講義還沒有整理完成。', 'info')
+        return redirect(url_for('study.practice_guides', subject=selected_subject['slug'], series=selected_series['series_value']))
+
+    return render_template(
+        'guide_reader.html',
+        title=selected_guide['title'],
+        selected_subject=selected_subject,
+        selected_series=selected_series,
+        selected_guide=selected_guide,
+        guide_document=guide_document,
+        guide_summary=summarize_guide_document(guide_document),
+        practice_href=get_guide_practice_href(selected_subject['slug']),
+        back_href=url_for('study.practice_guides', subject=selected_subject['slug'], series=selected_series['series_value']),
+    )
+
+
+@study.route("/practice/cap/preview")
+@login_required
+def practice_cap_preview():
+    cap_manifest = load_cap_library_manifest()
+    available_years = get_cap_library_years(cap_manifest)
+    selected_years = parse_year_selection(
+        request.args.getlist('years') or [request.args.get('years', '')],
+        available_years,
+    )
+    requested_subject_slug = normalize_subject_key(request.args.get('subject'))
+    subject_cards = build_cap_library_subject_cards(cap_manifest, selected_years, requested_subject_slug)
+    selected_subject = next(
+        (card for card in subject_cards if card['slug'] == requested_subject_slug and card['available']),
+        None,
+    ) or next((card for card in subject_cards if card['available']), subject_cards[0] if subject_cards else None)
+    if not selected_subject:
+        flash('目前還沒有可預覽的會考題目。', 'info')
+        return redirect(url_for('study.practice_cap_hub'))
+
+    documents = load_cap_documents(cap_manifest, selected_years, selected_subject['slug'])
+    question_items = build_cap_question_pool(documents)
+    if not question_items:
+        flash('這個範圍目前還沒有整理好的會考題目。', 'info')
+        return redirect(url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']))
+
+    return render_template(
+        'practice_cap_preview.html',
+        title='會考歷屆預覽',
+        selected_years=selected_years,
+        selected_subject=selected_subject,
+        question_items=question_items,
+        question_bank_count=len(question_items),
+        hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
+        practice_href=url_for('study.practice_cap_session', years=','.join(selected_years), subject=selected_subject['slug']),
+    )
+
+
+@study.route("/practice/cap/session")
+@login_required
+def practice_cap_session():
+    cap_manifest = load_cap_library_manifest()
+    available_years = get_cap_library_years(cap_manifest)
+    selected_years = parse_year_selection(
+        request.args.getlist('years') or [request.args.get('years', '')],
+        available_years,
+    )
+    requested_subject_slug = normalize_subject_key(request.args.get('subject'))
+    subject_cards = build_cap_library_subject_cards(cap_manifest, selected_years, requested_subject_slug)
+    selected_subject = next(
+        (card for card in subject_cards if card['slug'] == requested_subject_slug and card['available']),
+        None,
+    ) or next((card for card in subject_cards if card['available']), subject_cards[0] if subject_cards else None)
+    if not selected_subject:
+        flash('目前還沒有可練習的會考題目。', 'info')
+        return redirect(url_for('study.practice_cap_hub'))
+
+    documents = [
+        document
+        for document in load_cap_documents(cap_manifest, selected_years, selected_subject['slug'])
+        if document.get('practice_ready')
+    ]
+    question_items = build_cap_question_pool(documents)
+    if not question_items:
+        flash('這個範圍目前還在整理答案，先用預覽模式查看題目。', 'info')
+        return redirect(url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']))
+
+    defaults = get_cap_defaults(selected_subject['slug'])
+    requested_count = request.args.get('count', type=int)
+    requested_duration = request.args.get('duration', type=int)
+    start_requested = normalize_subject_key(request.args.get('start')) in {'1', 'true', 'yes', 'start'}
+    practice_count_options = build_practice_count_options(len(question_items), defaults['count'])
+    practice_duration_options = build_practice_duration_options(defaults['duration'])
+    selected_count = resolve_practice_choice(requested_count, practice_count_options, defaults['count'])
+    selected_duration = resolve_practice_choice(requested_duration, practice_duration_options, defaults['duration'])
+
+    if not start_requested:
+        return render_template(
+            'practice_cap_session.html',
+            title='會考歷屆練習',
+            view_state='setup',
+            selected_years=selected_years,
+            selected_subject=selected_subject,
+            question_pool_size=len(question_items),
+            practice_defaults=defaults,
+            practice_count_options=practice_count_options,
+            practice_duration_options=practice_duration_options,
+            selected_count=selected_count,
+            selected_duration=selected_duration,
+            preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']),
+            hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
+        )
+
+    selected_question_items = build_selected_question_set(question_items, selected_count)
+    if not selected_question_items:
+        flash('目前沒有可練習的題目。', 'info')
+        return redirect(url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']))
+
+    focus_question_key = request.args.get('question_key')
+    if focus_question_key not in {item['question_key'] for item in selected_question_items}:
+        focus_question_key = selected_question_items[0]['question_key']
+    initial_question_index = next(
+        (index for index, item in enumerate(selected_question_items) if item['question_key'] == focus_question_key),
+        0,
+    )
+
+    return render_template(
+        'practice_cap_session.html',
+        title='會考歷屆練習',
+        view_state='run',
+        selected_years=selected_years,
+        selected_subject=selected_subject,
+        question_items=selected_question_items,
+        question_pool_size=len(question_items),
+        practice_defaults=defaults,
+        practice_count_options=practice_count_options,
+        practice_duration_options=practice_duration_options,
+        selected_count=selected_count,
+        selected_duration=selected_duration,
+        selected_question_total=len(selected_question_items),
+        selected_question_keys_csv=','.join(item['question_key'] for item in selected_question_items),
+        focus_question_key=focus_question_key,
+        initial_question_index=initial_question_index,
+        preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']),
+        hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
+    )
+
+
+@study.route("/practice/cap/review", methods=['POST'])
+@login_required
+def practice_cap_review():
+    cap_manifest = load_cap_library_manifest()
+    available_years = get_cap_library_years(cap_manifest)
+    selected_years = parse_year_selection(
+        request.form.getlist('years') or [request.form.get('years', '')],
+        available_years,
+    )
+    requested_subject_slug = normalize_subject_key(request.form.get('subject'))
+    subject_cards = build_cap_library_subject_cards(cap_manifest, selected_years, requested_subject_slug)
+    selected_subject = next(
+        (card for card in subject_cards if card['slug'] == requested_subject_slug and card['available']),
+        None,
+    ) or next((card for card in subject_cards if card['available']), subject_cards[0] if subject_cards else None)
+    if not selected_subject:
+        flash('目前還沒有可檢討的會考題目。', 'info')
+        return redirect(url_for('study.practice_cap_hub'))
+
+    documents = [
+        document
+        for document in load_cap_documents(cap_manifest, selected_years, selected_subject['slug'])
+        if document.get('practice_ready')
+    ]
+    question_pool = {item['question_key']: item for item in build_cap_question_pool(documents)}
+    requested_question_keys = parse_cap_question_key_list(request.form.get('question_keys'))
+    question_items = [question_pool[key] for key in requested_question_keys if key in question_pool]
+    if not question_items:
+        flash('這次沒有收到可批改的題目。', 'info')
+        return redirect(url_for('study.practice_cap_session', years=','.join(selected_years), subject=selected_subject['slug']))
+
+    submitted_answers = {}
+    for question in question_items:
+        field_name = f"answer_{question['question_key'].replace(':', '__')}"
+        submitted_answers[question['question_key']] = request.form.get(field_name, '')
+
+    grading_summary = build_cap_submission_results(question_items, submitted_answers)
+    reward_correct_progress(grading_summary['correct_count'], 0)
+
+    review_items = grading_summary['results']
+    total_count = len(review_items)
+    correct_count = grading_summary['correct_count']
+    wrong_count = total_count - correct_count
+    answered_count = grading_summary['answered_count']
+    unanswered_count = total_count - answered_count
+    score_percent = round((correct_count / total_count) * 100, 1) if total_count else 0.0
+    feedback = build_exam_feedback(score_percent, [item for item in review_items if not item['is_correct']])
+
+    return render_template(
+        'practice_cap_review.html',
+        title='會考歷屆檢討',
+        selected_years=selected_years,
+        selected_subject=selected_subject,
+        review_items=review_items,
+        total_count=total_count,
+        correct_count=correct_count,
+        wrong_count=wrong_count,
+        answered_count=answered_count,
+        unanswered_count=unanswered_count,
+        score_percent=score_percent,
+        feedback=feedback,
+        selected_count=request.form.get('count', type=int) or total_count,
+        selected_duration=request.form.get('duration', type=int) or 0,
+        hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
+        retry_href=url_for('study.practice_cap_session', years=','.join(selected_years), subject=selected_subject['slug']),
+        preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']),
     )
 
 @study.route("/practice/session")
