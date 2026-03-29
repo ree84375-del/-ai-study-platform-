@@ -282,9 +282,9 @@
 
 <div class="preview-stage">
     <section class="preview-hero">
-        <span class="preview-kicker"><i class="fa-solid fa-eye"></i> {{ current_subject.label }} 預覽模式</span>
+        <span class="preview-kicker"><i class="fa-solid fa-eye"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
         <h1>{{ practice_mode_meta.hero_title }}</h1>
-        <p>{{ practice_mode_meta.hero_description }}</p>
+        <p>{{ practice_mode_meta.hero_description }} 目前這一區顯示的是一般國中練習，不是會考歷屆題本。</p>
 
         <div class="preview-stats">
             <div class="preview-stat">
@@ -312,6 +312,7 @@
             </a>
         </div>
         <div class="preview-toolbar-right">
+            <span class="preview-chip"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
             <span class="preview-chip"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
             <span class="preview-chip"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
             <span class="preview-chip"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>

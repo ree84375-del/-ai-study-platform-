@@ -7,6 +7,7 @@ from pathlib import Path
 
 from app import create_app, db
 from app.models import Question
+from app.utils.question_bank_metadata import build_normalized_metadata
 
 
 DEFAULT_DIFFICULTY = 2
@@ -54,20 +55,25 @@ def get_value(row: dict[str, str], field_name: str) -> str:
 
 
 def build_category(row: dict[str, str]) -> str:
-    volume = get_value(row, "volume").strip()
-    category = get_value(row, "category").strip()
-    if volume and category:
-        return f"{volume}_{category}"[:100]
-    return (category or volume)[:100]
+    metadata = build_normalized_metadata(
+        subject_label="",
+        volume=get_value(row, "volume").strip(),
+        category=get_value(row, "category").strip(),
+        title=get_value(row, "title").strip(),
+        source_unit=get_value(row, "source_unit").strip(),
+    )
+    return metadata["category"]
 
 
 def build_tags(row: dict[str, str]) -> str:
-    parts = [
-        get_value(row, "title").strip(),
-        get_value(row, "source_unit").strip(),
-    ]
-    cleaned = [part for part in parts if part]
-    return " | ".join(cleaned)[:100]
+    metadata = build_normalized_metadata(
+        subject_label="",
+        volume=get_value(row, "volume").strip(),
+        category=get_value(row, "category").strip(),
+        title=get_value(row, "title").strip(),
+        source_unit=get_value(row, "source_unit").strip(),
+    )
+    return metadata["tags"]
 
 
 def get_difficulty(row: dict[str, str]) -> int:

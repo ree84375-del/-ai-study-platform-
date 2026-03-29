@@ -525,9 +525,9 @@
 <div class="practice-stage">
     {% if view_state == 'mode_selector' %}
     <section class="stage-hero">
-        <span class="stage-kicker"><i class="fa-solid fa-compass"></i> {{ current_subject.label }} 模式分流</span>
+        <span class="stage-kicker"><i class="fa-solid fa-compass"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
         <h1>先決定這一科要怎麼讀，再開始刷題。</h1>
-        <p>你現在進的是 {{ current_subject.label }}。先選範圍，再決定要用預覽模式直接看答案與詳解，還是進入練習模式做完整份、最後再交卷批改。</p>
+        <p>你現在進的是 {{ current_subject.label }} 的一般國中練習。先選範圍，再決定要用預覽模式直接看答案與詳解，還是進入練習模式做完整份、最後再交卷批改。</p>
 
         <div class="hero-stats">
             <div class="hero-stat">
@@ -634,9 +634,9 @@
 
     {% elif view_state == 'practice_setup' %}
     <section class="stage-hero">
-        <span class="stage-kicker"><i class="fa-solid fa-sliders"></i> {{ current_subject.label }} 練習設定</span>
+        <span class="stage-kicker"><i class="fa-solid fa-sliders"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
         <h1>先決定題數和時間，再開始正式作答。</h1>
-        <p>這一份會保留你現在選的冊別、主章節和細主題。題目目前先不打亂，會從篩選後的題庫順序往下取題。</p>
+        <p>這一份會保留你現在選的冊別、主章節和細主題。題目目前先不打亂，會從一般國中題庫的目前範圍順序往下取題。</p>
 
         <div class="hero-stats">
             <div class="hero-stat">
@@ -666,6 +666,7 @@
         </div>
 
         <div class="summary-pills">
+            <span class="summary-pill"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
             <span class="summary-pill"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
             <span class="summary-pill"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
             <span class="summary-pill"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>
@@ -777,6 +778,7 @@
     <section class="stage-panel">
         <div class="toolbar">
             <div class="summary-pills">
+                <span class="summary-pill"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
                 <span class="summary-pill"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
                 <span class="summary-pill"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
                 <span class="summary-pill"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>

@@ -272,9 +272,9 @@
 
 <div class="review-stage">
     <section class="review-hero">
-        <span class="review-kicker"><i class="fa-solid fa-clipboard-check"></i> {{ current_subject.label }} 練習結果</span>
+        <span class="review-kicker"><i class="fa-solid fa-clipboard-check"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
         <h1>這次成績是 {{ '%.1f'|format(score_percent) }} 分，現在直接看每題答案與詳解。</h1>
-        <p>這份結果保留了你剛剛的冊別、主章節、細主題與題數設定。下面會完整列出你的作答、正確答案和詳解，方便直接回頭檢討。</p>
+        <p>這份結果保留了你剛剛的一般國中練習範圍、冊別、主章節、細主題與題數設定。下面會完整列出你的作答、正確答案和詳解，方便直接回頭檢討。</p>
 
         <div class="review-stats">
             <div class="review-stat">
@@ -306,6 +306,7 @@
 
     <div class="review-toolbar">
         <div class="review-pills">
+            <span class="review-chip"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
             <span class="review-chip"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
             <span class="review-chip"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
             <span class="review-chip"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>

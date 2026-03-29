@@ -5,11 +5,13 @@ import json
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import or_
 from app.utils.i18n import get_text as _t
+from app.utils.question_bank_metadata import detect_booklet_label, extract_question_hierarchy
 
 study = Blueprint('study', __name__)
 
 PRACTICE_MODE_PREVIEW = 'preview'
 PRACTICE_MODE_PRACTICE = 'practice'
+PRACTICE_BANK_LABEL = '一般國中練習'
 
 def get_current_room_name():
     """Returns the room name based on the current system time (Taiwan UTC+8)."""
@@ -297,42 +299,6 @@ def normalize_booklet_filter(value):
     return PRACTICE_SCOPE_ALL
 
 
-def detect_booklet_label(category_value='', tags_value=''):
-    combined = f"{category_value or ''} {tags_value or ''}"
-    for booklet in PRACTICE_BOOKLETS[1:]:
-        if booklet['query_value'] in combined:
-            return booklet['query_value']
-    return ''
-
-
-def extract_question_hierarchy(category_value='', tags_value=''):
-    category = (category_value or '').strip()
-    tags = (tags_value or '').strip()
-    booklet = detect_booklet_label(category, tags)
-    chapter = category
-
-    if category and '_' in category:
-        prefix, remainder = category.split('_', 1)
-        if prefix in {item['query_value'] for item in PRACTICE_BOOKLETS[1:]}:
-            booklet = prefix
-            chapter = remainder.strip()
-
-    if booklet and chapter.startswith(booklet):
-        chapter = chapter[len(booklet):].lstrip('_- ').strip()
-
-    topic = ''
-    if tags:
-        topic = tags.split('|', 1)[0].strip()
-    if not topic:
-        topic = chapter
-
-    return {
-        'booklet': booklet,
-        'chapter': chapter,
-        'topic': topic,
-    }
-
-
 def build_booklet_scope_options(base_query, selected_booklet=PRACTICE_SCOPE_ALL):
     from app.models import Question
 
@@ -601,7 +567,7 @@ def build_local_practice_explanation(question):
     if explanation:
         return explanation
 
-    hierarchy = extract_question_hierarchy(question.category or '', question.tags or '')
+    hierarchy = extract_question_hierarchy(question.category or '', question.tags or '', question.subject or '')
     correct_answer = (question.correct_answer or '').strip().upper() or 'A'
     correct_answer_text = get_question_option_text(question, correct_answer)
     hints = [f'正確答案是 {correct_answer}。']
@@ -710,7 +676,7 @@ def get_practice_mode_meta(mode):
 
 
 def build_practice_question_item(question, index):
-    hierarchy = extract_question_hierarchy(question.category or '', question.tags or '')
+    hierarchy = extract_question_hierarchy(question.category or '', question.tags or '', question.subject or '')
     options = []
     for key, text in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)]:
         if text:
@@ -743,7 +709,7 @@ def build_practice_submission_results(questions, submitted_answers):
 
     for index, question in enumerate(questions, start=1):
         user_answer = (submitted_answers.get(str(question.id)) or submitted_answers.get(question.id) or '').strip().upper()
-        hierarchy = extract_question_hierarchy(question.category or '', question.tags or '')
+        hierarchy = extract_question_hierarchy(question.category or '', question.tags or '', question.subject or '')
 
         if user_answer:
             evaluation = apply_attempt_outcome(question, user_answer)
@@ -929,6 +895,7 @@ def practice_hub():
     return render_template(
         'practice_hub.html',
         title=_t('nav_practice', current_user.language),
+        practice_bank_label=PRACTICE_BANK_LABEL,
         subject_cards=subject_cards,
         review_center_cards=review_center_cards,
         branch_sections=branch_sections,
@@ -1004,6 +971,7 @@ def practice_session():
         return render_template(
             'practice_session.html',
             title=_t('nav_practice', current_user.language),
+            practice_bank_label=PRACTICE_BANK_LABEL,
             view_state='mode_selector',
             current_subject=active_subject,
             current_subject_query=current_subject_query,
@@ -1025,6 +993,7 @@ def practice_session():
         return render_template(
             'practice_preview.html',
             title=_t('nav_practice', current_user.language),
+            practice_bank_label=PRACTICE_BANK_LABEL,
             question_items=question_items,
             current_subject=active_subject,
             current_subject_query=current_subject_query,
@@ -1043,6 +1012,7 @@ def practice_session():
         return render_template(
             'practice_session.html',
             title=_t('nav_practice', current_user.language),
+            practice_bank_label=PRACTICE_BANK_LABEL,
             view_state='practice_setup',
             current_subject=active_subject,
             current_subject_query=current_subject_query,
@@ -1073,6 +1043,7 @@ def practice_session():
     return render_template(
         'practice_session.html',
         title=_t('nav_practice', current_user.language),
+        practice_bank_label=PRACTICE_BANK_LABEL,
         view_state='practice_run',
         question_items=selected_question_items,
         current_subject=active_subject,
@@ -1188,6 +1159,7 @@ def practice_review():
     return render_template(
         'practice_review.html',
         title=_t('nav_practice', current_user.language),
+        practice_bank_label=PRACTICE_BANK_LABEL,
         current_subject=active_subject,
         current_subject_query=current_subject_query,
         booklet_options=booklet_options,
