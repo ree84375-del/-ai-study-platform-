@@ -30,7 +30,6 @@ PRACTICE_SUBJECTS = [
     {'slug': 'chinese', 'label': '\u570b\u6587', 'icon': 'fa-book-open', 'aliases': ['\u570b\u6587', '\u4e2d\u6587', 'Chinese', 'subject_chinese', 'subject_chinese_short']},
     {'slug': 'english', 'label': '\u82f1\u6587', 'icon': 'fa-language', 'aliases': ['\u82f1\u6587', 'English', 'subject_english', 'subject_english_short']},
     {'slug': 'math', 'label': '\u6578\u5b78', 'icon': 'fa-calculator', 'aliases': ['\u6578\u5b78', 'Math', 'subject_math', 'subject_math_short']},
-    {'slug': 'social', 'label': '\u793e\u6703', 'icon': 'fa-users', 'aliases': ['\u793e\u6703', 'Social']},
     {'slug': 'geography', 'label': '\u5730\u7406', 'icon': 'fa-map-location-dot', 'aliases': ['\u5730\u7406', 'Geography']},
     {'slug': 'history', 'label': '\u6b77\u53f2', 'icon': 'fa-landmark', 'aliases': ['\u6b77\u53f2', 'History']},
     {'slug': 'civics', 'label': '\u516c\u6c11', 'icon': 'fa-scale-balanced', 'aliases': ['\u516c\u6c11', 'Civics']},
@@ -52,8 +51,8 @@ PRACTICE_SUBJECT_GROUPS = [
     {
         'key': 'social',
         'label': '\u793e\u6703',
-        'description': '\u6b77\u53f2\u3001\u5730\u7406\u3001\u516c\u6c11\u8207\u7d9c\u5408\u793e\u6703\u90fd\u6536\u5728\u9019\u88e1\uff0c\u627e\u79d1\u76ee\u6703\u66f4\u5feb\u3002',
-        'slugs': ['history', 'geography', 'civics', 'social'],
+        'description': '\u6b77\u53f2\u3001\u5730\u7406\u8207\u516c\u6c11\u90fd\u96c6\u4e2d\u5728\u9019\u88e1\uff0c\u518a\u5225\u8207\u4e3b\u984c\u6703\u518d\u5f80\u4e0b\u5206\u3002',
+        'slugs': ['history', 'geography', 'civics'],
     },
     {
         'key': 'science',
@@ -70,6 +69,8 @@ PRACTICE_SUBJECT_GROUPS = [
 ]
 
 PRACTICE_SCOPE_ALL = 'all'
+PRACTICE_CHAPTER_ALL = 'all'
+PRACTICE_TOPIC_ALL = 'all'
 PRACTICE_BOOKLETS = [
     {'query_value': PRACTICE_SCOPE_ALL, 'label': '總複習', 'short_label': '總複習', 'description': '先不分冊，保留目前題庫順序做整科瀏覽或整科練習。'},
     {'query_value': '第一冊', 'label': '第一冊', 'short_label': '一冊', 'description': '保留第一冊題庫順序，只做第一冊。'},
@@ -79,6 +80,13 @@ PRACTICE_BOOKLETS = [
     {'query_value': '第五冊', 'label': '第五冊', 'short_label': '五冊', 'description': '保留第五冊題庫順序，只做第五冊。'},
     {'query_value': '第六冊', 'label': '第六冊', 'short_label': '六冊', 'description': '保留第六冊題庫順序，只做第六冊。'},
 ]
+
+
+def normalize_scope_filter(value, default=PRACTICE_SCOPE_ALL):
+    normalized = normalize_subject_key(value)
+    if not normalized or normalized == 'all':
+        return default
+    return str(value or '').strip()
 
 
 def normalize_subject_key(value):
@@ -135,6 +143,34 @@ def detect_booklet_label(category_value='', tags_value=''):
     return ''
 
 
+def extract_question_hierarchy(category_value='', tags_value=''):
+    category = (category_value or '').strip()
+    tags = (tags_value or '').strip()
+    booklet = detect_booklet_label(category, tags)
+    chapter = category
+
+    if category and '_' in category:
+        prefix, remainder = category.split('_', 1)
+        if prefix in {item['query_value'] for item in PRACTICE_BOOKLETS[1:]}:
+            booklet = prefix
+            chapter = remainder.strip()
+
+    if booklet and chapter.startswith(booklet):
+        chapter = chapter[len(booklet):].lstrip('_- ').strip()
+
+    topic = ''
+    if tags:
+        topic = tags.split('|', 1)[0].strip()
+    if not topic:
+        topic = chapter
+
+    return {
+        'booklet': booklet,
+        'chapter': chapter,
+        'topic': topic,
+    }
+
+
 def build_booklet_scope_options(base_query, selected_booklet=PRACTICE_SCOPE_ALL):
     from app.models import Question
 
@@ -168,6 +204,81 @@ def resolve_selected_booklet(booklet_options, requested_booklet):
     if selected:
         return selected
     return next((item for item in booklet_options if item['query_value'] == PRACTICE_SCOPE_ALL), booklet_options[0])
+
+
+def build_named_scope_options(values, selected_value, all_label, all_description, icon):
+    selected_value = normalize_scope_filter(selected_value)
+    total_count = sum(values.values())
+    options = [{
+        'query_value': PRACTICE_SCOPE_ALL,
+        'label': all_label,
+        'description': all_description,
+        'icon': icon,
+        'count': total_count,
+        'available': total_count > 0,
+        'is_selected': selected_value == PRACTICE_SCOPE_ALL,
+    }]
+
+    for label, count in sorted(values.items(), key=lambda item: item[0]):
+        options.append({
+            'query_value': label,
+            'label': label,
+            'description': f'只看 {label} 這個範圍的題目。',
+            'icon': icon,
+            'count': count,
+            'available': count > 0,
+            'is_selected': selected_value == label,
+        })
+
+    return options
+
+
+def resolve_selected_scope(scope_options, requested_value):
+    normalized = normalize_scope_filter(requested_value)
+    selected = next((item for item in scope_options if item['query_value'] == normalized and item['available']), None)
+    if selected:
+        return selected
+    return next((item for item in scope_options if item['query_value'] == PRACTICE_SCOPE_ALL), scope_options[0])
+
+
+def build_chapter_scope_options(base_query, selected_chapter=PRACTICE_CHAPTER_ALL):
+    from app.models import Question
+
+    rows = base_query.with_entities(Question.category, Question.tags).all()
+    counts = {}
+    for category_value, tags_value in rows:
+        hierarchy = extract_question_hierarchy(category_value or '', tags_value or '')
+        chapter = hierarchy['chapter']
+        if chapter:
+            counts[chapter] = counts.get(chapter, 0) + 1
+
+    return build_named_scope_options(
+        counts,
+        selected_chapter,
+        all_label='全部主章節',
+        all_description='保留目前科目與冊別，先看所有主章節。',
+        icon='fa-folder-tree',
+    )
+
+
+def build_topic_scope_options(base_query, selected_topic=PRACTICE_TOPIC_ALL):
+    from app.models import Question
+
+    rows = base_query.with_entities(Question.category, Question.tags).all()
+    counts = {}
+    for category_value, tags_value in rows:
+        hierarchy = extract_question_hierarchy(category_value or '', tags_value or '')
+        topic = hierarchy['topic']
+        if topic:
+            counts[topic] = counts.get(topic, 0) + 1
+
+    return build_named_scope_options(
+        counts,
+        selected_topic,
+        all_label='全部細主題',
+        all_description='保留目前科目、冊別與主章節，先看所有細主題。',
+        icon='fa-bookmark',
+    )
 
 
 def build_subject_catalog():
@@ -269,7 +380,12 @@ def build_grouped_subject_catalog(subject_cards):
     return featured_card, grouped_sections
 
 
-def build_practice_question_query(subject_value=None, booklet_value=PRACTICE_SCOPE_ALL):
+def build_practice_question_query(
+    subject_value=None,
+    booklet_value=PRACTICE_SCOPE_ALL,
+    chapter_value=PRACTICE_CHAPTER_ALL,
+    topic_value=PRACTICE_TOPIC_ALL,
+):
     from app.models import Question
 
     definition = resolve_subject_definition(subject_value)
@@ -292,6 +408,24 @@ def build_practice_question_query(subject_value=None, booklet_value=PRACTICE_SCO
             or_(
                 Question.category.contains(booklet_value),
                 Question.tags.contains(booklet_value),
+            )
+        )
+
+    chapter_value = normalize_scope_filter(chapter_value, default=PRACTICE_CHAPTER_ALL)
+    if chapter_value != PRACTICE_SCOPE_ALL:
+        query = query.filter(
+            or_(
+                Question.category.contains(chapter_value),
+                Question.tags.contains(chapter_value),
+            )
+        )
+
+    topic_value = normalize_scope_filter(topic_value, default=PRACTICE_TOPIC_ALL)
+    if topic_value != PRACTICE_SCOPE_ALL:
+        query = query.filter(
+            or_(
+                Question.tags.contains(topic_value),
+                Question.category.contains(topic_value),
             )
         )
 
@@ -337,7 +471,7 @@ def get_practice_mode_meta(mode):
 
 
 def build_practice_question_item(question, index):
-    booklet_label = detect_booklet_label(question.category or '', question.tags or '')
+    hierarchy = extract_question_hierarchy(question.category or '', question.tags or '')
     options = []
     for key, text in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)]:
         if text:
@@ -351,7 +485,9 @@ def build_practice_question_item(question, index):
         'index': index,
         'id': question.id,
         'subject': question.subject,
-        'booklet': booklet_label,
+        'booklet': hierarchy['booklet'],
+        'chapter': hierarchy['chapter'],
+        'topic': hierarchy['topic'],
         'category': question.category or '',
         'content_text': question.content_text,
         'options': options,
@@ -368,6 +504,7 @@ def build_practice_submission_results(questions, submitted_answers):
 
     for index, question in enumerate(questions, start=1):
         user_answer = (submitted_answers.get(str(question.id)) or submitted_answers.get(question.id) or '').strip().upper()
+        hierarchy = extract_question_hierarchy(question.category or '', question.tags or '')
 
         if user_answer:
             evaluation = apply_attempt_outcome(question, user_answer)
@@ -387,7 +524,9 @@ def build_practice_submission_results(questions, submitted_answers):
             'index': index,
             'question_id': question.id,
             'subject': question.subject,
-            'booklet': detect_booklet_label(question.category or '', question.tags or ''),
+            'booklet': hierarchy['booklet'],
+            'chapter': hierarchy['chapter'],
+            'topic': hierarchy['topic'],
             'category': question.category or '',
             'content_text': question.content_text,
             'selected_answer': evaluation['answer_key'] or '未作答',
@@ -540,6 +679,8 @@ def practice_session():
     question_id = request.args.get('question_id', type=int)
     requested_mode = (request.args.get('mode') or '').strip()
     requested_booklet = request.args.get('booklet')
+    requested_chapter = request.args.get('chapter')
+    requested_topic = request.args.get('topic')
     practice_mode = normalize_practice_mode(requested_mode) if requested_mode else None
     if not subject_filter and not question_id:
         return redirect(url_for('study.practice_hub'))
@@ -552,7 +693,22 @@ def practice_session():
     current_subject, subject_query = build_practice_question_query(subject_seed)
     booklet_options = build_booklet_scope_options(subject_query, selected_booklet=requested_booklet)
     selected_booklet = resolve_selected_booklet(booklet_options, requested_booklet)
-    current_subject, query = build_practice_question_query(subject_seed, booklet_value=selected_booklet['query_value'])
+    current_subject, booklet_query = build_practice_question_query(subject_seed, booklet_value=selected_booklet['query_value'])
+    chapter_options = build_chapter_scope_options(booklet_query, selected_chapter=requested_chapter)
+    selected_chapter = resolve_selected_scope(chapter_options, requested_chapter)
+    current_subject, chapter_query = build_practice_question_query(
+        subject_seed,
+        booklet_value=selected_booklet['query_value'],
+        chapter_value=selected_chapter['query_value'],
+    )
+    topic_options = build_topic_scope_options(chapter_query, selected_topic=requested_topic)
+    selected_topic = resolve_selected_scope(topic_options, requested_topic)
+    current_subject, query = build_practice_question_query(
+        subject_seed,
+        booklet_value=selected_booklet['query_value'],
+        chapter_value=selected_chapter['query_value'],
+        topic_value=selected_topic['query_value'],
+    )
     questions = query.order_by(Question.id.asc()).all()
     if not questions:
         flash(_t('msg_no_questions', current_user.language), 'info')
@@ -573,6 +729,10 @@ def practice_session():
             current_subject_query=current_subject_query,
             booklet_options=booklet_options,
             selected_booklet=selected_booklet,
+            chapter_options=chapter_options,
+            selected_chapter=selected_chapter,
+            topic_options=topic_options,
+            selected_topic=selected_topic,
             question_pool_size=len(question_items),
             preview_mode_meta=get_practice_mode_meta(PRACTICE_MODE_PREVIEW),
             practice_mode_meta=get_practice_mode_meta(PRACTICE_MODE_PRACTICE),
@@ -590,6 +750,10 @@ def practice_session():
             current_subject_query=current_subject_query,
             booklet_options=booklet_options,
             selected_booklet=selected_booklet,
+            chapter_options=chapter_options,
+            selected_chapter=selected_chapter,
+            topic_options=topic_options,
+            selected_topic=selected_topic,
             question_pool_size=len(question_items),
             practice_mode=practice_mode,
             practice_mode_meta=practice_mode_meta,
@@ -606,6 +770,10 @@ def practice_session():
         current_subject_query=current_subject_query,
         booklet_options=booklet_options,
         selected_booklet=selected_booklet,
+        chapter_options=chapter_options,
+        selected_chapter=selected_chapter,
+        topic_options=topic_options,
+        selected_topic=selected_topic,
         question_pool_size=len(question_items),
         practice_mode=practice_mode,
         practice_mode_meta=practice_mode_meta,
@@ -622,10 +790,24 @@ def practice_review():
 
     subject_value = request.form.get('subject') or request.args.get('subject') or 'all'
     requested_booklet = request.form.get('booklet') or request.args.get('booklet') or PRACTICE_SCOPE_ALL
+    requested_chapter = request.form.get('chapter') or request.args.get('chapter') or PRACTICE_CHAPTER_ALL
+    requested_topic = request.form.get('topic') or request.args.get('topic') or PRACTICE_TOPIC_ALL
     if request.method == 'GET':
-        return redirect(url_for('study.practice_session', subject=subject_value, booklet=requested_booklet, mode=PRACTICE_MODE_PRACTICE))
+        return redirect(url_for(
+            'study.practice_session',
+            subject=subject_value,
+            booklet=requested_booklet,
+            chapter=requested_chapter,
+            topic=requested_topic,
+            mode=PRACTICE_MODE_PRACTICE,
+        ))
 
-    current_subject, query = build_practice_question_query(subject_value, booklet_value=requested_booklet)
+    current_subject, query = build_practice_question_query(
+        subject_value,
+        booklet_value=requested_booklet,
+        chapter_value=requested_chapter,
+        topic_value=requested_topic,
+    )
     questions = query.order_by(Question.id.asc()).all()
     if not questions:
         flash(_t('msg_no_questions', current_user.language), 'info')
@@ -643,6 +825,20 @@ def practice_review():
     current_subject_query = subject_value if request.form.get('subject') else (active_subject['label'] if active_subject.get('is_custom') else active_subject['slug'])
     booklet_options = build_booklet_scope_options(build_practice_question_query(subject_value)[1], selected_booklet=requested_booklet)
     selected_booklet = resolve_selected_booklet(booklet_options, requested_booklet)
+    chapter_options = build_chapter_scope_options(
+        build_practice_question_query(subject_value, booklet_value=selected_booklet['query_value'])[1],
+        selected_chapter=requested_chapter,
+    )
+    selected_chapter = resolve_selected_scope(chapter_options, requested_chapter)
+    topic_options = build_topic_scope_options(
+        build_practice_question_query(
+            subject_value,
+            booklet_value=selected_booklet['query_value'],
+            chapter_value=selected_chapter['query_value'],
+        )[1],
+        selected_topic=requested_topic,
+    )
+    selected_topic = resolve_selected_scope(topic_options, requested_topic)
     review_items = grading_summary['results']
 
     total_count = len(review_items)
@@ -660,6 +856,10 @@ def practice_review():
         current_subject_query=current_subject_query,
         booklet_options=booklet_options,
         selected_booklet=selected_booklet,
+        chapter_options=chapter_options,
+        selected_chapter=selected_chapter,
+        topic_options=topic_options,
+        selected_topic=selected_topic,
         review_items=review_items,
         total_count=total_count,
         correct_count=correct_count,

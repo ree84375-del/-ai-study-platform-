@@ -316,13 +316,13 @@
     <div class="review-feedback">{{ feedback }}</div>
 
     <div class="review-actions">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value) }}" class="review-secondary-btn">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="review-secondary-btn">
             <i class="fa-solid fa-compass"></i> 回到模式選擇
         </a>
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='practice') }}" class="review-primary-btn">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice') }}" class="review-primary-btn">
             <i class="fa-solid fa-rotate-right"></i> 再做一次練習模式
         </a>
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='preview') }}" class="review-secondary-btn">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview') }}" class="review-secondary-btn">
             <i class="fa-solid fa-eye"></i> 改看預覽模式
         </a>
     </div>
@@ -333,8 +333,36 @@
                 {% if booklet.is_selected %}
                 <span class="review-scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
                 {% else %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, mode='practice') }}" class="review-scope-pill">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice') }}" class="review-scope-pill">
                     <i class="fa-solid fa-book"></i> {{ booklet.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="review-scope-pills" aria-label="主章節切換">
+        {% for chapter in chapter_options %}
+            {% if chapter.available %}
+                {% if chapter.is_selected %}
+                <span class="review-scope-pill is-active"><i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=chapter.query_value, topic=selected_topic.query_value, mode='practice') }}" class="review-scope-pill">
+                    <i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="review-scope-pills" aria-label="細主題切換">
+        {% for topic in topic_options %}
+            {% if topic.available %}
+                {% if topic.is_selected %}
+                <span class="review-scope-pill is-active"><i class="fa-solid fa-bookmark"></i> {{ topic.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=topic.query_value, mode='practice') }}" class="review-scope-pill">
+                    <i class="fa-solid fa-bookmark"></i> {{ topic.label }}
                 </a>
                 {% endif %}
             {% endif %}
@@ -358,9 +386,14 @@
                         <i class="fa-solid fa-book"></i> {{ item.booklet }}
                     </span>
                     {% endif %}
-                    {% if item.category %}
+                    {% if item.chapter %}
                     <span class="review-badge subject">
-                        <i class="fa-solid fa-tag"></i> {{ item.category }}
+                        <i class="fa-solid fa-folder-tree"></i> {{ item.chapter }}
+                    </span>
+                    {% endif %}
+                    {% if item.topic %}
+                    <span class="review-badge subject">
+                        <i class="fa-solid fa-bookmark"></i> {{ item.topic }}
                     </span>
                     {% endif %}
                 </div>

@@ -745,7 +745,7 @@
         <div class="scope-grid">
             {% for booklet in booklet_options %}
                 {% if booklet.available %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value) }}" class="scope-card {% if booklet.is_selected %}is-active{% endif %}">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="scope-card {% if booklet.is_selected %}is-active{% endif %}">
                     <div class="scope-card-top">
                         <span class="scope-label">{{ booklet.label }}</span>
                         <span class="scope-count">{{ booklet.count }} 題</span>
@@ -765,6 +765,70 @@
         </div>
     </section>
 
+    <section class="session-panel scope-panel">
+        <div class="scope-head">
+            <div>
+                <h2>主章節分類</h2>
+                <p>先決定要刷哪個大主題，像是「臺灣的自然環境」或「法律與生活」。</p>
+            </div>
+            <span class="toolbar-chip"><i class="fa-solid fa-folder-tree"></i> 目前：{{ selected_chapter.label }}</span>
+        </div>
+
+        <div class="scope-grid">
+            {% for chapter in chapter_options %}
+                {% if chapter.available %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=chapter.query_value, topic=selected_topic.query_value) }}" class="scope-card {% if chapter.is_selected %}is-active{% endif %}">
+                    <div class="scope-card-top">
+                        <span class="scope-label">{{ chapter.label }}</span>
+                        <span class="scope-count">{{ chapter.count }} 題</span>
+                    </div>
+                    <div class="scope-description">{{ chapter.description }}</div>
+                </a>
+                {% else %}
+                <span class="scope-card is-disabled">
+                    <div class="scope-card-top">
+                        <span class="scope-label">{{ chapter.label }}</span>
+                        <span class="scope-count">0 題</span>
+                    </div>
+                    <div class="scope-description">這個主章節目前還沒有可用題目。</div>
+                </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="session-panel scope-panel">
+        <div class="scope-head">
+            <div>
+                <h2>細主題分類</h2>
+                <p>進一步縮到單一主題，像是「97課綱-天氣與氣候」，就能只練那一塊。</p>
+            </div>
+            <span class="toolbar-chip"><i class="fa-solid fa-bookmark"></i> 目前：{{ selected_topic.label }}</span>
+        </div>
+
+        <div class="scope-grid">
+            {% for topic in topic_options %}
+                {% if topic.available %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=topic.query_value) }}" class="scope-card {% if topic.is_selected %}is-active{% endif %}">
+                    <div class="scope-card-top">
+                        <span class="scope-label">{{ topic.label }}</span>
+                        <span class="scope-count">{{ topic.count }} 題</span>
+                    </div>
+                    <div class="scope-description">{{ topic.description }}</div>
+                </a>
+                {% else %}
+                <span class="scope-card is-disabled">
+                    <div class="scope-card-top">
+                        <span class="scope-label">{{ topic.label }}</span>
+                        <span class="scope-count">0 題</span>
+                    </div>
+                    <div class="scope-description">這個細主題目前還沒有可用題目。</div>
+                </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
     <section class="mode-grid">
         <article class="mode-card is-preview">
             <span class="mode-pill"><i class="fa-solid {{ preview_mode_meta.icon }}"></i> {{ preview_mode_meta.label }}</span>
@@ -775,7 +839,7 @@
                 <li><i class="fa-solid fa-circle-check"></i><span>點開任何一題，就直接看到題目、正確答案和詳解。</span></li>
                 <li><i class="fa-solid fa-ban"></i><span>不計分、不交卷，適合先看題庫或先帶學生講解。</span></li>
             </ul>
-            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='preview', question_id=focus_question_id) }}" class="practice-secondary-btn">
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview', question_id=focus_question_id) }}" class="practice-secondary-btn">
                 <i class="fa-solid fa-eye"></i> 進入預覽模式
             </a>
         </article>
@@ -789,7 +853,7 @@
                 <li><i class="fa-solid fa-flag-checkered"></i><span>只有最後一題才會出現交卷，交卷後才批改成績與顯示詳解。</span></li>
                 <li><i class="fa-solid fa-percent"></i><span>這一輪會用 100 分制計分，交卷後同時列出你的答案、正解和詳解。</span></li>
             </ul>
-            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='practice', question_id=focus_question_id) }}" class="practice-primary-btn">
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', question_id=focus_question_id) }}" class="practice-primary-btn">
                 <i class="fa-solid fa-dumbbell"></i> 進入練習模式
             </a>
         </article>
@@ -817,13 +881,13 @@
     </section>
 
     <div class="toolbar">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value) }}" class="toolbar-back">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="toolbar-back">
             <i class="fa-solid fa-arrow-left"></i> 回到模式選擇
         </a>
 
         <div class="toolbar-actions">
             <div class="mode-switch" aria-label="作答模式切換">
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='preview', question_id=focus_question_id) }}" class="mode-switch-link">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview', question_id=focus_question_id) }}" class="mode-switch-link">
                     <i class="fa-solid fa-eye"></i> 預覽模式
                 </a>
                 <span class="mode-switch-link is-active">
@@ -843,8 +907,36 @@
                 {% if booklet.is_selected %}
                 <span class="scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
                 {% else %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, mode='practice', question_id=focus_question_id) }}" class="scope-pill">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', question_id=focus_question_id) }}" class="scope-pill">
                     <i class="fa-solid fa-book"></i> {{ booklet.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="scope-pills" aria-label="主章節切換">
+        {% for chapter in chapter_options %}
+            {% if chapter.available %}
+                {% if chapter.is_selected %}
+                <span class="scope-pill is-active"><i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=chapter.query_value, topic=selected_topic.query_value, mode='practice', question_id=focus_question_id) }}" class="scope-pill">
+                    <i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="scope-pills" aria-label="細主題切換">
+        {% for topic in topic_options %}
+            {% if topic.available %}
+                {% if topic.is_selected %}
+                <span class="scope-pill is-active"><i class="fa-solid fa-bookmark"></i> {{ topic.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=topic.query_value, mode='practice', question_id=focus_question_id) }}" class="scope-pill">
+                    <i class="fa-solid fa-bookmark"></i> {{ topic.label }}
                 </a>
                 {% endif %}
             {% endif %}
@@ -855,6 +947,8 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="subject" value="{{ current_subject_query }}">
         <input type="hidden" name="booklet" value="{{ selected_booklet.query_value }}">
+        <input type="hidden" name="chapter" value="{{ selected_chapter.query_value }}">
+        <input type="hidden" name="topic" value="{{ selected_topic.query_value }}">
 
         <section class="session-panel">
             <div class="progress-head">
@@ -886,6 +980,16 @@
                     {% if item.booklet %}
                     <span class="question-badge soft">
                         <i class="fa-solid fa-book"></i> {{ item.booklet }}
+                    </span>
+                    {% endif %}
+                    {% if item.chapter %}
+                    <span class="question-badge soft">
+                        <i class="fa-solid fa-folder-tree"></i> {{ item.chapter }}
+                    </span>
+                    {% endif %}
+                    {% if item.topic %}
+                    <span class="question-badge soft">
+                        <i class="fa-solid fa-bookmark"></i> {{ item.topic }}
                     </span>
                     {% endif %}
                 </div>

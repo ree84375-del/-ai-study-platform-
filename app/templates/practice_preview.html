@@ -362,14 +362,14 @@
     </section>
 
     <div class="preview-toolbar">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value) }}" class="preview-back-link">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="preview-back-link">
             <i class="fa-solid fa-arrow-left"></i> 回到模式選擇
         </a>
 
         <div class="preview-toolbar-right">
             <span class="preview-chip"><i class="fa-solid fa-layer-group"></i> {{ selected_booklet.label }} {{ question_pool_size }} 題</span>
             <div class="preview-actions">
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='practice', question_id=focus_question_id) }}" class="preview-primary-btn">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', question_id=focus_question_id) }}" class="preview-primary-btn">
                     <i class="fa-solid fa-dumbbell"></i> 切到練習模式
                 </a>
                 <button type="button" id="ai-generate-btn" class="preview-secondary-btn">
@@ -385,8 +385,36 @@
                 {% if booklet.is_selected %}
                 <span class="preview-scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
                 {% else %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
                     <i class="fa-solid fa-book"></i> {{ booklet.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="preview-scope-pills" aria-label="主章節切換">
+        {% for chapter in chapter_options %}
+            {% if chapter.available %}
+                {% if chapter.is_selected %}
+                <span class="preview-scope-pill is-active"><i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=chapter.query_value, topic=selected_topic.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
+                    <i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="preview-scope-pills" aria-label="細主題切換">
+        {% for topic in topic_options %}
+            {% if topic.available %}
+                {% if topic.is_selected %}
+                <span class="preview-scope-pill is-active"><i class="fa-solid fa-bookmark"></i> {{ topic.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=topic.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
+                    <i class="fa-solid fa-bookmark"></i> {{ topic.label }}
                 </a>
                 {% endif %}
             {% endif %}
@@ -404,8 +432,11 @@
                         {% if item.booklet %}
                         <span class="preview-badge"><i class="fa-solid fa-book"></i> {{ item.booklet }}</span>
                         {% endif %}
-                        {% if item.category %}
-                        <span class="preview-badge"><i class="fa-solid fa-tag"></i> {{ item.category }}</span>
+                        {% if item.chapter %}
+                        <span class="preview-badge"><i class="fa-solid fa-folder-tree"></i> {{ item.chapter }}</span>
+                        {% endif %}
+                        {% if item.topic %}
+                        <span class="preview-badge"><i class="fa-solid fa-bookmark"></i> {{ item.topic }}</span>
                         {% endif %}
                     </div>
                     <h2 class="preview-question-title">{{ item.content_text }}</h2>
