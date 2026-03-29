@@ -1,0 +1,478 @@
+{% extends "base.html" %}
+{% block title %}會考歷屆練習{% endblock %}
+{% block content %}
+<style>
+    .cap-shell {
+        --paper: rgba(255, 251, 244, 0.96);
+        --paper-soft: rgba(249, 241, 227, 0.94);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a2f24;
+        --subtle: #7a6a56;
+        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        display: grid;
+        gap: 1.4rem;
+    }
+
+    .cap-hero,
+    .cap-panel {
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .cap-hero {
+        padding: 1.9rem;
+        background:
+            radial-gradient(circle at top right, rgba(255, 217, 139, 0.34), transparent 34%),
+            linear-gradient(145deg, rgba(255, 252, 246, 0.98), rgba(248, 239, 222, 0.95));
+    }
+
+    .cap-kicker,
+    .cap-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.48rem 0.92rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .cap-kicker {
+        background: rgba(58, 47, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .cap-note {
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.9rem;
+    }
+
+    .cap-copy {
+        display: grid;
+        gap: 0.8rem;
+        max-width: 760px;
+        margin-top: 1rem;
+    }
+
+    .cap-copy h1 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
+        line-height: 1.2;
+    }
+
+    .cap-copy p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.85;
+    }
+
+    .cap-panel {
+        padding: 1.4rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .cap-panel h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: 1.4rem;
+    }
+
+    .cap-panel p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.75;
+    }
+
+    .cap-form {
+        display: grid;
+        gap: 1.2rem;
+    }
+
+    .selector-group {
+        display: grid;
+        gap: 0.8rem;
+    }
+
+    .selector-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .selector-head strong {
+        color: var(--ink);
+        font-size: 1.05rem;
+    }
+
+    .selector-grid,
+    .subject-grid,
+    .mode-grid,
+    .material-grid {
+        display: grid;
+        gap: 0.85rem;
+    }
+
+    .selector-grid {
+        grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+    }
+
+    .subject-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .mode-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .material-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .year-chip,
+    .subject-card,
+    .mode-card,
+    .material-card {
+        position: relative;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background: rgba(255, 255, 255, 0.78);
+    }
+
+    .year-chip {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 58px;
+        padding: 0.4rem;
+    }
+
+    .year-chip input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .year-chip span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border-radius: 18px;
+        color: #735f43;
+        font-weight: 800;
+        transition: background 0.16s ease, color 0.16s ease;
+    }
+
+    .year-chip input:checked + span {
+        background: linear-gradient(135deg, #ebc56b, #d9a34d);
+        color: #fffaf2;
+    }
+
+    .subject-card,
+    .mode-card,
+    .material-card {
+        padding: 1.15rem;
+        display: grid;
+        gap: 0.7rem;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .subject-card.active,
+    .mode-card.active {
+        border-color: rgba(219, 172, 90, 0.42);
+        box-shadow: 0 16px 28px rgba(126, 98, 45, 0.12);
+    }
+
+    .subject-card h3,
+    .mode-card h3,
+    .material-card h3 {
+        margin: 0;
+        color: var(--ink);
+    }
+
+    .subject-card p,
+    .mode-card p,
+    .material-card p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.72;
+        font-size: 0.93rem;
+    }
+
+    .subject-top,
+    .material-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .subject-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        padding: 0.36rem 0.7rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
+    .mode-card input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .mode-card.active {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 242, 225, 0.95));
+    }
+
+    .cap-actions {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .cap-btn,
+    .cap-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 46px;
+        padding: 0.75rem 1.2rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+    .cap-btn {
+        border: none;
+        background: linear-gradient(135deg, #efb44f, #d9943f);
+        color: #fffaf2;
+    }
+
+    .cap-link {
+        border: 1px solid rgba(214, 183, 112, 0.26);
+        background: rgba(255, 255, 255, 0.72);
+        color: #7b6543;
+    }
+
+    .material-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+    }
+
+    .material-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.56rem 0.82rem;
+        border-radius: 999px;
+        border: 1px solid rgba(214, 183, 112, 0.22);
+        background: rgba(255, 248, 232, 0.96);
+        color: #845f2d;
+        text-decoration: none;
+        font-weight: 800;
+        font-size: 0.88rem;
+    }
+
+    details.material-review {
+        border-top: 1px dashed rgba(214, 183, 112, 0.26);
+        padding-top: 0.8rem;
+    }
+
+    details.material-review summary {
+        cursor: pointer;
+        color: #6f5d47;
+        font-weight: 800;
+    }
+
+    .empty-state {
+        padding: 1.25rem;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.68);
+        color: var(--subtle);
+        line-height: 1.8;
+    }
+
+    @media (max-width: 720px) {
+        .cap-hero,
+        .cap-panel {
+            border-radius: 24px;
+            padding: 1.2rem;
+        }
+    }
+</style>
+
+<div class="cap-shell">
+    <section class="cap-hero">
+        <span class="cap-kicker"><i class="fa-solid fa-medal"></i> 會考歷屆練習</span>
+        <div class="cap-copy">
+            <h1>先挑年份，再選科目與模式，讓會考歷屆練習走自己的路，不和一般國中題庫混在一起。</h1>
+            <p>這一區先整理官方歷屆題本、參考答案與試題說明。科目維持單科，年份可以單年也可以混合。預覽模式會直接看到答案與說明；練習模式則先看題本，交卷後再展開答案與說明。</p>
+        </div>
+    </section>
+
+    <section class="cap-panel">
+        <h2>歷屆選擇器</h2>
+        <form method="get" class="cap-form">
+            <div class="selector-group">
+                <div class="selector-head">
+                    <div>
+                        <strong>第一步：選年份</strong>
+                        <p>可以單選一年，也可以多選混合。科目會維持單科。</p>
+                    </div>
+                    {% if all_years_query %}
+                    <a class="cap-link" href="{{ url_for('study.practice_cap_hub', years=all_years_query, subject=selected_subject.slug, mode=practice_mode) }}">
+                        <i class="fa-solid fa-layer-group"></i> 102-114 全年份混合
+                    </a>
+                    {% endif %}
+                </div>
+                <div class="selector-grid">
+                    {% for year in available_years %}
+                    <label class="year-chip">
+                        <input type="checkbox" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %}>
+                        <span>{{ year }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="selector-group">
+                <div class="selector-head">
+                    <div>
+                        <strong>第二步：選科目</strong>
+                        <p>科目不混，先固定一科，再看單年或跨年份的材料。</p>
+                    </div>
+                </div>
+                <div class="subject-grid">
+                    {% for card in cap_subject_cards %}
+                    <label class="subject-card {% if card.is_selected %}active{% endif %}">
+                        <div class="subject-top">
+                            <h3><i class="fa-solid {{ card.icon }}"></i> {{ card.label }}</h3>
+                            <span class="subject-count">{{ card.count }} 年</span>
+                        </div>
+                        <p>{{ card.description }}</p>
+                        <input type="radio" name="subject" value="{{ card.slug }}" {% if card.is_selected %}checked{% endif %} style="position:absolute; inset:0; opacity:0;">
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="selector-group">
+                <div class="selector-head">
+                    <div>
+                        <strong>第三步：選模式</strong>
+                        <p>預覽模式直接看答案與說明；練習模式先開題本，交卷後再展開答案區。</p>
+                    </div>
+                </div>
+                <div class="mode-grid">
+                    <label class="mode-card {% if practice_mode == 'preview' %}active{% endif %}">
+                        <input type="radio" name="mode" value="preview" {% if practice_mode == 'preview' %}checked{% endif %}>
+                        <h3><i class="fa-solid fa-eye"></i> 預覽模式</h3>
+                        <p>直接看題本、參考答案與試題說明，適合先熟悉這一科的歷屆題型。</p>
+                    </label>
+                    <label class="mode-card {% if practice_mode == 'practice' %}active{% endif %}">
+                        <input type="radio" name="mode" value="practice" {% if practice_mode == 'practice' %}checked{% endif %}>
+                        <h3><i class="fa-solid fa-pen-ruler"></i> 練習模式</h3>
+                        <p>先看題本做練習，把答案和試題說明留到交卷後再展開。</p>
+                    </label>
+                </div>
+            </div>
+
+            <div class="cap-actions">
+                <button type="submit" class="cap-btn"><i class="fa-solid fa-arrow-right"></i> 進入這組歷屆材料</button>
+                <a class="cap-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-arrow-left"></i> 回刷題入口</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="cap-panel">
+        <div class="selector-head">
+            <div>
+                <h2>{{ selected_subject.label }}｜{{ mode_meta.label }}</h2>
+                <p>{{ mode_meta.hero_description }}</p>
+            </div>
+            <span class="cap-note"><i class="fa-solid fa-folder-tree"></i> 已選 {{ selected_years|length }} 個年份</span>
+        </div>
+
+        {% if cap_material_cards %}
+        <div class="material-grid">
+            {% for card in cap_material_cards %}
+            <article class="material-card">
+                <div class="material-top">
+                    <h3>{{ card.label }}</h3>
+                    <span class="subject-count">{{ selected_subject.label }}</span>
+                </div>
+                <p>這張卡保留官方題本、參考答案和試題說明。年份可以混合，但科目不會混進別科。</p>
+                <div class="material-links">
+                    {% if card.question.url %}
+                    <a href="{{ card.question.url }}" target="_blank" rel="noopener noreferrer" class="material-link">
+                        <i class="fa-solid fa-file-lines"></i> 開啟題本
+                    </a>
+                    {% endif %}
+                    {% if practice_mode == 'preview' %}
+                        {% if card.answer.url %}
+                        <a href="{{ card.answer.url }}" target="_blank" rel="noopener noreferrer" class="material-link">
+                            <i class="fa-solid fa-circle-check"></i> 參考答案
+                        </a>
+                        {% endif %}
+                        {% if card.explanation.url %}
+                        <a href="{{ card.explanation.url }}" target="_blank" rel="noopener noreferrer" class="material-link">
+                            <i class="fa-solid fa-book-open-reader"></i> 試題說明
+                        </a>
+                        {% endif %}
+                    {% else %}
+                    <details class="material-review">
+                        <summary>交卷後查看答案與試題說明</summary>
+                        <div class="material-links" style="margin-top:0.75rem;">
+                            {% if card.answer.url %}
+                            <a href="{{ card.answer.url }}" target="_blank" rel="noopener noreferrer" class="material-link">
+                                <i class="fa-solid fa-circle-check"></i> 參考答案
+                            </a>
+                            {% endif %}
+                            {% if card.explanation.url %}
+                            <a href="{{ card.explanation.url }}" target="_blank" rel="noopener noreferrer" class="material-link">
+                                <i class="fa-solid fa-book-open-reader"></i> 試題說明
+                            </a>
+                            {% endif %}
+                        </div>
+                    </details>
+                    {% endif %}
+                    {% if card.analysis_folder.url %}
+                    <a href="{{ card.analysis_folder.url }}" target="_blank" rel="noopener noreferrer" class="material-link">
+                        <i class="fa-solid fa-folder-open"></i> 官方分析資料夾
+                    </a>
+                    {% endif %}
+                </div>
+                {% if card.notes %}
+                <p>{{ card.notes }}</p>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            目前這組年份與科目還沒有整理出可用材料。你可以先換年份，或改看一般國中練習。
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

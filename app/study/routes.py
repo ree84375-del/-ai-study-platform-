@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 import random
 import json
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from sqlalchemy import or_
 from app.utils.i18n import get_text as _t
 from app.utils.question_bank_metadata import detect_booklet_label, extract_question_hierarchy
@@ -12,6 +13,9 @@ study = Blueprint('study', __name__)
 PRACTICE_MODE_PREVIEW = 'preview'
 PRACTICE_MODE_PRACTICE = 'practice'
 PRACTICE_BANK_LABEL = '一般國中練習'
+REPO_ROOT = Path(__file__).resolve().parents[2]
+CAP_MANIFEST_PATH = REPO_ROOT / 'data' / 'cap_review' / 'cap_manifest.json'
+GUIDE_MANIFEST_PATH = REPO_ROOT / 'data' / 'study_guides' / 'king_an_manifest.json'
 
 def get_current_room_name():
     """Returns the room name based on the current system time (Taiwan UTC+8)."""
@@ -169,6 +173,74 @@ PRACTICE_BRANCH_SECTIONS = [
         'icon': 'fa-compass-drafting',
         'description': '先挑生物、理化或地科，每一科都保留冊別、主章節與細主題。',
         'children': ['biology', 'integrated_science', 'earth_science'],
+    },
+]
+
+PRACTICE_TRACKS = [
+    {
+        'slug': 'general',
+        'label': '一般國中練習',
+        'icon': 'fa-school',
+        'description': '依照國文、英文、數學、社會、自然來做單元複習，保留冊別、主章節和細主題。',
+        'href_endpoint': 'study.practice_hub',
+        'badge': '分冊練習',
+        'accent': 'ink',
+    },
+    {
+        'slug': 'cap',
+        'label': '會考歷屆練習',
+        'icon': 'fa-file-pen',
+        'description': '先選年份，再選科目與模式。科目不混，年份可以單年或多年份混合。',
+        'href_endpoint': 'study.practice_cap_hub',
+        'badge': '102-114',
+        'accent': 'gold',
+    },
+    {
+        'slug': 'guides',
+        'label': 'AI 學習講義',
+        'icon': 'fa-folder-open',
+        'description': '整理全科金安教材下載入口，之後可以搭配一般國中練習一起使用。',
+        'href_endpoint': 'study.practice_guides',
+        'badge': '全科講義',
+        'accent': 'sage',
+    },
+]
+
+CAP_SUBJECTS = [
+    {
+        'slug': 'chinese',
+        'label': '國文',
+        'question_label': '國文科',
+        'icon': 'fa-book-open',
+        'description': '國文歷屆題本與答案、試題說明。',
+    },
+    {
+        'slug': 'english',
+        'label': '英語',
+        'question_label': '英語（閱讀）',
+        'icon': 'fa-language',
+        'description': '只收錄英語閱讀題本，不把聽力混進來。',
+    },
+    {
+        'slug': 'math',
+        'label': '數學',
+        'question_label': '數學科',
+        'icon': 'fa-calculator',
+        'description': '歷屆數學題本，搭配參考答案與試題說明。',
+    },
+    {
+        'slug': 'social',
+        'label': '社會',
+        'question_label': '社會科',
+        'icon': 'fa-landmark',
+        'description': '歷屆社會題本，可做跨年份同科複習。',
+    },
+    {
+        'slug': 'science',
+        'label': '自然',
+        'question_label': '自然科',
+        'icon': 'fa-flask',
+        'description': '歷屆自然題本，保留官方答案與說明。',
     },
 ]
 
@@ -407,6 +479,163 @@ def build_topic_scope_options(base_query, selected_topic=PRACTICE_TOPIC_ALL):
         all_description='保留目前科目、冊別與主章節，先看所有細主題。',
         icon='fa-bookmark',
     )
+
+
+def load_json_manifest(manifest_path):
+    if not manifest_path.exists():
+        return {}
+    try:
+        return json.loads(manifest_path.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def load_cap_manifest():
+    return load_json_manifest(CAP_MANIFEST_PATH)
+
+
+def load_guide_manifest():
+    return load_json_manifest(GUIDE_MANIFEST_PATH)
+
+
+def build_practice_tracks():
+    tracks = []
+    for definition in PRACTICE_TRACKS:
+        tracks.append({
+            **definition,
+            'href': url_for(definition['href_endpoint']),
+        })
+    return tracks
+
+
+def get_cap_years(manifest):
+    years = [str(item.get('year')).strip() for item in manifest.get('years', []) if str(item.get('year', '')).strip()]
+    years = sorted(set(years), reverse=True)
+    return years
+
+
+def parse_year_selection(year_values, available_years):
+    selected = []
+    seen = set()
+
+    for raw in year_values:
+        for chunk in str(raw or '').split(','):
+            year = chunk.strip()
+            if year and year in available_years and year not in seen:
+                seen.add(year)
+                selected.append(year)
+
+    if selected:
+        return selected
+
+    if available_years:
+        return [available_years[0]]
+
+    return []
+
+
+def resolve_cap_subject(subject_value):
+    normalized = normalize_subject_key(subject_value)
+    for definition in CAP_SUBJECTS:
+        if normalize_subject_key(definition['slug']) == normalized:
+            return definition
+    return CAP_SUBJECTS[0]
+
+
+def build_cap_subject_cards(manifest, selected_years, active_subject_slug):
+    year_lookup = {str(item.get('year')).strip(): item for item in manifest.get('years', [])}
+    cards = []
+
+    for definition in CAP_SUBJECTS:
+        count = 0
+        for year in selected_years:
+            year_entry = year_lookup.get(year, {})
+            subject_entry = next(
+                (item for item in year_entry.get('subjects', []) if item.get('slug') == definition['slug']),
+                None,
+            )
+            if subject_entry:
+                count += 1
+
+        cards.append({
+            **definition,
+            'count': count,
+            'available': count > 0,
+            'is_selected': definition['slug'] == active_subject_slug,
+        })
+
+    return cards
+
+
+def build_cap_material_cards(manifest, selected_years, subject_definition):
+    year_lookup = {str(item.get('year')).strip(): item for item in manifest.get('years', [])}
+    cards = []
+
+    for year in selected_years:
+        year_entry = year_lookup.get(year)
+        if not year_entry:
+            continue
+
+        subject_entry = next(
+            (item for item in year_entry.get('subjects', []) if item.get('slug') == subject_definition['slug']),
+            None,
+        )
+        if not subject_entry:
+            continue
+
+        cards.append({
+            'year': year,
+            'label': f'{year} 年 {subject_definition["label"]}',
+            'question': subject_entry.get('question', {}),
+            'answer': year_entry.get('answer', {}),
+            'explanation': year_entry.get('explanation', {}),
+            'analysis_folder': year_entry.get('analysis_folder', {}),
+            'notes': subject_entry.get('notes') or year_entry.get('notes') or '',
+        })
+
+    return cards
+
+
+def build_guide_subject_cards(manifest, active_subject_slug='all'):
+    practice_links = {
+        'chinese': url_for('study.practice_session', subject='chinese'),
+        'english': url_for('study.practice_session', subject='english'),
+        'math': url_for('study.practice_session', subject='math'),
+        'social': f"{url_for('study.practice_hub')}#branch-social",
+        'nature': f"{url_for('study.practice_hub')}#branch-nature",
+    }
+    cards = []
+    for item in manifest.get('subjects', []):
+        cards.append({
+            'slug': item.get('slug'),
+            'label': item.get('label'),
+            'icon': item.get('icon', 'fa-book'),
+            'description': item.get('description', ''),
+            'count': int(item.get('download_count', 0) or 0),
+            'category_count': len(item.get('categories', [])),
+            'is_selected': active_subject_slug in {'all', item.get('slug')},
+            'practice_href': practice_links.get(item.get('slug')),
+        })
+    return cards
+
+
+def filter_guide_subjects(manifest, active_subject_slug='all'):
+    practice_links = {
+        'chinese': url_for('study.practice_session', subject='chinese'),
+        'english': url_for('study.practice_session', subject='english'),
+        'math': url_for('study.practice_session', subject='math'),
+        'social': f"{url_for('study.practice_hub')}#branch-social",
+        'nature': f"{url_for('study.practice_hub')}#branch-nature",
+    }
+    subjects = []
+    for item in manifest.get('subjects', []):
+        subjects.append({
+            **item,
+            'practice_subject': practice_links.get(item.get('slug')),
+        })
+    if active_subject_slug in {'', 'all', None}:
+        return subjects
+    return [item for item in subjects if item.get('slug') == active_subject_slug]
 
 
 def build_subject_catalog():
@@ -878,6 +1107,37 @@ def build_selected_question_set(questions, selected_count):
 
 @study.route("/practice")
 @login_required
+def practice_entry():
+    from app.models import Question
+
+    cap_manifest = load_cap_manifest()
+    guide_manifest = load_guide_manifest()
+    tracks = build_practice_tracks()
+    total_questions = Question.query.count()
+    general_subject_count = sum(1 for definition in PRACTICE_SUBJECTS if definition['slug'] != 'all' and definition.get('hub_visible', True))
+    cap_year_count = len(get_cap_years(cap_manifest))
+    cap_material_count = sum(len(item.get('subjects', [])) for item in cap_manifest.get('years', []))
+    guide_subject_count = len(guide_manifest.get('subjects', []))
+    guide_download_count = sum(int(item.get('download_count', 0) or 0) for item in guide_manifest.get('subjects', []))
+
+    return render_template(
+        'practice_entry.html',
+        title=_t('nav_practice', current_user.language),
+        tracks=tracks,
+        total_questions=total_questions,
+        general_subject_count=general_subject_count,
+        cap_year_count=cap_year_count,
+        cap_material_count=cap_material_count,
+        guide_subject_count=guide_subject_count,
+        guide_download_count=guide_download_count,
+    )
+
+
+study.add_url_rule("/practice", endpoint="practice", view_func=practice_entry)
+
+
+@study.route("/practice/general")
+@login_required
 def practice_hub():
     subject_cards = build_subject_catalog()
     review_center_cards, branch_sections = build_review_center_catalog(subject_cards)
@@ -904,7 +1164,51 @@ def practice_hub():
     )
 
 
-study.add_url_rule("/practice", endpoint="practice", view_func=practice_hub)
+@study.route("/practice/cap")
+@login_required
+def practice_cap_hub():
+    cap_manifest = load_cap_manifest()
+    available_years = get_cap_years(cap_manifest)
+    selected_years = parse_year_selection(request.args.getlist('years') or [request.args.get('years', '')], available_years)
+    selected_subject = resolve_cap_subject(request.args.get('subject'))
+    practice_mode = normalize_practice_mode(request.args.get('mode') or PRACTICE_MODE_PREVIEW)
+    mode_meta = get_practice_mode_meta(practice_mode)
+    subject_cards = build_cap_subject_cards(cap_manifest, selected_years, selected_subject['slug'])
+    material_cards = build_cap_material_cards(cap_manifest, selected_years, selected_subject)
+    all_years_query = ','.join(reversed(available_years)) if available_years else ''
+
+    return render_template(
+        'practice_cap_hub.html',
+        title='會考歷屆練習',
+        practice_mode=practice_mode,
+        mode_meta=mode_meta,
+        available_years=available_years,
+        selected_years=selected_years,
+        selected_years_query=','.join(selected_years),
+        all_years_query=all_years_query,
+        selected_subject=selected_subject,
+        cap_subject_cards=subject_cards,
+        cap_material_cards=material_cards,
+        question_bank_count=sum(card['count'] for card in subject_cards),
+    )
+
+
+@study.route("/practice/guides")
+@login_required
+def practice_guides():
+    guide_manifest = load_guide_manifest()
+    active_subject = normalize_subject_key(request.args.get('subject') or 'all')
+    subjects = filter_guide_subjects(guide_manifest, active_subject)
+    subject_cards = build_guide_subject_cards(guide_manifest, active_subject)
+
+    return render_template(
+        'practice_guides.html',
+        title='AI 學習講義',
+        guide_subject_cards=subject_cards,
+        guide_subjects=subjects,
+        active_subject=active_subject,
+        guide_download_count=sum(int(item.get('download_count', 0) or 0) for item in guide_manifest.get('subjects', [])),
+    )
 
 @study.route("/practice/session")
 @login_required

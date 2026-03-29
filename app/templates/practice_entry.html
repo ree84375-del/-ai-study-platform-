@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+{% block title %}{{ _t('practice_title') }}{% endblock %}
+{% block content %}
+<style>
+    .entry-shell {
+        --paper: rgba(255, 251, 242, 0.96);
+        --paper-soft: rgba(250, 242, 227, 0.94);
+        --line: rgba(214, 183, 112, 0.22);
+        --ink: #3b3024;
+        --subtle: #796a55;
+        --shadow: 0 24px 46px rgba(122, 96, 54, 0.12);
+        display: grid;
+        gap: 1.45rem;
+    }
+
+    .entry-hero,
+    .entry-panel {
+        border-radius: 32px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .entry-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 2.15rem;
+        background:
+            radial-gradient(circle at top right, rgba(255, 214, 132, 0.34), transparent 32%),
+            linear-gradient(140deg, rgba(255, 252, 246, 0.98), rgba(249, 239, 220, 0.95));
+    }
+
+    .entry-hero::after {
+        content: "";
+        position: absolute;
+        right: -68px;
+        bottom: -84px;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(205, 165, 92, 0.2), transparent 70%);
+        pointer-events: none;
+    }
+
+    .entry-kicker,
+    .entry-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.52rem 0.95rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .entry-kicker {
+        background: rgba(59, 48, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .entry-note {
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.9rem;
+    }
+
+    .entry-copy {
+        max-width: 760px;
+        display: grid;
+        gap: 0.9rem;
+        margin-top: 1.15rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .entry-copy h1 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: clamp(2.1rem, 3vw, 3.1rem);
+        line-height: 1.18;
+    }
+
+    .entry-copy p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.85;
+        font-size: 1rem;
+    }
+
+    .entry-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.95rem;
+        margin-top: 1.6rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .entry-stat {
+        padding: 1rem 1.05rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(8px);
+    }
+
+    .entry-stat-label {
+        display: block;
+        color: #8a7a61;
+        font-size: 0.84rem;
+        margin-bottom: 0.35rem;
+        letter-spacing: 0.04em;
+    }
+
+    .entry-stat-value {
+        color: #2f261b;
+        font-size: 1.65rem;
+        font-weight: 900;
+    }
+
+    .entry-panel {
+        padding: 1.45rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .panel-head h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: 1.5rem;
+    }
+
+    .panel-head p {
+        margin: 0.45rem 0 0;
+        color: var(--subtle);
+        line-height: 1.75;
+    }
+
+    .track-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+    }
+
+    .track-card {
+        display: grid;
+        gap: 1rem;
+        min-height: 240px;
+        padding: 1.45rem;
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 244, 233, 0.94));
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 18px 34px rgba(132, 110, 70, 0.13);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .track-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 40px rgba(132, 110, 70, 0.17);
+    }
+
+    .track-card.accent-ink { border-color: rgba(79, 66, 50, 0.24); }
+    .track-card.accent-gold { border-color: rgba(219, 172, 90, 0.3); }
+    .track-card.accent-sage { border-color: rgba(113, 153, 111, 0.3); }
+
+    .track-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .track-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: rgba(255, 247, 228, 0.98);
+        color: #87663a;
+        font-size: 1.5rem;
+    }
+
+    .track-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
+    .track-card h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.55rem;
+    }
+
+    .track-card p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.8;
+    }
+
+    .track-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        color: #7e6646;
+        font-weight: 800;
+    }
+
+    .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.85rem;
+    }
+
+    .mini-card {
+        padding: 1rem 1.05rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.72);
+    }
+
+    .mini-card strong {
+        display: block;
+        color: #302619;
+        margin-bottom: 0.35rem;
+    }
+
+    .mini-card span {
+        color: var(--subtle);
+        line-height: 1.7;
+        font-size: 0.93rem;
+    }
+
+    @media (max-width: 720px) {
+        .entry-hero,
+        .entry-panel {
+            border-radius: 24px;
+        }
+
+        .entry-hero,
+        .entry-panel {
+            padding: 1.25rem;
+        }
+    }
+</style>
+
+<div class="entry-shell">
+    <section class="entry-hero">
+        <span class="entry-kicker"><i class="fa-solid fa-compass"></i> 開始刷題專區</span>
+        <div class="entry-copy">
+            <h1>先選練習類型，再進到對應入口，讓一般國中練習、會考歷屆與講義不再混成一頁。</h1>
+            <p>這裡先把練習流分清楚。一般國中練習保留冊別與主題；會考歷屆先分年份與科目；講義則整理成全科下載與搭配練習入口，之後再往下細分模式。</p>
+        </div>
+        <div class="entry-stats">
+            <div class="entry-stat">
+                <span class="entry-stat-label">一般題庫總數</span>
+                <span class="entry-stat-value">{{ total_questions }}</span>
+            </div>
+            <div class="entry-stat">
+                <span class="entry-stat-label">一般練習科目</span>
+                <span class="entry-stat-value">{{ general_subject_count }}</span>
+            </div>
+            <div class="entry-stat">
+                <span class="entry-stat-label">會考年份</span>
+                <span class="entry-stat-value">{{ cap_year_count }}</span>
+            </div>
+            <div class="entry-stat">
+                <span class="entry-stat-label">講義下載數</span>
+                <span class="entry-stat-value">{{ guide_download_count }}</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="entry-panel">
+        <div class="panel-head">
+            <div>
+                <h2>選擇練習入口</h2>
+                <p>先從這三條入口挑一條，再進去做更細的年份、科目、模式與講義操作。</p>
+            </div>
+            <span class="entry-note"><i class="fa-solid fa-arrow-down-wide-short"></i> 先分流，再往下選細項</span>
+        </div>
+
+        <div class="track-grid">
+            {% for track in tracks %}
+            <a href="{{ track.href }}" class="track-card accent-{{ track.accent }}">
+                <div class="track-head">
+                    <span class="track-icon"><i class="fa-solid {{ track.icon }}"></i></span>
+                    <span class="track-badge">{{ track.badge }}</span>
+                </div>
+                <div>
+                    <h3>{{ track.label }}</h3>
+                    <p>{{ track.description }}</p>
+                </div>
+                <div class="track-footer">
+                    <span>進入 {{ track.label }}</span>
+                    <span>開始 <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="entry-panel">
+        <div class="panel-head">
+            <div>
+                <h2>目前整理進度</h2>
+                <p>一般國中題庫已經整理進站；會考歷屆和全科講義則會從各自的資料來源分開管理，不會再和一般題庫混在一起。</p>
+            </div>
+        </div>
+        <div class="mini-grid">
+            <div class="mini-card">
+                <strong>一般國中練習</strong>
+                <span>九科題庫保留冊別、主章節與細主題，適合平時單元補強。</span>
+            </div>
+            <div class="mini-card">
+                <strong>會考歷屆練習</strong>
+                <span>從 102 到 114 年整理官方題本、參考答案與試題說明，科目不混、年份可混。</span>
+            </div>
+            <div class="mini-card">
+                <strong>AI 學習講義</strong>
+                <span>金安教材會分科整理到獨立資料夾，並在網站保留下載與搭配練習入口。</span>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
