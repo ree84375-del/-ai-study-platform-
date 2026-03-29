@@ -1,7 +1,7 @@
 {
   "title": "會考歷屆練習來源",
   "source_url": "https://cap.rcpet.edu.tw/examination.html",
-  "generated_at": "2026-03-29T20:29:55",
+  "generated_at": "2026-03-29T20:54:10",
   "years": [
     {
       "year": "102",
@@ -278,8 +278,8 @@
       "source_url": "https://cap.rcpet.edu.tw/exam/105/105exam.html",
       "answer": {
         "label": "參考答案",
-        "url": "https://drive.google.com/file/d/1K3D-op0bCY_LOAPJw4uOS73AfYyPv1Ne/view?usp=drive_link",
-        "download_url": "https://drive.google.com/uc?export=download&id=1K3D-op0bCY_LOAPJw4uOS73AfYyPv1Ne",
+        "url": "https://drive.google.com/file/d/15bDpOsfOw4ucIgdCwH5tggq7TVTlbap7/view?usp=drive_link",
+        "download_url": "https://drive.google.com/uc?export=download&id=15bDpOsfOw4ucIgdCwH5tggq7TVTlbap7",
         "local_path": "C:\\Users\\Good PC\\Desktop\\AI基礎學習平台專案\\data\\cap_practice_sources\\105\\shared\\105_answers.pdf",
         "desktop_pdf_path": "C:\\Users\\Good PC\\Desktop\\國中題庫pdf\\會考歷屆練習\\105\\shared\\105_answers.pdf",
         "word_path": "C:\\Users\\Good PC\\Desktop\\AI基礎學習平台專案\\data\\cap_practice_word\\105\\shared\\105_answers.docx",
@@ -300,8 +300,8 @@
           "label": "國文",
           "question": {
             "label": "國文科",
-            "url": "https://drive.google.com/file/d/1zTjxfyN2tCJny9QAhkQbhZpwPc7bTDME/view?usp=drive_link",
-            "download_url": "https://drive.google.com/uc?export=download&id=1zTjxfyN2tCJny9QAhkQbhZpwPc7bTDME",
+            "url": "https://drive.google.com/file/d/1gpds3aItngE56h2nuTCYZTPWB0x_ugUn/view?usp=drive_link",
+            "download_url": "https://drive.google.com/uc?export=download&id=1gpds3aItngE56h2nuTCYZTPWB0x_ugUn",
             "local_path": "C:\\Users\\Good PC\\Desktop\\AI基礎學習平台專案\\data\\cap_practice_sources\\105\\chinese\\105_chinese.pdf",
             "desktop_pdf_path": "C:\\Users\\Good PC\\Desktop\\國中題庫pdf\\會考歷屆練習\\105\\chinese\\105_chinese.pdf",
             "word_path": "C:\\Users\\Good PC\\Desktop\\AI基礎學習平台專案\\data\\cap_practice_word\\105\\chinese\\105_chinese.docx",
@@ -326,8 +326,8 @@
           "label": "數學",
           "question": {
             "label": "數學科",
-            "url": "https://drive.google.com/file/d/1CEa5VRMoZzaBfCfRAK6M6Sl42I_rTofy/view?usp=drive_link",
-            "download_url": "https://drive.google.com/uc?export=download&id=1CEa5VRMoZzaBfCfRAK6M6Sl42I_rTofy",
+            "url": "https://drive.google.com/file/d/1dmMcIsjV1wA-UmKsQ-DiiwY-BzQx-lA1/view?usp=drive_link",
+            "download_url": "https://drive.google.com/uc?export=download&id=1dmMcIsjV1wA-UmKsQ-DiiwY-BzQx-lA1",
             "local_path": "C:\\Users\\Good PC\\Desktop\\AI基礎學習平台專案\\data\\cap_practice_sources\\105\\math\\105_math.pdf",
             "desktop_pdf_path": "C:\\Users\\Good PC\\Desktop\\國中題庫pdf\\會考歷屆練習\\105\\math\\105_math.pdf",
             "word_path": "C:\\Users\\Good PC\\Desktop\\AI基礎學習平台專案\\data\\cap_practice_word\\105\\math\\105_math.docx",
@@ -361,7 +361,13 @@
           }
         }
       ],
-      "issues": []
+      "issues": [
+        "duplicate_label:參考答案:2",
+        "duplicate_label:國文科:2",
+        "duplicate_label:數學科:2",
+        "duplicate_label:第一題:2",
+        "duplicate_label:第二題:2"
+      ]
     },
     {
       "year": "106",

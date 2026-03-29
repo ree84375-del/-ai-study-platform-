@@ -12,7 +12,9 @@ from pathlib import Path
 
 import fitz
 import requests
+import pytesseract
 from docx import Document
+from PIL import Image
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +23,7 @@ OCR_ROOT = DATA_ROOT / "ocr"
 OCR_TESSDATA_DIR = OCR_ROOT / "tessdata"
 TESSERACT_URLS = {
     "chi_tra": "https://github.com/tesseract-ocr/tessdata_best/raw/main/chi_tra.traineddata",
+    "chi_tra_vert": "https://github.com/tesseract-ocr/tessdata_best/raw/main/chi_tra_vert.traineddata",
     "eng": "https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata",
 }
 TESSERACT_CANDIDATES = [
@@ -125,7 +128,11 @@ def ensure_ocr_assets(languages: str = "chi_tra+eng") -> dict[str, str]:
     if not tesseract_path:
         raise RuntimeError("Tesseract OCR is not installed on this machine.")
 
-    for language in {token.strip() for token in languages.split("+") if token.strip()}:
+    requested_languages = {token.strip() for token in languages.split("+") if token.strip()}
+    if "chi_tra" in requested_languages:
+        requested_languages.add("chi_tra_vert")
+
+    for language in requested_languages:
         ensure_ocr_language(language)
 
     return {
@@ -171,6 +178,49 @@ def run_tesseract_on_image(
         if not output_path.exists():
             return ""
         return output_path.read_text(encoding="utf-8", errors="ignore")
+
+
+def run_tesseract_data_on_image(
+    image_bytes: bytes,
+    languages: str = "chi_tra+eng",
+    psm: int = 6,
+) -> list[dict]:
+    assets = ensure_ocr_assets(languages)
+    pytesseract.pytesseract.tesseract_cmd = assets["tesseract_path"]
+    image = Image.open(io.BytesIO(image_bytes))
+    data = pytesseract.image_to_data(
+        image,
+        lang=assets["languages"],
+        config=f'--tessdata-dir "{assets["tessdata_dir"]}" --psm {psm}',
+        output_type=pytesseract.Output.DICT,
+    )
+    words = []
+    total = len(data.get("text", []))
+    for index in range(total):
+        text = normalize_whitespace(data["text"][index])
+        if not text:
+            continue
+        left = float(data["left"][index])
+        top = float(data["top"][index])
+        width = float(data["width"][index])
+        height = float(data["height"][index])
+        confidence_raw = str(data.get("conf", [""] * total)[index]).strip()
+        try:
+            confidence = float(confidence_raw)
+        except ValueError:
+            confidence = -1.0
+        words.append(
+            {
+                "x0": left,
+                "y0": top,
+                "x1": left + width,
+                "y1": top + height,
+                "text": text,
+                "confidence": confidence,
+                "source": "ocr",
+            }
+        )
+    return words
 
 
 def render_page_png(page: fitz.Page, dpi: int = 220) -> bytes:
@@ -286,3 +336,24 @@ def read_words(pdf_path: Path, page_number: int) -> list[dict]:
             if normalize_whitespace(text):
                 words.append({"x0": x0, "y0": y0, "x1": x1, "y1": y1, "text": text})
         return words
+
+
+def read_words_with_ocr(
+    pdf_path: Path,
+    page_number: int,
+    languages: str = "chi_tra+eng",
+    direct_word_threshold: int = 20,
+    psm: int = 6,
+) -> list[dict]:
+    direct_words = read_words(pdf_path, page_number)
+    if len(direct_words) >= direct_word_threshold:
+        return direct_words
+
+    with fitz.open(pdf_path) as document:
+        page = document[page_number - 1]
+        image_bytes = render_page_png(page)
+    try:
+        ocr_words = run_tesseract_data_on_image(image_bytes, languages=languages, psm=psm)
+    except Exception:
+        return direct_words
+    return ocr_words or direct_words

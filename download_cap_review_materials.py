@@ -151,8 +151,16 @@ def render_docx_for_pdf(pdf_path: Path, output_path: Path, title: str, metadata:
 def collect_year_materials(session: requests.Session, year: str) -> dict[str, object]:
     page_url = YEAR_PAGE_TEMPLATE.format(year=year)
     links = parse_links(fetch_html(session, page_url), page_url)
-    link_map = {label: url for url, label in links}
+    link_map = {}
+    duplicate_labels: dict[str, int] = {}
+    for url, label in links:
+        if label in link_map:
+            duplicate_labels[label] = duplicate_labels.get(label, 1) + 1
+            continue
+        link_map[label] = url
     issues: list[str] = []
+    for label, count in sorted(duplicate_labels.items()):
+        issues.append(f"duplicate_label:{label}:{count}")
 
     shared_dir = ensure_dir(PROJECT_PDF_ROOT / year / "shared")
     desktop_shared_dir = ensure_dir(DESKTOP_PDF_ROOT / year / "shared")

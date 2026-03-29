@@ -6,6 +6,7 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
+import fitz
 import requests
 
 from app.utils.document_ingest import (
@@ -15,7 +16,8 @@ from app.utils.document_ingest import (
     extract_pdf_pages,
     normalize_multiline_text,
     normalize_whitespace,
-    read_words,
+    render_page_png,
+    run_tesseract_on_image,
     save_extraction_docx,
     slugify,
     write_json,
@@ -35,17 +37,22 @@ SUBJECT_LABELS = {
     "social": "社會",
     "science": "自然",
 }
-ANSWER_SUBJECT_ORDER_6 = ["chinese", "english", "english_listening", "math", "social", "science"]
-ANSWER_SUBJECT_ORDER_5 = ["chinese", "english", "math", "social", "science"]
-ANSWER_HEADER_MAP = {
-    "國文": "chinese",
-    "數學": "math",
-    "社會": "social",
-    "自然": "science",
-    "閱讀": "english",
-    "(閱讀)": "english",
-    "聽力": "english_listening",
-    "(聽力)": "english_listening",
+ANSWER_SEQUENCE_MAP = {
+    6: {
+        6: ["chinese", "english", "english_listening", "math", "social", "science"],
+        5: ["chinese", "english", "math", "social", "science"],
+        4: ["chinese", "english", "social", "science"],
+        3: ["english", "social", "science"],
+        2: ["social", "science"],
+        1: ["social"],
+    },
+    5: {
+        5: ["chinese", "english", "math", "social", "science"],
+        4: ["chinese", "english", "social", "science"],
+        3: ["english", "social", "science"],
+        2: ["social", "science"],
+        1: ["social"],
+    },
 }
 OPTION_MARKERS = {
     "": "(A)",
@@ -65,24 +72,98 @@ def load_cap_manifest() -> dict:
     return json.loads(CAP_SOURCE_MANIFEST.read_text(encoding="utf-8"))
 
 
-def group_words_by_row(words: list[dict], tolerance: float = 3.0) -> list[list[dict]]:
-    rows = []
-    for word in sorted(words, key=lambda item: (item["y0"], item["x0"])):
-        if not rows or abs(rows[-1][0]["y0"] - word["y0"]) > tolerance:
-            rows.append([word])
-        else:
-            rows[-1].append(word)
+def normalize_answer_token(text: str) -> str:
+    token = normalize_whitespace(text).upper()
+    token = token.replace("（", "(").replace("）", ")")
+    token = token.strip(".、)")
+    if token in {"A", "B", "C", "D"}:
+        return token
+    if token in {"(A)", "(B)", "(C)", "(D)"}:
+        return token[1]
+    if token and token[0] in {"A", "B", "C", "D"}:
+        return token[0]
+    return ""
+
+
+def normalize_answer_number(number: int, previous_number: int | None) -> int:
+    if previous_number is None:
+        return number
+    if number == previous_number + 1:
+        return number
+    if number <= previous_number:
+        for delta in (10, 20, 30):
+            if number + delta == previous_number + 1:
+                return number + delta
+    return number
+
+
+def iterate_answer_tokens(text: str) -> list[str]:
+    tokens = []
+    for raw_line in str(text or "").splitlines():
+        line = normalize_whitespace(raw_line)
+        if not line:
+            continue
+        tokens.extend(chunk for chunk in re.split(r"\s+", line) if chunk)
+    return tokens
+
+
+def parse_answer_rows(text: str) -> list[tuple[int, list[str]]]:
+    rows: list[tuple[int, list[str]]] = []
+    current_number = None
+    current_answers: list[str] = []
+
+    for token in iterate_answer_tokens(text):
+        number_match = re.fullmatch(r"\d{1,2}", token)
+        if number_match:
+            if current_number is not None and current_answers:
+                rows.append((current_number, current_answers))
+            current_number = int(number_match.group(0))
+            current_answers = []
+            continue
+
+        answer = normalize_answer_token(token)
+        if current_number is not None and answer:
+            current_answers.append(answer)
+
+    if current_number is not None and current_answers:
+        rows.append((current_number, current_answers))
     return rows
 
 
-def cluster_positions(values: list[float], tolerance: float = 26.0) -> list[float]:
-    clusters = []
-    for value in sorted(values):
-        if not clusters or abs(clusters[-1][-1] - value) > tolerance:
-            clusters.append([value])
-        else:
-            clusters[-1].append(value)
-    return [sum(cluster) / len(cluster) for cluster in clusters]
+def score_answer_text(text: str) -> tuple[int, list[tuple[int, int]]]:
+    parseable_rows = []
+    for number, answers in parse_answer_rows(text):
+        if number is not None and answers:
+            parseable_rows.append((number, len(answers)))
+    score = len(parseable_rows) * 10 + sum(length for _, length in parseable_rows)
+    return score, parseable_rows
+
+
+def extract_answer_page_text(answer_pdf_path: Path, page_number: int) -> str:
+    with fitz.open(answer_pdf_path) as document:
+        page = document[page_number - 1]
+        direct_text = normalize_multiline_text(page.get_text("text"))
+        candidates = [direct_text] if direct_text else []
+        for dpi, languages, psm in (
+            (220, "eng", 4),
+            (220, "chi_tra+eng", 4),
+            (300, "eng", 4),
+            (300, "chi_tra+eng", 4),
+        ):
+            try:
+                ocr_text = normalize_multiline_text(
+                    run_tesseract_on_image(render_page_png(page, dpi=dpi), languages=languages, psm=psm)
+                )
+            except Exception:
+                ocr_text = ""
+            if ocr_text:
+                candidates.append(ocr_text)
+    scored = sorted(
+        ((score_answer_text(candidate)[0], candidate) for candidate in candidates if candidate),
+        key=lambda item: item[0],
+        reverse=True,
+    )
+    return scored[0][1] if scored else ""
 
 
 def parse_answer_key(answer_pdf_path: Path) -> dict[str, dict[int, str]]:
@@ -95,42 +176,31 @@ def parse_answer_key(answer_pdf_path: Path) -> dict[str, dict[int, str]]:
         "english_listening": {},
     }
 
-    for page_number in range(1, 4):
-        try:
-            words = read_words(answer_pdf_path, page_number)
-        except Exception:
-            continue
+    with fitz.open(answer_pdf_path) as document:
+        page_total = document.page_count
 
-        header_columns = {}
-        for word in words:
-            token = normalize_whitespace(word["text"])
-            mapped = ANSWER_HEADER_MAP.get(token)
-            if not mapped:
+    previous_number = None
+    max_row_width = 0
+    for page_number in range(1, page_total + 1):
+        page_text = extract_answer_page_text(answer_pdf_path, page_number)
+        _, parseable_rows = score_answer_text(page_text)
+        if parseable_rows:
+            max_row_width = max(max_row_width, max(length for _, length in parseable_rows))
+
+        for question_number, answers in parse_answer_rows(page_text):
+            if not answers:
                 continue
-            existing = header_columns.get(mapped)
-            if existing is None or word["x0"] < existing:
-                header_columns[mapped] = word["x0"]
+            question_number = normalize_answer_number(question_number, previous_number)
+            previous_number = question_number
 
-        page_subject_order = [subject for subject, _ in sorted(header_columns.items(), key=lambda item: item[1])]
-        page_centers = [header_columns[subject] for subject in page_subject_order]
-
-        if len(page_centers) < 2:
-            continue
-
-        for row in group_words_by_row(words):
-            row = sorted(row, key=lambda item: item["x0"])
-            texts = [normalize_whitespace(item["text"]) for item in row if normalize_whitespace(item["text"])]
-            if not texts:
+            sequence_size = 6 if max_row_width >= 6 else 5
+            subject_order = ANSWER_SEQUENCE_MAP[sequence_size].get(len(answers), [])
+            if not subject_order:
                 continue
-            if not re.fullmatch(r"\d{1,2}", texts[0]):
-                continue
-            question_number = int(texts[0])
-            for item in row[1:]:
-                token = normalize_whitespace(item["text"])
-                if re.fullmatch(r"[A-D]", token):
-                    nearest_index = min(range(len(page_centers)), key=lambda idx: abs(page_centers[idx] - item["x0"]))
-                    if nearest_index < len(page_subject_order):
-                        subject_answers[page_subject_order[nearest_index]][question_number] = token
+            for subject_slug, answer in zip(subject_order, answers):
+                if subject_slug == "english_listening":
+                    continue
+                subject_answers[subject_slug][question_number] = answer
 
     visible_subjects = {subject for subject, mapping in subject_answers.items() if mapping and subject != "english_listening"}
     if not visible_subjects:
