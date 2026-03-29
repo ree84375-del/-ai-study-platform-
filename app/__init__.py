@@ -144,12 +144,23 @@ def create_app():
     csrf.init_app(app)
     oauth.init_app(app)
     
-    # Auto-initialize SQLite tables if needed
-    if db_uri.startswith('sqlite:'):
-        with app.app_context():
-            from app import models
+    with app.app_context():
+        from app import models
+
+        # Auto-initialize SQLite tables if needed
+        if db_uri.startswith('sqlite:'):
             db.create_all()
             app.logger.info("Local SQLite initialized/verified.")
+
+        try:
+            from app.utils.bundled_question_bank import seed_bundled_question_banks
+
+            sync_results = seed_bundled_question_banks(logger=app.logger)
+            synced_subjects = [item["subject"] for item in sync_results if item.get("status") == "synced"]
+            if synced_subjects:
+                app.logger.info("Bundled question banks synced: %s", ", ".join(synced_subjects))
+        except Exception as exc:
+            app.logger.error(f"Bundled question bank sync skipped due to error: {exc}")
 
     app.logger.info("Extensions initialized.")
 
