@@ -1,3 +1,5 @@
+import os
+
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
 from flask_login import login_required, current_user
 import random
@@ -28,6 +30,10 @@ from app.utils.study_assets import (
 )
 
 study = Blueprint('study', __name__)
+
+
+def is_general_question_bank_enabled():
+    return os.environ.get('ENABLE_GENERAL_QUESTION_BANK', '').strip().lower() in {'1', 'true', 'yes', 'on'}
 
 PRACTICE_MODE_PREVIEW = 'preview'
 PRACTICE_MODE_PRACTICE = 'practice'
@@ -663,7 +669,10 @@ def filter_guide_subjects(manifest, active_subject_slug='all'):
 def build_subject_catalog():
     from app.models import Question
 
-    questions = Question.query.with_entities(Question.subject, Question.content_text).all()
+    if not is_general_question_bank_enabled():
+        questions = []
+    else:
+        questions = Question.query.with_entities(Question.subject, Question.content_text).all()
     counts = {definition['slug']: 0 for definition in PRACTICE_SUBJECTS if definition['slug'] != 'all'}
     extras = {}
     seen_pairs = set()
@@ -854,6 +863,13 @@ def build_practice_question_query(
 
     definition = resolve_subject_definition(subject_value)
     query = Question.query
+
+    if not is_general_question_bank_enabled():
+        if definition and definition['slug'] != 'all':
+            return definition, query.filter(Question.id < 0)
+        if subject_value and normalize_subject_key(subject_value) != 'all':
+            return build_custom_subject_definition(subject_value), query.filter(Question.id < 0)
+        return resolve_subject_definition('all'), query.filter(Question.id < 0)
 
     if definition and definition['slug'] != 'all':
         aliases = sorted({definition['label'], *definition.get('aliases', [])})

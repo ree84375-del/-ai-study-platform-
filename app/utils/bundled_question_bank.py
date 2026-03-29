@@ -62,6 +62,10 @@ def normalize_question_text(text: str) -> str:
     return " ".join((text or "").replace("\u3000", " ").replace("\xa0", " ").split())
 
 
+def get_bundled_subjects() -> list[str]:
+    return [bank.subject for bank in BUNDLED_QUESTION_BANKS]
+
+
 def get_value(row: dict[str, str], field_name: str) -> str:
     for key in FIELD_ALIASES.get(field_name, [field_name]):
         value = row.get(key)
@@ -212,6 +216,32 @@ def get_subject_count(subject: str) -> int:
     from app.models import Question
 
     return Question.query.filter_by(subject=subject).count()
+
+
+def clear_bundled_question_banks(logger=None) -> dict[str, int]:
+    from app.models import Question
+
+    ensure_sync_table()
+    bundled_subjects = get_bundled_subjects()
+    deleted_questions = (
+        db.session.query(Question)
+        .filter(Question.subject.in_(bundled_subjects))
+        .delete(synchronize_session=False)
+    )
+    deleted_sync_rows = db.session.execute(text(f"DELETE FROM {SYNC_TABLE}")).rowcount or 0
+    db.session.commit()
+
+    summary = {
+        "deleted_questions": int(deleted_questions or 0),
+        "deleted_sync_rows": int(deleted_sync_rows),
+    }
+    if logger:
+        logger.info(
+            "Cleared bundled question banks: deleted_questions=%s deleted_sync_rows=%s",
+            summary["deleted_questions"],
+            summary["deleted_sync_rows"],
+        )
+    return summary
 
 
 def import_csv_to_current_db(csv_path: Path, subject: str) -> dict[str, int]:
