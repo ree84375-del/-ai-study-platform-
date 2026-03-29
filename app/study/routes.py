@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 import random
 import json
 from datetime import datetime, timedelta, timezone
+from sqlalchemy import or_
 from app.utils.i18n import get_text as _t
 
 study = Blueprint('study', __name__)
@@ -68,6 +69,17 @@ PRACTICE_SUBJECT_GROUPS = [
     },
 ]
 
+PRACTICE_SCOPE_ALL = 'all'
+PRACTICE_BOOKLETS = [
+    {'query_value': PRACTICE_SCOPE_ALL, 'label': '總複習', 'short_label': '總複習', 'description': '先不分冊，保留目前題庫順序做整科瀏覽或整科練習。'},
+    {'query_value': '第一冊', 'label': '第一冊', 'short_label': '一冊', 'description': '保留第一冊題庫順序，只做第一冊。'},
+    {'query_value': '第二冊', 'label': '第二冊', 'short_label': '二冊', 'description': '保留第二冊題庫順序，只做第二冊。'},
+    {'query_value': '第三冊', 'label': '第三冊', 'short_label': '三冊', 'description': '保留第三冊題庫順序，只做第三冊。'},
+    {'query_value': '第四冊', 'label': '第四冊', 'short_label': '四冊', 'description': '保留第四冊題庫順序，只做第四冊。'},
+    {'query_value': '第五冊', 'label': '第五冊', 'short_label': '五冊', 'description': '保留第五冊題庫順序，只做第五冊。'},
+    {'query_value': '第六冊', 'label': '第六冊', 'short_label': '六冊', 'description': '保留第六冊題庫順序，只做第六冊。'},
+]
+
 
 def normalize_subject_key(value):
     return ''.join(str(value or '').strip().lower().split())
@@ -103,6 +115,59 @@ def resolve_subject_definition(subject_value):
     if not normalized:
         return None
     return SUBJECT_LOOKUP.get(normalized)
+
+
+def normalize_booklet_filter(value):
+    normalized = normalize_subject_key(value)
+    if not normalized or normalized in {'all', 'allbooks', 'total', 'review', '總複習'}:
+        return PRACTICE_SCOPE_ALL
+    for booklet in PRACTICE_BOOKLETS:
+        if normalize_subject_key(booklet['query_value']) == normalized:
+            return booklet['query_value']
+    return PRACTICE_SCOPE_ALL
+
+
+def detect_booklet_label(category_value='', tags_value=''):
+    combined = f"{category_value or ''} {tags_value or ''}"
+    for booklet in PRACTICE_BOOKLETS[1:]:
+        if booklet['query_value'] in combined:
+            return booklet['query_value']
+    return ''
+
+
+def build_booklet_scope_options(base_query, selected_booklet=PRACTICE_SCOPE_ALL):
+    from app.models import Question
+
+    rows = base_query.with_entities(Question.category, Question.tags).all()
+    counts = {booklet['query_value']: 0 for booklet in PRACTICE_BOOKLETS[1:]}
+    total_count = len(rows)
+
+    for category_value, tags_value in rows:
+        detected = detect_booklet_label(category_value or '', tags_value or '')
+        if detected:
+            counts[detected] += 1
+
+    options = []
+    selected_booklet = normalize_booklet_filter(selected_booklet)
+    for booklet in PRACTICE_BOOKLETS:
+        query_value = booklet['query_value']
+        count = total_count if query_value == PRACTICE_SCOPE_ALL else counts.get(query_value, 0)
+        options.append({
+            **booklet,
+            'count': count,
+            'available': count > 0,
+            'is_selected': selected_booklet == query_value,
+        })
+
+    return options
+
+
+def resolve_selected_booklet(booklet_options, requested_booklet):
+    normalized = normalize_booklet_filter(requested_booklet)
+    selected = next((item for item in booklet_options if item['query_value'] == normalized and item['available']), None)
+    if selected:
+        return selected
+    return next((item for item in booklet_options if item['query_value'] == PRACTICE_SCOPE_ALL), booklet_options[0])
 
 
 def build_subject_catalog():
@@ -204,7 +269,7 @@ def build_grouped_subject_catalog(subject_cards):
     return featured_card, grouped_sections
 
 
-def build_practice_question_query(subject_value=None):
+def build_practice_question_query(subject_value=None, booklet_value=PRACTICE_SCOPE_ALL):
     from app.models import Question
 
     definition = resolve_subject_definition(subject_value)
@@ -213,14 +278,24 @@ def build_practice_question_query(subject_value=None):
     if definition and definition['slug'] != 'all':
         aliases = sorted({definition['label'], *definition.get('aliases', [])})
         query = query.filter(Question.subject.in_(aliases))
-        return definition, query
-
-    if subject_value and normalize_subject_key(subject_value) != 'all':
+    elif subject_value and normalize_subject_key(subject_value) != 'all':
         fallback_definition = build_custom_subject_definition(subject_value)
         query = query.filter(Question.subject == subject_value)
-        return fallback_definition, query
+        definition = fallback_definition
 
-    return resolve_subject_definition('all'), query
+    else:
+        definition = resolve_subject_definition('all')
+
+    booklet_value = normalize_booklet_filter(booklet_value)
+    if booklet_value != PRACTICE_SCOPE_ALL:
+        query = query.filter(
+            or_(
+                Question.category.contains(booklet_value),
+                Question.tags.contains(booklet_value),
+            )
+        )
+
+    return definition, query
 
 
 def build_custom_subject_definition(subject_value):
@@ -262,6 +337,7 @@ def get_practice_mode_meta(mode):
 
 
 def build_practice_question_item(question, index):
+    booklet_label = detect_booklet_label(question.category or '', question.tags or '')
     options = []
     for key, text in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)]:
         if text:
@@ -275,6 +351,7 @@ def build_practice_question_item(question, index):
         'index': index,
         'id': question.id,
         'subject': question.subject,
+        'booklet': booklet_label,
         'category': question.category or '',
         'content_text': question.content_text,
         'options': options,
@@ -310,6 +387,7 @@ def build_practice_submission_results(questions, submitted_answers):
             'index': index,
             'question_id': question.id,
             'subject': question.subject,
+            'booklet': detect_booklet_label(question.category or '', question.tags or ''),
             'category': question.category or '',
             'content_text': question.content_text,
             'selected_answer': evaluation['answer_key'] or '未作答',
@@ -461,6 +539,7 @@ def practice_session():
     subject_filter = request.args.get('subject')
     question_id = request.args.get('question_id', type=int)
     requested_mode = (request.args.get('mode') or '').strip()
+    requested_booklet = request.args.get('booklet')
     practice_mode = normalize_practice_mode(requested_mode) if requested_mode else None
     if not subject_filter and not question_id:
         return redirect(url_for('study.practice_hub'))
@@ -470,7 +549,10 @@ def practice_session():
         focused_question = Question.query.get_or_404(question_id)
         subject_seed = focused_question.subject or 'all'
 
-    current_subject, query = build_practice_question_query(subject_seed)
+    current_subject, subject_query = build_practice_question_query(subject_seed)
+    booklet_options = build_booklet_scope_options(subject_query, selected_booklet=requested_booklet)
+    selected_booklet = resolve_selected_booklet(booklet_options, requested_booklet)
+    current_subject, query = build_practice_question_query(subject_seed, booklet_value=selected_booklet['query_value'])
     questions = query.order_by(Question.id.asc()).all()
     if not questions:
         flash(_t('msg_no_questions', current_user.language), 'info')
@@ -489,6 +571,8 @@ def practice_session():
             show_mode_selector=True,
             current_subject=active_subject,
             current_subject_query=current_subject_query,
+            booklet_options=booklet_options,
+            selected_booklet=selected_booklet,
             question_pool_size=len(question_items),
             preview_mode_meta=get_practice_mode_meta(PRACTICE_MODE_PREVIEW),
             practice_mode_meta=get_practice_mode_meta(PRACTICE_MODE_PRACTICE),
@@ -504,6 +588,8 @@ def practice_session():
             question_items=question_items,
             current_subject=active_subject,
             current_subject_query=current_subject_query,
+            booklet_options=booklet_options,
+            selected_booklet=selected_booklet,
             question_pool_size=len(question_items),
             practice_mode=practice_mode,
             practice_mode_meta=practice_mode_meta,
@@ -518,6 +604,8 @@ def practice_session():
         question_items=question_items,
         current_subject=active_subject,
         current_subject_query=current_subject_query,
+        booklet_options=booklet_options,
+        selected_booklet=selected_booklet,
         question_pool_size=len(question_items),
         practice_mode=practice_mode,
         practice_mode_meta=practice_mode_meta,
@@ -533,10 +621,11 @@ def practice_review():
     from app.models import Question
 
     subject_value = request.form.get('subject') or request.args.get('subject') or 'all'
+    requested_booklet = request.form.get('booklet') or request.args.get('booklet') or PRACTICE_SCOPE_ALL
     if request.method == 'GET':
-        return redirect(url_for('study.practice_session', subject=subject_value, mode=PRACTICE_MODE_PRACTICE))
+        return redirect(url_for('study.practice_session', subject=subject_value, booklet=requested_booklet, mode=PRACTICE_MODE_PRACTICE))
 
-    current_subject, query = build_practice_question_query(subject_value)
+    current_subject, query = build_practice_question_query(subject_value, booklet_value=requested_booklet)
     questions = query.order_by(Question.id.asc()).all()
     if not questions:
         flash(_t('msg_no_questions', current_user.language), 'info')
@@ -552,6 +641,8 @@ def practice_review():
 
     active_subject = current_subject or resolve_subject_definition('all')
     current_subject_query = subject_value if request.form.get('subject') else (active_subject['label'] if active_subject.get('is_custom') else active_subject['slug'])
+    booklet_options = build_booklet_scope_options(build_practice_question_query(subject_value)[1], selected_booklet=requested_booklet)
+    selected_booklet = resolve_selected_booklet(booklet_options, requested_booklet)
     review_items = grading_summary['results']
 
     total_count = len(review_items)
@@ -567,6 +658,8 @@ def practice_review():
         title=_t('nav_practice', current_user.language),
         current_subject=active_subject,
         current_subject_query=current_subject_query,
+        booklet_options=booklet_options,
+        selected_booklet=selected_booklet,
         review_items=review_items,
         total_count=total_count,
         correct_count=correct_count,

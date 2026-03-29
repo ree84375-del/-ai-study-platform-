@@ -11,6 +11,21 @@ from app.models import Question
 
 DEFAULT_DIFFICULTY = 2
 
+FIELD_ALIASES = {
+    "volume": ["volume", "booklet", "?"],
+    "category": ["category", "chapter", "憿?", "?桀?/憿"],
+    "title": ["title", "topic", "蝭?"],
+    "source_unit": ["source_unit", "靘??桀?"],
+    "content_text": ["content_text", "憿"],
+    "option_a": ["option_a", "?賊?A"],
+    "option_b": ["option_b", "?賊?B"],
+    "option_c": ["option_c", "?賊?C"],
+    "option_d": ["option_d", "?賊?D"],
+    "correct_answer": ["correct_answer", "甇?Ⅱ蝑?"],
+    "explanation": ["explanation", "閫??"],
+    "difficulty": ["difficulty", "??漲"],
+}
+
 
 @dataclass
 class ImportSummary:
@@ -30,9 +45,17 @@ def resolve_csv_path(path_arg: str | None) -> Path:
     raise ValueError("CSV path is required.")
 
 
+def get_value(row: dict[str, str], field_name: str) -> str:
+    for key in FIELD_ALIASES.get(field_name, [field_name]):
+        value = row.get(key)
+        if value:
+            return value
+    return ""
+
+
 def build_category(row: dict[str, str]) -> str:
-    volume = (row.get("冊別") or "").strip()
-    category = (row.get("類型") or row.get("單元/類別") or "").strip()
+    volume = get_value(row, "volume").strip()
+    category = get_value(row, "category").strip()
     if volume and category:
         return f"{volume}_{category}"[:100]
     return (category or volume)[:100]
@@ -40,15 +63,15 @@ def build_category(row: dict[str, str]) -> str:
 
 def build_tags(row: dict[str, str]) -> str:
     parts = [
-        (row.get("篇名") or "").strip(),
-        (row.get("來源單元") or "").strip(),
+        get_value(row, "title").strip(),
+        get_value(row, "source_unit").strip(),
     ]
     cleaned = [part for part in parts if part]
     return " | ".join(cleaned)[:100]
 
 
 def get_difficulty(row: dict[str, str]) -> int:
-    raw = (row.get("難度") or "").strip()
+    raw = get_value(row, "difficulty").strip()
     if raw.isdigit():
         difficulty = int(raw)
         if 1 <= difficulty <= 5:
@@ -62,19 +85,19 @@ def load_existing_questions(subject: str) -> set[str]:
 
 
 def validate_row(row: dict[str, str]) -> tuple[bool, str]:
-    question_text = normalize_question_text(row.get("題目") or row.get("content_text") or "")
+    question_text = normalize_question_text(get_value(row, "content_text"))
     if not question_text:
         return False, "empty_question"
 
-    correct_answer = (row.get("正確答案") or row.get("correct_answer") or "").strip().upper()
+    correct_answer = get_value(row, "correct_answer").strip().upper()
     if correct_answer not in {"A", "B", "C", "D"}:
         return False, "invalid_answer"
 
     options = {
-        "A": (row.get("選項A") or row.get("option_a") or "").strip(),
-        "B": (row.get("選項B") or row.get("option_b") or "").strip(),
-        "C": (row.get("選項C") or row.get("option_c") or "").strip(),
-        "D": (row.get("選項D") or row.get("option_d") or "").strip(),
+        "A": get_value(row, "option_a").strip(),
+        "B": get_value(row, "option_b").strip(),
+        "C": get_value(row, "option_c").strip(),
+        "D": get_value(row, "option_d").strip(),
     }
     present_options = [key for key, value in options.items() if value]
     if len(present_options) < 2:
@@ -108,13 +131,13 @@ def import_csv(csv_path: Path, subject: str) -> ImportSummary:
             question = Question(
                 subject=subject,
                 category=build_category(row),
-                content_text=(row.get("題目") or row.get("content_text") or "").strip(),
-                option_a=(row.get("選項A") or row.get("option_a") or "").strip(),
-                option_b=(row.get("選項B") or row.get("option_b") or "").strip(),
-                option_c=(row.get("選項C") or row.get("option_c") or "").strip(),
-                option_d=(row.get("選項D") or row.get("option_d") or "").strip(),
-                correct_answer=(row.get("正確答案") or row.get("correct_answer") or "").strip().upper(),
-                explanation=(row.get("解析") or row.get("explanation") or "").strip(),
+                content_text=get_value(row, "content_text").strip(),
+                option_a=get_value(row, "option_a").strip(),
+                option_b=get_value(row, "option_b").strip(),
+                option_c=get_value(row, "option_c").strip(),
+                option_d=get_value(row, "option_d").strip(),
+                correct_answer=get_value(row, "correct_answer").strip().upper(),
+                explanation=get_value(row, "explanation").strip(),
                 tags=build_tags(row),
                 difficulty=get_difficulty(row),
             )

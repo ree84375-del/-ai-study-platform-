@@ -81,6 +81,135 @@
         gap: 1rem;
     }
 
+    .scope-panel {
+        padding: 1.35rem;
+    }
+
+    .scope-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+
+    .scope-head h2 {
+        margin: 0;
+        color: #3a3024;
+        font-family: 'Kaisei Tokumin', serif;
+        font-size: 1.35rem;
+    }
+
+    .scope-head p {
+        margin: 0.45rem 0 0;
+        color: #6b604e;
+        line-height: 1.75;
+    }
+
+    .scope-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.85rem;
+    }
+
+    .scope-card {
+        display: grid;
+        gap: 0.55rem;
+        padding: 1rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.82);
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .scope-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(214, 165, 61, 0.42);
+        box-shadow: 0 12px 20px rgba(123, 96, 44, 0.08);
+    }
+
+    .scope-card.is-active {
+        border-color: rgba(222, 160, 63, 0.56);
+        background: linear-gradient(180deg, rgba(255, 251, 241, 0.98), rgba(255, 244, 220, 0.92));
+        box-shadow: 0 16px 24px rgba(219, 172, 90, 0.14);
+    }
+
+    .scope-card.is-disabled {
+        opacity: 0.52;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .scope-card-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.75rem;
+        align-items: center;
+    }
+
+    .scope-label {
+        color: #34291d;
+        font-weight: 800;
+        font-size: 1rem;
+    }
+
+    .scope-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 42px;
+        padding: 0.32rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.96);
+        color: #8c6b33;
+        font-size: 0.82rem;
+        font-weight: 800;
+    }
+
+    .scope-description {
+        color: #6d5d48;
+        line-height: 1.7;
+        font-size: 0.92rem;
+    }
+
+    .scope-pills {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .scope-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 42px;
+        padding: 0.7rem 0.95rem;
+        border-radius: 999px;
+        border: 1px solid rgba(196, 168, 108, 0.26);
+        background: rgba(255, 252, 244, 0.9);
+        color: #725d36;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .scope-pill.is-active {
+        border-color: transparent;
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(226, 143, 84, 0.22);
+    }
+
+    .scope-pill.is-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
     .mode-card,
     .session-panel,
     .summary-panel {
@@ -554,7 +683,8 @@
 
         .toolbar-actions,
         .mode-switch,
-        .summary-actions {
+        .summary-actions,
+        .scope-pills {
             width: 100%;
             flex-direction: column;
             align-items: stretch;
@@ -562,7 +692,8 @@
 
         .practice-primary-btn,
         .practice-secondary-btn,
-        .mode-switch-link {
+        .mode-switch-link,
+        .scope-pill {
             width: 100%;
         }
 
@@ -602,6 +733,38 @@
         <span class="toolbar-chip"><i class="fa-solid fa-layer-group"></i> 共 {{ question_pool_size }} 題</span>
     </div>
 
+    <section class="session-panel scope-panel">
+        <div class="scope-head">
+            <div>
+                <h2>先選練習範圍</h2>
+                <p>這一科可以先做總複習，也可以指定第一冊到第六冊。現在先保留原本題庫順序，不先打亂題目。</p>
+            </div>
+            <span class="toolbar-chip"><i class="fa-solid fa-book"></i> 目前：{{ selected_booklet.label }}</span>
+        </div>
+
+        <div class="scope-grid">
+            {% for booklet in booklet_options %}
+                {% if booklet.available %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value) }}" class="scope-card {% if booklet.is_selected %}is-active{% endif %}">
+                    <div class="scope-card-top">
+                        <span class="scope-label">{{ booklet.label }}</span>
+                        <span class="scope-count">{{ booklet.count }} 題</span>
+                    </div>
+                    <div class="scope-description">{{ booklet.description }}</div>
+                </a>
+                {% else %}
+                <span class="scope-card is-disabled">
+                    <div class="scope-card-top">
+                        <span class="scope-label">{{ booklet.label }}</span>
+                        <span class="scope-count">0 題</span>
+                    </div>
+                    <div class="scope-description">這個範圍目前還沒有可用題目。</div>
+                </span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
     <section class="mode-grid">
         <article class="mode-card is-preview">
             <span class="mode-pill"><i class="fa-solid {{ preview_mode_meta.icon }}"></i> {{ preview_mode_meta.label }}</span>
@@ -612,7 +775,7 @@
                 <li><i class="fa-solid fa-circle-check"></i><span>點開任何一題，就直接看到題目、正確答案和詳解。</span></li>
                 <li><i class="fa-solid fa-ban"></i><span>不計分、不交卷，適合先看題庫或先帶學生講解。</span></li>
             </ul>
-            <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', question_id=focus_question_id) }}" class="practice-secondary-btn">
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='preview', question_id=focus_question_id) }}" class="practice-secondary-btn">
                 <i class="fa-solid fa-eye"></i> 進入預覽模式
             </a>
         </article>
@@ -626,7 +789,7 @@
                 <li><i class="fa-solid fa-flag-checkered"></i><span>只有最後一題才會出現交卷，交卷後才批改成績與顯示詳解。</span></li>
                 <li><i class="fa-solid fa-percent"></i><span>這一輪會用 100 分制計分，交卷後同時列出你的答案、正解和詳解。</span></li>
             </ul>
-            <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice', question_id=focus_question_id) }}" class="practice-primary-btn">
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='practice', question_id=focus_question_id) }}" class="practice-primary-btn">
                 <i class="fa-solid fa-dumbbell"></i> 進入練習模式
             </a>
         </article>
@@ -654,29 +817,44 @@
     </section>
 
     <div class="toolbar">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="toolbar-back">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value) }}" class="toolbar-back">
             <i class="fa-solid fa-arrow-left"></i> 回到模式選擇
         </a>
 
         <div class="toolbar-actions">
             <div class="mode-switch" aria-label="作答模式切換">
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview', question_id=focus_question_id) }}" class="mode-switch-link">
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='preview', question_id=focus_question_id) }}" class="mode-switch-link">
                     <i class="fa-solid fa-eye"></i> 預覽模式
                 </a>
                 <span class="mode-switch-link is-active">
                     <i class="fa-solid fa-dumbbell"></i> 練習模式
                 </span>
             </div>
-            <span class="toolbar-chip"><i class="fa-solid fa-layer-group"></i> 全部 {{ question_pool_size }} 題</span>
+            <span class="toolbar-chip"><i class="fa-solid fa-layer-group"></i> {{ selected_booklet.label }} {{ question_pool_size }} 題</span>
             <button type="button" id="ai-generate-btn" class="practice-secondary-btn">
                 <i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題
             </button>
         </div>
     </div>
 
+    <div class="scope-pills" aria-label="練習範圍切換">
+        {% for booklet in booklet_options %}
+            {% if booklet.available %}
+                {% if booklet.is_selected %}
+                <span class="scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, mode='practice', question_id=focus_question_id) }}" class="scope-pill">
+                    <i class="fa-solid fa-book"></i> {{ booklet.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+
     <form id="practice-exam-form" method="post" action="{{ url_for('study.practice_review') }}" class="session-layout">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="subject" value="{{ current_subject_query }}">
+        <input type="hidden" name="booklet" value="{{ selected_booklet.query_value }}">
 
         <section class="session-panel">
             <div class="progress-head">
@@ -705,6 +883,11 @@
                         <i class="fa-solid fa-book-open"></i> {{ item.subject }}
                         {% if item.category %}<span>・{{ item.category }}</span>{% endif %}
                     </span>
+                    {% if item.booklet %}
+                    <span class="question-badge soft">
+                        <i class="fa-solid fa-book"></i> {{ item.booklet }}
+                    </span>
+                    {% endif %}
                 </div>
 
                 <h2 class="question-title">{{ item.content_text }}</h2>

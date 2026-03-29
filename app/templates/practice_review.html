@@ -78,6 +78,35 @@
         flex-wrap: wrap;
     }
 
+    .review-scope-pills {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+    }
+
+    .review-scope-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 42px;
+        padding: 0.7rem 0.95rem;
+        border-radius: 999px;
+        border: 1px solid rgba(196, 168, 108, 0.26);
+        background: rgba(255, 252, 244, 0.9);
+        color: #725d36;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .review-scope-pill.is-active {
+        border-color: transparent;
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        box-shadow: 0 10px 20px rgba(226, 143, 84, 0.22);
+    }
+
     .review-primary-btn,
     .review-secondary-btn {
         display: inline-flex;
@@ -237,12 +266,14 @@
             padding: 1.3rem;
         }
 
-        .review-actions {
+        .review-actions,
+        .review-scope-pills {
             flex-direction: column;
         }
 
         .review-primary-btn,
-        .review-secondary-btn {
+        .review-secondary-btn,
+        .review-scope-pill {
             width: 100%;
         }
     }
@@ -285,15 +316,29 @@
     <div class="review-feedback">{{ feedback }}</div>
 
     <div class="review-actions">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="review-secondary-btn">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value) }}" class="review-secondary-btn">
             <i class="fa-solid fa-compass"></i> 回到模式選擇
         </a>
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='practice') }}" class="review-primary-btn">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='practice') }}" class="review-primary-btn">
             <i class="fa-solid fa-rotate-right"></i> 再做一次練習模式
         </a>
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, mode='preview') }}" class="review-secondary-btn">
+        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, mode='preview') }}" class="review-secondary-btn">
             <i class="fa-solid fa-eye"></i> 改看預覽模式
         </a>
+    </div>
+
+    <div class="review-scope-pills" aria-label="檢討範圍切換">
+        {% for booklet in booklet_options %}
+            {% if booklet.available %}
+                {% if booklet.is_selected %}
+                <span class="review-scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
+                {% else %}
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, mode='practice') }}" class="review-scope-pill">
+                    <i class="fa-solid fa-book"></i> {{ booklet.label }}
+                </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="review-list">
@@ -308,6 +353,11 @@
                     <span class="review-badge subject">
                         <i class="fa-solid fa-hashtag"></i> 第 {{ item.index }} 題
                     </span>
+                    {% if item.booklet %}
+                    <span class="review-badge subject">
+                        <i class="fa-solid fa-book"></i> {{ item.booklet }}
+                    </span>
+                    {% endif %}
                     {% if item.category %}
                     <span class="review-badge subject">
                         <i class="fa-solid fa-tag"></i> {{ item.category }}
