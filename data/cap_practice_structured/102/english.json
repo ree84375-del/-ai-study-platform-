@@ -1,0 +1,750 @@
+{
+  "year": "102",
+  "subject_slug": "english",
+  "subject_label": "英語",
+  "official_question_count": 40,
+  "question_count": 33,
+  "answered_count": 31,
+  "page_count": 19,
+  "ocr_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "files": {
+    "pdf": "cap_practice_sources\\102\\english\\102_english.pdf",
+    "docx": "cap_practice_word\\102\\102_english.docx"
+  },
+  "official": {
+    "question_url": "https://drive.google.com/file/d/1ZfjE4n22gRv2pcC8rkdVfjS726tE7tgA/view?usp=drive_link",
+    "answer_url": "https://drive.google.com/file/d/1b3Vusr5_4cJSvDx7HRbENNmmQWEr5kKH/view?usp=drive_link",
+    "explanation_url": "https://drive.google.com/file/d/1VXI00Eb2KozpVJ-dsfrwCBr_vuC9Pfvp/view?usp=drive_link"
+  },
+  "checks": {
+    "question_chunks_found": 46,
+    "answers_found": 52,
+    "questions_kept": 33,
+    "issues_found": 15,
+    "answer_completion_ratio": 0.939,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      34,
+      35,
+      36
+    ],
+    "missing_question_numbers": [
+      15,
+      16,
+      33,
+      37,
+      38,
+      39,
+      40
+    ],
+    "duplicate_question_numbers": []
+  },
+  "practice_ready": false,
+  "questions": [
+    {
+      "number": 1,
+      "source_number": 21,
+      "display_number": 1,
+      "page_number": 6,
+      "context": "",
+      "stem": "Look at the picture. A bee is on the rose. 人 S",
+      "options": {
+        "A": "landing AG",
+        "B": "lying a .",
+        "C": "parking ee Zw / 了",
+        "D": "surfing ;\nFW"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「landing AG」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 2,
+      "source_number": 22,
+      "display_number": 2,
+      "page_number": 6,
+      "context": "",
+      "stem": "Ienjoy drinking a cup of black coffee Friday nights.",
+      "options": {
+        "A": "at",
+        "B": "by",
+        "C": "in",
+        "D": "on"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「on」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 3,
+      "source_number": 23,
+      "display_number": 3,
+      "page_number": 6,
+      "context": "",
+      "stem": "It’s raining . Ithink you should stay here until the rain stops.",
+      "options": {
+        "A": "politely",
+        "B": "heavily",
+        "C": "clearly",
+        "D": "easily"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「heavily」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 4,
+      "source_number": 24,
+      "display_number": 4,
+      "page_number": 6,
+      "context": "",
+      "stem": "This restaurant is for its chicken-soup:-Many people come to eat it.",
+      "options": {
+        "A": "crazy",
+        "B": "delicious",
+        "C": "famous",
+        "D": "sharp"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「famous」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 5,
+      "source_number": 25,
+      "display_number": 5,
+      "page_number": 6,
+      "context": "",
+      "stem": "Lisa’s room was very dirty. It took her three hours it.",
+      "options": {
+        "A": "clean",
+        "B": "cleaned",
+        "C": "has cleaned",
+        "D": "to clean"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「to clean」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 6,
+      "source_number": 26,
+      "display_number": 6,
+      "page_number": 6,
+      "context": "",
+      "stem": "It’s cold outside; sure to-put-on your coat before you leave the house.",
+      "options": {
+        "A": "be",
+        "B": "it is",
+        "C": "being",
+        "D": "it will be"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「be」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 7,
+      "source_number": 27,
+      "display_number": 7,
+      "page_number": 6,
+      "context": "",
+      "stem": "Tommy uses chopsticks well, but his younger brothers , so they usually eat with spoons. =",
+      "options": {
+        "A": "don’t",
+        "B": "doesn’t",
+        "C": "aren’t",
+        "D": "isn’t"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「don’t」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 8,
+      "source_number": 28,
+      "display_number": 8,
+      "page_number": 6,
+      "context": "",
+      "stem": "Jane is going fishing tomorrow. She wants to know the weather will be fine.",
+      "options": {
+        "A": "how",
+        "B": "what",
+        "C": "whether",
+        "D": "why"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「whether」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 9,
+      "source_number": 29,
+      "display_number": 9,
+      "page_number": 6,
+      "context": "",
+      "stem": "David forgot to bring money with him,so I him NT$60 to pay for his lunch.",
+      "options": {
+        "A": "borrowed",
+        "B": "lent",
+        "C": "ordered",
+        "D": "spent"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「lent」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 10,
+      "source_number": 30,
+      "display_number": 10,
+      "page_number": 6,
+      "context": "",
+      "stem": "Whydon'twehavea__ for our singing group? I think it looks great when everybody in a group wears the same thing.",
+      "options": {
+        "A": "party",
+        "B": "program",
+        "C": "test",
+        "D": "uniform\n5 > 各 Ae\n請 翻 頁 繼續 作答"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「uniform\n5 > 各 Ae\n請 翻 頁 繼續 作答」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 11,
+      "source_number": 31,
+      "display_number": 11,
+      "page_number": 7,
+      "context": "",
+      "stem": "The tall man at the bookstore is my high school teacher.",
+      "options": {
+        "A": "you saw",
+        "B": "who saw",
+        "C": "you saw him —_",
+        "D": "that you saw him"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「you saw」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 12,
+      "source_number": 32,
+      "display_number": 12,
+      "page_number": 7,
+      "context": "",
+      "stem": "Stella: Is this Simon’s book? I fo: nd it under thechair. Joyce: No, it’s . Thank yo Trek een looking for it.",
+      "options": {
+        "A": "I",
+        "B": "me Gx",
+        "C": "i",
+        "D": "mine"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「mine」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 13,
+      "source_number": 33,
+      "display_number": 13,
+      "page_number": 7,
+      "context": "",
+      "stem": "Shirley: How’s your new English teacher? She looks friendly. Lauren: She is nice! , she’s the nicest person I’ve ever seen.",
+      "options": {
+        "A": "Even so",
+        "B": "In fact =",
+        "D": "However"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「In fact =」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 14,
+      "source_number": 34,
+      "display_number": 14,
+      "page_number": 7,
+      "context": "",
+      "stem": "Doris: Why so many things to oP busy enough? Frank: That’s because you don’t ki no aw ase our time well.",
+      "options": {
+        "A": "does it have",
+        "B": "have are they",
+        "D": "are there\n第 二 部 分 : 題 組 (第 35-60 題 , 共 26 題 )\n(35-36)\nsm (save) 回 口 回\n國\n3 Jal\nI think I have to say I’m sorry to you because I___35 ___ the last time\nyou came to me. I was so busy with my own studies at that time that I didn’t\nspend any time listening to your problems with Mary. I know you're very sad\nabout this, and it’s too late for me to make any excuses.\nI’ve tried to call you many nts Da You e never answered. I think you"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「are there\n第 二 部 分 : 題 組 (第 35-60 題 , 共 26 題 )\n(35-36)\nsm (save) 回 口 回\n國\n3 Jal\nI think I have to say I’m sorry to you because I___35 ___ the last time\nyou came to me. I was so busy with my own studies at that time that I didn’t\nspend any time listening to your problems with Mary. I know you're very sad\nabout this, and it’s too late for me to make any excuses.\nI’ve tried to call you many nts Da You e never answered. I think you」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 17,
+      "source_number": 37,
+      "display_number": 15,
+      "page_number": 9,
+      "context": "",
+      "stem": "What CANNOT be found in the report?",
+      "options": {
+        "A": "How many seats each restaurant has.",
+        "B": "Whether dogs can enter the restaurant.",
+        "C": "What food can be ordered in each restaurant.",
+        "D": "How much it may cost to eat in each restaurant."
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「What food can be ordered in each restaurant.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 18,
+      "source_number": 38,
+      "display_number": 16,
+      "page_number": 9,
+      "context": "",
+      "stem": "Sherry is talking about one of the four restaurants: “Tt’s a clean and comfortable place. Even the floor of the restroom shines. The food is delicious. But each of their waiters hasto take care of so many tables that you seldom see them smiling and-may get spaghetti when you order steak. It’s difficult to get a table on weekends. To.save time, it’s better to visit on weekdays.” Which restaurant is Sherry talking about?",
+      "options": {
+        "A": "Food Station.",
+        "B": "Aunt Lucy’s.",
+        "C": "Fresh & Hot.",
+        "D": "Full House.\n(39-40)\nLife is a long trip.\nBoth good and bad things happen on the road:\nPeople love and hate,\nThey share and hide things.\nSome things make me smile;\nSome things make me cry.\nSome days are sunny,\nSome days are rainy—\nLife is a trip full of opposites.\nI can’t decide what will happen,\nSo I have decided to be happy , eve e of my life.\nTo remember all that is beautiful;\nTo let go of all that makes me sad—\nIn this way I will live my life to the f\nhnny Wang~"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Food Station.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 19,
+      "source_number": 39,
+      "display_number": 17,
+      "page_number": 10,
+      "context": "",
+      "stem": "What does the writer think of life? § |",
+      "options": {
+        "A": "He thinks that life is short.",
+        "B": "He wants to enjoy life as much as he can.",
+        "C": "He is glad to find that life can beplanned. -",
+        "D": "He thinks that love is the mostamportant thing in life.\n—\n=."
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「He wants to enjoy life as much as he can.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 20,
+      "source_number": 40,
+      "display_number": 18,
+      "page_number": 10,
+      "context": "",
+      "stem": "What does opposites mean at",
+      "options": {
+        "A": "Clear and fine days.",
+        "B": "The joy and hope of life.",
+        "C": "The bright and dark sides of life",
+        "D": "People who are sad about th cir live i]\n(41-43)\nLE TR\nInto the Amazon — \\— ~~ ~\nIn this special part of we th, you can see small monkeys, big cats,\nand even flowers that bite!” reed rain has given life to the Amazon\nand made it a beautiful green world. But over the past few years, the\nburning fires there have taken many lives. What's going on?"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「The bright and dark sides of life」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 21,
+      "source_number": 41,
+      "display_number": 19,
+      "page_number": 11,
+      "context": "— |\nBest Friends at Home\nSara, a 65-year-old word, Shaes With show her dog Patty has helped\nher since she became blind. Larry, who lives with seven cats, tells us\nhow his pets keep him happy and healthy every day. You'll be surprised\nby how much pets can give to people.\n+ 二\nDown Under the Blue IT 1}\nWhat kinds of animals live at the bottom of the sea? How do they live\nin a place with almost no light? This DVD will take you down to the\nlowest part of the Pacific Ocean. But watch out! Some fish are so\ncreepy that you might want torun away forhelp when they appear in\nfront of you! cal Buy It! |",
+      "stem": "Which is true about these three DVDs? - 《",
+      "options": {
+        "A": "They all talk about speclalplaces.",
+        "B": "They all talk about weatherchanges.。",
+        "C": "They all show what is hurting the Earth. —=y",
+        "D": "They all show something about animals. ="
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「They all show something about animals. =」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 22,
+      "source_number": 42,
+      "display_number": 20,
+      "page_number": 11,
+      "context": "",
+      "stem": "Which is NOT said about Jnto the Amazon? =9",
+      "options": {
+        "A": "There is lots of rain in the Amazon. —",
+        "B": "There are fires burning in the Amazon.",
+        "C": "There are special flowers in the Amazon.",
+        "D": "There are few people living in-the Amazon."
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「There are few people living in-the Amazon.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 23,
+      "source_number": 43,
+      "display_number": 21,
+      "page_number": 11,
+      "context": "",
+      "stem": "How does one feel when seeing, soffiething creep yy?",
+      "options": {
+        "A": "Tired.",
+        "B": "Bored. ~~ (©) Afraid.",
+        "D": "Lonely.\n(44-45)\n(In front of the Golden Theater)\nFred : May I help you?\nNora : Yes, how can I get to the ticke aie / Thave to meet with my friends there.\nFred : See the coffee shop ove ther e? Our tic se right next to it. May I ask\nwhich movie you are seeing?\nNora : Dance with the Snake.\nFred :ITm afraid you’ve come to the wrong place. That movie is playing at another\ntheater, the New Theater.\nNora : Oh, no! What should I do now?\nFred : Don’t worry. The theater away. You can get there in ten\nminutes by taxi. Just have the driver-stop-on Market Street. The theater is\nbeside a big gift shop.\nNora: OK. Thank you for your help\nFred : No problem. Ey]"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 24,
+      "source_number": 44,
+      "display_number": 22,
+      "page_number": 12,
+      "context": "",
+      "stem": "What is Nora going to do 全 了",
+      "options": {
+        "A": "Go to the coffee shop.",
+        "B": "Hurry to another theater.",
+        "C": "Buy gifts for her friends.",
+        "D": "Decide which movie to s"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Hurry to another theater.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 25,
+      "source_number": 45,
+      "display_number": 23,
+      "page_number": 12,
+      "context": "",
+      "stem": "Which is true?",
+      "options": {
+        "A": "The two theaters are next 4",
+        "B": "There is a gift shop above the New Theater.",
+        "C": "Dance with the Snake can be seen at both theaters.",
+        "D": "More than one movie is = ' 國 heater.\n\"\n(46-47)\nFrom: Page-Plus Bookstore (order@pageplus.com)\nTo: Andy Walker (andywalker@hooray.com)\nDate: Monday, May 24, 2010\nSubject: Your Order\nDear Mr. Walker,\nYour order (order number: A2010-0515-2355-36) has been sent out.\nYou ordered:\n| 1. Dangerously Crazy NT$180 x2 NT$360.\n| 2. Talking Horses NT$210 x 1 NTS210)\n| Shipping Fee NT$50 |\n| Total NT$620\nPlease get your order at Q-Life Store (No. 157 Comfy Street, Cozy City) from 5/25\nto 5/31. To get your order, please tell the clerk your name, and then pay at the store.\n了 The order will be picked up at-Q-Life Store.\n(For an order less than NT$600, you need to pay a shipping fee of NT$50.)\nOO The order will be sent to your house.\n(For an order less than NT$1,000, yowneed to pay a shipping fee of NT$100.)\nIf there is any problem with your order, please send it back in five days\n(counting from the day you get your order).\nhttp://www.pageplus.com\n區\nshipping fee 運費"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「More than one movie is = ' 國 heater.\n\"\n(46-47)\nFrom: Page-Plus Bookstore (order@pageplus.com)\nTo: Andy Walker (andywalker@hooray.com)\nDate: Monday, May 24, 2010\nSubject: Your Order\nDear Mr. Walker,\nYour order (order number: A2010-0515-2355-36) has been sent out.\nYou ordered:\n| 1. Dangerously Crazy NT$180 x2 NT$360.\n| 2. Talking Horses NT$210 x 1 NTS210)\n| Shipping Fee NT$50 |\n| Total NT$620\nPlease get your order at Q-Life Store (No. 157 Comfy Street, Cozy City) from 5/25\nto 5/31. To get your order, please tell the clerk your name, and then pay at the store.\n了 The order will be picked up at-Q-Life Store.\n(For an order less than NT$600, you need to pay a shipping fee of NT$50.)\nOO The order will be sent to your house.\n(For an order less than NT$1,000, yowneed to pay a shipping fee of NT$100.)\nIf there is any problem with your order, please send it back in five days\n(counting from the day you get your order).\nhttp://www.pageplus.com\n區\nshipping fee 運費」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 26,
+      "source_number": 46,
+      "display_number": 24,
+      "page_number": 13,
+      "context": "",
+      "stem": "What do we know from this email?",
+      "options": {
+        "A": "Andy has already paid on the Internet for his order.",
+        "B": "One has to pay a shipping fee for an order of NT$1,000.",
+        "C": "Page-Plus Bookstore is at No»157-Comfy Street, Cozy City.",
+        "D": "Andy can get what he had ordered the day-after the email was sent."
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「Andy can get what he had ordered the day-after the email was sent.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 27,
+      "source_number": 47,
+      "display_number": 25,
+      "page_number": 13,
+      "context": "",
+      "stem": "If Andy picks up his order on May 29 and finds one page missing in Zalking Horses, when is the last day for him to send Talking Horses back?",
+      "options": {
+        "A": "May 31.",
+        "B": "June 2.",
+        "C": "June 4.",
+        "D": "June 5.\n(48-49)\nA VISIT FROM SOMEONE FROM YOUR OWN BOOK!"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「June 2.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 28,
+      "source_number": 48,
+      "display_number": 26,
+      "page_number": 14,
+      "context": "This Winter’s. Most Heartwarming Movie\nOut of the Pages is the newest work of Linda Kinsley, the “Magic\nWorker’ in show business. “In this lovely movie, a young writer, Henry, is\nvisited by a strange girl who says that she comes from the book he has\nwritten. This young girl, Claire, is not happy about her part in the book\nand wants Henry to change the:story. Henry thinks Claire is just trying to\ncatch his interest, but she acts just like the girl in his book... .\nTogether with the popular Italian actor Julio Latio, the famous French\nsinger Sophie Besson, and last year’s Rolling Prize winner Mary Keys,\nthis movie is sure to give you a wonderful holiday experience!\n“First pick for the New Year’s Eve!”.--Theater Report Se 歡 上 二\n“Mr. Latio’s best hope for his first Rolling Prize!”- Picture Weekly SE\n“An excellent pick for Besson-to start in the movies!” - Movie News\nhttp://www.outofthepagesmovie.com N",
+      "stem": "What does the reading say about the story of the movie?",
+      "options": {
+        "A": "It happens in snowy winter.",
+        "B": "It comes from a popular book.",
+        "C": "Henry does not believe what Claire says when they first meet.",
+        "D": "Henry does not know how to:change-the.story.of his book for Claire."
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「Henry does not believe what Claire says when they first meet.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 29,
+      "source_number": 49,
+      "display_number": 27,
+      "page_number": 14,
+      "context": "",
+      "stem": "Which do we know from the reading?",
+      "options": {
+        "A": "Out of the Pages is Sophie Besson’s first movie.",
+        "B": "Out of the Pages has worJulio Latio-a Rolling Prize.",
+        "C": "Out of the Pages is Linda Kinsley’s best-selling work.",
+        "D": "Out of the Pages has won Mary Keys a best actress prize.\n13 半百 Ute be Ale BE\n請 翻 崗 繼續 作答\n(50-53)\nYou don’t want to be Kim’s assistant. She gives you lots of work and never\nfeels pleased with what you do. However, if you “pass the test,” you'll almost 100%\nsure be promoted to “real” lawyer. L passed, and now I have my own office and my\nown assistant.\nLast week Kim kicked out hernew assistant. And now she’s treating me like her\nassistant again. “Maureen, get me a coffee.” “Maureen, copy this for me.” Yes, the\ncoffee room is closer to my office, and yes, I know the copying machines better, but\nnow my business card says L-A-W-Y-E-R, not A-S-S-I-S-T-A-N-T!"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Out of the Pages is Sophie Besson’s first movie.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 30,
+      "source_number": 50,
+      "display_number": 28,
+      "page_number": 15,
+      "context": "No one will fight Kim because she’s dating Emerson, our boss. Fighting the\nboss’s girlfriend won’t do you any good. Ted fought her once, and now he’s sitting in\nthe “Cage,” the smallest office here.\nNext to my office is Jackson’s. He was Kim’s-assistant before me. He told me\nthat I had to let her know that now I work WITH her, not FOR her. “She'll get very\nangry at first, but she’ll forget about you after she finds the next ‘lucky’ person, and\nthen you’ll be OK,” said he.",
+      "stem": "Why does Maureen say “my business card says L-A-W-Y-E-R, not A-S-S-I-S-T-A-N-T”’?",
+      "options": {
+        "A": "She is not pleased with her assistant.",
+        "B": "She has not got her new business cards yet.",
+        "C": "She found a spelling mistake on her business card.",
+        "D": "She is unhappy about still being seen as an assistant."
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「She is unhappy about still being seen as an assistant.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 31,
+      "source_number": 51,
+      "display_number": 29,
+      "page_number": 15,
+      "context": "",
+      "stem": "What can we learn from the reading?",
+      "options": {
+        "A": "Kim’s assistants were all promoted.",
+        "B": "Ted’s fight with Kim ended terribly.",
+        "C": "Ted fought with Kim because of Maureen.",
+        "D": "Maureen is popular with everyone in her workplace."
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Ted’s fight with Kim ended terribly.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 32,
+      "source_number": 52,
+      "display_number": 30,
+      "page_number": 15,
+      "context": "",
+      "stem": "Sally is another lawyer in Maureen’s workplace=-Tf Sally agrees with Jackson, what would she most likely say to Maureen?",
+      "options": {
+        "A": "“Make it clear to Kim that she is not:your boss.”",
+        "B": "“Help Kim find a new assistant or share yours with her.” likely 可 能",
+        "C": "“Don’t fight with Kim, if you want to keep your job here.”",
+        "D": "“I’m sorry, but I don’t want to-be part of your fight with Kim.”"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「“Make it clear to Kim that she is not:your boss.”」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 34,
+      "source_number": 54,
+      "display_number": 31,
+      "page_number": 17,
+      "context": "",
+      "stem": "A friend of Pattie’s took a picture on her big day. Which is most likely the picture?",
+      "options": {
+        "A": "",
+        "B": "Cle tl DAL,\n好 >. >) : likely “可 能\noes (ae\n2 | PS\nOa) ae\nP (~N ry ee)",
+        "C": "",
+        "D": "& | °\nN\noF; :\n=e an\n人 e\ny Bo Aka\n| peel Sa"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 35,
+      "source_number": 55,
+      "display_number": 32,
+      "page_number": 18,
+      "context": "",
+      "stem": "What do we know about the four people in the video?",
+      "options": {
+        "A": "One of them is Pattie’s sister.",
+        "B": "One of them is David’s best friend.",
+        "C": "One of them is the aunt of two'of the othe",
+        "D": "One of them is the mother o ry e other"
+      },
+      "correct_answer": "",
+      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+    },
+    {
+      "number": 36,
+      "source_number": 56,
+      "display_number": 33,
+      "page_number": 18,
+      "context": "",
+      "stem": "What can we learn from the widec =",
+      "options": {
+        "A": "Pattie is good at taking care of people.",
+        "B": "Pattie remembers little about her mother.",
+        "C": "David is a serious man who seldom smiles.",
+        "D": "David finds it difficult to\n17 ak Ag\n請 翻 頁 繼續 作答\n(57-60)\nweastlex m8 and Hong Kong | Su we Ser ce Sits tte ge, we\nWha € oo + i, (USS1.3 bin) non-A hans 記 NO\nTEEMIT LE LEL\n= suet New!"
+      },
+      "correct_answer": "",
+      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+    }
+  ],
+  "issues": [
+    {
+      "question_number": 1,
+      "reason": "reading_only_skip"
+    },
+    {
+      "question_number": 2,
+      "reason": "reading_only_skip"
+    },
+    {
+      "question_number": 3,
+      "reason": "reading_only_skip"
+    },
+    {
+      "question_number": 4,
+      "reason": "reading_only_skip"
+    },
+    {
+      "question_number": 5,
+      "reason": "reading_only_skip"
+    },
+    {
+      "question_number": 36,
+      "display_source_number": 16,
+      "reason": "parse_incomplete",
+      "stem_length": 157,
+      "option_count": 0
+    },
+    {
+      "question_number": 35,
+      "display_source_number": 15,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 4
+    },
+    {
+      "question_number": 36,
+      "display_source_number": 16,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 4
+    },
+    {
+      "question_number": 53,
+      "display_source_number": 33,
+      "reason": "parse_incomplete",
+      "stem_length": 67,
+      "option_count": 1
+    },
+    {
+      "question_number": 55,
+      "display_source_number": 35,
+      "reason": "missing_answer"
+    },
+    {
+      "question_number": 56,
+      "display_source_number": 36,
+      "reason": "missing_answer"
+    },
+    {
+      "question_number": 57,
+      "display_source_number": 37,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 3
+    },
+    {
+      "question_number": 58,
+      "display_source_number": 38,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 4
+    },
+    {
+      "question_number": 59,
+      "display_source_number": 39,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 3
+    },
+    {
+      "question_number": 60,
+      "display_source_number": 40,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 3
+    }
+  ]
+}

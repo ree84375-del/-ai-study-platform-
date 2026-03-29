@@ -2,6 +2,7 @@
   "year": "112",
   "subject_slug": "chinese",
   "subject_label": "國文",
+  "official_question_count": 42,
   "question_count": 41,
   "answered_count": 41,
   "page_count": 15,
@@ -22,12 +23,114 @@
     "answers_found": 42,
     "questions_kept": 41,
     "issues_found": 11,
-    "answer_completion_ratio": 1.0
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      1,
+      2,
+      1,
+      2,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      1,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      1,
+      41,
+      42
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "missing_question_numbers": [
+      9
+    ],
+    "duplicate_question_numbers": []
   },
-  "practice_ready": true,
+  "practice_ready": false,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -43,6 +146,7 @@
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -58,6 +162,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -73,6 +178,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 4,
       "page_number": 2,
       "context": "",
@@ -88,6 +194,7 @@
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 5,
       "page_number": 2,
       "context": "",
@@ -103,6 +210,7 @@
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 6,
       "page_number": 2,
       "context": "",
@@ -118,6 +226,7 @@
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 7,
       "page_number": 3,
       "context": "",
@@ -133,6 +242,7 @@
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 8,
       "page_number": 3,
       "context": "",
@@ -148,6 +258,7 @@
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 9,
       "page_number": 3,
       "context": "",
@@ -163,6 +274,7 @@
     },
     {
       "number": 11,
+      "source_number": 11,
       "display_number": 10,
       "page_number": 3,
       "context": "",
@@ -178,6 +290,7 @@
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 11,
       "page_number": 4,
       "context": "",
@@ -193,6 +306,7 @@
     },
     {
       "number": 13,
+      "source_number": 13,
       "display_number": 12,
       "page_number": 4,
       "context": "",
@@ -208,6 +322,7 @@
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 13,
       "page_number": 4,
       "context": "",
@@ -223,6 +338,7 @@
     },
     {
       "number": 15,
+      "source_number": 15,
       "display_number": 14,
       "page_number": 4,
       "context": "",
@@ -238,6 +354,7 @@
     },
     {
       "number": 16,
+      "source_number": 16,
       "display_number": 15,
       "page_number": 4,
       "context": "",
@@ -253,6 +370,7 @@
     },
     {
       "number": 17,
+      "source_number": 17,
       "display_number": 16,
       "page_number": 5,
       "context": "",
@@ -268,6 +386,7 @@
     },
     {
       "number": 18,
+      "source_number": 18,
       "display_number": 17,
       "page_number": 5,
       "context": "",
@@ -283,6 +402,7 @@
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 18,
       "page_number": 5,
       "context": "",
@@ -298,6 +418,7 @@
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 19,
       "page_number": 5,
       "context": "",
@@ -313,6 +434,7 @@
     },
     {
       "number": 21,
+      "source_number": 21,
       "display_number": 20,
       "page_number": 6,
       "context": "",
@@ -328,6 +450,7 @@
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 21,
       "page_number": 6,
       "context": "",
@@ -343,6 +466,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 22,
       "page_number": 6,
       "context": "",
@@ -358,6 +482,7 @@
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 23,
       "page_number": 7,
       "context": "",
@@ -373,6 +498,7 @@
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 24,
       "page_number": 7,
       "context": "",
@@ -388,6 +514,7 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 25,
       "page_number": 7,
       "context": "",
@@ -403,9 +530,10 @@
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 26,
       "page_number": 9,
-      "context": "跳 水 選手 必須 體態 優美 且\n靈活 。 他 們 會 從 數 公 尺 高 的 跳 臺 躍 水中, 同 時 做 出 大 脆 的 動作 。 首 先 , 選 手 必\n須 站 上 跳 臺 , 以 直立 或 倒立 的 姿勢 起 跳 。 而 有 些 比 賽 採用 跳板 起 跳 , 可 以 輔助 跳\n水 者 跳 得 更 高 、 騰 空 的 時 間 更 久 。 跳 水 選手 會 在 身體 開 始 下 降 時 , 表 演 一 系 列 抱\n膝 、 旋 轉 、 騰 翻 、 轉 體 與 其 他 大 膽 精 巧 的 動作 , 最 後 盡 可 能 順暢 入 水 。 歷 史上 有\n紀錄 的 第 一 場 跳水 比 賽 是 在 1871 年 舉行 , 當 時 的 選手 要 從 倫敦 橋 跳 下 泰晤士 河 。\n現今 的 跳水 有 個 人 比 賽 , 也 有 雙人 比 賽 。\n起 跳 後 到 入 水 前 , 選 手 處 於 騰空 的\n狀態 , 此 時 會 開 始 表 演 旋轉 與 轉 體\n起 跳 : 一 系 列 的 動作 。\n選手 由 跳 臺 躍 人 水中, 起 @\n跳動 作 可 以 是 向 前 、 向 後 。 紀念 LOR\n或 者 倒立 。 4\n水 比 賽 規則 : J\n跳水 比 賽 規則 fa |\n‧ 每 位 評審 各 自 針對 選手 的 ae\n每 一 次 跳水 評分 , 分 數 的 | GR.\n範圍 為 0 分 (失敗 ) 到 10 分 | | 評審 團 針 對 選手 每 一 次 的 跳水\n(HBF) 。 評分 。 評 審 的 數 量 會 因 比 賽 的\n騰空 、 入 水 動作 , 各 部 分 」 | 為 例 , 個 人 賽 配置 7 名 評審 , coed\n最 高 可 以 給 3 分 , 剩 下 的 | 雙人 跳水 則 配置 1 名 評審 。\n1 分 則 評定 整體 動作 執行 an\n的 完善 程度 。 fe || dd |) Se\n到 ee ree\n‧ 比 賽 前 , 選 手 必 須 先 繳 交 | EPR 縣 @ ENON\n跳水 動作 表 , 設 定 每 一 跳 | ||| re\n的 動作 難度 。 比 賽 時 只 能 | 上 二 二\n依照 動作 表 完成 跳水 , 否 | fF | 上\n則 以 0 分 計算 。 | |\nemma enter ota] 「 一 才 一 二 一\n最 高 分 與 2 個 最 低 分 不 巴\n採 計 , 僅 採 計 中 間 3 名 評 | 入 水 :\n審 的 分 數 後 , 再 乘 以 動作 上 當 選手 入 水 的 時 候 , 淺 起 水 花 能 — SlUys |\n的 難度 係 數 , 最 後 算出 該 圖 緩和 衝擊, 但 評 窒 想 看 到 的 是 箇 國 MG\n次 跳水 的 得 分 。 潔 流暢 的 入水 , 激 起 太 大 的 水 花\n會 遭 至 o\n‧ 每 一 跳 的 得 分 皆 須 採 計 。 了 計 定 于 到 和 分",
+      "context": "跳 水 選手 必須 體態 優美 且\n靈活 。 他 們 會 從 數 公 尺 高 的 跳 臺 躍 水中, 同 時 做 出 大 脆 的 動作 。 首 先 , 選 手 必\n須 站 上 跳 臺 , 以 直立 或 倒立 的 姿勢 起 跳 。 而 有 些 比 賽 採用 跳板 起 跳 , 可 以 輔助 跳\n水 者 跳 得 更 高 、 騰 空 的 時 間 更 久 。 跳 水 選手 會 在 身體 開 始 下 降 時 , 表 演 一 系 列 抱\n膝 、 旋 轉 、 騰 翻 、 轉 體 與 其 他 大 膽 精 巧 的 動作 , 最 後 盡 可 能 順暢 入 水 。 歷 史上 有\n紀錄 的 第 一 場 跳水 比 賽 是 在 1871 年 舉行 , 當 時 的 選手 要 從 倫敦 橋 跳 下 泰晤士 河 。\n現今 的 跳水 有 個 人 比 賽 , 也 有 雙人 比 賽 。 果\n起 跳 後 到 入 水 前 , 選 手 處 於 騰空 的\n狀態 , 此 時 會 開 始 表 演 旋轉 與 轉 體\n起 跳 : 一 系 列 的 動作 。\n選手 由 跳 臺 躍 人 水中, 起 @\n跳動 作 可 以 是 向 前 、 向 後 。 紀念 LOR\n或 者 倒立 。 4\n水 比 賽 規則 : J\n跳水 比 賽 規則 fa |\n‧ 每 位 評審 各 自 針對 選手 的 ae\n每 一 次 跳水 評分 , 分 數 的 | GR.\n範圍 為 0 分 (失敗 ) 到 10 分 | | 評審 團 針 對 選手 每 一 次 的 跳水\n(HBF) 。 評分 。 評 審 的 數 量 會 因 比 賽 的\n騰空 、 入 水 動作 , 各 部 分 」 | 為 例 , 個 人 賽 配置 7 名 評審 , coed\n最 高 可 以 給 3 分 , 剩 下 的 | 雙人 跳水 則 配置 1 名 評審 。\n1 分 則 評定 整體 動作 執行 an\n的 完善 程度 。 fe || dd |) Se\n7 7 CK\n‧ 比 賽 前 , 選 手 必 須 先 繳 交 | 還 用 要 二 要\n跳水 動作 表 , 設 定 每 一 跳 | ||| re\n的 動作 難度 。 比 賽 時 只 能 | 上 二 二\n依照 動作 表 完成 跳水 , 否 | fF | 上\n則 以 0 分 計算 。 | |\nemma enter ota] 「 一 才 一 二 一\n最 高 分 與 2 個 最 低 分 不 巴\n採 計 , 僅 採 計 中 間 3 名 評 | 入 水 :\n審 的 分 數 後 , 再 乘 以 動作 上 當 選手 入 水 的 時 候 , 淺 起 水 花 能 — SlUys _\n的 難度 係 數 , 最 後 算出 該 圖 緩和 衝擊, 但 評 窒 想 看 到 的 是 箇 國 MG\n次 跳水 的 得 分 。 潔 流暢 的 入水 , 激 起 太 大 的 水 花\n會 遭 至 o\nEN | ESD",
       "stem": "根據圖文，下列關於跳水比賽的敘述，何者最恰當？",
       "options": {
         "A": "入水時水花的大小會影響分數高低",
@@ -418,6 +546,7 @@
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 27,
       "page_number": 9,
       "context": "",
@@ -433,6 +562,7 @@
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 28,
       "page_number": 9,
       "context": "",
@@ -448,6 +578,7 @@
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 29,
       "page_number": 9,
       "context": "",
@@ -463,6 +594,7 @@
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 30,
       "page_number": 9,
       "context": "",
@@ -478,6 +610,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 31,
       "page_number": 10,
       "context": "我通過文字開啟深邃寬廣的知識世界，同時釋放囚在罈子裡的書魂。我們的交\n談安靜而無聲。這種滅音的交談沒有負擔，對方的想法不盡完善，就在架上搜尋互\n為補強的觀點，讓不同意見的寄魂去辯駁。年輕的書魂總是按捺不住脾氣，氣勢凌\n厲且偏激；老書魂則不動如山，總能敗部復活，在逆境裡扭轉乾坤。讀書比看戲更\n令人著迷，難怪有不少讀者活著的時候就心甘情願把自己埋進納骨塔，想來精彩的\n書還真有勾魂攝魄的魅力。\n—— 改寫自鍾怡雯〈藏魂〉\n請閲讀以下兩篇短文，並回答32 ～ 33題：",
@@ -493,6 +626,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 32,
       "page_number": 10,
       "context": "",
@@ -508,6 +642,7 @@
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 33,
       "page_number": 11,
       "context": "霍普創立公司時正值失業、離婚，一切都糟透了。當時他想，如果他有土地，狀\n況或許會好一點。霍普回憶：「接著我看到了月亮，我想著，那裡有好多土地啊。」\n於是霍普調查《外太空條約》，發現條約僅明文禁止地球的國家主張其他星球\n的土地所有權，卻未規範私營公司。在當時，沒人想到會有公司這麼做。於是霍普\n飛奔去跑流程，而且從未有任何地球政府挑戰他販賣外太空地產的權限。\n—— 改寫自樂羽嘉〈你真的能買下月球的土地嗎？〉\n【乙】\n1969 年美國太空人阿姆斯壯在月球上踏出人類的第一步，在此之前的兩年，\n聯合國大會才通過《外太空條約》並開放各國簽署，至今已有超過 100 個國家簽\n署。條約規定必須和平進行太空探索，並造福所有國家。此條約也提到，所有的締\n約國都不可以主張天體的所有權，並要求締約國不可破壞他國的探測器或基地，例\n如不能降落在這些物體之上或附近。但這也產生了漏洞，讓國家或私人企業能以先\n占先贏的手段獨占有利的地點。\n2016 年，美國天文物理學家艾維斯在《太空政策》期刊上提到：國家或私人\n企業都不能主張月球土地的所有權，否則將會引發「瓜分月球」效應，在某些方\n面就像 1880 年代許多國家開始「瓜分非洲」，在剛果爭相主張礦物資源的所有權\n一樣。\n—— 改寫自曼恩〈月球土地先占先贏〉\n請閱讀以下短文，並回答34 ～ 35題：",
@@ -523,6 +658,7 @@
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 34,
       "page_number": 11,
       "context": "",
@@ -538,6 +674,7 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 35,
       "page_number": 12,
       "context": "如今在網路上，瀏覽紀錄、按讚喜好、地理位置、基本個資等這些看不到的\n數據，都是商業可變現、政治可操縱的黑箱資料。\n以往，我們常嘲笑將網站密碼設為「1234」或自己生日的朋友，然而，真實\n世界更幽微：\n你是否知道，Google的智慧音箱、臉書的語音通話，都被他們錄下來，並交由\n人力聽取並抄錄，理由是「優化人工智慧」？\n你是否知道，YouTube因未經監護人同意，違法蒐集兒童隱私，被美國政府\n重罰？\n你是否知道，看似無關隱私的掃地機器人龍頭iRobot，執行長一度動念將機器\n人蒐集的用戶住家平面圖出售作為「智慧家庭」的數據資料庫，後因輿論反彈才\n作罷？\n這些例子，說明數位時代「隱私」的高度複雜性，更別提，我們點閱特定產\n品網頁後，不管逛到哪個網站，同一產品廣告如影隨形。未來可能無論我們走到哪\n裡，戶外廣告牆會自動掃描每個人的眼球，播放符合個人興趣特徵的廣告。\n關於網路隱私，當前最重要的挑戰是，當我們同意使用某一網路服務，形同\n自願交出私密資料。然而，我們完全不知道，誰可能取得這些資料，又會用在哪些\n地方？\n—— 改寫自黃哲斌〈個資可以吃嗎？給現代公民的網路隱私守則〉\n請閱讀以下短文，並回答36 ～ 38題：",
@@ -553,6 +690,7 @@
     },
     {
       "number": 37,
+      "source_number": 37,
       "display_number": 36,
       "page_number": 12,
       "context": "",
@@ -568,6 +706,7 @@
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 37,
       "page_number": 13,
       "context": "過去25代的法國國王都在巴黎東北方的蘭斯聖母院大教堂加冕。但拿破崙不願\n意被當成波旁王朝的繼承者，而自稱為「法國人的皇帝」，因此拒絕在蘭斯加冕，選\n擇在巴黎聖母院舉行加冕。同時仿效一千多年前的「羅馬人的皇帝」查理曼大帝，\n由羅馬教皇庇護七世主持，而不是蘭斯大主教。\n當年查理曼大帝都還是親自前往梵蒂岡，拿破崙卻要求教皇至巴黎主持加冕典\n禮。在大典開始前，拿破崙已經身著絳紅色皇袍，頭戴金質羅馬式的桂冠，手持權\n杖，且未等教皇拿祭壇上的皇冠，就自己戴上，接著又親手為皇后約瑟芬授冠。但\n對教會如此傲慢的態度，若如實畫出，真的好嗎？因此大衛決定採用皇帝給皇后加\n冕的畫面，而不談誰為拿破崙加冕。\n畫面的正中央是代表神權的十字架。從十字架、拿破崙、教皇由高到低的位\n置可看出拿破崙成了領軍人物，他跳過了代理神權的教會中介，直接實現了君權神\n授的完美結合。畫中拿破崙替皇后約瑟芬加冕，教皇庇護七世坐在拿破崙身後，面\n色凝重，但從教皇舉起的右手，還是可看出他正在為這一場面祝福。但這畫面仍有\n大衛虛構之處：當時拿破崙的母親根本沒有出席，也一併被畫在畫作裡。後來成為\n法國皇太后的她十分反對加冕典禮，擔憂兒子稱帝後將引發許多恐怖之事，因此遠\n走米蘭，在典禮結束後才回巴黎，將皇太后放入畫中是拿破崙本人提出的要求。至\n於畫作主角拿破崙，畫裡的他成了體型瘦高的男子，這自然是為了迎合身型矮小的\n拿破崙的虛榮心，好宣揚其驍勇善戰的英勇姿態，及帝王居高臨下、無人能左右的\n威權。\n—— 改寫自中野京子《療癒羅浮宮》",
@@ -583,6 +722,7 @@
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 38,
       "page_number": 14,
       "context": "",
@@ -598,6 +738,7 @@
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 39,
       "page_number": 14,
       "context": "",
@@ -613,6 +754,7 @@
     },
     {
       "number": 41,
+      "source_number": 41,
       "display_number": 40,
       "page_number": 15,
       "context": "",
@@ -628,6 +770,7 @@
     },
     {
       "number": 42,
+      "source_number": 42,
       "display_number": 41,
       "page_number": 15,
       "context": "",
@@ -645,66 +788,77 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 33,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 59,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 24,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 429,
       "option_count": 0
     },
     {
       "question_number": 9,
+      "display_source_number": 9,
       "reason": "parse_incomplete",
       "stem_length": 31,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 18,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 4,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 11,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 96,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 4,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 30,
       "option_count": 0

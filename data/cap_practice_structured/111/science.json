@@ -2,6 +2,7 @@
   "year": "111",
   "subject_slug": "science",
   "subject_label": "自然",
+  "official_question_count": 50,
   "question_count": 50,
   "answered_count": 50,
   "page_count": 15,
@@ -20,12 +21,123 @@
     "answers_found": 50,
     "questions_kept": 50,
     "issues_found": 4,
-    "answer_completion_ratio": 1.0
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "missing_question_numbers": [],
+    "duplicate_question_numbers": []
   },
   "practice_ready": true,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -41,6 +153,7 @@
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -56,6 +169,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -71,6 +185,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 4,
       "page_number": 2,
       "context": "",
@@ -86,6 +201,7 @@
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 5,
       "page_number": 2,
       "context": "",
@@ -101,6 +217,7 @@
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 6,
       "page_number": 2,
       "context": "",
@@ -116,6 +233,7 @@
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 7,
       "page_number": 3,
       "context": "",
@@ -131,6 +249,7 @@
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 8,
       "page_number": 3,
       "context": "",
@@ -146,6 +265,7 @@
     },
     {
       "number": 9,
+      "source_number": 9,
       "display_number": 9,
       "page_number": 3,
       "context": "",
@@ -161,6 +281,7 @@
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 10,
       "page_number": 3,
       "context": "",
@@ -176,6 +297,7 @@
     },
     {
       "number": 11,
+      "source_number": 11,
       "display_number": 11,
       "page_number": 4,
       "context": "",
@@ -191,6 +313,7 @@
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 12,
       "page_number": 4,
       "context": "",
@@ -206,6 +329,7 @@
     },
     {
       "number": 13,
+      "source_number": 13,
       "display_number": 13,
       "page_number": 4,
       "context": "",
@@ -221,6 +345,7 @@
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 14,
       "page_number": 4,
       "context": "",
@@ -236,6 +361,7 @@
     },
     {
       "number": 15,
+      "source_number": 15,
       "display_number": 15,
       "page_number": 5,
       "context": "",
@@ -251,6 +377,7 @@
     },
     {
       "number": 16,
+      "source_number": 16,
       "display_number": 16,
       "page_number": 5,
       "context": "",
@@ -266,6 +393,7 @@
     },
     {
       "number": 17,
+      "source_number": 17,
       "display_number": 17,
       "page_number": 5,
       "context": "",
@@ -281,6 +409,7 @@
     },
     {
       "number": 18,
+      "source_number": 18,
       "display_number": 18,
       "page_number": 5,
       "context": "",
@@ -296,6 +425,7 @@
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 19,
       "page_number": 5,
       "context": "",
@@ -311,6 +441,7 @@
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 20,
       "page_number": 6,
       "context": "",
@@ -326,6 +457,7 @@
     },
     {
       "number": 21,
+      "source_number": 21,
       "display_number": 21,
       "page_number": 6,
       "context": "",
@@ -341,6 +473,7 @@
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 22,
       "page_number": 6,
       "context": "",
@@ -356,6 +489,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 23,
       "page_number": 7,
       "context": "",
@@ -371,6 +505,7 @@
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 24,
       "page_number": 7,
       "context": "",
@@ -386,6 +521,7 @@
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 25,
       "page_number": 7,
       "context": "",
@@ -401,6 +537,7 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 26,
       "page_number": 7,
       "context": "",
@@ -416,6 +553,7 @@
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 27,
       "page_number": 8,
       "context": "",
@@ -431,6 +569,7 @@
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 28,
       "page_number": 8,
       "context": "",
@@ -446,6 +585,7 @@
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 29,
       "page_number": 8,
       "context": "",
@@ -461,6 +601,7 @@
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 30,
       "page_number": 9,
       "context": "",
@@ -476,6 +617,7 @@
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 31,
       "page_number": 9,
       "context": "",
@@ -491,6 +633,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 32,
       "page_number": 9,
       "context": "",
@@ -506,6 +649,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 33,
       "page_number": 9,
       "context": "",
@@ -521,6 +665,7 @@
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 34,
       "page_number": 10,
       "context": "",
@@ -536,6 +681,7 @@
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 35,
       "page_number": 10,
       "context": "",
@@ -551,6 +697,7 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 36,
       "page_number": 10,
       "context": "",
@@ -566,6 +713,7 @@
     },
     {
       "number": 37,
+      "source_number": 37,
       "display_number": 37,
       "page_number": 10,
       "context": "",
@@ -581,6 +729,7 @@
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 38,
       "page_number": 11,
       "context": "",
@@ -596,6 +745,7 @@
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 39,
       "page_number": 11,
       "context": "",
@@ -611,6 +761,7 @@
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 40,
       "page_number": 11,
       "context": "",
@@ -626,6 +777,7 @@
     },
     {
       "number": 41,
+      "source_number": 41,
       "display_number": 41,
       "page_number": 11,
       "context": "",
@@ -641,6 +793,7 @@
     },
     {
       "number": 42,
+      "source_number": 42,
       "display_number": 42,
       "page_number": 12,
       "context": "",
@@ -656,6 +809,7 @@
     },
     {
       "number": 43,
+      "source_number": 43,
       "display_number": 43,
       "page_number": 13,
       "context": "2、將適量的廚餘、水、汙泥混合後，均分成三等分，分別置於三瓶發酵瓶中，\n再將發酵瓶分別放入不同溫度的恆溫水浴中，並組成三組排水集氣裝置。\n3、次日開始，每隔 24 小時，定時測量一次集氣瓶中的排開水量，並記錄之。\n4、檢測集氣瓶內的氣體，以確保收集氣體的過程，發酵還在進行。\n5、每日於檢測後，將集氣瓶重新裝滿水再放回水槽中，繼續收集氣體。\n實驗結果如表(十)所示：\n表(十)\nᐎҜ༞\nᐎҜ༞",
@@ -671,6 +825,7 @@
     },
     {
       "number": 44,
+      "source_number": 44,
       "display_number": 44,
       "page_number": 13,
       "context": "",
@@ -686,6 +841,7 @@
     },
     {
       "number": 45,
+      "source_number": 45,
       "display_number": 45,
       "page_number": 13,
       "context": "",
@@ -701,6 +857,7 @@
     },
     {
       "number": 46,
+      "source_number": 46,
       "display_number": 46,
       "page_number": 13,
       "context": "",
@@ -716,6 +873,7 @@
     },
     {
       "number": 47,
+      "source_number": 47,
       "display_number": 47,
       "page_number": 14,
       "context": "圖(二十三)\n圖(二十四)\n圖(二十五)\n表(十一)\n請閱讀下列敘述後，回答47～48題",
@@ -731,6 +889,7 @@
     },
     {
       "number": 48,
+      "source_number": 48,
       "display_number": 48,
       "page_number": 14,
       "context": "",
@@ -746,6 +905,7 @@
     },
     {
       "number": 49,
+      "source_number": 49,
       "display_number": 49,
       "page_number": 15,
       "context": "圖(二十六)\n圖(二十七)\n表(十二)\n_\n_\n試題結束\n請閱讀下列敘述後，回答49～50題",
@@ -761,6 +921,7 @@
     },
     {
       "number": 50,
+      "source_number": 50,
       "display_number": 50,
       "page_number": 15,
       "context": "",
@@ -778,24 +939,28 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 20,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 24,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 414,
       "option_count": 0

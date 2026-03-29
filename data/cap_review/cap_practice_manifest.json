@@ -1,6 +1,6 @@
 {
   "title": "會考歷屆練習",
-  "generated_at": "2026-03-29T18:40:22",
+  "generated_at": "2026-03-29T22:37:16",
   "years": [
     {
       "year": "114",
@@ -10,9 +10,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 42,
           "question_count": 36,
           "answered_count": 36,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\114\\chinese.json",
           "page_count": 15,
           "ocr_pages": []
@@ -20,9 +21,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 43,
           "question_count": 37,
           "answered_count": 37,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\114\\english.json",
           "page_count": 14,
           "ocr_pages": []
@@ -30,6 +32,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 25,
           "question_count": 25,
           "answered_count": 25,
           "practice_ready": true,
@@ -40,6 +43,7 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 54,
           "practice_ready": true,
@@ -50,15 +54,20 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 50,
           "question_count": 49,
           "answered_count": 49,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\114\\science.json",
           "page_count": 15,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:114:chinese:36!= 42",
+        "question_count_mismatch:114:english:37!= 43",
+        "question_count_mismatch:114:science:49!= 50"
+      ]
     },
     {
       "year": "113",
@@ -68,9 +77,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 42,
           "question_count": 38,
           "answered_count": 38,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\113\\chinese.json",
           "page_count": 15,
           "ocr_pages": []
@@ -78,9 +88,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 43,
           "question_count": 39,
           "answered_count": 39,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\113\\english.json",
           "page_count": 15,
           "ocr_pages": [
@@ -90,9 +101,10 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 25,
           "question_count": 25,
           "answered_count": 24,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\113\\math.json",
           "page_count": 13,
           "ocr_pages": []
@@ -100,9 +112,10 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 53,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\113\\social.json",
           "page_count": 15,
           "ocr_pages": []
@@ -110,15 +123,20 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 50,
           "question_count": 47,
           "answered_count": 47,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\113\\science.json",
           "page_count": 15,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:113:chinese:38!= 42",
+        "question_count_mismatch:113:english:39!= 43",
+        "question_count_mismatch:113:science:47!= 50"
+      ]
     },
     {
       "year": "112",
@@ -128,9 +146,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 42,
           "question_count": 41,
           "answered_count": 41,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\112\\chinese.json",
           "page_count": 15,
           "ocr_pages": [
@@ -140,9 +159,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 43,
           "question_count": 41,
           "answered_count": 41,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\112\\english.json",
           "page_count": 13,
           "ocr_pages": [
@@ -152,6 +172,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 25,
           "question_count": 25,
           "answered_count": 25,
           "practice_ready": true,
@@ -162,6 +183,7 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 54,
           "practice_ready": true,
@@ -172,6 +194,7 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 50,
           "question_count": 50,
           "answered_count": 50,
           "practice_ready": true,
@@ -180,7 +203,10 @@
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:112:chinese:41!= 42",
+        "question_count_mismatch:112:english:41!= 43"
+      ]
     },
     {
       "year": "111",
@@ -190,9 +216,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 42,
           "question_count": 40,
           "answered_count": 40,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\111\\chinese.json",
           "page_count": 15,
           "ocr_pages": []
@@ -200,9 +227,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 43,
           "question_count": 39,
           "answered_count": 39,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\111\\english.json",
           "page_count": 14,
           "ocr_pages": [
@@ -212,6 +240,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 25,
           "question_count": 25,
           "answered_count": 25,
           "practice_ready": true,
@@ -222,6 +251,7 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 54,
           "practice_ready": true,
@@ -232,6 +262,7 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 50,
           "question_count": 50,
           "answered_count": 50,
           "practice_ready": true,
@@ -240,7 +271,10 @@
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:111:chinese:40!= 42",
+        "question_count_mismatch:111:english:39!= 43"
+      ]
     },
     {
       "year": "110",
@@ -250,9 +284,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 46,
-          "answered_count": 46,
-          "practice_ready": true,
+          "answered_count": 39,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\110\\chinese.json",
           "page_count": 15,
           "ocr_pages": []
@@ -260,9 +295,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 41,
           "question_count": 34,
           "answered_count": 34,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\110\\english.json",
           "page_count": 13,
           "ocr_pages": []
@@ -270,6 +306,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 26,
           "question_count": 26,
           "answered_count": 26,
           "practice_ready": true,
@@ -280,9 +317,10 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 62,
           "answered_count": 62,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\110\\social.json",
           "page_count": 15,
           "ocr_pages": []
@@ -290,6 +328,7 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 54,
           "practice_ready": true,
@@ -298,7 +337,11 @@
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:110:chinese:46!= 48",
+        "question_count_mismatch:110:english:34!= 41",
+        "question_count_mismatch:110:social:62!= 63"
+      ]
     },
     {
       "year": "109",
@@ -308,9 +351,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 47,
-          "answered_count": 47,
-          "practice_ready": true,
+          "answered_count": 39,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\109\\chinese.json",
           "page_count": 15,
           "ocr_pages": []
@@ -318,9 +362,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 41,
           "question_count": 34,
-          "answered_count": 34,
-          "practice_ready": true,
+          "answered_count": 33,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\109\\english.json",
           "page_count": 14,
           "ocr_pages": []
@@ -328,8 +373,9 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 26,
           "question_count": 26,
-          "answered_count": 26,
+          "answered_count": 25,
           "practice_ready": true,
           "structured_path": "cap_practice_structured\\109\\math.json",
           "page_count": 13,
@@ -338,8 +384,9 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 63,
-          "answered_count": 63,
+          "answered_count": 62,
           "practice_ready": true,
           "structured_path": "cap_practice_structured\\109\\social.json",
           "page_count": 15,
@@ -348,15 +395,19 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 54,
-          "answered_count": 54,
+          "answered_count": 53,
           "practice_ready": true,
           "structured_path": "cap_practice_structured\\109\\science.json",
           "page_count": 15,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:109:chinese:47!= 48",
+        "question_count_mismatch:109:english:34!= 41"
+      ]
     },
     {
       "year": "108",
@@ -366,9 +417,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 47,
-          "answered_count": 47,
-          "practice_ready": true,
+          "answered_count": 41,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\108\\chinese.json",
           "page_count": 14,
           "ocr_pages": []
@@ -376,9 +428,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 41,
           "question_count": 35,
           "answered_count": 35,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\108\\english.json",
           "page_count": 14,
           "ocr_pages": []
@@ -386,6 +439,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 26,
           "question_count": 26,
           "answered_count": 26,
           "practice_ready": true,
@@ -396,6 +450,7 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 63,
           "answered_count": 63,
           "practice_ready": true,
@@ -406,15 +461,19 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 54,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\108\\science.json",
           "page_count": 15,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:108:chinese:47!= 48",
+        "question_count_mismatch:108:english:35!= 41"
+      ]
     },
     {
       "year": "107",
@@ -424,9 +483,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 48,
-          "answered_count": 48,
-          "practice_ready": true,
+          "answered_count": 41,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\107\\chinese.json",
           "page_count": 14,
           "ocr_pages": []
@@ -434,9 +494,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 41,
           "question_count": 35,
           "answered_count": 35,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\107\\english.json",
           "page_count": 14,
           "ocr_pages": []
@@ -444,6 +505,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 26,
           "question_count": 26,
           "answered_count": 26,
           "practice_ready": true,
@@ -454,6 +516,7 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 63,
           "answered_count": 63,
           "practice_ready": true,
@@ -464,15 +527,19 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 53,
           "answered_count": 53,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\107\\science.json",
           "page_count": 15,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:107:english:35!= 41",
+        "question_count_mismatch:107:science:53!= 54"
+      ]
     },
     {
       "year": "106",
@@ -482,9 +549,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 47,
-          "answered_count": 47,
-          "practice_ready": true,
+          "answered_count": 39,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\106\\chinese.json",
           "page_count": 14,
           "ocr_pages": []
@@ -492,9 +560,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 41,
           "question_count": 33,
-          "answered_count": 33,
-          "practice_ready": true,
+          "answered_count": 32,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\106\\english.json",
           "page_count": 14,
           "ocr_pages": []
@@ -502,9 +571,10 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 26,
           "question_count": 26,
           "answered_count": 26,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\106\\math.json",
           "page_count": 11,
           "ocr_pages": []
@@ -512,8 +582,9 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 63,
-          "answered_count": 63,
+          "answered_count": 62,
           "practice_ready": true,
           "structured_path": "cap_practice_structured\\106\\social.json",
           "page_count": 14,
@@ -522,15 +593,19 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 54,
-          "answered_count": 54,
+          "answered_count": 53,
           "practice_ready": true,
           "structured_path": "cap_practice_structured\\106\\science.json",
           "page_count": 14,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:106:chinese:47!= 48",
+        "question_count_mismatch:106:english:33!= 41"
+      ]
     },
     {
       "year": "105",
@@ -540,8 +615,9 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 48,
-          "answered_count": 25,
+          "answered_count": 41,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\105\\chinese.json",
           "page_count": 14,
@@ -550,8 +626,9 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 41,
           "question_count": 34,
-          "answered_count": 0,
+          "answered_count": 34,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\105\\english.json",
           "page_count": 14,
@@ -560,19 +637,21 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 25,
           "question_count": 25,
           "answered_count": 25,
           "practice_ready": true,
           "structured_path": "cap_practice_structured\\105\\math.json",
-          "page_count": 10,
+          "page_count": 11,
           "ocr_pages": []
         },
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 63,
-          "answered_count": 0,
-          "practice_ready": false,
+          "answered_count": 63,
+          "practice_ready": true,
           "structured_path": "cap_practice_structured\\105\\social.json",
           "page_count": 14,
           "ocr_pages": []
@@ -580,15 +659,24 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 53,
-          "answered_count": 0,
+          "answered_count": 52,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\105\\science.json",
           "page_count": 14,
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "duplicate_label:參考答案:2",
+        "duplicate_label:國文科:2",
+        "duplicate_label:數學科:2",
+        "duplicate_label:第一題:2",
+        "duplicate_label:第二題:2",
+        "question_count_mismatch:105:english:34!= 41",
+        "question_count_mismatch:105:science:53!= 54"
+      ]
     },
     {
       "year": "104",
@@ -598,9 +686,10 @@
         {
           "slug": "chinese",
           "label": "國文",
+          "official_question_count": 48,
           "question_count": 48,
-          "answered_count": 48,
-          "practice_ready": true,
+          "answered_count": 40,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\104\\chinese.json",
           "page_count": 14,
           "ocr_pages": []
@@ -608,9 +697,10 @@
         {
           "slug": "english",
           "label": "英語",
+          "official_question_count": 40,
           "question_count": 34,
           "answered_count": 34,
-          "practice_ready": true,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\104\\english.json",
           "page_count": 14,
           "ocr_pages": []
@@ -618,6 +708,7 @@
         {
           "slug": "math",
           "label": "數學",
+          "official_question_count": 25,
           "question_count": 25,
           "answered_count": 25,
           "practice_ready": true,
@@ -628,6 +719,7 @@
         {
           "slug": "social",
           "label": "社會",
+          "official_question_count": 63,
           "question_count": 63,
           "answered_count": 63,
           "practice_ready": true,
@@ -638,6 +730,7 @@
         {
           "slug": "science",
           "label": "自然",
+          "official_question_count": 54,
           "question_count": 54,
           "answered_count": 54,
           "practice_ready": true,
@@ -646,7 +739,9 @@
           "ocr_pages": []
         }
       ],
-      "issues": []
+      "issues": [
+        "question_count_mismatch:104:english:34!= 40"
+      ]
     },
     {
       "year": "103",
@@ -656,8 +751,9 @@
         {
           "slug": "chinese",
           "label": "國文",
-          "question_count": 38,
-          "answered_count": 0,
+          "official_question_count": 48,
+          "question_count": 35,
+          "answered_count": 35,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\103\\chinese.json",
           "page_count": 14,
@@ -679,10 +775,43 @@
           ]
         },
         {
+          "slug": "english",
+          "label": "英語",
+          "official_question_count": 40,
+          "question_count": 32,
+          "answered_count": 30,
+          "practice_ready": false,
+          "structured_path": "cap_practice_structured\\103\\english.json",
+          "page_count": 20,
+          "ocr_pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        {
           "slug": "math",
           "label": "數學",
-          "question_count": 22,
-          "answered_count": 0,
+          "official_question_count": 27,
+          "question_count": 20,
+          "answered_count": 20,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\103\\math.json",
           "page_count": 11,
@@ -703,8 +832,9 @@
         {
           "slug": "social",
           "label": "社會",
-          "question_count": 51,
-          "answered_count": 0,
+          "official_question_count": 63,
+          "question_count": 43,
+          "answered_count": 43,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\103\\social.json",
           "page_count": 14,
@@ -728,8 +858,9 @@
         {
           "slug": "science",
           "label": "自然",
-          "question_count": 37,
-          "answered_count": 0,
+          "official_question_count": 54,
+          "question_count": 35,
+          "answered_count": 35,
           "practice_ready": false,
           "structured_path": "cap_practice_structured\\103\\science.json",
           "page_count": 14,
@@ -752,8 +883,11 @@
         }
       ],
       "issues": [
-        "missing_subject:英語（閱讀）",
-        "answer_parse_failed:Unable to detect answer key columns."
+        "question_count_mismatch:103:chinese:35!= 48",
+        "question_count_mismatch:103:english:32!= 40",
+        "question_count_mismatch:103:math:20!= 27",
+        "question_count_mismatch:103:social:43!= 63",
+        "question_count_mismatch:103:science:35!= 54"
       ]
     },
     {
@@ -764,9 +898,10 @@
         {
           "slug": "chinese",
           "label": "國文",
-          "question_count": 30,
-          "answered_count": 30,
-          "practice_ready": true,
+          "official_question_count": 48,
+          "question_count": 27,
+          "answered_count": 26,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\102\\chinese.json",
           "page_count": 14,
           "ocr_pages": [
@@ -787,11 +922,43 @@
           ]
         },
         {
+          "slug": "english",
+          "label": "英語",
+          "official_question_count": 40,
+          "question_count": 33,
+          "answered_count": 31,
+          "practice_ready": false,
+          "structured_path": "cap_practice_structured\\102\\english.json",
+          "page_count": 19,
+          "ocr_pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        {
           "slug": "math",
           "label": "數學",
-          "question_count": 17,
-          "answered_count": 17,
-          "practice_ready": true,
+          "official_question_count": 25,
+          "question_count": 16,
+          "answered_count": 13,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\102\\math.json",
           "page_count": 11,
           "ocr_pages": [
@@ -811,9 +978,10 @@
         {
           "slug": "social",
           "label": "社會",
-          "question_count": 54,
-          "answered_count": 54,
-          "practice_ready": true,
+          "official_question_count": 63,
+          "question_count": 50,
+          "answered_count": 49,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\102\\social.json",
           "page_count": 14,
           "ocr_pages": [
@@ -836,9 +1004,10 @@
         {
           "slug": "science",
           "label": "自然",
-          "question_count": 40,
-          "answered_count": 40,
-          "practice_ready": true,
+          "official_question_count": 54,
+          "question_count": 35,
+          "answered_count": 34,
+          "practice_ready": false,
           "structured_path": "cap_practice_structured\\102\\science.json",
           "page_count": 14,
           "ocr_pages": [
@@ -860,7 +1029,11 @@
         }
       ],
       "issues": [
-        "missing_subject:英語（閱讀）"
+        "question_count_mismatch:102:chinese:27!= 48",
+        "question_count_mismatch:102:english:33!= 40",
+        "question_count_mismatch:102:math:16!= 25",
+        "question_count_mismatch:102:social:50!= 63",
+        "question_count_mismatch:102:science:35!= 54"
       ]
     }
   ]

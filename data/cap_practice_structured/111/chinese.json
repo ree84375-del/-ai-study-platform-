@@ -2,6 +2,7 @@
   "year": "111",
   "subject_slug": "chinese",
   "subject_label": "國文",
+  "official_question_count": 42,
   "question_count": 40,
   "answered_count": 40,
   "page_count": 15,
@@ -20,12 +21,115 @@
     "answers_found": 42,
     "questions_kept": 40,
     "issues_found": 13,
-    "answer_completion_ratio": 1.0
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      1,
+      20,
+      21,
+      22,
+      23,
+      1,
+      2,
+      1,
+      2,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      1,
+      41,
+      42,
+      1
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42
+    ],
+    "missing_question_numbers": [
+      11,
+      21
+    ],
+    "duplicate_question_numbers": []
   },
-  "practice_ready": true,
+  "practice_ready": false,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -41,6 +145,7 @@
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -56,6 +161,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -71,6 +177,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 4,
       "page_number": 2,
       "context": "",
@@ -86,6 +193,7 @@
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 5,
       "page_number": 3,
       "context": "",
@@ -101,6 +209,7 @@
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 6,
       "page_number": 3,
       "context": "",
@@ -116,6 +225,7 @@
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 7,
       "page_number": 3,
       "context": "",
@@ -131,6 +241,7 @@
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 8,
       "page_number": 3,
       "context": "",
@@ -146,6 +257,7 @@
     },
     {
       "number": 9,
+      "source_number": 9,
       "display_number": 9,
       "page_number": 3,
       "context": "",
@@ -161,6 +273,7 @@
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 10,
       "page_number": 4,
       "context": "",
@@ -176,6 +289,7 @@
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 11,
       "page_number": 4,
       "context": "",
@@ -191,6 +305,7 @@
     },
     {
       "number": 13,
+      "source_number": 13,
       "display_number": 12,
       "page_number": 4,
       "context": "",
@@ -206,6 +321,7 @@
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 13,
       "page_number": 5,
       "context": "",
@@ -221,6 +337,7 @@
     },
     {
       "number": 15,
+      "source_number": 15,
       "display_number": 14,
       "page_number": 5,
       "context": "",
@@ -236,6 +353,7 @@
     },
     {
       "number": 16,
+      "source_number": 16,
       "display_number": 15,
       "page_number": 5,
       "context": "",
@@ -251,6 +369,7 @@
     },
     {
       "number": 17,
+      "source_number": 17,
       "display_number": 16,
       "page_number": 5,
       "context": "",
@@ -266,6 +385,7 @@
     },
     {
       "number": 18,
+      "source_number": 18,
       "display_number": 17,
       "page_number": 5,
       "context": "",
@@ -281,6 +401,7 @@
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 18,
       "page_number": 5,
       "context": "",
@@ -296,6 +417,7 @@
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 19,
       "page_number": 6,
       "context": "",
@@ -311,6 +433,7 @@
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 20,
       "page_number": 6,
       "context": "",
@@ -326,6 +449,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 21,
       "page_number": 6,
       "context": "",
@@ -341,6 +465,7 @@
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 22,
       "page_number": 7,
       "context": "",
@@ -356,6 +481,7 @@
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 23,
       "page_number": 7,
       "context": "",
@@ -371,6 +497,7 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 24,
       "page_number": 8,
       "context": "",
@@ -386,6 +513,7 @@
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 25,
       "page_number": 8,
       "context": "",
@@ -401,6 +529,7 @@
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 26,
       "page_number": 9,
       "context": "",
@@ -416,6 +545,7 @@
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 27,
       "page_number": 9,
       "context": "",
@@ -431,6 +561,7 @@
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 28,
       "page_number": 10,
       "context": "小學時認識了一位大哥哥，手極巧，曾摺了一隻立體獨角仙給我。它有著\n厚實而層疊的腹部，擎起的獨角末端還如鹿角分岔。我珍藏多年，直至年長搬\n家方不知去向。\n我從未能重現這隻獨角仙，人生也不若它的摺線一般乾淨俐落。【甲】我反覆\n把自己摺成不同的生物，試圖符合人生為我準備的每一個坑洞。\n【乙】一群圓滑形狀的人們聚在一起談天，我小心翼翼斂起方正的直角，\n化為類似的圓體，悄悄滾近。另外也會遇上有稜有角的人們，我則對摺自己，\n讓角度更加突出。然而時間一長便洩了底，他們看穿，他們草草應付，藉機散\n去，剩下我獨自揣摩下次該變成哪種樣子。【丙】幾次把紙弄得殘破不堪後，\n勉強找到約略符合自己形狀的角落，適應下來了。\n但當我決定把自己送往另一個城市，困惑又悄悄蔓延。以往公司宣告「我\n們要的是稀有動物」，因此我們的生活宗旨是特立獨行、轟轟烈烈。但向新單\n位報到的第一天，主管卻說：「這是一個叢林！那些需要特殊照顧與環境才能\n生存的稀有動物，比如說大象、孔雀，在這裡是無法生存的！【丁】我們需要\n的是蟑螂、是老鼠！」雖然明白他的誇飾，但還是受到了極大的震撼。\n我又慌張了，這次，我應該把自己摺成什麼呢？\n―― 改寫自謝子凡〈摺疊人生〉\n請閱讀以下小說，並回答30～31題：",
@@ -446,6 +577,7 @@
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 29,
       "page_number": 10,
       "context": "",
@@ -461,6 +593,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 30,
       "page_number": 11,
       "context": "在各城門的打鬥迫使警察不得不使用武器，也同時引發一種暗地裡的騷動。\n【丙】打鬥中當然會有人受傷，但在城裡由於受到燠熱與恐懼的影響，所有事情\n都被誇大了，因此便有傳聞說死了人。總之民眾不滿的情緒確實不斷擴大，政府也\n確實擔心發生最壞情況，而認真考慮了萬一這群被困在疫病當中的民眾發生暴動，\n應該採取哪些措施。報上公布了一些法令，再次重申出城的禁令，違者可能得坐\n牢。城裡派出巡邏隊巡視。在那些空蕩蕩又熱得發燙的街頭上，經常會先聽到馬蹄\n聲，接著便會看見騎馬的衛兵從兩排緊閉的窗戶之間經過。【丁】巡邏隊的身影消\n失後，受威脅的城區便再次陷入一片沉重且充滿猜疑的寂靜之中。每隔一段時間\n都會有槍聲響起，那是幾支武裝的特殊小隊最近奉命撲殺貓狗，因為牠們也可能\n傳播跳蚤。這些冷硬的槍聲更增添城裡的肅殺氣氛。\n―― 節錄自卡繆《鼠疫》\n請閱讀以下短文，並回答32～33題：",
@@ -476,6 +609,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 31,
       "page_number": 11,
       "context": "",
@@ -491,6 +625,7 @@
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 32,
       "page_number": 12,
       "context": "白色電動車象徵著美秀美術館對於美學近乎潔癖的要求，電動車安靜地運\n作，不會干擾到青山綠水間的蟲鳴鳥叫，使得這座烏托邦式的美術館區，永遠\n呈現出一種寧靜的氛圍。更有趣的是，白色電動車的駕駛穿著白色制服，臉上\n表情肅穆，不禁令人懷疑這些駕駛是否為科幻片中的複製人或機械人？\n不過我們不得不佩服美秀美術館的周到服務：雨天下電動車時，館方提供\n踏腳墊，以及擦去雨滴的白抹布。即便是貴婦人，仍然可以輕鬆地在美術館中\n喝下午茶。然後乾乾淨淨，一塵不染地離去。\n當遊客在雨天蒞臨，美術館人員便會送來一整排赭紅色、印著MIHO字樣\n的雨傘，並要求大家將自己的傘留在車上。其用意是不希望旅客花花綠綠的雨\n傘，破壞了烏托邦視覺上的統一美感。\n―― 改寫自李清志〈烏托邦美術館：美秀美術館〉\n請閱讀以下短文，並回答34～35題：",
@@ -506,6 +641,7 @@
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 33,
       "page_number": 12,
       "context": "",
@@ -521,6 +657,7 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 34,
       "page_number": 13,
       "context": "我一度覺得紙本書的價值比較接近藝術\n品，但藝術品是陽春白雪，和一般人的距離\n較遠。我想找出來的是：紙本書對一般人也\n是必需的獨特價值。思索十幾年後，我試著\n將「數位及網路閱讀」與「紙本閱讀」的特\n質分述兩邊，列出右邊的圖像：\n我發現這兩列特質的總結，不就是白晝\n與黑夜的對比嗎？網路閱讀的特質，可喻為白\n晝；紙本閱讀的特質，可喻為黑夜。而一旦把\n紙本的獨特價值和黑夜連接，答案就跳出來\n了。人類從來都是需要代表黑夜和白晝的閱讀\n並存，也就是書和書以外的閱讀並存。\n就像人類有電燈後，雖然可以延長白晝，但還是需要黑夜，我們對紙本書\n的需求也是。不論我們可以從網路、手機得到多少訊息、知識、多媒體的閱讀\n樂趣，最後還是有打開紙本書的需求。人，沒有黑夜，是會生病的。我們沒有\n紙本書的閱讀，也如此。不論從心理或生理上來說，都如此。黑夜不是和少數\n人相關的藝術品，而是每個人不可或缺的必需品。\n我們現今透過簡訊、臉書，隨時都在使用文字表達自己、與人溝通，對文\n字的需求日益提高，而紙本書是最能讓我們學習、體會文字力量的一種媒介。\n一首雋永的古詩，印在紙本書上，和呈現在電子書上，會有截然不同的氣場，\n我們閱讀的感受也截然不同。這就是紙本書對每個人都具備的意義，不論這個\n社會多麼網路化、數位化。\n―― 改寫自郝明義〈當紙本書是一個黑夜〉\n以下是柏拉圖知名的「洞穴寓言」，請閱讀並回答36～38題：",
@@ -536,6 +673,7 @@
     },
     {
       "number": 37,
+      "source_number": 37,
       "display_number": 35,
       "page_number": 13,
       "context": "",
@@ -551,6 +689,7 @@
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 36,
       "page_number": 13,
       "context": "",
@@ -566,6 +705,7 @@
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 37,
       "page_number": 14,
       "context": "如果被鍊著的人中有一人被釋放，得以起身走出洞穴。陽光會讓這個人感\n到極大的痛苦，因為他只習慣於黑暗。等他習慣了光線，看見遮蔽物後真正發\n生的事情，他就能發現真相，得到啟蒙。\n當這個人再回到洞內，試著告訴其他人外界的真相，其他人卻很可能無法\n理解並認為這個人是瘋狂的。就算這個人將他們釋放，想拉他們走出洞穴，他\n們依然只願相信內壁上的影子才是真實，甚至可能將這個人殺死。\n請閱讀以下兩篇短文，並回答39～40題：",
@@ -581,6 +721,7 @@
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 38,
       "page_number": 14,
       "context": "",
@@ -596,6 +737,7 @@
     },
     {
       "number": 41,
+      "source_number": 41,
       "display_number": 39,
       "page_number": 15,
       "context": "",
@@ -611,6 +753,7 @@
     },
     {
       "number": 42,
+      "source_number": 42,
       "display_number": 40,
       "page_number": 15,
       "context": "",
@@ -628,78 +771,91 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 33,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 59,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 24,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 427,
       "option_count": 0
     },
     {
       "question_number": 11,
+      "display_source_number": 11,
       "reason": "parse_incomplete",
       "stem_length": 21,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 14,
       "option_count": 0
     },
     {
       "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 22,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 8,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 17,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 16,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 139,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 241,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 10,
       "option_count": 0

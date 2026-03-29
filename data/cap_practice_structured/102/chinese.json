@@ -2,8 +2,9 @@
   "year": "102",
   "subject_slug": "chinese",
   "subject_label": "國文",
-  "question_count": 30,
-  "answered_count": 30,
+  "official_question_count": 48,
+  "question_count": 27,
+  "answered_count": 26,
   "page_count": 14,
   "ocr_pages": [
     1,
@@ -32,21 +33,120 @@
   },
   "checks": {
     "question_chunks_found": 38,
-    "answers_found": 48,
-    "questions_kept": 30,
-    "issues_found": 8,
-    "answer_completion_ratio": 1.0
+    "answers_found": 46,
+    "questions_kept": 27,
+    "issues_found": 12,
+    "answer_completion_ratio": 0.963,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      5,
+      7,
+      10,
+      1,
+      13,
+      14,
+      16,
+      19,
+      20,
+      21,
+      2,
+      23,
+      25,
+      26,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      35,
+      36,
+      38,
+      40,
+      41,
+      42,
+      43,
+      45,
+      46,
+      47,
+      48
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      5,
+      7,
+      10,
+      1,
+      14,
+      16,
+      19,
+      20,
+      21,
+      2,
+      23,
+      25,
+      26,
+      28,
+      31,
+      32,
+      33,
+      35,
+      36,
+      38,
+      42,
+      46,
+      47,
+      48
+    ],
+    "missing_question_numbers": [
+      4,
+      6,
+      8,
+      9,
+      11,
+      12,
+      13,
+      15,
+      17,
+      18,
+      22,
+      24,
+      27,
+      29,
+      30,
+      34,
+      37,
+      39,
+      40,
+      41,
+      43,
+      44,
+      45
+    ],
+    "duplicate_question_numbers": [
+      1,
+      2
+    ]
   },
-  "practice_ready": true,
+  "practice_ready": false,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
       "stem": "下列 文 句 。 何 者 無 法 判別 季節 ?",
       "options": {
-        "A": "黃 梅 時 節 , 哈 比 樂團 的 新 專輯 就 要 發 行 了\nCEE Eee Ceres re\n(Capit Ze 9A 0 Bh PA RTE RE SR OE",
+        "A": "黃 梅 時 節 , 哈 比 樂團 的 新 專輯 就 要 發 行 了\nCEE Eee Ceres re\nEX RTE RE SR OE",
         "D": "鳳 風花 開 時 節 > sesh te SE EAL a"
       },
       "correct_answer": "B",
@@ -54,6 +154,7 @@
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -69,6 +170,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -76,57 +178,60 @@
       "options": {
         "A": "辯 論 / 論 養 —\\>—\nBRR/ RE ‘Sj |=\n(OURS RW =| |\n(DMA SL / Sai Jamz.",
         "B": "嚇 默 躲 在 暗 處 。 每 天 辛苦 夢 動 。 這 樣 的 人 更 值得 尊敬",
-        "C": "歷 史上 所 有 偉大 的 成 就 都 是 由 2 完成 子 看 起 來 不 可 能 的 事",
-        "D": "如 果 沒 有 明確 的 方向 。"
+        "C": "歷 史上 所 有 偉大 的 成 就 都 是 由 2 完成 子 看 起 來 不 可 能 的 事\ncu RE PE\n4 「 蜜 蜂 」 一 詞 中 的 兩 個 字 前 後 交換 變成 「 蜂 靈 」, 意 思 便 改 變 了 。 下 列 哪 一 組\n語詞 也 有 相 同 的 情況 ?"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「如 果 沒 有 明確 的 方向 。」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 4,
       "page_number": 2,
-      "context": "所 有 的 們 出 都 只 是 停留 在 原 點 而 徒勞 無 功\n4 「 蜜 蜂 」 一 詞 中 的 兩 個 字 前 後 交換 變成 「 蜂 靈 」, 意 思 便 改 變 了 。 下 列 哪 一 組\n語詞 也 有 相 同 的 情況 ?",
+      "context": "",
       "stem": "HERE AME RRM: BREA R HM > RAGRRAUREBANMRS PR RERAABA > HARE 一 層 一 層 剝 開 的 過 程 當 中 。」 這 段 閻 密 以 再 洋 邁 為 喻 。 說 明 一 部 好 電影 的 關鍵 為 下 列 何者 ? 一 0",
       "options": {
-        "A": "設 備 的 更 新 yr. fc",
+        "A": "設 備 的 更 新 ki",
         "B": "人 才 的 儲備 —1 5) —",
-        "D": "創 意 的 開 發",
-        "C": "專 業 的 訓練 J"
+        "C": "專 業 的 訓練 J",
+        "D": "創 意 的 開 發"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「創 意 的 開 發」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「創 意 的 開 發」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 5,
       "page_number": 3,
       "context": "",
-      "stem": "「 自 從 髮 禁 解除 之 後 , 經 由 各 媒 髓 的 大 畫 報導 , 學 生 們 興 高 打 列 , 老 師 們 緊張 不 以 , coi{lesl z A FRI RI Roe ays iE 當 今 社會 最 受注 日 的 焦點 話題 。」 J pes AERO» TERE SEED (AF @)u OA ()T ee co Qu, | O Q/OSI—GLey x @ PY Fe = a) SLING ae 人 es . : 到 x ay ey 上 到 Ss Me 18 | Sa ot | fe | ALP 7 es SN mae |",
+      "stem": "「 自 從 髮 禁 解除 之 後 , 經 由 各 媒 髓 的 大 畫 報導 , 學 生 們 興 高 打 列 , 老 師 們 緊張 不 以 , 0D_aM_ z A FRI RI Roe ays iE 當 今 社會 最 受注 日 的 焦點 話題 。」 J Nu AERO» TERE SEED (AF @o OA ()T ee co Qu, | O Q/OSI—GLey x @ 2 = a) SLING ae 說 es . : 到 x ay ey 上 到 Ss 人 的 0 18 | Sa ot | fe | ALP 一 mae |",
       "options": {
-        "A": "一 一 ! > >\n(:) 」:: Aw\nO—!>> Ais\nGeb y ==",
+        "A": "一 一 ! > >\n(:) 」:: Aw\nO—!>> Ais\n人",
         "B": "忍 耐 的 極限 —\n(Cha e6 i E I =",
         "D": "+ OR\n9 =!"
       },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「一 一 ! > >\n(:) 」:: Aw\nO—!>> Ais\nGeb y ==」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 對應選項內容是「一 一 ! > >\n(:) 」:: Aw\nO—!>> Ais\n人」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 6,
       "page_number": 4,
-      "context": "fea 生\n, edn EREM MAL ER GAR BS MAM Pow\n了 光明 ; tings lanewiree Aimesuaas , 活\nCS Tm ees ee 瀕 於 死亡 的 時 刻 。 在 導 濃 著\n溪水 的 嘯 叫 中 。, 他 們 一 一 立 起 固定 成 了 永恆 的 山脈 。\n這 段 文 字 的 缺 空 處 , 填 入 下 列 哪 一 組 標點 符號 最 恰當 ?",
+      "context": "|\n- edn EREM MAL ER GAR BS MAM Pow\n了 光明 ; 和 , 活\nCS Tm ees ee 瀕 於 死亡 的 時 刻 。 在 導 濃 著\n溪水 的 嘯 叫 中 。, 他 們 一 一 立 起 固定 成 了 永恆 的 山脈 。\n這 段 文 字 的 缺 空 處 , 填 入 下 列 哪 一 組 標點 符號 最 恰當 ?",
       "stem": "4h (ROR AAG) : 「 童 稚 情 親 四 十 年 , 中 間 消 息 兩 茫然 。 更 為 後 會 知 何 地 ? 忽 漫 相 逢 是 別 篷 。 不 念 1 桃花 紅 勝 錦 。 生 憎 柳 加 白 於 綿 。 劍 南 春色 還 無 > MSR ASE > | 關於 這 首 詩 的 內 容 , 下 列 敘 述 何者 正確 ?",
       "options": {
         "A": "重 到 故鄉 交 舊 少 , 淒 涼 。 卻 惡 他 鄉 是 該 鄉",
         "D": "台 此 一 別 , 重 逢 難 期 , 使 得 作者 更 添 離 情 悉 緒\nll. 南 唐 覆 亡 。, 後 主 李煜 被 俘 至 北方 , 遠 離 家 園 , 詞 作 中 常 流露 對 故國 的 思念 。",
-        "B": "寂 賓 古 豪華 , 烏 衣 日 又 斜 , 說 興 世 > BARE\nORASELAS KEKE SPOR Ge RRB\n(DAL BIRTHS ? BARRIERS OM > BRE RSE"
+        "B": "寂 賓 古 豪華 , 烏 衣 日 又 斜 , 說 興 世 > BARE\nORASELAS KEKE SPOR Ge RRB\nGE er OM > BRE RSE"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「台 此 一 別 , 重 逢 難 期 , 使 得 作者 更 添 離 情 悉 緒\nll. 南 唐 覆 亡 。, 後 主 李煜 被 俘 至 北方 , 遠 離 家 園 , 詞 作 中 常 流露 對 故國 的 思念 。」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "",
+      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
     },
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 7,
       "page_number": 4,
       "context": "撩\n此 判斷 , 下 列 詞句 何者 最 可 能 是 李煜 書寫 這 類 主 題 的 作品 ?",
@@ -134,14 +239,14 @@
       "options": {
         "A": "周 遭 環境 決定 學 習 成 效 的 好 壤 一",
         "B": "後 天 的 學 習 可 以 馬 補 先 天 的 不 足",
-        "C": "天 賦 須 配合 後 天 的 學 習 才 得 以 發 揮 號 呈",
-        "D": "絡 養 一 項 專長 須 透 過 多 元 領 天 的 學 習 二"
+        "C": "天 賦 須 配合 後 天 的 學 習 才 得 以 發 揮 號 呈\nCr 生"
       },
       "correct_answer": "B",
       "explanation": "這題的正確答案是 B。 對應選項內容是「後 天 的 學 習 可 以 馬 補 先 天 的 不 足」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 8,
       "page_number": 4,
       "context": "",
@@ -157,6 +262,7 @@
     },
     {
       "number": 16,
+      "source_number": 16,
       "display_number": 9,
       "page_number": 5,
       "context": "",
@@ -172,12 +278,13 @@
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 10,
       "page_number": 5,
       "context": "",
       "stem": "顏 真 卿 議 居 時 。 與 其 子孫 書 云 / BT FSORTARS - SLRPSRER R 不 能 逆 道 苗 時 為 千古 罪人 也 。 羅 冊 居 遠方 , 終 身 不 過 。 決 華 當 須 謂 吾 之 志 不 可 不 守 也 。 | 顏 真 卿 在 信 中 所 顯現 的 處 世 態 度 , 與 下 列 哪 一 句 話 最 接近 ?",
       "options": {
-        "A": "信 用 是 一 切 價 什 的 根基 。 誰 能 堅守 不 移 。 誰 就 可 以 成 功\n(E) 無 論處 在 如 何 險惡 的 境地 汪 都 託 秉持 隊 豁 達 樂觀 的 態度",
+        "A": "信 用 是 一 切 價 什 的 根基 。 誰 能 堅守 不 移 。 誰 就 可 以 成 功\nee LA",
         "C": "為 了 捍衛 國 家 政策 , 不 得 未 特 出 況 重 的 代價 , 但 我 們 仍 應 積極 付出",
         "D": "一 個 人 立身 行 事 都 應 本 其 良 %> 在 任何 場合 都 不 該 放棄 自 己 的 信念"
       },
@@ -186,35 +293,35 @@
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 11,
       "page_number": 5,
       "context": "",
       "stem": "\"REBAR TRARESO BAT > AME LRA TET —SlREIR 又 從 容 的 樣子 。 雄 烏 的 顏色 墓 麗 莊 重 。 搭 配 得 真 美 : 墨 黑 的 頭頭 上 。, 明 顯 的 一 道 細長 的 白眉 , 上 胸 和 兩 側 扉 膀 十 的 羽毛 橘 給 色 , 下 身 是 柔和 的 棕 青 。 販 鳥 的 色澤 就 抽 樸 多 了 。 牠 們 頻頻 出 六 於 小 徑 的 地 面 、 兩 旁 的 灌 最 和 冷 杉 之 間 。, 時 時 細 細 地 鳴叫 。 」 關 於 這 段 文 字 的 寫作 持 法 下 列 敘 述 何者 正確 ?",
       "options": {
         "A": "以 對 比 法 寫 出 雄 崔 鳥 色 彩 六 體形 的 差異 ~ 一",
-        "B": "採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌\n(0 還 用 聽覺 摹寫 , 生 動 描摹 崔 烏 的 鳴叫 聲",
-        "D": "先 分 述 鳥 的 毛色 分 布 。 再 總 括 形容 典 美"
+        "B": "採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌\nLE\nPRO"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌\n(0 還 用 聽覺 摹寫 , 生 動 描摹 崔 烏 的 鳴叫 聲」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌\nLE\nPRO」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 21,
+      "source_number": 21,
       "display_number": 12,
       "page_number": 5,
       "context": "",
-      "stem": "「 看 見 街 上 賣 駿 樞 的 攤子 TRABUSR DAG ROAM KA 樹 。 每 年 夏天 。 濃 密 薯 壯 。 結 滿 肥 大 的 果實 , 就 像 在 [一 種 恆 常 的 盟約 。」 根據 文 意 。 句 中 空格 處 最 適合 填 入 下 列 何者 ?",
+      "stem": "「 看 見 街 上 賣 駿 樞 的 攤子 TRABUSR DAG ROAM KA 樹 。 每 年 夏天 。 濃 密 薯 壯 。 結 滿 肥 大 的 果實 , 就 像 在 [一 種 恆 常 的 盟約 。」 根據 文 意 。 句 中 空格 處 最 適合 填 入 下 列 何者 ? 說 時 當",
       "options": {
-        "A": "告 列",
-        "B": "必 距",
-        "C": "agak",
+        "B": "必 距\nGe",
         "D": "探 索"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「必 距」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「必 距\nGe」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 13,
       "page_number": 6,
       "context": "",
@@ -230,6 +337,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 14,
       "page_number": 6,
       "context": "",
@@ -238,13 +346,14 @@
         "A": "風 裡 落花 誰 是 主 ? 思 悠 悠 一 一",
         "B": "生 意 盡 然 的 青翠 單 坪 。 人 二 一 一",
         "C": "徘 箇 天際 的 寥 落 白雲 一",
-        "D": "桌 上 成 列 的 耀眼 獎牌 一 一 8"
+        "D": "桌 上 成 列 的 耀眼 獎牌 (7/V"
       },
       "correct_answer": "B",
       "explanation": "這題的正確答案是 B。 對應選項內容是「生 意 盡 然 的 青翠 單 坪 。 人 二 一 一」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 15,
       "page_number": 6,
       "context": "",
@@ -259,33 +368,36 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 16,
       "page_number": 6,
       "context": "",
-      "stem": "「 古 今 中 外 的 革命 者 , 都 是 講 太 ~ 他 們 玫 茵 溪 寫 詩 , 他 們 用 生 命 寫 詩 , 他 們 所 留 下 的 是 超 乎 文 字 語言 的 美 好 , 是 生命 華貴 的 形式 。」 這 段 話 的 涵義 。 與 下 列 何者 最 接近 ? CSE! 二 2",
+      "stem": "「 古 今 中 外 的 革命 者 , 都 是 講 太 ~ 他 們 玫 茵 溪 寫 詩 , 他 們 用 生 命 寫 詩 , 他 們 所 留 下 的 是 超 乎 文 字 語言 的 美 好 , 是 生命 華貴 的 形式 。」 這 段 話 的 涵義 。 與 下 列 何者 最 接近 ? 人 hiUt PE",
       "options": {
-        "A": "「 逾 」 時 不 候 / 至 死 不 「 渝 」",
-        "B": "愛 「 憎 」 分 明 / 臨 別 「 贈 」 言\n(Chu Spe 98) / sere OH ,\nDRS Fs 8/6 & Beh",
-        "C": "詩 是 革命 者 用 以 呈現 其 華貴 生 命 的 形式\nOAT SEH: 2e4 808 ot BS\n27 下 列 各 組 「」 中 的 字 。 何 者 讀音 兩 兩 相 同 ?"
+        "B": "愛 「 憎 」 分 明 / 臨 別 「 贈 」 言\nec / sere OH ,\ncs 到",
+        "C": "詩 是 革命 者 用 以 呈現 其 華貴 生 命 的 形式\nOAT SEH: 2e4 808 ot BS\n27 下 列 各 組 「」 中 的 字 。 何 者 讀音 兩 兩 相 同 ?",
+        "A": "「 逾 」 時 不 候 / 至 死 不 「 渝 」"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「愛 「 憎 」 分 明 / 臨 別 「 贈 」 言\n(Chu Spe 98) / sere OH ,\nDRS Fs 8/6 & Beh」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「愛 「 憎 」 分 明 / 臨 別 「 贈 」 言\nec / sere OH ,\ncs 到」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 17,
       "page_number": 7,
       "context": "",
       "stem": "AR MME: MA GRRE EM PAR? Mea he KARA OUR ER MALAY OUR PRT > g BAA Bih.> ) FATERBOM RU SEAL EM ERO eB?",
       "options": {
-        "A": "繞 才 俄 物 — =\nBBR : =\nOnna | | La: 屎尿 之 類 的 髒 東 丁",
-        "D": "疼 於 登 角 EZ 2 名 通 : 名 言 、 名 論"
+        "A": "繞 才 俄 物 | =\nBBR : =\nOnna | | La: 屎尿 之 類 的 髒 東 丁",
+        "D": "疼 於 登 角 二 2 名 通 : 名 言 、 名 論"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「疼 於 登 角 EZ 2 名 通 : 名 言 、 名 論」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「疼 於 登 角 二 2 名 通 : 名 言 、 名 論」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 18,
       "page_number": 8,
       "context": "",
@@ -300,6 +412,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 19,
       "page_number": 8,
       "context": "",
@@ -313,6 +426,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 20,
       "page_number": 8,
       "context": "",
@@ -320,17 +434,18 @@
       "options": {
         "B": "為 學 當 專心 致 志 。 不 為 外 物 所 惑 一",
         "C": "能 讀 無 字 之 書 。 方 能 領 惘 知識 的 奧妙 |",
-        "D": "讀 書 過 目 成 誦 。 方 可 收 事半功倍 之 說\n34 RMSLRUH FH REa MER > SRE AVR? R\nRIS] RIMES REZMO RAM RAGR OE FAMZHE: IR\nWR ME PE Bab» 人 , 雇 不勝 於 文 章 萬\n萬 耶 。 REALE Kole ETERS RRR ER?\nALKRHKEEBRE RRR: EERE\n(BLAKE RE Ao BE > AR EO Ae\n(O#R AREA LKS HAART RAMS\n3 略 畫 中 意境\nyt\n’ 2 BES\n二 、 題 組 :(35 一 48 題 )\n請 閱讀 以 下 短文 。 並 回 答 35~36 題 :\n小 說 是 藝術 的 一 種 藝術 的 基本 內 容 是 人 的 感情 和 生 命 。 主 要 形式 是 美 ,\n廣義 的 、 美 學 上 的 美 。 在 小 說 , 那 薄 語 讓 文 律 之 美 、 安 排 結構 之 美 關鍵 在 於 邊\n樣 將 人 物 的 內 心 世界 通過 某 種 形 或 而 表 下 出 來 \"甚麼 形式 都 可 以 , 或 者 是 作者\n主 觀 的 剖析 , 或 者 是 客觀 的 敘 罰 故事? 從 人 物 的 行 動 和 言語 中 客觀 的 表 達 。\n讀者 閱讀 一 部 小 說 , 是 將 小 說 的 內 容 與 有己 的 心理 狀態 結合 起 來 。 同 樣\n一 部 小 說 。 有 的 人 感到 強烈 的 震動 。 有 的 人 卻 覺 得 無 聊 厭 俺 。 讀 者 的 個 性 與 感\n情 , 與 小 說 中 所 表 現 的 個 性 與 感情 相 接觸 。 產 生 了 「 化 學 反應 」。\n武俠 小 說 只 是 表 現 人 情 的 一 種 轉 定形 式 5 作曲 家 或 演奏 家 要 表 現 一 種 情\nhe ASR NRE RE RMA A: 畫 家 可 以 選擇 油畫 、 水\n彩 、 水 墨 或 版 畫 的 形式 。 問 題 不在 採取 蔡 廢 形 或 , 而 是 表 現 的 手法 好 不 好 , 能\n不 能 和 讀者 、 聽 者 、 觀 賞 者 的 Qy 引 相 溝通 能 下 能 使 他 的 心 產生 共鳴 。 小 說 是\n藝術 形式 之 一 , 有 好 的 藝術 , 也 有 不 好 的 藝術 。\n好 或 者 不 好 。 在 藝術 上 是 屬於 美 的 範疇 , 不 屬於 真 或 善 的 範疇 。 判 斷 美\n的 標準 是 美 , 是 感情 , 不 是 科學 上 的 真 性 / 丰 在 ( 諾 功 在 生 理 上 或 科學 上 是 否 可\n能 ) , 道 德 上 的 善 或 不 善 , 也 不 是 經 濟 上 艙 貳 錢 不 值錢 , 政 治 上 對 統治 者 的 有\n利 或 有 害 。 當 然 。 任 何 藝 術 作品 都 會 鞭 芋 社會 影響 , 自 也 可 以 用 社會 影響 的 價\n值 去 估量 。 不 過 那 是 另 一 種 謂 價 “和 」\n一 一 金 庸 《 金 庸 作品 集 , 新 序 》"
+        "D": "讀 書 過 目 成 誦 。 方 可 收 事半功倍 之 說\n34 RMSLRUH FH REa MER > SRE AVR? R\nRIS] RIMES REZMO RAM RAGR OE FAMZHE: IR\nWR ME PE Bab» 條 , 雇 不勝 於 文 章 萬\n萬 耶 。 REALE Kole ETERS RRR ER?\nBAR\n(BLAKE RE Ao BE > AR EO Ae\n(O#R AREA LKS HAART RAMS\n加 略 畫 中 意境\nyt\n、 請 翻 頁 繼續 作答\n二 、 題 組 :(35 一 48 題 )\n請 閱讀 以 下 短文 。 並 回 答 35~36 題 :\n小 說 是 藝術 的 一 種 藝術 的 基本 內 容 是 人 的 感情 和 生 命 。 主 要 形式 是 美 ,\n廣義 的 、 美 學 上 的 美 。 在 小 說 , 那 薄 語 讓 文 律 之 美 、 安 排 結構 之 美 關鍵 在 於 邊\n樣 將 人 物 的 內 心 世界 通過 某 種 形 或 而 表 下 出 來 \"甚麼 形式 都 可 以 , 或 者 是 作者\n主 觀 的 剖析 , 或 者 是 客觀 的 敘 罰 故事? 從 人 物 的 行 動 和 言語 中 客觀 的 表 達 。\n讀者 閱讀 一 部 小 說 , 是 將 小 說 的 內 容 與 有己 的 心理 狀態 結合 起 來 。 同 樣\n一 部 小 說 。 有 的 人 感到 強烈 的 震動 。 有 的 人 卻 覺 得 無 聊 厭 俺 。 讀 者 的 個 性 與 感\n情 , 與 小 說 中 所 表 現 的 個 性 與 感情 相 接觸 。 產 生 了 「 化 學 反應 」。\n武俠 小 說 只 是 表 現 人 情 的 一 種 轉 定形 式 5 作曲 家 或 演奏 家 要 表 現 一 種 情\nhe ASR NRE RE RMA A: 畫 家 可 以 選擇 油畫 、 水\n彩 、 水 墨 或 版 畫 的 形式 。 問 題 不在 採取 蔡 廢 形 或 , 而 是 表 現 的 手法 好 不 好 , 能\n不 能 和 讀者 、 聽 者 、 觀 賞 者 的 Qy 引 相 溝通 能 下 能 使 他 的 心 產生 共鳴 。 小 說 是\n藝術 形式 之 一 , 有 好 的 藝術 , 也 有 不 好 的 藝術 。\n好 或 者 不 好 。 在 藝術 上 是 屬於 美 的 範疇 , 不 屬於 真 或 善 的 範疇 。 判 斷 美\n的 標準 是 美 , 是 感情 , 不 是 科學 上 的 真 性 / 丰 在 ( 諾 功 在 生 理 上 或 科學 上 是 否 可\n能 ) , 道 德 上 的 善 或 不 善 , 也 不 是 經 濟 上 艙 貳 錢 不 值錢 , 政 治 上 對 統治 者 的 有\n利 或 有 害 。 當 然 。 任 何 藝 術 作品 都 會 鞭 芋 社會 影響 , 自 也 可 以 用 社會 影響 的 價\n值 去 估量 。 不 過 那 是 另 一 種 謂 價 “和 」\n一 一 金 庸 《 金 庸 作品 集 , 新 序 》"
       },
       "correct_answer": "A",
       "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 21,
       "page_number": 9,
       "context": "",
-      "stem": "根 遞 本 文 。 一 部 好 的 武俠 小 褒 語 戰 重 要 的 條 入 應 是 下 列 何者 ? (CA) 表 現形 式 多 樣 一 一",
+      "stem": "根 遞 本 文 。 一 部 好 的 武俠 小 褒 語 戰 重 要 的 條 入 應 是 下 列 何者 ? (CA) 表 現形 式 多 樣 BLCT",
       "options": {
         "B": "符 合 現實 生 活 情境 和 和 人",
         "C": "可 以 觸動 讀者 的 心靈 了 品 c\n(CD) 對 社會 只 有 一 定 的 影響 力 。"
@@ -340,102 +455,66 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 22,
       "page_number": 9,
       "context": "",
       "stem": "根據 本 文 。 下 列 敘 述 何者 正確 光一 和",
       "options": {
-        "A": "| aE a\n=. = IC lnm\nPee Dic As\n° 2 ee\na “Th | Pits a\nre a) 、\nMae eae",
-        "B": "科 學 的 真 與 藝術 無 關 , 所 以 愈 是 離奇 的 情節 念 是 上 乘 佳作",
-        "C": "藝 術 若 不 能 讓 所 有 的 欣 績 者 產生 強 及 前 震撼 與 感動 , 它 就 是 失敗 之 作\n(CD) 武 俠 小 說 是 呈現 人 情 的 一 種 形式 。, 一 如 樂器 是 演奏 家 表 現 感情 的 媒介\n請 閱讀 以 下 短文 。 並 回 答 37~38 題 :\n三 星 堆 的 大 耳 衣 鋼 頭像 , 一 出 土 就 引起 人 們 的 廣 浸 關注 。 但 是 , 衣 鋼 人 父\n的 碩 耳 從 何 而 來 卻 不 好 斷定 。 如 果 這 種 耳 部 形象 不 純粹 是 藝術 的 誇張 , 那 麼 它\n肯定 是 有 特 殊 涵義 的 。 它 很 容易 讓 入 想 起 古代 以 及 現代 部 分 民族 所 流行 的 耳 部\n變形 風俗 。 At} 3\niE ARS te 28 SE SST AL POOR ab aR AR a-ak > Hed\n婦女 在 小 時 把 耳 陸生 一 個 油條 作案 四 環 + 隨 著 年 齡 和 財富 的 增長 , 耳 環 的\n數 量 和 重量 不 斷 增加 , 以 至 於 使 耳 上 下 部 垂 落 到 雙 肩 上 。 非 洲 REESE\n族 婦 女 , 以 下 唇 佩戴 唇 盤 著 稱 於 世 。 遞 說 誰 的 唇 盤 大 , 誰 的 家 長 得 到 的 彩禮 就\n越 多 。 她 們 的 下 耳 部 也 佩戴 同 樣 耳 盤 。 由 於 長 期 佩戴 。 即 使 取 下 , 佩 戴 者 的 耳\n部 也 比 常人 大 差不多 一 倍 。 南 Se subi 第 安 人 部 落 , 作 為 成 年 儀式 的\n一 部 分 , 無 論 男女 都 要 把 下 生 和 上 耳 大 容 兩 莽 上 司 般 和 耳 盤 , 隨 年 捧 增 長 而 壇\nLRAWAD AGREES Ee Ee RS AR LOPE Be\n亞 印 地 安 人 , 其 耳 部 顯然 要 則 常人 大 的 大 得 多\n中 國 古代 南方 也 有 耳 部 變形 的 記載 , 即 在 穿 間 的 耳垂 上 佩戴 耳環 使 其 下\nBBR ER OM\nSEPARA ENARRE MEH Ri MELB RA\nSt SB EH RIG BEA Fl Mido BAe de HAO AME > SB Meo A\nBAR + HR RORY — ASN ED RS 二 和 全 、 宗教 或 美 術 的 考\nB? BHAA Md © ;\n37 根據 本 文 。 三 星 堆 大 耳 銅像 的 形 貌 。 最 可 能 是 下 列 何者 ?"
+        "A": "; BY\n=. = IC lnm\nPee Dic 人\n。 2 ee\na “Th | Pits a\nre a) 、\nMae eae",
+        "B": "科 學 的 真 與 藝術 無 關 , 所 以 愈 是 離奇 的 情節 念 是 上 乘 佳作\nGE RSS\n(CD) 武 俠 小 說 是 呈現 人 情 的 一 種 形式 。, 一 如 樂器 是 演奏 家 表 現 感情 的 媒介\n請 閱讀 以 下 短文 。 並 回 答 37~38 題 :\n三 星 堆 的 大 耳 衣 鋼 頭像 , 一 出 土 就 引起 人 們 的 廣 浸 關注 。 但 是 , 衣 鋼 人 父\n的 碩 耳 從 何 而 來 卻 不 好 斷定 。 如 果 這 種 耳 部 形象 不 純粹 是 藝術 的 誇張 , 那 麼 它\n肯定 是 有 特 殊 涵義 的 。 它 很 容易 讓 入 想 起 古代 以 及 現代 部 分 民族 所 流行 的 耳 部\n變形 風俗 。 At} 3\niE ARS te 28 SE SST AL POOR ab aR AR a-ak > Hed\n婦女 在 小 時 把 耳 陸生 一 個 油條 作案 四 環 + 隨 著 年 齡 和 財富 的 增長 , 耳 環 的\n數 量 和 重量 不 斷 增加 , 以 至 於 使 耳 上 下 部 垂 落 到 雙 肩 上 。 非 洲 REESE\n族 婦 女 , 以 下 唇 佩戴 唇 盤 著 稱 於 世 。 遞 說 誰 的 唇 盤 大 , 誰 的 家 長 得 到 的 彩禮 就\n越 多 。 她 們 的 下 耳 部 也 佩戴 同 樣 耳 盤 。 由 於 長 期 佩戴 。 即 使 取 下 , 佩 戴 者 的 耳\n部 也 比 常人 大 差不多 一 倍 。 南 Se subi 第 安 人 部 落 , 作 為 成 年 儀式 的\n一 部 分 , 無 論 男女 都 要 把 下 生 和 上 耳 大 容 兩 莽 上 司 般 和 耳 盤 , 隨 年 捧 增 長 而 壇\nLRAWAD AGREES Ee Ee RS AR LOPE Be\n亞 印 地 安 人 , 其 耳 部 顯然 要 則 常人 大 的 大 得 多\n中 國 古代 南方 也 有 耳 部 變形 的 記載 , 即 在 穿 間 的 耳垂 上 佩戴 耳環 使 其 下\nBBR ER OM\nSEPARA ENARRE MEH Ri MELB RA\nSt SB EH RIG BEA Fl Mido BAe de HAO AME > SB Meo A\nBAR + HR RORY — ASN ED RS 中 宗教 或 美 術 的 考\nB? BHAA Md © ;\n37 根據 本 文 。 三 星 堆 大 耳 銅像 的 形 貌 。 最 可 能 是 下 列 何者 ?"
       },
       "correct_answer": "D",
       "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 23,
       "page_number": 10,
       "context": "",
       "stem": "根據 本 文 , at (Ee EES esate DS BCH RBM BRA > HOH REG Bho",
       "options": {
         "C": "以 水 晶 、 銀 鈴 、 兩 點 、 珠 串 等 事物 具體 呈現 烏 鳴 聲",
-        "D": "將 烏 鳴 聲 與 音樂 術語 相 結 仿 Sis 從 嗎 的 音樂 性",
-        "A": "在 句 中 重複 特 定 字 詞 , 呈 現 音韻 節奏 之 美",
-        "B": "透 過 聽覺 、 視 覺 的 描寫 , 形 容 不 同 鳥類 的 鳴 聲"
+        "A": "在 句 中 重複 特 定 字 詞 , 呈 現 音韻 節奏 之 美\nec EL EN",
+        "D": "將 烏 鳴 聲 與 音樂 術語 相 結 仿 Sis 從 嗎 的 音樂 性"
       },
       "correct_answer": "C",
       "explanation": "這題的正確答案是 C。 對應選項內容是「以 水 晶 、 銀 鈴 、 兩 點 、 珠 串 等 事物 具體 呈現 烏 鳴 聲」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 40,
-      "display_number": 24,
-      "page_number": 12,
-      "context": "",
-      "stem": "「 在 那 樣 的 生 活 裡 。 人 是 屬於 自 =) 和 的 生 活 裡 , 才 能 觸摸 到 生 命 的 真 Bo 」 文 句 中 所 表 現 的 生 活 態度 。 與 下 列 何者 最 接近 ?",
-      "options": {
-        "A": "強 欲 登高 去 。 無 人 送 酒 來 。 遙 慚 故 園 攻 , 應 傍 戰 場 開 TS\nSuet gate sae Saree\nOQRPR LG Fol PH Ee jai",
-        "D": "日 入 群 動 息 , 歸 烏 趨 林 鳴 才 上 ARE I A"
-      },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「日 入 群 動 息 , 歸 烏 趨 林 鳴 才 上 ARE I A」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 41,
-      "display_number": 25,
-      "page_number": 12,
-      "context": "",
-      "stem": "下 列 各 段 的 主 旨 。 何 者 說 明 最 不 恰當 ?",
-      "options": {
-        "A": "第 一 段 敘述 鳥 鳴 天 籟 可 使 人 反璞歸真\nBEAR dW ERM RMT Robe\nCRLAE Rie Re a RRABRE",
-        "D": "% oI A Reb REE\n\" 請 翻 頁 繼續 作答\n請 閱讀 以 下 短文 。 並 回 答 和 一 43 題 :\n這 個 臺北 的 冬天 好 冷 , 我 與 親友 們 齊 聲 怨 嘆 。 但 他 們 會 狐疑 地 問 我 : 在 今\n天 之 前 , 我 都 在 美 國 過 冬 , 那 麼 我 是 怎麼 培 過 美 東 的 冰天雪地 的 ? 電視 上 的 新\n英格蘭 地 區 (我 曾經 住 了 五 年 的 地 砲 ) 被 風雪 大 只 一 一 那 畫 面 並 不 誇張 , 我 親\n身體 驗 過 。 ACCIL\n我 竟 覺得 美 國 的 冬天 不 冷 而 臺 取 說 的確 壽 盾 。 若 說 美 國 生 活 都 被 暖 氮\n庇佑 也 不 盡 然 , 我 想 起 當 時 棠 在 所 外 雪 地 逼 狗 , 帶 狗 走 過 冰雪 泥 洋 的 公園 , 甚\n至 跟 狗 丟 雪 球 打 雪 仗 。 我 還 經 歷 過 多 鱗 因 雪 停 課 , 以 及 在 高 速 公 路 上 積雪 遠 半\n個 輪胎 的 困 局 。\n可 能 是 因為 在 異鄉 旅居 , 雖 然 溫 度 低 。 但 心情 上 隔 了 一 層 。 冷 血 地 說 。 雪\nLRARAM > REMAKE: CRP AR RLA 至 今 我 已 忘 條 。\n回 到 臺北 , 雖 然 氣溫 較 暖 但 我 跟 這 裡 的 空氣 之 問 少 了 係 護 層 。 我 在 街 上\n走路 (美 國 人 很 少 在 街 上 走路)) 在 兩 中 每 公 車 、 騎 機 車 , 貼 身 的 親密 感 總 是\nKI © RRA PEE AERA RS } — ih MARES\n片 的 土地 沒 有 咖 音 沒 有 人 聲 , 也 沒 有 人 味 , 我 已 經 覺得 空洞 遙遠 。\n一 一 改寫 自 紀 大 偉 〈 風 雪 》"
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
       "number": 42,
-      "display_number": 26,
+      "source_number": 42,
+      "display_number": 24,
       "page_number": 13,
       "context": "",
       "stem": "根 遞 本 文 。 下 列 敘 述 何者 最 恰當 多 一 一",
       "options": {
         "A": "諒 平均 溫度 來 看 , 美 國 冬季 糸 取 毫 灣 寒冷",
-        "B": "美 國 對 作者 而 言 只 是 風景 ## RAMBO AE\n(CR AIRE RE BOE + RR",
+        "B": "美 國 對 作者 而 言 只 是 風景 ## RAMBO AE\nCN er",
         "D": "作 者 旅居 美 國 時 常 因 欣 賞 雪 景 而 忘卻 天 氣 的 寒冷"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「美 國 對 作者 而 言 只 是 風景 ## RAMBO AE\n(CR AIRE RE BOE + RR」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 43,
-      "display_number": 27,
-      "page_number": 13,
-      "context": "",
-      "stem": "根據 本 文 。 作 者 認為 臺北 較 冷 的 % 理 因素 與 下 列 何者 最 接近 ? ARERA FEE SCH \\\\ BRLEMAG > Bred — le o\\ OQLBRSH Rm RA ~",
-      "options": {
-        "D": "家 鄉 已 非 昔 日 的 家 鄉 。 臨 之 心寒\n請 閱讀 以 下 短文 , 並 回 答 44~45 題 持 | 三\nSHARED RAHE AWM? BORER PUES > Mes\nHo LARA EM? BG RE BAN LAAT EAB\n> RHEL RRPAMM BEE ERE 2 一 人 。\n一 一 封 演 《 封 氏 聞 見 記 , 奇 政 》\nCC 三 外\n人 Po\n44 RPA EMA MRP RT MRS aie",
-        "A": "賞 不 勸 謂 之 止 善 。 罰 不 懲 謂 之 縱 惡 。 Sede 1 ap\nBNA TORE WERARER ica i\n(ORGZRLARS > HAKRFAAs > BAS BA thee\nO)ERPR ME , 使 民 利 之 ; 罰 莫 如 重 而 必 , 使 民 硼 之"
-      },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「賞 不 勸 謂 之 止 善 。 罰 不 懲 謂 之 縱 惡 。 Sede 1 ap\nBNA TORE WERARER ica i\n(ORGZRLARS > HAKRFAAs > BAS BA thee\nO)ERPR ME , 使 民 利 之 ; 罰 莫 如 重 而 必 , 使 民 硼 之」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「美 國 對 作者 而 言 只 是 風景 ## RAMBO AE\nCN er」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 46,
-      "display_number": 28,
+      "source_number": 46,
+      "display_number": 25,
       "page_number": 14,
       "context": "",
-      "stem": "下 列 「 」 中 的 文 句 , 何 者 是 以 農夫 為 主 語 a4",
+      "stem": "下 列 「 」 中 的 文 句 , 何 者 是 以 農夫 為 主 語 和",
       "options": {
-        "A": "「 視 其 狀 」。 若 有 所 獲 — ve 3 BOT 7 > Real\nBe: Rem \"FAM —I AM: BULL BRE» fo\nOAR HARMEST ATs",
+        "A": "「 視 其 狀 」。 若 有 所 獲 — ve 3 BOT 7 > Real\nee AM: BULL BRE» fo\nOAR HARMEST ATs",
         "D": "Ri > Ta 5 健 獸 : 猛 獸"
       },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「「 視 其 狀 」。 若 有 所 獲 — ve 3 BOT 7 > Real\nBe: Rem \"FAM —I AM: BULL BRE» fo\nOAR HARMEST ATs」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 對應選項內容是「「 視 其 狀 」。 若 有 所 獲 — ve 3 BOT 7 > Real\nee AM: BULL BRE» fo\nOAR HARMEST ATs」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 47,
-      "display_number": 29,
+      "source_number": 47,
+      "display_number": 26,
       "page_number": 14,
       "context": "",
       "stem": "下 列 何者 最 適合 用 來 說 明文 中 老虎 的 遭遇 ?",
@@ -449,13 +528,14 @@
     },
     {
       "number": 48,
-      "display_number": 30,
+      "source_number": 48,
+      "display_number": 27,
       "page_number": 14,
       "context": "",
       "stem": "文 未 作者 對 「 士 」 的 評論 , 何 者 不 是 對 應 故事 中 老虎 的 行 為 而 發 ?",
       "options": {
         "A": "懂 己 不 稱 其 名 位",
-        "B": "喜 於 富貴 , 嬉 於 權勢\n(CMR 2 > RG: &= Bo RPI\n(DOMGMAL H+ HH CRIS"
+        "B": "喜 於 富貴 , 嬉 於 權勢\n(CMR 2 > RG: &= Bo RPI\nee HH CRIS"
       },
       "correct_answer": "A",
       "explanation": "這題的正確答案是 A。 對應選項內容是「懂 己 不 稱 其 名 位」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 102 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
@@ -464,48 +544,82 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 61,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 102,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 44,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
-      "stem_length": 486,
+      "stem_length": 471,
       "option_count": 0
     },
     {
+      "question_number": 10,
+      "display_source_number": 10,
+      "reason": "missing_answer"
+    },
+    {
       "question_number": 13,
+      "display_source_number": 13,
       "reason": "parse_incomplete",
       "stem_length": 103,
       "option_count": 1
     },
     {
       "question_number": 29,
+      "display_source_number": 29,
       "reason": "parse_incomplete",
-      "stem_length": 335,
+      "stem_length": 333,
       "option_count": 0
     },
     {
       "question_number": 30,
+      "display_source_number": 30,
       "reason": "parse_incomplete",
       "stem_length": 119,
       "option_count": 1
     },
     {
+      "question_number": 40,
+      "display_source_number": 40,
+      "reason": "parse_incomplete",
+      "stem_length": 158,
+      "option_count": 0
+    },
+    {
+      "question_number": 41,
+      "display_source_number": 41,
+      "reason": "parse_incomplete",
+      "stem_length": 32,
+      "option_count": 1
+    },
+    {
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "parse_incomplete",
+      "stem_length": 364,
+      "option_count": 0
+    },
+    {
       "question_number": 45,
+      "display_source_number": 45,
       "reason": "parse_incomplete",
       "stem_length": 54,
       "option_count": 1

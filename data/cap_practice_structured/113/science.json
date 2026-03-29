@@ -2,6 +2,7 @@
   "year": "113",
   "subject_slug": "science",
   "subject_label": "自然",
+  "official_question_count": 50,
   "question_count": 47,
   "answered_count": 47,
   "page_count": 15,
@@ -20,12 +21,131 @@
     "answers_found": 50,
     "questions_kept": 47,
     "issues_found": 11,
-    "answer_completion_ratio": 1.0
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      1,
+      2,
+      3,
+      4,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "kept_question_numbers": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      4,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "missing_question_numbers": [
+      1,
+      13,
+      21,
+      37
+    ],
+    "duplicate_question_numbers": [
+      4
+    ]
   },
-  "practice_ready": true,
+  "practice_ready": false,
   "questions": [
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -41,6 +161,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -56,6 +177,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -71,6 +193,7 @@
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 4,
       "page_number": 3,
       "context": "",
@@ -86,6 +209,7 @@
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 5,
       "page_number": 3,
       "context": "",
@@ -101,6 +225,7 @@
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 6,
       "page_number": 3,
       "context": "",
@@ -116,6 +241,7 @@
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 7,
       "page_number": 3,
       "context": "",
@@ -131,6 +257,7 @@
     },
     {
       "number": 9,
+      "source_number": 9,
       "display_number": 8,
       "page_number": 4,
       "context": "",
@@ -146,6 +273,7 @@
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 9,
       "page_number": 4,
       "context": "",
@@ -161,6 +289,7 @@
     },
     {
       "number": 11,
+      "source_number": 11,
       "display_number": 10,
       "page_number": 4,
       "context": "",
@@ -176,6 +305,7 @@
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 11,
       "page_number": 5,
       "context": "",
@@ -191,6 +321,7 @@
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 12,
       "page_number": 5,
       "context": "",
@@ -206,6 +337,7 @@
     },
     {
       "number": 15,
+      "source_number": 15,
       "display_number": 13,
       "page_number": 5,
       "context": "",
@@ -221,6 +353,7 @@
     },
     {
       "number": 16,
+      "source_number": 16,
       "display_number": 14,
       "page_number": 6,
       "context": "",
@@ -236,6 +369,7 @@
     },
     {
       "number": 17,
+      "source_number": 17,
       "display_number": 15,
       "page_number": 6,
       "context": "",
@@ -251,6 +385,7 @@
     },
     {
       "number": 18,
+      "source_number": 18,
       "display_number": 16,
       "page_number": 6,
       "context": "",
@@ -266,6 +401,7 @@
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 17,
       "page_number": 6,
       "context": "",
@@ -281,6 +417,7 @@
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 18,
       "page_number": 7,
       "context": "",
@@ -296,6 +433,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 19,
       "page_number": 7,
       "context": "",
@@ -311,6 +449,7 @@
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 20,
       "page_number": 7,
       "context": "",
@@ -326,6 +465,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 21,
       "page_number": 7,
       "context": "",
@@ -341,6 +481,7 @@
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 22,
       "page_number": 8,
       "context": "",
@@ -356,6 +497,7 @@
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 23,
       "page_number": 8,
       "context": "",
@@ -371,6 +513,7 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 24,
       "page_number": 8,
       "context": "",
@@ -386,6 +529,7 @@
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 25,
       "page_number": 8,
       "context": "",
@@ -401,6 +545,7 @@
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 26,
       "page_number": 9,
       "context": "",
@@ -416,6 +561,7 @@
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 27,
       "page_number": 9,
       "context": "",
@@ -431,6 +577,7 @@
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 28,
       "page_number": 9,
       "context": "",
@@ -446,6 +593,7 @@
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 29,
       "page_number": 9,
       "context": "",
@@ -461,6 +609,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 30,
       "page_number": 10,
       "context": "",
@@ -476,6 +625,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 31,
       "page_number": 10,
       "context": "",
@@ -491,6 +641,7 @@
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 32,
       "page_number": 10,
       "context": "",
@@ -506,6 +657,7 @@
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 33,
       "page_number": 10,
       "context": "",
@@ -521,6 +673,7 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 34,
       "page_number": 11,
       "context": "一座游泳池裡有多少的尿？\n安賽蜜是優酪乳中的甜味劑，不易被人體消化，會由尿液排出體外。研\n究團隊檢測加拿大游泳池的安賽蜜濃度，一座84萬公升游泳池的安賽蜜濃度\n為2.1×10\n—7 g/L，再參考「……」，經換算後，可知該游泳池約含有75公升的\n尿液。\n圖(十八)\n圖(十九)\n表(九)\n表(十)\n圖(二十)",
@@ -536,6 +689,7 @@
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 35,
       "page_number": 11,
       "context": "",
@@ -551,6 +705,7 @@
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 36,
       "page_number": 11,
       "context": "",
@@ -566,6 +721,7 @@
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 37,
       "page_number": 12,
       "context": "",
@@ -581,6 +737,7 @@
     },
     {
       "number": 41,
+      "source_number": 41,
       "display_number": 38,
       "page_number": 12,
       "context": "",
@@ -596,6 +753,7 @@
     },
     {
       "number": 42,
+      "source_number": 42,
       "display_number": 39,
       "page_number": 12,
       "context": "",
@@ -611,6 +769,7 @@
     },
     {
       "number": 43,
+      "source_number": 43,
       "display_number": 40,
       "page_number": 12,
       "context": "",
@@ -626,6 +785,7 @@
     },
     {
       "number": 44,
+      "source_number": 44,
       "display_number": 41,
       "page_number": 13,
       "context": "國際自然保護聯盟(IUCN)\n為了維護生物多樣性，維持環\n境的穩定，會評估生物的滅絕\n風險。圖(二十二)為IUCN評\n估物種滅絕風險的簡略流程，\n目前食蛇龜被歸類為(EN)物\n種。\nFe\nCu\nCuSO4\nFe\nCu\nCuSO4\nFe\nCu\nCuSO4\nFeSO4\nFe\nCu\nCuSO4\nFeSO4\n表(十一)\n圖(二十二)\n請閱讀下列敘述後，回答44～45題",
@@ -641,6 +801,7 @@
     },
     {
       "number": 45,
+      "source_number": 45,
       "display_number": 42,
       "page_number": 13,
       "context": "",
@@ -656,6 +817,7 @@
     },
     {
       "number": 46,
+      "source_number": 46,
       "display_number": 43,
       "page_number": 14,
       "context": "該國政府希望未來以能源轉型降低溫室氣體的排放，廢除核能使用、逐年增\n加再生能源比例，並將燃煤發電改採燃氣發電為主，兼顧用電需求與環境保護。\n圖(二十三)\n表(十二)\n請閱讀下列敘述後，回答46～48題",
@@ -671,6 +833,7 @@
     },
     {
       "number": 47,
+      "source_number": 47,
       "display_number": 44,
       "page_number": 14,
       "context": "",
@@ -686,6 +849,7 @@
     },
     {
       "number": 48,
+      "source_number": 48,
       "display_number": 45,
       "page_number": 14,
       "context": "",
@@ -701,6 +865,7 @@
     },
     {
       "number": 49,
+      "source_number": 49,
       "display_number": 46,
       "page_number": 15,
       "context": "圖(二十四)為臺灣2017～2021年各年度的「住宅用電」與「冷氣時」，此處冷氣\n時數據為臺灣各地之平均值。而2020年起因受到COVID-19疫情影響，民眾居家\n時間變長，致使住宅用電明顯成長。\n圖(二十四)\n試題結束\n請閱讀下列敘述後，回答49～50題",
@@ -716,6 +881,7 @@
     },
     {
       "number": 50,
+      "source_number": 50,
       "display_number": 47,
       "page_number": 15,
       "context": "",
@@ -733,66 +899,77 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 20,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 24,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 414,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 102,
       "option_count": 0
     },
     {
       "question_number": 13,
+      "display_source_number": 13,
       "reason": "parse_incomplete",
       "stem_length": 136,
       "option_count": 0
     },
     {
       "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 40,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 22,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 35,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
     },
     {
       "question_number": 37,
+      "display_source_number": 37,
       "reason": "parse_incomplete",
       "stem_length": 133,
       "option_count": 0

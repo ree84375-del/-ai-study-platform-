@@ -2,6 +2,7 @@
   "year": "107",
   "subject_slug": "english",
   "subject_label": "英語",
+  "official_question_count": 41,
   "question_count": 35,
   "answered_count": 35,
   "page_count": 14,
@@ -17,15 +18,117 @@
   },
   "checks": {
     "question_chunks_found": 53,
-    "answers_found": 41,
+    "answers_found": 48,
     "questions_kept": 35,
     "issues_found": 18,
-    "answer_completion_ratio": 1.0
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      3,
+      6,
+      7,
+      8,
+      5,
+      4,
+      1,
+      2,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41
+    ],
+    "missing_question_numbers": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "duplicate_question_numbers": []
   },
-  "practice_ready": true,
+  "practice_ready": false,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -41,6 +144,7 @@
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -56,6 +160,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -71,6 +176,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 4,
       "page_number": 2,
       "context": "",
@@ -86,6 +192,7 @@
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 5,
       "page_number": 2,
       "context": "",
@@ -101,6 +208,7 @@
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 6,
       "page_number": 2,
       "context": "",
@@ -116,6 +224,7 @@
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 7,
       "page_number": 2,
       "context": "",
@@ -131,6 +240,7 @@
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 8,
       "page_number": 2,
       "context": "",
@@ -146,6 +256,7 @@
     },
     {
       "number": 9,
+      "source_number": 9,
       "display_number": 9,
       "page_number": 2,
       "context": "",
@@ -161,6 +272,7 @@
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 10,
       "page_number": 3,
       "context": "",
@@ -176,6 +288,7 @@
     },
     {
       "number": 11,
+      "source_number": 11,
       "display_number": 11,
       "page_number": 3,
       "context": "",
@@ -191,6 +304,7 @@
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 12,
       "page_number": 3,
       "context": "",
@@ -206,6 +320,7 @@
     },
     {
       "number": 13,
+      "source_number": 13,
       "display_number": 13,
       "page_number": 3,
       "context": "",
@@ -221,6 +336,7 @@
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 14,
       "page_number": 3,
       "context": "",
@@ -236,6 +352,7 @@
     },
     {
       "number": 15,
+      "source_number": 15,
       "display_number": 15,
       "page_number": 3,
       "context": "",
@@ -251,6 +368,7 @@
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 16,
       "page_number": 6,
       "context": "Over the past 20 years, this\ncity has used smart ways 19 . One is to keep the same total number of parking\nspaces. For example, if 50 new parking spaces are built in one part of the city, then\n50 old spaces in other parts are taken away for other uses. So the total number does\nnot change. Some are unhappy that there are never enough spaces. That is just what\nthe city has in mind: If people find parking more difficult, they will drive less.\n20 , the total number of cars in the city is counted. Over 3,500 little\ncomputers are put under Zurich roads to check the number of cars that enter the city.\nIf the number is higher than the city can deal with, the traffic lights on the roads that\nenter the city will be kept red. So drivers who are traveling into Zurich have to stop\nand wait until there are fewer cars in the city. Now, you may wonder 21 . The\nanswer is simple: The city wants to make more space for its people.\n(22-24)",
@@ -266,6 +384,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 17,
       "page_number": 6,
       "context": "",
@@ -281,6 +400,7 @@
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 18,
       "page_number": 6,
       "context": "",
@@ -296,6 +416,7 @@
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 19,
       "page_number": 8,
       "context": "",
@@ -311,6 +432,7 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 20,
       "page_number": 8,
       "context": "",
@@ -326,6 +448,7 @@
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 21,
       "page_number": 8,
       "context": "",
@@ -341,6 +464,7 @@
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 22,
       "page_number": 8,
       "context": "",
@@ -356,6 +480,7 @@
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 23,
       "page_number": 9,
       "context": "",
@@ -371,6 +496,7 @@
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 24,
       "page_number": 9,
       "context": "",
@@ -386,6 +512,7 @@
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 25,
       "page_number": 10,
       "context": "",
@@ -401,6 +528,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 26,
       "page_number": 11,
       "context": "Number of shakes\nin a second\nlikely 可能\nHow fast can animals shake?\ntiger\ncat\nmouse\nNumber of shakes\nin a second\ntiger\ncat\nmouse\nHow fast can animals shake?\nNumber of shakes\nin a second\ntiger\ncat\nmouse\nHow fast can animals shake?\nNumber of shakes\nin a second\n(32-34)",
@@ -416,6 +544,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 27,
       "page_number": 11,
       "context": "",
@@ -431,6 +560,7 @@
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 28,
       "page_number": 11,
       "context": "",
@@ -446,6 +576,7 @@
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 29,
       "page_number": 12,
       "context": "Eric: You mean you pay for a cup of coffee for someone poor to have it later?\nJosh: Yeah. A cup of coffee is not much, but on cold winter days like today, it might\nwarm them up a little. And maybe their hearts too.\nEric: But will Flora Café really give this cup of coffee to someone later?\nJosh: Come on. I’ve known the shopkeeper well. He’s an honest man. He’s got a\nblackboard in the shop that says how many cups are paid for and how many\nhave been given out.\nEric: But how will they know who to give? Anyone can ask for it, even if they’re not poor.\nJosh: True, but then I guess they’ll just have to believe in people.\nEric: Perhaps. But will poor people go and ask for a free coffee? Won’t they worry\nabout losing face?\nJosh: Why do you always say things like that?\nEric: Well, it may happen.\nJosh: Yeah, I know, but I still think it’s a good thing to do, and it gets people to care\nabout others.\n(35-37)",
@@ -461,6 +592,7 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 30,
       "page_number": 12,
       "context": "",
@@ -476,6 +608,7 @@
     },
     {
       "number": 37,
+      "source_number": 37,
       "display_number": 31,
       "page_number": 12,
       "context": "",
@@ -491,6 +624,7 @@
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 32,
       "page_number": 13,
       "context": "",
@@ -506,6 +640,7 @@
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 33,
       "page_number": 13,
       "context": "",
@@ -521,6 +656,7 @@
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 34,
       "page_number": 14,
       "context": "",
@@ -536,6 +672,7 @@
     },
     {
       "number": 41,
+      "source_number": 41,
       "display_number": 35,
       "page_number": 14,
       "context": "",
@@ -553,108 +690,126 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 20,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 14,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 21,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 288,
       "option_count": 0
     },
     {
       "question_number": 16,
+      "display_source_number": 16,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 17,
+      "display_source_number": 17,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 18,
+      "display_source_number": 18,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 19,
+      "display_source_number": 19,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 20,
+      "display_source_number": 20,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 31,
       "option_count": 0
     },
     {
       "question_number": 6,
+      "display_source_number": 6,
       "reason": "parse_incomplete",
       "stem_length": 29,
       "option_count": 0
     },
     {
       "question_number": 7,
+      "display_source_number": 7,
       "reason": "parse_incomplete",
       "stem_length": 30,
       "option_count": 0
     },
     {
       "question_number": 8,
+      "display_source_number": 8,
       "reason": "parse_incomplete",
       "stem_length": 108,
       "option_count": 0
     },
     {
       "question_number": 5,
+      "display_source_number": 5,
       "reason": "parse_incomplete",
       "stem_length": 147,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 85,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 71,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 160,
       "option_count": 0

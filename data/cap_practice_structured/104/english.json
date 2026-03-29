@@ -2,6 +2,7 @@
   "year": "104",
   "subject_slug": "english",
   "subject_label": "英語",
+  "official_question_count": 40,
   "question_count": 34,
   "answered_count": 34,
   "page_count": 14,
@@ -17,15 +18,117 @@
   },
   "checks": {
     "question_chunks_found": 54,
-    "answers_found": 40,
+    "answers_found": 48,
     "questions_kept": 34,
     "issues_found": 20,
-    "answer_completion_ratio": 1.0
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      1,
+      2,
+      3,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      10,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      37,
+      38,
+      39,
+      40
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ],
+    "missing_question_numbers": [
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "duplicate_question_numbers": []
   },
-  "practice_ready": true,
+  "practice_ready": false,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -41,6 +144,7 @@
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -56,6 +160,7 @@
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -71,6 +176,7 @@
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 4,
       "page_number": 2,
       "context": "",
@@ -86,6 +192,7 @@
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 5,
       "page_number": 2,
       "context": "",
@@ -101,6 +208,7 @@
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 6,
       "page_number": 2,
       "context": "",
@@ -116,6 +224,7 @@
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 7,
       "page_number": 2,
       "context": "",
@@ -131,6 +240,7 @@
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 8,
       "page_number": 2,
       "context": "",
@@ -146,6 +256,7 @@
     },
     {
       "number": 9,
+      "source_number": 9,
       "display_number": 9,
       "page_number": 2,
       "context": "",
@@ -161,6 +272,7 @@
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 10,
       "page_number": 2,
       "context": "",
@@ -176,6 +288,7 @@
     },
     {
       "number": 11,
+      "source_number": 11,
       "display_number": 11,
       "page_number": 3,
       "context": "",
@@ -191,6 +304,7 @@
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 12,
       "page_number": 3,
       "context": "",
@@ -206,6 +320,7 @@
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 13,
       "page_number": 5,
       "context": "",
@@ -221,6 +336,7 @@
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 14,
       "page_number": 5,
       "context": "",
@@ -236,6 +352,7 @@
     },
     {
       "number": 21,
+      "source_number": 21,
       "display_number": 15,
       "page_number": 6,
       "context": "Tel: XXX-XXXX\nHowell’s Bowl\nOpen Hours:\n11:30 am - 11:30 pm\nTues. to Sun.\nJoy Time: 20% oﬀ\n2:00 - 4:00 pm\n9:30 - 11:30 pm\nx\nLast Saturday, Ginny and her friends had lunch at Howell’s Bowl. Here is their\norder, and the poster of the restaurant.\nposter 海報\n(21-23)\nBelow is how four students answered their teacher’s question in class.",
@@ -251,6 +368,7 @@
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 16,
       "page_number": 6,
       "context": "",
@@ -266,6 +384,7 @@
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 17,
       "page_number": 6,
       "context": "",
@@ -281,6 +400,7 @@
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 18,
       "page_number": 7,
       "context": "",
@@ -296,6 +416,7 @@
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 19,
       "page_number": 7,
       "context": "",
@@ -311,6 +432,7 @@
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 20,
       "page_number": 8,
       "context": "",
@@ -326,6 +448,7 @@
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 21,
       "page_number": 8,
       "context": "",
@@ -341,6 +464,7 @@
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 22,
       "page_number": 9,
       "context": "",
@@ -356,6 +480,7 @@
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 23,
       "page_number": 9,
       "context": "",
@@ -371,6 +496,7 @@
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 24,
       "page_number": 9,
       "context": "",
@@ -386,6 +512,7 @@
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 25,
       "page_number": 10,
       "context": "",
@@ -401,6 +528,7 @@
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 26,
       "page_number": 11,
       "context": "",
@@ -416,6 +544,7 @@
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 27,
       "page_number": 11,
       "context": "",
@@ -431,6 +560,7 @@
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 28,
       "page_number": 11,
       "context": "",
@@ -446,6 +576,7 @@
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 29,
       "page_number": 12,
       "context": "I left you a voice message this morning!\nKeith: But you said Matt would go to the bakery! And why did you come here\nwithout me? I was waiting outside your apartment for an hour!\nAmber: No! I said I’d have lunch with Matt, and we’d come straight here from the\nrestaurant. So I asked you to help get the cake after work.\nKeith: No, you did not! And why didn’t you answer my calls?\nAmber: My cellphone is dead! I said in the message that you could call Matt’s number\nif you wanted to find me. Now please tell me you did bring the gift we got for Liz.\nKeith: What gift? I’m sure you didn’t say anything about a gift in the message.\nAmber: I told you that yesterday!\nmessage 留言\nlikely 可能\n(35-36)",
@@ -461,6 +592,7 @@
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 30,
       "page_number": 12,
       "context": "",
@@ -476,6 +608,7 @@
     },
     {
       "number": 37,
+      "source_number": 37,
       "display_number": 31,
       "page_number": 14,
       "context": "",
@@ -491,6 +624,7 @@
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 32,
       "page_number": 14,
       "context": "",
@@ -506,6 +640,7 @@
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 33,
       "page_number": 14,
       "context": "",
@@ -521,6 +656,7 @@
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 34,
       "page_number": 14,
       "context": "",
@@ -538,120 +674,140 @@
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 20,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 13,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 21,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 288,
       "option_count": 0
     },
     {
       "question_number": 13,
+      "display_source_number": 13,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 14,
+      "display_source_number": 14,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 15,
+      "display_source_number": 15,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 16,
+      "display_source_number": 16,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 17,
+      "display_source_number": 17,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 18,
+      "display_source_number": 18,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 229,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 76,
       "option_count": 0
     },
     {
       "question_number": 10,
+      "display_source_number": 10,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 9,
+      "display_source_number": 9,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 8,
+      "display_source_number": 8,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 7,
+      "display_source_number": 7,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 6,
+      "display_source_number": 6,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 5,
+      "display_source_number": 5,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 1331,
       "option_count": 0

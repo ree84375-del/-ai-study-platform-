@@ -2,8 +2,9 @@
   "year": "105",
   "subject_slug": "social",
   "subject_label": "社會",
+  "official_question_count": 63,
   "question_count": 63,
-  "answered_count": 0,
+  "answered_count": 63,
   "page_count": 14,
   "ocr_pages": [],
   "files": {
@@ -12,20 +13,208 @@
   },
   "official": {
     "question_url": "https://drive.google.com/file/d/1wbHfZbLPrt3PLizRBuCgU_AX2K6-dv1V/view?usp=drive_link",
-    "answer_url": "https://drive.google.com/file/d/1K3D-op0bCY_LOAPJw4uOS73AfYyPv1Ne/view?usp=drive_link",
+    "answer_url": "https://drive.google.com/file/d/15bDpOsfOw4ucIgdCwH5tggq7TVTlbap7/view?usp=drive_link",
     "explanation_url": "https://drive.google.com/file/d/1R8cJWW0vwBg5hJI8K62tkG4L8XpN63a_/view?usp=drive_link"
   },
   "checks": {
     "question_chunks_found": 118,
-    "answers_found": 0,
+    "answers_found": 63,
     "questions_kept": 63,
-    "issues_found": 118,
-    "answer_completion_ratio": 0.0
+    "issues_found": 55,
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      1,
+      2,
+      3,
+      34,
+      35,
+      36,
+      37,
+      46,
+      13,
+      21,
+      1,
+      19,
+      20,
+      26,
+      1,
+      63,
+      6,
+      21,
+      1,
+      72,
+      6,
+      15,
+      33,
+      8,
+      5,
+      14,
+      0,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      1,
+      2,
+      3,
+      50,
+      51,
+      52,
+      53,
+      54,
+      22,
+      16,
+      12,
+      8,
+      70,
+      74,
+      76,
+      81,
+      7,
+      8,
+      11,
+      10,
+      55,
+      56,
+      57,
+      58,
+      11,
+      11,
+      21,
+      1,
+      2,
+      14,
+      18,
+      16,
+      32,
+      5,
+      17,
+      33,
+      5,
+      59,
+      60,
+      61,
+      62,
+      63
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63
+    ],
+    "missing_question_numbers": [],
+    "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
+      "source_number": 1,
       "display_number": 1,
       "page_number": 2,
       "context": "",
@@ -36,11 +225,12 @@
         "C": "丙",
         "D": "丁"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「甲」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
+      "source_number": 2,
       "display_number": 2,
       "page_number": 2,
       "context": "",
@@ -51,11 +241,12 @@
         "C": "基督教",
         "D": "伊斯蘭教"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「伊斯蘭教」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 3,
+      "source_number": 3,
       "display_number": 3,
       "page_number": 2,
       "context": "",
@@ -66,11 +257,12 @@
         "C": "長江",
         "D": "珠江"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「淮河」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 4,
+      "source_number": 4,
       "display_number": 4,
       "page_number": 2,
       "context": "",
@@ -81,11 +273,12 @@
         "C": "南投縣",
         "D": "新竹市"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「南投縣」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 5,
+      "source_number": 5,
       "display_number": 5,
       "page_number": 2,
       "context": "",
@@ -96,11 +289,12 @@
         "C": "喀拉哈里盆地",
         "D": "尼羅河三角洲\n表(一)\n區域\n產業\n甲\n乙\n丙\n丁\n第一級產業\n第二級產業34\n第三級產業65\n單位：%\n圖(二)\n◝\n䚱\n㯿\n∯\u0003\u0003敨\n\u0003\u0003\u0003\u0003\u0004\nೱ\nុ\nᇬ\nߘ\nਔ\n੝\nձ\nݙ\nཀ\n圖(三)\n㖾㑮㱆⼭⅏惏㵯ざ\n桔暿\u0003\u0003!壈⼭ᳫ⺁\u0003\u0003!㖾㑮㱆⼭\u0003\n䔺ⳁ⑬ḋ\n徳↗唓\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003䔺ⳁ㔀摑\n\u0014\u0013\u0016\u0012\u0013\u001a\u0012\u0015\u0014\u0003\u0003\u0003\u0003\u0003\u0003摯㧟\n\u0018\u0018\u001b\n▜᳈暿\n▜⃕圦\n\u0014\u0013\u0016ⴲ\u001a㗆ⵓ弧廠㬴勈Ʊ⚁⊈Ʊ∮⫺Ʊ\nⲲ⚸㑭☤Ʊ㭗㾍◮擽ㆇᷭƱ◝仱‴Ʊ\n擽ㆇᷭ伭⋆⟥‪◉䨇◉ᴉ廡䵊ἅ㗝濕\n⪂⸾᳈庮◉⩴䕂徳ᶴ妉ῖ㒧ᵢ⪂濕ᶣ\n​弫傲ⶴ奢Ʋ\n圖(一)"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「剛果盆地」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 6,
+      "source_number": 6,
       "display_number": 6,
       "page_number": 3,
       "context": "",
@@ -111,11 +305,12 @@
         "C": "《祀壺信仰的淵源》",
         "D": "《紋面習俗的傳承》"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「《飛魚祭的探索》」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 7,
+      "source_number": 7,
       "display_number": 7,
       "page_number": 3,
       "context": "",
@@ -126,11 +321,12 @@
         "C": "臺灣省政府",
         "D": "臺灣省行政長官公署"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「臺灣總督府」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 8,
+      "source_number": 8,
       "display_number": 8,
       "page_number": 3,
       "context": "",
@@ -141,11 +337,12 @@
         "C": "實施種姓制度",
         "D": "建立跨歐 亞的帝國"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「出現文字」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 9,
+      "source_number": 9,
       "display_number": 9,
       "page_number": 3,
       "context": "",
@@ -156,11 +353,12 @@
         "C": "朱一貴反清事件的始末",
         "D": "曇花一現的臺灣民主國"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「鄭氏三代的臺灣經營」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 10,
+      "source_number": 10,
       "display_number": 10,
       "page_number": 3,
       "context": "",
@@ -171,11 +369,12 @@
         "C": "唐太宗",
         "D": "明太祖"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「秦始皇」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 11,
+      "source_number": 11,
       "display_number": 11,
       "page_number": 3,
       "context": "",
@@ -186,11 +385,12 @@
         "C": "清朝接受美國的門戶開放政策",
         "D": "中國經濟重心由沿海轉向內地\n圖(四)\nㄆ⎾怇分䙫䲥㹂ⷌ嗄˚栔\n櫕刅䙫䆘ガƏ檻樾ℬ㻦㴢\n⊂䙫⎆ἶ㯸梏ガ˛\n\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003\u0003婚ガ媲㴤ĉĉ㖬怱\n⫉ㄼ㰵᳈䊋䊞瀧哫ⱺᴉ㒃\n΋ǵዬᏵܿࠄᒉൺܴ\nΒǵܿ۴װᆵ០आЛ\nΟǵᅇΓޗ཮ۈಎਥ\nѤǵծ௳⽠Ꮃಖफ़మ\n圖(五)\n表(二)\n參訪地點\n性質\n國語學校\n教育機構\n臺北郵便局(郵局)\n通訊機構\n臺灣神社\n統治象徵\n？"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「清朝對外條約的簽訂」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 12,
+      "source_number": 12,
       "display_number": 12,
       "page_number": 4,
       "context": "最高統治機關\nሎЎεཀǺ\nΒΜϤԃǴࣤࡆঋٳϺΠ\nፏߠǴԭۉғࢲӼۓǶҥ\nဦࣁࣤࡆǴ٠ΠຕҦ࣬✱\nރǵЦᆔΒΓǴஒচӃӚ\n୯όӕޑࡋໆᑽǴуа಍΋Ƕ\n圖(六)\n圖(七)\n໺௲γ໻ૈӧቶԀޑࡰۓ୔ୱࢲ୏\n໺௲γёаӧ΢ੇ฻೯୘α۞໺௲\n໺௲γёаډύ୯ϣӦၯᐕǵ໺௲",
@@ -201,11 +401,12 @@
         "C": "法律未明定處罰的行為，不得任意處罰",
         "D": "未經法官判決有罪確定前，應視為無罪"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「未經法官判決有罪確定前，應視為無罪」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 13,
+      "source_number": 13,
       "display_number": 13,
       "page_number": 4,
       "context": "",
@@ -216,11 +417,12 @@
         "C": "丙",
         "D": "丁"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「乙」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 14,
+      "source_number": 14,
       "display_number": 14,
       "page_number": 4,
       "context": "",
@@ -231,11 +433,12 @@
         "C": "丙、甲、乙",
         "D": "甲、乙、丙"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「甲、丙、乙」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 15,
+      "source_number": 15,
       "display_number": 15,
       "page_number": 4,
       "context": "",
@@ -246,11 +449,12 @@
         "C": "向訴願管轄機關提出訴願",
         "D": "向高等行政法院提起訴訟"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「向訴願管轄機關提出訴願」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 16,
+      "source_number": 16,
       "display_number": 16,
       "page_number": 4,
       "context": "",
@@ -261,11 +465,12 @@
         "C": "舉辦地方特色活動",
         "D": "規範媒體報導內容"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「興建公共造產」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 17,
+      "source_number": 17,
       "display_number": 17,
       "page_number": 4,
       "context": "",
@@ -276,11 +481,12 @@
         "C": "臺灣銀行",
         "D": "中央銀行\n表(三)\n工作\n機會成本\n甲\n丙的薪資\n乙\n甲的薪資\n丙\n甲的薪資\n漁工小義：「船長，我們可以下網捕魚了嗎？」\n船長小城：「沒問題，我們的船已經開到可自由\n捕魚的公海上了。」\n根據上述內容判斷，小城的船隻最可能位於\n圖(八)中哪一個位置？\nX୯\n0 200੊\nY୯\n䏰\nᴗ\n᳗\nᲿ\n䏰\nᴗ\n᳗\nᲿ\n圖(八)"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「中央銀行\n表(三)\n工作\n機會成本\n甲\n丙的薪資\n乙\n甲的薪資\n丙\n甲的薪資\n漁工小義：「船長，我們可以下網捕魚了嗎？」\n船長小城：「沒問題，我們的船已經開到可自由\n捕魚的公海上了。」\n根據上述內容判斷，小城的船隻最可能位於\n圖(八)中哪一個位置？\nX୯\n0 200੊\nY୯\n䏰\nᴗ\n᳗\nᲿ\n䏰\nᴗ\n᳗\nᲿ\n圖(八)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 18,
+      "source_number": 18,
       "display_number": 18,
       "page_number": 5,
       "context": "",
@@ -291,11 +497,12 @@
         "C": "橄欖",
         "D": "橡膠"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「橡膠」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 19,
+      "source_number": 19,
       "display_number": 19,
       "page_number": 5,
       "context": "",
@@ -306,11 +513,12 @@
         "C": "沿海地區地層下陷嚴重",
         "D": "高緯區可耕地面積減少"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「海水淹沒沿海低窪地區」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 20,
+      "source_number": 20,
       "display_number": 20,
       "page_number": 5,
       "context": "",
@@ -321,11 +529,12 @@
         "C": "日本 琉球群島",
         "D": "菲律賓 呂宋島"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「日本 琉球群島」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 21,
+      "source_number": 21,
       "display_number": 21,
       "page_number": 5,
       "context": "",
@@ -336,11 +545,12 @@
         "C": "23.5°N～23.5°S",
         "D": "40°S～66.5°S"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「23.5°N～23.5°S」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 22,
+      "source_number": 22,
       "display_number": 22,
       "page_number": 5,
       "context": "",
@@ -351,11 +561,12 @@
         "C": "流向多為東西向",
         "D": "屬於荒溪型河川"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「屬於荒溪型河川」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 23,
+      "source_number": 23,
       "display_number": 23,
       "page_number": 5,
       "context": "",
@@ -366,11 +577,12 @@
         "C": "臺東 三仙臺",
         "D": "高雄 西子灣\n表(四)\n地區\n影響\n喜馬拉雅山區 冰河逐漸消退\n熱帶海域\n大量珊瑚白化\n北極地區\n部分動物棲息地減少\n溫帶地區\n出現熱帶地區常見的傳染病\n表(五)\n海拔高度\n人口密度\n1,000 公尺以下\n較稀疏\n1,000 公尺以上\n較稠密"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「花蓮 太魯閣」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 24,
+      "source_number": 24,
       "display_number": 24,
       "page_number": 6,
       "context": "",
@@ -381,11 +593,12 @@
         "C": "隋文帝營建大興",
         "D": "北魏孝文帝定都洛陽"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「北魏孝文帝定都洛陽」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 25,
+      "source_number": 25,
       "display_number": 25,
       "page_number": 6,
       "context": "",
@@ -396,11 +609,12 @@
         "C": "以澳門為據點，推動亞洲傳教事業",
         "D": "設亞洲總部於巴達維亞，統籌經營"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「設亞洲總部於巴達維亞，統籌經營」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 26,
+      "source_number": 26,
       "display_number": 26,
       "page_number": 6,
       "context": "",
@@ -411,11 +625,12 @@
         "C": "神聖羅馬帝國",
         "D": "鄂圖曼土耳其帝國"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「鄂圖曼土耳其帝國」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 27,
+      "source_number": 27,
       "display_number": 27,
       "page_number": 6,
       "context": "",
@@ -426,11 +641,12 @@
         "C": "市舶司",
         "D": "總理衙門"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「郊」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 28,
+      "source_number": 28,
       "display_number": 28,
       "page_number": 6,
       "context": "",
@@ -441,11 +657,12 @@
         "C": "清朝統治時期",
         "D": "日本統治時期\n表(六)\n重要事件\n★成立於十七世紀初\n★\n？"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「日本統治時期\n表(六)\n重要事件\n★成立於十七世紀初\n★\n？」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 29,
+      "source_number": 29,
       "display_number": 29,
       "page_number": 7,
       "context": "★曾在臺灣、南非好望角\n等地建立殖民地\n★在日本鎖國時期，獲准\n與日本貿易\n表(七)\n時間\n形勢演變\n十三世紀 興起於安納托力亞高原\n十六世紀 掌控巴爾幹半島，邁向全盛時期\n十九世紀 因俄國、英國、法國的侵略而衰弱\n二十世紀 第一次世界大戰戰敗，帝國瓦解\n& 郊＝行郊；\n總理衙門：總理各\n國事務衙門的簡稱。",
@@ -456,11 +673,12 @@
         "C": "投書媒體評論政府政策",
         "D": "禁止因性別差異而同工不同酬"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「投書媒體評論政府政策」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 30,
+      "source_number": 30,
       "display_number": 30,
       "page_number": 7,
       "context": "",
@@ -471,11 +689,12 @@
         "C": "阿楷",
         "D": "阿涵"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「阿涵」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 31,
+      "source_number": 31,
       "display_number": 31,
       "page_number": 7,
       "context": "",
@@ -486,11 +705,12 @@
         "C": "丙",
         "D": "丁"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「丙」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 32,
+      "source_number": 32,
       "display_number": 32,
       "page_number": 7,
       "context": "",
@@ -501,11 +721,12 @@
         "C": "推動該活動可落實社會責任",
         "D": "該組織的性質屬於職業團體"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「推動該活動可落實社會責任」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 33,
+      "source_number": 33,
       "display_number": 33,
       "page_number": 7,
       "context": "",
@@ -516,11 +737,12 @@
         "C": "可以調解的案件可能為 126 件",
         "D": "可以調解的案件可能為 162 件\n圖(九)\n⎾䚱㫱\n⎪㔦㫱\n⹚䬰㫱\n凑䔘㫱\nҘ\nΌ\nЧ\n΍\nば㮓\n表(八)\n姓名\n新聞標題\n小美\n十三歲嫌犯，將移送少年法院審理\n小幸\n食品檢驗不合格，縣政府將處罰鍰\n阿楷\n行政機關浪費水，監察院提出糾正\n阿涵\n冷血殺人犯，檢察官作出死刑判決\n圖(十)\nପറӓ౩ፐ࢒ۢ՞قಜȂ\n፝ԋЗཧॹȄ\nᗋຶџโ಼ಊȂ\nѠ᏶ಊ਴ռຳཧӲโȄ\n಼ᑼ೪ԥା઼ޫ።І\n๳ᎍޠᇻ๽৵ැȄ\nϵѨӬݳҴ਱Ȃ\n಼଺စ࢈ۻᔯᡜӬੀȄ\n䏰\nᴗ\nᲿ\n᳗\n⋂朜売壝㜆ᶴ䰯壆䰎㙚"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「可以調解的案件可能為 162 件\n圖(九)\n⎾䚱㫱\n⎪㔦㫱\n⹚䬰㫱\n凑䔘㫱\nҘ\nΌ\nЧ\n΍\nば㮓\n表(八)\n姓名\n新聞標題\n小美\n十三歲嫌犯，將移送少年法院審理\n小幸\n食品檢驗不合格，縣政府將處罰鍰\n阿楷\n行政機關浪費水，監察院提出糾正\n阿涵\n冷血殺人犯，檢察官作出死刑判決\n圖(十)\nପറӓ౩ፐ࢒ۢ՞قಜȂ\n፝ԋЗཧॹȄ\nᗋຶџโ಼ಊȂ\nѠ᏶ಊ਴ռຳཧӲโȄ\n಼ᑼ೪ԥା઼ޫ።І\n๳ᎍޠᇻ๽৵ැȄ\nϵѨӬݳҴ਱Ȃ\n಼଺စ࢈ۻᔯᡜӬੀȄ\n䏰\nᴗ\nᲿ\n᳗\n⋂朜売壝㜆ᶴ䰯壆䰎㙚」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 34,
+      "source_number": 34,
       "display_number": 34,
       "page_number": 8,
       "context": "",
@@ -531,11 +753,12 @@
         "C": "中國東北部",
         "D": "義大利南部"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「臺灣北部」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 35,
+      "source_number": 35,
       "display_number": 35,
       "page_number": 8,
       "context": "",
@@ -546,11 +769,12 @@
         "C": "上海為丙類",
         "D": "大連為丁類"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「北京為甲類」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 36,
+      "source_number": 36,
       "display_number": 36,
       "page_number": 8,
       "context": "",
@@ -561,11 +785,12 @@
         "C": "法國 地中海沿岸",
         "D": "美國西北部沿岸"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「澳洲西南部地區」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 37,
+      "source_number": 37,
       "display_number": 37,
       "page_number": 8,
       "context": "",
@@ -576,11 +801,12 @@
         "C": "增設經濟特區，加強和中亞的貿易",
         "D": "興建三峽大壩，改善工業缺電問題\n表(十)\n類型\n交通方式\n甲\n鐵路－公路樞紐\n乙\n海運－鐵路－公路樞紐\n丙\n河運－鐵路－公路樞紐\n丁\n河運－海運－鐵路－公路樞紐\n圖(十二)\n3~5Д\n6~8Д\n9~11Д 12~2Д\n(%)\n(1)更新工廠老舊設施或進行工業升級。\n(2)加強與俄羅斯、北韓邊界地區的經貿合作。\n(3)進行礦業、林業等資源型都市的轉型。"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「改善農地排水問題，增加糧食生產」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 38,
+      "source_number": 38,
       "display_number": 38,
       "page_number": 9,
       "context": "",
@@ -591,11 +817,12 @@
         "C": "元朝",
         "D": "清朝"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「元朝」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 39,
+      "source_number": 39,
       "display_number": 39,
       "page_number": 9,
       "context": "",
@@ -606,11 +833,12 @@
         "C": "中國聲威遠播，奠定華人移居東南亞基礎",
         "D": "肅清倭寇的勢力，東南沿海因此得以安定"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「中國聲威遠播，奠定華人移居東南亞基礎」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 40,
+      "source_number": 40,
       "display_number": 40,
       "page_number": 9,
       "context": "",
@@ -621,11 +849,12 @@
         "C": "朝廷任命沈葆楨為欽差大臣，來臺加強防務",
         "D": "清廷派軍參戰，因戰事失利，被迫割讓臺灣"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「朝廷任命沈葆楨為欽差大臣，來臺加強防務」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 41,
+      "source_number": 41,
       "display_number": 41,
       "page_number": 9,
       "context": "",
@@ -636,11 +865,12 @@
         "C": "伊斯蘭文化的發展",
         "D": "亞歷山大帝國的擴張\n圖(十三)\nమ׊܍ᇡВҁрծࣁ\nߥ҇ကᖐǶ\n΍\n൑\nඳ\nǾǾǾǾǾǾǾǾǴ\nǾǾǾǾǾǾǾǶ\nЧ\n൑\nඳ\nΌ\n൑\nඳ\nВҁᙖαрծᆵ᡼Ǵ\nᆶচՐ҇วғᐟᏯǶ\nҘ\n൑\nඳ\n੥ౚΓ҇ᎁၶኪ॥Ǵ\nᅆࢬԿࠄᆵ᡼Ƕ\n圖(十四)\n圖(十五)\n堽 \u0016\u0015ⴲ\n堽 \u0015\u0013\u0013ⴲ\n堽 \u0017\u0013\u0013ⴲ\n堽 \u0019\u0013\u0013ⴲ\n尵㵎◮"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「基督教的傳播」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 42,
+      "source_number": 42,
       "display_number": 42,
       "page_number": 10,
       "context": "",
@@ -651,11 +881,12 @@
         "C": "甲可解釋法律命令",
         "D": "乙可提出不信任案"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「乙可提出不信任案」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 43,
+      "source_number": 43,
       "display_number": 43,
       "page_number": 10,
       "context": "",
@@ -666,11 +897,12 @@
         "C": "甲產品 15 元，乙產品 20 元",
         "D": "甲產品 20 元，乙產品 15 元"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「甲產品 15 元，乙產品 20 元」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 44,
+      "source_number": 44,
       "display_number": 44,
       "page_number": 10,
       "context": "",
@@ -681,11 +913,12 @@
         "C": "丙",
         "D": "丁"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「丁」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 45,
+      "source_number": 45,
       "display_number": 45,
       "page_number": 10,
       "context": "",
@@ -696,11 +929,12 @@
         "C": "35",
         "D": "40\n圖(十六)\nሽ\n਱\nϡ\n(\n)\nኧໆίঁ\n(\n)\n8 10\nҘ\nΌ\n表(十二)\n國家\n國會席次資料\n甲\n第二大黨獲得20% 的席次\n乙\n第二大黨獲得47% 的席次\n丙\n第三大黨獲得 2% 的席次\n丁\n第三大黨獲得31% 的席次\n表(十三)\n饅頭\n包子\n小岩\n小太\n甲\n小冬\n單位：個/小時\n表(十一)\n同學\n角色\n對話內容\n小哲\n甲\n我決定提名阿誠為大法官。\n大熊\n乙\n我認為阿誠不適任，所以我\n不同意這個人事任命案。"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「35」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 46,
+      "source_number": 46,
       "display_number": 46,
       "page_number": 11,
       "context": "",
@@ -711,11 +945,12 @@
         "C": "區域統合",
         "D": "國際貿易"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「全球關連」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 47,
+      "source_number": 47,
       "display_number": 47,
       "page_number": 11,
       "context": "",
@@ -726,11 +961,12 @@
         "C": "鹽田景觀",
         "D": "戰地風光"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「客家文化」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 48,
+      "source_number": 48,
       "display_number": 48,
       "page_number": 11,
       "context": "",
@@ -741,11 +977,12 @@
         "C": "琪琪",
         "D": "小貞"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「小周」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 49,
+      "source_number": 49,
       "display_number": 49,
       "page_number": 11,
       "context": "",
@@ -756,11 +993,12 @@
         "C": "國外市場規模擴大",
         "D": "產品附加價值提升\n表(十四)\n特徵\n同學\n回答內容\n差異性\n小周 古代書寫的隸書、楷書，逐漸\n演變成我們今日所使用的文字。"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「國內生產成本提高」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 50,
+      "source_number": 50,
       "display_number": 50,
       "page_number": 12,
       "context": "",
@@ -771,11 +1009,12 @@
         "C": "保障人民生存權利",
         "D": "推廣志工服務活動"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「保障人民生存權利」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 51,
+      "source_number": 51,
       "display_number": 51,
       "page_number": 12,
       "context": "",
@@ -786,11 +1025,12 @@
         "C": "君權神授觀念的鞏固",
         "D": "社會主義學說的興起"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「社會主義學說的興起」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 52,
+      "source_number": 52,
       "display_number": 52,
       "page_number": 12,
       "context": "",
@@ -801,11 +1041,12 @@
         "C": "北伐統一完成，政府致力建設發展",
         "D": "八年抗戰後期，政府籌措資金抗日"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「北伐統一完成，政府致力建設發展」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 53,
+      "source_number": 53,
       "display_number": 53,
       "page_number": 12,
       "context": "",
@@ -816,11 +1057,12 @@
         "C": "老人福利較佳",
         "D": "沙塵暴較嚴重"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「就業機會較多」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 54,
+      "source_number": 54,
       "display_number": 54,
       "page_number": 12,
       "context": "",
@@ -831,11 +1073,12 @@
         "C": "巴西",
         "D": "墨西哥\n@\nᡂॠޑϣ৒\nଆྍӦ म୯\nԐය໺\nኞӦ୔\nम୯\nऍࢪ!!!!!!!!ኻഌ\nቹៜ\n. ཥᑫࠤѱޑ݅ҥ\n. πቷڋࡋޑр౜\n.\n表(十五)\n表(十六)\n全國\n上海\n年齡(歲) 2000年 2010年 2000年 2010年\n0-14"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「秘魯」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 55,
+      "source_number": 55,
       "display_number": 55,
       "page_number": 13,
       "context": "",
@@ -846,11 +1089,12 @@
         "C": "中國共產黨、美國",
         "D": "中國共產黨、北韓\n二、題組：(56～63題)\n閱讀下列選文，回答第 56 至 58 題："
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「中國共產黨、美國」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 56,
+      "source_number": 56,
       "display_number": 56,
       "page_number": 13,
       "context": "",
@@ -861,11 +1105,12 @@
         "C": "溫帶大陸性氣候",
         "D": "溫帶地中海型氣候"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「熱帶沙漠氣候」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 57,
+      "source_number": 57,
       "display_number": 57,
       "page_number": 13,
       "context": "",
@@ -876,11 +1121,12 @@
         "C": "紐西蘭",
         "D": "俄羅斯"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「俄羅斯」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 58,
+      "source_number": 58,
       "display_number": 58,
       "page_number": 13,
       "context": "",
@@ -891,11 +1137,12 @@
         "C": "丙",
         "D": "丁\n1947ԃǴԖ΋ՏᆵࠄΓӧᆵ᡼೏\nࡹ۬ቻєǴᒿ೽໗ॅύ୯๮чୖ\nᏯǴᏯ௳೏ߨࡕጓΕእैǹ1950\nԃжǴдୖᆶᗬᏯǴӆࡋ೏ߨǹ\nനࡕаȨٰᘜကγȩيϩ߇ᆵǴ\nনॹӧ҆ᒃᚶύǶ\n圖(十九)\n卡達為阿拉伯半島東側臨波斯灣的小國，由於具有豐富\n的天然資源，成為全球人均 GDP 名列前茅的國家。圖(二十)為\n2010年該國的出口結構，其中兩大出口品為該國的經濟支柱，\n但因為本國人口少，為了維持經濟持續成長，必須依賴大量外\n籍人士，以滿足該國的勞力需求，因而成為人口移入的地區。"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「甲」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 59,
+      "source_number": 59,
       "display_number": 59,
       "page_number": 14,
       "context": "",
@@ -906,11 +1153,12 @@
         "C": "丙",
         "D": "丁"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「乙」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 60,
+      "source_number": 60,
       "display_number": 60,
       "page_number": 14,
       "context": "",
@@ -921,11 +1169,12 @@
         "C": "「第三世界」的興起",
         "D": "歐洲經濟共同體的建立\n閱讀下列選文，回答第 61 至 63 題："
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「歐洲共產政權的瓦解」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 61,
+      "source_number": 61,
       "display_number": 61,
       "page_number": 14,
       "context": "",
@@ -936,11 +1185,12 @@
         "C": "新竹縣縣議員",
         "D": "臺灣省省諮議員"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「新竹縣縣議員」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 62,
+      "source_number": 62,
       "display_number": 62,
       "page_number": 14,
       "context": "",
@@ -951,11 +1201,12 @@
         "C": "死亡率不斷上升",
         "D": "生育率持續下降"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「生育率持續下降」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 63,
+      "source_number": 63,
       "display_number": 63,
       "page_number": 14,
       "context": "",
@@ -966,592 +1217,395 @@
         "C": "需求層次理論",
         "D": "社會達爾文主義\n試題結束\n皮雷茨基的祖國在 1939 年遭德國、蘇聯攻陷，他因此參與地下反抗組\n織，並趁德軍搜捕罪犯時，混入隊伍，故意被送進納粹在他的祖國內成立的\n集中營，設法將內部消息傳遞出去，這些資料使盟國更加認識集中營的情況。"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「需求層次理論」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 105 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 20,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 50,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
     },
     {
       "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
       "stem_length": 309,
       "option_count": 0
     },
     {
       "question_number": 1,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 2,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 3,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 4,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 5,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 6,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 7,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 8,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 9,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 10,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 11,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 12,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 13,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 14,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 15,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 16,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 17,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 18,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 19,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 20,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 21,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 22,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 23,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 24,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 25,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 26,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 27,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 28,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 29,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 30,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 31,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 32,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 33,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 4,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 4,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 25,
       "option_count": 0
     },
     {
-      "question_number": 34,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 35,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 36,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 37,
-      "reason": "missing_answer"
-    },
-    {
       "question_number": 46,
+      "display_source_number": 46,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 13,
+      "display_source_number": 13,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 3,
       "option_count": 0
     },
     {
       "question_number": 19,
+      "display_source_number": 19,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 20,
+      "display_source_number": 20,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 26,
+      "display_source_number": 26,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 3,
       "option_count": 0
     },
     {
       "question_number": 63,
+      "display_source_number": 63,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 6,
+      "display_source_number": 6,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 3,
       "option_count": 0
     },
     {
       "question_number": 72,
+      "display_source_number": 72,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 6,
+      "display_source_number": 6,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 15,
+      "display_source_number": 15,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 33,
+      "display_source_number": 33,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 8,
+      "display_source_number": 8,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 5,
+      "display_source_number": 5,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 14,
+      "display_source_number": 14,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 0,
+      "display_source_number": 0,
       "reason": "parse_incomplete",
       "stem_length": 35,
       "option_count": 0
     },
     {
-      "question_number": 38,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 39,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 40,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 41,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 42,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 43,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 44,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 45,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 46,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 47,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 48,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 49,
-      "reason": "missing_answer"
-    },
-    {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 30,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 26,
       "option_count": 0
     },
     {
       "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
       "stem_length": 96,
       "option_count": 0
     },
     {
-      "question_number": 50,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 51,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 52,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 53,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 54,
-      "reason": "missing_answer"
-    },
-    {
       "question_number": 22,
+      "display_source_number": 22,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 16,
+      "display_source_number": 16,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 12,
+      "display_source_number": 12,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 8,
+      "display_source_number": 8,
       "reason": "parse_incomplete",
       "stem_length": 8,
       "option_count": 0
     },
     {
       "question_number": 70,
+      "display_source_number": 70,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 74,
+      "display_source_number": 74,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 76,
+      "display_source_number": 76,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 81,
+      "display_source_number": 81,
       "reason": "parse_incomplete",
       "stem_length": 8,
       "option_count": 0
     },
     {
       "question_number": 7,
+      "display_source_number": 7,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 8,
+      "display_source_number": 8,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 11,
+      "display_source_number": 11,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
       "question_number": 10,
+      "display_source_number": 10,
       "reason": "parse_incomplete",
       "stem_length": 2,
       "option_count": 0
     },
     {
-      "question_number": 55,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 56,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 57,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 58,
-      "reason": "missing_answer"
-    },
-    {
       "question_number": 11,
+      "display_source_number": 11,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 11,
+      "display_source_number": 11,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 1,
+      "display_source_number": 1,
       "reason": "parse_incomplete",
       "stem_length": 8,
       "option_count": 0
     },
     {
       "question_number": 2,
+      "display_source_number": 2,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 14,
+      "display_source_number": 14,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 18,
+      "display_source_number": 18,
       "reason": "parse_incomplete",
       "stem_length": 3,
       "option_count": 0
     },
     {
       "question_number": 16,
+      "display_source_number": 16,
       "reason": "parse_incomplete",
       "stem_length": 6,
       "option_count": 0
     },
     {
       "question_number": 32,
+      "display_source_number": 32,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 5,
+      "display_source_number": 5,
       "reason": "parse_incomplete",
       "stem_length": 3,
       "option_count": 0
     },
     {
       "question_number": 17,
+      "display_source_number": 17,
       "reason": "parse_incomplete",
       "stem_length": 6,
       "option_count": 0
     },
     {
       "question_number": 33,
+      "display_source_number": 33,
       "reason": "parse_incomplete",
       "stem_length": 1,
       "option_count": 0
     },
     {
       "question_number": 5,
+      "display_source_number": 5,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
-    },
-    {
-      "question_number": 59,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 60,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 61,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 62,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 63,
-      "reason": "missing_answer"
     }
   ]
 }

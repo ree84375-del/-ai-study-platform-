@@ -30,6 +30,11 @@ CAP_WORD_ROOT = DATA_ROOT / "cap_practice_word"
 CAP_STRUCTURED_ROOT = DATA_ROOT / "cap_practice_structured"
 CAP_LIBRARY_MANIFEST = DATA_ROOT / "cap_review" / "cap_practice_manifest.json"
 
+OFFICIAL_QUESTION_COUNT_OVERRIDES = {
+    "102": {"chinese": 48, "english": 40, "math": 25, "social": 63, "science": 54},
+    "103": {"chinese": 48, "english": 40, "math": 27, "social": 63, "science": 54},
+}
+
 SUBJECT_LABELS = {
     "chinese": "國文",
     "english": "英語",
@@ -164,6 +169,73 @@ def extract_answer_page_text(answer_pdf_path: Path, page_number: int) -> str:
         reverse=True,
     )
     return scored[0][1] if scored else ""
+
+
+def extract_cover_question_count(pdf_path: Path) -> int | None:
+    patterns = [
+        re.compile(r"有\s*(\d{1,3})\s*題"),
+        re.compile(r"共\s*\d+\s*頁[^\n]{0,40}?(\d{1,3})\s*題"),
+    ]
+    with fitz.open(pdf_path) as document:
+        cover_page = document[0]
+        direct_text = normalize_multiline_text(cover_page.get_text("text"))
+        candidates = [direct_text]
+
+    for text in candidates:
+        normalized = text.replace("\u2004", " ").replace("\u2005", " ").replace("\u2006", " ")
+        for pattern in patterns:
+            match = pattern.search(normalized)
+            if match:
+                try:
+                    return int(match.group(1))
+                except ValueError:
+                    continue
+
+    with fitz.open(pdf_path) as document:
+        cover_page = document[0]
+        for dpi, languages, psm in (
+            (220, "chi_tra+eng", 6),
+            (300, "chi_tra+eng", 6),
+            (300, "eng", 6),
+        ):
+            try:
+                ocr_text = normalize_multiline_text(
+                    run_tesseract_on_image(render_page_png(cover_page, dpi=dpi), languages=languages, psm=psm)
+                )
+            except Exception:
+                ocr_text = ""
+            if not ocr_text:
+                continue
+            normalized = ocr_text.replace("\u2004", " ").replace("\u2005", " ").replace("\u2006", " ")
+            for pattern in patterns:
+                match = pattern.search(normalized)
+                if match:
+                    try:
+                        return int(match.group(1))
+                    except ValueError:
+                        continue
+    return None
+
+
+def resolve_official_question_count(year: str, subject_slug: str, pdf_path: Path) -> int | None:
+    override = OFFICIAL_QUESTION_COUNT_OVERRIDES.get(str(year), {}).get(subject_slug)
+    if override is not None:
+        return override
+    return extract_cover_question_count(pdf_path)
+
+
+def is_english_reading_only_mode(year: str, subject_slug: str) -> bool:
+    return subject_slug == "english" and str(year) in {"102", "103"}
+
+
+def should_skip_source_question(year: str, subject_slug: str, source_number: int) -> bool:
+    return is_english_reading_only_mode(year, subject_slug) and source_number < 21
+
+
+def normalize_subject_question_number(year: str, subject_slug: str, source_number: int) -> int:
+    if is_english_reading_only_mode(year, subject_slug) and source_number >= 21:
+        return source_number - 20
+    return source_number
 
 
 def parse_answer_key(answer_pdf_path: Path) -> dict[str, dict[int, str]]:
@@ -309,7 +381,14 @@ def build_local_cap_explanation(subject_label: str, year: str, question: dict) -
     return " ".join(hints)
 
 
-def build_cap_structure_for_subject(year: str, subject_slug: str, subject_entry: dict, answer_map: dict[int, str], explanation_entry: dict) -> dict:
+def build_cap_structure_for_subject(
+    year: str,
+    subject_slug: str,
+    subject_entry: dict,
+    answer_map: dict[int, str],
+    explanation_entry: dict,
+    official_question_count: int | None = None,
+) -> dict:
     subject_label = SUBJECT_LABELS[subject_slug]
     pdf_path = CAP_SOURCE_ROOT / year / subject_slug / f"{year}_{subject_slug}.pdf"
     docx_path = CAP_WORD_ROOT / year / f"{year}_{subject_slug}.docx"
@@ -334,6 +413,11 @@ def build_cap_structure_for_subject(year: str, subject_slug: str, subject_entry:
     answered_count = 0
 
     for item in raw_questions:
+        source_number = item["number"]
+        if should_skip_source_question(year, subject_slug, source_number):
+            issues.append({"question_number": source_number, "reason": "reading_only_skip"})
+            continue
+
         stem, options, trailing = split_question_body(item["body"])
         context = normalize_multiline_text("\n".join(filter(None, [carryover, item.get("carryover_context", "")])))
         if trailing:
@@ -341,11 +425,13 @@ def build_cap_structure_for_subject(year: str, subject_slug: str, subject_entry:
         else:
             carryover = ""
 
-        correct_answer = answer_map.get(item["number"], "")
+        normalized_number = normalize_subject_question_number(year, subject_slug, source_number)
+        correct_answer = answer_map.get(source_number, "")
         if not stem or len(options) < 2:
             issues.append(
                 {
-                    "question_number": item["number"],
+                    "question_number": source_number,
+                    "display_source_number": normalized_number,
                     "reason": "parse_incomplete",
                     "stem_length": len(stem),
                     "option_count": len(options),
@@ -354,7 +440,8 @@ def build_cap_structure_for_subject(year: str, subject_slug: str, subject_entry:
             continue
 
         question_payload = {
-            "number": item["number"],
+            "number": normalized_number,
+            "source_number": source_number,
             "display_number": len(questions) + 1,
             "page_number": item["page_number"],
             "context": context,
@@ -366,15 +453,42 @@ def build_cap_structure_for_subject(year: str, subject_slug: str, subject_entry:
             answered_count += 1
             question_payload["explanation"] = build_local_cap_explanation(subject_label, year, question_payload)
         else:
-            question_payload["explanation"] = f"這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-            issues.append({"question_number": item["number"], "reason": "missing_answer"})
+            question_payload["explanation"] = "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+            issues.append(
+                {
+                    "question_number": source_number,
+                    "display_source_number": normalized_number,
+                    "reason": "missing_answer",
+                }
+            )
         questions.append(question_payload)
 
+    raw_question_numbers = [
+        normalize_subject_question_number(year, subject_slug, item["number"])
+        for item in raw_questions
+        if item.get("number") is not None and not should_skip_source_question(year, subject_slug, item["number"])
+    ]
+    kept_question_numbers = [item["number"] for item in questions if item.get("number") is not None]
+    missing_question_numbers = []
+    if official_question_count:
+        missing_question_numbers = [
+            question_number
+            for question_number in range(1, official_question_count + 1)
+            if question_number not in kept_question_numbers
+        ]
+    duplicate_question_numbers = sorted(
+        {
+            question_number
+            for question_number in kept_question_numbers
+            if kept_question_numbers.count(question_number) > 1
+        }
+    )
     answer_completion_ratio = answered_count / len(questions) if questions else 0.0
     payload = {
         "year": year,
         "subject_slug": subject_slug,
         "subject_label": subject_label,
+        "official_question_count": official_question_count,
         "question_count": len(questions),
         "answered_count": answered_count,
         "page_count": len(pages),
@@ -394,8 +508,18 @@ def build_cap_structure_for_subject(year: str, subject_slug: str, subject_entry:
             "questions_kept": len(questions),
             "issues_found": len(issues),
             "answer_completion_ratio": round(answer_completion_ratio, 3),
+            "raw_question_numbers": raw_question_numbers,
+            "kept_question_numbers": kept_question_numbers,
+            "missing_question_numbers": missing_question_numbers,
+            "duplicate_question_numbers": duplicate_question_numbers,
         },
-        "practice_ready": answer_completion_ratio >= 0.95 and len(questions) > 0,
+        "practice_ready": (
+            answer_completion_ratio >= 0.95
+            and len(questions) > 0
+            and (official_question_count is None or len(questions) == official_question_count)
+            and not missing_question_numbers
+            and not duplicate_question_numbers
+        ),
         "questions": questions,
         "issues": issues,
     }
@@ -438,11 +562,26 @@ def build_library() -> dict:
                 issues.append(f"missing_pdf:{year}:{subject_slug}")
                 continue
 
-            structured = build_cap_structure_for_subject(year, subject_slug, subject_entry, answer_map.get(subject_slug, {}), year_entry)
+            official_question_count = resolve_official_question_count(year, subject_slug, question_pdf)
+            structured = build_cap_structure_for_subject(
+                year,
+                subject_slug,
+                subject_entry,
+                answer_map.get(subject_slug, {}),
+                year_entry,
+                official_question_count=official_question_count,
+            )
+            if official_question_count is None:
+                issues.append(f"cover_count_missing:{year}:{subject_slug}")
+            elif structured["question_count"] != official_question_count:
+                issues.append(
+                    f"question_count_mismatch:{year}:{subject_slug}:{structured['question_count']}!= {official_question_count}"
+                )
             subjects.append(
                 {
                     "slug": subject_slug,
                     "label": SUBJECT_LABELS[subject_slug],
+                    "official_question_count": official_question_count,
                     "question_count": structured["question_count"],
                     "answered_count": structured["answered_count"],
                     "practice_ready": structured["practice_ready"],
