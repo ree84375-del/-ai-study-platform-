@@ -26,47 +26,209 @@ def get_current_room_name():
 
 
 PRACTICE_SUBJECTS = [
-    {'slug': 'all', 'label': '\u5168\u90e8', 'icon': 'fa-globe', 'aliases': ['all', '\u5168\u90e8']},
-    {'slug': 'chinese', 'label': '\u570b\u6587', 'icon': 'fa-book-open', 'aliases': ['\u570b\u6587', '\u4e2d\u6587', 'Chinese', 'subject_chinese', 'subject_chinese_short']},
-    {'slug': 'english', 'label': '\u82f1\u6587', 'icon': 'fa-language', 'aliases': ['\u82f1\u6587', 'English', 'subject_english', 'subject_english_short']},
-    {'slug': 'math', 'label': '\u6578\u5b78', 'icon': 'fa-calculator', 'aliases': ['\u6578\u5b78', 'Math', 'subject_math', 'subject_math_short']},
-    {'slug': 'geography', 'label': '\u5730\u7406', 'icon': 'fa-map-location-dot', 'aliases': ['\u5730\u7406', 'Geography']},
-    {'slug': 'history', 'label': '\u6b77\u53f2', 'icon': 'fa-landmark', 'aliases': ['\u6b77\u53f2', 'History']},
-    {'slug': 'civics', 'label': '\u516c\u6c11', 'icon': 'fa-scale-balanced', 'aliases': ['\u516c\u6c11', 'Civics']},
-    {'slug': 'science', 'label': '\u81ea\u7136', 'icon': 'fa-leaf', 'aliases': ['\u81ea\u7136', 'Science', 'Sciences']},
-    {'slug': 'physics', 'label': '\u7269\u7406', 'icon': 'fa-atom', 'aliases': ['\u7269\u7406', 'Physics']},
-    {'slug': 'chemistry', 'label': '\u5316\u5b78', 'icon': 'fa-flask', 'aliases': ['\u5316\u5b78', 'Chemistry']},
-    {'slug': 'integrated_science', 'label': '\u7406\u5316', 'icon': 'fa-magnet', 'aliases': ['\u7406\u5316']},
-    {'slug': 'earth_science', 'label': '\u5730\u79d1', 'icon': 'fa-earth-asia', 'aliases': ['\u5730\u79d1', 'Earth Science']},
-    {'slug': 'japanese', 'label': '\u65e5\u6587', 'icon': 'fa-torii-gate', 'aliases': ['\u65e5\u6587', 'Japanese']},
+    {
+        'slug': 'all',
+        'label': '全部',
+        'icon': 'fa-layer-group',
+        'aliases': ['all', '全部'],
+        'family': 'all',
+        'hub_visible': False,
+    },
+    {
+        'slug': 'chinese',
+        'label': '國文',
+        'icon': 'fa-book-open',
+        'aliases': ['國文', '中文', 'Chinese', 'subject_chinese', 'subject_chinese_short'],
+        'family': 'core',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'english',
+        'label': '英文',
+        'icon': 'fa-language',
+        'aliases': ['英文', 'English', 'subject_english', 'subject_english_short'],
+        'family': 'core',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'math',
+        'label': '數學',
+        'icon': 'fa-calculator',
+        'aliases': ['數學', 'Math', 'subject_math', 'subject_math_short'],
+        'family': 'core',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'geography',
+        'label': '地理',
+        'icon': 'fa-map-location-dot',
+        'aliases': ['地理', 'Geography'],
+        'family': 'social',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'history',
+        'label': '歷史',
+        'icon': 'fa-landmark',
+        'aliases': ['歷史', 'History'],
+        'family': 'social',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'civics',
+        'label': '公民',
+        'icon': 'fa-scale-balanced',
+        'aliases': ['公民', 'Civics'],
+        'family': 'social',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'biology',
+        'label': '生物',
+        'icon': 'fa-dna',
+        'aliases': ['生物', 'Biology'],
+        'family': 'nature',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'integrated_science',
+        'label': '理化',
+        'icon': 'fa-flask-vial',
+        'aliases': ['理化', 'Integrated Science'],
+        'family': 'nature',
+        'hub_visible': True,
+    },
+    {
+        'slug': 'earth_science',
+        'label': '地科',
+        'icon': 'fa-earth-asia',
+        'aliases': ['地科', 'Earth Science'],
+        'family': 'nature',
+        'hub_visible': True,
+    },
 ]
 
-PRACTICE_SUBJECT_GROUPS = [
+PRACTICE_REVIEW_CENTER_CARDS = [
     {
-        'key': 'main',
-        'label': '\u4e3b\u79d1',
-        'description': '\u5148\u5f9e\u570b\u82f1\u6578\u958b\u59cb\uff0c\u9019\u5340\u662f\u6700\u5e38\u7528\u7684\u6838\u5fc3\u7df4\u7fd2\u3002',
-        'slugs': ['chinese', 'english', 'math'],
+        'slug': 'chinese',
+        'kind': 'subject',
+        'label': '國文',
+        'icon': 'fa-book-open',
+        'description': '把國中國文題庫整理成可直接預覽、可直接練習的完整入口。',
+        'accent': 'rose',
     },
     {
-        'key': 'social',
-        'label': '\u793e\u6703',
-        'description': '\u6b77\u53f2\u3001\u5730\u7406\u8207\u516c\u6c11\u90fd\u96c6\u4e2d\u5728\u9019\u88e1\uff0c\u518a\u5225\u8207\u4e3b\u984c\u6703\u518d\u5f80\u4e0b\u5206\u3002',
-        'slugs': ['history', 'geography', 'civics'],
+        'slug': 'english',
+        'kind': 'subject',
+        'label': '英文',
+        'icon': 'fa-language',
+        'description': '閱讀、字彙、文法與對話都會進同一套國中英文複習流程。',
+        'accent': 'blue',
     },
     {
-        'key': 'science',
-        'label': '\u81ea\u7136',
-        'description': '\u81ea\u7136\u3001\u7269\u7406\u3001\u5316\u5b78\u3001\u7406\u5316\u8207\u5730\u79d1\u96c6\u4e2d\u5728\u9019\u5340\uff0c\u4e0d\u6703\u518d\u6563\u6210\u4e00\u7247\u3002',
-        'slugs': ['science', 'physics', 'chemistry', 'integrated_science', 'earth_science'],
+        'slug': 'math',
+        'kind': 'subject',
+        'label': '數學',
+        'icon': 'fa-calculator',
+        'description': '保留冊別、主章節與細主題，先不打亂，方便從單元慢慢補強。',
+        'accent': 'gold',
     },
     {
-        'key': 'other',
-        'label': '\u5176\u4ed6',
-        'description': '\u65e5\u6587\u548c\u5f8c\u7e8c\u65b0\u589e\u7684\u5ef6\u4f38\u79d1\u76ee\u90fd\u6703\u6536\u5728\u9019\u88e1\u3002',
-        'slugs': ['japanese'],
+        'slug': 'social',
+        'kind': 'group',
+        'label': '社會',
+        'icon': 'fa-landmark-flag',
+        'description': '社會不再混成一包，已拆成地理、歷史、公民三條主線。',
+        'children': ['geography', 'history', 'civics'],
+        'accent': 'teal',
+    },
+    {
+        'slug': 'nature',
+        'kind': 'group',
+        'label': '自然',
+        'icon': 'fa-seedling',
+        'description': '自然已拆成生物、理化、地科，後面可以直接選分科刷主題。',
+        'children': ['biology', 'integrated_science', 'earth_science'],
+        'accent': 'green',
     },
 ]
+
+PRACTICE_BRANCH_SECTIONS = [
+    {
+        'slug': 'social',
+        'label': '社會分科',
+        'icon': 'fa-diagram-project',
+        'description': '先挑地理、歷史或公民，再進預覽模式或練習模式。',
+        'children': ['geography', 'history', 'civics'],
+    },
+    {
+        'slug': 'nature',
+        'label': '自然分科',
+        'icon': 'fa-compass-drafting',
+        'description': '先挑生物、理化或地科，每一科都保留冊別、主章節與細主題。',
+        'children': ['biology', 'integrated_science', 'earth_science'],
+    },
+]
+
+PRACTICE_EXAM_DEFAULTS = {
+    'chinese': {
+        'count': 42,
+        'duration': 70,
+        'official_range': '國文科 38～46 題 / 70 分鐘',
+        'preset_label': '會考國文預設',
+    },
+    'english': {
+        'count': 43,
+        'duration': 60,
+        'official_range': '英語閱讀 40～45 題 / 60 分鐘',
+        'preset_label': '會考英文預設',
+    },
+    'math': {
+        'count': 25,
+        'duration': 80,
+        'official_range': '數學科 23～28 題 / 80 分鐘',
+        'preset_label': '會考數學預設',
+    },
+    'geography': {
+        'count': 54,
+        'duration': 70,
+        'official_range': '參考社會科 50～60 題 / 70 分鐘',
+        'preset_label': '社會科練習預設',
+    },
+    'history': {
+        'count': 54,
+        'duration': 70,
+        'official_range': '參考社會科 50～60 題 / 70 分鐘',
+        'preset_label': '社會科練習預設',
+    },
+    'civics': {
+        'count': 54,
+        'duration': 70,
+        'official_range': '參考社會科 50～60 題 / 70 分鐘',
+        'preset_label': '社會科練習預設',
+    },
+    'biology': {
+        'count': 50,
+        'duration': 70,
+        'official_range': '參考自然科 45～55 題 / 70 分鐘',
+        'preset_label': '自然科練習預設',
+    },
+    'integrated_science': {
+        'count': 50,
+        'duration': 70,
+        'official_range': '參考自然科 45～55 題 / 70 分鐘',
+        'preset_label': '自然科練習預設',
+    },
+    'earth_science': {
+        'count': 50,
+        'duration': 70,
+        'official_range': '參考自然科 45～55 題 / 70 分鐘',
+        'preset_label': '自然科練習預設',
+    },
+}
+
+PRACTICE_COUNT_CHOICES = [5, 10, 25, 40, 42, 43, 50, 54]
+PRACTICE_DURATION_CHOICES = [5, 10, 30, 50, 60, 70, 80, 100]
 
 PRACTICE_SCOPE_ALL = 'all'
 PRACTICE_CHAPTER_ALL = 'all'
@@ -219,7 +381,7 @@ def build_named_scope_options(values, selected_value, all_label, all_description
         'is_selected': selected_value == PRACTICE_SCOPE_ALL,
     }]
 
-    for label, count in sorted(values.items(), key=lambda item: item[0]):
+    for label, count in values.items():
         options.append({
             'query_value': label,
             'label': label,
@@ -244,7 +406,7 @@ def resolve_selected_scope(scope_options, requested_value):
 def build_chapter_scope_options(base_query, selected_chapter=PRACTICE_CHAPTER_ALL):
     from app.models import Question
 
-    rows = base_query.with_entities(Question.category, Question.tags).all()
+    rows = base_query.order_by(Question.id.asc()).with_entities(Question.category, Question.tags).all()
     counts = {}
     for category_value, tags_value in rows:
         hierarchy = extract_question_hierarchy(category_value or '', tags_value or '')
@@ -264,7 +426,7 @@ def build_chapter_scope_options(base_query, selected_chapter=PRACTICE_CHAPTER_AL
 def build_topic_scope_options(base_query, selected_topic=PRACTICE_TOPIC_ALL):
     from app.models import Question
 
-    rows = base_query.with_entities(Question.category, Question.tags).all()
+    rows = base_query.order_by(Question.id.asc()).with_entities(Question.category, Question.tags).all()
     counts = {}
     for category_value, tags_value in rows:
         hierarchy = extract_question_hierarchy(category_value or '', tags_value or '')
@@ -329,55 +491,132 @@ def _order_subject_cards(cards):
     return available_cards + unavailable_cards
 
 
-def build_grouped_subject_catalog(subject_cards):
+def build_review_center_catalog(subject_cards):
     cards_by_slug = {card['slug']: card for card in subject_cards}
-    featured_card = cards_by_slug.get('all')
-    used_slugs = {'all'}
-    grouped_sections = []
+    review_center_cards = []
 
-    for group_definition in PRACTICE_SUBJECT_GROUPS:
-        cards = []
-        for slug in group_definition['slugs']:
-            card = cards_by_slug.get(slug)
-            if not card:
+    for card_definition in PRACTICE_REVIEW_CENTER_CARDS:
+        if card_definition['kind'] == 'subject':
+            source_card = cards_by_slug.get(card_definition['slug'])
+            if not source_card:
                 continue
-            cards.append(card)
-            used_slugs.add(slug)
-
-        ordered_cards = _order_subject_cards(cards)
-        if not ordered_cards:
+            review_center_cards.append({
+                **card_definition,
+                'count': source_card['count'],
+                'available': source_card['available'],
+                'href': url_for('study.practice_session', subject=source_card['query_value']),
+            })
             continue
 
-        grouped_sections.append({
-            **group_definition,
-            'cards': ordered_cards,
-            'available_count': sum(1 for card in ordered_cards if card.get('available')),
-            'total_count': len(ordered_cards),
+        child_cards = [
+            cards_by_slug[child_slug]
+            for child_slug in card_definition.get('children', [])
+            if child_slug in cards_by_slug
+        ]
+        count = sum(card['count'] for card in child_cards)
+        review_center_cards.append({
+            **card_definition,
+            'count': count,
+            'available': any(card['available'] for card in child_cards),
+            'child_labels': [card['label'] for card in child_cards],
+            'href': f"#branch-{card_definition['slug']}",
         })
 
-    extra_cards = [
-        card for card in subject_cards
-        if card['slug'] not in used_slugs
-    ]
-    if extra_cards:
-        ordered_extra_cards = _order_subject_cards(sorted(extra_cards, key=lambda card: card['label']))
-        other_section = next((section for section in grouped_sections if section['key'] == 'other'), None)
-        if other_section:
-            merged_cards = _order_subject_cards(other_section['cards'] + ordered_extra_cards)
-            other_section['cards'] = merged_cards
-            other_section['available_count'] = sum(1 for card in merged_cards if card.get('available'))
-            other_section['total_count'] = len(merged_cards)
-        else:
-            grouped_sections.append({
-                'key': 'other',
-                'label': '\u5176\u4ed6',
-                'description': '\u5176\u4ed6\u5c1a\u672a\u5206\u985e\u7684\u79d1\u76ee\u6703\u96c6\u4e2d\u986f\u793a\u5728\u9019\u88e1\u3002',
-                'cards': ordered_extra_cards,
-                'available_count': sum(1 for card in ordered_extra_cards if card.get('available')),
-                'total_count': len(ordered_extra_cards),
-            })
+    branch_sections = []
+    for section_definition in PRACTICE_BRANCH_SECTIONS:
+        child_cards = [
+            cards_by_slug[child_slug]
+            for child_slug in section_definition.get('children', [])
+            if child_slug in cards_by_slug
+        ]
+        ordered_cards = _order_subject_cards(child_cards)
+        if not ordered_cards:
+            continue
+        branch_sections.append({
+            **section_definition,
+            'cards': ordered_cards,
+            'available_count': sum(1 for card in ordered_cards if card.get('available')),
+            'question_count': sum(card['count'] for card in ordered_cards),
+        })
 
-    return featured_card, grouped_sections
+    return review_center_cards, branch_sections
+
+
+def get_practice_defaults(subject_definition):
+    defaults = PRACTICE_EXAM_DEFAULTS.get((subject_definition or {}).get('slug'), {
+        'count': 10,
+        'duration': 30,
+        'official_range': '一般練習 10 題 / 30 分鐘',
+        'preset_label': '一般練習預設',
+    })
+    return {
+        **defaults,
+        'count_choices': PRACTICE_COUNT_CHOICES,
+        'duration_choices': PRACTICE_DURATION_CHOICES,
+    }
+
+
+def build_practice_count_options(question_pool_size, default_count):
+    normalized_pool_size = max(int(question_pool_size or 0), 0)
+    available_choices = [choice for choice in PRACTICE_COUNT_CHOICES if choice <= normalized_pool_size]
+    if normalized_pool_size and normalized_pool_size not in available_choices:
+        available_choices.append(normalized_pool_size)
+
+    options = []
+    for choice in available_choices:
+        if choice == normalized_pool_size and choice not in PRACTICE_COUNT_CHOICES:
+            label = f'全部 {choice} 題'
+        else:
+            label = f'{choice} 題'
+        options.append({
+            'value': choice,
+            'label': label,
+            'is_recommended': choice == min(default_count, normalized_pool_size) if normalized_pool_size else False,
+        })
+    return options
+
+
+def build_practice_duration_options(default_duration):
+    return [
+        {
+            'value': choice,
+            'label': f'{choice} 分鐘',
+            'is_recommended': choice == default_duration,
+        }
+        for choice in PRACTICE_DURATION_CHOICES
+    ]
+
+
+def resolve_practice_choice(requested_value, options, default_value):
+    option_values = [option['value'] for option in options]
+    if requested_value in option_values:
+        return requested_value
+    if default_value in option_values:
+        return default_value
+    return option_values[-1] if option_values else 0
+
+
+def build_local_practice_explanation(question):
+    explanation = (question.explanation or '').strip()
+    if explanation:
+        return explanation
+
+    hierarchy = extract_question_hierarchy(question.category or '', question.tags or '')
+    correct_answer = (question.correct_answer or '').strip().upper() or 'A'
+    correct_answer_text = get_question_option_text(question, correct_answer)
+    hints = [f'正確答案是 {correct_answer}。']
+
+    if correct_answer_text:
+        hints.append(f'對應的選項內容是「{correct_answer_text}」。')
+    if hierarchy['topic']:
+        hints.append(f'這題屬於「{hierarchy["topic"]}」主題，先回頭抓題幹中的關鍵字，再對照正確選項。')
+    elif hierarchy['chapter']:
+        hints.append(f'這題屬於「{hierarchy["chapter"]}」章節，建議先把本章節核心概念再對一次。')
+    else:
+        hints.append('建議先圈出題幹關鍵字，再逐一排除不符合條件的選項。')
+
+    hints.append('如果是觀念題，先確認定義與條件；如果是計算題，先列出已知條件再代入。')
+    return ' '.join(hints)
 
 
 def build_practice_question_query(
@@ -493,7 +732,7 @@ def build_practice_question_item(question, index):
         'options': options,
         'correct_answer': question.correct_answer,
         'correct_answer_text': get_question_option_text(question, question.correct_answer),
-        'explanation': question.explanation or '這題目前沒有詳解，建議先回頭比對題幹與正確選項。',
+        'explanation': build_local_practice_explanation(question),
     }
 
 
@@ -534,7 +773,7 @@ def build_practice_submission_results(questions, submitted_answers):
             'correct_answer': question.correct_answer,
             'correct_answer_text': get_question_option_text(question, question.correct_answer),
             'is_correct': evaluation['correct'],
-            'explanation': question.explanation or '這題目前沒有詳解，建議先回頭比對題幹與正確選項。',
+            'explanation': build_local_practice_explanation(question),
             'options': build_practice_question_item(question, index)['options'],
         })
 
@@ -650,20 +889,49 @@ def build_exam_feedback(score_percent, wrong_results):
         return headline + f" \u5efa\u8b70\u512a\u5148\u56de\u982d\u8907\u7fd2\uff1a{'\u3001'.join(weak_subjects[:3])}\u3002"
     return headline + " \u5efa\u8b70\u5148\u628a\u932f\u984c\u8a73\u89e3\u770b\u5b8c\uff0c\u518d\u91cd\u65b0\u5237\u4e00\u6b21\u3002"
 
+def parse_question_id_list(raw_value):
+    question_ids = []
+    seen = set()
+    for chunk in str(raw_value or '').split(','):
+        chunk = chunk.strip()
+        if not chunk.isdigit():
+            continue
+        question_id = int(chunk)
+        if question_id in seen:
+            continue
+        seen.add(question_id)
+        question_ids.append(question_id)
+    return question_ids
+
+
+def build_selected_question_set(questions, selected_count):
+    if selected_count <= 0:
+        return []
+    return questions[:selected_count]
+
+
 @study.route("/practice")
 @login_required
 def practice_hub():
     subject_cards = build_subject_catalog()
-    featured_subject_card, grouped_subject_cards = build_grouped_subject_catalog(subject_cards)
-    available_subject_count = sum(1 for card in subject_cards if card['slug'] != 'all' and card['available'])
-    total_questions = next((card['count'] for card in subject_cards if card['slug'] == 'all'), 0)
+    review_center_cards, branch_sections = build_review_center_catalog(subject_cards)
+    available_subject_count = sum(
+        1
+        for card in subject_cards
+        if card['slug'] != 'all' and card.get('hub_visible', True) and card['available']
+    )
+    total_questions = sum(
+        card['count']
+        for card in subject_cards
+        if card['slug'] != 'all' and not card.get('is_custom')
+    )
 
     return render_template(
         'practice_hub.html',
         title=_t('nav_practice', current_user.language),
         subject_cards=subject_cards,
-        featured_subject_card=featured_subject_card,
-        grouped_subject_cards=grouped_subject_cards,
+        review_center_cards=review_center_cards,
+        branch_sections=branch_sections,
         available_subject_count=available_subject_count,
         total_questions=total_questions,
     )
@@ -675,17 +943,26 @@ study.add_url_rule("/practice", endpoint="practice", view_func=practice_hub)
 @login_required
 def practice_session():
     from app.models import Question
+
     subject_filter = request.args.get('subject')
     question_id = request.args.get('question_id', type=int)
     requested_mode = (request.args.get('mode') or '').strip()
     requested_booklet = request.args.get('booklet')
     requested_chapter = request.args.get('chapter')
     requested_topic = request.args.get('topic')
+    requested_count = request.args.get('count', type=int)
+    requested_duration = request.args.get('duration', type=int)
+    start_requested = normalize_subject_key(request.args.get('start')) in {'1', 'true', 'yes', 'start'}
     practice_mode = normalize_practice_mode(requested_mode) if requested_mode else None
+
     if not subject_filter and not question_id:
         return redirect(url_for('study.practice_hub'))
 
     subject_seed = subject_filter or 'all'
+    normalized_subject_seed = normalize_subject_key(subject_seed)
+    if normalized_subject_seed in {'social', 'nature'}:
+        return redirect(url_for('study.practice_hub') + f'#branch-{normalized_subject_seed}')
+
     if question_id and not subject_filter:
         focused_question = Question.query.get_or_404(question_id)
         subject_seed = focused_question.subject or 'all'
@@ -717,14 +994,17 @@ def practice_session():
     active_subject = current_subject or resolve_subject_definition('all')
     current_subject_query = subject_seed if subject_filter else (active_subject['label'] if active_subject.get('is_custom') else active_subject['slug'])
     question_items = [build_practice_question_item(question, index) for index, question in enumerate(questions, start=1)]
-    focus_question_id = question_id if any(item['id'] == question_id for item in question_items) else question_items[0]['id']
-    initial_question_index = next((index for index, item in enumerate(question_items) if item['id'] == focus_question_id), 0)
+    defaults = get_practice_defaults(active_subject)
+    practice_count_options = build_practice_count_options(len(question_items), defaults['count'])
+    practice_duration_options = build_practice_duration_options(defaults['duration'])
+    selected_count = resolve_practice_choice(requested_count, practice_count_options, defaults['count'])
+    selected_duration = resolve_practice_choice(requested_duration, practice_duration_options, defaults['duration'])
 
     if not requested_mode:
         return render_template(
             'practice_session.html',
             title=_t('nav_practice', current_user.language),
-            show_mode_selector=True,
+            view_state='mode_selector',
             current_subject=active_subject,
             current_subject_query=current_subject_query,
             booklet_options=booklet_options,
@@ -736,7 +1016,7 @@ def practice_session():
             question_pool_size=len(question_items),
             preview_mode_meta=get_practice_mode_meta(PRACTICE_MODE_PREVIEW),
             practice_mode_meta=get_practice_mode_meta(PRACTICE_MODE_PRACTICE),
-            focus_question_id=focus_question_id,
+            practice_defaults=defaults,
         )
 
     practice_mode_meta = get_practice_mode_meta(practice_mode)
@@ -757,15 +1037,44 @@ def practice_session():
             question_pool_size=len(question_items),
             practice_mode=practice_mode,
             practice_mode_meta=practice_mode_meta,
-            focus_question_id=focus_question_id,
-            initial_question_index=initial_question_index,
         )
+
+    if not start_requested:
+        return render_template(
+            'practice_session.html',
+            title=_t('nav_practice', current_user.language),
+            view_state='practice_setup',
+            current_subject=active_subject,
+            current_subject_query=current_subject_query,
+            booklet_options=booklet_options,
+            selected_booklet=selected_booklet,
+            chapter_options=chapter_options,
+            selected_chapter=selected_chapter,
+            topic_options=topic_options,
+            selected_topic=selected_topic,
+            question_pool_size=len(question_items),
+            practice_mode=practice_mode,
+            practice_mode_meta=practice_mode_meta,
+            practice_defaults=defaults,
+            practice_count_options=practice_count_options,
+            practice_duration_options=practice_duration_options,
+            selected_count=selected_count,
+            selected_duration=selected_duration,
+        )
+
+    selected_question_items = build_selected_question_set(question_items, selected_count)
+    if not selected_question_items:
+        flash(_t('msg_no_questions', current_user.language), 'info')
+        return redirect(url_for('study.practice_hub'))
+
+    focus_question_id = question_id if any(item['id'] == question_id for item in selected_question_items) else selected_question_items[0]['id']
+    initial_question_index = next((index for index, item in enumerate(selected_question_items) if item['id'] == focus_question_id), 0)
 
     return render_template(
         'practice_session.html',
         title=_t('nav_practice', current_user.language),
-        show_mode_selector=False,
-        question_items=question_items,
+        view_state='practice_run',
+        question_items=selected_question_items,
         current_subject=active_subject,
         current_subject_query=current_subject_query,
         booklet_options=booklet_options,
@@ -777,6 +1086,13 @@ def practice_session():
         question_pool_size=len(question_items),
         practice_mode=practice_mode,
         practice_mode_meta=practice_mode_meta,
+        practice_defaults=defaults,
+        practice_count_options=practice_count_options,
+        practice_duration_options=practice_duration_options,
+        selected_count=selected_count,
+        selected_duration=selected_duration,
+        selected_question_total=len(selected_question_items),
+        selected_question_ids_csv=','.join(str(item['id']) for item in selected_question_items),
         focus_question_id=focus_question_id,
         initial_question_index=initial_question_index,
     )
@@ -792,6 +1108,9 @@ def practice_review():
     requested_booklet = request.form.get('booklet') or request.args.get('booklet') or PRACTICE_SCOPE_ALL
     requested_chapter = request.form.get('chapter') or request.args.get('chapter') or PRACTICE_CHAPTER_ALL
     requested_topic = request.form.get('topic') or request.args.get('topic') or PRACTICE_TOPIC_ALL
+    requested_count = request.form.get('count', type=int) or request.args.get('count', type=int)
+    requested_duration = request.form.get('duration', type=int) or request.args.get('duration', type=int)
+    requested_question_ids = parse_question_id_list(request.form.get('question_ids') or request.args.get('question_ids'))
     if request.method == 'GET':
         return redirect(url_for(
             'study.practice_session',
@@ -800,6 +1119,8 @@ def practice_review():
             chapter=requested_chapter,
             topic=requested_topic,
             mode=PRACTICE_MODE_PRACTICE,
+            count=requested_count,
+            duration=requested_duration,
         ))
 
     current_subject, query = build_practice_question_query(
@@ -808,7 +1129,23 @@ def practice_review():
         chapter_value=requested_chapter,
         topic_value=requested_topic,
     )
-    questions = query.order_by(Question.id.asc()).all()
+    available_questions = query.order_by(Question.id.asc()).all()
+    if not available_questions:
+        flash(_t('msg_no_questions', current_user.language), 'info')
+        return redirect(url_for('study.practice_hub'))
+
+    active_subject = current_subject or resolve_subject_definition('all')
+    defaults = get_practice_defaults(active_subject)
+    practice_count_options = build_practice_count_options(len(available_questions), defaults['count'])
+    practice_duration_options = build_practice_duration_options(defaults['duration'])
+    selected_count = resolve_practice_choice(requested_count, practice_count_options, defaults['count'])
+    selected_duration = resolve_practice_choice(requested_duration, practice_duration_options, defaults['duration'])
+
+    if requested_question_ids:
+        question_map = {question.id: question for question in available_questions}
+        questions = [question_map[question_id] for question_id in requested_question_ids if question_id in question_map]
+    else:
+        questions = build_selected_question_set(available_questions, selected_count)
     if not questions:
         flash(_t('msg_no_questions', current_user.language), 'info')
         return redirect(url_for('study.practice_hub'))
@@ -821,7 +1158,6 @@ def practice_review():
     db.session.commit()
     reward_correct_progress(grading_summary['correct_count'], grading_summary['resolved_count'])
 
-    active_subject = current_subject or resolve_subject_definition('all')
     current_subject_query = subject_value if request.form.get('subject') else (active_subject['label'] if active_subject.get('is_custom') else active_subject['slug'])
     booklet_options = build_booklet_scope_options(build_practice_question_query(subject_value)[1], selected_booklet=requested_booklet)
     selected_booklet = resolve_selected_booklet(booklet_options, requested_booklet)
@@ -846,7 +1182,7 @@ def practice_review():
     wrong_count = total_count - correct_count
     answered_count = sum(1 for value in submitted_answers.values() if str(value or '').strip())
     unanswered_count = total_count - answered_count
-    score_percent = round((correct_count / total_count) * 100) if total_count else 0
+    score_percent = round((correct_count / total_count) * 100, 1) if total_count else 0.0
     feedback = build_exam_feedback(score_percent, [item for item in review_items if not item['is_correct']])
 
     return render_template(
@@ -868,6 +1204,12 @@ def practice_review():
         unanswered_count=unanswered_count,
         score_percent=score_percent,
         feedback=feedback,
+        practice_defaults=defaults,
+        practice_count_options=practice_count_options,
+        practice_duration_options=practice_duration_options,
+        selected_count=selected_count,
+        selected_duration=selected_duration,
+        selected_question_ids_csv=','.join(str(question.id) for question in questions),
     )
 
 @study.route("/mistakes")

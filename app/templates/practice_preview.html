@@ -3,147 +3,114 @@
 {% block content %}
 <style>
     .preview-stage {
-        display: flex;
-        flex-direction: column;
+        --paper: rgba(255, 252, 246, 0.96);
+        --paper-soft: rgba(249, 241, 224, 0.92);
+        --line: rgba(214, 183, 112, 0.22);
+        --ink: #3a3024;
+        --subtle: #726351;
+        display: grid;
         gap: 1.2rem;
+    }
+
+    .preview-hero,
+    .preview-card,
+    .preview-toolbar {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.11);
     }
 
     .preview-hero {
         position: relative;
         overflow: hidden;
-        padding: 2rem;
-        border-radius: 28px;
-        border: 1px solid rgba(214, 183, 112, 0.24);
+        padding: 1.9rem;
         background:
-            radial-gradient(circle at top right, rgba(255, 220, 145, 0.35), transparent 34%),
-            linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(255, 247, 230, 0.92));
-        box-shadow: 0 22px 50px rgba(127, 93, 36, 0.12);
+            radial-gradient(circle at top right, rgba(255, 216, 133, 0.34), transparent 34%),
+            linear-gradient(140deg, rgba(255, 252, 246, 0.97), rgba(249, 240, 222, 0.95));
+    }
+
+    .preview-kicker,
+    .preview-chip,
+    .preview-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border-radius: 999px;
+        font-weight: 800;
     }
 
     .preview-kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.45rem 0.95rem;
-        border-radius: 999px;
-        background: rgba(60, 55, 44, 0.9);
-        color: #fffaf1;
-        font-size: 0.92rem;
-        font-weight: 700;
+        padding: 0.48rem 0.95rem;
+        background: rgba(58, 48, 36, 0.92);
+        color: #fffaf2;
     }
 
     .preview-hero h1 {
-        margin: 1rem 0 0.7rem;
-        color: #3a3024;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.9rem, 3vw, 2.7rem);
+        margin: 1rem 0 0.65rem;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: clamp(1.9rem, 2.8vw, 2.8rem);
     }
 
     .preview-hero p {
         max-width: 760px;
         margin: 0;
-        color: #6b604e;
-        line-height: 1.85;
+        color: var(--subtle);
+        line-height: 1.8;
     }
 
     .preview-stats {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 0.9rem;
-        margin-top: 1.5rem;
+        margin-top: 1.45rem;
     }
 
     .preview-stat {
-        padding: 1rem 1.1rem;
+        padding: 1rem 1.05rem;
         border-radius: 20px;
-        border: 1px solid rgba(214, 183, 112, 0.2);
+        border: 1px solid rgba(214, 183, 112, 0.18);
         background: rgba(255, 255, 255, 0.72);
     }
 
     .preview-stat-label {
         display: block;
         margin-bottom: 0.35rem;
-        color: #8a7b63;
+        color: #8a7a61;
         font-size: 0.84rem;
         letter-spacing: 0.05em;
     }
 
     .preview-stat-value {
         color: #2f261b;
-        font-size: 1.55rem;
-        font-weight: 800;
+        font-size: 1.5rem;
+        font-weight: 900;
     }
 
     .preview-toolbar {
+        padding: 1.2rem 1.25rem;
         display: flex;
-        align-items: center;
         justify-content: space-between;
         gap: 1rem;
         flex-wrap: wrap;
-    }
-
-    .preview-back-link {
-        display: inline-flex;
         align-items: center;
-        gap: 0.55rem;
-        color: #6c5731;
-        text-decoration: none;
-        font-weight: 700;
     }
 
-    .preview-toolbar-right {
+    .preview-toolbar-left,
+    .preview-toolbar-right,
+    .preview-pills {
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
         flex-wrap: wrap;
+        gap: 0.65rem;
+        align-items: center;
     }
 
     .preview-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.55rem 0.9rem;
-        border-radius: 999px;
-        border: 1px solid rgba(196, 168, 108, 0.26);
-        background: rgba(255, 252, 244, 0.9);
-        color: #725d36;
-        font-size: 0.9rem;
-        font-weight: 700;
-    }
-
-    .preview-actions {
-        display: inline-flex;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-    }
-
-    .preview-scope-pills {
-        display: flex;
-        align-items: center;
-        gap: 0.65rem;
-        flex-wrap: wrap;
-    }
-
-    .preview-scope-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        min-height: 42px;
-        padding: 0.7rem 0.95rem;
-        border-radius: 999px;
-        border: 1px solid rgba(196, 168, 108, 0.26);
-        background: rgba(255, 252, 244, 0.9);
-        color: #725d36;
-        font-size: 0.9rem;
-        font-weight: 700;
-        text-decoration: none;
-    }
-
-    .preview-scope-pill.is-active {
-        border-color: transparent;
-        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
-        color: #fff;
-        box-shadow: 0 10px 20px rgba(226, 143, 84, 0.22);
+        padding: 0.55rem 0.92rem;
+        border: 1px solid rgba(196, 168, 108, 0.22);
+        background: rgba(255, 252, 244, 0.92);
+        color: #705c3a;
     }
 
     .preview-primary-btn,
@@ -152,27 +119,22 @@
         align-items: center;
         justify-content: center;
         gap: 0.55rem;
-        min-height: 48px;
-        padding: 0.85rem 1.2rem;
+        min-height: 46px;
+        padding: 0.82rem 1.15rem;
         border-radius: 16px;
-        border: none;
-        cursor: pointer;
-        font-weight: 800;
-        font-size: 0.95rem;
         text-decoration: none;
-        transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+        font-weight: 800;
     }
 
     .preview-primary-btn {
         background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
         color: #fff;
-        box-shadow: 0 12px 24px rgba(226, 143, 84, 0.28);
     }
 
     .preview-secondary-btn {
-        border: 1px solid rgba(196, 168, 108, 0.28);
-        background: rgba(255, 255, 255, 0.88);
-        color: #59492d;
+        border: 1px solid rgba(196, 168, 108, 0.24);
+        background: rgba(255, 255, 255, 0.9);
+        color: #5b4a2f;
     }
 
     .preview-list {
@@ -181,81 +143,68 @@
     }
 
     .preview-card {
-        border-radius: 28px;
-        border: 1px solid rgba(214, 183, 112, 0.18);
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
-        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.1);
         overflow: hidden;
     }
 
     .preview-card[open] {
-        border-color: rgba(214, 165, 61, 0.42);
+        border-color: rgba(214, 165, 61, 0.36);
     }
 
-    .preview-card-summary {
+    .preview-summary {
         display: flex;
         justify-content: space-between;
         gap: 1rem;
-        padding: 1.3rem 1.35rem;
+        padding: 1.25rem 1.3rem;
         cursor: pointer;
         list-style: none;
     }
 
-    .preview-card-summary::-webkit-details-marker {
+    .preview-summary::-webkit-details-marker {
         display: none;
     }
 
     .preview-summary-copy {
         display: grid;
-        gap: 0.7rem;
-    }
-
-    .preview-badges {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        flex-wrap: wrap;
-    }
-
-    .preview-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.45rem 0.8rem;
-        border-radius: 999px;
-        background: rgba(255, 244, 216, 0.96);
-        color: #8c6b33;
-        font-size: 0.84rem;
-        font-weight: 800;
+        gap: 0.72rem;
     }
 
     .preview-question-title {
         margin: 0;
-        color: #34291d;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: 1.25rem;
-        line-height: 1.85;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: 1.18rem;
+        line-height: 1.8;
     }
 
-    .preview-summary-hint {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        color: #7f6d54;
+    .preview-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+    }
+
+    .preview-badge {
+        padding: 0.42rem 0.8rem;
+        background: rgba(255, 244, 216, 0.96);
+        color: #8a6531;
+        font-size: 0.84rem;
+    }
+
+    .preview-hint {
+        color: #7a6a53;
         font-weight: 700;
     }
 
-    .preview-card-body {
-        padding: 0 1.35rem 1.35rem;
+    .preview-body {
+        padding: 0 1.3rem 1.3rem;
         display: grid;
-        gap: 1rem;
+        gap: 0.95rem;
     }
 
     .preview-block {
         padding: 1rem 1.05rem;
         border-radius: 20px;
         border: 1px solid rgba(214, 183, 112, 0.14);
-        background: rgba(255, 255, 255, 0.78);
+        background: rgba(255, 255, 255, 0.8);
     }
 
     .preview-block-title {
@@ -269,26 +218,27 @@
     .preview-block-copy {
         color: #372d21;
         line-height: 1.8;
+        white-space: pre-line;
     }
 
     .preview-option-list {
         display: grid;
-        gap: 0.75rem;
+        gap: 0.72rem;
     }
 
     .preview-option {
         display: flex;
         align-items: flex-start;
         gap: 0.8rem;
-        padding: 0.95rem 1rem;
+        padding: 0.9rem 1rem;
         border-radius: 18px;
-        background: rgba(255, 252, 244, 0.82);
         border: 1px solid rgba(214, 183, 112, 0.14);
+        background: rgba(255, 252, 244, 0.84);
     }
 
     .preview-option.is-correct {
-        border-color: rgba(92, 162, 113, 0.42);
-        background: rgba(231, 247, 236, 0.96);
+        border-color: rgba(92, 162, 113, 0.34);
+        background: rgba(231, 247, 236, 0.95);
     }
 
     .preview-option-letter {
@@ -298,42 +248,33 @@
         width: 34px;
         height: 34px;
         border-radius: 12px;
-        background: rgba(240, 230, 205, 0.9);
+        background: rgba(240, 230, 205, 0.92);
         color: #826947;
         font-weight: 900;
         flex-shrink: 0;
     }
 
-    .preview-answer-highlight {
-        color: #2f7a46;
-        font-weight: 800;
-    }
-
     @media (max-width: 720px) {
         .preview-hero,
-        .preview-card,
-        .preview-card-summary,
-        .preview-card-body {
+        .preview-toolbar,
+        .preview-card {
             border-radius: 22px;
         }
 
         .preview-hero,
-        .preview-card-summary,
-        .preview-card-body {
-            padding: 1.3rem;
+        .preview-toolbar,
+        .preview-summary,
+        .preview-body {
+            padding: 1.2rem;
         }
 
-        .preview-toolbar-right,
-        .preview-actions,
-        .preview-scope-pills {
-            width: 100%;
+        .preview-toolbar {
             flex-direction: column;
             align-items: stretch;
         }
 
         .preview-primary-btn,
-        .preview-secondary-btn,
-        .preview-scope-pill {
+        .preview-secondary-btn {
             width: 100%;
         }
     }
@@ -341,173 +282,83 @@
 
 <div class="preview-stage">
     <section class="preview-hero">
-        <span class="preview-kicker"><i class="fa-solid {{ practice_mode_meta.icon }}"></i> {{ current_subject.label }} {{ practice_mode_meta.label }}</span>
+        <span class="preview-kicker"><i class="fa-solid fa-eye"></i> {{ current_subject.label }} 預覽模式</span>
         <h1>{{ practice_mode_meta.hero_title }}</h1>
         <p>{{ practice_mode_meta.hero_description }}</p>
 
         <div class="preview-stats">
             <div class="preview-stat">
-                <span class="preview-stat-label">目前科目</span>
-                <span class="preview-stat-value">{{ current_subject.label }}</span>
-            </div>
-            <div class="preview-stat">
-                <span class="preview-stat-label">同科題庫數</span>
+                <span class="preview-stat-label">目前題數</span>
                 <span class="preview-stat-value">{{ question_pool_size }}</span>
             </div>
             <div class="preview-stat">
-                <span class="preview-stat-label">作答方式</span>
-                <span class="preview-stat-value">不計分</span>
+                <span class="preview-stat-label">目前冊別</span>
+                <span class="preview-stat-value">{{ selected_booklet.label }}</span>
+            </div>
+            <div class="preview-stat">
+                <span class="preview-stat-label">閱讀方式</span>
+                <span class="preview-stat-value">點題即看詳解</span>
             </div>
         </div>
     </section>
 
-    <div class="preview-toolbar">
-        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="preview-back-link">
-            <i class="fa-solid fa-arrow-left"></i> 回到模式選擇
-        </a>
-
-        <div class="preview-toolbar-right">
-            <span class="preview-chip"><i class="fa-solid fa-layer-group"></i> {{ selected_booklet.label }} {{ question_pool_size }} 題</span>
-            <div class="preview-actions">
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', question_id=focus_question_id) }}" class="preview-primary-btn">
-                    <i class="fa-solid fa-dumbbell"></i> 切到練習模式
-                </a>
-                <button type="button" id="ai-generate-btn" class="preview-secondary-btn">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題
-                </button>
-            </div>
+    <section class="preview-toolbar">
+        <div class="preview-toolbar-left">
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="preview-secondary-btn">
+                <i class="fa-solid fa-arrow-left"></i> 回模式分流
+            </a>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice') }}" class="preview-primary-btn">
+                <i class="fa-solid fa-dumbbell"></i> 改做練習模式
+            </a>
         </div>
-    </div>
-
-    <div class="preview-scope-pills" aria-label="預覽範圍切換">
-        {% for booklet in booklet_options %}
-            {% if booklet.available %}
-                {% if booklet.is_selected %}
-                <span class="preview-scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
-                {% else %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
-                    <i class="fa-solid fa-book"></i> {{ booklet.label }}
-                </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
-
-    <div class="preview-scope-pills" aria-label="主章節切換">
-        {% for chapter in chapter_options %}
-            {% if chapter.available %}
-                {% if chapter.is_selected %}
-                <span class="preview-scope-pill is-active"><i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}</span>
-                {% else %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=chapter.query_value, topic=selected_topic.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
-                    <i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}
-                </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
-
-    <div class="preview-scope-pills" aria-label="細主題切換">
-        {% for topic in topic_options %}
-            {% if topic.available %}
-                {% if topic.is_selected %}
-                <span class="preview-scope-pill is-active"><i class="fa-solid fa-bookmark"></i> {{ topic.label }}</span>
-                {% else %}
-                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=topic.query_value, mode='preview', question_id=focus_question_id) }}" class="preview-scope-pill">
-                    <i class="fa-solid fa-bookmark"></i> {{ topic.label }}
-                </a>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
+        <div class="preview-toolbar-right">
+            <span class="preview-chip"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
+            <span class="preview-chip"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
+            <span class="preview-chip"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>
+        </div>
+    </section>
 
     <div class="preview-list">
         {% for item in question_items %}
-        <details class="preview-card" id="question-{{ item.id }}" {% if item.id == focus_question_id %}open{% endif %}>
-            <summary class="preview-card-summary">
+        <details class="preview-card" {% if loop.first %}open{% endif %}>
+            <summary class="preview-summary">
                 <div class="preview-summary-copy">
                     <div class="preview-badges">
                         <span class="preview-badge"><i class="fa-solid fa-hashtag"></i> 第 {{ item.index }} 題</span>
-                        <span class="preview-badge"><i class="fa-solid fa-book-open"></i> {{ item.subject }}</span>
-                        {% if item.booklet %}
-                        <span class="preview-badge"><i class="fa-solid fa-book"></i> {{ item.booklet }}</span>
-                        {% endif %}
-                        {% if item.chapter %}
-                        <span class="preview-badge"><i class="fa-solid fa-folder-tree"></i> {{ item.chapter }}</span>
-                        {% endif %}
-                        {% if item.topic %}
-                        <span class="preview-badge"><i class="fa-solid fa-bookmark"></i> {{ item.topic }}</span>
-                        {% endif %}
+                        {% if item.booklet %}<span class="preview-badge"><i class="fa-solid fa-book"></i> {{ item.booklet }}</span>{% endif %}
+                        {% if item.chapter %}<span class="preview-badge"><i class="fa-solid fa-folder-tree"></i> {{ item.chapter }}</span>{% endif %}
+                        {% if item.topic %}<span class="preview-badge"><i class="fa-solid fa-bookmark"></i> {{ item.topic }}</span>{% endif %}
                     </div>
                     <h2 class="preview-question-title">{{ item.content_text }}</h2>
                 </div>
-                <span class="preview-summary-hint"><i class="fa-solid fa-chevron-down"></i> 點開看答案與詳解</span>
+                <span class="preview-hint"><i class="fa-solid fa-angle-down"></i> 展開看答案</span>
             </summary>
 
-            <div class="preview-card-body">
-                <section class="preview-block">
-                    <h3 class="preview-block-title">題目選項</h3>
+            <div class="preview-body">
+                <div class="preview-block">
+                    <h3 class="preview-block-title">選項</h3>
                     <div class="preview-option-list">
                         {% for option in item.options %}
                         <div class="preview-option {% if option.is_correct %}is-correct{% endif %}">
                             <span class="preview-option-letter">{{ option.key }}</span>
-                            <div class="preview-block-copy">
-                                {{ option.text }}
-                                {% if option.is_correct %}
-                                <div class="preview-answer-highlight">這題正確答案是 {{ item.correct_answer }}：{{ item.correct_answer_text }}</div>
-                                {% endif %}
-                            </div>
+                            <div class="preview-block-copy">{{ option.text }}</div>
                         </div>
                         {% endfor %}
                     </div>
-                </section>
+                </div>
 
-                <section class="preview-block">
+                <div class="preview-block">
+                    <h3 class="preview-block-title">正確答案</h3>
+                    <div class="preview-block-copy">{{ item.correct_answer }}{% if item.correct_answer_text %}：{{ item.correct_answer_text }}{% endif %}</div>
+                </div>
+
+                <div class="preview-block">
                     <h3 class="preview-block-title">詳解</h3>
                     <div class="preview-block-copy">{{ item.explanation }}</div>
-                </section>
+                </div>
             </div>
         </details>
         {% endfor %}
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const focusQuestionId = {{ focus_question_id|tojson }};
-    if (focusQuestionId) {
-        const focusedCard = document.getElementById(`question-${focusQuestionId}`);
-        if (focusedCard) {
-            focusedCard.open = true;
-            setTimeout(() => {
-                focusedCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 120);
-        }
-    }
-
-    const aiGenerateButton = document.getElementById('ai-generate-btn');
-    if (!aiGenerateButton) {
-        return;
-    }
-
-    const subjectQuery = {{ current_subject_query|tojson }};
-    aiGenerateButton.addEventListener('click', async () => {
-        aiGenerateButton.disabled = true;
-        aiGenerateButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中...';
-
-        try {
-            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}&mode=preview`);
-            const data = await response.json();
-            if (!response.ok || data.error) {
-                throw new Error(data.error || 'AI 生成題目失敗');
-            }
-            window.location.href = data.practice_url;
-        } catch (error) {
-            window.alert(error.message || 'AI 生成題目失敗');
-            aiGenerateButton.disabled = false;
-            aiGenerateButton.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題';
-        }
-    });
-});
-</script>
 {% endblock %}
