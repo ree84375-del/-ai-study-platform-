@@ -1,6 +1,9 @@
 import os
+import re
+from io import BytesIO
 
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for, flash
+import fitz
+from flask import Blueprint, abort, flash, jsonify, redirect, render_template, request, send_file, url_for
 from flask_login import login_required, current_user
 import random
 import json
@@ -9,6 +12,7 @@ from pathlib import Path
 from sqlalchemy import or_
 from app.utils.i18n import get_text as _t
 from app.utils.question_bank_metadata import detect_booklet_label, extract_question_hierarchy
+from app.utils.document_ingest import normalize_whitespace, render_page_png
 from app.utils.study_assets import (
     CAP_SUBJECT_META,
     build_cap_subject_cards as build_cap_library_subject_cards,
@@ -542,6 +546,22 @@ def get_cap_years(manifest):
     return years
 
 
+CAP_PREVIEW_PER_PAGE_CHOICES = [5, 10, 15, 20]
+CAP_CONTEXT_DROP_RE = re.compile(r'^(第[一二三四五六七八九十\d]+部分[:：]?\s*)?(選擇題.*|試題本.*|請在答案卡.*)$')
+CAP_FIGURE_LINE_RE = re.compile(r'^(圖|表)[（(]?[一二三四五六七八九十\d]+[)）]?$')
+CAP_VISUAL_REFERENCE_RE = re.compile(
+    r'(圖\s*[（(]?[一二三四五六七八九十\d]+[)）]?|下圖|上圖|如圖|圖中|表\s*[（(]?[一二三四五六七八九十\d]+[)）]?|下表|如表|漫畫|照片|示意圖|Look at the picture|look at the picture|chart|graph|table)',
+    re.IGNORECASE,
+)
+CAP_SUBJECT_ACCENTS = {
+    'chinese': {'surface': '#fff4d8', 'border': '#d8b35a', 'ink': '#5a421c', 'badge': '#f0d48b'},
+    'english': {'surface': '#edf3ff', 'border': '#6d8fd6', 'ink': '#213b72', 'badge': '#cbd9ff'},
+    'math': {'surface': '#f7f1ff', 'border': '#8a75d6', 'ink': '#3d2c78', 'badge': '#ddd0ff'},
+    'social': {'surface': '#eef7f4', 'border': '#5f9f88', 'ink': '#1e5b49', 'badge': '#c8eadf'},
+    'science': {'surface': '#eef7fb', 'border': '#4a90b8', 'ink': '#1b516c', 'badge': '#cae8f7'},
+}
+
+
 def parse_year_selection(year_values, available_years):
     selected = []
     seen = set()
@@ -570,58 +590,236 @@ def resolve_cap_subject(subject_value):
     return CAP_SUBJECTS[0]
 
 
-def build_cap_subject_cards(manifest, selected_years, active_subject_slug):
-    year_lookup = {str(item.get('year')).strip(): item for item in manifest.get('years', [])}
+def get_cap_year_entry(manifest, year):
+    year = str(year or '').strip()
+    return next((item for item in manifest.get('years', []) if str(item.get('year')).strip() == year), None)
+
+
+def get_cap_subject_entry(manifest, year, subject_slug):
+    year_entry = get_cap_year_entry(manifest, year)
+    if not year_entry:
+        return None
+    return next((item for item in year_entry.get('subjects', []) if item.get('slug') == subject_slug), None)
+
+
+def load_cap_document_for_year_subject(manifest, year, subject_slug):
+    subject_entry = get_cap_subject_entry(manifest, year, subject_slug)
+    if not subject_entry:
+        return None
+    structured_path = subject_entry.get('structured_path')
+    if not structured_path:
+        return None
+    structured_file = REPO_ROOT / 'data' / Path(structured_path)
+    if not structured_file.exists():
+        return None
+    try:
+        return json.loads(structured_file.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def get_cap_subject_accent(subject_slug):
+    return CAP_SUBJECT_ACCENTS.get(subject_slug, CAP_SUBJECT_ACCENTS['math'])
+
+
+def build_cap_subject_card_links(cap_subject_cards, selected_years):
+    years_query = ','.join(selected_years)
     cards = []
-
-    for definition in CAP_SUBJECTS:
-        count = 0
-        for year in selected_years:
-            year_entry = year_lookup.get(year, {})
-            subject_entry = next(
-                (item for item in year_entry.get('subjects', []) if item.get('slug') == definition['slug']),
-                None,
-            )
-            if subject_entry:
-                count += 1
-
+    for card in cap_subject_cards:
         cards.append({
-            **definition,
-            'count': count,
-            'available': count > 0,
-            'is_selected': definition['slug'] == active_subject_slug,
+            **card,
+            'accent': get_cap_subject_accent(card['slug']),
+            'href': url_for('study.practice_cap_hub', years=years_query, subject=card['slug']) if card.get('available') else None,
         })
-
     return cards
 
 
-def build_cap_material_cards(manifest, selected_years, subject_definition):
-    year_lookup = {str(item.get('year')).strip(): item for item in manifest.get('years', [])}
-    cards = []
+def clean_cap_display_text(text):
+    lines = []
+    for raw_line in str(text or '').splitlines():
+        line = normalize_whitespace(raw_line)
+        if not line:
+            continue
+        if CAP_FIGURE_LINE_RE.fullmatch(line):
+            continue
+        lines.append(line)
+    cleaned = '\n'.join(lines)
+    return cleaned or normalize_whitespace(text)
 
-    for year in selected_years:
-        year_entry = year_lookup.get(year)
-        if not year_entry:
+
+def clean_cap_context_text(text):
+    cleaned_lines = []
+    for raw_line in str(text or '').splitlines():
+        line = normalize_whitespace(raw_line)
+        if not line or CAP_CONTEXT_DROP_RE.match(line):
+            continue
+        cleaned_lines.append(line)
+    return '\n'.join(cleaned_lines)
+
+
+def cap_question_has_visual_reference(question):
+    snippets = [question.get('context', ''), question.get('stem', '')]
+    snippets.extend((question.get('options') or {}).values())
+    return bool(CAP_VISUAL_REFERENCE_RE.search('\n'.join(str(value or '') for value in snippets)))
+
+
+def cap_question_needs_source_view(question):
+    if cap_question_has_visual_reference(question):
+        return True
+    if str(question.get('parse_status') or '').lower() != 'complete':
+        return True
+    option_texts = [normalize_whitespace(text) for text in (question.get('options') or {}).values() if normalize_whitespace(text)]
+    if len(option_texts) >= 3 and len(set(option_texts)) <= max(1, len(option_texts) // 2):
+        return True
+    return False
+
+
+def build_cap_explanation_sections(explanation_text):
+    sections = []
+    for raw_line in str(explanation_text or '').splitlines():
+        line = normalize_whitespace(raw_line)
+        if not line:
+            continue
+        if '：' in line:
+            title, body = line.split('：', 1)
+            title = normalize_whitespace(title)
+            body = normalize_whitespace(body)
+            if title and body:
+                sections.append({'title': title, 'body': body})
+                continue
+        sections.append({'title': '補充說明', 'body': line})
+    return sections or [{'title': '補充說明', 'body': '這題目前尚未整理到更完整的解題說明。'}]
+
+
+def build_cap_page_image_href(question):
+    page_number = question.get('page_number')
+    year = str(question.get('year') or '').strip()
+    subject_slug = str(question.get('subject_slug') or '').strip()
+    if not page_number or not year or not subject_slug:
+        return None
+    if not cap_question_needs_source_view(question):
+        return None
+    return url_for('study.practice_cap_page_asset', year=year, subject_slug=subject_slug, page_number=page_number)
+
+
+def normalize_cap_group_context(context_text):
+    cleaned = clean_cap_context_text(context_text)
+    if len(cleaned) < 8:
+        return ''
+    return cleaned
+
+
+def enrich_cap_question_item(question):
+    options = {
+        key: clean_cap_display_text(text)
+        for key, text in (question.get('options') or {}).items()
+    }
+    cleaned_context = clean_cap_context_text(question.get('context', ''))
+    cleaned_stem = clean_cap_display_text(question.get('stem', ''))
+    explanation = str(question.get('explanation') or '').strip()
+    group_context = normalize_cap_group_context(question.get('context', ''))
+    image_href = build_cap_page_image_href({
+        **question,
+        'context': cleaned_context,
+        'stem': cleaned_stem,
+        'options': options,
+    })
+
+    return {
+        **question,
+        'context': cleaned_context,
+        'stem': cleaned_stem,
+        'options': options,
+        'explanation': explanation,
+        'explanation_sections': build_cap_explanation_sections(explanation),
+        'correct_option_text': options.get(question.get('correct_answer', ''), ''),
+        'has_visual_reference': cap_question_has_visual_reference({
+            **question,
+            'context': cleaned_context,
+            'stem': cleaned_stem,
+            'options': options,
+        }),
+        'page_image_href': image_href,
+        'page_image_note': '此題含圖表或原始排版重點，必要時可直接對照官方題本頁面。' if image_href else '',
+        'group_context': group_context,
+    }
+
+
+def build_cap_question_pool(documents):
+    flattened = [item for item in flatten_cap_questions(documents) if (item.get('stem') or '').strip()]
+    enriched = [enrich_cap_question_item(item) for item in flattened]
+    group_sizes = {}
+    group_orders = {}
+    for item in enriched:
+        if item['group_context']:
+            group_key = f"{item['year']}::{item.get('page_number', 0)}::{normalize_subject_key(item['group_context'])[:80]}"
+            group_sizes[group_key] = group_sizes.get(group_key, 0) + 1
+            group_orders.setdefault(group_key, []).append(item['question_key'])
+            item['group_key'] = group_key
+        else:
+            item['group_key'] = ''
+
+    for item in enriched:
+        group_key = item.get('group_key')
+        if not group_key:
+            item['group_size'] = 1
+            item['group_index'] = 1
+            item['group_label'] = ''
+            continue
+        order = group_orders[group_key]
+        item['group_size'] = group_sizes[group_key]
+        item['group_index'] = order.index(item['question_key']) + 1
+        item['group_label'] = f"題組第 {item['group_index']} / {item['group_size']} 題"
+    return enriched
+
+
+def build_cap_preview_groups(question_items):
+    groups = []
+    current_group = None
+    for item in question_items:
+        if item.get('group_key') and current_group and current_group['group_key'] == item['group_key']:
+            current_group['questions'].append(item)
             continue
 
-        subject_entry = next(
-            (item for item in year_entry.get('subjects', []) if item.get('slug') == subject_definition['slug']),
-            None,
-        )
-        if not subject_entry:
-            continue
+        current_group = {
+            'group_key': item.get('group_key') or item['question_key'],
+            'context': item.get('group_context', ''),
+            'year': item.get('year'),
+            'question_total': 0,
+            'questions': [item],
+            'shared_image_href': item.get('page_image_href') if item.get('group_context') else None,
+        }
+        groups.append(current_group)
 
-        cards.append({
-            'year': year,
-            'label': f'{year} 年 {subject_definition["label"]}',
-            'question': subject_entry.get('question', {}),
-            'answer': year_entry.get('answer', {}),
-            'explanation': year_entry.get('explanation', {}),
-            'analysis_folder': year_entry.get('analysis_folder', {}),
-            'notes': subject_entry.get('notes') or year_entry.get('notes') or '',
-        })
+    for group in groups:
+        group['question_total'] = len(group['questions'])
+    return groups
 
-    return cards
+
+def paginate_cap_preview_groups(groups, page, per_page):
+    buckets = []
+    current_bucket = []
+    current_count = 0
+    target_size = max(int(per_page or 10), 1)
+
+    for group in groups:
+        group_size = len(group.get('questions', [])) or 1
+        if current_bucket and current_count + group_size > target_size:
+            buckets.append(current_bucket)
+            current_bucket = []
+            current_count = 0
+        current_bucket.append(group)
+        current_count += group_size
+
+    if current_bucket:
+        buckets.append(current_bucket)
+
+    if not buckets:
+        buckets = [[]]
+
+    total_pages = len(buckets)
+    current_page = max(1, min(int(page or 1), total_pages))
+    return buckets[current_page - 1], current_page, total_pages
 
 
 def build_guide_subject_cards(manifest, active_subject_slug='all'):
@@ -1191,10 +1389,6 @@ def parse_cap_question_key_list(raw_value):
     return question_keys
 
 
-def build_cap_question_pool(documents):
-    return [item for item in flatten_cap_questions(documents) if (item.get('stem') or '').strip()]
-
-
 def build_cap_submission_results(question_items, submitted_answers):
     results = []
     correct_count = 0
@@ -1226,12 +1420,18 @@ def build_cap_submission_results(question_items, submitted_answers):
             'context': question.get('context', ''),
             'stem': question.get('stem', ''),
             'options': options,
+            'user_answer': selected_answer or '未作答',
             'selected_answer': selected_answer or '未作答',
             'selected_answer_text': (question.get('options') or {}).get(selected_answer, '這題未作答') if selected_answer else '這題未作答',
             'correct_answer': question.get('correct_answer', ''),
             'correct_answer_text': (question.get('options') or {}).get(question.get('correct_answer', ''), ''),
+            'correct_option_text': (question.get('options') or {}).get(question.get('correct_answer', ''), ''),
             'is_correct': bool(is_correct),
             'explanation': question.get('explanation') or f"這題來自 {question.get('year')} 年會考 {question.get('subject_label')}，建議先回頭確認題幹關鍵詞與選項差異。",
+            'explanation_sections': question.get('explanation_sections') or build_cap_explanation_sections(question.get('explanation')),
+            'page_image_href': question.get('page_image_href'),
+            'page_image_note': question.get('page_image_note', ''),
+            'group_label': question.get('group_label', ''),
         })
 
     return {
@@ -1345,7 +1545,8 @@ def practice_cap_hub():
         available_years,
     )
     requested_subject_slug = normalize_subject_key(request.args.get('subject'))
-    subject_cards = build_cap_library_subject_cards(cap_manifest, selected_years, requested_subject_slug)
+    raw_subject_cards = build_cap_library_subject_cards(cap_manifest, selected_years, requested_subject_slug)
+    subject_cards = build_cap_subject_card_links(raw_subject_cards, selected_years)
     selected_subject = next(
         (card for card in subject_cards if card['slug'] == requested_subject_slug and card['available']),
         None,
@@ -1356,6 +1557,8 @@ def practice_cap_hub():
     practice_href = None
     question_bank_count = 0
     preview_only_count = 0
+    available_subject_count = sum(1 for card in subject_cards if card.get('available'))
+    total_question_count = sum(int(card.get('question_count', 0) or 0) for card in subject_cards)
 
     if selected_subject:
         documents = load_cap_documents(cap_manifest, selected_years, selected_subject['slug'])
@@ -1381,10 +1584,42 @@ def practice_cap_hub():
         all_years_query=all_years_query,
         selected_subject=selected_subject,
         cap_subject_cards=subject_cards,
+        available_subject_count=available_subject_count,
+        total_question_count=total_question_count,
         question_bank_count=question_bank_count,
         preview_only_count=preview_only_count,
         preview_href=preview_href,
         practice_href=practice_href,
+    )
+
+
+@study.route("/practice/cap/assets/<year>/<subject_slug>/<int:page_number>.png")
+@login_required
+def practice_cap_page_asset(year, subject_slug, page_number):
+    cap_manifest = load_cap_library_manifest()
+    document = load_cap_document_for_year_subject(cap_manifest, year, normalize_subject_key(subject_slug))
+    if not document:
+        abort(404)
+
+    pdf_relative_path = (document.get('files') or {}).get('pdf')
+    if not pdf_relative_path:
+        abort(404)
+
+    pdf_path = REPO_ROOT / 'data' / Path(pdf_relative_path)
+    if not pdf_path.exists():
+        abort(404)
+
+    with fitz.open(pdf_path) as source_document:
+        if page_number < 1 or page_number > source_document.page_count:
+            abort(404)
+        page = source_document[page_number - 1]
+        image_bytes = render_page_png(page, dpi=190)
+
+    return send_file(
+        BytesIO(image_bytes),
+        mimetype='image/png',
+        download_name=f'{year}_{subject_slug}_page_{page_number:02d}.png',
+        max_age=86400,
     )
 
 @study.route("/practice/guides")
@@ -1509,13 +1744,38 @@ def practice_cap_preview():
         flash('這個範圍目前還沒有整理好的會考題目。', 'info')
         return redirect(url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']))
 
+    requested_per_page = request.args.get('per_page', type=int) or 10
+    per_page = requested_per_page if requested_per_page in CAP_PREVIEW_PER_PAGE_CHOICES else 10
+    requested_page = request.args.get('page', type=int) or 1
+    question_groups = build_cap_preview_groups(question_items)
+    paged_groups, current_page, total_pages = paginate_cap_preview_groups(question_groups, requested_page, per_page)
+    visible_question_count = sum(len(group.get('questions', [])) for group in paged_groups)
+    official_reference_cards = []
+    for year in selected_years:
+        document = load_cap_document_for_year_subject(cap_manifest, year, selected_subject['slug'])
+        if not document:
+            continue
+        official_links = document.get('official') or {}
+        official_reference_cards.append({
+            'year': year,
+            'question_url': official_links.get('question_url'),
+            'answer_url': official_links.get('answer_url'),
+            'explanation_url': official_links.get('explanation_url'),
+        })
+
     return render_template(
         'practice_cap_preview.html',
         title='會考歷屆預覽',
         selected_years=selected_years,
         selected_subject=selected_subject,
-        question_items=question_items,
+        question_groups=paged_groups,
         question_bank_count=len(question_items),
+        visible_question_count=visible_question_count,
+        per_page=per_page,
+        per_page_options=CAP_PREVIEW_PER_PAGE_CHOICES,
+        current_page=current_page,
+        total_pages=total_pages,
+        official_reference_cards=official_reference_cards,
         hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
         practice_href=url_for('study.practice_cap_session', years=','.join(selected_years), subject=selected_subject['slug']),
     )
@@ -1572,6 +1832,7 @@ def practice_cap_session():
             practice_duration_options=practice_duration_options,
             selected_count=selected_count,
             selected_duration=selected_duration,
+            selected_years_query=','.join(selected_years),
             preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']),
             hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
         )
@@ -1594,6 +1855,7 @@ def practice_cap_session():
         title='會考歷屆練習',
         view_state='run',
         selected_years=selected_years,
+        selected_years_query=','.join(selected_years),
         selected_subject=selected_subject,
         question_items=selected_question_items,
         question_pool_size=len(question_items),
@@ -1606,6 +1868,7 @@ def practice_cap_session():
         selected_question_keys_csv=','.join(item['question_key'] for item in selected_question_items),
         focus_question_key=focus_question_key,
         initial_question_index=initial_question_index,
+        visual_question_count=sum(1 for item in selected_question_items if item.get('page_image_href')),
         preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']),
         hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
     )
@@ -1675,7 +1938,14 @@ def practice_cap_review():
         selected_count=request.form.get('count', type=int) or total_count,
         selected_duration=request.form.get('duration', type=int) or 0,
         hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject['slug']),
-        retry_href=url_for('study.practice_cap_session', years=','.join(selected_years), subject=selected_subject['slug']),
+        retry_href=url_for(
+            'study.practice_cap_session',
+            years=','.join(selected_years),
+            subject=selected_subject['slug'],
+            start=1,
+            count=request.form.get('count', type=int) or total_count,
+            duration=request.form.get('duration', type=int) or 0,
+        ),
         preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject['slug']),
     )
 

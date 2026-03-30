@@ -770,18 +770,67 @@ def split_question_body(body: str) -> tuple[str, dict[str, str], str]:
     return stem, options, trailing
 
 
+VISUAL_REFERENCE_RE = re.compile(
+    r"(圖\s*[（(]?[一二三四五六七八九十\d]+[)）]?|下圖|上圖|如圖|圖中|表\s*[（(]?[一二三四五六七八九十\d]+[)）]?|下表|如表|漫畫|照片|示意圖|Look at the picture|look at the picture|comic|chart|graph|table)",
+    re.IGNORECASE,
+)
+
+
+def question_has_visual_reference(question: dict) -> bool:
+    snippets = [question.get("context", ""), question.get("stem", "")]
+    snippets.extend((question.get("options") or {}).values())
+    text = "\n".join(str(item or "") for item in snippets)
+    return bool(VISUAL_REFERENCE_RE.search(text))
+
+
 def build_local_cap_explanation(subject_label: str, year: str, question: dict) -> str:
-    answer = question.get("correct_answer") or "A"
-    option_text = question.get("options", {}).get(answer, "")
-    hints = [f"這題的正確答案是 {answer}。"]
-    if option_text:
-        hints.append(f"對應選項內容是「{option_text}」。")
-    if question.get("context"):
-        hints.append("先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。")
-    else:
-        hints.append("先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。")
-    hints.append(f"這題來自 {year} 年會考{subject_label}科，建議先回頭確認關鍵概念與題目限制。")
-    return " ".join(hints)
+    answer = (question.get("correct_answer") or "A").strip().upper() or "A"
+    option_text = normalize_whitespace((question.get("options") or {}).get(answer, ""))
+    context = normalize_whitespace(question.get("context", ""))
+    stem = normalize_whitespace(question.get("stem", ""))
+    subject_slug = question.get("subject_slug", "")
+
+    focus_line = "先把題幹的限制條件圈出來，再比對最符合條件的選項。"
+    step_line = "先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。"
+
+    if subject_slug == "english":
+        if "____" in stem or "_____" in stem:
+            focus_line = "先看空格前後的語意與詞性，再判斷哪個選項放進去最通順。"
+            step_line = "先找空格周圍的關鍵字，再判斷語意、詞性與句型是否一致，最後回整句確認語感。"
+        elif context:
+            focus_line = "這題屬於題組閱讀，先抓出題組關鍵句，再回題目定位答案。"
+            step_line = "先略讀題組重點，再看題目在問什麼，最後回到原文找到能直接支持答案的句子。"
+        else:
+            focus_line = "先抓句子的語意方向，再排除文法或語意不通的選項。"
+    elif subject_slug == "math":
+        focus_line = "先確認題目要比較的是哪個量，再列式、化簡或代入，最後再和選項比對。"
+        step_line = "先整理已知條件，再用計算或圖形判斷縮小範圍，最後檢查答案是否符合題目要求。"
+    elif subject_slug == "science":
+        focus_line = "先分清題目考的是概念、實驗條件還是圖表資訊，再對照選項。"
+        step_line = "先讀懂題幹與圖表的變因，再排除和科學概念不符的選項，最後回頭確認條件是否都滿足。"
+    elif subject_slug == "social":
+        focus_line = "先找出題幹的時代、地點、制度或議題關鍵詞，再對照選項。"
+        step_line = "先圈出題目中的核心線索，再排除時序、地理位置或制度概念不合的選項。"
+    elif subject_slug == "chinese":
+        if context:
+            focus_line = "先讀完整段材料，再判斷題目是在問文意、修辭還是觀點。"
+            step_line = "先抓文本中的關鍵句，再比對四個選項與原文是否一致，最後排除過度推論。"
+        else:
+            focus_line = "先看題目考的是字詞、語意還是修辭，再找最符合的選項。"
+
+    lines = [
+        f"官方答案：{answer}" + (f"（{option_text}）" if option_text else ""),
+        f"題目重點：{focus_line}",
+        f"作答步驟：{step_line}",
+    ]
+
+    if context:
+        lines.append("題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。")
+    if question_has_visual_reference(question):
+        lines.append("圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。")
+
+    lines.append(f"複習方向：這題來自 {year} 年會考{subject_label}科，可回頭複習同主題的核心觀念與常見判斷方式。")
+    return "\n".join(lines)
 
 
 def score_question_candidate(stem: str, options: dict[str, str], context: str, correct_answer: str) -> int:
@@ -794,14 +843,12 @@ def score_question_candidate(stem: str, options: dict[str, str], context: str, c
 
 
 def ensure_cap_page_assets(pdf_path: Path, year: str, subject_slug: str) -> dict[int, str]:
-    asset_dir = ensure_dir(CAP_ASSET_ROOT / year / subject_slug)
     asset_map: dict[int, str] = {}
     with fitz.open(pdf_path) as document:
         for page_index in range(document.page_count):
-            target = asset_dir / f"page_{page_index + 1:02d}.png"
-            if not target.exists() or target.stat().st_size == 0:
-                target.write_bytes(render_page_png(document[page_index], dpi=220))
-            asset_map[page_index + 1] = str(target.relative_to(DATA_ROOT))
+            asset_map[page_index + 1] = str(
+                Path("cap_practice_assets") / year / subject_slug / f"page_{page_index + 1:02d}.png"
+            )
     return asset_map
 
 
