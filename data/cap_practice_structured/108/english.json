@@ -3,8 +3,8 @@
   "subject_slug": "english",
   "subject_label": "英語",
   "official_question_count": 41,
-  "question_count": 35,
-  "answered_count": 35,
+  "question_count": 41,
+  "answered_count": 41,
   "page_count": 14,
   "ocr_pages": [],
   "files": {
@@ -17,16 +17,12 @@
     "explanation_url": "https://drive.google.com/file/d/1G4brkSQwKSVS960xoiTAQpAhO8V-q-WR/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 45,
-    "answers_found": 48,
-    "questions_kept": 35,
-    "issues_found": 10,
+    "question_chunks_found": 48,
+    "answers_found": 41,
+    "questions_kept": 41,
+    "issues_found": 13,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -104,9 +100,7 @@
       32,
       33,
       34,
-      35
-    ],
-    "missing_question_numbers": [
+      35,
       36,
       37,
       38,
@@ -114,16 +108,19 @@
       40,
       41
     ],
+    "missing_question_numbers": [],
     "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
+      "context": "第一部分: 單題 (第1-15題，共15題)",
       "stem": "Look at the picture. The mother duck is the baby ducks across the street.",
       "options": {
         "A": "carrying",
@@ -132,13 +129,15 @@
         "D": "watching"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「leading」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「leading」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Ms. Liu usually gives us a lot of homework, she didn’t give us any today.",
       "options": {
@@ -155,6 +154,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Playing games on the cellphone popular with high school students.",
       "options": {
@@ -171,6 +172,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "There more than twenty clubs in our school. Which one would you like to join?",
       "options": {
@@ -187,6 +190,8 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Diane had a bad cold last week. She is still too to go mountain climbing with you.",
       "options": {
@@ -203,6 +208,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "The book under Mary’s desk is , but I don’t know why it is there.",
       "options": {
@@ -219,6 +226,8 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Last night a garbage truck hit a tree and turned over. Now the street is with lots of garbage.",
       "options": {
@@ -235,6 +244,8 @@
       "source_number": 8,
       "display_number": 8,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "It almost killed Kevin to take care of his baby sister for one afternoon. He wondered how his mom could do every day.",
       "options": {
@@ -251,6 +262,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Joyce tells her brother everything. She never anything from him.",
       "options": {
@@ -267,6 +280,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Ben always uses his birthday as a(n) to ask Dad to buy him something expensive.",
       "options": {
@@ -283,6 +298,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "that last piece of pie? If not, can I have it? I didn’t eat much this morning.",
       "options": {
@@ -299,6 +316,8 @@
       "source_number": 12,
       "display_number": 12,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Everyone in the class enjoys playing chess Bill; he thinks the game is boring.",
       "options": {
@@ -315,6 +334,8 @@
       "source_number": 13,
       "display_number": 13,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "In my school days, I to English radio programs every day. That was how I learned English at that time.",
       "options": {
@@ -331,6 +352,8 @@
       "source_number": 14,
       "display_number": 14,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Tom’s voice when he talks about his neighbors. He speaks faster, his face becomes redder and you can almost see fire in his eyes.",
       "options": {
@@ -347,22 +370,39 @@
       "source_number": 15,
       "display_number": 15,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "other waiters in the restaurant have worked here longer than Clark; only Lois and Lana started working here before him.",
       "options": {
         "A": "All",
         "B": "Most",
         "C": "Some",
-        "D": "Few\n第二部分: 題組 (第16-41題，共26題)\n(16-17)\nMaking goulash\nwe don’t talk much,\nDaddy and me.\n“The talking’s in the making, son,”\nhe smiles.\nI see what he means.\nIt’s in the knife\nmeeting the beef,\nin the dancing of potatoes\nas they turn in the water,\nin the singing\nof boiling soup in the pot.\nThere are enough words\nin the way\nDaddy teaches me his famous dish\nand the way he hugs me\nwhen we finish.\nMaking goulash\nwe don’t talk much,\nDaddy and me,\nbut everything is said.\n(Ideas from Candace Pearson’s poem)"
+        "D": "Few\n第二部分: 題組 (第16-41題，共26題)\n(16-17)\nMaking goulash\nwe don’t talk much,\nDaddy and me.\n“The talking’s in the making, son,”\nhe smiles."
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「Few\n第二部分: 題組 (第16-41題，共26題)\n(16-17)\nMaking goulash\nwe don’t talk much,\nDaddy and me.\n“The talking’s in the making, son,”\nhe smiles.\nI see what he means.\nIt’s in the knife\nmeeting the beef,\nin the dancing of potatoes\nas they turn in the water,\nin the singing\nof boiling soup in the pot.\nThere are enough words\nin the way\nDaddy teaches me his famous dish\nand the way he hugs me\nwhen we finish.\nMaking goulash\nwe don’t talk much,\nDaddy and me,\nbut everything is said.\n(Ideas from Candace Pearson’s poem)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「Few\n第二部分: 題組 (第16-41題，共26題)\n(16-17)\nMaking goulash\nwe don’t talk much,\nDaddy and me.\n“The talking’s in the making, son,”\nhe smiles.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 16,
       "source_number": 16,
       "display_number": 16,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "see what he means.\nIt’s in the knife\nmeeting the beef,\nin the dancing of potatoes\nas they turn in the water,\nin the singing\nof boiling soup in the pot.\nThere are enough words\nin the way\nDaddy teaches me his famous dish\nand the way he hugs me\nwhen we finish.\nMaking goulash\nwe don’t talk much,\nDaddy and me,\nbut everything is said.\n(Ideas from Candace Pearson’s poem)",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 17,
+      "source_number": 17,
+      "display_number": 17,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What are “Daddy and me” doing in the poem?",
       "options": {
@@ -371,14 +411,16 @@
         "C": "Dancing.",
         "D": "Cooking."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「Cooking.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Singing.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 17,
-      "source_number": 17,
-      "display_number": 17,
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we most likely know about the speaker?",
       "options": {
@@ -387,14 +429,16 @@
         "C": "He often makes goulash for his father.",
         "D": "He wants to be as famous as his father.\npoem 詩\nlikely 可能\n(18-19)"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「He enjoys his time with his father.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「He seldom understands his father.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 18,
-      "source_number": 18,
-      "display_number": 18,
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Which is true about City Sight Bus tickets?",
       "options": {
@@ -403,14 +447,16 @@
         "C": "Tickets are more expensive in the high season.",
         "D": "People save 10% if they buy two tickets for the same line.\nUHDW\u0003$JH\u0003\n7KHDWHU\n6WDUOLJKW\u0003\nDUGHQ\n:HVWVLGH\u0003&KXUFK\n&HQWUDO\u00036WDWLRQ\n)DUPHUV熎\u0003%ULGJH\n4XHHQ\u0003\n0DUJXHULWH熎V\u0003\n3DUN\n(DVW\u0010(QG\u0003\n7HPSOH\n.LQJ\u0003+HQU\\熎V\u0003&DVWOH\nUDQG\u0003&DVWOH\u0003\nRI\u0003.LQJ\u0003&KDUOHV\n.LQJ\u0003+HQU\\熎V\u0003\nDUGHQ\n/RYHUVĬ\u0003\n%ULGJH\n.LQJ\u0003-DPHV熎\u0003&DVWOH\n&LW\\\u00036TXDUH\nOPENING HOURS\nHigh Season (April to September): 9:00 – 18:00 every day\nLow Season (October to March): 9:00 – 17:00 every day\nTICKET PRICES\nLine A ( ): $20 each person\nLine B ( ): $18 each person\nTHINGS YOU SHOULD KNOW\nBuses for both lines leave every hour from Central Station.\nLine A takes one hour; Line B takes 50 minutes.\nIf you are taking your pet with you, please buy a seat for it at half price.\nSave 10% if you buy tickets on the Internet.\nSave 10% if you buy tickets for both lines.\nGo to www.citysightbus.org for more information.\nCity Sight Bus\nwww.citysightbus.org"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「It costs less to buy tickets on the Internet.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「Tickets are more expensive in the high season.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 19,
-      "source_number": 19,
-      "display_number": 19,
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Which is true about the bus lines?",
       "options": {
@@ -419,14 +465,16 @@
         "C": "Both lines leave from Central Station.",
         "D": "There are more gardens to see on Line A.\n(20-22)"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「Both lines leave from Central Station.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Line B takes more time.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 20,
-      "source_number": 20,
-      "display_number": 20,
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Why were there seventeen calls asking for Mike?",
       "options": {
@@ -439,10 +487,12 @@
       "explanation": "這題的正確答案是 A。 對應選項內容是「His team was angry at him.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 21,
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does It mean in the dialogue?",
       "options": {
@@ -451,14 +501,16 @@
         "C": "The soccer game.",
         "D": "The soccer season."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「The shop.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「The fan club.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 22,
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Mike?",
       "options": {
@@ -471,10 +523,12 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「He plays soccer with Johnny and Ricky.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 23,
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "So what did they want? My photos? Do I need to sign my name? Are they\nstarting a fan club for me?\nSarah: Well, let me ask you this: What day was yesterday?\nMike: Friday… Why?\nSarah: Did you forget something?\nMike: Did I forget… OH, NO! I didn’t pick up my soccer team’s sport shirts from\nthe shop! And we’re having this big game tomorrow!\nSarah: Yeah. And from what I’ve heard, it’s your team’s most important game this season.\nMike: OK. I have to go fix this now.\nSarah: Too late. They’ve tried. It’s not open on the weekend. And if you want to\nknow, they are Johnny, Ricky, Archie, Freddie…\nMike: I know, I know, everyone on my team. Oh, I’m a dead man now.\nSarah: Yeah, that was what they said on the phone, seventeen times.\n(23-25)",
       "stem": "Which is the best title for this reading?",
       "options": {
@@ -483,14 +537,16 @@
         "C": "Larger Mother Birds Have Larger Eggs.",
         "D": "Family Love: Brothers & Sisters Work Together."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「Mother Bird Fights Weather Changes.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Australia: The Best Place for Birds.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 24,
-      "source_number": 24,
-      "display_number": 24,
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does this trick mean in the reading?",
       "options": {
@@ -499,14 +555,16 @@
         "C": "Saving food for weaker baby birds.",
         "D": "Helping baby birds break out of the eggs."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「Having eggs of different sizes.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「Saving food for weaker baby birds.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 25,
-      "source_number": 25,
-      "display_number": 25,
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about superb fairy-wrens from the reading?",
       "options": {
@@ -515,14 +573,16 @@
         "C": "Young male birds share the job of feeding the baby birds.",
         "D": "Mother birds make smaller eggs when there is less food outside.\n\u0015\u0013\u0014\u0019\n'(&\nAnimals have their special ways to deal with hard times in nature.\nThe superb fairy-wren, one kind of bright-blue bird in Australia, is one\nexample. This year, a ten-year study showed that this small bird has\neggs of different sizes in different kinds of weather. When the weather\nis hot and dry, there is less food for young superb fairy-wrens, and they\ndie easily. So the mother bird will make larger eggs to help her babies\ngrow stronger inside before they break out of the eggs into the “hungry”\nworld.\nHowever, not all mother birds are able to do this trick. Only those\nwith at least one male child can. When the weather is “good,”\nthe mother will make smaller eggs, and her sons will bring\nfood back for their baby brothers and sisters from the eggs.\nWith her sons’ help, the mother can save more energy to make\nlarger eggs when the weather is bad. Isn’t this amazing?"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「Young male birds share the job of feeding the baby birds.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「Mother birds make smaller eggs when there is less food outside.\n\u0015\u0013\u0014\u0019\n'(&\nAnimals have their special ways to deal with hard times in nature.\nThe superb fairy-wren, one kind of bright-blue bird in Australia, is one\nexample. This year, a ten-year study showed that this small bird has\neggs of different sizes in different kinds of weather. When the weather\nis hot and dry, there is less food for young superb fairy-wrens, and they\ndie easily. So the mother bird will make larger eggs to help her babies\ngrow stronger inside before they break out of the eggs into the “hungry”\nworld.\nHowever, not all mother birds are able to do this trick. Only those\nwith at least one male child can. When the weather is “good,”\nthe mother will make smaller eggs, and her sons will bring\nfood back for their baby brothers and sisters from the eggs.\nWith her sons’ help, the mother can save more energy to make\nlarger eggs when the weather is bad. Isn’t this amazing?」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 26,
-      "source_number": 26,
-      "display_number": 26,
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "male 雄性 energy 能量\ntitle 標題\n(26-28)\nHere are two pieces of news that Annie collected for her report.",
       "stem": "What idea is talked about in both pieces of news?",
       "options": {
@@ -531,14 +591,16 @@
         "C": "Bringing important art works to Taiwan from abroad.",
         "D": "Giving new life to old arts that were almost forgotten."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「Giving new life to old arts that were almost forgotten.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「People’s ways of enjoying art change with time.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 27,
-      "source_number": 27,
-      "display_number": 27,
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when something is a smash hit?",
       "options": {
@@ -547,14 +609,16 @@
         "C": "It is foreign.",
         "D": "It is useful."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「It is successful.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「It is useful.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 28,
-      "source_number": 28,
-      "display_number": 28,
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What do we know from the news?",
       "options": {
@@ -567,10 +631,12 @@
       "explanation": "這題的正確答案是 D。 對應選項內容是「People do not burn papier-mâché for dead people as often as before.\nPapier-mâché is works of art that are made of paper.\nIn Taiwan, it is known as zhizha and is usually burned as\na gift for dead people. Taiwan’s papier-mâché is dying\nbecause it is not much needed now. However, this dying\nart won a Frenchman’s heart when he visited the island.\nHe then invited one of the papier-mâché shops, Hsin\nHsin Paper Offering Store, to show their beautiful works\nin France. The shop owner’s son also used papier-\nmâché in a way that no one ever thought of—making a\nmovie with it.\nStan Lai is very important in Taiwan’s theater. He brought changes to Chinese\ntheater art of the old days to make it closer to our life experiences and easier to\nunderstand. One of his most famous works is That Evening,\nWe Performed Crosstalk (1985). It was such a smash hit that\npeople became interested again in xiangsheng, a show of funny\ntalk between two actors. This art used to be a hobby that only\na few people shared, but Lai has opened a bigger market for it.\nNow it has fans across all ages.\nwork 作品\n(29-32)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 29,
-      "source_number": 29,
-      "display_number": 29,
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Which idea is talked about in the news?",
       "options": {
@@ -579,14 +645,16 @@
         "C": "How to help the body make the cortisol we need.",
         "D": "What happens when we have coffee at the wrong time."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「What happens when we have coffee at the wrong time.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「How to help the body make the cortisol we need.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 30,
-      "source_number": 30,
-      "display_number": 30,
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when someone thinks otherwise about something?",
       "options": {
@@ -595,14 +663,16 @@
         "C": "They think differently about it.",
         "D": "They do not think it is a problem.\ncortisol 皮質醇 level 數值；濃度\nFor many people, having a cup of coffee right out of\nbed is the best way to start a day. But a report from Asap\nScience says otherwise. It says the worst time for coffee is\nsoon after we get up. When we wake up, our bodies start\nto make cortisol. Cortisol helps us to think clearly and be\nquick to understand and act. The cortisol levels rise after we wake up\nand climb to the highest in about an hour. So there are two problems\nwhen we drink coffee during this time: (1) our bodies will make less\ncortisol, and (2) the cortisol will make coffee less useful. And that’s why\nsome of us drink more and more coffee.\nThen, when’s the best time to have coffee?"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「They think differently about it.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「They do not think it is a problem.\ncortisol 皮質醇 level 數值；濃度\nFor many people, having a cup of coffee right out of\nbed is the best way to start a day. But a report from Asap\nScience says otherwise. It says the worst time for coffee is\nsoon after we get up. When we wake up, our bodies start\nto make cortisol. Cortisol helps us to think clearly and be\nquick to understand and act. The cortisol levels rise after we wake up\nand climb to the highest in about an hour. So there are two problems\nwhen we drink coffee during this time: (1) our bodies will make less\ncortisol, and (2) the cortisol will make coffee less useful. And that’s why\nsome of us drink more and more coffee.\nThen, when’s the best time to have coffee?」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 31,
-      "source_number": 31,
-      "display_number": 31,
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "When the cortisol levels\nare going down, the report says. Cortisol levels are usually highest\nbetween 8 a.m. and 9 a.m., between noon and 1 p.m., and between 5:30\np.m. and 6:30 p.m. So if you want to have coffee, enjoy it after these\ntimes, and this popular drink will help you the most.\n16/01/2015\nVOF News",
       "stem": "The picture below shows how the cortisol levels rise and fall during the day. From the news, which is a good time for coffee?",
       "options": {
@@ -611,30 +681,47 @@
         "C": "C.",
         "D": "D."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「D.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「C.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 32,
-      "source_number": 32,
-      "display_number": 32,
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Four people read the news and wrote what they thought about it. What did they think about the news?",
       "options": {
         "A": "They wanted to try what it said.",
         "B": "They were sad about what it said.",
         "C": "They did not agree with what it said.",
-        "D": "They were not surprised at what it said.\ncortisol levels (mg/dl)\nMidnight\nMidnight\nAM\nA\nB\nC\nD\nPM\nNoon\nMike\nThe best time to drink coffee is when you want to drink coffee.\nSarah\nI usually wake up AFTER I drink coffee!\nCharlie\nThe worst time to drink coffee is when you're DEAD.\nLisa\nIf you need someone to tell you when to drink coffee, well, that’s just sad.\nJan 16 8:26 pm\nJan 16 8:43 pm\nJan 16 8:59 pm\nJan 16 9:18 pm\n(33-35)\nBelow is part of a new shopping center’s market report."
+        "D": "They were not surprised at what it said.\ncortisol levels (mg/dl)\nMidnight\nMidnight\nAM\nA\nB\nC\nD\nPM\nNoon\nMike\nThe best time to drink coffee is when you want to drink coffee.\nSarah"
       },
       "correct_answer": "C",
       "explanation": "這題的正確答案是 C。 對應選項內容是「They did not agree with what it said.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 33,
-      "source_number": 33,
-      "display_number": 33,
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_10.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "usually wake up AFTER I drink coffee!\nCharlie\nThe worst time to drink coffee is when you're DEAD.\nLisa\nIf you need someone to tell you when to drink coffee, well, that’s just sad.\nJan 16 8:26 pm\nJan 16 8:43 pm\nJan 16 8:59 pm\nJan 16 9:18 pm\n(33-35)\nBelow is part of a new shopping center’s market report.",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does the report NOT suggest?",
       "options": {
@@ -643,14 +730,16 @@
         "C": "Making plans to help weekday morning business.",
         "D": "Changing the time of the special sale on weekends."
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「Making plans to help weekday morning business.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Changing the opening hours on weekdays.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 34,
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does the report say about the shopping center?",
       "options": {
@@ -659,14 +748,16 @@
         "C": "Most of the shoppers take the free buses to the shopping center.",
         "D": "A large part of its shoppers on weekday evenings are working parents.\nOur busiest time is weekend afternoons, between 1:30 p.m. and 3:30 p.m.\nAbout half the business of the week is done then. So it would be better if\nwe move Weekend’s Best Buy from Saturday evening to Saturday afternoon\nwhen there may be more shoppers during the sale. We should also think\nabout having more free buses during the weekend, as 75% of the shoppers\nwho were interviewed said two buses an hour are just not enough.\nWeekend evenings are second busiest, though it is not as good as last season.\nAn interesting fact is that business is better on weekday evenings, usually\none hour before closing, than on weekend mornings. Most of the shoppers\nthen are people who live near or working parents who do their last-minute\nshopping. They together make up almost 60% of the business\non weekday evenings. It might bring in more business if we\nopen half an hour longer during weekdays, until 10:30 p.m.\nas 由於 make up 構成；組成\nsuggest 建議"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「A large part of its shoppers on weekday evenings are working parents.\nOur busiest time is weekend afternoons, between 1:30 p.m. and 3:30 p.m.\nAbout half the business of the week is done then. So it would be better if\nwe move Weekend’s Best Buy from Saturday evening to Saturday afternoon\nwhen there may be more shoppers during the sale. We should also think\nabout having more free buses during the weekend, as 75% of the shoppers\nwho were interviewed said two buses an hour are just not enough.\nWeekend evenings are second busiest, though it is not as good as last season.\nAn interesting fact is that business is better on weekday evenings, usually\none hour before closing, than on weekend mornings. Most of the shoppers\nthen are people who live near or working parents who do their last-minute\nshopping. They together make up almost 60% of the business\non weekday evenings. It might bring in more business if we\nopen half an hour longer during weekdays, until 10:30 p.m.\nas 由於 make up 構成；組成\nsuggest 建議」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Its business on weekdays is not as good as last season.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 35,
-      "source_number": 35,
-      "display_number": 35,
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Which picture is most likely used in the report?",
       "options": {
@@ -675,52 +766,86 @@
         "C": "",
         "D": "48%\n3%\n15%\n10%\n24%\nWeekday evening\nWeekend morning\nWeekend afternoon\nWeekend evening\nOthers\nBusiness done during a week\n15% 3%\n24%\n10%\n48%\nWeekday evening\nWeekend morning\nWeekend afternoon\nWeekend evening\nOthers\nBusiness done during a week\n24%\n3%\n15%\n10%\n48%\nWeekday evening\nWeekend morning\nWeekend afternoon\nWeekend evening\nOthers\nBusiness done during a week\n24%\n3% 10%\n15%\n48%\nWeekday evening\nWeekend morning\nWeekend afternoon\nWeekend evening\nOthers\nBusiness done during a week\nlikely 可能\n(36-37)"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "change the way you are",
+        "B": "give up being an actress",
+        "C": "travel with a theater group",
+        "D": "run away from your friends"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「run away from your friends」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "you’re too shy to talk with people",
+        "B": "you just don’t want to be like others",
+        "C": "you don’t think you’re good enough",
+        "D": "you don’t know what you’ve missed\nDear Maggie,"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「you don’t think you’re good enough」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "know you won’t be happy but I still have to say this again. It hurts me\nto think that you’re going to 36 . I know you’ve always wanted to be\nlike those actresses with big eyes and slim legs, but in fact you are already\nbeautiful. What you are born with makes you special because nobody\nlooks the same as you.\nIt worries me more that 37 . But sadly, there’s no quick fix to this,\nnot even with the doctor’s help. If you don’t try to like yourself first, no\none else will. People like you not because of your face, but because of\nyour heart. You need to understand this first. Until you understand this,\nnothing is going to be different even if you have this change.",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\108\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "truly hope you think this through again.\nLove,\nLinda\n試題結束\n(38-41)",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 16,
+      "display_source_number": 16,
       "reason": "parse_incomplete",
-      "stem_length": 20,
+      "stem_length": 366,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 34,
+      "display_source_number": 34,
       "reason": "parse_incomplete",
-      "stem_length": 14,
+      "stem_length": 303,
       "option_count": 0
-    },
-    {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 21,
-      "option_count": 0
-    },
-    {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 288,
-      "option_count": 0
-    },
-    {
-      "question_number": 36,
-      "display_source_number": 36,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
-    },
-    {
-      "question_number": 37,
-      "display_source_number": 37,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
     },
     {
       "question_number": 38,
@@ -740,15 +865,50 @@
       "question_number": 40,
       "display_source_number": 40,
       "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
+      "stem_length": 664,
+      "option_count": 0
     },
     {
       "question_number": 41,
       "display_source_number": 41,
       "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
+      "stem_length": 65,
+      "option_count": 0
+    },
+    {
+      "question_number": 42,
+      "display_source_number": 42,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 44,
+      "display_source_number": 44,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 46,
+      "display_source_number": 46,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 47,
+      "display_source_number": 47,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 48,
+      "display_source_number": 48,
+      "reason": "out_of_range_question_number"
     }
   ]
 }

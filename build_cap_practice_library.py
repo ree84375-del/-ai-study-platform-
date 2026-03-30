@@ -1,13 +1,15 @@
 from __future__ import annotations
 
+import io
 import math
 import re
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
 
 import fitz
 import requests
+from PIL import Image
 
 from app.utils.document_ingest import (
     DATA_ROOT,
@@ -18,6 +20,7 @@ from app.utils.document_ingest import (
     normalize_whitespace,
     render_page_png,
     run_tesseract_on_image,
+    run_tesseract_tsv_on_image,
     save_extraction_docx,
     slugify,
     write_json,
@@ -29,11 +32,26 @@ CAP_SOURCE_ROOT = DATA_ROOT / "cap_practice_sources"
 CAP_WORD_ROOT = DATA_ROOT / "cap_practice_word"
 CAP_STRUCTURED_ROOT = DATA_ROOT / "cap_practice_structured"
 CAP_LIBRARY_MANIFEST = DATA_ROOT / "cap_review" / "cap_practice_manifest.json"
+CAP_ASSET_ROOT = DATA_ROOT / "cap_practice_assets"
 
 OFFICIAL_QUESTION_COUNT_OVERRIDES = {
     "102": {"chinese": 48, "english": 40, "math": 25, "social": 63, "science": 54},
     "103": {"chinese": 48, "english": 40, "math": 27, "social": 63, "science": 54},
+    "104": {"chinese": 48, "english": 40, "math": 25, "social": 63, "science": 54},
+    "105": {"chinese": 48, "english": 41, "math": 25, "social": 63, "science": 54},
+    "106": {"chinese": 48, "english": 41, "math": 26, "social": 63, "science": 54},
+    "107": {"chinese": 48, "english": 41, "math": 26, "social": 63, "science": 54},
+    "108": {"chinese": 48, "english": 41, "math": 26, "social": 63, "science": 54},
+    "109": {"chinese": 48, "english": 41, "math": 26, "social": 63, "science": 54},
+    "110": {"chinese": 48, "english": 41, "math": 26, "social": 63, "science": 54},
+    "111": {"chinese": 42, "english": 43, "math": 25, "social": 54, "science": 50},
+    "112": {"chinese": 42, "english": 43, "math": 25, "social": 54, "science": 50},
+    "113": {"chinese": 42, "english": 43, "math": 25, "social": 54, "science": 50},
+    "114": {"chinese": 42, "english": 43, "math": 25, "social": 54, "science": 50},
 }
+
+ENGLISH_LISTENING_YEARS = {"104", "105", "106", "107", "108", "110", "111", "112", "113", "114"}
+ENGLISH_LISTENING_COUNT = 21
 
 SUBJECT_LABELS = {
     "chinese": "國文",
@@ -41,23 +59,6 @@ SUBJECT_LABELS = {
     "math": "數學",
     "social": "社會",
     "science": "自然",
-}
-ANSWER_SEQUENCE_MAP = {
-    6: {
-        6: ["chinese", "english", "english_listening", "math", "social", "science"],
-        5: ["chinese", "english", "math", "social", "science"],
-        4: ["chinese", "english", "social", "science"],
-        3: ["english", "social", "science"],
-        2: ["social", "science"],
-        1: ["social"],
-    },
-    5: {
-        5: ["chinese", "english", "math", "social", "science"],
-        4: ["chinese", "english", "social", "science"],
-        3: ["english", "social", "science"],
-        2: ["social", "science"],
-        1: ["social"],
-    },
 }
 OPTION_MARKERS = {
     "": "(A)",
@@ -68,6 +69,10 @@ OPTION_MARKERS = {
     "（B）": "(B)",
     "（C）": "(C)",
     "（D）": "(D)",
+}
+SCANNED_FALLBACK_LANGUAGES = {
+    "english": "eng",
+    "math": "eng",
 }
 
 
@@ -171,6 +176,33 @@ def extract_answer_page_text(answer_pdf_path: Path, page_number: int) -> str:
     return scored[0][1] if scored else ""
 
 
+def extract_answer_page_candidates(answer_pdf_path: Path, page_number: int) -> list[tuple[str, str]]:
+    candidates: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    with fitz.open(answer_pdf_path) as document:
+        page = document[page_number - 1]
+        direct_text = normalize_multiline_text(page.get_text("text"))
+        if direct_text and direct_text not in seen:
+            seen.add(direct_text)
+            candidates.append(("direct", direct_text))
+        for dpi, languages, psm in (
+            (220, "eng", 4),
+            (220, "chi_tra+eng", 4),
+            (300, "eng", 4),
+            (300, "chi_tra+eng", 4),
+        ):
+            try:
+                ocr_text = normalize_multiline_text(
+                    run_tesseract_on_image(render_page_png(page, dpi=dpi), languages=languages, psm=psm)
+                )
+            except Exception:
+                ocr_text = ""
+            if ocr_text and ocr_text not in seen:
+                seen.add(ocr_text)
+                candidates.append((f"ocr:{dpi}:{languages}:{psm}", ocr_text))
+    return candidates
+
+
 def extract_cover_question_count(pdf_path: Path) -> int | None:
     patterns = [
         re.compile(r"有\s*(\d{1,3})\s*題"),
@@ -224,6 +256,21 @@ def resolve_official_question_count(year: str, subject_slug: str, pdf_path: Path
     return extract_cover_question_count(pdf_path)
 
 
+def get_official_subject_counts(year: str) -> dict[str, int]:
+    return OFFICIAL_QUESTION_COUNT_OVERRIDES.get(str(year), {})
+
+
+def get_answer_sheet_subject_counts(year: str) -> dict[str, int]:
+    counts = dict(get_official_subject_counts(year))
+    if str(year) in {"102", "103"}:
+        counts["english"] = 60
+    return counts
+
+
+def has_english_listening_column(year: str) -> bool:
+    return str(year) in ENGLISH_LISTENING_YEARS
+
+
 def is_english_reading_only_mode(year: str, subject_slug: str) -> bool:
     return subject_slug == "english" and str(year) in {"102", "103"}
 
@@ -238,47 +285,77 @@ def normalize_subject_question_number(year: str, subject_slug: str, source_numbe
     return source_number
 
 
-def parse_answer_key(answer_pdf_path: Path) -> dict[str, dict[int, str]]:
-    subject_answers = {
-        "chinese": {},
-        "english": {},
-        "math": {},
-        "social": {},
-        "science": {},
-        "english_listening": {},
+def build_answer_column_order(year: str, question_number: int) -> list[str]:
+    counts = get_answer_sheet_subject_counts(year)
+    columns: list[str] = []
+    if question_number <= counts.get("chinese", 0):
+        columns.append("chinese")
+    if question_number <= counts.get("english", 0):
+        columns.append("english")
+    if has_english_listening_column(year) and question_number <= ENGLISH_LISTENING_COUNT:
+        columns.append("english_listening")
+    if question_number <= counts.get("math", 0):
+        columns.append("math")
+    if question_number <= counts.get("social", 0):
+        columns.append("social")
+    if question_number <= counts.get("science", 0):
+        columns.append("science")
+    return columns
+
+
+def parse_answer_key(answer_pdf_path: Path, year: str) -> dict[str, dict[int, str]]:
+    official_counts = get_official_subject_counts(year)
+    answer_sheet_counts = get_answer_sheet_subject_counts(year)
+    visible_subjects = ["chinese", "english", "math", "social", "science"]
+    if not official_counts:
+        raise RuntimeError(f"Missing official answer key counts for {year}.")
+
+    answer_votes: dict[str, dict[int, Counter[str]]] = {
+        subject_slug: defaultdict(Counter) for subject_slug in visible_subjects
     }
 
     with fitz.open(answer_pdf_path) as document:
         page_total = document.page_count
 
-    previous_number = None
-    max_row_width = 0
+    max_question_number = max(answer_sheet_counts.values())
     for page_number in range(1, page_total + 1):
-        page_text = extract_answer_page_text(answer_pdf_path, page_number)
-        _, parseable_rows = score_answer_text(page_text)
-        if parseable_rows:
-            max_row_width = max(max_row_width, max(length for _, length in parseable_rows))
-
-        for question_number, answers in parse_answer_rows(page_text):
-            if not answers:
-                continue
-            question_number = normalize_answer_number(question_number, previous_number)
-            previous_number = question_number
-
-            sequence_size = 6 if max_row_width >= 6 else 5
-            subject_order = ANSWER_SEQUENCE_MAP[sequence_size].get(len(answers), [])
-            if not subject_order:
-                continue
-            for subject_slug, answer in zip(subject_order, answers):
-                if subject_slug == "english_listening":
+        for source_label, page_text in extract_answer_page_candidates(answer_pdf_path, page_number):
+            previous_number = None
+            source_weight = 5 if source_label == "direct" else 1
+            for raw_number, answers in parse_answer_rows(page_text):
+                if not answers:
                     continue
-                subject_answers[subject_slug][question_number] = answer
+                question_number = normalize_answer_number(raw_number, previous_number)
+                previous_number = question_number
+                if question_number < 1 or question_number > max_question_number:
+                    continue
 
-    visible_subjects = {subject for subject, mapping in subject_answers.items() if mapping and subject != "english_listening"}
-    if not visible_subjects:
+                subject_order = build_answer_column_order(year, question_number)
+                if len(answers) != len(subject_order):
+                    continue
+
+                for subject_slug, answer in zip(subject_order, answers):
+                    if subject_slug == "english_listening":
+                        continue
+                    if question_number > answer_sheet_counts.get(subject_slug, 0):
+                        continue
+                    answer_votes[subject_slug][question_number][answer] += source_weight
+
+    subject_answers: dict[str, dict[int, str]] = {}
+    for subject_slug in visible_subjects:
+        mapping: dict[int, str] = {}
+        for question_number in range(1, answer_sheet_counts.get(subject_slug, 0) + 1):
+            votes = answer_votes[subject_slug].get(question_number)
+            if not votes:
+                continue
+            mapping[question_number] = votes.most_common(1)[0][0]
+        subject_answers[subject_slug] = mapping
+
+    visible_mappings = {subject: mapping for subject, mapping in subject_answers.items() if mapping}
+    if not visible_mappings:
         raise RuntimeError("Unable to detect answer key columns.")
 
-    return {subject: mapping for subject, mapping in subject_answers.items() if subject != "english_listening"}
+    return subject_answers
 
 
 def clean_cap_text(text: str) -> str:
@@ -292,35 +369,340 @@ def clean_cap_text(text: str) -> str:
     return normalize_multiline_text(cleaned)
 
 
-def question_start_match(line: str):
-    return re.match(r"^(\d{1,2})\.\s*(.*)$", line)
+QUESTION_START_RE = re.compile(r"^([0-9IlOo\|]{1,3})(?:\s*[\.\。、,，:：]\s*|\s+)(.*)$")
+OPTION_LINE_RE = re.compile(r"^\(?\s*([ABCD])\s*[\)）\].、,，:：]?\s*(.*)$")
+QUESTION_CONTINUATION_PREFIXES = (">", "》", "〉", "›", "»", "-", "—", "–", "•", "·")
+FIGURE_LINE_RE = re.compile(r"^(?:圖|表|請翻頁|請翻頁繼續作答|請翻頁繼續作答。)")
 
 
-def parse_question_chunks(pages: list[dict]) -> list[dict]:
+def normalize_question_start_token(token: str) -> int | None:
+    token = normalize_whitespace(token)
+    if not token:
+        return None
+
+    translated = token.translate(
+        str.maketrans(
+            {
+                "I": "1",
+                "l": "1",
+                "|": "1",
+                "O": "0",
+                "o": "0",
+            }
+        )
+    )
+    if translated.isdigit():
+        return int(translated)
+    return None
+
+
+def normalize_question_number(number: int, previous_number: int | None) -> int:
+    if previous_number is None:
+        return number
+
+    if number == previous_number + 1:
+        return number
+
+    if number <= previous_number:
+        return previous_number + 1
+
+    if number > previous_number + 1:
+        for delta in (10, 20, 30):
+            if number + delta == previous_number + 1:
+                return previous_number + 1
+
+    return number
+
+
+def contains_cjk(text: str) -> bool:
+    return bool(re.search(r"[\u4e00-\u9fff]", text))
+
+
+def looks_like_label_noise(opening: str) -> bool:
+    opening = opening.strip()
+    if not opening:
+        return False
+    if len(opening) <= 4 and not contains_cjk(opening) and not re.search(r"[?？=+\-×÷]", opening):
+        return True
+    if re.fullmatch(r"[A-Za-z0-9\s\|]+", opening) and len(opening) <= 12:
+        return True
+    return False
+
+
+def question_start_match(line: str, previous_number: int | None = None):
+    if re.match(r"^\d{1,2}\s*[:：]\s*\d", line):
+        return None
+
+    match = QUESTION_START_RE.match(line)
+    if not match:
+        return None
+
+    raw_number = normalize_question_start_token(match.group(1))
+    if raw_number is None:
+        return None
+    if raw_number <= 0 or raw_number > 70:
+        return None
+
+    opening = match.group(2).strip()
+    if not opening and "." not in line and "。" not in line:
+        return None
+    if opening.startswith(("×", "x", "X", "+", "-", "−", "=", "°", "%", "÷", "/", "／", ")", "）")):
+        return None
+    if opening and re.fullmatch(r"\d+(?:\s+\d+)*", opening):
+        return None
+    if previous_number is not None and raw_number > previous_number + 3 and looks_like_label_noise(opening):
+        raw_number = previous_number + 1
+    if previous_number is not None and raw_number <= previous_number and looks_like_label_noise(opening):
+        return None
+
+    question_number = normalize_question_number(raw_number, previous_number)
+    return {
+        "number": question_number,
+        "opening": opening,
+        "raw_token": match.group(1),
+    }
+
+
+def is_option_line(line: str) -> bool:
+    return bool(OPTION_LINE_RE.match(line))
+
+
+def is_figure_or_footer_line(line: str) -> bool:
+    return bool(FIGURE_LINE_RE.match(line))
+
+
+def looks_like_implied_question_start(line: str) -> bool:
+    candidate = line.lstrip("".join(QUESTION_CONTINUATION_PREFIXES)).strip()
+    if len(candidate) < 8:
+        return False
+    if is_option_line(candidate) or is_figure_or_footer_line(candidate):
+        return False
+    if candidate.startswith(("資料", "附圖", "請翻頁")):
+        return False
+    return bool(re.search(r"[\u4e00-\u9fffA-Za-z0-9]", candidate))
+
+
+def get_scanned_fallback_languages(subject_slug: str) -> str:
+    return SCANNED_FALLBACK_LANGUAGES.get(subject_slug, "chi_tra+eng")
+
+
+def extract_margin_question_starts(
+    page_image_bytes: bytes,
+    previous_number: int | None,
+    official_question_count: int | None,
+    strict_sequence: bool = False,
+) -> list[dict]:
+    image = Image.open(io.BytesIO(page_image_bytes))
+    width, height = image.size
+    crop = image.crop((0, 0, max(1, int(width * 0.16)), height))
+    buffer = io.BytesIO()
+    crop.save(buffer, format="PNG")
+    rows = run_tesseract_tsv_on_image(
+        buffer.getvalue(),
+        languages="eng",
+        psm=6,
+        extra_configs=["tessedit_char_whitelist=0123456789IlOo.|"],
+    )
+
+    starts: list[dict] = []
+    current_number = previous_number
+    for row in sorted(rows, key=lambda item: (item["y0"], item["x0"])):
+        text = normalize_whitespace(row["text"])
+        if not text or row["y0"] >= height * 0.96:
+            continue
+
+        prefix_match = re.match(r"^([0-9IlOo|]{1,2})", text)
+        raw_number = normalize_question_start_token(prefix_match.group(1)) if prefix_match else None
+        expected_number = (current_number + 1) if current_number is not None else None
+        if expected_number is None:
+            candidate_number = raw_number
+        elif raw_number is None or raw_number == 0:
+            candidate_number = expected_number
+        elif raw_number == expected_number:
+            candidate_number = raw_number
+        elif raw_number < expected_number:
+            candidate_number = expected_number
+        elif strict_sequence and raw_number > expected_number + 1:
+            candidate_number = expected_number
+        else:
+            candidate_number = raw_number
+
+        if candidate_number is None or candidate_number <= 0:
+            continue
+        if official_question_count and candidate_number > official_question_count:
+            continue
+
+        if starts and abs(row["y0"] - starts[-1]["y0"]) < 70:
+            if row["confidence"] > starts[-1]["confidence"]:
+                starts[-1] = {
+                    "number": candidate_number,
+                    "y0": int(row["y0"]),
+                    "y1": int(row["y1"]),
+                    "text": text,
+                    "confidence": row["confidence"],
+                }
+            continue
+
+        starts.append(
+            {
+                "number": candidate_number,
+                "y0": int(row["y0"]),
+                "y1": int(row["y1"]),
+                "text": text,
+                "confidence": row["confidence"],
+            }
+        )
+        current_number = candidate_number
+    return starts
+
+
+def extract_question_band_texts(
+    page_image_bytes: bytes,
+    question_starts: list[dict],
+    subject_slug: str,
+) -> list[dict]:
+    if not question_starts:
+        return []
+
+    image = Image.open(io.BytesIO(page_image_bytes))
+    width, height = image.size
+    band_left = int(width * 0.06)
+    band_right = width
+    languages = get_scanned_fallback_languages(subject_slug)
+    extracted: list[dict] = []
+
+    for index, start in enumerate(question_starts):
+        top = max(0, start["y0"] - 20)
+        next_top = question_starts[index + 1]["y0"] - 12 if index + 1 < len(question_starts) else height - 30
+        bottom = max(top + 80, min(height, next_top))
+        band = image.crop((band_left, top, band_right, bottom))
+        buffer = io.BytesIO()
+        band.save(buffer, format="PNG")
+        text = normalize_multiline_text(
+            run_tesseract_on_image(buffer.getvalue(), languages=languages, psm=4)
+        )
+        if not text:
+            continue
+        text = clean_cap_text(text)
+        text = re.sub(rf"^\s*{start['number']}\s*[\.\、\)]?\s*", "", text, count=1)
+        extracted.append(
+            {
+                "number": start["number"],
+                "page_number": None,
+                "carryover_context": "",
+                "body": text,
+            }
+        )
+    return extracted
+
+
+def extract_scanned_fallback_question_chunks(
+    pdf_path: Path,
+    year: str,
+    subject_slug: str,
+    official_question_count: int | None,
+) -> list[dict]:
+    chunks: list[dict] = []
+    previous_number = None
+    strict_sequence = str(year) in {"102", "103"}
+    with fitz.open(pdf_path) as document:
+        for page_index in range(document.page_count):
+            page_number = page_index + 1
+            if page_number == 1:
+                continue
+            page_image_bytes = render_page_png(document[page_index], dpi=300)
+            starts = extract_margin_question_starts(
+                page_image_bytes,
+                previous_number,
+                official_question_count,
+                strict_sequence=strict_sequence,
+            )
+            if not starts:
+                continue
+            page_chunks = extract_question_band_texts(page_image_bytes, starts, subject_slug)
+            for chunk in page_chunks:
+                chunk["page_number"] = page_number
+                chunks.append(chunk)
+                previous_number = chunk["number"]
+    return chunks
+
+
+def extract_page_local_question_chunks(
+    pages: list[dict],
+    subject_slug: str | None = None,
+) -> list[dict]:
+    chunks: list[dict] = []
+    for page in pages:
+        if page["page_number"] == 1:
+            continue
+        chunks.extend(
+            parse_question_chunks(
+                [page],
+                subject_slug=subject_slug,
+                reset_numbering_each_page=True,
+            )
+        )
+    return chunks
+
+
+def parse_question_chunks(
+    pages: list[dict],
+    subject_slug: str | None = None,
+    reset_numbering_each_page: bool = False,
+) -> list[dict]:
     questions = []
     current = None
     carryover = ""
+    in_exam_section = True
+    start_pattern = re.compile(
+        r"^(?:第\s*一\s*部\s*分.*?(?:單\s*題|選\s*擇\s*題)|[一壹]\s*[、,，\.:：]?\s*(?:單\s*題|選\s*擇\s*題)).*?(?:1|１)\s*[~\-一至到]\s*\d+"
+    )
+    end_pattern = re.compile(r"^(?:第\s*二\s*部\s*分.*?非\s*選\s*擇\s*題|[二貳]\s*[、,，\.:：]?\s*非\s*選\s*擇\s*題)")
+
+    def finalize_current():
+        nonlocal current
+        if not current:
+            return
+        current["body"] = normalize_multiline_text("\n".join(current.pop("lines")))
+        current.pop("option_line_count", None)
+        questions.append(current)
+        current = None
 
     for page in pages:
         page_number = page["page_number"]
+        if page_number == 1:
+            continue
+        page_previous_number = None
         for raw_line in clean_cap_text(page["text"]).splitlines():
             line = normalize_whitespace(raw_line)
             if not line:
                 continue
 
-            start_match = question_start_match(line)
+            if not in_exam_section:
+                continue
+
+            previous_number = (
+                current["number"]
+                if current
+                else (
+                    page_previous_number
+                    if reset_numbering_each_page
+                    else (questions[-1]["number"] if questions else None)
+                )
+            )
+            start_match = question_start_match(line, previous_number=previous_number)
             if start_match:
-                if current:
-                    current["body"] = normalize_multiline_text("\n".join(current.pop("lines")))
-                    questions.append(current)
-                question_number = int(start_match.group(1))
-                opening = start_match.group(2).strip()
+                finalize_current()
+                question_number = start_match["number"]
+                opening = start_match["opening"]
                 current = {
                     "number": question_number,
                     "page_number": page_number,
                     "carryover_context": carryover,
                     "lines": [opening] if opening else [],
+                    "option_line_count": 1 if opening and is_option_line(opening) else 0,
                 }
+                page_previous_number = question_number
                 carryover = ""
                 continue
 
@@ -328,11 +710,32 @@ def parse_question_chunks(pages: list[dict]) -> list[dict]:
                 carryover = normalize_multiline_text("\n".join(filter(None, [carryover, line])))
                 continue
 
+            if is_option_line(line):
+                current["option_line_count"] += 1
+                current["lines"].append(line)
+                continue
+
+            if (
+                subject_slug in {"math", "chinese"}
+                and current.get("option_line_count", 0) >= 2
+                and looks_like_implied_question_start(line)
+            ):
+                finalize_current()
+                previous_number = questions[-1]["number"] if questions else 0
+                implied_line = line.lstrip("".join(QUESTION_CONTINUATION_PREFIXES)).strip()
+                current = {
+                    "number": previous_number + 1,
+                    "page_number": page_number,
+                    "carryover_context": "",
+                    "lines": [implied_line] if implied_line else [],
+                    "option_line_count": 0,
+                }
+                page_previous_number = previous_number + 1
+                continue
+
             current["lines"].append(line)
 
-    if current:
-        current["body"] = normalize_multiline_text("\n".join(current.pop("lines")))
-        questions.append(current)
+    finalize_current()
 
     return questions
 
@@ -381,6 +784,27 @@ def build_local_cap_explanation(subject_label: str, year: str, question: dict) -
     return " ".join(hints)
 
 
+def score_question_candidate(stem: str, options: dict[str, str], context: str, correct_answer: str) -> int:
+    option_score = len(options) * 200
+    stem_score = min(len(stem), 240)
+    context_score = min(len(context), 120) // 3
+    answer_score = 40 if correct_answer else 0
+    completeness_bonus = 120 if stem and len(options) >= 2 else 0
+    return option_score + stem_score + context_score + answer_score + completeness_bonus
+
+
+def ensure_cap_page_assets(pdf_path: Path, year: str, subject_slug: str) -> dict[int, str]:
+    asset_dir = ensure_dir(CAP_ASSET_ROOT / year / subject_slug)
+    asset_map: dict[int, str] = {}
+    with fitz.open(pdf_path) as document:
+        for page_index in range(document.page_count):
+            target = asset_dir / f"page_{page_index + 1:02d}.png"
+            if not target.exists() or target.stat().st_size == 0:
+                target.write_bytes(render_page_png(document[page_index], dpi=220))
+            asset_map[page_index + 1] = str(target.relative_to(DATA_ROOT))
+    return asset_map
+
+
 def build_cap_structure_for_subject(
     year: str,
     subject_slug: str,
@@ -406,16 +830,60 @@ def build_cap_structure_for_subject(
         },
     )
 
-    raw_questions = parse_question_chunks(pages)
+    raw_questions = parse_question_chunks(
+        pages,
+        subject_slug=subject_slug,
+        reset_numbering_each_page=str(year) in {"102", "103"},
+    )
+    if str(year) in {"102", "103"}:
+        raw_questions.extend(extract_page_local_question_chunks(pages, subject_slug=subject_slug))
+    normalized_raw_numbers = [
+        normalize_subject_question_number(year, subject_slug, item["number"])
+        for item in raw_questions
+        if (
+            item.get("number") is not None
+            and not should_skip_source_question(year, subject_slug, item["number"])
+            and (
+                official_question_count is None
+                or normalize_subject_question_number(year, subject_slug, item["number"]) <= official_question_count
+            )
+        )
+    ]
+    raw_unique_count = len(set(normalized_raw_numbers))
+    if official_question_count is None or raw_unique_count != official_question_count:
+        raw_questions.extend(
+            extract_scanned_fallback_question_chunks(
+                pdf_path,
+                year,
+                subject_slug,
+                official_question_count,
+            )
+        )
+    page_assets = ensure_cap_page_assets(pdf_path, year, subject_slug)
     questions = []
     issues = []
     carryover = ""
     answered_count = 0
+    candidate_buckets: dict[int, list[dict]] = defaultdict(list)
 
     for item in raw_questions:
         source_number = item["number"]
+        if not source_number or source_number <= 0:
+            issues.append({"question_number": source_number or 0, "reason": "invalid_question_number"})
+            continue
         if should_skip_source_question(year, subject_slug, source_number):
             issues.append({"question_number": source_number, "reason": "reading_only_skip"})
+            continue
+
+        normalized_number = normalize_subject_question_number(year, subject_slug, source_number)
+        if official_question_count and normalized_number > official_question_count:
+            issues.append(
+                {
+                    "question_number": source_number,
+                    "display_source_number": normalized_number,
+                    "reason": "out_of_range_question_number",
+                }
+            )
             continue
 
         stem, options, trailing = split_question_body(item["body"])
@@ -425,9 +893,9 @@ def build_cap_structure_for_subject(
         else:
             carryover = ""
 
-        normalized_number = normalize_subject_question_number(year, subject_slug, source_number)
-        correct_answer = answer_map.get(source_number, "")
-        if not stem or len(options) < 2:
+        correct_answer = answer_map.get(normalized_number, "") or answer_map.get(source_number, "")
+        parse_status = "complete" if stem and len(options) >= 2 else "image_or_layout_fallback"
+        if parse_status != "complete":
             issues.append(
                 {
                     "question_number": source_number,
@@ -437,26 +905,49 @@ def build_cap_structure_for_subject(
                     "option_count": len(options),
                 }
             )
-            continue
 
+        candidate_buckets[normalized_number].append(
+            {
+                "number": normalized_number,
+                "source_number": source_number,
+                "page_number": item["page_number"],
+                "page_image_path": page_assets.get(item["page_number"]),
+                "context": context,
+                "stem": stem,
+                "options": options,
+                "correct_answer": correct_answer,
+                "parse_status": parse_status,
+                "candidate_score": score_question_candidate(stem, options, context, correct_answer),
+            }
+        )
+
+    for normalized_number in sorted(candidate_buckets):
+        candidates = sorted(
+            candidate_buckets[normalized_number],
+            key=lambda item: (item["candidate_score"], len(item["options"]), len(item["stem"])),
+            reverse=True,
+        )
+        best = candidates[0]
         question_payload = {
-            "number": normalized_number,
-            "source_number": source_number,
+            "number": best["number"],
+            "source_number": best["source_number"],
             "display_number": len(questions) + 1,
-            "page_number": item["page_number"],
-            "context": context,
-            "stem": stem,
-            "options": options,
-            "correct_answer": correct_answer,
+            "page_number": best["page_number"],
+            "page_image_path": best["page_image_path"],
+            "parse_status": best["parse_status"],
+            "context": best["context"],
+            "stem": best["stem"],
+            "options": best["options"],
+            "correct_answer": best["correct_answer"],
         }
-        if correct_answer:
+        if best["correct_answer"]:
             answered_count += 1
             question_payload["explanation"] = build_local_cap_explanation(subject_label, year, question_payload)
         else:
             question_payload["explanation"] = "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
             issues.append(
                 {
-                    "question_number": source_number,
+                    "question_number": best["source_number"],
                     "display_source_number": normalized_number,
                     "reason": "missing_answer",
                 }
@@ -466,7 +957,14 @@ def build_cap_structure_for_subject(
     raw_question_numbers = [
         normalize_subject_question_number(year, subject_slug, item["number"])
         for item in raw_questions
-        if item.get("number") is not None and not should_skip_source_question(year, subject_slug, item["number"])
+        if (
+            item.get("number") is not None
+            and not should_skip_source_question(year, subject_slug, item["number"])
+            and (
+                official_question_count is None
+                or normalize_subject_question_number(year, subject_slug, item["number"]) <= official_question_count
+            )
+        )
     ]
     kept_question_numbers = [item["number"] for item in questions if item.get("number") is not None]
     missing_question_numbers = []
@@ -542,7 +1040,7 @@ def build_library() -> dict:
         answer_pdf = download_to_path(year_entry["answer"]["download_url"], shared_dir / f"{year}_answers.pdf", session=session)
         explanation_pdf = download_to_path(year_entry["explanation"]["download_url"], shared_dir / f"{year}_explanation.pdf", session=session)
         try:
-            answer_map = parse_answer_key(answer_pdf)
+            answer_map = parse_answer_key(answer_pdf, year)
         except Exception as exc:
             answer_map = {}
             year_entry.setdefault("issues", []).append(f"answer_parse_failed:{exc}")

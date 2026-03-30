@@ -4,7 +4,7 @@
   "subject_label": "國文",
   "official_question_count": 48,
   "question_count": 48,
-  "answered_count": 40,
+  "answered_count": 48,
   "page_count": 14,
   "ocr_pages": [],
   "files": {
@@ -17,16 +17,12 @@
     "explanation_url": "https://drive.google.com/file/d/1TWg9u9jOIC0lnwviYQF5qr07OEguBjoN/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 62,
-    "answers_found": 40,
+    "question_chunks_found": 69,
+    "answers_found": 48,
     "questions_kept": 48,
-    "issues_found": 22,
-    "answer_completion_ratio": 0.833,
+    "issues_found": 33,
+    "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -51,21 +47,14 @@
       22,
       23,
       24,
-      1,
-      2,
       25,
       26,
       27,
       28,
       29,
-      1,
       30,
       31,
       32,
-      1,
-      2,
-      1,
-      2,
       33,
       34,
       35,
@@ -81,10 +70,7 @@
       45,
       46,
       47,
-      48,
-      1,
-      2,
-      3
+      48
     ],
     "kept_question_numbers": [
       1,
@@ -139,14 +125,16 @@
     "missing_question_numbers": [],
     "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
+      "context": "一、單題：（1～33題）",
       "stem": "小敬搬新家，阿嬌欲送禮金表達祝賀之意。下列題辭，何者最適合寫在賀儀封套上？",
       "options": {
         "A": "近悅遠來",
@@ -155,13 +143,15 @@
         "D": "喬遷之喜"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「喬遷之喜」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「喬遷之喜」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列文句，何者文意最為通暢？",
       "options": {
@@ -178,6 +168,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「當部分亞洲國家為了生產足夠的稻米而焦頭爛額之際，泰國稻米的產量卻多到一 年出口九百萬噸，是全世界最大稻米輸出國。泰國成為世界米倉的原因是：民營企 業非常有效率，擁有大量平坦肥沃的三角洲和充沛的水源，再加上政府機關支 持民間銀行貸款給小農購買種子、肥料。以上種種，使泰國在米糧危機中占盡 利益。」這段文字的主旨為下列何者？",
       "options": {
@@ -194,6 +186,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列詞語「」中的字音，何組相同？",
       "options": {
@@ -210,6 +204,8 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「時然後言，人不厭其言。」這句話的涵義，與下列何者最接近？",
       "options": {
@@ -226,6 +222,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列詞語，何者沒有錯別字？",
       "options": {
@@ -242,6 +240,8 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列選項「」中的疊字，何者是用來描摹聲音的狀聲詞？",
       "options": {
@@ -258,6 +258,8 @@
       "source_number": 8,
       "display_number": 8,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小王和小林第一次碰面，下列寒暄的語句，何者最不適合出現在他們的對話中？",
       "options": {
@@ -274,6 +276,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「物產豐富」中的「物產」是本句的主語。下列各選項「」中的語詞，何者不做 主語使用？",
       "options": {
@@ -290,6 +294,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「豆，古代食器，用以盛肉醬一類食物，器淺如盤，下有一足，大多數有蓋。春秋 以後，豆增多，側有兩環，下具高足。到戰國時期，器腹變深，蓋上有捉手， 可以仰置。」根據這段敘述，下列何者最可能是戰國時期的「豆」器？",
       "options": {
@@ -306,6 +312,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「有農夫種茄不活，求計於農務司，司吏曰：『此不難，每茄根下埋一文即活。』 問其何故，答曰：『有錢者生，無錢者死。』」這段文字主要在揭露世間哪一種 醜態？",
       "options": {
@@ -322,6 +330,8 @@
       "source_number": 12,
       "display_number": 12,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列詩句，何者與「亂花漸欲迷人眼，淺草纔能沒馬蹄」所描述的季節相同？",
       "options": {
@@ -338,6 +348,8 @@
       "source_number": 13,
       "display_number": 13,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "一家書店的外牆寫著：「在我看來，托爾斯泰和杜思妥也夫斯基比隔壁鄰居更真 實。更奇怪的是，早在我尚未出生以前，杜思妥也夫斯基就在一本叫做《白痴》 的書中，寫出了我的人生故事。」根據這段文字，下列推論何者最恰當？",
       "options": {
@@ -354,6 +366,8 @@
       "source_number": 14,
       "display_number": 14,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「我只希望，我們的距離□我和所有野鳥的距離，永遠是這樣接近。」句中空格 處填入下列哪一種標點符號最恰當？",
       "options": {
@@ -370,6 +384,8 @@
       "source_number": 15,
       "display_number": 15,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「我的記憶運作得像一面蜘蛛網。不重要的事物，比如風，就讓它們過去；但 捕獲的蒼蠅就懸掛在網上加以儲存，直到我那心智的蜘蛛需要時再吃掉。」這 段文字的涵義，與下列何者最接近？",
       "options": {
@@ -386,6 +402,8 @@
       "source_number": 16,
       "display_number": 16,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「盡忠益時者雖仇必賞，犯法怠慢者雖親必罰。」這句話所強調的執法原則， 與下列何者相去最遠？",
       "options": {
@@ -402,22 +420,53 @@
       "source_number": 17,
       "display_number": 17,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「細菌和殺死它們的抗生素之間的戰爭，就如同大國之間的軍備競爭，精益求 精，更相勝出，__________。」畫線處填入下列何者最能說明上述比喻的內涵？",
       "options": {
         "A": "數十年來，細菌在這場戰爭中逐漸占優勢，和抗生素的關係就像一個慢慢失\n去平衡的蹺蹺板",
-        "B": "在抗生素的攻擊下，通常會有少數突變的細菌存活，它們會繁殖，同時也將\n保護它們的基因傳遞下去",
-        "C": "面對抗生素，存活下來具抵抗力的細菌將不斷繁衍壯大；為了消滅具抵抗力\n的細菌，人類又研發出更強的抗生素",
-        "D": "人類要研發出能對抗細菌又不會傷害人體的抗生素，非常困難。若研發失\n敗，人類可能得和細菌共處一段不愉快的時間"
+        "B": "在抗生素的攻擊下，通常會有少數突變的細菌存活，它們會繁殖，同時也將"
       },
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「面對抗生素，存活下來具抵抗力的細菌將不斷繁衍壯大；為了消滅具抵抗力\n的細菌，人類又研發出更強的抗生素」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 18,
       "source_number": 18,
       "display_number": 18,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "保護它們的基因傳遞下去",
+      "options": {
+        "C": "面對抗生素，存活下來具抵抗力的細菌將不斷繁衍壯大；為了消滅具抵抗力\n的細菌，人類又研發出更強的抗生素",
+        "D": "人類要研發出能對抗細菌又不會傷害人體的抗生素，非常困難。若研發失"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「面對抗生素，存活下來具抵抗力的細菌將不斷繁衍壯大；為了消滅具抵抗力\n的細菌，人類又研發出更強的抗生素」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "敗，人類可能得和細菌共處一段不愉快的時間",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "袁宏道與友人書云：「人情必有所寄，然後能樂。故有以弈為寄，有以色為寄， 有以技為寄，有以文為寄。古之達人，高人一層，只是他情有所寄，不肯浮泛 虛度光景。」這段文字的主要涵義，與下列何者最接近？",
       "options": {
@@ -430,10 +479,12 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「情感有所依託，生命方能愉悅自適」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 19,
-      "source_number": 19,
-      "display_number": 19,
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列文句，何者有語病？",
       "options": {
@@ -442,14 +493,16 @@
         "C": "對許多人而言，巴黎的浪漫並非不可企及",
         "D": "為了遠離塵俗，我跋山涉水來到這片山林"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「在國中畢業前夕，我們聚在一起緬懷未來」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「時光飛逝，故鄉的松濤只能在回憶裡澎湃」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 20,
-      "source_number": 20,
-      "display_number": 20,
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "民初某學者仍留著前朝的舊髮式，拖著一條辮子去北大授課，學生哄堂大笑，他 說：「我的辮子一剪就沒有了，但你們心中的辮子恐怕就沒有那麼容易剪掉了。」 他話中的涵義，與下列何者最接近？",
       "options": {
@@ -458,14 +511,16 @@
         "C": "破山中之賊，易；破心中之賊，難",
         "D": "察小人之過，易；知君子之過，難"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「破山中之賊，易；破心中之賊，難」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「剃一人之髮，易；剃萬人之髮，難」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 21,
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「如果每個人都是特別的，那就沒有一個特別；如果每個人都得到一個獎 杯，獎杯就變得毫無意義。生活最甜美的樂趣，在於承認自己並不特別。」 這段文字的涵義，與下列何者最接近？",
       "options": {
@@ -474,14 +529,16 @@
         "C": "認真生活才有甜美的樂趣",
         "D": "生活樂在發掘他人的特別"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「不要強調自己與眾不同」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「追逐名利其實毫無意義」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 22,
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列文句，何者用字完全正確？",
       "options": {
@@ -490,14 +547,16 @@
         "C": "認真負責的態度，是他履創佳績的關鍵",
         "D": "你整天遊手好閒，只是突然虛度光陰罷了"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「各種跡象一再顯示他有犯罪嫌疑」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「紐約是個交通便利、人口綢密的都市」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 23,
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「書，飢讀之以當肉；寒讀之以當裘；孤寂而讀之，以當友朋；幽憂而讀之， 以當金石琴瑟也。」這句話的涵義，與下列何者最接近？",
       "options": {
@@ -506,14 +565,16 @@
         "C": "紙上得來終覺淺，方知此事要躬行",
         "D": "求學當如飢索食，問道應似寒需衣"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「處逆何妨將書讀，興味來時百憂除」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「讀書百遍義自現，尋根求源探其妙」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 24,
-      "source_number": 24,
-      "display_number": 24,
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "白居易〈題山石榴花〉：「一叢千朵壓闌干，剪碎紅綃卻作團。風嫋舞腰香不盡， 露銷妝臉淚新乾。薔薇帶刺攀應懶，菡萏 1 生泥玩亦難。爭及 2 此花檐戶下，任人 採弄盡人看。」下列關於這首詩的說明，何者錯誤？",
       "options": {
@@ -526,10 +587,38 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「「露銷妝臉淚新乾」――描寫賞花人心緒神態」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 25,
-      "source_number": 25,
-      "display_number": 25,
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "菡萏：荷花的別名",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "爭及：哪裡比得上",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「如果有人認為文學是不著塵色的白裳，那是因為他遺忘了『現實』這一件緇衣。 崇拜詩聖杜甫的人，不見得讀得懂『杜詩』，但我們不難想像，當杜甫自外訪 友歸來，一進門問他老妻第一句話，也許是：『尚有油鹽否？』」根據文意， 下列何者最符合本文作者的看法？",
       "options": {
@@ -538,14 +627,16 @@
         "C": "物質生活的滿足與文學創作難以兼顧",
         "D": "杜詩的可貴之處在於以生活瑣事入詩"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「偉大的詩人也須面對生活中的問題」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「杜詩的可貴之處在於以生活瑣事入詩」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 26,
-      "source_number": 26,
-      "display_number": 26,
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列文句「」中的字詞，何者意義前後相同？",
       "options": {
@@ -558,10 +649,12 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「「安」能辨我是雄雌／爾「安」敢輕吾射」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 27,
-      "source_number": 27,
-      "display_number": 27,
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「余猶及見老儒先生，自言其少時，欲求《史記》、《漢書》而不可得，幸而得 之，皆手自書，日夜誦讀，惟恐不及。近歲市人轉相摹刻諸子百家之書，日傳萬 紙，學者之於書，多且易致如此，其文詞學術，當倍蓰 1 於昔人，而後生科舉之 士皆束書不觀，游談無根，此又何也？」下列敘述何者最符合這段文字的意旨？",
       "options": {
@@ -570,14 +663,16 @@
         "C": "自傷書本取得不易，學識難與後輩抗衡",
         "D": "感嘆讀書風氣日下，與書籍出版量不成正比"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「感嘆讀書風氣日下，與書籍出版量不成正比」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「自傷書本取得不易，學識難與後輩抗衡」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 28,
-      "source_number": 28,
-      "display_number": 28,
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列文句「」中的成語，何者使用最恰當？",
       "options": {
@@ -586,30 +681,60 @@
         "C": "他對流浪動物毫不關心，視之如「白雲蒼狗」，不屑一顧",
         "D": "這家臺菜館味美價廉，難怪客人絡繹不絕、「戶限為穿」"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「這家臺菜館味美價廉，難怪客人絡繹不絕、「戶限為穿」」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「他對流浪動物毫不關心，視之如「白雲蒼狗」，不屑一顧」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 29,
-      "source_number": 29,
-      "display_number": 29,
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據文意脈絡判斷，畫線處應填入下列何者最恰當？",
       "options": {
         "A": "命為車駕，兼飼坐騎，以折其罪",
         "B": "慎審之，憫其迫於饑寒，乃縱而歸之",
         "C": "令縛於地，縱馬往來其側以懾之，盜驚悸股慄",
-        "D": "先釋其罪，並賞一官，飭其率兵往劫敵營，全勝而回\n有盜年羹堯大將軍坐騎者，為岳鍾琦部所執，將科以刑。年知之即索\n此人，__________。年因語岳曰：「此人敢盜余坐騎，膽量可知，故吾宥其\n罪，用其所長，料必能達成此一使命也。」其識人、推恩也，悉類此。"
+        "D": "先釋其罪，並賞一官，飭其率兵往劫敵營，全勝而回"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「先釋其罪，並賞一官，飭其率兵往劫敵營，全勝而回\n有盜年羹堯大將軍坐騎者，為岳鍾琦部所執，將科以刑。年知之即索\n此人，__________。年因語岳曰：「此人敢盜余坐騎，膽量可知，故吾宥其\n罪，用其所長，料必能達成此一使命也。」其識人、推恩也，悉類此。」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「先釋其罪，並賞一官，飭其率兵往劫敵營，全勝而回」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 30,
-      "source_number": 30,
-      "display_number": 30,
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "有盜年羹堯大將軍坐騎者，為岳鍾琦部所執，將科以刑。年知之即索\n此人，__________。年因語岳曰：「此人敢盜余坐騎，膽量可知，故吾宥其\n罪，用其所長，料必能達成此一使命也。」其識人、推恩也，悉類此。",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "蓰：音ㄒㄧˇ，五倍",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據這段文字，關於皎然與韋蘇州的敘述， 下列何者正確？",
       "options": {
@@ -618,14 +743,16 @@
         "C": "韋蘇州與皎然談論如何鑑賞詩作",
         "D": "皎然依從韋蘇州修改舊作，終獲讚賞"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「皎然臆測韋蘇州偏好古體」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「韋蘇州覺得皎然名不符實」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 31,
-      "source_number": 31,
-      "display_number": 31,
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「世人以竹、木、牙、骨之類為『叫子』，置人喉中吹之，能作人言，謂之『嗓 叫子』。嘗有病瘖 1 者，為人所誣，煩冤無以自言。聽訟者試取叫子，令嗓之， 作聲如傀儡子 2，粗能辨其一二，其冤獲伸。此亦可記也。」根據這段文字，下 列有關「叫子」的敘述，何者無法明確得知？",
       "options": {
@@ -638,42 +765,126 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「古人製作叫子是為了協助聽訟者斷案」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 32,
-      "source_number": 32,
-      "display_number": 32,
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "作者寫作這段文字的用意，最可能是下列何者？",
       "options": {
         "A": "分析權力的種類並比較其影響力",
         "B": "說明各種權力之間必須互相制衡",
         "C": "警惕掌權的人使用權力時應戒慎恐懼",
-        "D": "強調知識分子應負起繼往開來的社會責任\n吳興僧皎然，工律詩。嘗謁韋蘇州，恐詩體不合，乃於舟中抒思，作古體十\n數篇為贄 1。韋公全不稱賞，皎然極失望。明日寫其舊製獻之，韋公吟誦，大加\n歎詠。因語皎然云：「師幾失聲名。何不但以所工見投，而猥希 2 老夫之意。人\n各有所得，非猝能致。」皎然大服其鑒別之精。"
+        "D": "強調知識分子應負起繼往開來的社會責任"
       },
       "correct_answer": "C",
       "explanation": "這題的正確答案是 C。 對應選項內容是「警惕掌權的人使用權力時應戒慎恐懼」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 33,
-      "source_number": 33,
-      "display_number": 33,
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "吳興僧皎然，工律詩。嘗謁韋蘇州，恐詩體不合，乃於舟中抒思，作古體十\n數篇為贄 1。韋公全不稱賞，皎然極失望。明日寫其舊製獻之，韋公吟誦，大加\n歎詠。因語皎然云：「師幾失聲名。何不但以所工見投，而猥希 2 老夫之意。人\n各有所得，非猝能致。」皎然大服其鑒別之精。\n相較於廣大的平民百姓，政務官、事務官、民意代表、媒體記者、知\n識分子都是掌有權力的人。政務官負責政策的擘劃，事務官負責政策的執\n行，民意代表負責審查，媒體記者負責監督，知識分子用知識和筆做時\n代的眼光。細究之下，每一種權力都很可怕，它可以興邦，可以覆邦，影\n響這一代人的此刻，下一代人的未來。掌權的人對自己手中所握有的權\n力—— 權力的性質、權力的界限、權力的責任，是否深思過呢？",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "贄：初次拜見尊長時所送之禮",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "猥希：委屈自己以迎合",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 42,
+      "source_number": 42,
+      "display_number": 42,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "瘖：音ㄧㄣ，嗓啞不能出聲",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 43,
+      "source_number": 43,
+      "display_number": 43,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "傀儡子：木偶",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 44,
+      "source_number": 44,
+      "display_number": 44,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "以下是小臻在國文課所做的筆記，一時大意寫錯一處。筆記中的錯處應是下列 何者？",
       "options": {
         "A": "",
         "B": "",
         "C": "",
-        "D": "\n二、題組：（34～48題）\n請閱讀以下短文，並回答34～35題："
+        "D": ""
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「\n二、題組：（34～48題）\n請閱讀以下短文，並回答34～35題：」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 34,
+      "number": 45,
+      "source_number": 45,
+      "display_number": 45,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "二、題組：（34～48題）\n請閱讀以下短文，並回答34～35題：",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 46,
+      "source_number": 46,
+      "display_number": 46,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據本文，「我相信對那些有慧根的人，這幾個字也就夠了。留一點餘味讓人 咀嚼體會，豈不更好？」這句話的涵義與下列何者最接近？",
       "options": {
@@ -682,372 +893,230 @@
         "C": "話語，與其說出使人厭煩，不如不說引人期待",
         "D": "多聽少說，接受他人的責難，但保留自我的判斷"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「淺近精鍊的語言，含有寬廣的思想空間」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「言語的優美雅致比話題的分量深度更加重要」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 35,
-      "source_number": 35,
-      "display_number": 35,
+      "number": 47,
+      "source_number": 47,
+      "display_number": 47,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列何者最可能是本文所要傳達的人生態度？",
       "options": {
         "A": "記取教訓，鑑往知來",
         "B": "積極奮進，坦然豁達",
         "C": "把握機會，順勢而為",
-        "D": "謹慎執著，步步為營\n三十年前，一個年輕人離開故鄉，開始創造自己的前途。少小離家，雲山蒼蒼，\n心裡難免有幾分惶恐。他動身的第一站，是去拜訪本族的族長，請求指點。"
-      },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「積極奮進，坦然豁達」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 36,
-      "source_number": 36,
-      "display_number": 36,
-      "page_number": 9,
-      "context": "老族長正在臨帖練字，他聽說本族有一位後輩開始踏上人生的旅途，就隨手\n寫了三個字「不要怕」，然後抬起頭來，望著前來求教的年輕人說：「孩子，人\n生的祕訣只有六個字，今天先告訴你三個，供你半生受用。」\n三十年後，這個從前的年輕人已是哀樂中年，他有了一些成就，也添了很多\n傷心事，歸程漫漫，近鄉情怯，又去拜訪那位族長。\n他到了族長家裡，才知道老人家幾年前已經去世。家人取出一個密封的封套\n來對他說：「這是老先生生前留給你的，他說有一天你會再來。」還鄉的遊子這\n才想起來，三十年前他在這裡只聽到人生一半的祕密。拆開封套，裡面赫然又是\n三個大字：「不要悔」。\n對了，人生在世，中年以前不要怕，中年以後不要悔，這是經驗的提煉，智\n慧的濃縮。這六字箴言的奧義，要一本長篇小說，才說得清楚。但是我相信對那\n些有慧根的人，這幾個字也就夠了。留一點餘味讓人咀嚼體會，豈不更好？\n—— 王鼎鈞《開放的人生•六字箴言》\n請閱讀以下短文，並回答36～37題：",
-      "stem": "下列何者最可能是作者說自己是「今之古人」的原因？",
-      "options": {
-        "A": "喜愛紙筆書寫",
-        "B": "學貫中外古今",
-        "C": "融通百家思想",
-        "D": "雅好蒐集骨董"
-      },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「喜愛紙筆書寫」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 37,
-      "source_number": 37,
-      "display_number": 37,
-      "page_number": 9,
-      "context": "",
-      "stem": "本文的主要內容，最可能是下列何者？",
-      "options": {
-        "A": "陳述電子資訊逐步成為現代人生活中重要工具的過程",
-        "B": "描寫資訊網路工具已徹底取代了紙筆書寫的社會現象",
-        "C": "敘說作者個人對於資訊網路由抗拒到妥協的心情轉折",
-        "D": "強調電子資訊發展方向當以融入傳統書法為首要目標\n我是很晚才使用電腦的那種今之古人。四十歲以前，我總覺得電腦的便利之\n中，寓含了管控與剝削，看見許多人如蝙蝠掛在網上，長夜不寐，更多人打開電\n腦的第一件事，便是刪除垃圾信函、回覆電子郵件，MSN、即時通……，電腦無\n謂地損耗現代人許多時間！我極力抗拒電腦，一直到工作需要實在緊迫，我必須\n去瞭解網路書店的時刻。"
+        "D": "謹慎執著，步步為營"
       },
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「敘說作者個人對於資訊網路由抗拒到妥協的心情轉折」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 38,
-      "source_number": 38,
-      "display_number": 38,
-      "page_number": 10,
-      "context": "那種感覺很怪異，我像個負嵎頑抗的西楚霸王―― 或者說，一個老兵，舉\n世皆用槍砲之時，猶持刀劍。當工作聯繫的訊息已幾乎全部電郵往返，當書\n籍的行銷通路已有一大區塊依賴網路之時，我懷著蒼涼的心境，踏進「1」和\n「0」所編碼的世界，不免也回想起，多年前傳真給白先勇先生，收到他電子郵\n件賜覆時的訝然。\n現在的我，選擇在網路上和同事、工作對象分享資訊，並參與討論，慢慢\n變成了每日的例行習慣。有一次電腦中毒，三天無電腦可用，我居然坐立難\n安，甚至悵然若失。我知道，電腦已然成為我生活、生命的一部分了！電腦修\n好之後，我如盲者重見光明，在網路通訊上，更心甘情願的接受另一種秩序。\n網路也有便捷和意外的驚喜。香港 鏞記鵝肝腸的各種調理之術，蔡珠兒透\n過電子郵件一一為我說分曉，朋友的美文佳作也常因此盡覽無遺。或許，我還\n可以找到別的理由：減低儲存空間、無紙閱讀是環保……等等，終究，網路另\n創了一個世界：快捷、無遠弗屆，但也充斥舛誤和謠言。\n喜歡用筆寫字，所以收藏了一些紙鎮，玉石、琉璃、水晶、銅鐵、木竹皆有之。\n春節之前，幫幾位朋友寫春聯，隨興而書，感覺甚是舒暢，其中一對聯：「 一心\n皎月接雲漢，滿天星斗納懷中」。\n我還記得在書案前審視、摩挲那些紙鎮，看著自己親手寫的字，心有戚戚焉。\n當我老的時候，也許這些紙鎮，早已無紙可鎮了，而我手指只會鍵盤輸\n入，早已忘了筆畫順序橫豎撇捺。\n但願那個時代，不要早早到來。\n—— 改寫自許悔之〈寫字的迷戀〉\n請閱讀以下詩作，並回答38～39題：",
-      "stem": "下列詩句的說明，何者正確？",
-      "options": {
-        "A": "「再一次讓身體墜落不成」係描寫表演者排練時的失誤",
-        "B": "「他有缺陷」指的是表演者缺乏自信心，導致臨場羞怯",
-        "C": "「深思熟慮的靈感」指靈感非出偶然，乃得自縝密思考",
-        "D": "「讓自己穿梭於先前的形體」說明表演者幻術施展之奇"
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「「深思熟慮的靈感」指靈感非出偶然，乃得自縝密思考」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 39,
-      "source_number": 39,
-      "display_number": 39,
-      "page_number": 10,
-      "context": "",
-      "stem": "關於本詩的寫作手法，下列敘述何者正確？",
-      "options": {
-        "A": "第一節透過靜態的描寫，烘托表演場內的凝重氣氛",
-        "B": "第二節重複「獨自一人」，強調無法一人完成表演",
-        "C": "第三節藉各種具體與抽象的描寫，說明表演的難度",
-        "D": "第四節以委婉的筆法，寫出表演最終以失敗收場\n請閱讀以下文章，並回答40～42題：\n雪山山脈主脊，從大霸尖山到雪山主峰之間，是一段長達 15 公里，充滿挑\n戰的長稜，其間有 12 座海拔超過 3000 公尺的著名高山，稜上崩崖與滑動的岩\n壁，往往令登山者躊躇難行。"
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「第三節藉各種具體與抽象的描寫，說明表演的難度」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 40,
-      "source_number": 40,
-      "display_number": 40,
-      "page_number": 12,
-      "context": "西元 1928 年，當時擔任臺灣山岳會總幹事的沼井鐵太郎，在完成大霸尖山歷\n史性的首登後，特別在文章裡描述這段聖稜線，並感嘆道：「這神聖的稜線啊，\n誰能真正完成這大霸尖山至雪山的縱走，戴上勝利的榮冠，敘說首次完成縱走\n的真與美？」因此而得名的聖稜線，直到現在，在登山者的心目中，依然保有\n崇高的地位。\n然而，打開臺灣地圖，你會發現：聖稜線比想像中還重要，它不僅是少數\n登山者的崇高殿堂，它關係著臺灣中北部大多數人的生命脈動。\n聖稜線是淡水河、大安溪、大甲溪的共同發源地。\n事實上，整個淡水河流域的水源，除了基隆河北岸的幾道小支流外，幾乎都\n涵蓋在雪山山脈裡，發源於大霸尖山北壁的是薩克亞金溪，由聖稜線中點品田山\n北壁流下去的是塔克金溪，它們共同分享淡水河最大支流大漢溪源流的光彩。\n淡水河三大支流的另外兩個水系，新店溪與基隆河，也是把彎彎曲曲的河\n道，伸向雪山山脈的每一個角落，就像一張布滿格子的稿紙，橫橫豎豎都有大\n小溪流通過，地理學家給了一個專有名詞叫「格子狀水系」。它們的名稱也許\n像薩克亞金溪、馬里闊丸溪，有如外國地名一樣遙遠而拗口，也許像金瓜寮\n溪、阿玉溪這樣充滿鄉土味，更多的是完全沒有名字的小溪。它們有的清澈甘\n美，有的流經市鎮而顯得汙濁不堪，然而淡水河不辭水量大小，無論水質清\n濁，全部兼容並蓄，構成面積廣達二千七百多平方公里的流域。而在這流域內\n居住的人們，生命中最不可或缺的水，完全都仰仗淡水河。\n能想像沒有淡水河的日子嗎？大約有 500 萬人口須靠積存雨水而活，就像\n金門、馬祖、澎湖部分無河的小島一樣。一旦暴雨來襲，臺北盆地就像裝滿水\n的臉盆一樣，一切都淹沒在水面下。淡水河的廣大水域，其實是一個超大的天\n然水庫加水源供應網和天然排水道，如果不是它的支流日夜不斷地提供新的水\n資源，石門水庫和翡翠水庫能免於乾涸嗎？\n印度人把和他們生命息息相關的恆河視為聖河，埃及人的聖河是尼羅河。\n從這樣的觀點看來，淡水河，這一條發源於聖稜線，為數百萬人口所賴的河\n流，是不是也應該被我們尊之為聖河呢？\n—— 改寫自徐如林〈源自聖稜線〉",
-      "stem": "根據本文，關於雪山山脈的敘述，下列何者錯誤？",
-      "options": {
-        "A": "是淡水河、大安溪、大甲溪三者的共同發源地",
-        "B": "主脊岩峰嶙峋，是登山者心中難以征服的殿堂",
-        "C": "山脈主脊被稱作「聖稜線」，源於沼井鐵太郎",
-        "D": "整個淡水河流域的水源，都涵蓋在雪山山脈裡"
-      },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「整個淡水河流域的水源，都涵蓋在雪山山脈裡」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 41,
-      "source_number": 41,
-      "display_number": 41,
-      "page_number": 12,
-      "context": "",
-      "stem": "根據本文，下列關於淡水河水域的敘述，何者正確？",
-      "options": {
-        "A": "皆是由東向西的格子狀水系",
-        "B": "提供石門水庫和翡翠水庫水資源",
-        "C": "與恆河、尼羅河並列為三大聖河",
-        "D": "人們聚集在水質較好的河段，形成市鎮"
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-    },
-    {
-      "number": 42,
-      "source_number": 42,
-      "display_number": 42,
-      "page_number": 12,
-      "context": "",
-      "stem": "關於本文的寫作手法，下列敘述何者正確？",
-      "options": {
-        "A": "引用大批史料，證明水資源的重要",
-        "B": "聚焦於淡水河流域今昔的風物變化",
-        "C": "藉由國外河流凸顯淡水河流域之大",
-        "D": "由山而水，寫出自然與生命的關聯\n以下是小軒在某課程中設計的創意徵人啟事。請閱讀啟事內容並回答43～44題："
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-    },
-    {
-      "number": 43,
-      "source_number": 43,
-      "display_number": 43,
-      "page_number": 13,
-      "context": "",
-      "stem": "關於本文所述的「知縣」一職，下列說明何者正確？",
-      "options": {
-        "A": "每年享有一個半月的年假",
-        "B": "無故曠職須扣薪，退休無給俸",
-        "C": "每日實際工作十小時，另有兩小時午休",
-        "D": "除了司法審判外，兼負彈劾百官的職責"
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-    },
-    {
-      "number": 44,
-      "source_number": 44,
-      "display_number": 44,
-      "page_number": 13,
-      "context": "",
-      "stem": "根據本文，下列何人最符合遴選資格？",
-      "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": "誠徵臺灣府屬諸羅縣知縣一名\n【求才內容】\n職務說明：負責該縣境內司法審判、賦稅徵收、考試選才、治安維護、教化\n百姓、公共建設等工作。"
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-    },
-    {
-      "number": 45,
-      "source_number": 45,
-      "display_number": 45,
-      "page_number": 14,
-      "context": "上班地點：臺灣府屬諸羅縣衙門。\n工作待遇：月薪為四十五兩白銀；住宿、膳食、醫藥費用全免，並提供專屬車轎；\n無退休俸祿。\n上班時段：工作時間為辰時至申時，午時可自由活動。無故曠職或遲到，依天\n數與情節輕重，減俸以示處罰。\n休假制度：每年十二月十九日至次年正月十八日為年假。皇帝、太后或皇后壽辰，\n以及清明、端午、中秋、重陽等節日，雖不審理司法案件，仍須至衙\n門處理公務。\n【工作條件】\n年齡限制：二十歲以上，七十歲以下。\n籍貫限制：依據「不得於籍貫所在地任官」的迴避制度，設籍臺灣府者不得應徵。\n任用資格：須進士及第。\n工作經驗：須有數年仕宦經驗，始可投遞履歷。\n【應徵方式】\n請至吏部填寫相關資料，並檢附履歷，等候通知。\n請閱讀以下短文，並回答45～46題：",
-      "stem": "根據本文，景公的作為最適合以下列何者來形容？",
-      "options": {
-        "A": "短視近利，弄巧成拙",
-        "B": "徵收重稅，與民爭利",
-        "C": "誤信讒言，疏遠賢臣",
-        "D": "圖己之樂，不恤民生"
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-    },
-    {
-      "number": 46,
-      "source_number": 46,
-      "display_number": 46,
-      "page_number": 14,
-      "context": "",
-      "stem": "本文呈現了晏子在政治上的哪一種智慧？",
-      "options": {
-        "A": "無為而治，讓人民得以休養生息",
-        "B": "知所變通，化解上下利益的衝突",
-        "C": "能集眾智，不獨斷而行，致使政通人和",
-        "D": "利用緩兵之計，導引君王注意民生需求\n請閱讀以下短文，並回答47～48題："
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-    },
-    {
-      "number": 47,
-      "source_number": 47,
-      "display_number": 47,
-      "page_number": 14,
-      "context": "",
-      "stem": "下列文句「」中語詞的意義，何者說明正確？",
-      "options": {
-        "A": "吾自「結髮」，志立功名：襁褓",
-        "B": "「府君」不出，衆亦俱死耳：荀羨",
-        "C": "今當爲「卿曹」決鬥：你們",
-        "D": "堅立馬橋上，「左右」射之：隨從"
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "explanation": "這題的正確答案是 C。 對應選項內容是「把握機會，順勢而為」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 48,
       "source_number": 48,
       "display_number": 48,
-      "page_number": 14,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\chinese\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "根據本文，關於賈堅與荀羨攻守的過程，下列敘述何者正確？",
-      "options": {
-        "A": "賈堅堅持為城守節，力勸眾將死守勿降",
-        "B": "荀羨設法破壞橋梁，致使賈堅人馬墜落被擒",
-        "C": "賈堅佯攻使諸將趁隙出城求援，自己固守城池以待",
-        "D": "荀羨引兵攻擊，山茌將士畏怯，唯賈堅孤身出城迎戰\n試題結束\n景公之時饑，晏子請為民發粟，公不許。當為路寢 1 之臺，晏子令吏重其賃 2，\n遠其兆 3，徐其日而不趨。三年臺成而民振，故上悅乎遊，民足乎食。"
-      },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "stem": "三十年前，一個年輕人離開故鄉，開始創造自己的前途。少小離家，雲山蒼蒼，\n心裡難免有幾分惶恐。他動身的第一站，是去拜訪本族的族長，請求指點。\n老族長正在臨帖練字，他聽說本族有一位後輩開始踏上人生的旅途，就隨手\n寫了三個字「不要怕」，然後抬起頭來，望著前來求教的年輕人說：「孩子，人\n生的祕訣只有六個字，今天先告訴你三個，供你半生受用。」\n三十年後，這個從前的年輕人已是哀樂中年，他有了一些成就，也添了很多\n傷心事，歸程漫漫，近鄉情怯，又去拜訪那位族長。\n他到了族長家裡，才知道老人家幾年前已經去世。家人取出一個密封的封套\n來對他說：「這是老先生生前留給你的，他說有一天你會再來。」還鄉的遊子這\n才想起來，三十年前他在這裡只聽到人生一半的祕密。拆開封套，裡面赫然又是\n三個大字：「不要悔」。\n對了，人生在世，中年以前不要怕，中年以後不要悔，這是經驗的提煉，智\n慧的濃縮。這六字箴言的奧義，要一本長篇小說，才說得清楚。但是我相信對那\n些有慧根的人，這幾個字也就夠了。留一點餘味讓人咀嚼體會，豈不更好？\n—— 王鼎鈞《開放的人生•六字箴言》\n請閱讀以下短文，並回答36～37題：",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考國文科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 19,
+      "display_source_number": 19,
       "reason": "parse_incomplete",
-      "stem_length": 33,
+      "stem_length": 20,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
-      "reason": "parse_incomplete",
-      "stem_length": 59,
-      "option_count": 0
-    },
-    {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 24,
-      "option_count": 0
-    },
-    {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 399,
-      "option_count": 0
-    },
-    {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 27,
+      "display_source_number": 27,
       "reason": "parse_incomplete",
       "stem_length": 8,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 28,
+      "display_source_number": 28,
       "reason": "parse_incomplete",
       "stem_length": 8,
       "option_count": 0
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 34,
+      "display_source_number": 34,
+      "reason": "parse_incomplete",
+      "stem_length": 101,
+      "option_count": 0
+    },
+    {
+      "question_number": 35,
+      "display_source_number": 35,
       "reason": "parse_incomplete",
       "stem_length": 9,
       "option_count": 0
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 39,
+      "display_source_number": 39,
+      "reason": "parse_incomplete",
+      "stem_length": 321,
+      "option_count": 0
+    },
+    {
+      "question_number": 40,
+      "display_source_number": 40,
       "reason": "parse_incomplete",
       "stem_length": 13,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 41,
+      "display_source_number": 41,
       "reason": "parse_incomplete",
       "stem_length": 10,
       "option_count": 0
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 42,
+      "display_source_number": 42,
       "reason": "parse_incomplete",
       "stem_length": 12,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 43,
+      "display_source_number": 43,
       "reason": "parse_incomplete",
       "stem_length": 6,
       "option_count": 0
     },
     {
-      "question_number": 41,
-      "display_source_number": 41,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 42,
-      "display_source_number": 42,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 43,
-      "display_source_number": 43,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 44,
-      "display_source_number": 44,
-      "reason": "missing_answer"
-    },
-    {
       "question_number": 45,
       "display_source_number": 45,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 46,
-      "display_source_number": 46,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 47,
-      "display_source_number": 47,
-      "reason": "missing_answer"
+      "reason": "parse_incomplete",
+      "stem_length": 32,
+      "option_count": 0
     },
     {
       "question_number": 48,
       "display_source_number": 48,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 1,
-      "display_source_number": 1,
       "reason": "parse_incomplete",
-      "stem_length": 11,
+      "stem_length": 485,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
-      "reason": "parse_incomplete",
-      "stem_length": 8,
-      "option_count": 0
+      "question_number": 49,
+      "display_source_number": 49,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 10,
-      "option_count": 0
+      "question_number": 50,
+      "display_source_number": 50,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 51,
+      "display_source_number": 51,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 52,
+      "display_source_number": 52,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 53,
+      "display_source_number": 53,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 54,
+      "display_source_number": 54,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 55,
+      "display_source_number": 55,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 56,
+      "display_source_number": 56,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 57,
+      "display_source_number": 57,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 58,
+      "display_source_number": 58,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 59,
+      "display_source_number": 59,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 60,
+      "display_source_number": 60,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 61,
+      "display_source_number": 61,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 62,
+      "display_source_number": 62,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 63,
+      "display_source_number": 63,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 64,
+      "display_source_number": 64,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 65,
+      "display_source_number": 65,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 66,
+      "display_source_number": 66,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 67,
+      "display_source_number": 67,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 68,
+      "display_source_number": 68,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 69,
+      "display_source_number": 69,
+      "reason": "out_of_range_question_number"
     }
   ]
 }

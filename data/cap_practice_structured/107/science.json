@@ -3,8 +3,8 @@
   "subject_slug": "science",
   "subject_label": "自然",
   "official_question_count": 54,
-  "question_count": 53,
-  "answered_count": 53,
+  "question_count": 54,
+  "answered_count": 54,
   "page_count": 15,
   "ocr_pages": [],
   "files": {
@@ -17,16 +17,12 @@
     "explanation_url": "https://drive.google.com/file/d/1uYkpWEpmYaoF8vFrMoEcuGOeyqOPqWjA/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 63,
+    "question_chunks_found": 54,
     "answers_found": 54,
-    "questions_kept": 53,
-    "issues_found": 10,
+    "questions_kept": 54,
+    "issues_found": 1,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -39,11 +35,6 @@
       10,
       11,
       12,
-      0,
-      0,
-      0,
-      0,
-      0,
       13,
       14,
       15,
@@ -101,6 +92,7 @@
       11,
       12,
       13,
+      14,
       15,
       16,
       17,
@@ -142,18 +134,18 @@
       53,
       54
     ],
-    "missing_question_numbers": [
-      14
-    ],
+    "missing_question_numbers": [],
     "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小瑩想以量筒量取 30.0 mL 的溶液，圖(一)虛線箭頭所指的位置為 量筒中目前已量取的溶液體積。小瑩使用下列哪一種器材裝取溶液 後，再加入量筒內，最能避免體積超出 30.0 mL？",
       "options": {
@@ -170,6 +162,8 @@
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二)是某日東亞的地面天氣簡圖，數字代表 該等壓線的氣壓值，單位為百帕。圖中以黑點 標示的甲地，其海拔高度約為 0 m。下列是甲 地已知的天氣現象敘述，何者無法從此天氣簡 圖中得知？",
       "options": {
@@ -186,6 +180,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某次地震發生後，測站甲、乙、丙、丁測得的震度如表(一) 所示。已知測站與震央距離的大小關係為丁＞丙＞乙＞甲， 若將此次地震的震央位置以 表示，甲、乙、丙、丁代表其 測站位置，下列有關此次地震的震度分布及測站的位置圖， 何者最合理？",
       "options": {
@@ -202,6 +198,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某地區的樹林中棲息著一種蛾，依其體色可分成淺色蛾和深色蛾。當此林中的樹 被某種真菌感染後，其樹皮顏色由深色變為淺色，多年以後樹林中淺色蛾的數量 比例逐漸增多。根據天擇的理論，下列何者最可以解釋此區淺色蛾數量的變化？",
       "options": {
@@ -218,6 +216,8 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「在常溫常壓下， 番茄紅素為紅色固體，是番茄、木瓜等蔬果中富含的色 素， 為天然的抗氧化劑……」，上述畫底線所提到番茄紅素的性質，屬於下 列何者？",
       "options": {
@@ -234,6 +234,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三)為某園區內的標示牌。根據此圖，若管理員想將 此組標示牌再加上「外溫動物區」及「內溫動物區」， 關於此想法是否適當及其原因，下列說明何者最合理？",
       "options": {
@@ -250,6 +252,8 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "阿泉分別進行下列四種不同的運動，在哪一種運動過程中，阿泉由圖中 狀態Ⅰ→狀態Ⅱ，他身體的重力位能變化最大？",
       "options": {
@@ -266,6 +270,8 @@
       "source_number": 8,
       "display_number": 8,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "瑋婷觀察爸爸在家中利用茶壺煮水時，茶壺內水量的多少似乎會影響水煮沸所 需的時間，她假設當茶壺內水量越多，將水煮沸所需的時間也越多。若要驗證 她的假設是否合理，下列哪一種實驗設計可直接用來驗證她的假設？",
       "options": {
@@ -282,6 +288,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "有一座四面環海的島嶼，其陸地面積隨時間變化 的關係簡圖如圖(四)所示。根據圖中資料推測， 下列何者可能是造成該島嶼一天中陸地面積會有 變化的最主要原因？",
       "options": {
@@ -298,6 +306,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(五)列出四位科學家所提出的學說或發現，並依照年代順序排列，圖中以代號 甲～丁來表示粒子或結構的名稱： 關於甲～丁的正確名稱，依序應為下列何者？",
       "options": {
@@ -314,6 +324,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(六)為太陽、地球、月球相對位置示意圖。假 設太陽、地球、月球在運行過程中皆位於同一 平面上，月球位於圖中何處時，太陽受到地球 的萬有引力作用方向及月球受到地球的萬有引 力作用方向相同？",
       "options": {
@@ -330,13 +342,15 @@
       "source_number": 12,
       "display_number": 12,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(七)為一發芽番薯的示意圖，甲為番薯的塊根， 乙、丙為塊根上不同的新芽。下列關於甲、乙、丙的 敘述，何者最合理？",
       "options": {
         "A": "甲與丙的基因型不同",
         "B": "乙與丙的基因型相同",
         "C": "甲為番薯的生殖器官",
-        "D": "甲與乙細胞內的染色體數不同\nkm2"
+        "D": "甲與乙細胞內的染色體數不同\nkm2\n0.5\n0.4\n0.3\n0.2\n0.1\nਔ໔(Ϻ)\n圖(四)\n圖(五)\n圖(六)\n圖(七)"
       },
       "correct_answer": "B",
       "explanation": "這題的正確答案是 B。 對應選項內容是「乙與丙的基因型相同」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 107 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
@@ -346,6 +360,8 @@
       "source_number": 13,
       "display_number": 13,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「真金不怕火煉」在字面上的意思是指純正的黃金不怕被火烤，這是因為黃金 不易與氧發生反應。依上述對黃金性質的描述判斷，下列哪一類元素對氧的活 性與黃金對氧的活性最接近？",
       "options": {
@@ -358,10 +374,25 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「在自然界中，多以元素狀態存在的金屬元素」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 107 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 15,
-      "source_number": 15,
+      "number": 14,
+      "source_number": 14,
       "display_number": 14,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "下列為某網頁上的一則問與答：\n根據上述，下列關於外包裝塑膠套材質的性質敘述和結構示意圖，何者正確？",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 107 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某岩層在形成後未受地殼變動影響，且岩層中有大量完整的三葉蟲化石及其活 動痕跡，該岩層的形成過程最有可能為下列何者？",
       "options": {
@@ -376,8 +407,10 @@
     {
       "number": 16,
       "source_number": 16,
-      "display_number": 15,
+      "display_number": 16,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(八)是學生整理的宇宙組織關係圖，甲、乙、丙代表三個不同層級的結構，且 三者在空間中的大小關係為甲＞乙＞丙。下列有關三者的敘述，何者最合理？",
       "options": {
@@ -392,8 +425,10 @@
     {
       "number": 17,
       "source_number": 17,
-      "display_number": 16,
+      "display_number": 17,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "若將兩根相同的條形磁鐵靜止擺放如圖(九) 所示，則圖中虛線區域中磁力線分布及磁 場方向，下列何者最合理？",
       "options": {
@@ -408,8 +443,10 @@
     {
       "number": 18,
       "source_number": 18,
-      "display_number": 17,
+      "display_number": 18,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "答：市售蟹肉棒外包裝的塑膠套，其材質多屬於熱塑性聚合物，不建議長\n時間置於高溫環境下烹煮，建議料理前拆掉塑膠套是最保險的做法。\n圖(八)\n圖(九)",
       "stem": "將酵素甲和澱粉溶液在試管中混合均勻，並定時測量試 管內的澱粉濃度。已知試管內澱粉濃度會隨著時間而改 變，如圖(十)所示，下列關於甲的敘述，何者正確？",
       "options": {
@@ -424,8 +461,10 @@
     {
       "number": 19,
       "source_number": 19,
-      "display_number": 18,
+      "display_number": 19,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十一)為植物葉肉細胞的構造示意圖，甲、乙、丙、 丁分別代表細胞內不同的構造，則下列何者主要負責 產生能量供細胞使用？",
       "options": {
@@ -440,8 +479,10 @@
     {
       "number": 20,
       "source_number": 20,
-      "display_number": 19,
+      "display_number": 20,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "有一個以密度為 2.5 g/cm3 的材質製成之容器甲，將其置入另一 盛水容器中，容器甲會浮在水面上，如圖(十二)所示。若用手 扶住容器甲，並在容器甲內倒滿水，釋放之，待靜止平衡後， 容器甲的浮沉情形最可能為下列何者？",
       "options": {
@@ -456,8 +497,10 @@
     {
       "number": 21,
       "source_number": 21,
-      "display_number": 20,
+      "display_number": 21,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小花在實驗室中找到一份舊實驗紀錄簿，紀錄簿中有一頁單擺實驗的紀錄表， 此表因蟲蛀而使部分資料無法判讀，如圖(十三)所示。若製作此表時的實驗步驟 正確且結果合理，則由可辨識的資料來判斷，下列何者最可能為組別丙的擺長 長度？",
       "options": {
@@ -472,8 +515,10 @@
     {
       "number": 22,
       "source_number": 22,
-      "display_number": 21,
+      "display_number": 22,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十四)為小瑞依據物質組成來分類，畫出數種物質的 相互關係，被包含在大範圍者，亦屬於大範圍的一種 物質，例如：氧化物(被包含者)亦屬於純物質的一種。 圖中灰色範圍最可能為下列哪一類？",
       "options": {
@@ -488,8 +533,10 @@
     {
       "number": 23,
       "source_number": 23,
-      "display_number": 22,
+      "display_number": 23,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "實驗課時，阿文一組四人取分別充滿 1 大氣壓甲、乙、丙氣體的三支試管，倒 插入盛有 100 mL 水的相同燒杯中，拔開橡皮塞，經一段時間後觀察試管的情 況，如圖(十五)所示。若不考慮水的蒸發，則表(二)內四人對於甲、乙、丙三種 氣體在水中溶解度的比較，與收集氣體方法的判斷，何者正確？",
       "options": {
@@ -504,8 +551,10 @@
     {
       "number": 24,
       "source_number": 24,
-      "display_number": 23,
+      "display_number": 24,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小湘在街上看到久違的好朋友，興奮地立即揮手打招呼。下列與上述過程相關 的神經系統運作之敘述，何者正確？",
       "options": {
@@ -520,8 +569,10 @@
     {
       "number": 25,
       "source_number": 25,
-      "display_number": 24,
+      "display_number": 25,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "孝全在整理家中相簿時發現一張過去拍攝的月亮照片，如圖(十六)所示；照片背後 有關於拍攝時間地點的紀錄，如圖(十七)所示，下列何者最有可能是當時月亮所 在的方向？",
       "options": {
@@ -536,8 +587,10 @@
     {
       "number": 26,
       "source_number": 26,
-      "display_number": 25,
+      "display_number": 26,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十八)為竹子與其鄰近竹筍的生長示意圖，圖 中箭頭表示物質 X 由竹子到竹筍的運輸方向。 已知物質 X 來自光合作用，則有關物質 X 及其 由何種構造運輸的敘述，下列何者最合理？",
       "options": {
@@ -552,8 +605,10 @@
     {
       "number": 27,
       "source_number": 27,
-      "display_number": 26,
+      "display_number": 27,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "大瀚在整理野外記錄的地質資料，圖(十九)是根據資料用鉛筆初 步繪製但尚未完成的地層剖面示意圖。此外，資料上還記載著該 地層同時存在斷層與岩脈，且由斷層與岩脈的關係可知剖面中的 岩脈是在斷層活動之後才形成。若岩脈以灰色表示，斷層以粗黑 實線表示，則完成後的示意圖最接近下列何者？",
       "options": {
@@ -568,8 +623,10 @@
     {
       "number": 28,
       "source_number": 28,
-      "display_number": 27,
+      "display_number": 28,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十)為甲、乙兩種細胞所含的染色體示意圖，此兩種細胞都是某一雌性動物 個體內的正常細胞。根據此圖，下列相關推論或敘述何者最合理？",
       "options": {
@@ -584,8 +641,10 @@
     {
       "number": 29,
       "source_number": 29,
-      "display_number": 28,
+      "display_number": 29,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "有一個裝水的玻璃魚缸，內部的水保持靜止，魚缸內有一點 X，其位置如 圖(二十一)所示。若 X 點所受來自上、下、左、右四個方向的液體壓力分 別為 P上、P下、P左、P右，則其關係應為下列何者？",
       "options": {
@@ -600,8 +659,10 @@
     {
       "number": 30,
       "source_number": 30,
-      "display_number": 29,
+      "display_number": 30,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "在一般標準大氣狀況下，關於對流層常見特性的敘述，下列何者正確？",
       "options": {
@@ -616,8 +677,10 @@
     {
       "number": 31,
       "source_number": 31,
-      "display_number": 30,
+      "display_number": 31,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十二)為小玟進行水溶液混合實驗的步驟示意圖： 她在步驟三和步驟四所測得數據，依序應為下列何者才合理？",
       "options": {
@@ -632,8 +695,10 @@
     {
       "number": 32,
       "source_number": 32,
-      "display_number": 31,
+      "display_number": 32,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "表(三)為兩種動物所能聽見聲音的頻率範圍。在空氣溫度為 15℃，聲波波速 為34000 cm/s 的環境下，若發出波長為 1000 cm，且音量足夠大的聲波，則 參閱表中的資訊，下列有關此兩種動物是否能聽到此聲波的敘述何者最合理？",
       "options": {
@@ -648,8 +713,10 @@
     {
       "number": 33,
       "source_number": 33,
-      "display_number": 32,
+      "display_number": 33,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "一電路裝置如圖(二十三)所示，圖中導線電阻與電池內電阻忽略 不計，甲、乙兩個燈泡皆正常發亮。若因燈泡甲燒毀而使電流 無法通過燈泡甲，則有關燈泡乙在燈泡甲燒毀後的敘述，下列 何者最合理？",
       "options": {
@@ -664,8 +731,10 @@
     {
       "number": 34,
       "source_number": 34,
-      "display_number": 33,
+      "display_number": 34,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "有甲、乙、丙三杯水，將三杯水混合，當混合後的水達熱平衡時，水溫為 50℃。若混合過程中，水與外界無熱量的吸收與散失，則下列四組何者最有可 能是甲、乙、丙三杯水混合前的溫度？",
       "options": {
@@ -680,8 +749,10 @@
     {
       "number": 35,
       "source_number": 35,
-      "display_number": 34,
+      "display_number": 35,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "白白分別在夏至(6/22)當天與冬至(12/22)當天到 同一處海邊遊玩，在正午時她看見懸崖邊的燈 塔影子分別如圖(二十四)所示。根據圖中燈塔 影子的長度與方位判斷，此燈塔最可能位於下 列何處的海邊？",
       "options": {
@@ -696,8 +767,10 @@
     {
       "number": 36,
       "source_number": 36,
-      "display_number": 35,
+      "display_number": 36,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "欣如進行電解水的實驗，其裝置及收集到 X、Y 二種氣體的體積，如圖(二十五) 所示。若將此直流電源改接到圖(二十六)的電鍍裝置進行銅片鍍鎳，應如何正確連接 和選用電鍍液？",
       "options": {
@@ -712,8 +785,10 @@
     {
       "number": 37,
       "source_number": 37,
-      "display_number": 36,
+      "display_number": 37,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十七)為人體注射藥劑的部位示意圖，關於藥劑從甲 部位或乙部位注入人體的靜脈後，經由血液循環最先進 入心臟腔室的敘述，下列何者最合理？",
       "options": {
@@ -728,8 +803,10 @@
     {
       "number": 38,
       "source_number": 38,
-      "display_number": 37,
+      "display_number": 38,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "甲、乙兩個質量同為 1 kg 的木塊靜置於水平 桌面上，兩木塊分別受水平外力作直線運 動，其速度(v)與時間(t)的關係如圖(二十八)所 示。若 t＝25 s 時，甲、乙兩木塊所受的合力 分別為 F甲、F乙，則 F甲：F乙 應為下列何者？",
       "options": {
@@ -744,8 +821,10 @@
     {
       "number": 39,
       "source_number": 39,
-      "display_number": 38,
+      "display_number": 39,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "老師在課堂上提到：「銅與稀硝酸反應，會產生無色的一氧化氮氣體；銅與濃硝 酸反應，會產生紅棕色的二氧化氮氣體。」小勳上網查詢並在便條紙抄下此二 種化學反應式，再次取出便條紙時，卻發現紙條右端破損，如圖(二十九)所示。 已知甲、乙二反應式中缺少的產物各只有一種，關於甲、乙二反應式應補上的 部分，下列敘述何者正確？",
       "options": {
@@ -760,8 +839,10 @@
     {
       "number": 40,
       "source_number": 40,
-      "display_number": 39,
+      "display_number": 40,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三十)為全球板塊分布示意圖。 已知甲和乙位於同一種類型的板塊 邊界上，則依照板塊構造學說，下 列何者通常不會在甲處出現？",
       "options": {
@@ -776,8 +857,10 @@
     {
       "number": 41,
       "source_number": 41,
-      "display_number": 40,
+      "display_number": 41,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三十一)為某兩條食物鏈依生物各階層所含能量的關係繪製成甲、乙能量塔之 示意圖(面積不代表實際能量大小)。已知兩能量塔最高階層的生物總能量皆相 同，則下列推測何者最合理？",
       "options": {
@@ -792,8 +875,10 @@
     {
       "number": 42,
       "source_number": 42,
-      "display_number": 41,
+      "display_number": 42,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三十二)為小樺與媽媽某一天在牛排館用餐的對話： 圖中小樺的敘述「……」最可能是下列何者？",
       "options": {
@@ -808,8 +893,10 @@
     {
       "number": 43,
       "source_number": 43,
-      "display_number": 42,
+      "display_number": 43,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三十三)為小芸作凸透鏡成像觀察的實驗 裝置圖，凸透鏡的焦距為 10 cm。她將原本 擺放在甲區的蠟燭，移至丙區的位置，若 她想觀察移動位置後蠟燭所成的像，則以 下列哪一個方式進行最可能達成目的？",
       "options": {
@@ -824,8 +911,10 @@
     {
       "number": 44,
       "source_number": 44,
-      "display_number": 43,
+      "display_number": 44,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "東太平洋赤道附近的祕魯漁民，因應表層海水溫度的變化，發展出不同時間 區段的不同生活型態，如圖(三十四)與圖(三十五)所示。 根據漫畫中的內容判斷，下列關於二者海水溫度變化的敘述，何者正確？",
       "options": {
@@ -840,8 +929,10 @@
     {
       "number": 45,
       "source_number": 45,
-      "display_number": 44,
+      "display_number": 45,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "甲、乙、丙三地位於同一條筆直的道路上，且乙地位於甲、丙之間，甲、乙二 地的距離為 S1，乙、丙二地的距離為 S2。小明沿著道路由甲地出發經乙地到達 丙地後再折返回乙地，其路線即甲→乙→丙→乙，已知此過程小明的平均速度 大小為每小時 3 公里，平均速率為每小時 15 公里，則 S1：S2 為下列何者？",
       "options": {
@@ -856,8 +947,10 @@
     {
       "number": 46,
       "source_number": 46,
-      "display_number": 45,
+      "display_number": 46,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "將種有植株的兩相同盆栽，分別放在甲、乙兩個獨立的黑暗房間內，且將光源擺放在 不同位置照射植株，經一段時間後，其生長狀況如圖(三十六)所示。若此時把光源移 開，再經一段時間後，觀察莖的生長方向。若圖(三十七)為預測莖生長方向的示意圖， 則下列有關甲、乙兩處的莖生長之敘述，何者最合理？",
       "options": {
@@ -872,8 +965,10 @@
     {
       "number": 47,
       "source_number": 47,
-      "display_number": 46,
+      "display_number": 47,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某一性狀由體染色體上的一對等位基因所控制，A 為顯性，a 為隱性。今有一對 夫妻此性狀的基因型皆為 Aa，在不考慮突變的情況下，他們小孩的此種性狀可 能會有幾種表現型？",
       "options": {
@@ -888,8 +983,10 @@
     {
       "number": 48,
       "source_number": 48,
-      "display_number": 47,
+      "display_number": 48,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "曉萱進行滲透作用的實驗，其步驟和說明如圖(三十八)所示： 已知水可以自由進出丙小袋的薄膜而蔗糖不行，結果其中一杯內的小袋保持原 形狀且體積幾乎不變，另一杯內的小袋形狀萎縮且體積變小。若各溶液的密度 均約為 1 g/cm3，則步驟一中甲、乙和丙三種溶液濃度的關係，應為下列何者？ (1莫耳的蔗糖質量為 342 g)",
       "options": {
@@ -904,8 +1001,10 @@
     {
       "number": 49,
       "source_number": 49,
-      "display_number": 48,
+      "display_number": 49,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "甲杯：體積莫耳濃度0.5 M，\n乙杯：重量百分濃度0.5%，\n丙小袋×2：以薄膜製成的小袋，袋內裝有相\n同但未知濃度的蔗糖水溶液。\n將丙小袋分別放入甲、\n乙二杯水溶液中，觀察\n變化並記錄結果。\n圖(三十八)\n˗\n˗\n圖(三十六)\n圖(三十七)\n請閱讀下列敘述後，回答49～50題",
       "stem": "根據本文，推測下列何者最可能為偏側蛇蟲草菌與螞蟻間的關係？",
       "options": {
@@ -920,8 +1019,10 @@
     {
       "number": 50,
       "source_number": 50,
-      "display_number": 49,
+      "display_number": 50,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據本文，推測偏側蛇蟲草菌與下列何者的親緣關係最接近？",
       "options": {
@@ -936,8 +1037,10 @@
     {
       "number": 51,
       "source_number": 51,
-      "display_number": 50,
+      "display_number": 51,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "已知阿勝的計算方式為燈具共 300 盞，每天皆使用 10 小時，一個月使用 30 天 來計算，且他的計算結果無誤，則根據他計算的結果來推論，工廠裡的燈具將 由何種白熾燈更換為哪一種較省電燈具？",
       "options": {
@@ -952,8 +1055,10 @@
     {
       "number": 52,
       "source_number": 52,
-      "display_number": 51,
+      "display_number": 52,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據阿勝的計算，更換 300 盞白熾燈後，相當於一個月約減少排放多少數量的 CO2分子？( C 和 O 的原子量分別為 12 和 16 )",
       "options": {
@@ -968,8 +1073,10 @@
     {
       "number": 53,
       "source_number": 53,
-      "display_number": 52,
+      "display_number": 53,
       "page_number": 15,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_15.png",
+      "parse_status": "complete",
       "context": "阿勝看到一篇有關節能減碳的文宣，\n決定將工廠裡的白熾燈全部改為某種較\n省電的燈具，圖(四十)為該文宣的部分內\n容，文宣中的白熾燈可以用下方同一欄中\n的較省電燈具來取代。阿勝利用此文宣，\n計算出他更換 300 盞相同的白熾燈，一個\n月可節省電能 2700 度，同時可減少相當於\n1447公斤的 CO2 排放量。\n圖(三十九)\n圖(四十)\n試題結束\n請閱讀下列敘述後，回答53～54題",
       "stem": "根據表(四)，下列敘述何者正確？",
       "options": {
@@ -984,8 +1091,10 @@
     {
       "number": 54,
       "source_number": 54,
-      "display_number": 53,
+      "display_number": 54,
       "page_number": 15,
+      "page_image_path": "cap_practice_assets\\107\\science\\page_15.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "關於文中畫有雙底線處所提到的現象，下列敘述何者正確？",
       "options": {
@@ -999,69 +1108,6 @@
     }
   ],
   "issues": [
-    {
-      "question_number": 1,
-      "display_source_number": 1,
-      "reason": "parse_incomplete",
-      "stem_length": 20,
-      "option_count": 0
-    },
-    {
-      "question_number": 2,
-      "display_source_number": 2,
-      "reason": "parse_incomplete",
-      "stem_length": 23,
-      "option_count": 0
-    },
-    {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 24,
-      "option_count": 0
-    },
-    {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 383,
-      "option_count": 0
-    },
-    {
-      "question_number": 0,
-      "display_source_number": 0,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 0,
-      "display_source_number": 0,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 0,
-      "display_source_number": 0,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 0,
-      "display_source_number": 0,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 0,
-      "display_source_number": 0,
-      "reason": "parse_incomplete",
-      "stem_length": 27,
-      "option_count": 0
-    },
     {
       "question_number": 14,
       "display_source_number": 14,

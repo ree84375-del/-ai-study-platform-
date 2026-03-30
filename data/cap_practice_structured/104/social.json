@@ -17,28 +17,17 @@
     "explanation_url": "https://drive.google.com/file/d/1TWg9u9jOIC0lnwviYQF5qr07OEguBjoN/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 79,
+    "question_chunks_found": 63,
     "answers_found": 63,
     "questions_kept": 63,
-    "issues_found": 16,
+    "issues_found": 0,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
       1,
       2,
       3,
       4,
-      1,
-      2,
-      3,
-      4,
       5,
-      17,
-      14,
-      14,
-      15,
-      15,
-      16,
-      16,
       6,
       7,
       8,
@@ -49,7 +38,6 @@
       13,
       14,
       15,
-      0,
       16,
       17,
       18,
@@ -70,10 +58,6 @@
       33,
       34,
       35,
-      67,
-      66,
-      85,
-      85,
       36,
       37,
       38,
@@ -178,7 +162,9 @@
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\104\\social\\page_02.png",
+      "parse_status": "complete",
+      "context": "一、單題：(1～55題)",
       "stem": "圖(一)為臺灣1980年、2010年及推估2040年的扶養比示意圖，依據年代先後順 序排列應為下列何者？",
       "options": {
         "A": "甲乙丙",
@@ -187,13 +173,15 @@
         "D": "乙丙甲"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「乙丙甲」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「乙丙甲」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據聯合國《海洋法公約》規定，各國擁有在其經濟海域內資源的使用權。臺灣 因四面環海，島嶼眾多，擁有廣大的經濟海域，但因與鄰近國家的經濟海域重 疊，經常有漁業上的糾紛。上文所述的鄰近國家不包含下列何者？",
       "options": {
@@ -210,6 +198,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二)為颱風、梅雨、寒害、乾旱在臺灣西 南部主要發生的月分，下列配對何者正確？",
       "options": {
@@ -226,6 +216,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "「新加坡的土地面積雖然不大，但因具有某項優越的條件，加上政府政策的 指導，成功地讓新加坡的煉油產業快速發展，現已成為世界第三大煉油中 心。」文中所述的優越條件應是指下列何者？",
       "options": {
@@ -242,13 +234,15 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三)顯示歷年2月分北極海冰範圍變化情 形，該變化趨勢與下列同時期何者的變化趨 勢最為相似？",
       "options": {
         "A": "全球淡水資源需求",
         "B": "全球海平面的高度",
         "C": "全球熱帶雨林面積",
-        "D": "全球二氧化碳濃度\n圖(一)\n圖(二)\n᳗\nᴗ\n䏰\nᲿ\n䏰\nᴗ\n᳗\n\u0014\n㗆\n\u0015\n㗆\n\u0016\n㗆\n\u0017\n㗆\n\u0018\n㗆\n\u0019\n㗆\n\u001a\n㗆\n\u001b\n㗆\n㗆\n\u0014\u0013\n㗆\n\u0014\u0014\n㗆\n\u0014\u0015\n㗆"
+        "D": "全球二氧化碳濃度\n圖(一)\n圖(二)\n᳗\nᴗ\n䏰\nᲿ\n䏰\nᴗ\n᳗\n\u0014\n㗆\n\u0015\n㗆\n\u0016\n㗆\n\u0017\n㗆\n\u0018\n㗆\n\u0019\n㗆\n\u001a\n㗆\n\u001b\n㗆\n㗆\n\u0014\u0013\n㗆\n\u0014\u0014\n㗆\n\u0014\u0015\n㗆\n17.0\n14.0\n14.5\n15.0\n15.5\n16.0\n16.5\n2005 (ԃ)\n(\nԭ\n࿤\nѳ\nБ\nϦ\nٚ\n)\n圖(三)"
       },
       "correct_answer": "C",
       "explanation": "這題的正確答案是 C。 對應選項內容是「全球熱帶雨林面積」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
@@ -258,6 +252,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(四)為某雜誌上刊載的紀念戳章及其簡介，根據內 容判斷，此紀念章最可能是描繪下列何時臺灣的景 象？",
       "options": {
@@ -274,6 +270,8 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "以下是一段十七世紀的文獻記載：「西班牙人每年向該地 的已婚原住民課徵二隻雞和三甘當米的稅，原住民感到無 法忍受，所以襲擊該地的西班牙城堡，殺了三十個西班牙 人。」此段記載最可能是描繪圖(五)中何處的情況？",
       "options": {
@@ -290,6 +288,8 @@
       "source_number": 8,
       "display_number": 8,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "十六世紀時，馬丁路德批判羅馬教會，揭開宗教改革的序幕。下列資料中何者 最可能是馬丁路德的主張？",
       "options": {
@@ -306,6 +306,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某書提及：「清廷想收回民間集資興建鐵路的權利，所以針對民間已投資者 提出補償：在湖南、湖北，投資金額全數償還；在廣東，僅償還 60%，其餘 40%由政府股票支付；在四川，政府僅發給股票。這種處置引起四川士紳激 憤，朝廷為控制騷亂，將部分湖北軍隊調往四川。」上述情況最可能為下列 何者的發生提供了機會？",
       "options": {
@@ -322,6 +324,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(六)描繪中國某一朝代的官員正在接待來訪 使節的情況，根據圖片內容判斷，此朝代最可 能是下列何者？",
       "options": {
@@ -338,6 +342,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "公民老師在課堂上說明關於「價值觀念變遷」的主題，並請四位同學舉出適 當的例子加以說明。下列哪一位同學舉出的例子，最符合上述主題？",
       "options": {
@@ -354,6 +360,8 @@
       "source_number": 12,
       "display_number": 12,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "表(一)是大榮家一年來理財投資結果的分析 表。根據表中內容判斷，大榮家所選擇的各 項投資工具中，何者的投資報酬率最高？",
       "options": {
@@ -370,6 +378,8 @@
       "source_number": 13,
       "display_number": 13,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "發生刑事案件時，偵查人員蒐集、鑑定相關證據，並研判嫌疑人的心態、動 機等，以呈現犯罪事實，其目的在提供下列何人作為「判決」的依據？",
       "options": {
@@ -386,6 +396,8 @@
       "source_number": 14,
       "display_number": 14,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "過去大家總認為「法不入家門」，但近年來家庭暴力問題逐漸受到重視，因 此政府制定《家庭暴力防治法》，以處理相關問題。下列何者屬於上述法規 處理此類問題的作法？",
       "options": {
@@ -402,6 +414,8 @@
       "source_number": 15,
       "display_number": 15,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "右列是小諭舉例說明某一概念的部分內容， 根據內容判斷，這應是在探討《憲法》中的 哪一項人民基本權利？",
       "options": {
@@ -418,7 +432,9 @@
       "source_number": 16,
       "display_number": 16,
       "page_number": 5,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\104\\social\\page_05.png",
+      "parse_status": "complete",
+      "context": " 毛毛關心政治，經常在報紙上\n投稿發表對政治議題的看法。\n表(一)\n投資工具\n投入金額\n( 萬元)\n獲利金額\n( 萬元)\n股票\n債券\n基金\n存款\n0.5",
       "stem": "圖(七)為臺灣某一縣市的海岸地形特徵 示意圖，根據圖中資訊判斷，最有可能 是顯示下列哪一縣市的海岸地形特徵？",
       "options": {
         "A": "新北市",
@@ -427,13 +443,15 @@
         "D": "花蓮縣"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「花蓮縣」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「花蓮縣」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 17,
       "source_number": 17,
       "display_number": 17,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "近年來，鳳梨酥成為國人及外國遊客 喜愛的伴手禮之一，產值逐年上升。 圖(八)為鳳梨酥產銷過程的示意圖， 甲、乙、丙、丁哪些屬於第三級產業？",
       "options": {
@@ -450,6 +468,8 @@
       "source_number": 18,
       "display_number": 18,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某位旅行家從北非乾燥地區出發，向北經地中 海到達北歐，圖(九)是他記錄途中民宅常見的 窗戶形式。在他的旅途中依序記錄的窗戶形式 應為下列何者？",
       "options": {
@@ -466,6 +486,8 @@
       "source_number": 19,
       "display_number": 19,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十)為中國某一氣候資料的等值線分布圖， 圖中甲＜乙＜丙＜丁，則該氣候資料應為下列 何者？",
       "options": {
@@ -482,6 +504,8 @@
       "source_number": 20,
       "display_number": 20,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十一)是北美洲沿35°N的地形剖面圖。圖中甲、乙、丙、丁何處的年降水 量最少？",
       "options": {
@@ -498,6 +522,8 @@
       "source_number": 21,
       "display_number": 21,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "一份歷史文告寫道：「自宋朝覆亡，北方外族入主中原，百年不到，天下大亂。 我本是平民，被眾人推舉，率軍攻占金陵(今南京)，再北上驅逐胡虜。色目等雖為 異族，但若衷心歸順，仍是中華子民。」以上敘述與下列哪一史事關係最密切？",
       "options": {
@@ -514,6 +540,8 @@
       "source_number": 22,
       "display_number": 22,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十二)為臺灣 某一史前文化遺 址的圖片，根據 其內容判斷，此 一文化應為下列 何者？",
       "options": {
@@ -530,6 +558,8 @@
       "source_number": 23,
       "display_number": 23,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十三)呈現某時期中華民國政府對於一本辭典的審查結 果，根據圖片內容判斷，此辭典最可能是在下列何時接受 政府單位的審查？",
       "options": {
@@ -546,6 +576,8 @@
       "source_number": 24,
       "display_number": 24,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十四)是歷史上某人宣誓的內容，該宣誓和下列何者最有關係？",
       "options": {
@@ -562,6 +594,8 @@
       "source_number": 25,
       "display_number": 25,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "右列是某次美國外交聲明的概要，根據 內容判斷，美國為何發表此一聲明？",
       "options": {
@@ -578,6 +612,8 @@
       "source_number": 26,
       "display_number": 26,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "據報載，我國某縣的財政狀況長期入不敷出，導致當地政府的財政問題日益 嚴重，恐將出現延遲發放基層公務人員薪水的情形。為了解決上述問題，下 列何者最可能是該縣政府依法採行的方法？",
       "options": {
@@ -594,6 +630,8 @@
       "source_number": 27,
       "display_number": 27,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某黨主席在一場選舉活動中，為該黨候選人李大同拉票的發言內容如下： 「李大同已多次連任，具有豐富的經驗，相信他一定能為大家好好的監督政 府，請各位選民繼續給他連任的機會。」李大同所參選的公職人員最可能是 下列何者？",
       "options": {
@@ -610,6 +648,8 @@
       "source_number": 28,
       "display_number": 28,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "右列是阿平上課報告時所舉的例子， 根據其內容判斷，下列何者最可能是 該報告的主題？",
       "options": {
@@ -626,6 +666,8 @@
       "source_number": 29,
       "display_number": 29,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小英和阿泉一起編製竹筐和斗笠，依比較利益法則進行分 工，阿泉被分配去製作竹筐，表(二)是他們每小時所能製作 數量的部分數據。根據上述內容判斷，下列敘述何者正確？",
       "options": {
@@ -642,6 +684,8 @@
       "source_number": 30,
       "display_number": 30,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "新聞節目製作了藝人林小花的專題報導，而小花在看完報導後認為內容有 誤，造成她的困擾。律師告訴小花，其實她有權要求該節目給予答辯之機 會，且電視臺不得拒絕。下列何者最符合上述內容的意涵？",
       "options": {
@@ -658,6 +702,8 @@
       "source_number": 31,
       "display_number": 31,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_08.png",
+      "parse_status": "complete",
       "context": "不良場所業者應拒絕兒童及少年進\n入，違者將被主管機關處以罰款，並\n公告負責人姓名。\n單位：個\n表(二)\n竹筐斗笠\n小英\n阿泉\n乙",
       "stem": "在古代，由於沒有電話和無線電等通訊設 備，烽火臺成為傳遞軍情的最好設施之一， 傳遞的方法是白天燃煙，夜間舉火。為使軍 情能快速傳遞，烽火臺通常設置在視野極佳 的位置。圖(十五)中甲、乙、丙、丁哪一地 點最適合設置烽火臺？",
       "options": {
@@ -674,6 +720,8 @@
       "source_number": 32,
       "display_number": 32,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "近年來，中國許多內陸的民工不願再到沿海地區工作，反而留在家鄉就業， 使沿海地區爆發嚴重的「缺工潮」，沿海工廠只好不斷放寬條件限制，或以 其他誘因來吸引員工。下列何者最可能是造成上述缺工潮的原因？",
       "options": {
@@ -690,6 +738,8 @@
       "source_number": 33,
       "display_number": 33,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "希臘的海岸線曲折、多海灣，這是因陸地丘陵延伸至海岸，受海面相對上升的 影響，沿海谷地被海水淹沒，使得各處都有深入內陸的海灣。依上文所描述的 海岸特性，下列何處的海岸類型與希臘最為相似？",
       "options": {
@@ -706,6 +756,8 @@
       "source_number": 34,
       "display_number": 34,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十六)呈現2000年某一地理現象在不同 緯度的分布差異。已知縱坐標為緯度， 橫坐標代表該現象的數據。根據該現象 在不同緯度的數據大小判斷，此一地理 現象最可能是指下列何者？",
       "options": {
@@ -722,13 +774,15 @@
       "source_number": 35,
       "display_number": 35,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "德國由於生育率低，人口結構老化，總 人口數多年呈現負成長。2011年，該國 總人口數較前一年成長0.1%，是近年 來首度正成長。表(三)是該國2010年和 2011年的部分人口資料，根據表中資料 推論，下列何者最可能是德國該年總人 口數增加的主要原因？",
       "options": {
         "A": "政府鼓勵生育的政策奏效",
         "B": "大幅開放東歐國家的移民",
         "C": "老人慢性病獲得明顯控制",
-        "D": "給予多國觀光免簽證待遇\n圖(十五)\n圖(十六)\n表(三)\n年度\n人口資料\n2010 年\n2011 年\n總人口數\n8170.8\n8180.0\n新生兒人口數"
+        "D": "給予多國觀光免簽證待遇\n圖(十五)\n圖(十六)\n表(三)\n年度\n人口資料\n2010 年\n2011 年\n總人口數\n8170.8\n8180.0\n新生兒人口數\n67.8\n66.3\n死亡人口數\n85.8\n85.2\n單位：萬人\n100m\n0°\n30°N\n60°N\n30°S\n60°S"
       },
       "correct_answer": "B",
       "explanation": "這題的正確答案是 B。 對應選項內容是「大幅開放東歐國家的移民」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
@@ -738,6 +792,8 @@
       "source_number": 36,
       "display_number": 36,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十七)中甲、乙、丙三張照片，分別與某戰爭中的三個重要事件有關，若依這 些事件發生的時間先後順序排列，下列何者正確？",
       "options": {
@@ -754,6 +810,8 @@
       "source_number": 37,
       "display_number": 37,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "歷史學者曾指出：「西周的封建，乃是一種侵略性 的武裝移民與軍事占領。」上述朝代的封建擴張， 主要是向圖(十八)中哪一方向？",
       "options": {
@@ -770,6 +828,8 @@
       "source_number": 38,
       "display_number": 38,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "表(四)是歷史上某人在臺灣旅遊的部分行 程，依內容判斷，此人最可能是下列何 者？",
       "options": {
@@ -786,6 +846,8 @@
       "source_number": 39,
       "display_number": 39,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十九)呈現在1500年與1913年，某一洲的國家因政 治、軍事、經濟力量的轉變，所掌控的世界陸地面 積比例的變化。此一洲最可能是下列何者？",
       "options": {
@@ -802,6 +864,8 @@
       "source_number": 40,
       "display_number": 40,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某國因強烈颶風侵襲，導致各地發生嚴重災情、民眾傷亡無數。若這樣的情 況發生在我國，而政府認為應發布緊急命令加以因應，下列何者是其生效的 必要條件之一？",
       "options": {
@@ -818,6 +882,8 @@
       "source_number": 41,
       "display_number": 41,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十)是上公民課時使用的教 具，根據圖中的相對關係判斷， 該「權利救濟機關」應為下列何 者？",
       "options": {
@@ -834,6 +900,8 @@
       "source_number": 42,
       "display_number": 42,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "飯店業者常運用需求法則，針對不同時段 的來客數量設定不同的價格，希望盡可能 提高住房率。表(五)為某飯店原本房價及 優惠後房價，根據表中資料判斷，若不考 慮其他條件，下列何者最可能是該飯店推 出優惠方案之前的住房情況？",
       "options": {
@@ -850,6 +918,8 @@
       "source_number": 43,
       "display_number": 43,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十一)是依某店家招牌商品的市場供需狀況所繪 製的圖形，根據圖中訊息判斷，此項招牌商品在下 列四種定價時，何者為店家帶來的銷貨收入最高？",
       "options": {
@@ -866,6 +936,8 @@
       "source_number": 44,
       "display_number": 44,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "基於家庭倫理及優生學的考量，我國《民法》規定具有近親關係的血親及姻 親間不得結婚。根據上述內容判斷，下列何種組合若登記結婚，其婚姻最可 能是有效的？",
       "options": {
@@ -882,6 +954,8 @@
       "source_number": 45,
       "display_number": 45,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "從十六世紀哥白尼的「地球繞日說」，到十七世紀伽利略主張「太陽中心 說」、牛頓發表「萬有引力定律」，這些學說的提出，在歷史上最可能具有 下列何種意義？",
       "options": {
@@ -898,6 +972,8 @@
       "source_number": 46,
       "display_number": 46,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "新聞報導：「少子化問題日益嚴重，我國的自然增加率恐將成為負值，政府 已把此問題視為危及國家安全的國安議題，交由各部會擬定妥善的因應政 策。」上述內容最可能是在關切下列哪一項國家組成要素的變化？",
       "options": {
@@ -914,6 +990,8 @@
       "source_number": 47,
       "display_number": 47,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "公民老師為介紹歷史上某一重要事件所使用的簡圖，如圖(二十二)，其中甲、乙 最可能為下列何者？",
       "options": {
@@ -930,6 +1008,8 @@
       "source_number": 48,
       "display_number": 48,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "18歲的小蔡買了新房子，並完成相關手續，父母知情後雖不同意，但買賣契 約仍然有效；19歲的雯雯買了昂貴的名牌包，但因某些原因，此交易行為無 效。根據上述內容判斷，文中二人的情形最不可能是下列何者？",
       "options": {
@@ -946,6 +1026,8 @@
       "source_number": 49,
       "display_number": 49,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十三)呈現某一歷史事 件前後，清朝治臺措施的差 異。從圖中內容判斷，此一 事件應是下列何者？",
       "options": {
@@ -962,6 +1044,8 @@
       "source_number": 50,
       "display_number": 50,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "中國某電視臺舉辦旅遊路線設計比賽，其中有一 路線的行程安排如圖(二十四)所示。若要寫出呈 現該路線特色的介紹詞句，下列何者最合適？",
       "options": {
@@ -978,6 +1062,8 @@
       "source_number": 51,
       "display_number": 51,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "2013年，巴西幣貶值，幣值創四年來低點，連帶影響該國的進出口貿易。若 其他條件不變的情況下，此幣值波動對巴西咖啡產業造成的影響，下列何者 正確？",
       "options": {
@@ -994,6 +1080,8 @@
       "source_number": 52,
       "display_number": 52,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十五)是某旅遊手冊的部分內 容，此手冊最可能是介紹圖(二十六) 中的何地？",
       "options": {
@@ -1010,6 +1098,8 @@
       "source_number": 53,
       "display_number": 53,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "假設身為監察委員的大佑，在某 段期間看到媒體揭露的四則新聞 報導，如表(六)所示。根據大佑的 職權判斷，表中哪一則新聞的報 導對象，最可能被他提出彈劾？",
       "options": {
@@ -1026,6 +1116,8 @@
       "source_number": 54,
       "display_number": 54,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_13.png",
+      "parse_status": "complete",
       "context": "表(六)\n新聞\n報導內容\n甲\n民調顯示，民眾對於內閣官員的滿\n意度大幅下滑。\n乙\n幫派分子製毒，警方破獲史上最大\n毒品販賣集團。\n丙\n現任總統疑似洩漏國家機密，影響\n國家安全。\n丁\n中央政府部會首長涉嫌官商勾結，\n從中舞弊。",
       "stem": "崇明島是位於中國第一大河出海口的島嶼，大部分隸屬於上海市。在某一段時 期，由於居民在島嶼周邊圍河造田，加上該大河流域內其他地區的人為活動， 使得島嶼面積逐漸增加。下列哪項人為活動與上文描述的島嶼面積變化關連最 密切？",
       "options": {
@@ -1042,6 +1134,8 @@
       "source_number": 55,
       "display_number": 55,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "秧秧至某城市旅遊，發現此城市曾歷經亞歷山大帝國、羅馬帝國、阿拉伯帝國、 鄂圖曼土耳其帝國的統治。秧秧最可能至下列哪一城市旅遊？",
       "options": {
@@ -1058,6 +1152,8 @@
       "source_number": 56,
       "display_number": 56,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "上文所述社會動盪不安的年代，主要是指下列何者？",
       "options": {
@@ -1074,6 +1170,8 @@
       "source_number": 57,
       "display_number": 57,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "下列哪一組經緯度坐標，最接近上述內陸國家所在位置？",
       "options": {
@@ -1090,6 +1188,8 @@
       "source_number": 58,
       "display_number": 58,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "上述內陸國家境內的山區，應屬於下列哪一座山脈？",
       "options": {
@@ -1106,6 +1206,8 @@
       "source_number": 59,
       "display_number": 59,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據上述內容判斷，下列哪種社會變遷的趨勢最可能符合文中敘述？",
       "options": {
@@ -1122,6 +1224,8 @@
       "source_number": 60,
       "display_number": 60,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "文中所提及違法行為應受到的處罰，與下列何者所應負起的法律責任類型相同？",
       "options": {
@@ -1138,6 +1242,8 @@
       "source_number": 61,
       "display_number": 61,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "上文中美國國會通過的「法案」，最可能呈現下列哪一概念？",
       "options": {
@@ -1154,6 +1260,8 @@
       "source_number": 62,
       "display_number": 62,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據上文對中國的描述，當時中國最可能出現下列哪一景象？",
       "options": {
@@ -1170,6 +1278,8 @@
       "source_number": 63,
       "display_number": 63,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\104\\social\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "上文所述的「老大哥」，最可能是下列何者？",
       "options": {
@@ -1182,118 +1292,5 @@
       "explanation": "這題的正確答案是 A。 對應選項內容是「蘇聯」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考社會科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
-  "issues": [
-    {
-      "question_number": 1,
-      "display_source_number": 1,
-      "reason": "parse_incomplete",
-      "stem_length": 20,
-      "option_count": 0
-    },
-    {
-      "question_number": 2,
-      "display_source_number": 2,
-      "reason": "parse_incomplete",
-      "stem_length": 50,
-      "option_count": 0
-    },
-    {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 23,
-      "option_count": 0
-    },
-    {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 310,
-      "option_count": 0
-    },
-    {
-      "question_number": 17,
-      "display_source_number": 17,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 14,
-      "display_source_number": 14,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 14,
-      "display_source_number": 14,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 15,
-      "display_source_number": 15,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 15,
-      "display_source_number": 15,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 16,
-      "display_source_number": 16,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 16,
-      "display_source_number": 16,
-      "reason": "parse_incomplete",
-      "stem_length": 31,
-      "option_count": 0
-    },
-    {
-      "question_number": 0,
-      "display_source_number": 0,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 67,
-      "display_source_number": 67,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 66,
-      "display_source_number": 66,
-      "reason": "parse_incomplete",
-      "stem_length": 7,
-      "option_count": 0
-    },
-    {
-      "question_number": 85,
-      "display_source_number": 85,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
-    },
-    {
-      "question_number": 85,
-      "display_source_number": 85,
-      "reason": "parse_incomplete",
-      "stem_length": 35,
-      "option_count": 0
-    }
-  ]
+  "issues": []
 }

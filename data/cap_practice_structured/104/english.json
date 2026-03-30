@@ -3,8 +3,8 @@
   "subject_slug": "english",
   "subject_label": "英語",
   "official_question_count": 40,
-  "question_count": 34,
-  "answered_count": 34,
+  "question_count": 40,
+  "answered_count": 40,
   "page_count": 14,
   "ocr_pages": [],
   "files": {
@@ -17,16 +17,12 @@
     "explanation_url": "https://drive.google.com/file/d/1TWg9u9jOIC0lnwviYQF5qr07OEguBjoN/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 54,
-    "answers_found": 48,
-    "questions_kept": 34,
-    "issues_found": 20,
+    "question_chunks_found": 49,
+    "answers_found": 40,
+    "questions_kept": 40,
+    "issues_found": 23,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -54,9 +50,6 @@
       25,
       26,
       27,
-      1,
-      2,
-      3,
       28,
       29,
       30,
@@ -66,13 +59,6 @@
       34,
       35,
       36,
-      10,
-      9,
-      8,
-      7,
-      6,
-      5,
-      4,
       37,
       38,
       39,
@@ -91,6 +77,12 @@
       10,
       11,
       12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
       19,
       20,
       21,
@@ -114,24 +106,19 @@
       39,
       40
     ],
-    "missing_question_numbers": [
-      13,
-      14,
-      15,
-      16,
-      17,
-      18
-    ],
+    "missing_question_numbers": [],
     "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
+      "context": "第一部分: 單題 (第1-12題，共12題)",
       "stem": "Look at the picture. The girl drew two on the wall.",
       "options": {
         "A": "circles",
@@ -140,13 +127,15 @@
         "D": "squares"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「squares」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「squares」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "This dress is pretty, it does not look good on me.",
       "options": {
@@ -163,6 +152,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Getting up early on a cold morning is not easy, ?",
       "options": {
@@ -179,6 +170,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Tonight I’ll stay at the office until I the work.",
       "options": {
@@ -195,6 +188,8 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Charles a day in the department store looking for a hat for his wife.",
       "options": {
@@ -211,6 +206,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Tom ten pounds over the past two months. He looks much thinner now.",
       "options": {
@@ -227,22 +224,39 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "I don’t like any one of these three watches. Can you show me one?",
-      "options": {
-        "A": "the others",
-        "B": "other",
-        "C": "either",
-        "D": "another"
-      },
+      "stem": "",
+      "options": {},
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「another」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 8,
       "source_number": 8,
       "display_number": 8,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "don’t like any one of these three watches. Can you show me one?",
+      "options": {
+        "A": "the others",
+        "B": "other",
+        "C": "either",
+        "D": "another"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「other」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 9,
+      "source_number": 9,
+      "display_number": 9,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "The waiters are asked to be ; they should always smile and remember to say “Welcome” and “Please.”",
       "options": {
@@ -251,14 +265,16 @@
         "C": "special",
         "D": "strong"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「polite」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「strong」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 9,
-      "source_number": 9,
-      "display_number": 9,
+      "number": 10,
+      "source_number": 10,
+      "display_number": 10,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "On Children’s Day, Ms. Lee, a famous storybook writer, to Molly’s Bookstore to talk about her new book. My two little kids just can’t wait to see her.",
       "options": {
@@ -271,10 +287,12 @@
       "explanation": "這題的正確答案是 D。 對應選項內容是「is going to come」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 10,
-      "source_number": 10,
-      "display_number": 10,
+      "number": 11,
+      "source_number": 11,
+      "display_number": 11,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "No one thought James would appear at Katie’s party. So when he , everyone was surprised and could not believe their eyes.",
       "options": {
@@ -283,14 +301,16 @@
         "C": "had",
         "D": "did"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「did」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「was」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 11,
-      "source_number": 11,
-      "display_number": 11,
+      "number": 12,
+      "source_number": 12,
+      "display_number": 12,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "B&J Café known as the tallest building in town. However, O&G Restaurant became the tallest building in 2010.",
       "options": {
@@ -299,14 +319,16 @@
         "C": "is",
         "D": "would be"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「had been」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「would be」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 12,
-      "source_number": 12,
-      "display_number": 12,
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Actor David Piper became tired of talking about the movie after he was interviewed about it many times.",
       "options": {
@@ -315,14 +337,150 @@
         "C": "that is famous for",
         "D": "he is famous for\n第二部分: 題組 (第13-40題，共28題)\n(13-15)"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「he is famous for\n第二部分: 題組 (第13-40題，共28題)\n(13-15)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「that is famous for」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 14,
+      "source_number": 14,
+      "display_number": 14,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "got better",
+        "B": "been warm",
+        "C": "changed a lot",
+        "D": "become wet and cold"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「got better」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "made two plans for you",
+        "B": "worried about your trip to here",
+        "C": "decided to take you to a nice place",
+        "D": "prepared everything you’ve asked for"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「worried about your trip to here」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 16,
+      "source_number": 16,
+      "display_number": 16,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "we’ll agree with each other",
+        "B": "don’t worry if it rains",
+        "C": "we all love animals very much",
+        "D": "don’t forget to check the weather\nFrom: Lisa Clyne (lisaclyne@mail.com)\nTo: Mary Faber (maryfaber@mail.com)\nDate: Thursday, April 2, 2015\nSubject: Welcome\n--------------------------------------------------------------------------------------------------------------\nDear Mary,\nUncle Billy and I are excited about your visit.\nThe weather has 13 these days. Like today, it was sunny in the morning, but\nrained heavily at noon. So we’ve 14 : If the weather is nice, I’m going to take you\nto Smith Farm. They’re having a special horse show this week. I’m sure you’ll like it.\nAnd 15 . We can go shopping at Mimi’s Department Store; there we can walk\naround without getting wet. Rain or shine, we hope you will have a good time here.\nSee you tomorrow at the train station at 9:00 a.m.\nLove,\nAunt Lisa\n(16-18)"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「we’ll agree with each other」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 17,
+      "source_number": 17,
+      "display_number": 17,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "we cannot really call it a neighbor",
+        "B": "we do not know anything about it yet",
+        "C": "we might not be able to stay there for long",
+        "D": "we are not sure how long it takes to get there"
+      },
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「we might not be able to stay there for long」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "What’s more, it is not water that makes HD189773b look blue",
+        "B": "With its blue color, HD189773b could be a second Earth for us",
+        "C": "Except for its blue color, HD189773b is nothing like our home planet",
+        "D": "Because of its blue color, people guess there might be life on HD189773b"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「What’s more, it is not water that makes HD189773b look blue」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 19,
       "source_number": 19,
-      "display_number": 13,
+      "display_number": 19,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "gives us hope",
+        "B": "took hard work",
+        "C": "has changed our life",
+        "D": "helps us know more about Earth\nNEWS HUNT\nKieran Hardy 11/07/2013\nFor years, we thought our Earth was the only blue dot up there. Now\nanother has been found. Its name is HD189773b. HD189773b is an\nexoplanet, a planet outside our Solar System, and is one of the nearest\nexoplanets to Earth. Even so, 16 . Here’s why: It is 63 light years away.\nThat means it is 370,440,000,000,000 miles from us. Even if we fly at 3,500\nmiles an hour, it will take more than 12 million years to get there."
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「took hard work」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "It is much bigger, it is made of gas and it is burning hot. In\nheat as great as 1,000°C, life is not possible. What is worse, it rains glass. If",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "000°C does not kill you, glass rain will.\nEven so, finding this blue giant 18 . It is the first time that we have\nbeen able to see the color of an exoplanet. The color of a planet gives us\nideas about what is happening on it. While we have a long way to go before\nwe find a new planet to live on, finding a blue dot is a good start.\nexoplanet 系外行星 Solar System 太陽系\n(19-20)",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "On the order list, Ginny ordered a sandwich with cheese, a fruit milk shake, and a fruit drink without ice. How much did she have to pay for her food?",
       "options": {
@@ -331,14 +489,16 @@
         "C": "$385.",
         "D": "$410."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「$320.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「$385.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 20,
-      "source_number": 20,
-      "display_number": 14,
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Ginny wants to go to Howell’s Bowl again during Joy Time. When will she possibly go there?",
       "options": {
@@ -347,14 +507,16 @@
         "C": "8:00 p.m. on Friday.",
         "D": "10:00 p.m. on Thursday.\nHowell’s Bowl\nTable 2\nperson(s) Order taken by Fred\n12:30 12/23\npumpkin pie\n220 x 2\ncheese cake\n120 x 1\nmilk shake (chocolate) (large)\n200 x 2\nmilk shake (banana)\n110 x 1\nchicken sandwich\n100 x 1\nchicken sandwich (with cheese)\ncola (no ice)\n65 x 1\norange juice (no ice)\n90 x 1\ngrape juice\n95 x 1\nTotal Price: $ 1,540\nThank You & Hope to See You Soon!!"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「10:00 p.m. on Thursday.\nHowell’s Bowl\nTable 2\nperson(s) Order taken by Fred\n12:30 12/23\npumpkin pie\n220 x 2\ncheese cake\n120 x 1\nmilk shake (chocolate) (large)\n200 x 2\nmilk shake (banana)\n110 x 1\nchicken sandwich\n100 x 1\nchicken sandwich (with cheese)\ncola (no ice)\n65 x 1\norange juice (no ice)\n90 x 1\ngrape juice\n95 x 1\nTotal Price: $ 1,540\nThank You & Hope to See You Soon!!」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「8:00 p.m. on Friday.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 15,
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "Tel: XXX-XXXX\nHowell’s Bowl\nOpen Hours:\n11:30 am - 11:30 pm\nTues. to Sun.\nJoy Time: 20% oﬀ\n2:00 - 4:00 pm\n9:30 - 11:30 pm\nx\nLast Saturday, Ginny and her friends had lunch at Howell’s Bowl. Here is their\norder, and the poster of the restaurant.\nposter 海報\n(21-23)\nBelow is how four students answered their teacher’s question in class.",
       "stem": "What question did the teacher most likely ask in class?",
       "options": {
@@ -363,14 +525,16 @@
         "C": "“What do you like to talk about with your friends?”",
         "D": "“What’s your favorite thing to do with your family?”"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「“What do you want to do in the future?”」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「“What’s your plan for the coming vacation?”」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 16,
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What do we know from the reading?",
       "options": {
@@ -383,26 +547,43 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「Ryan enjoys meeting people on the Internet.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 17,
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does them mean?",
       "options": {
         "A": "Pets.",
         "B": "Books.",
         "C": "Stories.",
-        "D": "Parents.\nI like shopping and talking to people. I think I can learn how to do business.\nMaybe selling clothes is a good business for me.\nMy hobbies are playing computer games and making friends online. We often\nshare our funny stories by e-mail. I guess I will learn more about computers and\nmake super-smart computer programs.\nMy parents have kept lots of pets since I was little. We’ve experienced many\nthings together, good and bad, happy and sad. Those stories have always stayed\nin my mind. One day, I will share them with people by drawing and writing\nbooks.\nThough my mom and two sisters are all doctors, I’m sure I will stay as far away\nfrom a hospital as I can. I hate being sick, and I’m afraid of seeing sick people\nlooking weak and sad. I’ll keep strong by playing my favorite sport, tennis,\nevery day. One day I’ll join the national team and be another Lu Yen-Hsun.\nLily:\nRyan:\nBill:\nAnna:\nlikely 可能\n(24-25)"
+        "D": "Parents."
       },
       "correct_answer": "C",
       "explanation": "這題的正確答案是 C。 對應選項內容是「Stories.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 24,
-      "source_number": 24,
-      "display_number": 18,
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "like shopping and talking to people. I think I can learn how to do business.\nMaybe selling clothes is a good business for me.\nMy hobbies are playing computer games and making friends online. We often\nshare our funny stories by e-mail. I guess I will learn more about computers and\nmake super-smart computer programs.\nMy parents have kept lots of pets since I was little. We’ve experienced many\nthings together, good and bad, happy and sad. Those stories have always stayed\nin my mind. One day, I will share them with people by drawing and writing\nbooks.\nThough my mom and two sisters are all doctors, I’m sure I will stay as far away\nfrom a hospital as I can. I hate being sick, and I’m afraid of seeing sick people\nlooking weak and sad. I’ll keep strong by playing my favorite sport, tennis,\nevery day. One day I’ll join the national team and be another Lu Yen-Hsun.\nLily:\nRyan:\nBill:\nAnna:\nlikely 可能\n(24-25)",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when someone is lousy at something?",
       "options": {
@@ -411,14 +592,16 @@
         "C": "They think it is important.",
         "D": "They are not interested in it."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「They cannot do it well.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「They are famous for it.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 25,
-      "source_number": 25,
-      "display_number": 19,
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn from the preface?",
       "options": {
@@ -431,10 +614,12 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「What Foster’s mother taught him about cooking.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 26,
-      "source_number": 26,
-      "display_number": 20,
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Below are the cards which four kids have taken since they began the game. Who has won the game?",
       "options": {
@@ -443,14 +628,16 @@
         "C": "Billy:\n→\n→\n.",
         "D": "Ivan:\n→\n→\n."
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「Billy:\n→\n→\n.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Kate:\n→\n→\n.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 27,
-      "source_number": 27,
-      "display_number": 21,
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about the game?",
       "options": {
@@ -459,14 +646,55 @@
         "C": "One can never get to Light Church at the first turn.",
         "D": "The cards can be used to decide where to start the game.\nHere are the rules for a game called “Trip to Dreamland.”"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「One can never begin his turn from Lion King.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「The cards can be used to decide where to start the game.\nHere are the rules for a game called “Trip to Dreamland.”」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 28,
-      "source_number": 28,
-      "display_number": 22,
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "Each player begins at\n.",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "In each turn, first take one of the four cards\nto decide how many spaces\nto move:\nfor one space,\nfor two spaces,\nfor three spaces, and\nfor four\nspaces. Then follow the words next to the\n, if there is a\nat the place you\narrive at.",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "The first one who gets to Dreamland wins the game. turn 回合 space 步、格\n(28-31)",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does The idea mean in the reading?",
       "options": {
@@ -475,14 +703,16 @@
         "C": "It is nice to have a cool bath on a hot summer day.",
         "D": "We should not take a bath when there is little water."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「Water is important in one’s everyday life.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「It is nice to have a cool bath on a hot summer day.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 29,
-      "source_number": 29,
-      "display_number": 23,
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What is the reading mostly about?",
       "options": {
@@ -491,30 +721,47 @@
         "C": "How water may play a part in one’s future.",
         "D": "Why it is hard to get water in poor countries."
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「How water may play a part in one’s future.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「How water may give a country power.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 30,
-      "source_number": 30,
-      "display_number": 24,
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What do we know from the reading?",
       "options": {
         "A": "Children in poor countries die from drinking dirty water every day.",
         "B": "Girls who spend little time at school have a harder life when they grow up.",
         "C": "Girls in countries like Tanzania are often paid less for the same job than the boys are.",
-        "D": "Children from poor families are often kept from school to take care of younger children.\nThe idea may hit you once or twice a year. You come home on a hot summer\nday, hoping to have a cool bath, and find out there is no water. Then you see how\nimportant water is in your everyday life. However, in many parts of the world, water\nis not just about one’s everyday needs.\nIn countries like Tanzania, water is hard to get, and the job of collecting water\nfalls on women’s shoulders. Girls are often kept home from school to collect water\nwhile their brothers stay at school studying. Studies show Tanzanian girls who live\n15 minutes from clean water spend 12% more time at school than those who live an\nhour away. More time spent collecting water means less time for learning. For these\ngirls, “Knowledge is power” is not just words; it is a sad fact in real life. With less\ntime spent at school, their chances of getting well-paid jobs are small, and they often\nhave no voice in important matters, like who to marry. These girls are often married\ninto poor families. They have little money or knowledge to take care of their children,\nwho often end up dying young. For the baby girls who are lucky enough to live, their\nlife may still center around “water,” just like it did for their mothers."
+        "D": "Children from poor families are often kept from school to take care of younger children.\nThe idea may hit you once or twice a year. You come home on a hot summer\nday, hoping to have a cool bath, and find out there is no water. Then you see how\nimportant water is in your everyday life. However, in many parts of the world, water\nis not just about one’s everyday needs.\nIn countries like Tanzania, water is hard to get, and the job of collecting water\nfalls on women’s shoulders. Girls are often kept home from school to collect water\nwhile their brothers stay at school studying. Studies show Tanzanian girls who live"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「Girls who spend little time at school have a harder life when they grow up.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Children in poor countries die from drinking dirty water every day.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 31,
-      "source_number": 31,
-      "display_number": 25,
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "minutes from clean water spend 12% more time at school than those who live an\nhour away. More time spent collecting water means less time for learning. For these\ngirls, “Knowledge is power” is not just words; it is a sad fact in real life. With less\ntime spent at school, their chances of getting well-paid jobs are small, and they often\nhave no voice in important matters, like who to marry. These girls are often married\ninto poor families. They have little money or knowledge to take care of their children,\nwho often end up dying young. For the baby girls who are lucky enough to live, their\nlife may still center around “water,” just like it did for their mothers.",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Families in the countries of Benin, Ghana, Guinea and Madagascar deal with the job of water-collecting the same way Tanzanian families do. From the reading, which chart best shows the fact?",
       "options": {
@@ -523,14 +770,16 @@
         "C": "",
         "D": "chart 圖表\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\n(32-34)"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「chart 圖表\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\nHow long people spend getting water\n(minutes a day)\ncountry\n%HQLQ\nKDQD\nXLQHD\n0DGDJDVFDU\ngirls\nboys\nminutes\n(32-34)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 32,
-      "source_number": 32,
-      "display_number": 26,
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\104\\english\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What is Garden House?",
       "options": {
@@ -539,173 +788,17 @@
         "C": "A flower shop.",
         "D": "An apartment."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「A bakery.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 33,
-      "source_number": 33,
-      "display_number": 27,
-      "page_number": 11,
-      "context": "",
-      "stem": "What can we learn about Keith?",
-      "options": {
-        "A": "He forgot to meet Amber and Matt for lunch.",
-        "B": "He did not know how to get to Amber’s apartment.",
-        "C": "He called Amber without knowing her phone was not working.",
-        "D": "He did not know Amber left him a voice message this morning."
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「He called Amber without knowing her phone was not working.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 28,
-      "page_number": 11,
-      "context": "",
-      "stem": "Which sentence was most likely part of the message that Amber left Keith this morning?",
-      "options": {
-        "A": "“Matt and I will go to the party after lunch.”",
-        "B": "“Don’t forget to buy a birthday gift for Liz.”",
-        "C": "“You can go straight to the party from your office.”",
-        "D": "“I need to talk to you about the party this weekend.”\n(At Liz’s birthday party)\nAmber: Don’t tell me you didn’t go to Garden House.\nKeith: Why would I go there?\nAmber: For Liz’s birthday cake!"
-      },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「“Matt and I will go to the party after lunch.”」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 35,
-      "source_number": 35,
-      "display_number": 29,
-      "page_number": 12,
-      "context": "I left you a voice message this morning!\nKeith: But you said Matt would go to the bakery! And why did you come here\nwithout me? I was waiting outside your apartment for an hour!\nAmber: No! I said I’d have lunch with Matt, and we’d come straight here from the\nrestaurant. So I asked you to help get the cake after work.\nKeith: No, you did not! And why didn’t you answer my calls?\nAmber: My cellphone is dead! I said in the message that you could call Matt’s number\nif you wanted to find me. Now please tell me you did bring the gift we got for Liz.\nKeith: What gift? I’m sure you didn’t say anything about a gift in the message.\nAmber: I told you that yesterday!\nmessage 留言\nlikely 可能\n(35-36)",
-      "stem": "What lesson can we learn from Froggie’s story?",
-      "options": {
-        "A": "Life is too short; one should live it to the fullest.",
-        "B": "Those who use their time well will win in the end.",
-        "C": "People are blind to problems that slowly get worse over time.",
-        "D": "It is difficult to give up old habits, but easy to pick up new ones."
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「People are blind to problems that slowly get worse over time.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 36,
-      "source_number": 36,
-      "display_number": 30,
-      "page_number": 12,
-      "context": "",
-      "stem": "What do we know about Froggie?",
-      "options": {
-        "A": "He learned to share what he liked with others.",
-        "B": "He thought what he had hoped for became real.",
-        "C": "He once almost lost a dear friend to a water snake.",
-        "D": "He wanted to go back to the same pot for a hot bath.\nFroggie was a frog who never remembered where he had been.\nHis biggest dream was to find the best pond to swim freely without\nworrying about water snakes. One day, Froggie hopped to a kitchen and\njumped into a pot full of hot water. Froggie felt the burning heat and\nhurried out of the water as fast as his legs could carry him. “I almost\ndied there!” Froggie thought.\nA few days later, Froggie went back to the same kitchen, totally\nforgetting he had been there. He again hopped into the same pot. This\ntime, the water inside was cool. He looked around and thought, “There’s\nno water snake trying to eat me and I can have this place all to myself!”\nAt that moment, Froggie knew it was his dream pond. What he didn’t\nknow was that the water was warming up over a low heat.\nAfter thirty minutes of swimming, Froggie felt the water was\nwarmer but he thought of this as a nice surprise. “This sure is the\nbest place for swimming. I get to have a hot bath, too.” During his\ncomfortable bath, the water kept getting warmer and warmer. Froggie\nwas so comfortable that he fell asleep. And he never woke up.\n(37-40)\nPercentage (%) of church-goers\nin our country"
-      },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「He thought what he had hoped for became real.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 37,
-      "source_number": 37,
-      "display_number": 31,
-      "page_number": 14,
-      "context": "",
-      "stem": "What does it mean when someone is in a calamitous state?",
-      "options": {
-        "A": "They have serious trouble.",
-        "B": "They try to change themselves.",
-        "C": "They are looking for a second chance.",
-        "D": "They lost interest in the outside world."
-      },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「They have serious trouble.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 38,
-      "source_number": 38,
-      "display_number": 32,
-      "page_number": 14,
-      "context": "",
-      "stem": "What can we learn about the church-goers from the report?",
-      "options": {
-        "A": "Between 1980 and 2005, few church-goers were younger than 50.",
-        "B": "In 2010, only 6% of church-goers were younger than 50 years old.",
-        "C": "In 2020, the percentage (%) of church-goers drops to lower than half that in 1980.",
-        "D": "Between 1980 and 2020, the rising number of old church-goers has led to an old church."
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「In 2020, the percentage (%) of church-goers drops to lower than half that in 1980.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 39,
-      "source_number": 39,
-      "display_number": 33,
-      "page_number": 14,
-      "context": "",
-      "stem": "What is talked about in the report?",
-      "options": {
-        "A": "Where the church’s money goes.",
-        "B": "How people decide to join a church.",
-        "C": "What happens to churches that are closed.",
-        "D": "Why people have stopped going to church."
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「What happens to churches that are closed.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 40,
-      "source_number": 40,
-      "display_number": 34,
-      "page_number": 14,
-      "context": "",
-      "stem": "Below are four findings from other reports. Which does NOT agree with the idea of the report?",
-      "options": {
-        "A": "“Reports show over 90% of church-goers go to church because their fathers do. In\nthe last 20 years, 49% of men under 30 have left the church. That means there’s\na 90% chance that their children won’t go to church. This is hard for the church\nto take in.”",
-        "B": "“Between 2003 and 2010, over 1,000 new churches were built in the country.\nThis may sound like good news. During the same years, however, more than\n2,000 were closed.”",
-        "C": "“In the report, 33% of the people that were interviewed say they never go to\nchurch and another 33% say they used to. Only 15% go to church at least once a\nmonth.”",
-        "D": "“Of the 15 countries in the report, the percentage (%) of church-goers in some\ncountries, like Denmark, is lower than 10%; in others, like Poland, the\npercentage is higher than 70%.”\n試題結束"
-      },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「“Of the 15 countries in the report, the percentage (%) of church-goers in some\ncountries, like Denmark, is lower than 10%; in others, like Poland, the\npercentage is higher than 70%.”\n試題結束」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「An apartment.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 104 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
-      "reason": "parse_incomplete",
-      "stem_length": 20,
-      "option_count": 0
-    },
-    {
-      "question_number": 2,
-      "display_source_number": 2,
-      "reason": "parse_incomplete",
-      "stem_length": 13,
-      "option_count": 0
-    },
-    {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 21,
-      "option_count": 0
-    },
-    {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 288,
-      "option_count": 0
-    },
-    {
-      "question_number": 13,
-      "display_source_number": 13,
+      "question_number": 7,
+      "display_source_number": 7,
       "reason": "parse_incomplete",
       "stem_length": 0,
-      "option_count": 4
+      "option_count": 0
     },
     {
       "question_number": 14,
@@ -743,74 +836,105 @@
       "option_count": 4
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 19,
+      "display_source_number": 19,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 4
+    },
+    {
+      "question_number": 20,
+      "display_source_number": 20,
+      "reason": "parse_incomplete",
+      "stem_length": 144,
+      "option_count": 0
+    },
+    {
+      "question_number": 21,
+      "display_source_number": 21,
+      "reason": "parse_incomplete",
+      "stem_length": 372,
+      "option_count": 0
+    },
+    {
+      "question_number": 27,
+      "display_source_number": 27,
+      "reason": "parse_incomplete",
+      "stem_length": 909,
+      "option_count": 0
+    },
+    {
+      "question_number": 32,
+      "display_source_number": 32,
       "reason": "parse_incomplete",
       "stem_length": 23,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 33,
+      "display_source_number": 33,
       "reason": "parse_incomplete",
       "stem_length": 229,
       "option_count": 0
     },
     {
-      "question_number": 3,
-      "display_source_number": 3,
+      "question_number": 34,
+      "display_source_number": 34,
       "reason": "parse_incomplete",
       "stem_length": 76,
       "option_count": 0
     },
     {
-      "question_number": 10,
-      "display_source_number": 10,
+      "question_number": 38,
+      "display_source_number": 38,
       "reason": "parse_incomplete",
-      "stem_length": 1,
+      "stem_length": 669,
       "option_count": 0
     },
     {
-      "question_number": 9,
-      "display_source_number": 9,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
+      "question_number": 41,
+      "display_source_number": 41,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 8,
-      "display_source_number": 8,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
+      "question_number": 42,
+      "display_source_number": 42,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 7,
-      "display_source_number": 7,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 6,
-      "display_source_number": 6,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
+      "question_number": 44,
+      "display_source_number": 44,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 5,
-      "display_source_number": 5,
-      "reason": "parse_incomplete",
-      "stem_length": 1,
-      "option_count": 0
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 1331,
-      "option_count": 0
+      "question_number": 46,
+      "display_source_number": 46,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 47,
+      "display_source_number": 47,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 48,
+      "display_source_number": 48,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 49,
+      "display_source_number": 49,
+      "reason": "out_of_range_question_number"
     }
   ]
 }

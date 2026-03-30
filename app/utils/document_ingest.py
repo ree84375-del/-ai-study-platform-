@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import csv
 from pathlib import Path
 
 import fitz
@@ -178,6 +179,71 @@ def run_tesseract_on_image(
         if not output_path.exists():
             return ""
         return output_path.read_text(encoding="utf-8", errors="ignore")
+
+
+def run_tesseract_tsv_on_image(
+    image_bytes: bytes,
+    languages: str = "chi_tra+eng",
+    psm: int = 6,
+    extra_configs: list[str] | None = None,
+) -> list[dict]:
+    assets = ensure_ocr_assets(languages)
+    rows: list[dict] = []
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp_path = Path(tmp_dir)
+        image_path = tmp_path / "page.png"
+        output_base = tmp_path / "ocr_output"
+        image_path.write_bytes(image_bytes)
+
+        command = [
+            assets["tesseract_path"],
+            str(image_path),
+            str(output_base),
+            "--tessdata-dir",
+            assets["tessdata_dir"],
+            "-l",
+            assets["languages"],
+            "--psm",
+            str(psm),
+        ]
+        for config in extra_configs or []:
+            command.extend(["-c", config])
+        command.extend(["-c", "tessedit_create_tsv=1"])
+        subprocess.run(command, check=True, capture_output=True)
+
+        output_path = output_base.with_suffix(".tsv")
+        if not output_path.exists():
+            return rows
+
+        with output_path.open("r", encoding="utf-8", errors="ignore", newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            for row in reader:
+                text = normalize_whitespace(row.get("text", ""))
+                if not text:
+                    continue
+                try:
+                    confidence = float(str(row.get("conf", "")).strip() or -1)
+                except ValueError:
+                    confidence = -1.0
+                try:
+                    left = float(row.get("left", 0) or 0)
+                    top = float(row.get("top", 0) or 0)
+                    width = float(row.get("width", 0) or 0)
+                    height = float(row.get("height", 0) or 0)
+                except ValueError:
+                    continue
+                rows.append(
+                    {
+                        "x0": left,
+                        "y0": top,
+                        "x1": left + width,
+                        "y1": top + height,
+                        "text": text,
+                        "confidence": confidence,
+                        "source": "ocr_tsv",
+                    }
+                )
+    return rows
 
 
 def run_tesseract_data_on_image(

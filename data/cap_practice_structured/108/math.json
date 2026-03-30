@@ -17,10 +17,10 @@
     "explanation_url": "https://drive.google.com/file/d/1G4brkSQwKSVS960xoiTAQpAhO8V-q-WR/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 38,
-    "answers_found": 27,
+    "question_chunks_found": 57,
+    "answers_found": 26,
     "questions_kept": 26,
-    "issues_found": 12,
+    "issues_found": 25,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
       1,
@@ -28,12 +28,21 @@
       3,
       4,
       5,
-      1,
-      2,
-      1,
-      2,
-      3,
-      1,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
       2,
       3,
       4,
@@ -58,9 +67,7 @@
       23,
       24,
       25,
-      26,
-      1,
-      2
+      26
     ],
     "kept_question_numbers": [
       1,
@@ -100,7 +107,9 @@
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\108\\math\\page_02.png",
+      "parse_status": "complete",
+      "context": "第一部分：選擇題（1 ~ 26 題）",
       "stem": "算式 −5 3 − ( −1 6 ) 之值為何？",
       "options": {
         "A": "−3",
@@ -109,13 +118,15 @@
         "D": "−4"
       },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「−3」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 對應選項內容是「−3」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某城市分為南、北兩區，圖( 一) 為 105 年到 107 年該城市兩區的人口數量 長條圖。根據圖( 一) 判斷該城市的總人口數量，從 105 年到 107 年的變化 情形為下列何者？",
       "options": {
@@ -132,6 +143,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "計算 ( 2x − 3 )( 3x + 4 ) 的結果，與下列哪一個式子相同？",
       "options": {
@@ -148,6 +161,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖( 二) 的直角柱由2 個正三角形底面和3 個矩形側面組成，其中正三角形面積 為 a， 矩形面積為 b 。若將 4 個圖( 二) 的直角柱緊密堆疊成圖( 三) 的直角柱， 則圖( 三) 中直角柱的表面積為何？",
       "options": {
@@ -163,55 +178,63 @@
       "number": 5,
       "source_number": 5,
       "display_number": 5,
-      "page_number": 3,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_02.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "若 44 = 2 a ， 54 = 3 b ，則 a + b 之值為何？",
+      "stem": "ath (2x -3)\\( 3x44) HR > ME HIM — 1 AF 40 Fl ?",
       "options": {
-        "A": "13",
-        "B": "17",
-        "C": "24",
-        "D": "40"
+        "A": "-7x + 4",
+        "B": "-7x — 12",
+        "C": "6x’ — 12",
+        "D": "6x? -x-12\n{ 2% oy A A AE Ve OS"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「17」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「-7x — 12」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 6,
       "source_number": 6,
       "display_number": 6,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_03.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "民國 106 年 8 月 15 日，大潭發電廠因跳電導致供電短少約 430 萬瓩，造成 全臺灣多處地方停電。已知 1 瓩等於 1 千瓦，求 430 萬瓩等於多少瓦？",
+      "stem": "B(-—)H#AARHIMBLEA AVR D3 Pe aAbak: HYELE Awa Aa eI RRA De HHH 4/1 (—) HEARS SHERKRE (=) HAAR? A (=) PA ARMHADRANM?",
       "options": {
-        "A": "4.3 × 107",
-        "B": "4.3 × 108",
-        "C": "4.3 × 109",
-        "D": "4.3 × 1010"
+        "A": "13",
+        "B": "17",
+        "C": "24",
+        "D": "40"
       },
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「4.3 × 109」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 C。 對應選項內容是「24」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 7,
       "source_number": 7,
       "display_number": 7,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_03.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "圖( 四) 的坐標平面上有原點 O 與 A 、 B 、 C 、 D 四點。若有一直線 L 通過點 ( −3,4 ) 且與 y 軸垂直，則 L 也會通過下列哪一點？",
+      "stem": "6. 106 #8 F158 > KFRERAMESRHERY & 430 BH ER BEES RMAGE : CHLBSRIF RK: R430 BRSERAZYR?",
       "options": {
-        "A": "A",
-        "B": "B",
-        "C": "C",
-        "D": "D\n圖( 二)\n圖( 三)\n圖( 四)"
+        "A": "4.3 x 107",
+        "B": "4.3 x 10°",
+        "C": "4.3 x 10°",
+        "D": "4.3 x 10\"°"
       },
       "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「D\n圖( 二)\n圖( 三)\n圖( 四)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 D。 對應選項內容是「4.3 x 10\"°」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 8,
       "source_number": 8,
       "display_number": 8,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "若多項式 5x2 + 17x − 12 可因式分解成 ( x + a )( bx + c )，其中 a 、 b 、 c 均為整數，則 a + c 之值為何？",
       "options": {
@@ -228,6 +251,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "公園內有一矩形步道，其地面使用相同的灰色正方形地磚與相同的白色等腰 直角三角形地磚排列而成。圖( 五) 表示此步道的地磚排列方式，其中正方形 地磚為連續排列且總共有 40 個。求步道上總共使用多少個三角形地磚？",
       "options": {
@@ -244,6 +269,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "數線上有 O 、 A 、 B 、 C 四點，各點位置與各點所表示的數如圖( 六) 所示。 若數線上有一點 D， D 點所表示的數為 d，且 d − 5 = d − c ，則關於 D 點 的位置，下列敘述何者正確？",
       "options": {
@@ -260,6 +287,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "如圖( 七)，將一長方形紙片沿著虛線剪成兩個全等的梯形紙片。根據圖中標示 的長度與角度，求梯形紙片中較短的底邊長度為何？",
       "options": {
@@ -275,9 +304,26 @@
       "number": 12,
       "source_number": 12,
       "display_number": 12,
-      "page_number": 5,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "阿慧在店內購買兩種蛋糕當伴手禮，圖( 八) 為蛋糕的價目表。已知阿慧購買 10 盒蛋糕，花費的金額不超過 2500 元。若他將蛋糕分給 75 位同事，每人 至少能拿到一個蛋糕，則阿慧花多少元購買蛋糕？",
+      "stem": "BAA AMHR MR: A",
+      "options": {
+        "A": "KRIS M Owe ANAK: PLA"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "盒蛋糕，花費的金額不超過 2500 元。若他將蛋糕分給 75 位同事，每人 至少能拿到一個蛋糕，則阿慧花多少元購買蛋糕？",
       "options": {
         "A": "2150",
         "B": "2250",
@@ -288,26 +334,30 @@
       "explanation": "這題的正確答案是 D。 對應選項內容是「2450」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 13,
-      "source_number": 13,
-      "display_number": 13,
-      "page_number": 5,
-      "context": "",
-      "stem": "如圖( 九)， △ABC 中，D 點在 BC 上，將 D 點分別以 AB、AC 為對稱軸， 畫出對稱點 E 、 F ，並連接 AE 、 AF 。根據圖中標示的角度，求 ∠EAF 的 度數為何？",
-      "options": {
-        "A": "113",
-        "B": "124",
-        "C": "129",
-        "D": "134\n圖( 八)\n圖( 九)\n圖( 七)"
-      },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「134\n圖( 八)\n圖( 九)\n圖( 七)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
       "number": 14,
       "source_number": 14,
       "display_number": 14,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "10. RREARO.A+B Cw Az Ewa SEP Raa 4 (A +) PR SURLA—HS D> D ther Raw RA d> 2 |d-5|=|d—cl> RAMA DB aye > FW Rik toy IEE ?",
+      "options": {
+        "A": "",
+        "B": "rH A> C ZB “Sc 0 5",
+        "C": "tw C+ OZR ll",
+        "D": "779 O- B ZR\n3 2 dn A AB A eK"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「779 O- B ZR\n3 2 dn A AB A eK」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "箱子內裝有 53 顆白球及 2 顆紅球，小芬打算從箱子內抽球，以每次抽出一球後將 球再放回的方式抽 53 次球。若箱子內每顆球被抽到的機會相等， 且前 52 次中 抽到白球 51 次及紅球 1 次，則第 53 次抽球時，小芬抽到紅球的機率為何？",
       "options": {
@@ -316,14 +366,16 @@
         "C": "2",
         "D": "2"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「2」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「2」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 15,
-      "source_number": 15,
-      "display_number": 15,
+      "number": 16,
+      "source_number": 16,
+      "display_number": 16,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "如圖( 十)， △ABC 中， AC = BC < AB 。若 ∠1、 ∠2 分別為 ∠ABC 、 ∠ACB 的外角，則下列角度關係何者 正確？",
       "options": {
@@ -332,30 +384,48 @@
         "C": "∠A + ∠2 < 180°",
         "D": "∠A + ∠1 > 180°"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「∠A + ∠2 < 180°」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 16,
-      "source_number": 16,
-      "display_number": 16,
-      "page_number": 6,
-      "context": "",
-      "stem": "小涵與阿嘉一起去咖啡店購買同款咖啡豆，咖啡豆每公克的價錢固定，購買時 自備容器則結帳金額再減 5 元。若小涵購買咖啡豆 250 公克且自備容器， 需支付 295 元；阿嘉購買咖啡豆 x 公克但沒有自備容器，需支付 y 元， 則 y 與 x 的關係式為下列何者？",
-      "options": {
-        "A": "y = 295\n250 x",
-        "B": "y = 300\n250 x",
-        "C": "y = 295\n250 x + 5",
-        "D": "y = 300\n250 x + 5\n圖( 十)"
-      },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「y = 300\n250 x」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「∠1 = ∠2」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 17,
       "source_number": 17,
       "display_number": 17,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "小涵與阿嘉一起去咖啡店購買同款咖啡豆，咖啡豆每公克的價錢固定，購買時 自備容器則結帳金額再減 5 元。若小涵購買咖啡豆 250 公克且自備容器， 需支付 295 元；阿嘉購買咖啡豆 x 公克但沒有自備容器，需支付 y 元， 則 y 與 x 的關係式為下列何者？",
+      "options": {
+        "A": "y = 295\n250 x",
+        "B": "y = 300\n250 x",
+        "C": "y = 295"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "250 x + 5",
+      "options": {
+        "D": "y = 300\n250 x + 5\n圖( 十)"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "如圖( 十一)，將一張面積為 14 的大三角形紙片沿著虛線剪成三張小三角形 紙片與一張平行四邊形紙片。根據圖中標示的長度，求平行四邊形紙片的面積 為何？",
       "options": {
@@ -368,233 +438,264 @@
       "explanation": "這題的正確答案是 D。 對應選項內容是「48」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 18,
-      "source_number": 18,
-      "display_number": 18,
-      "page_number": 7,
-      "context": "",
-      "stem": "圖( 十二) 的摩天輪上以等間隔的方式設置 36 個車廂，車廂依順時針方向分別 編號為 1 號到 36 號，且摩天輪運行時以逆時針方向等速旋轉，旋轉一圈花費 30 分鐘。若圖( 十三) 表示 21 號車廂運行到最高點的情形，則此時經過多少 分鐘後， 9 號車廂才會運行到最高點？",
-      "options": {
-        "A": "10",
-        "B": "20",
-        "C": "15",
-        "D": "45\n圖( 十二)\n圖( 十三)\n圖( 十一)"
-      },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「20」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 19,
-      "source_number": 19,
-      "display_number": 19,
-      "page_number": 8,
-      "context": "",
-      "stem": "如圖(十四)， 直角三角形 ABC 的內切圓分別與 AB 、 BC 相切於 D 點、 E 點。 根據圖中標示的長度與角度，求 AD 的長度為何？",
-      "options": {
-        "A": "3",
-        "B": "5",
-        "C": "4",
-        "D": "5"
-      },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「5」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
       "number": 20,
       "source_number": 20,
       "display_number": 20,
-      "page_number": 8,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "某旅行團到森林遊樂區參觀，表( 一) 為兩種參觀方式與所需的纜車費用。 已知旅行團的每個人皆從這兩種方式中選擇一種，且去程有 15 人搭乘纜車， 回程有 10 人搭乘纜車。若他們纜車費用的總花費為 4100 元，則此旅行團 共有多少人？",
+      "stem": "qh FB) BER SIL RAR R> AF 53 RAE > oH HhF] AERA RK By ?",
       "options": {
-        "A": "16",
-        "B": "19",
-        "C": "22",
-        "D": "25"
+        "A": "",
+        "B": ">\nOF",
+        "D": "="
       },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「16」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 21,
       "source_number": 21,
       "display_number": 21,
-      "page_number": 8,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "小宜跟同學在某餐廳吃飯，圖( 十五) 為此餐廳的菜單。若他們所點的餐點 總共為 10 份義大利麵， x 杯飲料，y 份沙拉，則他們點了幾份 A 餐？",
+      "stem": "15. 4H (+)> A ABC # > AC=BCK<AB °- # 41°22 ch DIAZ ABC . Z ACB YS A? RIF AAR aS iL ?",
       "options": {
-        "A": "10 − x",
-        "B": "10 − y",
-        "C": "10 − x + y",
-        "D": "10 − x − y\n圖( 十四)\n表( 一)\n圖( 十五)"
+        "A": "Z1< 22",
+        "B": "Z1= 72 A",
+        "C": "ZA + 22 < 180°",
+        "D": "7A + 71 >180° BCT)"
       },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「10 − x」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 對應選項內容是「Z1< 22」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 22,
       "source_number": 22,
       "display_number": 22,
-      "page_number": 9,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "若正整數 a 和 420 的最大公因數為 35 ，則下列敘述何者正確？",
-      "options": {
-        "A": "20 可能是 a 的因數， 25 可能是 a 的因數",
-        "B": "20 可能是 a 的因數， 25 不可能是 a 的因數",
-        "C": "20 不可能是 a 的因數， 25 可能是 a 的因數",
-        "D": "20 不可能是 a 的因數， 25 不可能是 a 的因數"
-      },
+      "stem": "16.\n2) ih APT HS — AK hoe TE EP\nA te & BASRA AAR S 7°\nRoose G > opode G Be & wy (E se Ee > RE A aS\nih Ast S 250 ORR ARABS >\nBAM 295 02> MHRA IA KX AERA ARAB? FRM VY WD?",
+      "options": {},
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「20 不可能是 a 的因數， 25 可能是 a 的因數」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 23,
       "source_number": 23,
       "display_number": 23,
-      "page_number": 9,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "如圖( 十六)，有一三角形 ABC 的頂點 B 、 C 皆在直線 L 上，且其內心為 I 。 今固定 C 點， 將此三角形依順時針方向旋轉， 使得新三角形 A′B′C 的 頂點 A′ 落在 L 上， 且其內心為 I′ 。 若 ∠A < ∠B < ∠C ，則下列敘述何者正確？",
+      "stem": "Bl y Bx AKA FT ?",
       "options": {
-        "A": "IC 和 I′A′ 平行， II′ 和 L 平行",
-        "B": "IC 和 I′A′ 平行， II′ 和 L 不平行",
-        "C": "IC 和 I′A′ 不平行， II′ 和 L 平行",
-        "D": "IC 和 I′A′ 不平行， II′ 和 L 不平行"
+        "A": "y= 250 ~\n®B)y= 50\n(Ov= 350 15\n(Y= 959 °\n° aA A AES"
       },
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「IC 和 I′A′ 不平行， II′ 和 L 平行」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 24,
       "source_number": 24,
       "display_number": 24,
-      "page_number": 9,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_07.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "圖( 十七) 表示 A 、 B 、 C 、 D 四點在圓 O 上的 位置，其中 AD = 180° ， 且 AB = BD ， BC = CD。 若阿超在 AB 上取一點 P ，在 BD 上取一點 Q ， 使得 ∠APQ = 130°，則下列敘述何者正確？",
+      "stem": "17. wa (+—)> BH BRA 14 HAZ BBARBSRERD RAB )aA Aw 46 SRR EBA o RE PR ROR? RETOUR AH OO",
       "options": {
-        "A": "Q 點在 BC 上，且 BQ > QC",
-        "B": "Q 點在 BC 上，且 BQ < QC",
-        "C": "Q 點在 CD 上，且 CQ > QD",
-        "D": "Q 點在 CD 上，且 CQ < QD\n圖( 十七)\n圖( 十六)\n圖( 十八)"
+        "A": "",
+        "B": "Or\n(>) 4"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「Q 點在 BC 上，且 BQ < QC」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Or\n(>) 4」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 25,
       "source_number": 25,
       "display_number": 25,
-      "page_number": 10,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "圖( 十八) 的 △ABC 中， AB > AC > BC，且 D 為 BC 上一點。今打算在 AB 上找一點 P ，在 AC 上找一點 Q ，使得 △APQ 與 △PDQ 全等，以下 是甲、乙兩人的作法： ( 甲) 連接 AD ，作 AD 的中垂線分別交 AB 、 AC 於 P 點、 Q 點， 則 P 、 Q 兩點即為所求 ( 乙) 過 D 作與 AC 平行的直線交 AB 於 P 點，過 D 作與 AB 平行的直線 交 AC 於 Q 點，則 P 、 Q 兩點即為所求 對於甲、乙兩人的作法，下列判斷何者正確？",
-      "options": {
-        "A": "兩人皆正確",
-        "B": "兩人皆錯誤",
-        "C": "甲正確，乙錯誤",
-        "D": "甲錯誤，乙正確"
-      },
+      "stem": "18. B( +) HEARLUEMMMAAAAE 36 PRA: BARU DS!\nMey 1 HEE] 36 E> BERGE LSA SRM KHB—-BiCe",
+      "options": {},
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「兩人皆正確」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 26,
       "source_number": 26,
       "display_number": 26,
-      "page_number": 10,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\108\\math\\page_07.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "如圖(十九)， 坐標平面上有一頂點為 A的拋物線， 此拋物線與方程式 y = 2 的圖形交於 B、 C 兩點， 且 △ABC 為正三角形。 若 A 點坐標為 ( −3,0 )， 則此拋物線與 y 軸的交點坐標為何？",
+      "stem": "30 748 °° $B (+2) AR 21 KSABHAMNRSBOBW > Al bee eia sy 4y 8848 > O FE Bhat SEAT SIR HB?",
       "options": {
-        "A": "( 0, 9\n2 )",
-        "B": "( 0, 27\n2 )",
-        "C": "( 0,9 )",
-        "D": "( 0,18 )\n圖( 十九)\n第二部分：非選擇題(1 ~ 2 題)"
+        "A": "10",
+        "B": "20\n15 ,\nCc) —— we\n> :\no> a\nN Mogae ctl | f|\nAVL LTRS\na (+= la] (+= )"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「( 0, 27\n2 )」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「20\n15 ,\nCc) —— we\n> :\no> a\nN Mogae ctl | f|\nAVL LTRS\na (+= la] (+= )」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 108 年會考數學科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 12,
+      "display_source_number": 12,
       "reason": "parse_incomplete",
-      "stem_length": 21,
+      "stem_length": 36,
       "option_count": 0
+    },
+    {
+      "question_number": 18,
+      "display_source_number": 18,
+      "reason": "parse_incomplete",
+      "stem_length": 9,
+      "option_count": 1
+    },
+    {
+      "question_number": 20,
+      "display_source_number": 20,
+      "reason": "parse_incomplete",
+      "stem_length": 78,
+      "option_count": 0
+    },
+    {
+      "question_number": 30,
+      "display_source_number": 30,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 31,
+      "display_source_number": 31,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 32,
+      "display_source_number": 32,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 33,
+      "display_source_number": 33,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 34,
+      "display_source_number": 34,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 35,
+      "display_source_number": 35,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 36,
+      "display_source_number": 36,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 37,
+      "display_source_number": 37,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 38,
+      "display_source_number": 38,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 39,
+      "display_source_number": 39,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 40,
+      "display_source_number": 40,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 41,
+      "display_source_number": 41,
+      "reason": "out_of_range_question_number"
     },
     {
       "question_number": 2,
       "display_source_number": 2,
       "reason": "parse_incomplete",
-      "stem_length": 27,
+      "stem_length": 45,
       "option_count": 0
     },
     {
       "question_number": 3,
       "display_source_number": 3,
       "reason": "parse_incomplete",
-      "stem_length": 19,
+      "stem_length": 44,
       "option_count": 0
     },
     {
-      "question_number": 4,
-      "display_source_number": 4,
+      "question_number": 9,
+      "display_source_number": 9,
       "reason": "parse_incomplete",
-      "stem_length": 40,
+      "stem_length": 52,
       "option_count": 0
     },
     {
-      "question_number": 5,
-      "display_source_number": 5,
+      "question_number": 11,
+      "display_source_number": 11,
       "reason": "parse_incomplete",
-      "stem_length": 86,
+      "stem_length": 6,
       "option_count": 0
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 12,
+      "display_source_number": 12,
       "reason": "parse_incomplete",
-      "stem_length": 31,
+      "stem_length": 14,
+      "option_count": 1
+    },
+    {
+      "question_number": 18,
+      "display_source_number": 18,
+      "reason": "parse_incomplete",
+      "stem_length": 55,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 19,
+      "display_source_number": 19,
       "reason": "parse_incomplete",
-      "stem_length": 115,
+      "stem_length": 46,
       "option_count": 0
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 22,
+      "display_source_number": 22,
       "reason": "parse_incomplete",
-      "stem_length": 5,
+      "stem_length": 168,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 23,
+      "display_source_number": 23,
       "reason": "parse_incomplete",
-      "stem_length": 124,
-      "option_count": 0
+      "stem_length": 16,
+      "option_count": 1
     },
     {
-      "question_number": 3,
-      "display_source_number": 3,
+      "question_number": 25,
+      "display_source_number": 25,
       "reason": "parse_incomplete",
-      "stem_length": 91,
-      "option_count": 0
-    },
-    {
-      "question_number": 1,
-      "display_source_number": 1,
-      "reason": "parse_incomplete",
-      "stem_length": 199,
-      "option_count": 0
-    },
-    {
-      "question_number": 2,
-      "display_source_number": 2,
-      "reason": "parse_incomplete",
-      "stem_length": 645,
+      "stem_length": 83,
       "option_count": 0
     }
   ]

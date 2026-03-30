@@ -4,7 +4,7 @@
   "subject_label": "自然",
   "official_question_count": 54,
   "question_count": 54,
-  "answered_count": 53,
+  "answered_count": 54,
   "page_count": 15,
   "ocr_pages": [],
   "files": {
@@ -17,16 +17,12 @@
     "explanation_url": "https://drive.google.com/file/d/1QcMOuGHaby1_huKWY6a2gSt6Vm0GusW7/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 58,
-    "answers_found": 53,
+    "question_chunks_found": 57,
+    "answers_found": 54,
     "questions_kept": 54,
-    "issues_found": 5,
-    "answer_completion_ratio": 0.981,
+    "issues_found": 6,
+    "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -148,6 +144,8 @@
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "牛背鷺為一種鳥類，常飛至牛的背上，靠食用牛身上的寄生蟲與草地中的昆蟲 維生。根據上述提及生物的交互關係，下列推論何者最合理？",
       "options": {
@@ -156,14 +154,16 @@
         "C": "寄生蟲主要寄生於牛背鷺與牛身上",
         "D": "寄生蟲與牛背鷺競爭牛身上的食物"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「牛背鷺與牛為共生關係」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "如圖(一)所示，美美想把燒杯中的液體倒入滴定管中，她 搭配下列哪一項器材來使用，最適合且最能避免在傾倒 液體時灑出？",
       "options": {
@@ -180,6 +180,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "澱粉在人體內經某種生理作用後可產生多個小分子 X，如圖(二)所示。有關此 生理作用及小分子 X 的名稱，下列何者最合理？",
       "options": {
@@ -196,6 +198,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小喬找到有關「小白鷺、中白鷺、大白鷺」的資料，並整理如表(一)所示。根據 此表，成年的小白鷺學名應為下列何者？",
       "options": {
@@ -212,6 +216,8 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(三)為植物體內物質運輸示意圖，圖(四)為葉片氣孔狀態示意圖。白天植物進 行旺盛的蒸散作用時，有關體內水分運輸方向(甲或乙)及葉片氣孔狀態(丙或丁)， 下列組合何者正確？",
       "options": {
@@ -228,6 +234,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小芳閉上眼睛做某種動作，其過程如圖(五)所示。當她從 甲動作轉換成乙動作時，協調肌肉活動以維持平衡主要是 由下列何者調控？",
       "options": {
@@ -244,6 +252,8 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(六)為某區域的地層剖面示意圖，圖中相同符號或顏色的標示，代表其未受斷層錯 動前為同一地層。已知此地區地層未曾發生上下翻轉，在地層乙中含有一千萬年前 的生物化石，地層戊中則含有五千萬年前的生物化石。若圖中某地層含有三千萬年前 的生物化石，則該地層最有可能為下列何者？",
       "options": {
@@ -260,6 +270,8 @@
       "source_number": 8,
       "display_number": 8,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "當岩石受到壓力、溫度、海水等因素影響，會逐漸破裂，而海浪長期在破裂的 裂隙中反覆作用，使裂隙加大，會形成一塊塊形狀像豆腐的岩石，稱為「豆腐 岩」。根據上述資訊，「豆腐岩」的形成原因應以哪兩種地質作用為主？",
       "options": {
@@ -276,6 +288,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(七)為羽毛球運動常見基本球路，圖中線段代表羽毛球的運動軌跡，箭頭代表 移動方向，由此判斷，哪一種球路的運動過程，羽毛球相對於地面的重力位能 只會一直減少？",
       "options": {
@@ -292,6 +306,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "樂譜上常用 f、p 等力度記號來表示樂曲在此處的音量(響度)大小應該如何變 化，此類力度記號與聲波的下列何種特性最相關？",
       "options": {
@@ -308,6 +324,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "天平兩邊秤盤上分別有甲、乙兩燒杯，燒杯中盛有濃度、體積均相同的鹽酸，靜止 時指針指在中央的位置。將質量相同但顆粒大小不同的 X、Y 兩份大理石碎塊， 同時分別倒入甲、乙兩燒杯，如圖(八)所示。反應剛開始冒出氣體，使兩杯質量 均減輕，且指針往右偏轉，如圖(九)所示。 根據圖(九)結果，判斷燒杯內初始反應速率的快慢及其原因，下列說明何者正確？",
       "options": {
@@ -324,6 +342,8 @@
       "source_number": 12,
       "display_number": 12,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十)為輪軸裝置的正視圖及側視圖，若要使用此裝置 「省力地」將重物等速向上抬起，下列何種使用方式最適當？",
       "options": {
@@ -340,6 +360,8 @@
       "source_number": 13,
       "display_number": 13,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "室溫下，小綺分別配製甲、乙、丙三杯濃度皆為 0.2 M 的水溶液，其溶質種類 與說明，如表(二)所示。這三杯水溶液 pH 值的大小關係，應為下列何者？",
       "options": {
@@ -356,6 +378,8 @@
       "source_number": 14,
       "display_number": 14,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "市面上販售的萘丸，其主要成分為「萘」，可用來驅蟲。已知萘是一種有機烴類 化合物，下列何者所含有的原子種類與萘完全相同？",
       "options": {
@@ -372,6 +396,8 @@
       "source_number": 15,
       "display_number": 15,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十一)是甲、乙兩種物質的溶解度與溫度之關係圖。曉明依據此資料進行溶解度 實驗，在各裝有 10 g 水的 X、Y 兩杯中，分別加入甲、乙兩種物質，過程中水 未蒸發減少，且溶液的溫度維持 40°C，如圖(十二)所示。下列何者最可能是曉明 觀察到的結果？",
       "options": {
@@ -388,6 +414,8 @@
       "source_number": 16,
       "display_number": 16,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某抗菌肥皂添加物質 X，其目的是要破壞細菌的構造以達到殺菌效果，但專家擔心 此產品會加速細菌的演化。若以天擇說解釋專家所擔心的內容，則有關此抗菌 肥皂中的物質 X 對人體或細菌的影響，下列何者最合理？",
       "options": {
@@ -404,6 +432,8 @@
       "source_number": 17,
       "display_number": 17,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "自花授粉是指植物的花粉黏附在同一朵花的雌蕊柱頭上。關於植物以自花授粉 的方式生殖，下列何者最合理？",
       "options": {
@@ -420,6 +450,8 @@
       "source_number": 18,
       "display_number": 18,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "某生使用放大倍率為 40 倍的解剖顯微鏡觀察某一圖形，視野下如 圖(十三)所示。在不轉動圖形的情況下，若改以目鏡 10X、物鏡 4X 的複式顯微鏡觀察，下列何者最可能是在該倍率的複式顯微鏡視野 下觀察到的圖形？",
       "options": {
@@ -436,6 +468,8 @@
       "source_number": 19,
       "display_number": 19,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小樺在氣溫 27°C 及 17°C 時的手部皮膚溫度分別如圖(十四)所示。表(三)是四種 不同品牌零食開始熔化的溫度。正常體溫的情況下，若小樺希望「在 27 °C 及 17°C 兩種氣溫下，零食拿在手上都不會熔化，但放入口中卻都會熔化」，則下 列哪一品牌最符合他的期待？",
       "options": {
@@ -452,6 +486,8 @@
       "source_number": 20,
       "display_number": 20,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "在秋季夜空可看到組成飛馬座的大四邊形，其中包括 X、Y兩顆恆星，如圖(十五) 所示。已知 X 星距地球約 335 光年，Y星距地球約 140 光年，下列敘述何者最 合理？",
       "options": {
@@ -468,14 +504,11 @@
       "source_number": 21,
       "display_number": 21,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_06.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "某次颱風通過一小島後，阿龍檢視了該小島在受颱風影響時的地面天氣觀 測資料，由某個觀測值正確推得颱風中心最接近該小島的時間點為該月的 7 日 12時。根據颱風中心的性質，下列何者最可能是他作出推論所利用的 資料？",
-      "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": ""
-      },
+      "stem": "某次颱風通過一小島後，阿龍檢視了該小島在受颱風影響時的地面天氣觀\n測資料，由某個觀測值正確推得颱風中心最接近該小島的時間點為該月的",
+      "options": {},
       "correct_answer": "C",
       "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
@@ -484,6 +517,26 @@
       "source_number": 22,
       "display_number": 22,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "日 12時。根據颱風中心的性質，下列何者最可能是他作出推論所利用的 資料？",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": ""
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "有關目前對太陽系的認識，下列敘述何者正確？",
       "options": {
@@ -492,32 +545,18 @@
         "C": "類地行星主要是由氣體、冰等物質所組成",
         "D": "類木行星的密度以及體積皆小於類地行星\n圖(十四)\n表(三)\n圖(十五)"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「八大行星中類地行星與類木行星數量相同」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 23,
-      "page_number": 7,
-      "context": "",
-      "stem": "圖(十六)為北半球某地地表的等壓線分布圖， 箭頭代表當時地表主要的空氣流動方向，關於 下列圖中等壓線上的氣壓值(單位為百帕)，何 者最符合圖(十六)當時的大氣情況？",
-      "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": ""
-      },
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 C。 對應選項內容是「類地行星主要是由氣體、冰等物質所組成」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 24,
       "source_number": 24,
       "display_number": 24,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_07.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "一物體在水平面上向東作直線運動，在時間 t＝15 s 之前，物體所受合力大小 為F1，方向向東；時間 t＝15 s 之後，物體所受合力大小為 F2，方向也向東。 若 F1＞F2，則下列何者最可能為其速度 (v) 與時間 (t) 的關係圖？",
+      "stem": "圖(十六)為北半球某地地表的等壓線分布圖， 箭頭代表當時地表主要的空氣流動方向，關於 下列圖中等壓線上的氣壓值(單位為百帕)，何 者最符合圖(十六)當時的大氣情況？",
       "options": {
         "A": "",
         "B": "",
@@ -532,6 +571,26 @@
       "source_number": 25,
       "display_number": 25,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "一物體在水平面上向東作直線運動，在時間 t＝15 s 之前，物體所受合力大小 為F1，方向向東；時間 t＝15 s 之後，物體所受合力大小為 F2，方向也向東。 若 F1＞F2，則下列何者最可能為其速度 (v) 與時間 (t) 的關係圖？",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": ""
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(十七)為進行甲和乙兩組溶液混合實驗的示意圖，關於兩組實驗是吸熱反應或 放熱反應的說明，下列何者正確？",
       "options": {
@@ -540,14 +599,16 @@
         "C": "兩組實驗均是吸熱反應",
         "D": "兩組實驗均是放熱反應\n圖(十六)\n圖(十七)"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「兩組實驗均是放熱反應\n圖(十六)\n圖(十七)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「只有實驗甲是放熱反應」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 26,
-      "source_number": 26,
-      "display_number": 26,
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "已知 25°C 時 0.001 莫耳的氫氣和氧氣體積均約為 24.5 mL。小捷在 25°C 的環境下 進行電解水實驗，實驗前裝置如圖(十八)所示。反應一段時間後，兩管分別收集 到 X 氣體 4.9 mL 和 Y 氣體，關於 Y 氣體的名稱與體積，下列推論何者正確？",
       "options": {
@@ -560,12 +621,27 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「若 Y 氣體為氫氣，體積約為 9.8 mL」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 27,
-      "source_number": 27,
-      "display_number": 27,
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "取一質量 10 kg 材質均勻的合金，將其分成兩塊，其中一塊製成一個邊長為 10 cm 的實心正立方體，另一塊製成一個質量為 2 kg 的實心球，則此實心球的 體積應為多少？",
+      "stem": "取一質量 10 kg 材質均勻的合金，將其分成兩塊，其中一塊製成一個邊長為",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "cm 的實心正立方體，另一塊製成一個質量為 2 kg 的實心球，則此實心球的 體積應為多少？",
       "options": {
         "A": "200 cm3",
         "B": "250 cm3",
@@ -576,10 +652,12 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「250 cm3」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 28,
-      "source_number": 28,
-      "display_number": 28,
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "表(四)為某一地區中數種動物及其主要的食物來源，若以能量傳遞的過程判斷， 則下列哪一動物族群所含的總能量最少？",
       "options": {
@@ -592,10 +670,12 @@
       "explanation": "這題的正確答案是 A。 對應選項內容是「蛇」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 29,
-      "source_number": 29,
-      "display_number": 29,
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "志興家和車站位於同一條筆直的馬路上，這條路上有書局、銀行、便利商店、 醫院，其距離關係如圖(十九)所示。若圖(二十)為志興由家門前出發走直線到車 站的速率 (v) 和時間 (t) 關係圖，他在 t＝0 s 時出發，t＝500 s 時到達車站，且過 程中不回頭走重覆路線，則志興家的位置最可能坐落於何處？",
       "options": {
@@ -604,14 +684,16 @@
         "C": "銀行與便利商店之間",
         "D": "便利商店與醫院之間\n圖(十八)\n表(四)\n圖(十九)\n24h\n24h\n圖(二十)\n)"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「書局與銀行之間」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「銀行與便利商店之間」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 30,
-      "source_number": 30,
-      "display_number": 30,
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "圖(二十一)為某一種化學品的危險警示圖，根據危害程度低至高標示數值， 數值範圍為0～4，並以符號標示特殊危害性。 圖(二十一)的化學品最可能是下列何者？",
       "options": {
@@ -620,14 +702,16 @@
         "C": "硝酸鉀",
         "D": "二氧化錳"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「鈉」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「二氧化錳」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 31,
-      "source_number": 31,
-      "display_number": 31,
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "部分的肉類加工食品含有硝酸鹽(為含有 NO3 的化合物)，硝酸鹽會「反應」產生 亞硝酸鹽(為含有NO2 的化合物)，皆可抑制肉毒桿菌生長，但應避免過量食用這 類食品。在上述「反應」中，硝酸鹽扮演何種角色，以及進行何種反應？",
       "options": {
@@ -640,10 +724,12 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「氧化劑，還原反應」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 32,
-      "source_number": 32,
-      "display_number": 32,
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "表(五)列出三種離子的中子數、電子數和質子數，且分別以不同的球表示中子、 電子和質子(未依照此順序排列)。已知這三種離子中有兩個為正離子，一個為 負離子，則表中負離子的電子數應為多少？",
       "options": {
@@ -652,14 +738,16 @@
         "C": "17",
         "D": "18"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「18」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「10」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 33,
-      "source_number": 33,
-      "display_number": 33,
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "能否捲舌是由一對位於體染色體的等位基因所控制。若一位孩子及其父母與 祖父母(孩子父親的父母)皆能捲舌，但父親的兄弟姊妹皆不能捲舌，則在不考慮 突變的情況下，下列敘述何者最合理？",
       "options": {
@@ -668,14 +756,16 @@
         "C": "孩子的祖父母捲舌基因型必相同",
         "D": "孩子的祖父母捲舌表現型必相異\n圖(二十一)\n表(五)"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「孩子的祖父母捲舌基因型必相同」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「孩子的父母捲舌表現型必相異」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 34,
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "住在北緯 35 度的阿義希望在夏至正午時，太陽可 以直射頂樓的太陽能板，以收集最大能量，故將 太陽能板朝向正南方放置，如圖(二十二)所示。關 於圖中太陽能板與水平屋頂間的夾角θ，下列何 者最符合阿義的需求？",
       "options": {
@@ -684,14 +774,16 @@
         "C": "35°",
         "D": "47°"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「11.5°」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「47°」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 35,
-      "source_number": 35,
-      "display_number": 35,
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "本月小麗在家中感受到兩次明顯的地震，她查詢這兩次地震發生時，離她家最近 測站的震度，得到第一次地震的震度為 3 級，第二次地震的震度為 2 級。根據上 述，這兩次地震造成該測站搖晃程度與地震釋放能量大小之比較，下列何者正確？",
       "options": {
@@ -700,14 +792,16 @@
         "C": "第一次地震釋放的能量較大，但其造成搖晃程度反而較小",
         "D": "第一次地震釋放的能量較大，但無法比較兩次搖晃程度的差異"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「第一次地震的搖晃程度較大，但無法比較釋放能量的差異」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「第一次地震釋放的能量較大，但其造成搖晃程度反而較小」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 36,
-      "source_number": 36,
-      "display_number": 36,
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "老師在課堂上以一張海報來讓學生分組上臺說明某一類型板塊交界的各項特徵， 如圖(二十三)所示。圖(二十四)為老師提供學生使用的貼紙，並告訴學生這些貼 紙上的箭頭或文字的用途，是用來說明兩板塊相對運動方向與海洋地殼年齡的關 係，若要正確呈現這類型板塊交界的特徵，下列哪一種黏貼方式最為合理？",
       "options": {
@@ -716,48 +810,18 @@
         "C": "",
         "D": "圖(二十二)\n圖(二十三)\n圖(二十四)"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「圖(二十二)\n圖(二十三)\n圖(二十四)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 37,
-      "source_number": 37,
-      "display_number": 37,
-      "page_number": 11,
-      "context": "",
-      "stem": "有甲、乙、丙、丁四組電路裝置，其電池的電壓值及電阻器的電阻值如圖(二十五)所 示。若不計導線電阻及電池內電阻，則哪一組電路裝置中電阻器的耗電功率最高？",
-      "options": {
-        "A": "甲",
-        "B": "乙",
-        "C": "丙",
-        "D": "丁"
-      },
       "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「丙」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 38,
-      "source_number": 38,
-      "display_number": 38,
-      "page_number": 11,
-      "context": "",
-      "stem": "如圖(二十六)所示，對彈簧秤甲兩端同時施以方向相反、大小同為 100 gw 的水平 力，彈簧秤甲仍保持靜止平衡狀態，讀數為X甲。如圖(二十七)所示，彈簧秤乙 吊掛在支架下，對其施以鉛直向下、大小為 100 gw 的力，彈簧秤乙保持靜止平 衡狀態，讀數為X乙。若彈簧秤的重量很輕可以忽略，且過程中兩彈簧秤均未超 過彈性限度，則X甲、X乙應為多少？",
-      "options": {
-        "A": "X甲＝0 ，X乙＝100 gw",
-        "B": "X甲＝100 gw，X乙＝0",
-        "C": "X甲＝100 gw，X乙＝100 gw",
-        "D": "X甲＝200 gw，X乙＝100 gw"
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「X甲＝100 gw，X乙＝100 gw」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 39,
       "source_number": 39,
       "display_number": 39,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "在一大氣壓下，甲、乙、丙、丁四組實驗中的容器內分別裝有一支溫度計及冰 或水，當四組實驗分別達熱平衡時，如圖(二十八)所示。已知此時其中一支溫度 計的溫度顯示為 4°C，則此溫度計應屬於哪一組實驗？",
+      "stem": "有甲、乙、丙、丁四組電路裝置，其電池的電壓值及電阻器的電阻值如圖(二十五)所 示。若不計導線電阻及電池內電阻，則哪一組電路裝置中電阻器的耗電功率最高？",
       "options": {
         "A": "甲",
         "B": "乙",
@@ -772,24 +836,28 @@
       "source_number": 40,
       "display_number": 40,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "有一電路裝置如圖(二十九)所示，其中燈泡甲、乙的規格相同且可 正常發亮，若忽略導線電阻及電池內電阻，下列敘述何者正確？",
+      "stem": "如圖(二十六)所示，對彈簧秤甲兩端同時施以方向相反、大小同為 100 gw 的水平 力，彈簧秤甲仍保持靜止平衡狀態，讀數為X甲。如圖(二十七)所示，彈簧秤乙 吊掛在支架下，對其施以鉛直向下、大小為 100 gw 的力，彈簧秤乙保持靜止平 衡狀態，讀數為X乙。若彈簧秤的重量很輕可以忽略，且過程中兩彈簧秤均未超 過彈性限度，則X甲、X乙應為多少？",
       "options": {
-        "A": "接通開關S1、S2及S3後，兩燈泡均發亮",
-        "B": "接通開關S2、S3及S4後，兩燈泡均不亮",
-        "C": "接通開關S1、S3及S4後，燈泡甲發亮，燈泡乙不亮",
-        "D": "接通開關S1、S2及S4後，燈泡甲不亮，燈泡乙發亮\n圖(二十五)\n圖(二十七)\n圖(二十八)\n圖(二十九)\n圖(二十六)"
+        "A": "X甲＝0 ，X乙＝100 gw",
+        "B": "X甲＝100 gw，X乙＝0",
+        "C": "X甲＝100 gw，X乙＝100 gw",
+        "D": "X甲＝200 gw，X乙＝100 gw"
       },
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「接通開關S2、S3及S4後，兩燈泡均不亮」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 對應選項內容是「X甲＝100 gw，X乙＝0」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 41,
       "source_number": 41,
       "display_number": 41,
-      "page_number": 12,
+      "page_number": 11,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_11.png",
+      "parse_status": "complete",
       "context": "",
-      "stem": "在製作麵包的過程中，可添加澱粉酶、脂肪酶和蛋白酶等酵素，表(六)為甲～丁 四位同學對於三種酵素主成分的說明，哪一位同學的說明最合理？",
+      "stem": "在一大氣壓下，甲、乙、丙、丁四組實驗中的容器內分別裝有一支溫度計及冰 或水，當四組實驗分別達熱平衡時，如圖(二十八)所示。已知此時其中一支溫度 計的溫度顯示為 4°C，則此溫度計應屬於哪一組實驗？",
       "options": {
         "A": "甲",
         "B": "乙",
@@ -803,7 +871,45 @@
       "number": 42,
       "source_number": 42,
       "display_number": 42,
+      "page_number": 11,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_11.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "有一電路裝置如圖(二十九)所示，其中燈泡甲、乙的規格相同且可 正常發亮，若忽略導線電阻及電池內電阻，下列敘述何者正確？",
+      "options": {
+        "A": "接通開關S1、S2及S3後，兩燈泡均發亮",
+        "B": "接通開關S2、S3及S4後，兩燈泡均不亮",
+        "C": "接通開關S1、S3及S4後，燈泡甲發亮，燈泡乙不亮",
+        "D": "接通開關S1、S2及S4後，燈泡甲不亮，燈泡乙發亮\n圖(二十五)\n圖(二十七)\n圖(二十八)\n圖(二十九)\n圖(二十六)"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「接通開關S1、S2及S3後，兩燈泡均發亮」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 43,
+      "source_number": 43,
+      "display_number": 43,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_12.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "在製作麵包的過程中，可添加澱粉酶、脂肪酶和蛋白酶等酵素，表(六)為甲～丁 四位同學對於三種酵素主成分的說明，哪一位同學的說明最合理？",
+      "options": {
+        "A": "甲",
+        "B": "乙",
+        "C": "丙",
+        "D": "丁"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「丁」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 44,
+      "source_number": 44,
+      "display_number": 44,
+      "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "小華從凸透鏡與凹透鏡中任意選擇一個透鏡，利用選擇的透鏡進行透鏡成像實 驗，將蠟燭放在距離透鏡左側 6 cm 處，如圖(三十)所示，他無論如何調整紙屏 的位置，都無法清晰成像於紙屏上，改以眼睛由紙屏端經透鏡望向蠟燭，觀察 到正立縮小的蠟燭像。若仍使用此透鏡，且將蠟燭移動至距離透鏡左側 13 cm 處，則此時所觀察到的蠟燭像其性質應屬於下列何者？",
       "options": {
@@ -812,14 +918,16 @@
         "C": "倒立縮小的像",
         "D": "倒立放大的像"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「正立縮小的像」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「倒立放大的像」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 43,
-      "source_number": 43,
-      "display_number": 43,
+      "number": 45,
+      "source_number": 45,
+      "display_number": 45,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "已知人體代謝甲物質後所產生的含氮廢物，會運送至乙器官中轉換成尿素。根 據上述，關於甲和乙的配對，下列何者正確？",
       "options": {
@@ -828,30 +936,47 @@
         "C": "甲：蛋白質，乙：腎臟",
         "D": "甲：蛋白質，乙：肝臟"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「甲：蛋白質，乙：肝臟」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「甲：脂質，乙：肝臟」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 44,
-      "source_number": 44,
-      "display_number": 44,
+      "number": 46,
+      "source_number": 46,
+      "display_number": 46,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_12.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "鎂離子為海水中含量第二多的金屬離子，從海水中提取鎂離子為工業上製造鎂 的方法之一。其步驟如下： 步驟一：在濃縮的海水中加入氫氧化鈉，會產生氫氧化鎂而沉澱析出。 Mg2+ + 2 NaOH 2 Na+ + Mg(OH)2 步驟二：之後再加入鹽酸，經處理後可得到固態的氯化鎂。 Mg(OH)2 + 2 HCl MgCl2 + 2 H2O 步驟三：電解熔融狀態的氯化鎂即可得到鎂。 MgCl2 Mg + Cl2 依據上述方法，在某次製鎂的反應後，共產生鎂 960 公克，則該次製鎂反應 中，理論上會消耗重量百分濃度為 80% 的鹽酸共多少公克？(鎂的原子量為 24， 氯化氫的分子量為 36.5)",
+      "stem": "鎂離子為海水中含量第二多的金屬離子，從海水中提取鎂離子為工業上製造鎂\n的方法之一。其步驟如下：\n步驟一：在濃縮的海水中加入氫氧化鈉，會產生氫氧化鎂而沉澱析出。\nMg2+ + 2 NaOH",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 47,
+      "source_number": 47,
+      "display_number": 47,
+      "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_12.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "Na+ + Mg(OH)2 步驟二：之後再加入鹽酸，經處理後可得到固態的氯化鎂。 Mg(OH)2 + 2 HCl MgCl2 + 2 H2O 步驟三：電解熔融狀態的氯化鎂即可得到鎂。 MgCl2 Mg + Cl2 依據上述方法，在某次製鎂的反應後，共產生鎂 960 公克，則該次製鎂反應 中，理論上會消耗重量百分濃度為 80% 的鹽酸共多少公克？(鎂的原子量為 24， 氯化氫的分子量為 36.5)",
       "options": {
         "A": "1825",
         "B": "2400",
         "C": "2920",
         "D": "3650\n表(六)\n圖(三十)"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「3650\n表(六)\n圖(三十)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「2400」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 45,
-      "source_number": 45,
-      "display_number": 45,
+      "number": 48,
+      "source_number": 48,
+      "display_number": 48,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "俊傑與美玲對於萬有引力定律分別提出以下看法： 俊傑：舉例來說，我桌上的橡皮擦，它以相同大小的力吸引著宇宙中的每一個 物體，這種力就是萬有引力。 美玲：舉例來說，我腳底下的地球，它的質量非常大，所以它作用於我的萬有 引力會遠大於我作用於它的萬有引力。 關於兩人的看法是否符合萬有引力定律，下列何者正確？",
       "options": {
@@ -860,14 +985,16 @@
         "C": "只有俊傑的看法符合",
         "D": "只有美玲的看法符合\n請閱讀下列敘述後，回答46～47題"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「兩人的看法均不符合」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「兩人的看法均符合」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 46,
-      "source_number": 46,
-      "display_number": 46,
+      "number": 49,
+      "source_number": 49,
+      "display_number": 49,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "若未攜帶裝備潛水員的體積為V人、質量為M 人、密度為D人，潛水員所攜帶的所 有裝備體積為V裝、質量為M裝，海水的密度為D海，則下列哪一關係式的情況， 可讓潛水員維持在海面下 10 m 的深度以「中性浮力」活動？",
       "options": {
@@ -876,14 +1003,16 @@
         "C": "(V人＋V裝) × D海＝M人＋M裝",
         "D": "V人 × D海＋V裝 × D人＝M人＋M裝"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「(V人＋V裝) × D海＝M人＋M裝」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「V人 × D海＋V裝 × D人＝M人＋M裝」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 47,
-      "source_number": 47,
-      "display_number": 47,
+      "number": 50,
+      "source_number": 50,
+      "display_number": 50,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "若不考慮海水的流動，依照上文中的潛水紀錄，此潛水員在開始潛水後多久， 他所處位置的海水壓力最大？",
       "options": {
@@ -892,14 +1021,16 @@
         "C": "20 分鐘",
         "D": "50 分鐘\n水肺潛水是一項由潛水員攜帶氣瓶(內含壓縮空氣的鋼瓶)在海面下所進行的活\n動，潛水員會穿上一種可充氣或放氣的背心，藉由氣瓶對背心的充放氣來改變背心\n的體積大小，調整潛水員在海中的浮力大小，在背心內多充入一些空氣，潛水員可\n在不施力划水的情形下自然向海面浮起，從背心中多放出一些空氣，潛水員可在不\n施力划水的情形下自然向海底下沉。若背心的充氣量調整適當，潛水員可在不施力\n划水的情形下於海面下維持同樣的深度，此種調整背心的充氣量而能夠在海面下維\n持同樣深度的技術，稱為「中性浮力」。"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「10 分鐘」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「50 分鐘\n水肺潛水是一項由潛水員攜帶氣瓶(內含壓縮空氣的鋼瓶)在海面下所進行的活\n動，潛水員會穿上一種可充氣或放氣的背心，藉由氣瓶對背心的充放氣來改變背心\n的體積大小，調整潛水員在海中的浮力大小，在背心內多充入一些空氣，潛水員可\n在不施力划水的情形下自然向海面浮起，從背心中多放出一些空氣，潛水員可在不\n施力划水的情形下自然向海底下沉。若背心的充氣量調整適當，潛水員可在不施力\n划水的情形下於海面下維持同樣的深度，此種調整背心的充氣量而能夠在海面下維\n持同樣深度的技術，稱為「中性浮力」。」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 48,
-      "source_number": 48,
-      "display_number": 48,
+      "number": 51,
+      "source_number": 51,
+      "display_number": 51,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "水肺潛水需要找同伴一起進行活動，可以\n互相照顧，每次潛水前也都要有適當的規劃，\n潛水後也要做紀錄。\n圖(三十一)為一位潛水員的潛水時間與潛水\n深度的紀錄。\n圖(三十一)\n請閱讀下列敘述後，回答48～49題",
       "stem": "關於小哲拍攝此張照片時，他所在位置的當地時間與當時飛機航行的方向，最 有可能是下列何者？",
       "options": {
@@ -908,14 +1039,16 @@
         "C": "清晨 6 點，航向北方",
         "D": "清晨 6 點，航向南方"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「傍晚 6 點，航向北方」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「清晨 6 點，航向南方」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 49,
-      "source_number": 49,
-      "display_number": 49,
+      "number": 52,
+      "source_number": 52,
+      "display_number": 52,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "關於上述畫雙底線處甲、乙兩層的名稱，應為下列何者？",
       "options": {
@@ -924,14 +1057,16 @@
         "C": "甲層：平流層，乙層：對流層",
         "D": "甲層：對流層，乙層：平流層\n請閱讀下列敘述後，回答50～51題"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「甲層：對流層，乙層：平流層\n請閱讀下列敘述後，回答50～51題」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「甲層：中氣層，乙層：對流層」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 50,
-      "source_number": 50,
-      "display_number": 50,
+      "number": 53,
+      "source_number": 53,
+      "display_number": 53,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "根據本文，肺炎鏈球菌不具有下列何者？",
       "options": {
@@ -940,14 +1075,16 @@
         "C": "細胞膜",
         "D": "細胞核"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「細胞核」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「細胞膜」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 51,
-      "source_number": 51,
-      "display_number": 51,
+      "number": 54,
+      "source_number": 54,
+      "display_number": 54,
       "page_number": 14,
+      "page_image_path": "cap_practice_assets\\109\\science\\page_14.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "已知紅血球為血液中數量最多的血球，根據本文，關於甲、乙、丙的推論， 下列何者正確？",
       "options": {
@@ -956,91 +1093,46 @@
         "C": "甲：白血球，乙：紅血球，丙：血小板",
         "D": "甲：白血球，乙：血小板，丙：紅血球\n某次小哲寒假出國旅行途中，發現飛機\n上方無雲，但下方卻有一片雲海，此時東方的\n滿月剛好升起。他朝向座位右側窗外拍攝了一\n張照片，如圖(三十二)所示，此時飛機位於\n北緯 35 度附近、高度約為 1 萬 2 千公尺。小哲\n回家查詢資料後，認為拍攝此照片時，飛機高度\n大致位於大氣分層中的甲層頂部和乙層底部之交\n界附近。"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「甲：白血球，乙：血小板，丙：紅血球\n某次小哲寒假出國旅行途中，發現飛機\n上方無雲，但下方卻有一片雲海，此時東方的\n滿月剛好升起。他朝向座位右側窗外拍攝了一\n張照片，如圖(三十二)所示，此時飛機位於\n北緯 35 度附近、高度約為 1 萬 2 千公尺。小哲\n回家查詢資料後，認為拍攝此照片時，飛機高度\n大致位於大氣分層中的甲層頂部和乙層底部之交\n界附近。」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 52,
-      "source_number": 52,
-      "display_number": 52,
-      "page_number": 15,
-      "context": "某病患被細菌感染而引發肺炎，經檢查後證實為肺炎鏈球菌感染，以甲、乙、\n丙代表人體內的三種血球，表(七)為此病患檢驗結果及正常成年人血球數量統計資料\n的比較，結果顯示此病患體內對抗病原菌的某種血球數量有異常增加的現象。\n圖(三十二)\n表(七)\n試題結束\n請閱讀下列敘述後，回答52～54題",
-      "stem": "已知化合物 X 是含有−OH原子團的有機化合物，上述畫線處的反應說明，下列 敘述何者正確？",
-      "options": {
-        "A": "是催化反應，化合物 X 最多含有 3 種元素",
-        "B": "是催化反應，化合物 X 最少含有 4 種元素",
-        "C": "是脫水反應，化合物 X 最多含有 3 種元素",
-        "D": "是脫水反應，化合物 X 最少含有 4 種元素"
-      },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「是催化反應，化合物 X 最少含有 4 種元素」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 53,
-      "source_number": 53,
-      "display_number": 53,
-      "page_number": 15,
-      "context": "",
-      "stem": "上述農民「使用其他方式」，最可能是下列何者？",
-      "options": {
-        "A": "在竹筍生長處覆蓋透明塑膠布，每日陽光較弱時採收",
-        "B": "在竹筍生長處覆蓋透明塑膠布，每日陽光較強時採收",
-        "C": "在竹筍生長處覆蓋黑色塑膠布，每日陽光較弱時採收",
-        "D": "在竹筍生長處覆蓋黑色塑膠布，每日陽光較強時採收"
-      },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「在竹筍生長處覆蓋黑色塑膠布，每日陽光較弱時採收」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
-    },
-    {
-      "number": 54,
-      "source_number": 54,
-      "display_number": 54,
-      "page_number": 15,
-      "context": "",
-      "stem": "將未出青和出青的同一種新鮮竹筍，分別取頂段、中段和底段三部位加以分 析，並將產生氫氰酸的質量記錄於圖(三十三)中。圖中各空白處待填入的數值， 表示每公克新鮮竹筍反應後，含有氫氰酸的毫克數。 則圖中頂段、中段和底段三部位由上至下的數值，最可能為下列何者？",
-      "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": "圖(三十三)\n竹筍是一種常見的食材，竹筍帶有苦味是因為含有化合物 X，若化合物 X\n在酵素參與下和水反應，產物之一為有毒的氫氰酸 (HCN)，可避免被動物取\n食，是植物本身的一種保護機制。"
-      },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 對應選項內容是「甲：血小板，乙：白血球，丙：紅血球」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考自然科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
-      "stem_length": 20,
+      "stem_length": 65,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 28,
+      "display_source_number": 28,
       "reason": "parse_incomplete",
-      "stem_length": 23,
+      "stem_length": 37,
       "option_count": 0
     },
     {
-      "question_number": 3,
-      "display_source_number": 3,
+      "question_number": 46,
+      "display_source_number": 46,
       "reason": "parse_incomplete",
-      "stem_length": 24,
+      "stem_length": 93,
       "option_count": 0
     },
     {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 381,
-      "option_count": 0
+      "question_number": 55,
+      "display_source_number": 55,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 1,
-      "display_source_number": 1,
-      "reason": "missing_answer"
+      "question_number": 56,
+      "display_source_number": 56,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 57,
+      "display_source_number": 57,
+      "reason": "out_of_range_question_number"
     }
   ]
 }

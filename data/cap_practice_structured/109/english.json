@@ -3,8 +3,8 @@
   "subject_slug": "english",
   "subject_label": "英語",
   "official_question_count": 41,
-  "question_count": 34,
-  "answered_count": 33,
+  "question_count": 41,
+  "answered_count": 41,
   "page_count": 14,
   "ocr_pages": [],
   "files": {
@@ -17,16 +17,12 @@
     "explanation_url": "https://drive.google.com/file/d/1QcMOuGHaby1_huKWY6a2gSt6Vm0GusW7/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 45,
-    "answers_found": 47,
-    "questions_kept": 34,
-    "issues_found": 12,
-    "answer_completion_ratio": 0.971,
+    "question_chunks_found": 43,
+    "answers_found": 41,
+    "questions_kept": 41,
+    "issues_found": 9,
+    "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -103,9 +99,7 @@
       31,
       32,
       33,
-      34
-    ],
-    "missing_question_numbers": [
+      34,
       35,
       36,
       37,
@@ -114,16 +108,19 @@
       40,
       41
     ],
+    "missing_question_numbers": [],
     "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
+      "context": "第一部分: 單題 (第1-15題，共15題)",
       "stem": "Look at the picture. The man is holding one of the _____.",
       "options": {
         "A": "bowls",
@@ -131,14 +128,16 @@
         "C": "plates",
         "D": "spoons"
       },
-      "correct_answer": "",
-      "explanation": "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「glasses」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "My mom puts the _____ on to keep her hands away from water when she washes the dishes.",
       "options": {
@@ -155,6 +154,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Can you _____ your feet a little off the floor? I want to see if my keys are under the sofa.",
       "options": {
@@ -171,6 +172,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "_____ of my sisters are older than I am. I’m the youngest of the three children in my family.",
       "options": {
@@ -187,6 +190,8 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "The beach near our town is a very _____ place. Every summer at least one kid dies there in the water.",
       "options": {
@@ -203,6 +208,8 @@
       "source_number": 6,
       "display_number": 6,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "My wife enjoys going to the movies with her friends, but I like to watch TV at home by _____.",
       "options": {
@@ -219,6 +226,8 @@
       "source_number": 7,
       "display_number": 7,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "For the past twenty years, my father _____ in a school library. But he’ll leave the job next month.",
       "options": {
@@ -235,6 +244,8 @@
       "source_number": 8,
       "display_number": 8,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "It’s great that we can buy train tickets over the phone without going out. It _____ us a lot of time.",
       "options": {
@@ -251,6 +262,8 @@
       "source_number": 9,
       "display_number": 9,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Mozart _____ his first music when he was only six years old.",
       "options": {
@@ -267,6 +280,8 @@
       "source_number": 10,
       "display_number": 10,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Jill: Have you decided _____ you will celebrate your 30th birthday? Sue: Yeah, I’m going to have a big barbecue party.",
       "options": {
@@ -283,6 +298,8 @@
       "source_number": 11,
       "display_number": 11,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Alison doesn’t like _____ what to do. She only does things she wants to do.",
       "options": {
@@ -299,6 +316,8 @@
       "source_number": 12,
       "display_number": 12,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Josh has planned to make a trip to New York and _____ some of his friends there.",
       "options": {
@@ -315,6 +334,8 @@
       "source_number": 13,
       "display_number": 13,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Ms. Johnson has been taking phone calls since she entered the office this morning. Just when she thought she could finally leave work, _____ call came in.",
       "options": {
@@ -331,6 +352,8 @@
       "source_number": 14,
       "display_number": 14,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "We were so sure that Jerry _____ well on the difficult job. His past experience in other work showed he was the right guy for it. So when he failed, no one believed it.",
       "options": {
@@ -347,6 +370,8 @@
       "source_number": 15,
       "display_number": 15,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "For Mike, the price is _____ important thing when he shops for jeans. He cares even more about the shape and the size of the pockets.",
       "options": {
@@ -363,6 +388,8 @@
       "source_number": 16,
       "display_number": 16,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What is it in the reading?",
       "options": {
@@ -379,6 +406,8 @@
       "source_number": 17,
       "display_number": 17,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "How does Dad feel“when it comes”?",
       "options": {
@@ -395,6 +424,8 @@
       "source_number": 18,
       "display_number": 18,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Buffy’s friends?",
       "options": {
@@ -411,6 +442,8 @@
       "source_number": 19,
       "display_number": 19,
       "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_05.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What do Buffy’s friends think about having a yard sale?",
       "options": {
@@ -426,8 +459,23 @@
       "number": 20,
       "source_number": 20,
       "display_number": 20,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "I have a lot of things I don’t need, so I’m\nthinking about having a yard sale. What do you think?\nHaving a yard sale is not easy. You have to collect things, put\nprices on them, put them out on tables and then wait for people\nto come. And usually you have to sell things at VERY low prices.\nFor all that time and work, you make very little money. Why not\njust sell your things online for higher prices?\nDebby’s right. But I think it’d be even better to just give your\nthings to people who need them. I just sent out a lot of things\nlast week.\nHey, I love yard sales! It’s a great chance to make big money if\nyou pick the right day. In my experience, Saturday is the best.",
+      "stem": "agree with Albert. You can make money and meet interesting\npeople. I made some good friends at my last yard sale.\n(20-21)\nHere is an ad for Sunny Market.",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
       "page_number": 6,
-      "context": "I have a lot of things I don’t need, so I’m\nthinking about having a yard sale. What do you think?\nHaving a yard sale is not easy. You have to collect things, put\nprices on them, put them out on tables and then wait for people\nto come. And usually you have to sell things at VERY low prices.\nFor all that time and work, you make very little money. Why not\njust sell your things online for higher prices?\nDebby’s right. But I think it’d be even better to just give your\nthings to people who need them. I just sent out a lot of things\nlast week.\nHey, I love yard sales! It’s a great chance to make big money if\nyou pick the right day. In my experience, Saturday is the best.\nI agree with Albert. You can make money and meet interesting\npeople. I made some good friends at my last yard sale.\n(20-21)\nHere is an ad for Sunny Market.",
+      "page_image_path": "cap_practice_assets\\109\\english\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
       "stem": "From the ad, which is true about Sunny Sun pictures?",
       "options": {
         "A": "The first day to use Sunny Sun pictures is Feb. 4.",
@@ -435,14 +483,16 @@
         "C": "You cannot use Sunny Sun pictures to get free desserts.",
         "D": "You cannot get Sunny Sun pictures when you buy books."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「You cannot get Sunny Sun pictures when you buy books.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「The last day to collect Sunny Sun pictures is Feb. 10.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 21,
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Sammy has 7 Sunny Sun pictures. She wants to get a Sunny Cup. How can she get one?",
       "options": {
@@ -455,10 +505,12 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「Use 6 Sunny Sun pictures and pay $200.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 22,
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "★ Collect 10 pictures, and you can get any of\nthe desserts on the right for free!\n★ Collect 6 pictures, and you can buy a Sunny\nCup for $200, or any of the desserts on the\nright for $100!\nFrom Jan. 4 to Feb. 10, you can use Sunny\nSun pictures to get Sunny Cups or desserts.\nWith Sunny Sun pictures, you\ncan get one of the prizes below\nfor free or at low prices!!\nSunny Cup\nChocolate\nFruitcake\nIce cream\n(22-24)",
       "stem": "From the reading, which picture best shows the “bain-marie” way of working with chocolate?",
       "options": {
@@ -471,10 +523,12 @@
       "explanation": "這題的正確答案是 B。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 23,
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does them mean in the reading?",
       "options": {
@@ -487,26 +541,43 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「Butter and sugar.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 24,
-      "source_number": 24,
-      "display_number": 24,
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "From the reading, which is true about working with chocolate?",
       "options": {
         "A": "It is better to use a “bain-marie” than a “water bath.”",
         "B": "The water in the pot should not be warmer than 50ºC.",
         "C": "It is better to finish mixing it in less than five minutes.",
-        "D": "We should not mix butter and sugar together at the same time.\nmix 混合\nNow I’m going to show you how to work with chocolate. I’ll\ndo it in a “bain-marie,” or, well, some people call it “water bath.”\nI myself love the name “bain-marie.” To make a “bain-marie,”\nyou need two pots, one bigger than the other.\nFirst, break the chocolate into small pieces and put them in the\nsmaller pot. Usually when making chocolate desserts, you’ll need to\nmix chocolate with butter and sugar. So if you do, put them in the\npot too.\nNow, half fill the bigger pot with warm water. Put the smaller\npot over the bigger one, and start to slowly mix the chocolate, the butter, and\nthe sugar together. Keep the water under 50ºC, or the chocolate may lose its\nshine. And make sure that no water goes in the smaller pot, or the chocolate will\nbecome hard and cannot be used.\nKeep mixing for about five to ten minutes, and the job is done. Easy, right?\n(25-27)"
+        "D": "We should not mix butter and sugar together at the same time.\nmix 混合\nNow I’m going to show you how to work with chocolate. I’ll\ndo it in a “bain-marie,” or, well, some people call it “water bath.”"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「The water in the pot should not be warmer than 50ºC.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「We should not mix butter and sugar together at the same time.\nmix 混合\nNow I’m going to show you how to work with chocolate. I’ll\ndo it in a “bain-marie,” or, well, some people call it “water bath.”」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 25,
-      "source_number": 25,
-      "display_number": 25,
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "myself love the name “bain-marie.” To make a “bain-marie,”\nyou need two pots, one bigger than the other.\nFirst, break the chocolate into small pieces and put them in the\nsmaller pot. Usually when making chocolate desserts, you’ll need to\nmix chocolate with butter and sugar. So if you do, put them in the\npot too.\nNow, half fill the bigger pot with warm water. Put the smaller\npot over the bigger one, and start to slowly mix the chocolate, the butter, and\nthe sugar together. Keep the water under 50ºC, or the chocolate may lose its\nshine. And make sure that no water goes in the smaller pot, or the chocolate will\nbecome hard and cannot be used.\nKeep mixing for about five to ten minutes, and the job is done. Easy, right?\n(25-27)",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does the news story say about the Yangs’ food truck?",
       "options": {
@@ -515,14 +586,16 @@
         "C": "How they made delicious fried chicken.",
         "D": "How they fixed their business problems."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「How they fixed their business problems.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「How they made delicious fried chicken.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 26,
-      "source_number": 26,
-      "display_number": 26,
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when business is slack?",
       "options": {
@@ -531,14 +604,16 @@
         "C": "It is growing.",
         "D": "It is open every day."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「It is bad.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「It is for sale.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 27,
-      "source_number": 27,
-      "display_number": 27,
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does that mean in the news story?",
       "options": {
@@ -547,14 +622,16 @@
         "C": "A city block that sells Taiwanese food.",
         "D": "A business that is popular across the country.\nTaiwanese Bian-dang in Manhattan, New York City\n5/30/ 2014 by Eva Schmidt\nDuring lunch time, on 53rd Street, you’ll see\na long line of people in front of a Taiwanese food\ntruck for their “bian-dang,” a Taiwanese word for\n“lunch box.” On the menu you can find fried chicken with rice, pork dumplings,\ntea eggs, and other popular Taiwanese dishes.\nThe owners of the food truck are Thomas and Diana Yang, two\nTaiwanese-Americans. This brother-sister team started their business in 2009.\nBack then, there were a few Taiwanese restaurants in the city and several thousand\nfood trucks, but the Yangs were the first to sell Taiwanese food on a food truck.\nAt first, business was slack. People thought they were just another Chinese food\ntruck, and the food truck’s name, “Cravings,” often made people think of desserts, not\nlunch. Few people would stop by and try their food. “I couldn’t even give away free\nfood,” said Thomas. To catch people’s eye, they painted their truck blue, and drew\nTaiwan’s national flower, the plum blossom, on it. They also changed the food truck’s\nname to “bian-dang.” Soon people started to notice them, and business finally got\nbetter. Now on a good day, they can sell about 150 bian-dangs in about two hours.\nSo what’s next for Thomas and Diana?"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「A city block that sells Taiwanese food.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「A business that is popular across the country.\nTaiwanese Bian-dang in Manhattan, New York City\n5/30/ 2014 by Eva Schmidt\nDuring lunch time, on 53rd Street, you’ll see\na long line of people in front of a Taiwanese food\ntruck for their “bian-dang,” a Taiwanese word for\n“lunch box.” On the menu you can find fried chicken with rice, pork dumplings,\ntea eggs, and other popular Taiwanese dishes.\nThe owners of the food truck are Thomas and Diana Yang, two\nTaiwanese-Americans. This brother-sister team started their business in 2009.\nBack then, there were a few Taiwanese restaurants in the city and several thousand\nfood trucks, but the Yangs were the first to sell Taiwanese food on a food truck.\nAt first, business was slack. People thought they were just another Chinese food\ntruck, and the food truck’s name, “Cravings,” often made people think of desserts, not\nlunch. Few people would stop by and try their food. “I couldn’t even give away free\nfood,” said Thomas. To catch people’s eye, they painted their truck blue, and drew\nTaiwan’s national flower, the plum blossom, on it. They also changed the food truck’s\nname to “bian-dang.” Soon people started to notice them, and business finally got\nbetter. Now on a good day, they can sell about 150 bian-dangs in about two hours.\nSo what’s next for Thomas and Diana?」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 28,
-      "source_number": 28,
-      "display_number": 28,
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "Well, they hope one day there will be a\nblock with Taiwanese food in the city, just like there is a Chinatown, a Korea Town,\nand a Little Italy. And their bian-dang food truck might just help to make that happen.\nnational 國家的\n(28-30)\nThis is a letter by Selena Bieber to the students in her school.",
       "stem": "What problem is Selena Bieber trying to fix?",
       "options": {
@@ -563,14 +640,16 @@
         "C": "Too many students are late for school.",
         "D": "Lunch break is too short for taking a rest."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「Classes start too early in the morning.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「Lunch break is too short for taking a rest.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 29,
-      "source_number": 29,
-      "display_number": 29,
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
       "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_09.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn from the letter?",
       "options": {
@@ -579,14 +658,16 @@
         "C": "Sleeping longer helps the body make more melatonin.",
         "D": "It is easier to fall asleep when the brain is making melatonin.\nbrain 大腦 hormone 荷爾蒙\nhttp://www.nvhsstudsup.org/openletter\nLater Is Better!"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「It is easier to fall asleep when the brain is making melatonin.\nbrain 大腦 hormone 荷爾蒙\nhttp://www.nvhsstudsup.org/openletter\nLater Is Better!」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「Sleeping longer helps the body make more melatonin.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 30,
-      "source_number": 30,
-      "display_number": 30,
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "Selena Bieber\nNorthville High School\nDo you feel it’s hard to get up early for school and even harder to listen\nwell in the first class at 8 a.m.? Well, this happens to most of us and is\nnot helpful for our learning!\nSome studies show that teenagers’ brains make melatonin, the hormone that\nhelps sleep, between 11 p.m. and 8 a.m. So it’s better for us to sleep during\nthese nine hours. But here comes the problem. We’re asked to get to school\nby 7:30 a.m. That means we have to get up before 7, when our brains\nshould still be sleeping. That’s why we’re always so tired and can’t think\nclearly in early morning classes. No clear head, no good learning, right?\nIf we can’t change how our body works, why can’t school start later? In\nthis way, we can not only sleep more but also learn better!\nWant to help us make it happen?\nVisit www.nvhsstudsup.org/later-better to learn more.",
       "stem": "Below is some information from another study. Do the ideas in Selena Bieber’s letter agree with the information?",
       "options": {
@@ -599,10 +680,12 @@
       "explanation": "這題的正確答案是 D。 對應選項內容是「No, because her letter says teenagers’ brains do not work well in early morning classes.\nWe studied 48 high school students and found that the students who went\nto bed earlier did better on their school tests. This is not only true for\nthose who slept nine hours, but also true for those who slept less. And\nsome of them agreed that they learned better in early morning classes.\n(31-34)」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 31,
-      "source_number": 31,
-      "display_number": 31,
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
       "page_number": 11,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_11.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Kivalina?",
       "options": {
@@ -611,14 +694,16 @@
         "C": "It is fighting for one last hope.",
         "D": "It has given up its chance to rise.\nmelt 融化 hunt 打獵 company 公司\nKivalina, an island village in Alaska, USA,\nis known by only a few people. It cannot be\nfound on most maps of Alaska because it is\nonly 10 km2. This small Arctic village is home\nto 400 Inuit people . However, their home\nwill become uninhabitable because the\nisland could be covered by the Chukchi\nSea by 2025. These Inuit people will have to leave their home.\nBut life now is already difficult. Over the past twenty years, winters have\nbecome warmer, the Arctic ice has kept melting, and the sea has been rising.\nThese changes have made it harder to live by hunting and fishing than before.\nWhat’s worse, there is no Arctic ice thick enough to keep them safe from terrible\nwind and rain.\nThese Inuit people think it is the oil and power companies in Alaska that\nhave brought all these troubles, but they are the ones who are paying the price.\nIt would cost hundreds of millions to move their village, and they have no idea\nwhere to get the money. Groups like ReLocate are working together with the\nInuit people to save Kivalina, but nobody is sure if their hard work will come to\nanything. All the Inuit people can do now is to pray the rising sea will not cover\ntheir home too soon.\nThe Inuit people are a group of people who live in the Arctic."
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「It is fighting for one last hope.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「It has become history.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 32,
-      "source_number": 32,
-      "display_number": 32,
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when we say a place is uninhabitable?",
       "options": {
@@ -627,14 +712,16 @@
         "C": "It cannot be bought.",
         "D": "It cannot be lived in."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「It cannot be lived in.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「It cannot be bought.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 33,
-      "source_number": 33,
-      "display_number": 33,
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does the writer think about the Inuit people in Kivalina?",
       "options": {
@@ -643,14 +730,16 @@
         "C": "They should make the oil and power companies fix their problems.",
         "D": "There are better ways than to move their village to somewhere else."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「They might not be able to get enough money to move their village.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「They should make the oil and power companies fix their problems.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 34,
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does the reading say about the Arctic ice?",
       "options": {
@@ -659,57 +748,114 @@
         "C": "The Arctic ice helped the Inuit people in Kivalina during bad weather.",
         "D": "The melting Arctic ice has given the Inuit people enough water to use.\n(35-37)"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「The Arctic ice helped the Inuit people in Kivalina during bad weather.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「The melting Arctic ice kills about 400 Inuit people each year.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "what else you can do",
+        "B": "how you can enjoy it more",
+        "C": "how it will change your life",
+        "D": "what is the best way of commute for you"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「how you can enjoy it more」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "costs you money",
+        "B": "hurts your health",
+        "C": "makes traffic terrible",
+        "D": "kills the planet slowly"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「costs you money」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_13.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "And that’s why",
+        "B": "But that’s not all",
+        "C": "And here’s an example",
+        "D": "But that can be stopped\nAfter a lot of tests and interviews, you finally got into a good school or got a good\njob. But there’s a problem: it’s a long way from home. “Well, I can take the bus or\ndrive,” you might think. But before you decide whether it’s OK to have such a long\ncommute, it’s best to know 35 .\nHaving a long commute means you’ll get fewer hours of sleep, and that’ll make\nyou feel tired easily. You’ll also have less time for friends and family, for exercise, or\nfor a nice meal.\nA long commute not only eats up your time but also 36 . Studies show that\npeople who have a long commute get fat easily and often have neck or back problems.\nIt’s easier for them to have heart problems too. 37 . Studies find that these people\nget angry more often, feel less happy with their lives, and do less well at work.\nNow, does that good school or that good job still sound good to you?\ninterview 面試 commute 通勤\n試題結束\n(38-41)"
+      },
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「But that’s not all」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
+      "page_number": 14,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_14.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "this is surely a surprise",
+        "B": "this sounds like a good idea",
+        "C": "this is perhaps a smart answer",
+        "D": "this is old news they have heard"
+      },
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「this is old news they have heard」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
+      "page_number": 14,
+      "page_image_path": "cap_practice_assets\\109\\english\\page_14.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "had given hopes",
+        "B": "are a different story",
+        "C": "bring a bright future",
+        "D": "have been a great plan"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「had given hopes」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 109 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     }
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 20,
+      "display_source_number": 20,
       "reason": "parse_incomplete",
-      "stem_length": 20,
+      "stem_length": 153,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 26,
+      "display_source_number": 26,
       "reason": "parse_incomplete",
-      "stem_length": 14,
+      "stem_length": 732,
       "option_count": 0
-    },
-    {
-      "question_number": 3,
-      "display_source_number": 3,
-      "reason": "parse_incomplete",
-      "stem_length": 21,
-      "option_count": 0
-    },
-    {
-      "question_number": 4,
-      "display_source_number": 4,
-      "reason": "parse_incomplete",
-      "stem_length": 288,
-      "option_count": 0
-    },
-    {
-      "question_number": 1,
-      "display_source_number": 1,
-      "reason": "missing_answer"
-    },
-    {
-      "question_number": 35,
-      "display_source_number": 35,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
-    },
-    {
-      "question_number": 36,
-      "display_source_number": 36,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
     },
     {
       "question_number": 37,
@@ -745,6 +891,16 @@
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
+    },
+    {
+      "question_number": 42,
+      "display_source_number": 42,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "out_of_range_question_number"
     }
   ]
 }

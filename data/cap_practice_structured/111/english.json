@@ -3,8 +3,8 @@
   "subject_slug": "english",
   "subject_label": "英語",
   "official_question_count": 43,
-  "question_count": 39,
-  "answered_count": 39,
+  "question_count": 43,
+  "answered_count": 43,
   "page_count": 14,
   "ocr_pages": [
     5
@@ -21,14 +21,10 @@
   "checks": {
     "question_chunks_found": 47,
     "answers_found": 43,
-    "questions_kept": 39,
+    "questions_kept": 43,
     "issues_found": 8,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
-      1,
-      2,
-      3,
-      4,
       1,
       2,
       3,
@@ -112,24 +108,25 @@
       36,
       37,
       38,
-      39
-    ],
-    "missing_question_numbers": [
+      39,
       40,
       41,
       42,
       43
     ],
+    "missing_question_numbers": [],
     "duplicate_question_numbers": []
   },
-  "practice_ready": false,
+  "practice_ready": true,
   "questions": [
     {
       "number": 1,
       "source_number": 1,
       "display_number": 1,
       "page_number": 2,
-      "context": "",
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
+      "context": "第一部分：單題 (第1-20題，共20題)",
       "stem": "Look at the picture. The woman is putting on the cake.",
       "options": {
         "A": "candles",
@@ -138,13 +135,15 @@
         "D": "strawberries"
       },
       "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「candles」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 A。 對應選項內容是「candles」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 2,
       "source_number": 2,
       "display_number": 2,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "The movie starts at two o’clock, let’s meet at the theater at one forty-five.",
       "options": {
@@ -161,6 +160,8 @@
       "source_number": 3,
       "display_number": 3,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Peter is afraid of the dark. He even leaves the on when sleeping.",
       "options": {
@@ -177,6 +178,8 @@
       "source_number": 4,
       "display_number": 4,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Pam is a baseball player; she has more fans than any other player on her team.",
       "options": {
@@ -193,22 +196,39 @@
       "source_number": 5,
       "display_number": 5,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "I did not do my homework, so my teacher said I stay after school to finish it.",
-      "options": {
-        "A": "failed to",
-        "B": "had to",
-        "C": "hoped to",
-        "D": "used to"
-      },
+      "stem": "",
+      "options": {},
       "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「had to」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "explanation": "這題的正確答案是 B。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
       "number": 6,
       "source_number": 6,
       "display_number": 6,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "did not do my homework, so my teacher said I stay after school to finish it.",
+      "options": {
+        "A": "failed to",
+        "B": "had to",
+        "C": "hoped to",
+        "D": "used to"
+      },
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「failed to」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 7,
+      "source_number": 7,
+      "display_number": 7,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Kevin has only enough money for the bag or the shoes. That is a hard to make because he likes them both.",
       "options": {
@@ -217,14 +237,16 @@
         "C": "rule",
         "D": "trick"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「choice」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「gift」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 7,
-      "source_number": 7,
-      "display_number": 7,
+      "number": 8,
+      "source_number": 8,
+      "display_number": 8,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "It was for us to answer the math question because we’ve done the same kind of questions many times.",
       "options": {
@@ -237,10 +259,12 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「easy」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 8,
-      "source_number": 8,
-      "display_number": 8,
+      "number": 9,
+      "source_number": 9,
+      "display_number": 9,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Although it took me lots of time a big meal for ten people, I was happy that everyone enjoyed it.",
       "options": {
@@ -249,14 +273,16 @@
         "C": "preparing",
         "D": "prepared"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「to prepare」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「prepare」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 9,
-      "source_number": 9,
-      "display_number": 9,
+      "number": 10,
+      "source_number": 10,
+      "display_number": 10,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Don’t let the children swim in the river. We don’t know how it is. It could be dangerous.",
       "options": {
@@ -265,14 +291,16 @@
         "C": "long",
         "D": "thick"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「deep」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「thick」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 10,
-      "source_number": 10,
-      "display_number": 10,
+      "number": 11,
+      "source_number": 11,
+      "display_number": 11,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Bob is of the boys in the family. He never does any housework. His brothers at least take out the garbage sometimes.",
       "options": {
@@ -281,14 +309,16 @@
         "C": "the lazier",
         "D": "the laziest"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「the laziest」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「the lazier」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 11,
-      "source_number": 11,
-      "display_number": 11,
+      "number": 12,
+      "source_number": 12,
+      "display_number": 12,
       "page_number": 2,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_02.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Aunt Gina has lived in this town for more than sixty years, so she it very well.",
       "options": {
@@ -297,14 +327,16 @@
         "C": "knows",
         "D": "was going to know"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「knows」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「knew」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 12,
-      "source_number": 12,
-      "display_number": 12,
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "We won’t see the sun even after the typhoon leaves, because the news said that heavier rain will soon .",
       "options": {
@@ -313,14 +345,16 @@
         "C": "move",
         "D": "stop"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「follow」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「stop」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 13,
-      "source_number": 13,
-      "display_number": 13,
+      "number": 14,
+      "source_number": 14,
+      "display_number": 14,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Yesterday when I got home from work, my brother for dinner, so he invited me to join him.",
       "options": {
@@ -329,14 +363,16 @@
         "C": "has gone out",
         "D": "was going out"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「was going out」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「has gone out」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 14,
-      "source_number": 14,
-      "display_number": 14,
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "You were not to lend Amy money. She never gives back what she borrows.",
       "options": {
@@ -345,14 +381,16 @@
         "C": "wise",
         "D": "wrong"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「wise」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「helpful」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 15,
-      "source_number": 15,
-      "display_number": 15,
+      "number": 16,
+      "source_number": 16,
+      "display_number": 16,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Have you found a summer job yet? Mr. Firth someone to take care of his kids during the vacation. Maybe you can talk to him.",
       "options": {
@@ -361,14 +399,16 @@
         "C": "looks for",
         "D": "was looking for"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「is looking for」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「looks for」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 16,
-      "source_number": 16,
-      "display_number": 16,
+      "number": 17,
+      "source_number": 17,
+      "display_number": 17,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "David looked out of the balcony window and saw a woman get in his car away.",
       "options": {
@@ -377,14 +417,16 @@
         "C": "and drive",
         "D": "and drove"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「and drive」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「and drove」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 17,
-      "source_number": 17,
-      "display_number": 17,
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "The police haven’t found the little girl who at a supermarket. They’ll keep doing all they can to find her.",
       "options": {
@@ -393,14 +435,16 @@
         "C": "has taken away",
         "D": "was taken away"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「was taken away」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「has taken away」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 18,
-      "source_number": 18,
-      "display_number": 18,
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Buses to the airport only come once every hour, and we just missed . Why don’t we take a taxi?",
       "options": {
@@ -409,14 +453,16 @@
         "C": "one",
         "D": "them"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「one」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「another」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 19,
-      "source_number": 19,
-      "display_number": 19,
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Ariel every night for a week before her Chinese test and got a very good grade.",
       "options": {
@@ -425,14 +471,16 @@
         "C": "has studied",
         "D": "was going to study"
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「studied」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「was going to study」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 20,
-      "source_number": 20,
-      "display_number": 20,
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
       "page_number": 3,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_03.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "While reading this story, Brad saw the word “trolling” and didn’t know what it meant. He found several meanings of the word in a dictionary. Which one should Brad choose?",
       "options": {
@@ -441,14 +489,16 @@
         "C": "To pull a fishing line through the water, often from a boat.",
         "D": "To write something on the Internet to hurt someone or make them angry.\nJosh turned off the screen and sat back. “Why are they trolling me like this?” He didn’t\nunderstand. They wanted him to share what he thought about the show, and he did.\nAnd now look what he got. In the end, all they wanted was nice words.\n第二部分：題組 (第21-43題，共23題)\n(21-22)"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「To write something on the Internet to hurt someone or make them angry.\nJosh turned off the screen and sat back. “Why are they trolling me like this?” He didn’t\nunderstand. They wanted him to share what he thought about the show, and he did.\nAnd now look what he got. In the end, all they wanted was nice words.\n第二部分：題組 (第21-43題，共23題)\n(21-22)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 對應選項內容是「To pull a fishing line through the water, often from a boat.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 21,
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does Tea-Rock celebrate?",
       "options": {
@@ -461,27 +511,70 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「Their 20th year of business.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 22,
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
       "page_number": 4,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_04.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Here is the postcard Jason is going to send to Tea-Rock 20. What else does he need to put on the postcard before he sends it?",
       "options": {
         "A": "His age.",
         "B": "His address.",
         "C": "His birthday.",
-        "D": "Another picture of the tea cup.\naddress 地址\n(23-24)\nBelow is an infographic.\nDangerously Sweet: Sugar\nmeee\nHow much sugar can we have a day? (1 teaspoon)\n<>\n您 @ ie) Man: 9 teaspoons of sugar Sugar that is hidden\n~ tg i} in foods and drinks\ntat ) Woman: é teaspoons of sugar\nh vl: i P 9 ice cream (66 g)\nll Child: 3 teaspoons of sugar SS\nSs By Sos\n_—-\nHow much sugar do we have a day?"
+        "D": "Another picture of the tea cup.\naddress 地址\n(23-24)\nBelow is an infographic.\nDangerously Sweet: Sugar\nmeee\nHow much sugar can we have a day? (1 teaspoon)\n<>\n您 @ ie) Man: 9 teaspoons of sugar Sugar that is hidden\n~ tg i} in foods and drinks\ntat ) Woman: é teaspoons of sugar\nh vl: i P 9 ice cream (66 g)"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「His birthday.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「Another picture of the tea cup.\naddress 地址\n(23-24)\nBelow is an infographic.\nDangerously Sweet: Sugar\nmeee\nHow much sugar can we have a day? (1 teaspoon)\n<>\n您 @ ie) Man: 9 teaspoons of sugar Sugar that is hidden\n~ tg i} in foods and drinks\ntat ) Woman: é teaspoons of sugar\nh vl: i P 9 ice cream (66 g)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 23,
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "Child: 3 teaspoons of sugar SS\nSs By Sos\n_—-\nHow much sugar do we have a day?\ncheesecake (95 g)\nSc The UK: 17.1 teaspoons for each person 多\n26X6@ 6\na Taiwan: 17.75 teaspoons for each person dd6\n三 習 The US : 18.75 teaspoons for each person orange juice (300 mi)\n26X6@ 0\nWhat does sugar doto our body? I ASS\ng y 二 人 人",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "tice milk (400 ml)\nremembering\nless well looking older 回\nSooo\nthan our age Sesto\n全 “加 |\nholes in\nour teeth & cola (330 ml)\n(oy? heart problems = 一 人\nliver problems d6d66\n還 D sports drink (590 ml)\nTS\nbd stomach\n, Sooo\nspending longer time bl AGRODO\nin the bathroom promrems SSSO SS\ncK ) (7) «© grape juice (400 ml)",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "@ we 7\nfeeling worried or getting fat sleeping o_O OSS\nunhappy easily less well > ~\n(Q] infographic 資訊 圖 表",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+    },
+    {
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
       "page_number": 6,
-      "context": "cheesecake (95 g)\nSc The UK: 17.1 teaspoons for each person 多\n26X6@ 6\na Taiwan: 17.75 teaspoons for each person dd6\n三 習 The US : 18.75 teaspoons for each person orange juice (300 mi)\n26X6@ 0\nWhat does sugar doto our body? I ASS\ng y 二 人 人\n3 tice milk (400 ml)\nremembering\nless well looking older 回\nSooo\nthan our age Sesto\n全 “加 |\nholes in\nour teeth & cola (330 ml)\n(oy? heart problems = 一 人\nliver problems d6d66\n還 D sports drink (590 ml)\nTS\nbd stomach\n, Sooo\nspending longer time bl AGRODO\nin the bathroom promrems SSSO SS\ncK ) (7) «© grape juice (400 ml)\n6 @ we 7\nfeeling worried or getting fat sleeping o_O OSS\nunhappy easily less well > ~\n(Q] infographic 資訊 圖 表",
+      "page_image_path": "cap_practice_assets\\111\\english\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
       "stem": "What can we learn about sugar from the infographic?",
       "options": {
         "A": "There are 4 g of sugar in 66 g of ice cream.",
@@ -489,14 +582,16 @@
         "C": "Taiwan eats more sugar for each person than the US does.",
         "D": "400 ml of rice milk has less sugar than 400 ml of grape juice."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「400 ml of rice milk has less sugar than 400 ml of grape juice.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「There are 4 g of sugar in 66 g of ice cream.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 24,
-      "source_number": 24,
-      "display_number": 24,
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
       "page_number": 6,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_06.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can be a reason why the list of “Sugar that is hidden in foods and drinks” is put in the infographic?",
       "options": {
@@ -505,14 +600,16 @@
         "C": "To tell us that we often have more sugar than we can without knowing it.",
         "D": "To let us know how much sugar is enough to make foods and drinks taste good.\n(25-26)"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「To tell us that we often have more sugar than we can without knowing it.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「To let us know how much sugar is enough to make foods and drinks taste good.\n(25-26)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 25,
-      "source_number": 25,
-      "display_number": 25,
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Why did Darrell tell Marina to go to Pinterest?",
       "options": {
@@ -521,14 +618,16 @@
         "C": "To meet new friends who have the same interests.",
         "D": "To share her works and tell people how they are made."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「To find some examples for her homework.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「To shop for things that are needed for art classes.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 26,
-      "source_number": 26,
-      "display_number": 26,
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
       "page_number": 7,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_07.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when you learn something from A to Z?",
       "options": {
@@ -537,14 +636,16 @@
         "C": "You learn everything about it.",
         "D": "You spend all your life learning it.\nDarrell : \u0007Marina…Marina…MARINA!"
       },
-      "correct_answer": "C",
-      "explanation": "這題的正確答案是 C。 對應選項內容是「You learn everything about it.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「You spend all your life learning it.\nDarrell : \u0007Marina…Marina…MARINA!」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 27,
-      "source_number": 27,
-      "display_number": 27,
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "Marina : \u0007Oh, sorry. I didn’t hear you. I was thinking about my homework.\nDarrell : \u0007What’s it about?\nMarina : \u0007Well, I need to draw a future house for my art class, but I haven’t got any\nideas. Maybe I should go to the library and look for something useful.\nDarrell : \u0007Or you can try Pinterest.\nMarina : \u0007Isn’t it a shopping app?\nDarrell : \u0007Not really. Many people share their works on Pinterest and tell you how\nthey made them. I’m sure you can get some ideas there.\nMarina : \u0007Sounds like you use it often.\nDarrell : \u0007Yeah. Just last week I went there and found the A to Z of making\nchocolate cake—from choosing good chocolate to baking the cake to making\nsugar flowers on top.\nMarina : \u0007Really? I’ll check it out later. Thanks a lot.\n(27-29)",
       "stem": "Which idea is talked about in the first paragraph of the reading?",
       "options": {
@@ -557,10 +658,12 @@
       "explanation": "這題的正確答案是 A。 對應選項內容是「How you should do Tabata training.」。 先把題幹或前面的資料讀完，再圈出題目真正要比對的資訊。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 28,
-      "source_number": 28,
-      "display_number": 28,
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Who might find that Tabata training is right for them?",
       "options": {
@@ -573,10 +676,12 @@
       "explanation": "這題的正確答案是 D。 對應選項內容是「People who already have a habit of exercising.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 29,
-      "source_number": 29,
-      "display_number": 29,
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
       "page_number": 8,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_08.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Which is true about Tabata training?",
       "options": {
@@ -585,14 +690,16 @@
         "C": "You need a large space to do the exercises.",
         "D": "You cannot rest between moves if you want the afterburn.\nTabata training is a very popular way of exercising these days. It doesn’t take\nmuch time or space, and it burns calories faster than other ways of exercising.\nThe idea of Tabata training is simple: exercise for 20 seconds, rest for 10 seconds,\nand then repeat (at least eight times). The moves for the 20-second exercise are not\ndifficult to learn. Jumping jacks, high knees, squats, and planks are some of the most\ncommon moves. You can decide yourself what moves to do in your Tabata training.\nFor example, you can do more leg exercises if you want strong legs.\nOne great thing about Tabata training is that your body will keep burning\ncalories for at least an hour after 4 minutes of Tabata training. But to have this\nwonderful “afterburn,” you need to exercise really hard during each 20 seconds.\nIf you seldom exercise or have heart problems, this exercise may not be good for\nyou. But for people who enjoy exercising but are too busy to go to the gym, Tabata\ntraining might just be the answer.\ncalorie 卡路里(熱量單位)\nparagraph 段落\n(30-32)\nThe problem of long working hours is a real headache in our country. It\nkills many people every year (see Figure 1), and many companies are trying\nto change that. They have at least one “No Overtime Day” in a week, and it\nis often Wednesday. On “No Overtime Day,” workers are asked to leave their\noffices before 8 p.m. At 8 p.m., companies play the song “There’s Always\nTomorrow” and turn off all the lights.\nHowever, after the workers walk out of their offices, they don’t go home.\nSome go back later, turn on their table lamps, and keep working, and others\nfind somewhere else to work until very late at night. Restaurants and coffee\nshops are busier on Wednesday evenings, and they have started selling drinks\nand meals for these workers.\nBut why do these people keep working? A study shows that workers who\nwork more hours often have a bigger chance to get paid more and rise higher\nin their companies. This is true for both men and women (see Figure 2).\nWorking long hours has become a way to show that people are hard-working.\nClearly, this must be changed before the problem gets any worse.\nFigure 1\nFigure 2\naverage 平均"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「You are free to choose your own moves.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「You cannot rest between moves if you want the afterburn.\nTabata training is a very popular way of exercising these days. It doesn’t take\nmuch time or space, and it burns calories faster than other ways of exercising.\nThe idea of Tabata training is simple: exercise for 20 seconds, rest for 10 seconds,\nand then repeat (at least eight times). The moves for the 20-second exercise are not\ndifficult to learn. Jumping jacks, high knees, squats, and planks are some of the most\ncommon moves. You can decide yourself what moves to do in your Tabata training.\nFor example, you can do more leg exercises if you want strong legs.\nOne great thing about Tabata training is that your body will keep burning\ncalories for at least an hour after 4 minutes of Tabata training. But to have this\nwonderful “afterburn,” you need to exercise really hard during each 20 seconds.\nIf you seldom exercise or have heart problems, this exercise may not be good for\nyou. But for people who enjoy exercising but are too busy to go to the gym, Tabata\ntraining might just be the answer.\ncalorie 卡路里(熱量單位)\nparagraph 段落\n(30-32)\nThe problem of long working hours is a real headache in our country. It\nkills many people every year (see Figure 1), and many companies are trying\nto change that. They have at least one “No Overtime Day” in a week, and it\nis often Wednesday. On “No Overtime Day,” workers are asked to leave their\noffices before 8 p.m. At 8 p.m., companies play the song “There’s Always\nTomorrow” and turn off all the lights.\nHowever, after the workers walk out of their offices, they don’t go home.\nSome go back later, turn on their table lamps, and keep working, and others\nfind somewhere else to work until very late at night. Restaurants and coffee\nshops are busier on Wednesday evenings, and they have started selling drinks\nand meals for these workers.\nBut why do these people keep working? A study shows that workers who\nwork more hours often have a bigger chance to get paid more and rise higher\nin their companies. This is true for both men and women (see Figure 2).\nWorking long hours has become a way to show that people are hard-working.\nClearly, this must be changed before the problem gets any worse.\nFigure 1\nFigure 2\naverage 平均」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 30,
-      "source_number": 30,
-      "display_number": 30,
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "There are four important points in the report: a. What “No Overtime Day” is b. Why “No Overtime Day” fails c. Why there is “No Overtime Day” in the country d. How workers deal with “No Overtime Day” How are they ordered in the report?",
       "options": {
@@ -601,14 +708,16 @@
         "C": "cabd.",
         "D": "cadb."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「cadb.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「adcb.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 31,
-      "source_number": 31,
-      "display_number": 31,
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does this mean in the report?",
       "options": {
@@ -617,14 +726,16 @@
         "C": "Workers do not go home when they walk out of the office.",
         "D": "\u0007The number of workers who get paid more and rise higher in the company."
       },
-      "correct_answer": "A",
-      "explanation": "這題的正確答案是 A。 對應選項內容是「The way workers show they are hard-working.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「\u0007The number of workers who get paid more and rise higher in the company.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 32,
-      "source_number": 32,
-      "display_number": 32,
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 10,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_10.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What can we learn from Figure 1 and Figure 2?",
       "options": {
@@ -633,14 +744,16 @@
         "C": "\u0007Men usually have a bigger chance to get paid more and rise higher when they\nwork the same hours as women.",
         "D": "\u0007Men and women have almost the same chance to get paid more and rise higher\nwhen they work 2,200 hours.\norder 排序\n(33-36)\nhttp://www.aab.com/news/language-and-power-756315\nLanguage and Power: Cameroon’s Story\nBy Elisa Grant, 2 Oct 2017\nIn the modern world, being able to speak English\nis often a way to get power. However, this is not\ntrue for English speakers in Cameroon. To know\nwhy things are different in this African country,\nwe need to go back one hundred years.\nIn 1919, Kamerun (the name of Cameroon at\nthe time) was cut into two parts: one belonged\nto France, and the other belonged to the UK. In\n1960, the French Cameroon became the Republic of Cameroun, and the UK’s\npart joined it in 1961. The new country changed its name to the Federal\nRepublic of Cameroon. Although both French and English are Cameroon’s\nofficial languages, only around 20% of its people speak English. Also, the\ngovernment has been in French speakers’ hands since the two parts became\none country.\nFor a long time, Cameroon’s English speakers have felt they are not welcome\nin their own country. For example, it is very difficult for them to find jobs\nin the government, and they are often asked to speak French in business and\nat official events. They have become more resentful at the government and\ndecided to fight for themselves. Since last year, the English speakers have\ntried to build their own country. Yesterday, they said in a public meeting\nthat they were not part of Cameroon anymore. They are now a new country,\n“Ambazonia.” When the police tried to stop the meeting, at least eight people\nwere killed.\nRead more\nofficial 官方的 government 政府"
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「\u0007Men and women have almost the same chance to get paid more and rise higher\nwhen they work 2,200 hours.\norder 排序\n(33-36)\nhttp://www.aab.com/news/language-and-power-756315\nLanguage and Power: Cameroon’s Story\nBy Elisa Grant, 2 Oct 2017\nIn the modern world, being able to speak English\nis often a way to get power. However, this is not\ntrue for English speakers in Cameroon. To know\nwhy things are different in this African country,\nwe need to go back one hundred years.\nIn 1919, Kamerun (the name of Cameroon at\nthe time) was cut into two parts: one belonged\nto France, and the other belonged to the UK. In\n1960, the French Cameroon became the Republic of Cameroun, and the UK’s\npart joined it in 1961. The new country changed its name to the Federal\nRepublic of Cameroon. Although both French and English are Cameroon’s\nofficial languages, only around 20% of its people speak English. Also, the\ngovernment has been in French speakers’ hands since the two parts became\none country.\nFor a long time, Cameroon’s English speakers have felt they are not welcome\nin their own country. For example, it is very difficult for them to find jobs\nin the government, and they are often asked to speak French in business and\nat official events. They have become more resentful at the government and\ndecided to fight for themselves. Since last year, the English speakers have\ntried to build their own country. Yesterday, they said in a public meeting\nthat they were not part of Cameroon anymore. They are now a new country,\n“Ambazonia.” When the police tried to stop the meeting, at least eight people\nwere killed.\nRead more\nofficial 官方的 government 政府」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "B",
+      "explanation": "這題的正確答案是 B。 對應選項內容是「Long working hours kills more and more workers every year.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 33,
-      "source_number": 33,
-      "display_number": 33,
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Which map is most likely the map of Cameroon in 1962?",
       "options": {
@@ -649,14 +762,16 @@
         "C": "",
         "D": ""
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "C",
+      "explanation": "這題的正確答案是 C。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 34,
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does resentful mean in the reading?",
       "options": {
@@ -669,10 +784,12 @@
       "explanation": "這題的正確答案是 B。 對應選項內容是「Angry.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 35,
-      "source_number": 35,
-      "display_number": 35,
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does Cameroon’s government most likely think of Ambazonia?",
       "options": {
@@ -681,14 +798,16 @@
         "C": "It does not want to be part of Ambazonia.",
         "D": "It does not agree that Ambazonia is a country."
       },
-      "correct_answer": "D",
-      "explanation": "這題的正確答案是 D。 對應選項內容是「It does not agree that Ambazonia is a country.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「It plans to do business with Ambazonia.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 36,
-      "source_number": 36,
-      "display_number": 36,
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
       "page_number": 12,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_12.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does Elisa Grant try to tell readers by talking about the history of Cameroon?",
       "options": {
@@ -697,14 +816,16 @@
         "C": "Why the two parts of Cameroon became one country.",
         "D": "Why only 20% of the people in Cameroon speak English.\nlikely 可能\n(37-39)"
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「Why English speakers in Cameroon have less power.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "D",
+      "explanation": "這題的正確答案是 D。 對應選項內容是「Why only 20% of the people in Cameroon speak English.\nlikely 可能\n(37-39)」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 37,
-      "source_number": 37,
-      "display_number": 37,
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What is recommended to people who are visiting the Southend Trail?",
       "options": {
@@ -717,10 +838,12 @@
       "explanation": "這題的正確答案是 C。 對應選項內容是「Hiking one part of the trail a day.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 38,
-      "source_number": 38,
-      "display_number": 38,
+      "number": 42,
+      "source_number": 42,
+      "display_number": 42,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "What does lodging mean in the reading?",
       "options": {
@@ -729,14 +852,16 @@
         "C": "A time for visiting.",
         "D": "A way of moving around."
       },
-      "correct_answer": "B",
-      "explanation": "這題的正確答案是 B。 對應選項內容是「A place to stay in.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
+      "correct_answer": "A",
+      "explanation": "這題的正確答案是 A。 對應選項內容是「A meal to have.」。 先抓題幹關鍵詞，再用刪去法排除不符合條件的選項。 這題來自 111 年會考英語科，建議先回頭確認關鍵概念與題目限制。"
     },
     {
-      "number": 39,
-      "source_number": 39,
-      "display_number": 39,
+      "number": 43,
+      "source_number": 43,
+      "display_number": 43,
       "page_number": 13,
+      "page_image_path": "cap_practice_assets\\111\\english\\page_13.png",
+      "parse_status": "complete",
       "context": "",
       "stem": "Kaylen will start his trip from Cove. He plans to visit one of the old castles. He also wants to go birdwatching near the river. Which parts of the trail should Kaylen go on?",
       "options": {
@@ -751,60 +876,52 @@
   ],
   "issues": [
     {
-      "question_number": 1,
-      "display_source_number": 1,
+      "question_number": 5,
+      "display_source_number": 5,
       "reason": "parse_incomplete",
-      "stem_length": 20,
+      "stem_length": 0,
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 24,
+      "display_source_number": 24,
       "reason": "parse_incomplete",
-      "stem_length": 14,
+      "stem_length": 315,
       "option_count": 0
     },
     {
-      "question_number": 3,
-      "display_source_number": 3,
+      "question_number": 25,
+      "display_source_number": 25,
       "reason": "parse_incomplete",
-      "stem_length": 21,
+      "stem_length": 313,
       "option_count": 0
     },
     {
-      "question_number": 4,
-      "display_source_number": 4,
+      "question_number": 26,
+      "display_source_number": 26,
       "reason": "parse_incomplete",
-      "stem_length": 287,
+      "stem_length": 106,
       "option_count": 0
     },
     {
-      "question_number": 40,
-      "display_source_number": 40,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
+      "question_number": 44,
+      "display_source_number": 44,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 41,
-      "display_source_number": 41,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 42,
-      "display_source_number": 42,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
+      "question_number": 46,
+      "display_source_number": 46,
+      "reason": "out_of_range_question_number"
     },
     {
-      "question_number": 43,
-      "display_source_number": 43,
-      "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
+      "question_number": 47,
+      "display_source_number": 47,
+      "reason": "out_of_range_question_number"
     }
   ]
 }
