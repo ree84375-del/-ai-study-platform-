@@ -1,0 +1,184 @@
+{
+  "generated_at": "2026-03-30T12:59:51",
+  "status": "rebuilt-choice-questions-audited",
+  "note": "math question_count currently tracks multiple-choice items only; non-choice items are not yet merged into interactive practice.",
+  "years": [
+    {
+      "year": "102",
+      "subjects": {
+        "chinese": 48,
+        "english": 40,
+        "math": 25,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": [
+        {
+          "subject": "math",
+          "reference_count": 27,
+          "rebuilt_count": 25
+        }
+      ]
+    },
+    {
+      "year": "103",
+      "subjects": {
+        "chinese": 48,
+        "english": 40,
+        "math": 27,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "104",
+      "subjects": {
+        "chinese": 48,
+        "english": 40,
+        "math": 25,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "105",
+      "subjects": {
+        "chinese": 48,
+        "english": 41,
+        "math": 25,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": [
+        {
+          "subject": "math",
+          "reference_count": 26,
+          "rebuilt_count": 25
+        }
+      ]
+    },
+    {
+      "year": "106",
+      "subjects": {
+        "chinese": 48,
+        "english": 41,
+        "math": 26,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "107",
+      "subjects": {
+        "chinese": 48,
+        "english": 41,
+        "math": 26,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "108",
+      "subjects": {
+        "chinese": 48,
+        "english": 41,
+        "math": 26,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "109",
+      "subjects": {
+        "chinese": 48,
+        "english": 41,
+        "math": 26,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "110",
+      "subjects": {
+        "chinese": 48,
+        "english": 41,
+        "math": 26,
+        "social": 63,
+        "science": 54
+      },
+      "mismatches": []
+    },
+    {
+      "year": "111",
+      "subjects": {
+        "chinese": 42,
+        "english": 43,
+        "math": 25,
+        "social": 54,
+        "science": 50
+      },
+      "mismatches": []
+    },
+    {
+      "year": "112",
+      "subjects": {
+        "chinese": 42,
+        "english": 43,
+        "math": 25,
+        "social": 54,
+        "science": 50
+      },
+      "mismatches": []
+    },
+    {
+      "year": "113",
+      "subjects": {
+        "chinese": 42,
+        "english": 43,
+        "math": 25,
+        "social": 54,
+        "science": 50
+      },
+      "mismatches": []
+    },
+    {
+      "year": "114",
+      "subjects": {
+        "chinese": 42,
+        "english": 43,
+        "math": 25,
+        "social": 54,
+        "science": 50
+      },
+      "mismatches": []
+    }
+  ],
+  "reference_differences": [
+    {
+      "year": "102",
+      "mismatches": [
+        {
+          "subject": "math",
+          "reference_count": 27,
+          "rebuilt_count": 25
+        }
+      ]
+    },
+    {
+      "year": "105",
+      "mismatches": [
+        {
+          "subject": "math",
+          "reference_count": 26,
+          "rebuilt_count": 25
+        }
+      ]
+    }
+  ]
+}

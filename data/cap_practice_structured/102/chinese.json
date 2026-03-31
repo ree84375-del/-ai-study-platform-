@@ -1,0 +1,1581 @@
+{
+  "year": "102",
+  "subject_slug": "chinese",
+  "subject_label": "國文",
+  "official_question_count": 48,
+  "question_count": 48,
+  "answered_count": 48,
+  "page_count": 14,
+  "ocr_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "files": {
+    "pdf": "cap_practice_sources\\102\\chinese\\102_chinese.pdf",
+    "docx": "cap_practice_word\\102\\102_chinese.docx"
+  },
+  "official": {
+    "question_url": "https://drive.google.com/file/d/1tXmtTYFd4l-IK2J5-uV-C9ZnjXMpMxzC/view?usp=drive_link",
+    "answer_url": "https://drive.google.com/file/d/1b3Vusr5_4cJSvDx7HRbENNmmQWEr5kKH/view?usp=drive_link",
+    "explanation_url": "https://drive.google.com/file/d/1VXI00Eb2KozpVJ-dsfrwCBr_vuC9Pfvp/view?usp=drive_link"
+  },
+  "checks": {
+    "question_chunks_found": 142,
+    "answers_found": 48,
+    "questions_kept": 48,
+    "issues_found": 92,
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      2,
+      23,
+      24,
+      25,
+      26,
+      27,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      42,
+      43,
+      44,
+      45,
+      46,
+      45,
+      46,
+      47,
+      48
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ],
+    "missing_question_numbers": [],
+    "duplicate_question_numbers": []
+  },
+  "practice_ready": true,
+  "questions": [
+    {
+      "number": 1,
+      "source_number": 1,
+      "display_number": 1,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_02.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "一 、 單 題 : (1~34 題 )",
+      "stem": "下列 文 句 。 何 者 無 法 判別 季節 ?",
+      "options": {
+        "A": "黃 梅 時 節 , 哈 比 樂團 的 新 專輯 就 要 發 行 了\nCEE Eee Ceres re"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 2,
+      "source_number": 2,
+      "display_number": 2,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 一 人 覆 屋 以 瓦 , 一 人 覆 屋 以 攻 , 謂 覆 瓦 者 日:『 子 之 費 十 倍 予 , 然 而 蔽 風 而 一 也 。』 轎 瓦 者 曰 :『 葉 十 年 府 , 而 瓦 百 年 不 碎 。 子 百 年 十 更 , 而 多 以 工 力 之 費 , 屢 變 之 勞 也 。』」 這 則 故事 中 覆 瓦 者 的 觀點 , 與 下 列 何者 最 接近 ?",
+      "options": {
+        "A": "宅 第 所 用 建材 應 採 價 格 高 者 。 方 能 氏 風 蔽 兩",
+        "B": "建 屋 為 求 堅 回, 應 不 計 工 幼 之 費 2 收 變 之 勞",
+        "C": "成 事 之 道 在 能 深 謀 遠 慮 APRA HR",
+        "D": "能 畫 人 一 己 百 的 努力 。 直 能 建 悶 夏 配 之 功"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（建 屋 為 求 堅 回, 應 不 計 工 幼 之 費 2 收 變 之 勞）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 3,
+      "source_number": 3,
+      "display_number": 3,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 很 多 時 候 。 出 國 旅行 的 人 帶 了 太 多 不 該 帶 的 東西 一 一 我 指 的 未 必 是 衣物 。 而 是 指 過 多 的 期 待 和 刻板 印象 。, 這 句 話 的 涵義 , 與 下 列 何者 最 接近 ?",
+      "options": {
+        "A": "若 要 使 旅 程 豐 富 , 最 好 不 要 敬 說 多 行 季 二 ,",
+        "B": "出 國 旅行 時 , 最 好 能 夠 保 持 開 六 的 心靈",
+        "C": "帶 太 多 衣物 , 容 易 在 旅程 中 產生 刻板 印象 ,",
+        "D": "為 了 增 廣 見 開 。 必 須 利 過 時 間 常 常 去 旅行 -"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（為 了 增 廣 見 開 。 必 須 利 過 時 間 常 常 去 旅行 -）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 4,
+      "source_number": 4,
+      "display_number": 4,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 白 龍馬 隨 唐僧 西天 取經 歸來 REAR AMRA RE RSH > BGS 常 羨慕 , 都 跑 來 問 白 圖 馬 , 為 什麼 自 己 這 麼 蛙 力 卻 一 無 所 獲 ? 白 龍馬 說 :「『 其 實 我 去 取經 時 大 家 也 沒 開 著 , 醫 基 比 載 曝 忙 謂 囚 。 我 走 一 步 。 你 們 也 走 一 步 , 只 不 過 我 目標 明確 。 十 萬 人 生 曙 我 起 了 個 來 四, 而 你 們 卻 在 磨坊 原 地 踏步 而 已 。』」 這 則 故事 的 寓意 。 與 下 列 何者 最 接近 ?",
+      "options": {
+        "A": "想 要 成 就 一 件 大 事業 。 必 須 從 眼前 的 小 事 做 起",
+        "B": "嚇 默 躲 在 暗 處 。 每 天 辛苦 夢 動 。 這 樣 的 人 更 值得 尊敬",
+        "C": "歷 史上 所 有 偉大 的 成 就 都 是 由 2 完成 子 看 起 來 不 可 能 的 事"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（歷 史上 所 有 偉大 的 成 就 都 是 由 2 完成 子 看 起 來 不 可 能 的 事）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 5,
+      "source_number": 5,
+      "display_number": 5,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_02.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "cu RE PE",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 6,
+      "source_number": 6,
+      "display_number": 6,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "宮崎 駿 曾 透露 他 的 管理 哲學 :「 工 作 室 的 型 態 在 做 完 三 部 動畫 之 後 就 會 開 始 僵 化 。 創 作 人 才 慢 慢 變 得 保守 、 只 為 養家 飲 口 而 留 下 。 因 此 , 必 須 朝 企業 的 規模 邁進 , 招 考 新 人 , 建 立 研修 制度 , 並 且 調 高 薪 實 。 而 且 調 薪 對 象 是 基層 而 非 高 Bo 」 這 段 文 字 所 提 及 的 經 營 管 理 層面 , 不 包含 下 列 何者 ?",
+      "options": {
+        "A": "設 備 的 更 新 ki",
+        "B": "人 才 的 儲備 —1 5) —",
+        "C": "專 業 的 訓練 J",
+        "D": "創 意 的 開 發"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（設 備 的 更 新 ki）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 7,
+      "source_number": 7,
+      "display_number": 7,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_03.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "「 自 從 髮 禁 解除 之 後 , 經 由 各 媒 髓 的 大 畫 報導 , 學 生 們 興 高 打 列 , 老 師 們 緊張 不 以 ,\n0D_aM_ z A\nFRI RI Roe ays iE 當 今 社會 最 受注 日 的 焦點 話題 。」\nJ Nu\nAERO» TERE SEED\n(AF @o OA ()T\nee co",
+      "options": {},
+      "correct_answer": "A",
+      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 8,
+      "source_number": 8,
+      "display_number": 8,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "HERE AME RRM: BREA R HM > RAGRRAUREBANMRS PR RERAABA > HARE 一 層 一 層 剝 開 的 過 程 當 中 。」 這 段 閻 密 以 再 洋 邁 為 喻 。 說 明 一 部 好 電影 的 關鍵 為 下 列 何者 ? 一 0",
+      "options": {
+        "A": "社 會 現象 的 剖析 es",
+        "B": "出 人 意表 的 結局"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 9,
+      "source_number": 9,
+      "display_number": 9,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_02.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "(0) 變 化 豐富 的 意象\nGE\n;",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 10,
+      "source_number": 10,
+      "display_number": 10,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "宮崎 駿 曾 透露 他 的 管理 哲學 :「 工 作 室 的 型 態 在 做 完 三 部 動畫 之 後 就 會 開 始 僵 化 。 創 作 人 才 慢 慢 變 得 保守 、 只 為 養家 飲 口 而 留 下 。 因 此 , 必 須 朝 企業 的 規模 邁進 , 招 考 新 人 , 建 立 研修 制度 , 並 且 調 高 薪 實 。 而 且 調 薪 對 象 是 基層 而 非 高 Bo 」 這 段 文 字 所 提 及 的 經 營 管 理 層面 , 不 包含 下 列 何者 ?",
+      "options": {
+        "A": "設 備 的 更 新 ki",
+        "B": "人 才 的 儲備 —1 5) —",
+        "C": "專 業 的 訓練 J",
+        "D": "創 意 的 開 發"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（創 意 的 開 發）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 11,
+      "source_number": 11,
+      "display_number": 11,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "南 唐 覆 亡 。, 後 主 李煜 被 俘 至 北方 , 遠 離 家 園 , 詞 作 中 常 流露 對 故國 的 思念 。 撩 此 判斷 , 下 列 詞句 何者 最 可 能 是 李煜 書寫 這 類 主 題 的 作品 ?",
+      "options": {
+        "A": "重 到 故鄉 交 舊 少 , 淒 涼 。 卻 惡 他 鄉 是 該 鄉",
+        "B": "寂 賓 古 豪華 , 烏 衣 日 又 斜 , 說 興 世 > BARE"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 12,
+      "source_number": 12,
+      "display_number": 12,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_03.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "Qu, | O Q/OSI—GLey x @\n2 = a) SLING ae 說\nes . : 到 x ay ey 上 到 Ss\n人 的 0",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 世 界 上 沒 有 天 生 的 早 鴨 子 , 也 光大 天 生 的 水 鴨子 。 因 為 擦 醫 學 研究 。 胎 兒 就 彷彿 在 游泳 , 所 以 把 初生 的 嬰兒 放 在 水 裡 -- 能 夠 自 然 地 浮 起 ; 但 又 控 體 育 專 家 調查 , 沒 有 一 個 未 曾 學 習 游泳 的 大 -- 跳 到 水 裡 能 立刻 游 得 好 。 」 這 段 文 字 主 要 在 說 明 下 列 哪 一 種 道理 ? 二 / | |",
+      "options": {
+        "A": "周 遭 環境 決定 學 習 成 效 的 好 壤 一",
+        "B": "後 天 的 學 習 可 以 馬 補 先 天 的 不 足",
+        "C": "天 賦 須 配合 後 天 的 學 習 才 得 以 發 揮 號 呈\nCr 生"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 14,
+      "source_number": 14,
+      "display_number": 14,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "ALP 一 mae |",
+      "options": {
+        "A": "幼 稚 的 反應 MJL7",
+        "B": "忍 耐 的 極限 —\n(Cha e6 i E I =",
+        "D": "+ OR\n9 =! |"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_03.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "edn EREM MAL ER GAR BS MAM Pow 了 光明 ; 和 , 活 CS Tm ees ee 瀕 於 死亡 的 時 刻 。 在 導 濃 著 溪水 的 嘯 叫 中 。, 他 們 一 一 立 起 固定 成 了 永恆 的 山脈 。 這 段 文 字 的 缺 空 處 , 填 入 下 列 哪 一 組 標點 符號 最 恰當 ?",
+      "options": {
+        "A": "一 一 ! > >"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 16,
+      "source_number": 16,
+      "display_number": 16,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 藝 術 家 既 選 定 了 他 的 主 題 了 便 租 在 這 充 塞 著 偶然 與 無 聊 之 事 的 人 生 裡 , 補 取 對 於 他 的 主 題 有 用 的 特 殊 事情 。 而 把 其 餘 的 拋 在 一 相 。 」 這 段 文 字 是 在 描述 創 作 過 程 中 的 哪 一 個 環節 ?",
+      "options": {
+        "A": "決 定 主 題",
+        "B": "激 發 靈感",
+        "C": "揀 選材 料",
+        "D": "組 織 段 落"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（決 定 主 題）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 17,
+      "source_number": 17,
+      "display_number": 17,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "4h (ROR AAG) : 「 童 稚 情 親 四 十 年 , 中 間 消 息 兩 茫然 。 更 為 後 會 知 何 地 ? 忽 漫 相 逢 是 別 篷 。 不 念 1 桃花 紅 勝 錦 。 生 憎 柳 加 白 於 綿 。 劍 南 春色 還 無 > MSR ASE > | 關於 這 首 詩 的 內 容 , 下 列 敘 述 何者 正確 ?",
+      "options": {
+        "A": "作 者 與 友人 相 處 四 十 年 , 從 今 之 後 要 分 隔 兩 地 a\n名 人 當\n(Oe AER ERR > Soe SEI AS NEES",
+        "D": "台 此 一 別 , 重 逢 難 期 , 使 得 作者 更 添 離 情 悉 緒"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（作 者 與 友人 相 處 四 十 年 , 從 今 之 後 要 分 隔 兩 地 a 名 人 當 (Oe AER ERR > Soe SEI AS NEES）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "南 唐 覆 亡 。, 後 主 李煜 被 俘 至 北方 , 遠 離 家 園 , 詞 作 中 常 流露 對 故國 的 思念 。 撩 此 判斷 , 下 列 詞句 何者 最 可 能 是 李煜 書寫 這 類 主 題 的 作品 ?",
+      "options": {
+        "A": "重 到 故鄉 交 舊 少 , 淒 涼 。 卻 惡 他 鄉 是 該 鄉",
+        "B": "寂 賓 古 豪華 , 烏 衣 日 又 斜 , 說 興 世 > BARE"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（重 到 故鄉 交 舊 少 , 淒 涼 。 卻 惡 他 鄉 是 該 鄉）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "OPEL. Sea pats ¢ anes © nt a",
+      "options": {
+        "D": "WH #8 98 ite Ae By EA ARE BS A By ah Ak\na ©) eae ee Cees ee 22 2 eee 2 ec\n為 「 園 迎春 色 」 的 下 聯 ? 一",
+        "A": "ARSE",
+        "B": "花 關 並 落",
+        "C": "梅 吐 新 絲 ORS ———"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（WH #8 98 ite Ae By EA ARE BS A By ah Ak a ©) eae ee Cees ee 22 2 eee 2 ec 為 「 園 迎春 色 」 的 下 聯 ? 一）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 世 界 上 沒 有 天 生 的 早 鴨 子 , 也 光大 天 生 的 水 鴨子 。 因 為 擦 醫 學 研究 。 胎 兒 就 彷彿 在 游泳 , 所 以 把 初生 的 嬰兒 放 在 水 裡 -- 能 夠 自 然 地 浮 起 ; 但 又 控 體 育 專 家 調查 , 沒 有 一 個 未 曾 學 習 游泳 的 大 -- 跳 到 水 裡 能 立刻 游 得 好 。 」 這 段 文 字 主 要 在 說 明 下 列 哪 一 種 道理 ? 二 / | |",
+      "options": {
+        "A": "周 遭 環境 決定 學 習 成 效 的 好 壤 一",
+        "B": "後 天 的 學 習 可 以 馬 補 先 天 的 不 足",
+        "C": "天 賦 須 配合 後 天 的 學 習 才 得 以 發 揮 號 呈\nCr 生"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（後 天 的 學 習 可 以 馬 補 先 天 的 不 足）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "\"REBAR TRARESO BAT > AME LRA TET —SlREIR 又 從 容 的 樣子 。 雄 烏 的 顏色 墓 麗 莊 重 。 搭 配 得 真 美 : 墨 黑 的 頭頭 上 。, 明 顯 的 一 道 細長 的 白眉 , 上 胸 和 兩 側 扉 膀 十 的 羽毛 橘 給 色 , 下 身 是 柔和 的 棕 青 。 販 鳥 的 色澤 就 抽 樸 多 了 。 牠 們 頻頻 出 六 於 小 徑 的 地 面 、 兩 旁 的 灌 最 和 冷 杉 之 間 。, 時 時 細 細 地 鳴叫 。 」 關 於 這 段 文 字 的 寫作 持 法 下 列 敘 述 何者 正確 ?",
+      "options": {
+        "A": "以 對 比 法 寫 出 雄 崔 鳥 色 彩 六 體形 的 差異 ~ 一",
+        "B": "採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌\nLE\nPRO"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌 LE PRO）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 看 見 街 上 賣 駿 樞 的 攤子 TRABUSR DAG ROAM KA 樹 。 每 年 夏天 。 濃 密 薯 壯 。 結 滿 肥 大 的 果實 , 就 像 在 [一 種 恆 常 的 盟約 。」 根據 文 意 。 句 中 空格 處 最 適合 填 入 下 列 何者 ? 說 時 當",
+      "options": {
+        "B": "必 距\nGe",
+        "D": "探 索"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 藝 術 家 既 選 定 了 他 的 主 題 了 便 租 在 這 充 塞 著 偶然 與 無 聊 之 事 的 人 生 裡 , 補 取 對 於 他 的 主 題 有 用 的 特 殊 事情 。 而 把 其 餘 的 拋 在 一 相 。 」 這 段 文 字 是 在 描述 創 作 過 程 中 的 哪 一 個 環節 ?",
+      "options": {
+        "A": "決 定 主 題",
+        "B": "激 發 靈感",
+        "C": "揀 選材 料",
+        "D": "組 織 段 落"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（激 發 靈感）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "頒獎 的 音樂 奏 起 了 , 但 是 , 第 一 名 的 人 興 玲 得 休克 。 送 醫 急救 無 法 令 獎 。 第 二 名 的 人 不 甘心 輸 了 4 拒絕 領 獎 ~- 第 j 叫 名 的 人 說 :「 因 為 不 是 前 三 名 , 沒 有 臉 領 獎 。」 第 五 名 的 人 說 -: 工 第 四 名 都 不 想 領 狀 了, 我 也 不 好 意 QAR: | RES HRUGATSELL SY RMR BI 單 , 吻 | 這 明明 是 個 快樂 的 時 刻 嘛 | | 若 想 用 與 「 阪 單 」 相 近 的 情境 來 凸顯 文 中 「 我 」 的 心情 。 下 列 何者 放 入 文 中 書 線 處 最 恰當 ? Po Coa | 各",
+      "options": {
+        "B": "生 意 盡 然 的 青翠 單 坪 。 人 二 一 一",
+        "C": "徘 箇 天際 的 寥 落 白雲 一",
+        "D": "桌 上 成 列 的 耀眼 獎牌 (7/V"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（徘 箇 天際 的 寥 落 白雲 一）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 我 察覺 自 己 始終 沒 有 學 會 如 伺 樂 在 生 活 。 而 只 會 追逐 成 就 ; 我 終生 都 在 追尋 幸福 , 卻 始終 找 不 到 。」 這 句 語 抽 涵 義舉 下 列 何者 最 接近 ?",
+      "options": {
+        "A": "真 正 的 幸福 在 於 能 夠 享受 自 己 的 生 活 一\nBehe BAB PE ae 下",
+        "C": "身 在 幸福 中 往往 看 不 到 自 己 擁有 的 幸福 一",
+        "D": "購 懷 大 志 的 人 在 艱苦 困難 時 也 會 感到 幸福"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（真 正 的 幸福 在 於 能 夠 享受 自 己 的 生 活 一 Behe BAB PE ae 下）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 古 今 中 外 的 革命 者 , 都 是 講 太 ~ 他 們 玫 茵 溪 寫 詩 , 他 們 用 生 命 寫 詩 , 他 們 所 留 下 的 是 超 乎 文 字 語言 的 美 好 , 是 生命 華貴 的 形式 。」 這 段 話 的 涵義 。 與 下 列 何者 最 接近 ? 人 hiUt PE",
+      "options": {
+        "B": "革 命 者 的 生 命 就 是 一 首 瑰麗 的 詩篇",
+        "C": "詩 是 革命 者 用 以 呈現 其 華貴 生 命 的 形式"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（革 命 者 的 生 命 就 是 一 首 瑰麗 的 詩篇）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "OPEL. Sea pats ¢ anes © nt a",
+      "options": {
+        "D": "WH #8 98 ite Ae By EA ARE BS A By ah Ak\na ©) eae ee Cees ee 22 2 eee 2 ec\n為 「 園 迎春 色 」 的 下 聯 ? 一",
+        "A": "ARSE",
+        "B": "花 關 並 落",
+        "C": "梅 吐 新 絲 ORS ———"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（ARSE）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "顏 真 卿 議 居 時 。 與 其 子孫 書 云 / BT FSORTARS - SLRPSRER R 不 能 逆 道 苗 時 為 千古 罪人 也 。 羅 冊 居 遠方 , 終 身 不 過 。 決 華 當 須 謂 吾 之 志 不 可 不 守 也 。 | 顏 真 卿 在 信 中 所 顯現 的 處 世 態 度 , 與 下 列 哪 一 句 話 最 接近 ?",
+      "options": {
+        "A": "信 用 是 一 切 價 什 的 根基 。 誰 能 堅守 不 移 。 誰 就 可 以 成 功\nee LA",
+        "C": "為 了 捍衛 國 家 政策 , 不 得 未 特 出 況 重 的 代價 , 但 我 們 仍 應 積極 付出",
+        "D": "一 個 人 立身 行 事 都 應 本 其 良 %> 在 任何 場合 都 不 該 放棄 自 己 的 信念"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（一 個 人 立身 行 事 都 應 本 其 良 %> 在 任何 場合 都 不 該 放棄 自 己 的 信念）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "\"REBAR TRARESO BAT > AME LRA TET —SlREIR 又 從 容 的 樣子 。 雄 烏 的 顏色 墓 麗 莊 重 。 搭 配 得 真 美 : 墨 黑 的 頭頭 上 。, 明 顯 的 一 道 細長 的 白眉 , 上 胸 和 兩 側 扉 膀 十 的 羽毛 橘 給 色 , 下 身 是 柔和 的 棕 青 。 販 鳥 的 色澤 就 抽 樸 多 了 。 牠 們 頻頻 出 六 於 小 徑 的 地 面 、 兩 旁 的 灌 最 和 冷 杉 之 間 。, 時 時 細 細 地 鳴叫 。 」 關 於 這 段 文 字 的 寫作 持 法 下 列 敘 述 何者 正確 ?",
+      "options": {
+        "A": "以 對 比 法 寫 出 雄 崔 鳥 色 彩 六 體形 的 差異 ~ 一",
+        "B": "採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌\nLE\nPRO"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（採 用 近 鏡 頭 特 寫 ,。 細 膩 描繪 雄鳥 的 形 貌 LE PRO）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 看 見 街 上 賣 駿 樞 的 攤子 TRABUSR DAG ROAM KA 樹 。 每 年 夏天 。 濃 密 薯 壯 。 結 滿 肥 大 的 果實 , 就 像 在 [一 種 恆 常 的 盟約 。」 根據 文 意 。 句 中 空格 處 最 適合 填 入 下 列 何者 ? 說 時 當",
+      "options": {
+        "B": "必 距\nGe",
+        "D": "探 索"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（探 索）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 一 人 覆 屋 以 瓦 , 一 人 覆 屋 以 攻 , 謂 覆 瓦 者 日:『 子 之 費 十 倍 予 , 然 而 蔽 風 而 一 也 。』 轎 瓦 者 曰 :『 葉 十 年 府 , 而 瓦 百 年 不 碎 。 子 百 年 十 更 , 而 多 以 工 力 之 費 , 屢 變 之 勞 也 。』」 這 則 故事 中 覆 瓦 者 的 觀點 , 與 下 列 何者 最 接近 ?",
+      "options": {
+        "A": "宅 第 所 用 建材 應 採 價 格 高 者 。 方 能 氏 風 蔽 兩",
+        "B": "建 屋 為 求 堅 回, 應 不 計 工 幼 之 費 2 收 變 之 勞",
+        "C": "成 事 之 道 在 能 深 謀 遠 慮 APRA HR",
+        "D": "能 畫 人 一 己 百 的 努力 。 直 能 建 悶 夏 配 之 功"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（宅 第 所 用 建材 應 採 價 格 高 者 。 方 能 氏 風 蔽 兩）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "下 列 文 句 , 何 者 屬於 先 提出 問題 , 再 針對 問題 回 答 ?",
+      "options": {
+        "A": "風 裡 落花 誰 是 主 ? 思 悠 悠 一 一",
+        "B": "問 君 何 能 爾 ? oxke me SS) SS)",
+        "C": "同 來 望月 人 何 處 ? 風景 依稀 仆 去 三 一",
+        "D": "何 夜 無 月 ? 何 處 無 竹 柏 ?/ 但 少 開 大 如 如 兩 人 耳"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（同 來 望月 人 何 處 ? 風景 依稀 仆 去 三 一）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "頒獎 的 音樂 奏 起 了 , 但 是 , 第 一 名 的 人 興 玲 得 休克 。 送 醫 急救 無 法 令 獎 。 第 二 名 的 人 不 甘心 輸 了 4 拒絕 領 獎 ~- 第 j 叫 名 的 人 說 :「 因 為 不 是 前 三 名 , 沒 有 臉 領 獎 。」 第 五 名 的 人 說 -: 工 第 四 名 都 不 想 領 狀 了, 我 也 不 好 意 QAR: | RES HRUGATSELL SY RMR BI 單 , 吻 | 這 明明 是 個 快樂 的 時 刻 嘛 | | 若 想 用 與 「 阪 單 」 相 近 的 情境 來 凸顯 文 中 「 我 」 的 心情 。 下 列 何者 放 入 文 中 書 線 處 最 恰當 ? Po Coa | 各",
+      "options": {
+        "B": "生 意 盡 然 的 青翠 單 坪 。 人 二 一 一",
+        "C": "徘 箇 天際 的 寥 落 白雲 一",
+        "D": "桌 上 成 列 的 耀眼 獎牌 (7/V"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 我 察覺 自 己 始終 沒 有 學 會 如 伺 樂 在 生 活 。 而 只 會 追逐 成 就 ; 我 終生 都 在 追尋 幸福 , 卻 始終 找 不 到 。」 這 句 語 抽 涵 義舉 下 列 何者 最 接近 ?",
+      "options": {
+        "A": "真 正 的 幸福 在 於 能 夠 享受 自 己 的 生 活 一\nBehe BAB PE ae 下",
+        "C": "身 在 幸福 中 往往 看 不 到 自 己 擁有 的 幸福 一",
+        "D": "購 懷 大 志 的 人 在 艱苦 困難 時 也 會 感到 幸福"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 讀 書 以 過 日 成 誦 為 能 , 最 是 不 濟 事 。 眼 中 了 了 。, 心 下 匆匆 , 方 寸 無 多 , 往 來 應 接 不 暇 。 如 看 場 中 美 色 。 一 眠 即 過 。 與 我 何 與 也 ? | 根據 這 段 文 字 。 作 者 對 讀書 的 看 法 與 下 列 何者 最 接近 3 = (ARF SRBARE FER bak —_",
+      "options": {
+        "B": "為 學 當 專心 致 志 。 不 為 外 物 所 惑 一",
+        "C": "能 讀 無 字 之 書 。 方 能 領 惘 知識 的 奧妙 |",
+        "D": "讀 書 過 目 成 誦 。 方 可 收 事半功倍 之 說"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（能 讀 無 字 之 書 。 方 能 領 惘 知識 的 奧妙 |）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "根據 本 文 。 下 列 敘 述 何者 正確 光一 和",
+      "options": {
+        "A": "基 於 對 藝術 境界 的 追求 ARP HY Aye AS ROR",
+        "B": "科 學 的 真 與 藝術 無 關 , 所 以 愈 是 離奇 的 情節 念 是 上 乘 佳作\nGE RSS\n(CD) 武 俠 小 說 是 呈現 人 情 的 一 種 形式 。, 一 如 樂器 是 演奏 家 表 現 感情 的 媒介"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "下 列 各 組 「」 中 的 字 。 何 者 讀音 兩 兩 相 同 ?",
+      "options": {
+        "A": "「 逾 」 時 不 候 / 至 死 不 「 渝 」",
+        "B": "愛 「 憎 」 分 明 / 臨 別 「 贈 」 言"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（「 逾 」 時 不 候 / 至 死 不 「 渝 」）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_10.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "根據 本 文 , at (Ee EES esate DS BCH RBM BRA > HOH REG Bho",
+      "options": {
+        "C": "卡 言 族 婦女 耳環 數 量 。 與 其 年 齡 和 財富 的 增長 成 正比\nca"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（卡 言 族 婦女 耳環 數 量 。 與 其 年 齡 和 財富 的 增長 成 正比 ca）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "AR MME: MA GRRE EM PAR? Mea he KARA OUR ER MALAY OUR PRT > g BAA Bih.> ) FATERBOM RU SEAL EM ERO eB?",
+      "options": {
+        "A": "繞 才 俄 物 | =\nBBR : ="
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "Onna | | La: 屎尿 之 類 的 髒 東 丁",
+      "options": {
+        "D": "疼 於 登 角 二 2 名 通 : 名 言 、 名 論"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（疼 於 登 角 二 2 名 通 : 名 言 、 名 論）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "i ig 庭院 白 靈 7\njf R_ ATR REBAR\n之 人 S8BAAM DHA TAMAR\n; RARE RFR ARS\nON) BRERAE\nATS _ 則 高 樓 大 廈 就 是 “一 節 節 的 時 了\nFy Att 翻 個 身 看 看 RAR\n我 是 說 你 _ 像 不 像 試管 中 Moh\n(RELA / MGA ORME T ACCRA ATE PH ART HE\n是 下 列 何者 ? 二\n(AA EW RBG A > GARR E— Ie BP)\nBe HEAM > SRT RM MAE > WA RHR",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 42,
+      "source_number": 42,
+      "display_number": 42,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_13.png",
+      "parse_status": "complete",
+      "context": "請 閱讀 以 下 短文 。 並 回 答 和 一 43 題 :\n這 個 臺北 的 冬天 好 冷 , 我 與 親友 們 齊 聲 怨 嘆 。 但 他 們 會 狐疑 地 問 我 : 在 今\n天 之 前 , 我 都 在 美 國 過 冬 , 那 麼 我 是 怎麼 培 過 美 東 的 冰天雪地 的 ? 電視 上 的 新\n英格蘭 地 區 (我 曾經 住 了 五 年 的 地 砲 ) 被 風雪 大 只 一 一 那 畫 面 並 不 誇張 , 我 親\n身體 驗 過 。 ACCIL\n我 竟 覺得 美 國 的 冬天 不 冷 而 臺 取 說 的確 壽 盾 。 若 說 美 國 生 活 都 被 暖 氮\n庇佑 也 不 盡 然 , 我 想 起 當 時 棠 在 所 外 雪 地 逼 狗 , 帶 狗 走 過 冰雪 泥 洋 的 公園 , 甚\n至 跟 狗 丟 雪 球 打 雪 仗 。 我 還 經 歷 過 多 鱗 因 雪 停 課 , 以 及 在 高 速 公 路 上 積雪 遠 半\n個 輪胎 的 困 局 。\n可 能 是 因為 在 異鄉 旅居 , 雖 然 溫 度 低 。 但 心情 上 隔 了 一 層 。 冷 血 地 說 。 雪\nEN\n回 到 臺北 , 雖 然 氣溫 較 暖 但 我 跟 這 裡 的 空氣 之 問 少 了 係 護 層 。 我 在 街 上\n走路 (美 國 人 很 少 在 街 上 走路)) 在 兩 中 每 公 車 、 騎 機 車 , 貼 身 的 親密 感 總 是\nKI © RRA PEE AERA RS } — ih MARES\n片 的 土地 沒 有 咖 音 沒 有 人 聲 , 也 沒 有 人 味 , 我 已 經 覺得 空洞 遙遠 。\n一 一 改寫 自 紀 大 偉 〈 風 雪 》",
+      "stem": "根 遞 本 文 。 下 列 敘 述 何者 最 恰當 多 一 一",
+      "options": {
+        "A": "諒 平均 溫度 來 看 , 美 國 冬季 糸 取 毫 灣 寒冷",
+        "B": "美 國 對 作者 而 言 只 是 風景 ## RAMBO AE\nCN er",
+        "D": "作 者 旅居 美 國 時 常 因 欣 賞 雪 景 而 忘卻 天 氣 的 寒冷"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（美 國 對 作者 而 言 只 是 風景 ## RAMBO AE CN er）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 43,
+      "source_number": 43,
+      "display_number": 43,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_07.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "' ASAI Ha: PR EAM RRL Ae > Ahora REE 1 裡 漁 殺 ?」』 | EAMES BV de PAM TE OTe Bt ? (E) 個 性 猶疑 者 難以 選擇 去 向 L#® : eKde- Ro HU",
+      "options": {
+        "C": "善 於 奉承 者 往往 遭受 批 評 下 和\nSA /"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 44,
+      "source_number": 44,
+      "display_number": 44,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 藝 術 創作 的 甘苦 , 宇 在 是 不 足 為 外 人 道 。」 句 中 「 道 」 字 的 意義 與 下 列 何者 完全 相 同 ?",
+      "options": {
+        "A": "喜 歡 誇 勝 「 道 」 強 的 人 , 往 往 是 因為 自 信心 不 足",
+        "B": "養 成 刻苦 勤勞 的 態度 , 才 是 最 好 的 謀生 之 「 道 」",
+        "C": "以 今日 的 社會 風氣 看 來 ah aE HE kh F"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（以 今日 的 社會 風氣 看 來 ah aE HE kh F）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 45,
+      "source_number": 45,
+      "display_number": 45,
+      "page_number": 14,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_14.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "下 列 文 句 。 何 者 是 延 陵 百 姓 盡 皆 守法 的 具體 表 現 ? (RABE > Rory",
+      "options": {
+        "B": "以 日 數 為 等 級 。 日 滿 乃 番\n(CRAB SIR BAH I"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 46,
+      "source_number": 46,
+      "display_number": 46,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "FRR) > MAF RSI!",
+      "options": {
+        "A": "這 對 雙胞胎 形 貌 十 分 神 似 。 常 相 互 冒 名 器 茜 。 代 對 方 上 課",
+        "B": "小 祥 遠 直 異 國 讀書 。 每 逢 佳 節 深 深 感 愛 到 離 鄉 背 景 的 孤單"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（這 對 雙胞胎 形 貌 十 分 神 似 。 常 相 互 冒 名 器 茜 。 代 對 方 上 課）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 47,
+      "source_number": 47,
+      "display_number": 47,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_08.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "(0 校長 有 開 不 完 的 會 。 批 不 ie iain » pap eat\n(De RM REI BARS t=0 圖 振作 。, 卻 已 是 積 息 難 改",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 48,
+      "source_number": 48,
+      "display_number": 48,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\chinese\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「 讀 書 以 過 日 成 誦 為 能 , 最 是 不 濟 事 。 眼 中 了 了 。, 心 下 匆匆 , 方 寸 無 多 , 往 來 應 接 不 暇 。 如 看 場 中 美 色 。 一 眠 即 過 。 與 我 何 與 也 ? | 根據 這 段 文 字 。 作 者 對 讀書 的 看 法 與 下 列 何者 最 接近 3 = (ARF SRBARE FER bak —_",
+      "options": {
+        "B": "為 學 當 專心 致 志 。 不 為 外 物 所 惑 一",
+        "C": "能 讀 無 字 之 書 。 方 能 領 惘 知識 的 奧妙 |",
+        "D": "讀 書 過 目 成 誦 。 方 可 收 事半功倍 之 說"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    }
+  ],
+  "issues": [
+    {
+      "question_number": 1,
+      "display_source_number": 1,
+      "reason": "parse_incomplete",
+      "stem_length": 24,
+      "option_count": 1
+    },
+    {
+      "question_number": 2,
+      "display_source_number": 2,
+      "reason": "parse_incomplete",
+      "stem_length": 15,
+      "option_count": 1
+    },
+    {
+      "question_number": 5,
+      "display_source_number": 5,
+      "reason": "parse_incomplete",
+      "stem_length": 8,
+      "option_count": 0
+    },
+    {
+      "question_number": 6,
+      "display_source_number": 6,
+      "reason": "parse_incomplete",
+      "stem_length": 82,
+      "option_count": 1
+    },
+    {
+      "question_number": 7,
+      "display_source_number": 7,
+      "reason": "parse_incomplete",
+      "stem_length": 33,
+      "option_count": 0
+    },
+    {
+      "question_number": 9,
+      "display_source_number": 9,
+      "reason": "parse_incomplete",
+      "stem_length": 20,
+      "option_count": 0
+    },
+    {
+      "question_number": 11,
+      "display_source_number": 11,
+      "reason": "parse_incomplete",
+      "stem_length": 165,
+      "option_count": 0
+    },
+    {
+      "question_number": 12,
+      "display_source_number": 12,
+      "reason": "parse_incomplete",
+      "stem_length": 70,
+      "option_count": 0
+    },
+    {
+      "question_number": 13,
+      "display_source_number": 13,
+      "reason": "parse_incomplete",
+      "stem_length": 12,
+      "option_count": 0
+    },
+    {
+      "question_number": 15,
+      "display_source_number": 15,
+      "reason": "parse_incomplete",
+      "stem_length": 167,
+      "option_count": 1
+    },
+    {
+      "question_number": 16,
+      "display_source_number": 16,
+      "reason": "parse_incomplete",
+      "stem_length": 22,
+      "option_count": 0
+    },
+    {
+      "question_number": 19,
+      "display_source_number": 19,
+      "reason": "parse_incomplete",
+      "stem_length": 44,
+      "option_count": 0
+    },
+    {
+      "question_number": 21,
+      "display_source_number": 21,
+      "reason": "parse_incomplete",
+      "stem_length": 103,
+      "option_count": 1
+    },
+    {
+      "question_number": 22,
+      "display_source_number": 22,
+      "reason": "parse_incomplete",
+      "stem_length": 243,
+      "option_count": 0
+    },
+    {
+      "question_number": 24,
+      "display_source_number": 24,
+      "reason": "parse_incomplete",
+      "stem_length": 58,
+      "option_count": 1
+    },
+    {
+      "question_number": 25,
+      "display_source_number": 25,
+      "reason": "parse_incomplete",
+      "stem_length": 11,
+      "option_count": 0
+    },
+    {
+      "question_number": 36,
+      "display_source_number": 36,
+      "reason": "parse_incomplete",
+      "stem_length": 22,
+      "option_count": 0
+    },
+    {
+      "question_number": 38,
+      "display_source_number": 38,
+      "reason": "parse_incomplete",
+      "stem_length": 19,
+      "option_count": 0
+    },
+    {
+      "question_number": 39,
+      "display_source_number": 39,
+      "reason": "parse_incomplete",
+      "stem_length": 100,
+      "option_count": 1
+    },
+    {
+      "question_number": 40,
+      "display_source_number": 40,
+      "reason": "parse_incomplete",
+      "stem_length": 27,
+      "option_count": 1
+    },
+    {
+      "question_number": 41,
+      "display_source_number": 41,
+      "reason": "parse_incomplete",
+      "stem_length": 267,
+      "option_count": 0
+    },
+    {
+      "question_number": 42,
+      "display_source_number": 42,
+      "reason": "parse_incomplete",
+      "stem_length": 65,
+      "option_count": 0
+    },
+    {
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "parse_incomplete",
+      "stem_length": 119,
+      "option_count": 1
+    },
+    {
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "parse_incomplete",
+      "stem_length": 32,
+      "option_count": 0
+    },
+    {
+      "question_number": 47,
+      "display_source_number": 47,
+      "reason": "parse_incomplete",
+      "stem_length": 83,
+      "option_count": 0
+    },
+    {
+      "question_number": 49,
+      "display_source_number": 49,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 50,
+      "display_source_number": 50,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 51,
+      "display_source_number": 51,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 52,
+      "display_source_number": 52,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 53,
+      "display_source_number": 53,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 54,
+      "display_source_number": 54,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 55,
+      "display_source_number": 55,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 56,
+      "display_source_number": 56,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 57,
+      "display_source_number": 57,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 58,
+      "display_source_number": 58,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 59,
+      "display_source_number": 59,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 60,
+      "display_source_number": 60,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 61,
+      "display_source_number": 61,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 62,
+      "display_source_number": 62,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 63,
+      "display_source_number": 63,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 64,
+      "display_source_number": 64,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 65,
+      "display_source_number": 65,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 66,
+      "display_source_number": 66,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 67,
+      "display_source_number": 67,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 68,
+      "display_source_number": 68,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 69,
+      "display_source_number": 69,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 70,
+      "display_source_number": 70,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 71,
+      "display_source_number": 71,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 72,
+      "display_source_number": 72,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 1,
+      "display_source_number": 1,
+      "reason": "parse_incomplete",
+      "stem_length": 24,
+      "option_count": 1
+    },
+    {
+      "question_number": 2,
+      "display_source_number": 2,
+      "reason": "parse_incomplete",
+      "stem_length": 15,
+      "option_count": 1
+    },
+    {
+      "question_number": 5,
+      "display_source_number": 5,
+      "reason": "parse_incomplete",
+      "stem_length": 8,
+      "option_count": 0
+    },
+    {
+      "question_number": 6,
+      "display_source_number": 6,
+      "reason": "parse_incomplete",
+      "stem_length": 82,
+      "option_count": 1
+    },
+    {
+      "question_number": 7,
+      "display_source_number": 7,
+      "reason": "parse_incomplete",
+      "stem_length": 33,
+      "option_count": 0
+    },
+    {
+      "question_number": 9,
+      "display_source_number": 9,
+      "reason": "parse_incomplete",
+      "stem_length": 20,
+      "option_count": 0
+    },
+    {
+      "question_number": 7,
+      "display_source_number": 7,
+      "reason": "parse_incomplete",
+      "stem_length": 165,
+      "option_count": 0
+    },
+    {
+      "question_number": 8,
+      "display_source_number": 8,
+      "reason": "parse_incomplete",
+      "stem_length": 70,
+      "option_count": 0
+    },
+    {
+      "question_number": 9,
+      "display_source_number": 9,
+      "reason": "parse_incomplete",
+      "stem_length": 12,
+      "option_count": 0
+    },
+    {
+      "question_number": 11,
+      "display_source_number": 11,
+      "reason": "parse_incomplete",
+      "stem_length": 167,
+      "option_count": 1
+    },
+    {
+      "question_number": 12,
+      "display_source_number": 12,
+      "reason": "parse_incomplete",
+      "stem_length": 22,
+      "option_count": 0
+    },
+    {
+      "question_number": 12,
+      "display_source_number": 12,
+      "reason": "parse_incomplete",
+      "stem_length": 44,
+      "option_count": 0
+    },
+    {
+      "question_number": 14,
+      "display_source_number": 14,
+      "reason": "parse_incomplete",
+      "stem_length": 103,
+      "option_count": 1
+    },
+    {
+      "question_number": 15,
+      "display_source_number": 15,
+      "reason": "parse_incomplete",
+      "stem_length": 243,
+      "option_count": 0
+    },
+    {
+      "question_number": 16,
+      "display_source_number": 16,
+      "reason": "parse_incomplete",
+      "stem_length": 58,
+      "option_count": 1
+    },
+    {
+      "question_number": 17,
+      "display_source_number": 17,
+      "reason": "parse_incomplete",
+      "stem_length": 11,
+      "option_count": 0
+    },
+    {
+      "question_number": 27,
+      "display_source_number": 27,
+      "reason": "parse_incomplete",
+      "stem_length": 22,
+      "option_count": 0
+    },
+    {
+      "question_number": 28,
+      "display_source_number": 28,
+      "reason": "parse_incomplete",
+      "stem_length": 19,
+      "option_count": 0
+    },
+    {
+      "question_number": 29,
+      "display_source_number": 29,
+      "reason": "parse_incomplete",
+      "stem_length": 100,
+      "option_count": 1
+    },
+    {
+      "question_number": 30,
+      "display_source_number": 30,
+      "reason": "parse_incomplete",
+      "stem_length": 27,
+      "option_count": 1
+    },
+    {
+      "question_number": 31,
+      "display_source_number": 31,
+      "reason": "parse_incomplete",
+      "stem_length": 267,
+      "option_count": 0
+    },
+    {
+      "question_number": 32,
+      "display_source_number": 32,
+      "reason": "parse_incomplete",
+      "stem_length": 65,
+      "option_count": 0
+    },
+    {
+      "question_number": 33,
+      "display_source_number": 33,
+      "reason": "parse_incomplete",
+      "stem_length": 119,
+      "option_count": 1
+    },
+    {
+      "question_number": 32,
+      "display_source_number": 32,
+      "reason": "parse_incomplete",
+      "stem_length": 32,
+      "option_count": 0
+    },
+    {
+      "question_number": 34,
+      "display_source_number": 34,
+      "reason": "parse_incomplete",
+      "stem_length": 83,
+      "option_count": 0
+    },
+    {
+      "question_number": 36,
+      "display_source_number": 36,
+      "reason": "parse_incomplete",
+      "stem_length": 164,
+      "option_count": 0
+    },
+    {
+      "question_number": 37,
+      "display_source_number": 37,
+      "reason": "parse_incomplete",
+      "stem_length": 52,
+      "option_count": 0
+    },
+    {
+      "question_number": 37,
+      "display_source_number": 37,
+      "reason": "parse_incomplete",
+      "stem_length": 46,
+      "option_count": 1
+    },
+    {
+      "question_number": 38,
+      "display_source_number": 38,
+      "reason": "parse_incomplete",
+      "stem_length": 54,
+      "option_count": 1
+    },
+    {
+      "question_number": 39,
+      "display_source_number": 39,
+      "reason": "parse_incomplete",
+      "stem_length": 11,
+      "option_count": 0
+    },
+    {
+      "question_number": 40,
+      "display_source_number": 40,
+      "reason": "parse_incomplete",
+      "stem_length": 158,
+      "option_count": 0
+    },
+    {
+      "question_number": 41,
+      "display_source_number": 41,
+      "reason": "parse_incomplete",
+      "stem_length": 32,
+      "option_count": 1
+    },
+    {
+      "question_number": 42,
+      "display_source_number": 42,
+      "reason": "parse_incomplete",
+      "stem_length": 11,
+      "option_count": 0
+    },
+    {
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "parse_incomplete",
+      "stem_length": 83,
+      "option_count": 0
+    },
+    {
+      "question_number": 44,
+      "display_source_number": 44,
+      "reason": "parse_incomplete",
+      "stem_length": 151,
+      "option_count": 0
+    },
+    {
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "parse_incomplete",
+      "stem_length": 6,
+      "option_count": 0
+    },
+    {
+      "question_number": 46,
+      "display_source_number": 46,
+      "reason": "parse_incomplete",
+      "stem_length": 116,
+      "option_count": 0
+    },
+    {
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "parse_incomplete",
+      "stem_length": 54,
+      "option_count": 1
+    },
+    {
+      "question_number": 46,
+      "display_source_number": 46,
+      "reason": "parse_incomplete",
+      "stem_length": 397,
+      "option_count": 0
+    },
+    {
+      "question_number": 47,
+      "display_source_number": 47,
+      "reason": "parse_incomplete",
+      "stem_length": 22,
+      "option_count": 0
+    },
+    {
+      "question_number": 49,
+      "display_source_number": 49,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 50,
+      "display_source_number": 50,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 51,
+      "display_source_number": 51,
+      "reason": "out_of_range_question_number"
+    }
+  ]
+}

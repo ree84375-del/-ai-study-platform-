@@ -233,7 +233,7 @@
 <script>
     const globalIsAdmin = {{ 'true' if current_user.is_admin else 'false' }};
     const globalIsGuest = {{ 'true' if getattr(current_user, 'auth_provider', 'local') == 'guest' else 'false' }};
-    const globalRoleBubbleClass = globalIsAdmin ? 'admin-gold' : (globalIsGuest ? 'guest-red' : 'user-blue');
+    const welcomeBubbleClass = globalIsAdmin ? 'admin-gold' : (globalIsGuest ? 'guest-red' : 'user-blue');
 
     // --- Voice Tutor Logic (Robust Windows Version) ---
     const voiceBtn = document.getElementById('voice-input-btn');
@@ -242,11 +242,72 @@
     let isListening = false;
     let autoSpeak = false; 
     let activeSessionId = null;
+    let historyRequestSequence = 0;
     const sessionList = document.getElementById('session-list');
     const chatTitle = document.getElementById('chat-title');
     const messagesContainer = document.getElementById('messages');
     const voiceSelect = document.getElementById('voice-select');
     let selectedVoice = null;
+
+    function getHistoryStorageKey(sessionId) {
+        const normalizedId = Number(sessionId);
+        return Number.isInteger(normalizedId) && normalizedId > 0 ? `chat_history_${normalizedId}` : null;
+    }
+
+    function readLocalHistory(sessionId) {
+        const storageKey = getHistoryStorageKey(sessionId);
+        if (!storageKey) {
+            return [];
+        }
+
+        try {
+            return JSON.parse(localStorage.getItem(storageKey) || '[]');
+        } catch (error) {
+            console.warn('Failed to parse local history cache:', error);
+            return [];
+        }
+    }
+
+    function writeLocalHistory(sessionId, messages) {
+        const storageKey = getHistoryStorageKey(sessionId);
+        if (!storageKey) {
+            return;
+        }
+        localStorage.setItem(storageKey, JSON.stringify(messages || []));
+    }
+
+    function clearLocalHistory(sessionId) {
+        const storageKey = getHistoryStorageKey(sessionId);
+        if (!storageKey) {
+            return;
+        }
+        localStorage.removeItem(storageKey);
+    }
+
+    function renderHistoryMessages(messages) {
+        messagesContainer.innerHTML = '';
+
+        if (!Array.isArray(messages) || messages.length === 0) {
+            messagesContainer.innerHTML = '<p style="text-align: center; color: var(--color-text_light);">這個對話目前還沒有歷史訊息。</p>';
+            return;
+        }
+
+        messages.forEach((message) => {
+            addMessage(message.role, message.content, false);
+        });
+        scrollToBottom();
+    }
+
+    function renderHistoryLoadingState() {
+        messagesContainer.innerHTML = '<p style="text-align: center; color: var(--color-text_light);"><i class="fa-solid fa-spinner fa-spin"></i> 正在讀取歷史訊息...</p>';
+    }
+
+    function showWelcomeMessage(message) {
+        addMessage('ai', message, true, welcomeBubbleClass);
+        if (autoSpeak) {
+            speak(message);
+        }
+    }
 
     // Load available voices
     function initVoices() {
@@ -537,7 +598,7 @@
                 let localSessions = JSON.parse(localStorage.getItem('chat_sessions_backup') || '[]');
                 localSessions = localSessions.filter(s => s.id !== id);
                 localStorage.setItem('chat_sessions_backup', JSON.stringify(localSessions));
-                localStorage.removeItem(`chat_history_${id}`);
+                clearLocalHistory(id);
                 
                 loadSessions();
             } else {
@@ -597,29 +658,44 @@
     }
 
     async function loadHistory(id, title) {
+        const requestId = ++historyRequestSequence;
         activeSessionId = id;
         chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> ${title}`;
-        messagesContainer.innerHTML = '';
         loadSessions(); // Update active state in sidebar
+        const localHistory = readLocalHistory(id);
+
+        if (localHistory.length > 0) {
+            renderHistoryMessages(localHistory);
+        } else {
+            renderHistoryLoadingState();
+        }
 
         try {
             const res = await fetch(`{{ url_for('study.get_chat_history', session_id=0) }}`.replace('0', id));
             if (res.ok) {
                 const data = await res.json();
-                data.messages.forEach(m => {
-                    addMessage(m.role, m.content, false, m.role === 'ai' ? globalRoleBubbleClass : '');
-                });
-                localStorage.setItem(`chat_history_${id}`, JSON.stringify(data.messages));
-                scrollToBottom();
+                if (requestId !== historyRequestSequence || activeSessionId !== id) {
+                    return;
+                }
+
+                const serverMessages = Array.isArray(data.messages) ? data.messages : [];
+                writeLocalHistory(id, serverMessages);
+                if (serverMessages.length > 0 || localHistory.length === 0) {
+                    renderHistoryMessages(serverMessages);
+                }
                 return;
             }
         } catch (e) { console.log("Server history load failed, using local backup."); }
 
-        const localHistory = JSON.parse(localStorage.getItem(`chat_history_${id}`) || '[]');
-        localHistory.forEach(m => {
-            addMessage(m.role, m.content, false, m.role === 'ai' ? globalRoleBubbleClass : '');
-        });
-        scrollToBottom();
+        if (requestId !== historyRequestSequence || activeSessionId !== id) {
+            return;
+        }
+
+        if (localHistory.length > 0) {
+            renderHistoryMessages(localHistory);
+        } else {
+            messagesContainer.innerHTML = '<p style="text-align: center; color: var(--color-text_light);">這段歷史訊息目前無法讀取，請稍後再試。</p>';
+        }
     }
 
     function addMessage(role, text, animate = true, bubbleClass = '') {
@@ -814,7 +890,7 @@
         addMessage('user', displayHtml);
         showTypingIndicator();
 
-        const currentLocalHistory = JSON.parse(localStorage.getItem(`chat_history_${activeSessionId}`) || '[]');
+        const currentLocalHistory = readLocalHistory(activeSessionId);
         const geminiHistory = currentLocalHistory.map(m => ({ role: m.role, parts: [m.content] }));
 
         const payload = {
@@ -898,14 +974,15 @@
                     chatTitle.innerHTML = `<img src="{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.1);"> {{ _t('chat_new_session_title') }}`;
                 }
                 
-                addMessage('ai', data.reply, true, globalRoleBubbleClass);
+                addMessage('ai', data.reply, true);
 
                 if (autoSpeak) {
                     speak(data.reply);
                 }
 
+                const historySessionId = data.session_id || activeSessionId;
                 const updatedHistory = [...currentLocalHistory, { role: 'user', content: text }, { role: 'ai', content: data.reply }];
-                localStorage.setItem(`chat_history_${activeSessionId}`, JSON.stringify(updatedHistory));
+                writeLocalHistory(historySessionId, updatedHistory);
             } else if (data.error) {
                 addMessage('ai', `發生問題：${data.error}`);
             }
@@ -994,25 +1071,21 @@
             const isGuest = {{ 'true' if getattr(current_user, 'auth_provider', 'local') == 'guest' else 'false' }};
             const username = "{{ current_user.username }}";
             
-            let bubbleClass = '';
             let greetings = [];
 
             if (isAdmin) {
-                bubbleClass = 'admin-gold';
                 greetings = [
                     `管理員您好，很高興見到您，祝福您在管理工作中取得卓越成就，勇往直前，無限成長。`,
                     `歡迎回來，管理員！伺服器運作狀況良好，隨時準備好為大家服務！`,
                     `管理員辛苦了！如果需要測試任何新功能，請隨時告訴我喔！(๑•̀ㅂ•́)و✧`
                 ];
             } else if (isGuest) {
-                bubbleClass = 'guest-red';
                 greetings = [
                     `歡迎來到雪音的聊天室！訪客請隨意看看，如果註冊帳號就可以保存聊天記錄哦。`,
                     `您好呀，訪客！有甚麼不清楚的地方都歡迎提問，雪音會盡力回答您！`,
                     `雖然您現在是訪客身分，但我還是一樣會熱情地教導您唷！🌸`
                 ];
             } else {
-                bubbleClass = 'user-blue';
                 greetings = [
                     `歡迎回來，${username}同學！今天也要跟著雪音一起朝著您的目標努力喔！(◕‿◕✿)`,
                     `哈囉 ${username}！今天想複習哪一科呢？我都準備好囉！`,
@@ -1026,8 +1099,7 @@
             setTimeout(() => {
                 const loader = document.getElementById('welcome-loader');
                 if (loader) loader.style.display = 'none';
-                addMessage('ai', randomGreeting, true, globalRoleBubbleClass);
-                if (autoSpeak) speak(randomGreeting);
+                showWelcomeMessage(randomGreeting);
             }, 600);
         }
 
@@ -1145,8 +1217,7 @@
                 .then(r => r.json())
                 .then(data => {
                     if (data.message && !activeSessionId) {
-                        addMessage('ai', data.message, true, globalRoleBubbleClass);
-                        if (autoSpeak) speak(data.message);
+                        showWelcomeMessage(data.message);
                     }
                 })
                 .catch(() => {
@@ -1159,7 +1230,7 @@
                         {% else %}
                         greeting = {{ _t("chat_user_greeting", username=current_user.username)|tojson }};
                         {% endif %}
-                        addMessage('ai', greeting, true, globalRoleBubbleClass);
+                        showWelcomeMessage(greeting);
                     }
                 });
         }

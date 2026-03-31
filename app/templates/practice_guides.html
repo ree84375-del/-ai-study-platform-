@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% block title %}AI 學習講義{% endblock %}
+{% block content %}
+<style>
+    .guide-shell {
+        --paper: rgba(255, 251, 244, 0.96);
+        --paper-soft: rgba(249, 241, 227, 0.94);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a2f24;
+        --subtle: #7a6a56;
+        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        display: grid;
+        gap: 1.4rem;
+    }
+
+    .guide-hero,
+    .guide-panel {
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+        padding: 1.45rem;
+    }
+
+    .guide-hero {
+        background:
+            radial-gradient(circle at top right, rgba(183, 218, 146, 0.32), transparent 34%),
+            linear-gradient(145deg, rgba(255, 252, 246, 0.98), rgba(246, 242, 228, 0.95));
+    }
+
+    .guide-kicker,
+    .guide-note,
+    .guide-count {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .guide-kicker {
+        padding: 0.48rem 0.92rem;
+        background: rgba(58, 47, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .guide-note,
+    .guide-count {
+        padding: 0.4rem 0.74rem;
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.85rem;
+    }
+
+    .guide-copy {
+        display: grid;
+        gap: 0.8rem;
+        max-width: 760px;
+        margin-top: 1rem;
+    }
+
+    .guide-copy h1,
+    .guide-panel h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+    }
+
+    .guide-copy h1 {
+        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
+        line-height: 1.2;
+    }
+
+    .guide-copy p,
+    .guide-panel p,
+    .guide-card p,
+    .guide-item p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.82;
+    }
+
+    .guide-subject-grid,
+    .guide-series-grid,
+    .guide-item-grid {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .guide-subject-grid {
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    }
+
+    .guide-series-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .guide-item-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .guide-card,
+    .guide-item {
+        border-radius: 24px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background: rgba(255, 255, 255, 0.78);
+        padding: 1.1rem;
+        display: grid;
+        gap: 0.7rem;
+    }
+
+    .guide-card.active {
+        border-color: rgba(113, 153, 111, 0.34);
+        box-shadow: 0 16px 28px rgba(96, 123, 79, 0.12);
+    }
+
+    .guide-card h3,
+    .guide-item h3 {
+        margin: 0;
+        color: var(--ink);
+    }
+
+    .guide-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+
+    .guide-link,
+    .guide-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        min-height: 42px;
+        padding: 0.68rem 1rem;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .guide-link {
+        border: 1px solid rgba(214, 183, 112, 0.24);
+        background: rgba(255, 255, 255, 0.74);
+        color: #745e41;
+    }
+
+    .guide-btn {
+        background: linear-gradient(135deg, #99bf6b, #6f9d58);
+        color: #fffaf2;
+        border: none;
+    }
+
+    .guide-summary {
+        display: grid;
+        gap: 0.45rem;
+        margin: 0;
+        padding-left: 1.1rem;
+        color: var(--subtle);
+        line-height: 1.7;
+    }
+
+    .guide-empty {
+        padding: 1.2rem;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.7);
+        color: var(--subtle);
+        line-height: 1.8;
+    }
+
+    @media (max-width: 720px) {
+        .guide-hero,
+        .guide-panel {
+            border-radius: 24px;
+            padding: 1.2rem;
+        }
+    }
+</style>
+
+<div class="guide-shell">
+    <section class="guide-hero">
+        <span class="guide-kicker"><i class="fa-solid fa-book-bookmark"></i> AI 學習講義</span>
+        <div class="guide-copy">
+            <h1>把講義整理成真正可閱讀的章與小節，再接上對應練習。</h1>
+            <p>這裡不是只有下載連結，而是把講義拆成章節閱讀頁。你可以先選科目，再選系列，最後直接進到講義內容頁看重點，再回到該科練習。</p>
+        </div>
+    </section>
+
+    <section class="guide-panel">
+        <div class="guide-top">
+            <div>
+                <h2>第一步：選科目</h2>
+                <p>先挑講義要看的科目，再往下選該科的講義系列。</p>
+            </div>
+            <span class="guide-note"><i class="fa-solid fa-book-open-reader"></i> 共 {{ guide_download_count }} 份已整理講義</span>
+        </div>
+        <div class="guide-subject-grid">
+            {% for card in guide_subject_cards %}
+            <a class="guide-card {% if card.is_selected %}active{% endif %}" href="{{ card.href }}">
+                <div class="guide-top">
+                    <h3><i class="fa-solid {{ card.icon }}"></i> {{ card.label }}</h3>
+                    <span class="guide-count">{{ card.guide_count }} 份</span>
+                </div>
+                <p>{{ card.description }}</p>
+                <span class="guide-count"><i class="fa-solid fa-layer-group"></i> {{ card.series_count }} 個系列</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if selected_subject %}
+    <section class="guide-panel">
+        <div class="guide-top">
+            <div>
+                <h2>第二步：選系列</h2>
+                <p>{{ selected_subject.description }}</p>
+            </div>
+            <span class="guide-count">{{ selected_subject.series_count }} 個系列</span>
+        </div>
+
+        {% if series_cards %}
+        <div class="guide-series-grid">
+            {% for card in series_cards %}
+            <a class="guide-card {% if card.is_selected %}active{% endif %}" href="{{ card.href }}">
+                <div class="guide-top">
+                    <h3>{{ card.label }}</h3>
+                    <span class="guide-count">{{ card.guide_count }} 份</span>
+                </div>
+                <p>點進去後可以看到這個系列下已整理好的講義，並直接進閱讀頁。</p>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="guide-empty">這個科目目前還沒有可閱讀的講義系列。</div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    {% if selected_series %}
+    <section class="guide-panel">
+        <div class="guide-top">
+            <div>
+                <h2>第三步：選講義</h2>
+                <p>選一份講義進去後，就能看到章、小節和整理好的內文。</p>
+            </div>
+            <span class="guide-count">{{ guide_cards|length }} 份講義</span>
+        </div>
+
+        {% if guide_cards %}
+        <div class="guide-item-grid">
+            {% for guide in guide_cards %}
+            <article class="guide-item">
+                <div class="guide-top">
+                    <h3>{{ guide.title }}</h3>
+                    <span class="guide-count">{{ guide.page_count }} 頁</span>
+                </div>
+                <p>{{ guide.chapter_count }} 章 / {{ guide.section_count }} 小節</p>
+                {% if guide.summary %}
+                <ul class="guide-summary">
+                    {% for line in guide.summary[:3] %}
+                    <li>{{ line }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+                    <a class="guide-btn" href="{{ guide.reader_href }}"><i class="fa-solid fa-book-open"></i> 進入講義</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="guide-empty">這個系列目前還沒有可閱讀的講義內容。</div>
+        {% endif %}
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,473 +1,497 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}{{ _t('practice_title') }}{% endblock %}
 {% block content %}
 <style>
-    .practice-shell {
-        display: flex;
-        flex-direction: column;
-        gap: 1.75rem;
+    .review-center-shell {
+        --paper: rgba(255, 252, 246, 0.96);
+        --paper-soft: rgba(255, 248, 236, 0.94);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a3024;
+        --subtle: #756754;
+        --shadow: 0 22px 46px rgba(127, 93, 36, 0.11);
+        display: grid;
+        gap: 1.4rem;
     }
 
-    .practice-hero {
+    .review-center-hero,
+    .review-center-panel,
+    .branch-section {
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .review-center-hero {
         position: relative;
         overflow: hidden;
         padding: 2rem;
-        border: 1px solid rgba(214, 183, 112, 0.28);
-        border-radius: 28px;
         background:
-            radial-gradient(circle at top right, rgba(255, 220, 145, 0.35), transparent 34%),
-            linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(255, 247, 230, 0.92));
-        box-shadow: 0 22px 50px rgba(127, 93, 36, 0.12);
+            radial-gradient(circle at top right, rgba(255, 218, 139, 0.36), transparent 34%),
+            linear-gradient(140deg, rgba(255, 252, 246, 0.97), rgba(249, 240, 222, 0.95));
     }
 
-    .practice-hero::after {
+    .review-center-hero::after {
         content: "";
         position: absolute;
-        inset: auto -10% -45% auto;
-        width: 240px;
-        height: 240px;
+        right: -48px;
+        bottom: -58px;
+        width: 220px;
+        height: 220px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(224, 177, 88, 0.12), transparent 68%);
+        background: radial-gradient(circle, rgba(219, 172, 90, 0.16), transparent 70%);
+        pointer-events: none;
     }
 
-    .practice-kicker {
+    .hero-kicker,
+    .hero-note {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.45rem 0.95rem;
+        padding: 0.5rem 0.95rem;
         border-radius: 999px;
-        background: rgba(60, 55, 44, 0.9);
-        color: #fffaf1;
-        font-size: 0.92rem;
-        font-weight: 700;
+        font-weight: 800;
+    }
+
+    .hero-kicker {
+        background: rgba(58, 48, 36, 0.9);
+        color: #fffaf2;
         letter-spacing: 0.03em;
     }
 
-    .practice-hero h1 {
-        margin: 1rem 0 0.7rem;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.9rem, 3vw, 2.8rem);
-        color: #3a3024;
+    .hero-copy {
+        position: relative;
+        z-index: 1;
+        max-width: 780px;
+        display: grid;
+        gap: 0.8rem;
+        margin-top: 1.1rem;
     }
 
-    .practice-hero p {
-        max-width: 720px;
+    .hero-copy h1 {
         margin: 0;
-        color: #6b604e;
-        line-height: 1.8;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: clamp(2rem, 3vw, 3rem);
+        line-height: 1.18;
+    }
+
+    .hero-copy p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.85;
         font-size: 1rem;
     }
 
-    .practice-hero-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 0.9rem;
-        margin-top: 1.5rem;
+    .hero-stats {
         position: relative;
         z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.95rem;
+        margin-top: 1.6rem;
     }
 
-    .practice-stat {
+    .hero-stat {
         padding: 1rem 1.1rem;
-        border-radius: 20px;
-        border: 1px solid rgba(214, 183, 112, 0.22);
-        background: rgba(255, 255, 255, 0.66);
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(10px);
     }
 
-    .practice-stat-label {
+    .hero-stat-label {
         display: block;
-        margin-bottom: 0.35rem;
-        color: #8a7b63;
+        color: #8a7a61;
         font-size: 0.84rem;
         letter-spacing: 0.05em;
+        margin-bottom: 0.35rem;
     }
 
-    .practice-stat-value {
+    .hero-stat-value {
         color: #2f261b;
-        font-size: 1.55rem;
-        font-weight: 800;
+        font-size: 1.6rem;
+        font-weight: 900;
     }
 
-    .subject-grid {
+    .review-center-panel {
+        padding: 1.4rem;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
         gap: 1rem;
     }
 
-    .subject-featured {
-        margin-top: 0.25rem;
-    }
-
-    .subject-featured-card {
-        position: relative;
+    .panel-head {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        padding: 1.45rem 1.55rem;
-        border-radius: 26px;
-        border: 1px solid rgba(214, 183, 112, 0.24);
-        background:
-            radial-gradient(circle at top right, rgba(255, 228, 168, 0.28), transparent 32%),
-            linear-gradient(135deg, rgba(255, 253, 247, 0.98), rgba(248, 240, 220, 0.95));
-        box-shadow: 0 18px 36px rgba(133, 111, 73, 0.14);
-        text-decoration: none;
-        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-    }
-
-    .subject-featured-card:hover {
-        transform: translateY(-4px);
-        border-color: rgba(214, 165, 61, 0.55);
-        box-shadow: 0 24px 40px rgba(133, 111, 73, 0.18);
-    }
-
-    .subject-featured-card--disabled {
-        opacity: 0.72;
-        box-shadow: none;
-        filter: saturate(0.72);
-    }
-
-    .subject-featured-copy h2 {
-        margin: 0.7rem 0 0.4rem;
-        color: #392e20;
-        font-size: clamp(1.4rem, 2vw, 1.8rem);
-    }
-
-    .subject-featured-copy p {
-        margin: 0;
-        color: #7a6851;
-        line-height: 1.75;
-        max-width: 680px;
-    }
-
-    .subject-featured-label {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.45rem 0.78rem;
-        border-radius: 999px;
-        background: rgba(61, 52, 40, 0.92);
-        color: #fffaf2;
-        font-size: 0.82rem;
-        font-weight: 800;
-        letter-spacing: 0.04em;
-    }
-
-    .subject-featured-meta {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 0.7rem;
-        flex-shrink: 0;
-    }
-
-    .subject-featured-count {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.6rem 0.9rem;
-        border-radius: 999px;
-        background: rgba(255, 244, 216, 0.96);
-        color: #866734;
-        font-size: 0.92rem;
-        font-weight: 800;
-    }
-
-    .subject-featured-cta {
-        color: #5b4b2e;
-        font-size: 0.95rem;
-        font-weight: 800;
-    }
-
-    .subject-groups {
-        display: flex;
-        flex-direction: column;
-        gap: 1.35rem;
-    }
-
-    .subject-group-section {
-        padding: 1.25rem;
-        border-radius: 28px;
-        border: 1px solid rgba(214, 183, 112, 0.16);
-        background: rgba(255, 251, 242, 0.72);
-        box-shadow: 0 16px 34px rgba(133, 111, 73, 0.08);
-    }
-
-    .subject-group-header {
-        display: flex;
         align-items: flex-start;
-        justify-content: space-between;
         gap: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .subject-group-eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.42rem;
-        color: #a07d45;
-        font-size: 0.82rem;
-        font-weight: 800;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-    }
-
-    .subject-group-title-row {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
         flex-wrap: wrap;
-        margin-top: 0.35rem;
     }
 
-    .subject-group-title {
+    .panel-head h2,
+    .branch-head h2 {
         margin: 0;
-        color: #3a2f21;
-        font-size: 1.3rem;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: 1.45rem;
     }
 
-    .subject-group-count {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 56px;
-        padding: 0.28rem 0.72rem;
-        border-radius: 999px;
-        background: rgba(255, 244, 216, 0.92);
-        color: #88693a;
-        font-size: 0.82rem;
-        font-weight: 800;
-    }
-
-    .subject-group-desc {
+    .panel-head p,
+    .branch-head p {
         margin: 0.45rem 0 0;
-        color: #7d6d55;
-        line-height: 1.7;
-        font-size: 0.93rem;
+        color: var(--subtle);
+        line-height: 1.75;
     }
 
-    .subject-card,
-    .subject-card-disabled {
+    .hero-note {
+        background: rgba(255, 244, 216, 0.95);
+        color: #8a6531;
+        font-size: 0.9rem;
+    }
+
+    .portal-grid,
+    .branch-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 1rem;
+    }
+
+    .portal-card,
+    .branch-card,
+    .portal-card-disabled,
+    .branch-card-disabled {
         position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 206px;
-        padding: 1.3rem;
-        border-radius: 24px;
-        border: 1px solid rgba(214, 183, 112, 0.22);
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 243, 227, 0.94));
-        box-shadow: 0 14px 28px rgba(133, 111, 73, 0.14);
+        display: grid;
+        gap: 0.95rem;
+        min-height: 220px;
+        padding: 1.35rem;
+        border-radius: 26px;
+        border: 1px solid rgba(214, 183, 112, 0.2);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 232, 0.92));
         text-decoration: none;
+        color: inherit;
+        box-shadow: 0 18px 32px rgba(133, 111, 73, 0.12);
         transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
     }
 
-    .subject-card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(214, 165, 61, 0.55);
-        box-shadow: 0 20px 34px rgba(133, 111, 73, 0.18);
+    .portal-card:hover,
+    .branch-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 38px rgba(133, 111, 73, 0.16);
     }
 
-    .subject-card-disabled {
-        opacity: 0.7;
+    .portal-card-disabled,
+    .branch-card-disabled {
+        opacity: 0.68;
         box-shadow: none;
         filter: saturate(0.72);
     }
 
-    .subject-card-icon {
+    .accent-rose { border-color: rgba(216, 135, 122, 0.28); }
+    .accent-blue { border-color: rgba(112, 144, 215, 0.28); }
+    .accent-gold { border-color: rgba(219, 172, 90, 0.32); }
+    .accent-teal { border-color: rgba(87, 165, 155, 0.3); }
+    .accent-green { border-color: rgba(113, 164, 108, 0.3); }
+
+    .portal-icon,
+    .branch-icon {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         width: 58px;
         height: 58px;
         border-radius: 18px;
-        background: linear-gradient(135deg, rgba(235, 224, 198, 0.96), rgba(255, 246, 225, 0.92));
-        color: #8d7a57;
-        font-size: 1.7rem;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+        background: rgba(255, 247, 228, 0.98);
+        color: #85663a;
+        font-size: 1.5rem;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
     }
 
-    .subject-card h3 {
-        margin: 1rem 0 0.4rem;
-        color: #403425;
-        font-size: 1.25rem;
-    }
-
-    .subject-card p,
-    .subject-card-disabled p {
-        margin: 0;
-        color: #8a7b63;
-        line-height: 1.6;
-        font-size: 0.92rem;
-    }
-
-    .subject-card-footer {
+    .portal-title-row,
+    .branch-title-row {
         display: flex;
-        align-items: center;
         justify-content: space-between;
         gap: 0.8rem;
-        margin-top: 1rem;
+        align-items: flex-start;
     }
 
-    .subject-card-count {
+    .portal-card h3,
+    .branch-card h3,
+    .portal-card-disabled h3,
+    .branch-card-disabled h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.3rem;
+    }
+
+    .portal-card p,
+    .branch-card p,
+    .portal-card-disabled p,
+    .branch-card-disabled p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.75;
+        font-size: 0.93rem;
+    }
+
+    .portal-count,
+    .branch-count {
         display: inline-flex;
         align-items: center;
-        gap: 0.4rem;
-        padding: 0.4rem 0.72rem;
+        gap: 0.45rem;
+        min-width: 68px;
+        padding: 0.42rem 0.75rem;
         border-radius: 999px;
         background: rgba(255, 244, 216, 0.96);
-        color: #866734;
+        color: #8a6531;
+        font-size: 0.86rem;
+        font-weight: 800;
+        justify-content: center;
+    }
+
+    .portal-children {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .portal-child-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.38rem 0.72rem;
+        border-radius: 999px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 252, 244, 0.94);
+        color: #6f5b39;
         font-size: 0.84rem;
         font-weight: 700;
     }
 
-    .subject-card-cta {
-        color: #5b4b2e;
-        font-size: 0.92rem;
-        font-weight: 700;
+    .portal-footer,
+    .branch-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 0.9rem;
+        align-items: center;
+        color: #604d2e;
+        font-weight: 800;
     }
 
-    .practice-empty-state {
-        padding: 2.1rem;
-        text-align: center;
-        border: 1px dashed rgba(210, 176, 100, 0.46);
-        border-radius: 24px;
-        background: rgba(255, 251, 243, 0.8);
-        color: #7a6952;
+    .portal-footer span:last-child,
+    .branch-footer span:last-child {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+    }
+
+    .branch-section {
+        padding: 1.4rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .branch-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .branch-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.55rem 0.95rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 216, 0.95);
+        color: #8a6531;
+        font-size: 0.88rem;
+        font-weight: 800;
+    }
+
+    .branch-empty {
+        padding: 1.2rem;
+        border-radius: 22px;
+        border: 1px dashed rgba(214, 183, 112, 0.36);
+        color: #796952;
+        background: rgba(255, 252, 244, 0.75);
         line-height: 1.8;
     }
 
+    .official-note {
+        padding: 1rem 1.1rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 252, 244, 0.92);
+        color: #6a5a43;
+        line-height: 1.8;
+        font-size: 0.93rem;
+    }
+
     @media (max-width: 720px) {
-        .practice-hero {
-            padding: 1.3rem;
+        .review-center-hero,
+        .review-center-panel,
+        .branch-section,
+        .portal-card,
+        .branch-card,
+        .portal-card-disabled,
+        .branch-card-disabled {
             border-radius: 22px;
         }
 
-        .subject-featured-card,
-        .subject-group-section {
-            padding: 1.15rem;
-            border-radius: 22px;
+        .review-center-hero,
+        .review-center-panel,
+        .branch-section {
+            padding: 1.25rem;
         }
 
-        .subject-featured-card {
+        .panel-head,
+        .branch-head,
+        .portal-title-row,
+        .branch-title-row,
+        .portal-footer,
+        .branch-footer {
             flex-direction: column;
             align-items: flex-start;
-        }
-
-        .subject-featured-meta {
-            align-items: flex-start;
-        }
-
-        .subject-grid {
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
     }
 </style>
 
-<div class="practice-shell">
-    <section class="practice-hero">
-        <span class="practice-kicker"><i class="fa-solid fa-gamepad"></i> 選擇刷題科目</span>
-        <h1>挑選想練的科目，直接進入刷題節奏。</h1>
-        <p>先從你今天最想補強的科目開始，答完每一題都會立刻看到對錯、正解與詳解，整個練習流程會更完整。</p>
+<div class="review-center-shell">
+    <section class="review-center-hero">
+        <span class="hero-kicker"><i class="fa-solid fa-graduation-cap"></i> {{ practice_bank_label }}專區</span>
+        <div class="hero-copy">
+            <h1>先選科目，再選模式、冊別和主題，把一般國中練習整理成真正好用的入口。</h1>
+            <p>目前這一區全部都是一般國中練習。國文、英文、數學可以直接進單科，社會會再分成地理、歷史、公民，自然會再分成生物、理化、地科，後面都可以一路往下選到冊別、主章節和細主題。</p>
+        </div>
 
-        <div class="practice-hero-stats">
-            <div class="practice-stat">
-                <span class="practice-stat-label">目前題庫總數</span>
-                <span class="practice-stat-value">{{ total_questions }}</span>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-label">目前題庫總數</span>
+                <span class="hero-stat-value">{{ total_questions }}</span>
             </div>
-            <div class="practice-stat">
-                <span class="practice-stat-label">可練習科目</span>
-                <span class="practice-stat-value">{{ available_subject_count }}</span>
+            <div class="hero-stat">
+                <span class="hero-stat-label">可練習分科</span>
+                <span class="hero-stat-value">{{ available_subject_count }}</span>
             </div>
-            <div class="practice-stat">
-                <span class="practice-stat-label">刷題節奏</span>
-                <span class="practice-stat-value">即時詳解</span>
+            <div class="hero-stat">
+                <span class="hero-stat-label">進入流程</span>
+                <span class="hero-stat-value">先選模式</span>
             </div>
         </div>
     </section>
 
-    {% if featured_subject_card %}
-    <section class="subject-featured">
-        {% if featured_subject_card.available %}
-        <a href="{{ url_for('study.practice_session', subject=featured_subject_card.query_value) }}" class="subject-featured-card">
-            <div class="subject-featured-copy">
-                <span class="subject-featured-label"><i class="fa-solid fa-bolt"></i> 快速入口</span>
-                <h2>{{ featured_subject_card.label }}</h2>
-                <p>如果今天想直接開始刷題，不先挑分類，就從這裡進去。系統會立刻帶你進入練習節奏。</p>
+    <section class="review-center-panel">
+        <div class="panel-head">
+            <div>
+                <h2>一般國中練習入口</h2>
+                <p>核心三科可以直接進單科模式，社會與自然則先進分科入口，不再把不同分科混成一大包。</p>
             </div>
-            <div class="subject-featured-meta">
-                <span class="subject-featured-count"><i class="fa-solid fa-layer-group"></i> {{ featured_subject_card.count }} 題</span>
-                <span class="subject-featured-cta">直接開始 <i class="fa-solid fa-arrow-right"></i></span>
-            </div>
-        </a>
-        {% else %}
-        <div class="subject-featured-card subject-featured-card--disabled">
-            <div class="subject-featured-copy">
-                <span class="subject-featured-label"><i class="fa-solid fa-bolt"></i> 快速入口</span>
-                <h2>{{ featured_subject_card.label }}</h2>
-                <p>等題庫建立完成後，這裡會變成最快速的刷題入口。</p>
-            </div>
-            <div class="subject-featured-meta">
-                <span class="subject-featured-count"><i class="fa-solid fa-triangle-exclamation"></i> 尚無題目</span>
-                <span class="subject-featured-cta">稍後補上</span>
-            </div>
+            <span class="hero-note"><i class="fa-solid fa-swatchbook"></i> 目前先做一般國中練習，之後再獨立會考歷屆</span>
         </div>
-        {% endif %}
-    </section>
-    {% endif %}
 
-    <div class="subject-groups">
-        {% for group in grouped_subject_cards %}
-        <section class="subject-group-section">
-            <div class="subject-group-header">
-                <div>
-                    <span class="subject-group-eyebrow"><i class="fa-solid fa-grip"></i> 科目分類</span>
-                    <div class="subject-group-title-row">
-                        <h2 class="subject-group-title">{{ group.label }}</h2>
-                        <span class="subject-group-count">{{ group.available_count }}/{{ group.total_count }}</span>
+        <div class="portal-grid">
+            {% for card in review_center_cards %}
+                {% set accent_class = 'accent-' ~ card.accent %}
+                {% if card.available %}
+                <a href="{{ card.href }}" class="portal-card {{ accent_class }}">
+                    <span class="portal-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                    <div class="portal-title-row">
+                        <h3>{{ card.label }}</h3>
+                        <span class="portal-count"><i class="fa-solid fa-layer-group"></i> {{ card.count }}</span>
                     </div>
-                    <p class="subject-group-desc">{{ group.description }}</p>
-                </div>
-            </div>
-
-            <div class="subject-grid">
-                {% for card in group.cards %}
-                    {% if card.available %}
-                    <a href="{{ url_for('study.practice_session', subject=card.query_value) }}" class="subject-card">
-                        <div>
-                            <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-                            <h3>{{ card.label }}</h3>
-                            <p>從這一科開始刷題，作答後會立即看到詳解。</p>
-                        </div>
-                        <div class="subject-card-footer">
-                            <span class="subject-card-count"><i class="fa-solid fa-layer-group"></i> {{ card.count }} 題</span>
-                            <span class="subject-card-cta">開始刷題 <i class="fa-solid fa-arrow-right"></i></span>
-                        </div>
-                    </a>
-                    {% else %}
-                    <div class="subject-card-disabled">
-                        <div>
-                            <span class="subject-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-                            <h3>{{ card.label }}</h3>
-                            <p>這一科目前還沒有可練的題目，先保留位置給之後擴充。</p>
-                        </div>
-                        <div class="subject-card-footer">
-                            <span class="subject-card-count"><i class="fa-solid fa-triangle-exclamation"></i> 尚無題目</span>
-                            <span class="subject-card-cta">稍後補上</span>
-                        </div>
+                    <p>{{ card.description }}</p>
+                    {% if card.child_labels %}
+                    <div class="portal-children">
+                        {% for label in card.child_labels %}
+                        <span class="portal-child-pill"><i class="fa-solid fa-circle-nodes"></i> {{ label }}</span>
+                        {% endfor %}
                     </div>
                     {% endif %}
-                {% endfor %}
+                    <div class="portal-footer">
+                        <span>{{ '先選模式' if card.kind == 'subject' else '先選分科' }}</span>
+                        <span>進入 <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </a>
+                {% else %}
+                <div class="portal-card-disabled {{ accent_class }}">
+                    <span class="portal-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                    <div class="portal-title-row">
+                        <h3>{{ card.label }}</h3>
+                        <span class="portal-count"><i class="fa-solid fa-triangle-exclamation"></i> 0</span>
+                    </div>
+                    <p>{{ card.description }}</p>
+                    {% if card.child_labels %}
+                    <div class="portal-children">
+                        {% for label in card.child_labels %}
+                        <span class="portal-child-pill"><i class="fa-solid fa-circle-nodes"></i> {{ label }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="portal-footer">
+                        <span>尚未完成題庫整理</span>
+                        <span>稍後補上</span>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    {% for section in branch_sections %}
+    <section class="branch-section" id="branch-{{ section.slug }}">
+        <div class="branch-head">
+            <div>
+                <h2><i class="fa-solid {{ section.icon }}"></i> {{ section.label }}</h2>
+                <p>{{ section.description }}</p>
             </div>
-        </section>
-        {% endfor %}
-    </div>
+            <span class="branch-meta"><i class="fa-solid fa-layer-group"></i> {{ section.available_count }} 科 / {{ section.question_count }} 題</span>
+        </div>
+
+        <div class="branch-card-grid">
+            {% for card in section.cards %}
+                {% if card.available %}
+                <a href="{{ url_for('study.practice_session', subject=card.query_value) }}" class="branch-card">
+                    <span class="branch-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                    <div class="branch-title-row">
+                        <h3>{{ card.label }}</h3>
+                        <span class="branch-count">{{ card.count }} 題</span>
+                    </div>
+                    <p>進去後可以再選預覽模式或練習模式，也可以往下指定冊別、主章節和細主題。</p>
+                    <div class="branch-footer">
+                        <span>進單科</span>
+                        <span>開始 <i class="fa-solid fa-arrow-right"></i></span>
+                    </div>
+                </a>
+                {% else %}
+                <div class="branch-card-disabled">
+                    <span class="branch-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                    <div class="branch-title-row">
+                        <h3>{{ card.label }}</h3>
+                        <span class="branch-count">0 題</span>
+                    </div>
+                    <p>這一科目前尚未整理完成，等題庫補齊後就會出現在這裡。</p>
+                    <div class="branch-footer">
+                        <span>待整理</span>
+                        <span>稍後補上</span>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+
+    <section class="official-note">
+        會考官方考試科目與題型範圍是：國文 38～46 題 / 70 分鐘、英語閱讀 40～45 題 / 60 分鐘、數學 23～28 題 / 80 分鐘、社會 50～60 題 / 70 分鐘、自然 45～55 題 / 70 分鐘。後面的練習模式預設會依照這些範圍去給對應科目的題數與時間。
+    </section>
 
     {% if not total_questions %}
-    <div class="practice-empty-state">
-        目前題庫還沒有可刷題目。等題目建立完成後，這裡就會直接變成你的刷題入口。
+    <div class="branch-empty">
+        目前題庫還沒有可練的內容。等題目整理完成後，這裡就會直接變成完整的國中一般複習入口。
     </div>
     {% endif %}
 </div>

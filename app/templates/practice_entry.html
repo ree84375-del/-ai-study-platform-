@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+{% block title %}刷題專區{% endblock %}
+{% block content %}
+<style>
+    .entry-shell {
+        --paper: rgba(255, 251, 242, 0.97);
+        --paper-soft: rgba(249, 241, 224, 0.95);
+        --line: rgba(214, 183, 112, 0.22);
+        --ink: #3b3024;
+        --subtle: #796a55;
+        --shadow: 0 24px 46px rgba(122, 96, 54, 0.12);
+        display: grid;
+        gap: 1.45rem;
+    }
+
+    .entry-hero,
+    .entry-panel {
+        border-radius: 32px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .entry-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 2.1rem;
+        background:
+            radial-gradient(circle at top right, rgba(255, 214, 132, 0.34), transparent 32%),
+            linear-gradient(140deg, rgba(255, 252, 246, 0.98), rgba(249, 239, 220, 0.95));
+    }
+
+    .entry-hero::after {
+        content: "";
+        position: absolute;
+        right: -68px;
+        bottom: -84px;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(205, 165, 92, 0.2), transparent 70%);
+        pointer-events: none;
+    }
+
+    .entry-kicker,
+    .entry-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.52rem 0.95rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .entry-kicker {
+        background: rgba(59, 48, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .entry-note {
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.9rem;
+    }
+
+    .entry-copy {
+        max-width: 780px;
+        display: grid;
+        gap: 0.9rem;
+        margin-top: 1.15rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .entry-copy h1,
+    .entry-panel h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+    }
+
+    .entry-copy h1 {
+        font-size: clamp(2.1rem, 3vw, 3.1rem);
+        line-height: 1.18;
+    }
+
+    .entry-copy p,
+    .entry-panel p,
+    .track-card p {
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.82;
+    }
+
+    .entry-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.95rem;
+        margin-top: 1.6rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    .entry-stat {
+        padding: 1rem 1.05rem;
+        border-radius: 22px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(8px);
+    }
+
+    .entry-stat-label {
+        display: block;
+        color: #8a7a61;
+        font-size: 0.84rem;
+        margin-bottom: 0.35rem;
+        letter-spacing: 0.04em;
+    }
+
+    .entry-stat-value {
+        color: #2f261b;
+        font-size: 1.65rem;
+        font-weight: 900;
+    }
+
+    .entry-panel {
+        padding: 1.45rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .panel-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .track-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+    }
+
+    .track-card {
+        display: grid;
+        gap: 1rem;
+        min-height: 240px;
+        padding: 1.45rem;
+        border-radius: 28px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(250, 244, 233, 0.94));
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 18px 34px rgba(132, 110, 70, 0.13);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .track-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 24px 40px rgba(132, 110, 70, 0.17);
+    }
+
+    .track-card.accent-ink { border-color: rgba(79, 66, 50, 0.24); }
+    .track-card.accent-gold { border-color: rgba(219, 172, 90, 0.3); }
+    .track-card.accent-sage { border-color: rgba(113, 153, 111, 0.3); }
+
+    .track-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .track-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 58px;
+        height: 58px;
+        border-radius: 18px;
+        background: rgba(255, 247, 228, 0.98);
+        color: #87663a;
+        font-size: 1.5rem;
+    }
+
+    .track-badge,
+    .track-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(255, 244, 213, 0.94);
+        color: #8a6632;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
+    .track-card h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.55rem;
+    }
+
+    .track-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        margin-top: auto;
+        flex-wrap: wrap;
+    }
+
+    .track-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: #7a5f3b;
+        font-weight: 800;
+    }
+
+    .entry-empty {
+        padding: 1rem;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.72);
+    }
+
+    @media (max-width: 720px) {
+        .entry-hero,
+        .entry-panel {
+            border-radius: 24px;
+        }
+
+        .entry-hero {
+            padding: 1.45rem;
+        }
+    }
+</style>
+
+<div class="entry-shell">
+    <section class="entry-hero">
+        <span class="entry-kicker"><i class="fa-solid fa-compass"></i> 刷題專區</span>
+        <div class="entry-copy">
+            <h1>先選練習類型，再進到最適合你的題庫與講義流程。</h1>
+            <p>這裡把一般國中練習、會考歷屆練習和 AI 學習講義分成三條清楚入口。先從大方向切開，再往下挑科目、年份、冊別、主題或章節，畫面會乾淨很多。</p>
+        </div>
+        <div class="entry-stats">
+            <div class="entry-stat">
+                <span class="entry-stat-label">一般國中題庫總數</span>
+                <div class="entry-stat-value">{{ total_questions }}</div>
+            </div>
+            <div class="entry-stat">
+                <span class="entry-stat-label">一般國中分科</span>
+                <div class="entry-stat-value">{{ general_subject_count }}</div>
+            </div>
+            <div class="entry-stat">
+                <span class="entry-stat-label">會考年份</span>
+                <div class="entry-stat-value">{{ cap_year_count }}</div>
+            </div>
+            <div class="entry-stat">
+                <span class="entry-stat-label">講義科目</span>
+                <div class="entry-stat-value">{{ guide_subject_count }}</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="entry-panel">
+        <div class="panel-head">
+            <div>
+                <h2>三條學習入口</h2>
+                <p>一般國中練習適合按冊別與主題複習；會考歷屆練習適合單科刷近年題目；AI 學習講義則整理成章與小節，先看重點再進題庫。</p>
+            </div>
+            <span class="entry-note"><i class="fa-solid fa-layer-group"></i> 先選入口，再往下細分</span>
+        </div>
+
+        <div class="track-grid">
+            {% for track in tracks %}
+            <a class="track-card accent-{{ track.accent }}" href="{{ track.href }}">
+                <div class="track-head">
+                    <span class="track-icon"><i class="fa-solid {{ track.icon }}"></i></span>
+                    <span class="track-badge">{{ track.badge }}</span>
+                </div>
+                <div style="display:grid; gap:0.65rem;">
+                    <h3>{{ track.label }}</h3>
+                    <p>{{ track.description }}</p>
+                </div>
+                <div class="track-footer">
+                    {% if track.slug == 'general' %}
+                    <span class="track-meta"><i class="fa-solid fa-book-open"></i> {{ general_subject_count }} 科</span>
+                    {% elif track.slug == 'cap' %}
+                    <span class="track-meta"><i class="fa-solid fa-file-lines"></i> {{ cap_material_count }} 題</span>
+                    {% else %}
+                    <span class="track-meta"><i class="fa-solid fa-book-bookmark"></i> {{ guide_download_count }} 份講義</span>
+                    {% endif %}
+                    <span class="track-link">進入 <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

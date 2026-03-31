@@ -180,6 +180,12 @@ class GroupMember(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     joined_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
 
+    @property
+    def user(self):
+        # Template compatibility: some group views expect member.user while
+        # older routes still use the existing backref name member.
+        return self.member
+
 class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)

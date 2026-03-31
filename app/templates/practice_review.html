@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+{% block title %}{{ _t('practice_title') }}{% endblock %}
+{% block content %}
+<style>
+    .review-stage {
+        --paper: rgba(255, 252, 246, 0.96);
+        --paper-soft: rgba(249, 241, 224, 0.92);
+        --line: rgba(214, 183, 112, 0.22);
+        --ink: #3a3024;
+        --subtle: #726351;
+        display: grid;
+        gap: 1.2rem;
+    }
+
+    .review-hero,
+    .review-card,
+    .review-feedback {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.11);
+    }
+
+    .review-hero {
+        position: relative;
+        overflow: hidden;
+        padding: 1.9rem;
+        background:
+            radial-gradient(circle at top right, rgba(255, 216, 133, 0.34), transparent 34%),
+            linear-gradient(140deg, rgba(255, 252, 246, 0.97), rgba(249, 240, 222, 0.95));
+    }
+
+    .review-kicker,
+    .review-badge,
+    .review-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .review-kicker {
+        padding: 0.48rem 0.95rem;
+        background: rgba(58, 48, 36, 0.92);
+        color: #fffaf2;
+    }
+
+    .review-hero h1 {
+        margin: 1rem 0 0.65rem;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: clamp(1.9rem, 2.8vw, 2.8rem);
+    }
+
+    .review-hero p {
+        max-width: 760px;
+        margin: 0;
+        color: var(--subtle);
+        line-height: 1.8;
+    }
+
+    .review-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1.45rem;
+    }
+
+    .review-stat {
+        padding: 1rem 1.05rem;
+        border-radius: 20px;
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.72);
+    }
+
+    .review-stat-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #8a7a61;
+        font-size: 0.84rem;
+        letter-spacing: 0.05em;
+    }
+
+    .review-stat-value {
+        color: #2f261b;
+        font-size: 1.55rem;
+        font-weight: 900;
+    }
+
+    .review-toolbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .review-actions,
+    .review-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        align-items: center;
+    }
+
+    .review-primary-btn,
+    .review-secondary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        min-height: 46px;
+        padding: 0.82rem 1.15rem;
+        border-radius: 16px;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+    .review-primary-btn {
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+    }
+
+    .review-secondary-btn {
+        border: 1px solid rgba(196, 168, 108, 0.24);
+        background: rgba(255, 255, 255, 0.9);
+        color: #5b4a2f;
+    }
+
+    .review-chip {
+        padding: 0.55rem 0.92rem;
+        border: 1px solid rgba(196, 168, 108, 0.22);
+        background: rgba(255, 252, 244, 0.92);
+        color: #705c3a;
+    }
+
+    .review-feedback {
+        padding: 1.1rem 1.2rem;
+        color: #5c4d39;
+        line-height: 1.8;
+    }
+
+    .review-list {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .review-card {
+        overflow: hidden;
+    }
+
+    .review-card.is-correct {
+        border-color: rgba(92, 162, 113, 0.3);
+    }
+
+    .review-card.is-wrong {
+        border-color: rgba(214, 89, 66, 0.26);
+    }
+
+    .review-card-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.25rem 1.3rem 0;
+        flex-wrap: wrap;
+    }
+
+    .review-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+    }
+
+    .review-badge {
+        padding: 0.42rem 0.8rem;
+        font-size: 0.84rem;
+    }
+
+    .review-badge.status-correct {
+        background: rgba(231, 247, 236, 0.95);
+        color: #2f7a46;
+    }
+
+    .review-badge.status-wrong {
+        background: rgba(255, 236, 231, 0.95);
+        color: #b85442;
+    }
+
+    .review-badge.subject {
+        background: rgba(255, 244, 216, 0.96);
+        color: #8a6531;
+    }
+
+    .review-body {
+        padding: 1rem 1.3rem 1.3rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .review-question {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: 1.18rem;
+        line-height: 1.8;
+    }
+
+    .review-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.85rem;
+    }
+
+    .review-block {
+        padding: 1rem 1.05rem;
+        border-radius: 20px;
+        border: 1px solid rgba(214, 183, 112, 0.14);
+        background: rgba(255, 255, 255, 0.8);
+    }
+
+    .review-label {
+        display: block;
+        margin-bottom: 0.35rem;
+        color: #8a785f;
+        font-size: 0.84rem;
+        letter-spacing: 0.05em;
+    }
+
+    .review-value {
+        color: #33291d;
+        line-height: 1.75;
+        font-weight: 700;
+    }
+
+    .review-explanation {
+        padding: 1rem 1.05rem;
+        border-radius: 20px;
+        background: rgba(255, 250, 240, 0.92);
+        border: 1px solid rgba(214, 183, 112, 0.14);
+        color: #4f412f;
+        line-height: 1.85;
+        white-space: pre-line;
+    }
+
+    @media (max-width: 720px) {
+        .review-hero,
+        .review-card,
+        .review-feedback {
+            border-radius: 22px;
+        }
+
+        .review-hero,
+        .review-body,
+        .review-card-head {
+            padding: 1.2rem;
+        }
+
+        .review-toolbar,
+        .review-actions,
+        .review-pills {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .review-primary-btn,
+        .review-secondary-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="review-stage">
+    <section class="review-hero">
+        <span class="review-kicker"><i class="fa-solid fa-clipboard-check"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
+        <h1>這次成績是 {{ '%.1f'|format(score_percent) }} 分，現在直接看每題答案與詳解。</h1>
+        <p>這份結果保留了你剛剛的一般國中練習範圍、冊別、主章節、細主題與題數設定。下面會完整列出你的作答、正確答案和詳解，方便直接回頭檢討。</p>
+
+        <div class="review-stats">
+            <div class="review-stat">
+                <span class="review-stat-label">100 分制</span>
+                <span class="review-stat-value">{{ '%.1f'|format(score_percent) }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">總題數</span>
+                <span class="review-stat-value">{{ total_count }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">答對</span>
+                <span class="review-stat-value">{{ correct_count }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">答錯</span>
+                <span class="review-stat-value">{{ wrong_count }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">已作答</span>
+                <span class="review-stat-value">{{ answered_count }}</span>
+            </div>
+            <div class="review-stat">
+                <span class="review-stat-label">未作答</span>
+                <span class="review-stat-value">{{ unanswered_count }}</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="review-toolbar">
+        <div class="review-pills">
+            <span class="review-chip"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
+            <span class="review-chip"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
+            <span class="review-chip"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
+            <span class="review-chip"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>
+            <span class="review-chip"><i class="fa-solid fa-list-ol"></i> {{ selected_count }} 題</span>
+            <span class="review-chip"><i class="fa-solid fa-clock"></i> {{ selected_duration }} 分鐘</span>
+        </div>
+        <div class="review-actions">
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview') }}" class="review-secondary-btn">
+                <i class="fa-solid fa-eye"></i> 看同範圍預覽
+            </a>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', count=selected_count, duration=selected_duration) }}" class="review-secondary-btn">
+                <i class="fa-solid fa-gear"></i> 重設這份練習
+            </a>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', start=1, count=selected_count, duration=selected_duration) }}" class="review-primary-btn">
+                <i class="fa-solid fa-rotate"></i> 再做一次
+            </a>
+        </div>
+    </div>
+
+    <div class="review-feedback">{{ feedback }}</div>
+
+    <div class="review-list">
+        {% for item in review_items %}
+        <article class="review-card {% if item.is_correct %}is-correct{% else %}is-wrong{% endif %}">
+            <div class="review-card-head">
+                <div class="review-badges">
+                    <span class="review-badge {% if item.is_correct %}status-correct{% else %}status-wrong{% endif %}">
+                        <i class="fa-solid {% if item.is_correct %}fa-circle-check{% else %}fa-circle-xmark{% endif %}"></i>
+                        第 {{ item.index }} 題
+                    </span>
+                    <span class="review-badge subject"><i class="fa-solid fa-book-open"></i> {{ item.subject }}</span>
+                    {% if item.booklet %}<span class="review-badge subject"><i class="fa-solid fa-book"></i> {{ item.booklet }}</span>{% endif %}
+                    {% if item.topic %}<span class="review-badge subject"><i class="fa-solid fa-bookmark"></i> {{ item.topic }}</span>{% endif %}
+                </div>
+            </div>
+
+            <div class="review-body">
+                <h2 class="review-question">{{ item.content_text }}</h2>
+
+                <div class="review-grid">
+                    <div class="review-block">
+                        <span class="review-label">你的答案</span>
+                        <div class="review-value">{{ item.selected_answer }}{% if item.selected_answer_text %}：{{ item.selected_answer_text }}{% endif %}</div>
+                    </div>
+                    <div class="review-block">
+                        <span class="review-label">正確答案</span>
+                        <div class="review-value">{{ item.correct_answer }}{% if item.correct_answer_text %}：{{ item.correct_answer_text }}{% endif %}</div>
+                    </div>
+                </div>
+
+                <div class="review-explanation">{{ item.explanation }}</div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

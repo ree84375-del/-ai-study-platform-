@@ -1,0 +1,1324 @@
+{
+  "year": "105",
+  "subject_slug": "science",
+  "subject_label": "自然",
+  "official_question_count": 54,
+  "question_count": 54,
+  "answered_count": 54,
+  "page_count": 14,
+  "ocr_pages": [],
+  "files": {
+    "pdf": "cap_practice_sources\\105\\science\\105_science.pdf",
+    "docx": "cap_practice_word\\105\\105_science.docx"
+  },
+  "official": {
+    "question_url": "https://drive.google.com/file/d/1MXLxdpcaTtIzNIGRHk_DBMTb5lloTDUN/view?usp=drive_link",
+    "answer_url": "https://drive.google.com/file/d/15bDpOsfOw4ucIgdCwH5tggq7TVTlbap7/view?usp=drive_link",
+    "explanation_url": "https://drive.google.com/file/d/1R8cJWW0vwBg5hJI8K62tkG4L8XpN63a_/view?usp=drive_link"
+  },
+  "checks": {
+    "question_chunks_found": 102,
+    "answers_found": 54,
+    "questions_kept": 54,
+    "issues_found": 28,
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      34,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54
+    ],
+    "missing_question_numbers": [],
+    "duplicate_question_numbers": []
+  },
+  "practice_ready": true,
+  "questions": [
+    {
+      "number": 1,
+      "source_number": 1,
+      "display_number": 1,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖(一)為方糖投入水中的過程示意圖，其中 乙到丙的過程與下列何種情形最類似？",
+      "options": {
+        "A": "在客廳聞到廚房飄來的飯菜味",
+        "B": "使用吸管可吸取杯內下方的水",
+        "C": "二氧化碳降溫加壓可製成乾冰",
+        "D": "純金項鍊長久維持原來的色澤"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（在客廳聞到廚房飄來的飯菜味）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 2,
+      "source_number": 2,
+      "display_number": 2,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「住在靠馬路的房屋，屋內地板常有很多灰塵與砂粒，可能是因馬路上的車輛行 駛過去產生的風將地面灰塵與砂粒吹起，透過開啟的窗戶進到房屋內，最後停 留在屋內地板。」有關上述砂粒從馬路到屋內的過程中所包含的地表地質作用 及其順序，下列何者最合理？",
+      "options": {
+        "A": "先侵蝕後沉積",
+        "B": "先沉積後搬運",
+        "C": "先搬運後沉積",
+        "D": "先搬運後侵蝕"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（先搬運後沉積）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 3,
+      "source_number": 3,
+      "display_number": 3,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "西元 1970 年某果園內白蟲和黑蟲所占 的數量比例相同，其後每隔 10 年再次 調查，發現白蟲和黑蟲的比例差距逐 漸增大，如表(一)所示。已知白蟲和黑 蟲為同種昆蟲，且兩者的數量總和在 各年代間皆相同，若以天擇的概念解 釋此果園內白蟲和黑蟲比例的變化， 下列何者最合理？",
+      "options": {
+        "A": "黑蟲在此環境中較白蟲易存活",
+        "B": "黑蟲比白蟲較容易被天敵捕捉",
+        "C": "白蟲的基因大量發生突變而變成黑蟲",
+        "D": "白蟲為了避免被天敵捕捉而變成黑蟲"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（黑蟲在此環境中較白蟲易存活）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 4,
+      "source_number": 4,
+      "display_number": 4,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "取溫度、材質及體積相同的甲、乙兩金屬球，將甲球漆成白色，乙球漆成黑 色，再將兩球以細線並排懸吊於空中，放置在陽光下曝曬，20 分鐘後測量兩者 溫度，結果乙球比甲球高 3℃，下列何者是此現象發生的主要原因？",
+      "options": {
+        "A": "白色可增加金屬球的比熱",
+        "B": "黑色可增加金屬球的比熱",
+        "C": "白色金屬球較易吸收輻射熱",
+        "D": "黑色金屬球較易吸收輻射熱"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（黑色金屬球較易吸收輻射熱）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 5,
+      "source_number": 5,
+      "display_number": 5,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "「起雲劑」是一種食品添加物，也是一種界面活性劑，能使原本有明顯 界面、不互溶的水狀與油狀液體混合均勻而不分層。下列哪一種物質 加入圖(二)的油水分層試管中，最能達到上述的效果？",
+      "options": {
+        "A": "蒸餾水",
+        "B": "肥皂水",
+        "C": "飽和食鹽水",
+        "D": "葡萄糖水溶液\n圖(一)\n表(一)\n圖(二)"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（肥皂水）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 6,
+      "source_number": 6,
+      "display_number": 6,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "當某一生態系達到平衡時，下列相關敘述何者最合理？",
+      "options": {
+        "A": "物質不再有循環利用的現象",
+        "B": "引進外來種繁衍會改變原來的平衡",
+        "C": "群集(群落)中的每一族群出生數目等於死亡數目",
+        "D": "消費者所得的總能量和生產者所含的總能量相同"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（引進外來種繁衍會改變原來的平衡）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 7,
+      "source_number": 7,
+      "display_number": 7,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "已知某種具有葉綠體的原生生物會分解養分產生能量，推測該生物能否進行 光合作用或呼吸作用，下列敘述何者正確？",
+      "options": {
+        "A": "僅可進行光合作用",
+        "B": "僅可進行呼吸作用",
+        "C": "此兩種作用皆可進行",
+        "D": "此兩種作用皆無法進行"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（此兩種作用皆可進行）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 8,
+      "source_number": 8,
+      "display_number": 8,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "某動物在不同環境溫度下的體溫變化，如圖(三)所示。 則此動物維持體溫方式的相關敘述，下列何者正確？",
+      "options": {
+        "A": "外溫動物，主要藉由代謝產生的熱量維持體溫",
+        "B": "外溫動物，主要從外界環境吸收熱量維持體溫",
+        "C": "內溫動物，主要藉由代謝產生的熱量維持體溫",
+        "D": "內溫動物，主要從外界環境吸收熱量維持體溫"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（外溫動物，主要從外界環境吸收熱量維持體溫）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 9,
+      "source_number": 9,
+      "display_number": 9,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "進行屋頂防水工程時會受天候條件影響，而乾燥、高溫的大熱天將有助於防水 工程的品質，因此不宜在條件不佳的天氣貿然施作。下列是臺灣北部四個不同 時段的主要天氣敘述，其中何者最適合進行此工程？",
+      "options": {
+        "A": "太平洋高壓籠罩，天氣狀況穩定",
+        "B": "大陸冷高壓影響，東北季風增強",
+        "C": "春、夏交替之際，滯留鋒面停留",
+        "D": "強烈冷氣團南下，寒潮(寒流)來襲"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（太平洋高壓籠罩，天氣狀況穩定）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 10,
+      "source_number": 10,
+      "display_number": 10,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "某防災研究單位，將各種不同設計方式的房屋模型，放在一個能模擬地震時搖 晃程度的底座上，逐步增加搖晃的大小，直到房屋模型倒塌。此實驗是用來測 試各種房屋設計的耐震程度，關於上述實驗中，底座搖晃程度的強弱變化與下 列何者代表的意義最接近？",
+      "options": {
+        "A": "震央位置",
+        "B": "震源深度",
+        "C": "地震強度",
+        "D": "地震規模"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（地震強度）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 11,
+      "source_number": 11,
+      "display_number": 11,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖 (一 ) 為 方 糖 投入 水 中 的 過 程 示 意圖 , 其 中 SSSN 乙 到 丙 的 過 程 與 下 列 何 種 情形 最 類 似 ? i",
+      "options": {
+        "A": "在 客廳 聞 到 廚房 昧 來 的 飯菜 味",
+        "B": "使 用 吸管 可 吸取 杯 內 下 方 的 水 lv lv",
+        "C": "= Ase EB fo ET BECK 7 > =\nD) 純 金 項鍊 長 久 維持 原 來 的 色 ?",
+        "D": "純 金 項鍊 長 久 維 持 原 來 的 色澤 a)"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（純 金 項鍊 長 久 維 持 原 來 的 色澤 a)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 12,
+      "source_number": 12,
+      "display_number": 12,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "智耀在筆直的跑道上折返跑，他從 P 點起跑，其路徑為 P→Q→P→Q→P→S， 總共歷時 15 s，如圖(五)所示。下列何者可表示此次智耀折返跑的平均速率？",
+      "options": {
+        "A": "0.33 m/s",
+        "B": "0.33 m/s，方向向西",
+        "C": "3 m/s",
+        "D": "3 m/s，方向向西"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（3 m/s）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "如圖(六)所示，一個箱子的四面被標記為甲、乙、丙、丁，箱內有一株幼苗在以 鐵絲固定的濕棉花上生長，且此箱子一直放置在黑暗環境中。根據此幼苗彎曲生 長的方向，推測箱子在該環境中被放置時，最可能是以哪一面接觸水平地面？",
+      "options": {
+        "A": "甲",
+        "B": "乙",
+        "C": "丙",
+        "D": "丁"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（乙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 14,
+      "source_number": 14,
+      "display_number": 14,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "取 溫 度 、 材 質 及 體積 相 同 的 甲乙 兩 爹 屬 球 。 將 甲 球 漆 成 白色 , 乙 球 漆 成 黑 色 , 再 將 兩 球 以 細線 並 排 懸 吊 於 空中 ' 放 置 在 陽光 下 曝曬 ,20 分 鐘 後 測量 兩 者 溫度 , 結 果 乙 球 比 甲 球 高 3C 旋 下 列 何 者 是 此 現象 發 生 的 主 要 原 因 ?",
+      "options": {
+        "A": "白 色 可 增加 金 屬 球 的 比 熱",
+        "B": "黑 色 可 增加 金 屬 球 的 比 熱",
+        "C": "白 色 金 屬 球 較 易 吸收 輻射 熱",
+        "D": "黑 色 金 屬 球 較 易 吸收 輻射 熱\n「 |"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（黑 色 金 屬 球 較 易 吸收 輻射 熱 「 |）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "5. 「 起 雲 劑 」 是 一 種 食品 添加 物 , 也 是 一 種 界面 活性 劑 , 能 使 原 本 有 明顯 界面 、 不 互 溶 的 水 狀 與 油 狀 液體 混 仿 殉 多 而 不 分 層 。 下 列 哪 一 種 物質 油 加 入 圖 (一 ) 的 油水 分 層 試 管 申 >- 最 能 達到 廿 述 的 效果 ?",
+      "options": {
+        "A": "蒸 餾 水",
+        "B": "肥 皂 水",
+        "C": "飲 和 食鹽 水 a",
+        "D": "葡 萄 糖水 溶液\n請 翻 頁 繼續 作答"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（蒸 餾 水）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 16,
+      "source_number": 16,
+      "display_number": 16,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "表(二)為小慧列出家燕及家雨燕 的分類資料，她推論「家燕 和家雨燕在分類上為不同科 的生物」，依生物分類階層的 概念，小慧最可能是根據表中 的哪一項內容作出推論？",
+      "options": {
+        "A": "綱",
+        "B": "目",
+        "C": "屬",
+        "D": "種"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（目）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 17,
+      "source_number": 17,
+      "display_number": 17,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "> 已 知 某 種 具有 葉綠體 的 原 生 生 物 會 分 解 養分 產生 能 量 , 推 測 該 生 物 能 否 進 行 光合 作用 或 呼吸 作用 , 下 列 敘 述 何 者 正確 ?",
+      "options": {
+        "A": "僅 可 進 行 光合 作用",
+        "B": "僅 可 進 行 呼吸 作用",
+        "C": "此 兩 種 作用 皆 可 進 行",
+        "D": "此 兩 種 作用 皆無 法 進 行\n人"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（此 兩 種 作用 皆 可 進 行）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "若在某山壁上有一地層剖面，由下至上分成甲、乙、丙三層。下列在剖面上所 發現的四種現象，何者較適合作為該地層剖面仍維持「老的地層在下、年輕的 地層在上」之推論依據？",
+      "options": {
+        "A": "甲、乙、丙三層的地層幾乎是水平狀態",
+        "B": "甲、乙、丙三層的岩性分別為砂岩、頁岩、砂岩",
+        "C": "甲、乙、丙三層的厚度分別為 60 公尺、40 公尺、20 公尺",
+        "D": "甲、乙、丙三層可依序發現三葉蟲化石、恐龍化石、原始人骨骸"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（甲、乙、丙三層可依序發現三葉蟲化石、恐龍化石、原始人骨骸）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "月食現象主要是指下列何種狀況？",
+      "options": {
+        "A": "地球遮住月球所反射出的光",
+        "B": "太陽遮住月球所反射出的光",
+        "C": "月球遮住太陽射向地球的光",
+        "D": "地球遮住太陽射向月球的光"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（地球遮住太陽射向月球的光）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "有甲、乙、丙和丁四杯體積均為 100 mL 的水溶液，其中兩杯為碳酸鈉溶液，另 外兩杯為鹽酸，25℃ 時這四杯溶液的 pH 值如圖(十)所示： 已知鹽酸和碳酸鈉反應會產生二氧化碳，下列哪兩杯溶液混合後，產生二氧化碳 的初始速率最慢？",
+      "options": {
+        "A": "甲和丙",
+        "B": "甲和丁",
+        "C": "乙和丙",
+        "D": "乙和丁\n表(二)\n圖(九)\n圖(十)"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（乙和丙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "A-7EAJ on A? UN BOR BAER TT CP IE AY AAR AR ROOT OOP OW ees 20 ep LA 1) “Pp IP) 時 段 的 主 要 天 氣 敘 述 , 其 中 何者 最 適合 進 行 此 工程 ?",
+      "options": {
+        "A": "太 平 洋 高 壓 籠 踢, 天 氣 狀況 穩定",
+        "B": "大 陸 冷 高 壓 影 響 , 東 北 李 風 增 強",
+        "C": "春 、 夏 交替 之 除 , 滯 留 鋒 面 停留",
+        "D": "強 烈 冷 氣 團 南下 , 寒潮 ( 寒 流 ) 來 枉"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（太 平 洋 高 壓 籠 踢, 天 氣 狀況 穩定）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖(十一)為實驗室常見的二項器材，利用這二項器材可分別得知待測物的甲、乙 二種性質，這二種性質在分類上分別屬於下列何者？",
+      "options": {
+        "A": "甲、乙均為物理性質",
+        "B": "甲、乙均為化學性質",
+        "C": "甲為物理性質、乙為化學性質",
+        "D": "甲為化學性質、乙為物理性質"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（甲、乙均為物理性質）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖(十二)為可樂包裝上的碳足跡標籤，標籤上的數字代表此可樂 (包含瓶子)從製造、運輸、使用到回收等過程中，各階段所產生的 溫室氣體，經換算後相當於總共排放出 280 g 的二氧化碳。若某運 動飲料的碳足跡經換算後為 8 莫耳的二氧化碳，則此運動飲料的 碳足跡標示應為下列何者？(碳和氧的原子量分別為 12 與 16 )",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": "圖(十二)\n圖(十一)\n50mL"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（圖(十二) 圖(十一) 50mL）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "現今智慧型手機可下載許多不同的 App (應用程式)，其中一些可用來量測週遭 聲波的音量，當音量愈大時，App 顯示的數值也愈大，則此數值的大小主要與 聲波的何種性質有關？",
+      "options": {
+        "A": "波長",
+        "B": "波速",
+        "C": "振幅",
+        "D": "頻率"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（振幅）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "12. 智 耀 在 筆直 的 跑道 上 折返 跑 , 他 從 P 點 起 跑 , 其 路 徑 為 P>Q>P>Q>P-S » 總 共 歷 時 15s, 如 圖 (五 ) 所 示 。 下 列 何者 可 表 示 此 炊 智 耀 折 返 跑 的 平均 速率 ?",
+      "options": {
+        "A": "0.33 m/s +R",
+        "B": "0.33 m/s > 7719) 16) 28 — im 10m 一",
+        "C": "3 m/s § p 3",
+        "D": "3 m/s > Awe) 圖 (五 )"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（3 m/s § p 3）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "如圖(十四)所示，將兩個磁鐵置入玻璃管中，磁鐵甲 與玻璃管底部接觸，磁鐵乙靜止漂浮在空中，不與玻 璃管、磁鐵甲接觸。關於兩磁鐵的受力情形，下列何 者正確？",
+      "options": {
+        "A": "兩磁鐵所受合力均為零",
+        "B": "兩磁鐵所受合力均不為零",
+        "C": "磁鐵甲所受合力為零，磁鐵乙所受合力不為零，且合力方向向上",
+        "D": "磁鐵乙所受合力為零，磁鐵甲所受合力不為零，且合力方向向下"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（兩磁鐵所受合力均為零）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 27,
+      "source_number": 27,
+      "display_number": 27,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "14. 甲 、 乙 及 丙 為 一 臺 複式 顯微鏡 上 三 種 不 同 倍率 的 物鏡 , 其 外 型 如 圖 (七 ) 所 示 。 小 柏 使用 此 顯微鏡 觀察 植物 細 贍 , 他 利用 乙 物 鏡 觀 察 後 , 再 轉 換 另 一 物鏡 , 結 果 視 野 下 的 細胞 數 目 減少 , 有 關 他 轉 換 後 的 物鏡 及 其 視野 範圍 的 變化 , 下 列 何 者 最 合理 ? ki a A",
+      "options": {
+        "A": "甲 , 視 野 範圍 放大 TT",
+        "B": "甲 , 視 野 範圍 縮小",
+        "C": "丙 , 視 野 範圍 放大",
+        "D": "丙 , 視 野 範圍 縮小\n圖 (七 )"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（丙 , 視 野 範圍 放大）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 28,
+      "source_number": 28,
+      "display_number": 28,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "IS. BNA RE FP |= 12345678 9101112\n在 一 天 中 所 占 的 時 間 關 係 圖 2 淺 色 , =:01:00 SSS",
+      "options": {},
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 29,
+      "source_number": 29,
+      "display_number": 29,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_04.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "區 域 表 示 白 畫 的 時 間 範圍 深 色 區 05:00\n域 表 示 黑 夜 的 時 間 範圍 , 兩 條 黑色 地 09:00\n曲線 由 上 至 下 分 別 是 日 出 與 日 落 時 4).",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 30,
+      "source_number": 30,
+      "display_number": 30,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "gw/cm2，則杯子的容量約為多少？",
+      "options": {
+        "A": "200 mL",
+        "B": "300 mL",
+        "C": "400 mL",
+        "D": "600 mL"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（200 mL）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 31,
+      "source_number": 31,
+      "display_number": 31,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "在甲、乙及丙三支試管中分別裝入等量且濃度相同的溶液 X，依實驗設計分別 再加入等量的葡萄糖液、澱粉液或水，充分混勻再靜置於適宜的溫度，待足夠 的反應時間後，以碘液進行檢測。將上述各試管所含的物質與碘液檢測結果整 理如表(四)，根據此實驗結果判斷溶液 X 中最可能含有下列何種成分？",
+      "options": {
+        "A": "澱粉",
+        "B": "葡萄糖",
+        "C": "分解澱粉的酵素",
+        "D": "分解葡萄糖的酵素\n圖(十三)\n圖(十四)\n.....\nЬ҂਺८\n表(三)\n表(四)\n「公頃」為面積的公制單位"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（澱粉）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 32,
+      "source_number": 32,
+      "display_number": 32,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_05.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "的 分 類 資料 , 她 推 論 RR 鳥類 名 稱\n和 家 兩 燕 在 分 類 上 為 不 同 科 Ra RAR\n的 生 物 」, 依 生 物 分 類 階層 的",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 33,
+      "source_number": 33,
+      "display_number": 33,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "甲 ＋ 乙 → 2 丙 ＋ 2 丁 表(五)是甲和乙反應的一組實驗數據，若改取 24 g 的甲與 24 g 的乙進行上述反 應，最多可以生成多少的物質丁？",
+      "options": {
+        "A": "16 g",
+        "B": "22 g",
+        "C": "33 g",
+        "D": "88 g"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（88 g）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "某鋅銅電池的裝置如圖(十五)所示，其檢流計指針由中央向左偏轉。若以相同的 檢流計檢測金屬 X、金屬 Y 所組成的電池，指針由中央向右偏轉，如圖(十六)所 示。關於圖(十六)電池的負極與電子流向的敘述，下列何者正確？",
+      "options": {
+        "A": "金屬 X 為負極，電子由電池負極流出",
+        "B": "金屬 X 為負極，電子由電池正極流出",
+        "C": "金屬 Y 為負極，電子由電池負極流出",
+        "D": "金屬 Y 為負極，電子由電池正極流出"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（金屬 X 為負極，電子由電池正極流出）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "下列四種裝置及其處理方式中，哪一種裝置的線圈會發生電磁感應現象？",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": "圖(十五)\n圖(十六)\n表(五)\nG\n+\n\u001b\u001a\u0019\nX\n\u0018\n\u0017\nX\n\u001b\u001a\u0019\nY\n\u0018\n\u0017\nY\n\u0016\u0015\u0014\nG\n+\n\u0013\u0012\u0011\n\u0010\u0019\n\u0011\n\u000f\n\u0016\u0015\u0014\n\u0013\u0012\u000e\n\u0010\u0019\n\u000e\n\u000f"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖(十七)為人體血液循環和淋巴循環的部分示意圖， 甲、乙和丙為不同的管道名稱，圖中 代表液體的 流動方向， 代表物質由微血管滲出。根據此圖判 斷，甲、乙和丙內有無紅血球的敘述，何者最合理？",
+      "options": {
+        "A": "僅甲、乙有",
+        "B": "僅甲、丙有",
+        "C": "甲、乙、丙皆有",
+        "D": "甲、乙、丙皆沒有"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（僅甲、乙有）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "火柴是利用摩擦生熱的取火工具，某種火柴是以火柴頭與火柴盒側邊擦劃，同時 產生熱能，再促使火柴頭成分中的氯酸鉀 (KClO3) 和硫 (S) 反應燃燒，反應式為： wKClO3 ＋ xS → yKCl ＋ zSO2 (其中 w、x、y 和 z 為反應式係數) 若 y + z＝5，則上述反應式中哪兩個物質的係數均為 3？",
+      "options": {
+        "A": "氧化劑和氯化鉀",
+        "B": "氧化劑和二氧化硫",
+        "C": "還原劑和氯化鉀",
+        "D": "還原劑和二氧化硫"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（氧化劑和二氧化硫）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 38,
+      "source_number": 38,
+      "display_number": 38,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "有甲、乙、丙三個大小不同、材質相同的均勻實心正立方體，取一已歸零的天 平分別進行表(六)中的三組測量，每組天平測量均達到靜止水平平衡。已知乙的 邊長為 1 cm，由上述資訊判斷甲、丙的邊長分別為多少？",
+      "options": {
+        "A": "甲：2 cm，丙：5 cm",
+        "B": "甲：3 cm，丙：4 cm",
+        "C": "甲：8 cm，丙：125 cm",
+        "D": "甲：27 cm，丙：64 cm"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（甲：27 cm，丙：64 cm）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "19. 月 食 現 象 主 要 是 指 下 列 何 種 狀況 ?",
+      "options": {
+        "A": "地 球 遮 住 月 球 所 反射 出 的 光",
+        "B": "太 陽 錢 住 月 球 所 反射 出 的 光",
+        "C": "月 球 遮 住 太 陽 射 向 地 球 的 光 ) 地 球 遮 住 太陽 射 向 月 球 的 光"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "0 g/cm3的水中，待靜止平衡後，乙正好有一半的體積沒入水 面下，如圖(十八)所示。已知甲的質量為 50 g，乙的密度為 0.5 g/cm3、體積為 400 cm3，丙的體積為 250 cm3，則丙的密度 應為多少？",
+      "options": {
+        "A": "0.20 g/cm3",
+        "B": "0.70 g/cm3",
+        "C": "0.80 g/cm3",
+        "D": "1.75 g/cm3"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（1.75 g/cm3）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "研究員利用工具鑽取榕樹樹幹的維管束組織，從樹皮 表面上的 X 點垂直鑽入樹幹中心後，將取出的組織依 其主要功能分別標示為甲、乙、丙，如表(七)所示。依 表中的主要功能判斷，比較此三者與 X 點間的距離， 下列何者最合理？",
+      "options": {
+        "A": "甲＜丙＜乙",
+        "B": "甲＜乙＜丙",
+        "C": "乙＜丙＜甲",
+        "D": "乙＜甲＜丙\n圖(十七)\n表(六)\n圖(十八)\n表(七)"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（甲＜丙＜乙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 42,
+      "source_number": 42,
+      "display_number": 42,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_10.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "表(八)列出氯原子(Cl)和氫離子(H+)的質子數、中子數、電子數和質量數(未依照 順序)，依表中所列的數值判斷，關於代號甲、乙、丙或丁的說明，下列何者正 確？",
+      "options": {
+        "A": "甲為質子數",
+        "B": "乙為中子數",
+        "C": "丙為電子數",
+        "D": "丁為質量數"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（丁為質量數）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 43,
+      "source_number": 43,
+      "display_number": 43,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "的 實驗 目的 ?",
+      "options": {
+        "A": "",
+        "B": "實驗 組 別\n最 小 外 力 (kgw) 最 小 外 力 (kgw)",
+        "C": "",
+        "D": "實驗 組 別 實驗 組 別\n粉筆 顏色 粉筆 顏色\n浸泡 時 間 (s) 浸泡 時 間 (S)\n粉筆 長 度 (cm) 粉筆 長 度 (cm)\n最 小 外 力 (kgw) 最 小 外 力 (kgw)"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 44,
+      "source_number": 44,
+      "display_number": 44,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_10.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "百萬年前。若此中洋脊兩側張裂的速率相同， 下列有關三地與板塊邊界距離遠近的比較關係， 何者最合理？",
+      "options": {
+        "A": "與海溝距離必為甲＞乙＞丙",
+        "B": "與海溝距離必為甲＜乙＜丙",
+        "C": "與中洋脊距離必為甲＞乙＞丙",
+        "D": "與中洋脊距離必為甲＜乙＜丙"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（與中洋脊距離必為甲＞乙＞丙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 45,
+      "source_number": 45,
+      "display_number": 45,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_10.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "某日天氣晴朗，小閑在阿里山上正準備觀看日出，在清晨日出前，發現此時 月亮正好從東方地平線升起，便立即拍照留念。下列何者最有可能是當時拍下 的月亮與雲海照片？",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": "表(八)\n圖(十九)"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 46,
+      "source_number": 46,
+      "display_number": 46,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "24. 現今 智慧 型 手機 可 下 載 許多 不 同 的 App (應 用 程式 ), 其 中 一 些 可 用 來 量 測 週遭 聲波 的 音量 , 當 音量 愈 大 時 ,App 顯示 的 數 值 也 愈 大 , 則 此 數 值 的 大 小 主 要 與 聲波 的 何 種 性 質 有 關 ?",
+      "options": {
+        "A": "波 長",
+        "B": "波 速",
+        "C": "振 幅",
+        "D": "頻 率\nA."
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（波 速）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 47,
+      "source_number": 47,
+      "display_number": 47,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "25. 阿 文 帶 家 人 出 國 旅遊 , 旅 途中 看 到 十 地 出 售 的 廣告 傳單 , 內 容 如 圖 (十 三 ) 所 示 。 若 阿 詞 今 日 想 約 時 間 看 地 , 並 測量 售 滿 潮 時 所 剩 的 土地 面積 大 小 是 否 如 廣告 所 示 , 參考 表 (三 ) 私人 海灘 地 今日 該 地 的 潮汐 時 間 , 下 列 何者 是 阿 文 看 地 的 最 佳 時 間 ? 人",
+      "options": {
+        "A": "08:00~ 10:00 表 (三 ) 歡迎 看 地",
+        "B": "10:00~ 12:00 第 一 炊 乾 潮 時 間 | 第 二 次 乾 潮 時 間 :",
+        "C": "14:00~ 16:00 08:09 20:40 一",
+        "D": "18:00~20:00 = 圖 (十 三 )\n“公頃 」 為 面積 的 公制 單位\nL"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（18:00~20:00 = 圖 (十 三 ) “公頃 」 為 面積 的 公制 單位 L）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 48,
+      "source_number": 48,
+      "display_number": 48,
+      "page_number": 11,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_11.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "甲、乙兩個金屬球的質量分別為 10 kg、5 kg，將甲、乙移至相同高度，並且 同時由靜止釋放，讓它們作自由落體運動，經過 2 秒鐘，兩者均尚未落地， 此瞬間甲、乙的動能分別為K 甲、K 乙，甲、乙相對於水平地面的重力位能分 別為U甲、U乙，若忽略空氣阻力，則下列關係式何者正確？",
+      "options": {
+        "A": "K甲＝K乙，U甲＝U乙",
+        "B": "K甲＞K乙，U甲＜U乙",
+        "C": "K甲＞K乙，U甲＝U乙",
+        "D": "K甲＞K乙，U甲＞U乙"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（K甲＞K乙，U甲＝U乙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 49,
+      "source_number": 49,
+      "display_number": 49,
+      "page_number": 11,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_11.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "智新設計實驗來模擬近視眼及其矯正後的情形，其步驟如圖(二十)所示：(此實 驗設計有一個錯誤) 關於修正此錯誤的方式，下列何者最適當？",
+      "options": {
+        "A": "將實驗中的凹透鏡乙改為焦距較甲短的凸透鏡",
+        "B": "將實驗中的凹透鏡乙改為焦距較甲長的凸透鏡",
+        "C": "將實驗中的凹透鏡丙改為適當焦距的凸透鏡",
+        "D": "將步驟 3 中的凹透鏡丙改放置在凹透鏡乙與屏幕之間\n表(九)\n圖(二十)"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（將步驟 3 中的凹透鏡丙改放置在凹透鏡乙與屏幕之間 表(九) 圖(二十)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 50,
+      "source_number": 50,
+      "display_number": 50,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "27. 一 個 重量 為 200 gw 的 空 保溫 林 。 凈 置 於 水 平 東 面 上 時 , 空 保溫 杯 作用 於 桌面 的 壓力 為 10 gw/cm , 若 在 杯 內 裝 滿 純 水 後 , 裝 滿 水 的 保溫 杯 作 用 於 桌面 的 壓力 為 30 gw/cm > AITO BEARS?",
+      "options": {
+        "A": "200 mL",
+        "B": "300.mL",
+        "C": "400 mL",
+        "D": ".600 mL"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（200 mL）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 51,
+      "source_number": 51,
+      "display_number": 51,
+      "page_number": 12,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_12.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "聖嬰現象顯著時，在東太平洋赤道附近地區，有些原本降雨很少的海域，會因 為獲得較平時更多的熱量而變成降雨區。上述降雨區的額外熱量之主要來源， 最可能是由下列何者提供？",
+      "options": {
+        "A": "由該季節垂直入射赤道地區的陽光提供",
+        "B": "自當地高於正常時溫度的海水直接提供",
+        "C": "自東太平洋赤道附近深處湧升的海水提供",
+        "D": "由高空下沉並往西吹的太平洋赤道東風提供"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（自東太平洋赤道附近深處湧升的海水提供）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 52,
+      "source_number": 52,
+      "display_number": 52,
+      "page_number": 12,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_12.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "如圖(二十一)所示，水平桌面上靜置一個木塊，今對木塊施以向東且大小固定的 水平力 F；阿春、阿偉兩人對於木塊受力後可能發生的狀態及原因解釋如下： 阿春：若木塊向東作等加速度運動，是因為木塊在運動過程中所受的摩擦力大 小逐漸變小。 阿偉：若木塊保持靜止不動，是因為 F 與其反作用力的大小相同、方向相反， 恰好互相抵消。 關於兩人的描述正確與否，下列何者正確？",
+      "options": {
+        "A": "兩人皆正確",
+        "B": "兩人皆不正確",
+        "C": "阿春正確，阿偉不正確",
+        "D": "阿春不正確，阿偉正確\n請閱讀下列敘述後，回答 47～48 題"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（兩人皆不正確）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 53,
+      "source_number": 53,
+      "display_number": 53,
+      "page_number": 12,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_12.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "根據本文推論，無根萍是屬於下列哪一類植物？",
+      "options": {
+        "A": "蘚苔植物",
+        "B": "蕨類植物",
+        "C": "裸子植物",
+        "D": "被子植物"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（蕨類植物）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 54,
+      "source_number": 54,
+      "display_number": 54,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\105\\science\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "30. 某 鋅 銅 電池 的 裝置 如 圖 (十 五 ) 所 示 j' 其 檢 流 計 指 針 由 中 央 向 左 偏轉 。 若 以 相 同 的 檢 流 計 檢 測 金 屬 X、 金 屬 Y 所 組 成 的 電池 。- 指 針 由 中 央 鉛 右 倫 轉, 如 圖 (十 六 ) 所 示 。 關 於 圖 (十 六 ) 電 池 的 負極 與 電子 流向 的 敘述 , 下 列 何者 正確 ? PRES 硫酸 鋅 EX BS 含 Y 離 子 溶液 溶液 之 電解 液 之 電解 液 圖 (十 五 ) 圖 (十 六 )",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "金 屬 Y 為 負極 , 電子 由 電池 真 極 流出",
+        "D": "《 一 《 一\nINT S — 「]\n磁鐵 棒 銅 棒 銅 棒\n磁鐵 棒 快 速 靠 近 銅 棒 快速 靠近 通 有 穩定 電流 的 電通 有 穩定 電流 的 線\n線圈 。"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（《 一 《 一 INT S — 「] 磁鐵 棒 銅 棒 銅 棒 磁鐵 棒 快 速 靠 近 銅 棒 快速 靠近 通 有 穩定 電流 的 電通 有 穩定 電流 的 線 線圈 。）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    }
+  ],
+  "issues": [
+    {
+      "question_number": 27,
+      "display_source_number": 27,
+      "reason": "parse_incomplete",
+      "stem_length": 80,
+      "option_count": 0
+    },
+    {
+      "question_number": 32,
+      "display_source_number": 32,
+      "reason": "parse_incomplete",
+      "stem_length": 23,
+      "option_count": 0
+    },
+    {
+      "question_number": 39,
+      "display_source_number": 39,
+      "reason": "parse_incomplete",
+      "stem_length": 25,
+      "option_count": 0
+    },
+    {
+      "question_number": 43,
+      "display_source_number": 43,
+      "reason": "parse_incomplete",
+      "stem_length": 91,
+      "option_count": 0
+    },
+    {
+      "question_number": 55,
+      "display_source_number": 55,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 56,
+      "display_source_number": 56,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 57,
+      "display_source_number": 57,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 58,
+      "display_source_number": 58,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 59,
+      "display_source_number": 59,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 60,
+      "display_source_number": 60,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 61,
+      "display_source_number": 61,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 18,
+      "display_source_number": 18,
+      "reason": "parse_incomplete",
+      "stem_length": 51,
+      "option_count": 0
+    },
+    {
+      "question_number": 20,
+      "display_source_number": 20,
+      "reason": "parse_incomplete",
+      "stem_length": 143,
+      "option_count": 0
+    },
+    {
+      "question_number": 22,
+      "display_source_number": 22,
+      "reason": "parse_incomplete",
+      "stem_length": 222,
+      "option_count": 1
+    },
+    {
+      "question_number": 28,
+      "display_source_number": 28,
+      "reason": "parse_incomplete",
+      "stem_length": 77,
+      "option_count": 0
+    },
+    {
+      "question_number": 29,
+      "display_source_number": 29,
+      "reason": "parse_incomplete",
+      "stem_length": 101,
+      "option_count": 0
+    },
+    {
+      "question_number": 30,
+      "display_source_number": 30,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 1
+    },
+    {
+      "question_number": 31,
+      "display_source_number": 31,
+      "reason": "parse_incomplete",
+      "stem_length": 38,
+      "option_count": 0
+    },
+    {
+      "question_number": 32,
+      "display_source_number": 32,
+      "reason": "parse_incomplete",
+      "stem_length": 81,
+      "option_count": 0
+    },
+    {
+      "question_number": 34,
+      "display_source_number": 34,
+      "reason": "parse_incomplete",
+      "stem_length": 92,
+      "option_count": 0
+    },
+    {
+      "question_number": 35,
+      "display_source_number": 35,
+      "reason": "parse_incomplete",
+      "stem_length": 131,
+      "option_count": 0
+    },
+    {
+      "question_number": 36,
+      "display_source_number": 36,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 4
+    },
+    {
+      "question_number": 37,
+      "display_source_number": 37,
+      "reason": "parse_incomplete",
+      "stem_length": 137,
+      "option_count": 0
+    },
+    {
+      "question_number": 40,
+      "display_source_number": 40,
+      "reason": "parse_incomplete",
+      "stem_length": 238,
+      "option_count": 0
+    },
+    {
+      "question_number": 42,
+      "display_source_number": 42,
+      "reason": "parse_incomplete",
+      "stem_length": 185,
+      "option_count": 0
+    },
+    {
+      "question_number": 45,
+      "display_source_number": 45,
+      "reason": "parse_incomplete",
+      "stem_length": 123,
+      "option_count": 0
+    },
+    {
+      "question_number": 48,
+      "display_source_number": 48,
+      "reason": "parse_incomplete",
+      "stem_length": 91,
+      "option_count": 0
+    },
+    {
+      "question_number": 51,
+      "display_source_number": 51,
+      "reason": "parse_incomplete",
+      "stem_length": 130,
+      "option_count": 0
+    }
+  ]
+}

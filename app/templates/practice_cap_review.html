@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+{% block title %}會考歷屆檢討{% endblock %}
+{% block content %}
+<style>
+    .cap-review-shell {
+        --review-bg: linear-gradient(180deg, rgba(251, 247, 239, 0.98), rgba(243, 237, 228, 0.98));
+        --review-border: rgba(194, 157, 78, 0.22);
+        --review-card: rgba(255, 255, 255, 0.9);
+        --review-ink: #2d251f;
+        --review-muted: #655a4d;
+        --review-shadow: 0 18px 42px rgba(54, 43, 27, 0.08);
+        display: grid;
+        gap: 1.2rem;
+    }
+
+    .cap-review-hero,
+    .cap-review-panel,
+    .review-card {
+        border-radius: 28px;
+        border: 1px solid var(--review-border);
+        background: var(--review-bg);
+        box-shadow: var(--review-shadow);
+        padding: 1.35rem;
+    }
+
+    .cap-review-hero {
+        display: grid;
+        gap: 0.95rem;
+        background:
+            radial-gradient(circle at top right, rgba(232, 182, 73, 0.26), transparent 28%),
+            radial-gradient(circle at left bottom, rgba(49, 73, 116, 0.15), transparent 24%),
+            var(--review-bg);
+    }
+
+    .cap-kicker,
+    .cap-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.48rem 0.88rem;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .cap-kicker {
+        background: rgba(26, 40, 66, 0.94);
+        color: #fffaf2;
+        width: fit-content;
+    }
+
+    .cap-chip {
+        background: rgba(255, 242, 211, 0.92);
+        color: #8b6431;
+        font-size: 0.9rem;
+    }
+
+    .cap-review-hero h1,
+    .cap-review-panel h2,
+    .review-card h3 {
+        margin: 0;
+        color: var(--review-ink);
+        font-family: "Kaisei Tokumin", serif;
+    }
+
+    .cap-review-hero h1 {
+        font-size: clamp(1.9rem, 2.8vw, 2.7rem);
+        line-height: 1.15;
+    }
+
+    .cap-review-hero p,
+    .cap-review-panel p,
+    .review-card p,
+    .review-card li {
+        margin: 0;
+        color: var(--review-muted);
+        line-height: 1.78;
+    }
+
+    .cap-top-bar,
+    .cap-panel-head,
+    .review-meta,
+    .review-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cap-link,
+    .cap-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        min-height: 46px;
+        padding: 0.75rem 1.15rem;
+        border-radius: 999px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .cap-link {
+        border: 1px solid rgba(73, 98, 138, 0.18);
+        background: rgba(255, 255, 255, 0.82);
+        color: #49617d;
+    }
+
+    .cap-btn {
+        border: none;
+        background: linear-gradient(135deg, #ebb24b, #cf8b35);
+        color: #fffaf2;
+    }
+
+    .score-grid,
+    .review-list,
+    .review-answer-grid,
+    .review-explanation-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .score-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .score-card {
+        border-radius: 22px;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.84);
+        border: 1px solid rgba(73, 98, 138, 0.12);
+        display: grid;
+        gap: 0.35rem;
+        color: var(--review-muted);
+    }
+
+    .score-card strong {
+        color: var(--review-ink);
+        font-size: 1.35rem;
+    }
+
+    .review-card {
+        display: grid;
+        gap: 1rem;
+        background: var(--review-card);
+    }
+
+    .review-card.is-correct {
+        border-color: rgba(82, 153, 113, 0.26);
+        background: linear-gradient(180deg, rgba(244, 251, 246, 0.98), rgba(232, 246, 236, 0.98));
+    }
+
+    .review-card.is-wrong {
+        border-color: rgba(196, 98, 86, 0.24);
+        background: linear-gradient(180deg, rgba(255, 247, 245, 0.98), rgba(251, 236, 232, 0.98));
+    }
+
+    .review-context,
+    .review-visual-box,
+    .review-answer-box,
+    .review-option,
+    .review-explanation-item {
+        padding: 0.95rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(73, 98, 138, 0.12);
+    }
+
+    .review-visual-box {
+        display: grid;
+        gap: 0.65rem;
+        background: rgba(236, 243, 255, 0.9);
+    }
+
+    .review-visual-box img {
+        width: 100%;
+        border-radius: 18px;
+        border: 1px solid rgba(73, 98, 138, 0.14);
+        background: #fff;
+    }
+
+    .review-answer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .review-answer-box strong,
+    .review-explanation-item strong {
+        color: #23405d;
+    }
+
+    .review-option-grid {
+        display: grid;
+        gap: 0.7rem;
+    }
+
+    .review-option.is-correct {
+        border-color: rgba(82, 153, 113, 0.28);
+        background: rgba(232, 246, 236, 0.92);
+    }
+
+    .review-option.is-selected {
+        outline: 2px solid rgba(73, 98, 138, 0.2);
+    }
+
+    .review-explanation-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    @media (max-width: 760px) {
+        .cap-review-hero,
+        .cap-review-panel,
+        .review-card {
+            border-radius: 24px;
+            padding: 1.15rem;
+        }
+    }
+</style>
+
+<div class="cap-review-shell">
+    <section class="cap-review-hero">
+        <span class="cap-kicker"><i class="fa-solid fa-chart-simple"></i> 會考檢討結果</span>
+        <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+        <p>{{ feedback }}</p>
+        <div class="cap-top-bar">
+            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+                <span class="cap-chip"><i class="fa-solid fa-star"></i> {{ '%.1f'|format(score_percent) }} 分</span>
+                <span class="cap-chip"><i class="fa-solid fa-check"></i> {{ correct_count }} 題答對</span>
+                <span class="cap-chip"><i class="fa-solid fa-xmark"></i> {{ wrong_count }} 題答錯</span>
+            </div>
+            <div class="review-actions">
+                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
+                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 看完整預覽</a>
+                <a class="cap-btn" href="{{ retry_href }}"><i class="fa-solid fa-rotate-right"></i> 再做一次</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cap-review-panel">
+        <div class="cap-panel-head">
+            <div>
+                <h2>本輪成績</h2>
+                <p>100 分制，小數點保留到第一位。未作答會列入未完成題數。</p>
+            </div>
+            <span class="cap-chip"><i class="fa-solid fa-list-check"></i> {{ total_count }} 題</span>
+        </div>
+        <div class="score-grid">
+            <div class="score-card">作答題數<strong>{{ answered_count }}</strong></div>
+            <div class="score-card">未作答<strong>{{ unanswered_count }}</strong></div>
+            <div class="score-card">設定題數<strong>{{ selected_count }}</strong></div>
+            <div class="score-card">設定時間<strong>{{ selected_duration }} 分鐘</strong></div>
+        </div>
+    </section>
+
+    <section class="review-list">
+        {% for item in review_items %}
+        <article class="review-card {% if item.is_correct %}is-correct{% else %}is-wrong{% endif %}">
+            <div class="review-meta">
+                <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+                    <span class="cap-chip">第 {{ loop.index }} 題</span>
+                    <span class="cap-chip">{{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
+                    {% if item.group_label %}<span class="cap-chip">{{ item.group_label }}</span>{% endif %}
+                </div>
+                <span class="cap-chip">
+                    {% if item.is_correct %}
+                    <i class="fa-solid fa-circle-check"></i> 答對
+                    {% else %}
+                    <i class="fa-solid fa-circle-xmark"></i> 答錯
+                    {% endif %}
+                </span>
+            </div>
+
+            {% if item.context %}
+            <div class="review-context">
+                <strong>題組材料</strong>
+                <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
+            </div>
+            {% endif %}
+
+            <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
+
+            {% if item.page_image_href %}
+            <div class="review-visual-box">
+                <strong>原始題本頁面</strong>
+                <div>{{ item.page_image_note }}</div>
+                <img src="{{ item.page_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題原始頁面">
+            </div>
+            {% endif %}
+
+            <div class="review-option-grid">
+                {% for option in item.options %}
+                <div class="review-option {% if option.is_correct %}is-correct{% endif %} {% if option.is_selected %}is-selected{% endif %}">
+                    <strong>{{ option.key }}</strong> {{ (option.text|replace('\n', '<br>')|safe) if option.text else '此選項暫無可讀文字。' }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="review-answer-grid">
+                <div class="review-answer-box">
+                    <strong>你的答案</strong>
+                    <div>{{ item.user_answer }}</div>
+                    <div>{{ item.selected_answer_text|replace('\n', '<br>')|safe }}</div>
+                </div>
+                <div class="review-answer-box">
+                    <strong>正確答案</strong>
+                    <div>{{ item.correct_answer }}</div>
+                    <div>{{ item.correct_option_text|replace('\n', '<br>')|safe }}</div>
+                </div>
+            </div>
+
+            <div class="review-explanation-grid">
+                {% for section in item.explanation_sections %}
+                <div class="review-explanation-item">
+                    <strong>{{ section.title }}</strong>
+                    <div>{{ section.body|replace('\n', '<br>')|safe }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </article>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

@@ -23,6 +23,13 @@ migrate = Migrate()
 csrf = CSRFProtect()
 oauth = OAuth()
 
+
+def _is_truthy_env(name: str, default: bool = False) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
 def create_app():
     app = Flask(__name__)
     
@@ -144,12 +151,33 @@ def create_app():
     csrf.init_app(app)
     oauth.init_app(app)
     
-    # Auto-initialize SQLite tables if needed
-    if db_uri.startswith('sqlite:'):
-        with app.app_context():
-            from app import models
+    with app.app_context():
+        from app import models
+
+        # Auto-initialize SQLite tables if needed
+        if db_uri.startswith('sqlite:'):
             db.create_all()
             app.logger.info("Local SQLite initialized/verified.")
+
+        if _is_truthy_env("AUTO_IMPORT_BUNDLED_QUESTION_BANKS", default=False):
+            try:
+                from app.utils.bundled_question_bank import seed_bundled_question_banks, dedupe_questions_by_exact_text
+
+                sync_results = seed_bundled_question_banks(logger=app.logger)
+                synced_subjects = [item["subject"] for item in sync_results if item.get("status") == "synced"]
+                if synced_subjects:
+                    app.logger.info("Bundled question banks synced: %s", ", ".join(synced_subjects))
+                dedupe_summary = dedupe_questions_by_exact_text(logger=app.logger)
+                if dedupe_summary.get("deleted_rows"):
+                    app.logger.info(
+                        "Question bank dedupe complete: groups=%s deleted=%s",
+                        dedupe_summary["duplicate_groups"],
+                        dedupe_summary["deleted_rows"],
+                    )
+            except Exception as exc:
+                app.logger.error(f"Bundled question bank sync skipped due to error: {exc}")
+        else:
+            app.logger.info("Bundled question bank auto-import is disabled.")
 
     app.logger.info("Extensions initialized.")
 

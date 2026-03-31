@@ -1,0 +1,586 @@
+{
+  "year": "109",
+  "subject_slug": "math",
+  "subject_label": "數學",
+  "official_question_count": 26,
+  "question_count": 26,
+  "answered_count": 26,
+  "page_count": 13,
+  "ocr_pages": [],
+  "files": {
+    "pdf": "cap_practice_sources\\109\\math\\109_math.pdf",
+    "docx": "cap_practice_word\\109\\109_math.docx"
+  },
+  "official": {
+    "question_url": "https://drive.google.com/file/d/1jZJWQoO6mQZ_vWMmBcpJMC7bHdXIiJf0/view?usp=drive_link",
+    "answer_url": "https://drive.google.com/file/d/1zj_iw_7T3M6BgmGZkFOIIGNghr02dWPk/view?usp=drive_link",
+    "explanation_url": "https://drive.google.com/file/d/1QcMOuGHaby1_huKWY6a2gSt6Vm0GusW7/view?usp=drive_link"
+  },
+  "checks": {
+    "question_chunks_found": 31,
+    "answers_found": 26,
+    "questions_kept": 26,
+    "issues_found": 7,
+    "answer_completion_ratio": 1.0,
+    "raw_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "kept_question_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "missing_question_numbers": [],
+    "duplicate_question_numbers": []
+  },
+  "practice_ready": true,
+  "questions": [
+    {
+      "number": 1,
+      "source_number": 1,
+      "display_number": 1,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_02.png",
+      "parse_status": "complete",
+      "context": "第一部分：選擇題 (1 ~ 26 題)",
+      "stem": "已知 a = ( −12 ) × ( −23 ) × ( −34 ) × ( −45 )，b = ( −123 ) × ( −234 ) × ( −345 )， 判斷下列敘述何者正確？",
+      "options": {
+        "A": "a、b 皆為正數",
+        "B": "a、 b 皆為負數",
+        "C": "a 為正數， b 為負數",
+        "D": "a 為負數， b 為正數"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（a 為正數， b 為負數）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 2,
+      "source_number": 2,
+      "display_number": 2,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "算式 23 × 53 之值為何？",
+      "options": {
+        "A": "30",
+        "B": "90",
+        "C": "1000",
+        "D": "1000000"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（1000）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 3,
+      "source_number": 3,
+      "display_number": 3,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "小真煮好了 25 顆湯圓，其中 15 顆為芝麻湯圓，10 顆為花生湯圓。已知小真 想從煮好的湯圓中撈一顆，若每顆湯圓被小真撈到的機會相等，則他撈到花生 湯圓的機率為何？",
+      "options": {
+        "A": "1",
+        "B": "2",
+        "C": "2",
+        "D": "1"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 4,
+      "source_number": 4,
+      "display_number": 4,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_02.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "算式 2 × ( 48 − 12 ) 之值為何？",
+      "options": {
+        "A": "6",
+        "B": "2",
+        "C": "2",
+        "D": "4\n6 − 2"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 5,
+      "source_number": 5,
+      "display_number": 5,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "如圖( 一)，平行四邊形 ABCD 中， ∠A = 100°。 若 ∠ABD ： ∠DBC = 3 ： 2， 則 ∠DBC 的度數為何？",
+      "options": {
+        "A": "32",
+        "B": "40",
+        "C": "48",
+        "D": "60"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（32）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 6,
+      "source_number": 6,
+      "display_number": 6,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 二) 數線上的 A、 B、 C 三點所表示的數分別為 a、 b、 c，且原點為 O。 根據圖中各點位置，判斷下列四個式子的值何者最大？",
+      "options": {
+        "A": "a + b",
+        "B": "a + c",
+        "C": "a − c",
+        "D": "b − c"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（a + b）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 7,
+      "source_number": 7,
+      "display_number": 7,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "計算 2 x 2 − 3 除以 x + 1 後，得商式和餘式分別為何？",
+      "options": {
+        "A": "商式為 2，餘式為 −5",
+        "B": "商式為 2 x − 5，餘式為 5",
+        "C": "商式為 2 x + 2，餘式為 −1",
+        "D": "商式為 2 x − 2，餘式為 −1"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（商式為 2 x − 2，餘式為 −1）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 8,
+      "source_number": 8,
+      "display_number": 8,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_03.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "下列何者可表示成兩個質數的乘積？",
+      "options": {
+        "A": "81",
+        "B": "82",
+        "C": "83",
+        "D": "84\n圖( 二)\n圖( 一)"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（82）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 9,
+      "source_number": 9,
+      "display_number": 9,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "已知小薇住家的西方 100 公尺處為車站，住家的北方 200 公尺處為學校，且 從學校往東方走 100 公尺， 再往南方走 400 公尺可到達公園。若小薇將住家、 車站、學校分別標示在坐標平面上的 ( 2 , 0 )、 ( 0 , 0 )、 ( 2 , 4 ) 三點，則公園 應標示在此坐標平面上的哪一點？",
+      "options": {
+        "A": "( 4 , −4 )",
+        "B": "( 4 , 12 )",
+        "C": "( 0 , −4 )",
+        "D": "( 0 , 12 )"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（( 4 , −4 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 10,
+      "source_number": 10,
+      "display_number": 10,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "若一元二次方程式 5 ( x − 4 )2 = 125 的解為 a、 b ， 且 a > b， 則 2a + b 之值 為何？",
+      "options": {
+        "A": "−7",
+        "B": "−1",
+        "C": "11",
+        "D": "17"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（17）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 11,
+      "source_number": 11,
+      "display_number": 11,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_04.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 三) 的坐標平面上有 A 、 B 、 C 、 D 四點，其中 恰有三點在函數 y = px + q 的圖形上，且 p 、 q 為 兩數。根據圖中四點的位置，判斷下列哪一點不在 函數 y = px + q 的圖形上？",
+      "options": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D": "D\n圖( 三)"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（B）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 12,
+      "source_number": 12,
+      "display_number": 12,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 四) 表示平面上 A 、 B 兩點與直線 L 的位置關係，其中 B 點在 L 上。 若有一動點 P 從 A 點開始移動，移動過程中與 B 點的距離保持不變，則下列 關於 P 點移動路徑的敘述，何者正確？",
+      "options": {
+        "A": "在與直線 L 平行且通過 A 點的直線上",
+        "B": "在與直線 L 垂直且通過 A 點的直線上",
+        "C": "在以 B 點為圓心且通過 A 點的圓上",
+        "D": "在以 AB 為直徑的圓上"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（在以 B 點為圓心且通過 A 點的圓上）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 五) 為甲班 36 名學生參加投籃測驗 的投進球數長條圖。判斷甲班學生中， 有多少人的投進球數小於該班學生投進 球數的中位數？",
+      "options": {
+        "A": "10",
+        "B": "14",
+        "C": "17",
+        "D": "18"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（14）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 14,
+      "source_number": 14,
+      "display_number": 14,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_05.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 六) 為朵朵披薩屋的公告。若一個夏威夷披薩 調漲前的售價為 x 元，則會員購買一個夏威夷披薩 的花費，公告前後相差多少元？",
+      "options": {
+        "A": "0.05 x",
+        "B": "0.09 x",
+        "C": "0.14 x",
+        "D": "0.15 x\n圖( 四)\n圖( 五)\nរણ\n圖( 六)"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（0.14 x）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 15,
+      "source_number": 15,
+      "display_number": 15,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "平行四邊形 ABCD 中， E 點在 BC 上， P 、 Q 兩點在 AD 上， 其位置如 圖( 七) 所示。若 PB 與 AE 相交於 R 點， QB 與 AE 相交於 S 點，則下列 三角形面積的大小關係，何者正確？",
+      "options": {
+        "A": "∆PBE > ∆QBE ， ∆PRE > ∆QSE",
+        "B": "∆PBE < ∆QBE ， ∆PRE < ∆QSE",
+        "C": "∆PBE = ∆QBE ， ∆PRE > ∆QSE",
+        "D": "∆PBE = ∆QBE ， ∆PRE < ∆QSE"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（∆PBE = ∆QBE ， ∆PRE < ∆QSE）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 16,
+      "source_number": 16,
+      "display_number": 16,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "中秋節時阿柚製作的廣式月餅、蛋黃酥、鳳梨酥的數量比為 2 ： 1 ： 3 ，其中 只有製作廣式月餅和蛋黃酥時使用鹹蛋黃。若阿柚製作每個廣式月餅時使用 2 顆 鹹蛋黃，製作每個蛋黃酥時使用 1 顆鹹蛋黃，且總共使用 120 顆鹹蛋黃，則 他製作了幾個鳳梨酥？",
+      "options": {
+        "A": "45",
+        "B": "60",
+        "C": "72",
+        "D": "120"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（72）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 17,
+      "source_number": 17,
+      "display_number": 17,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_06.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "如圖( 八)， P 點為矩形 ABCD 兩對角線的交點， 將 P 點分別以 AD 、 BC 為對稱軸畫出對稱點 Q、 R ， 形成六邊形 QABRCD 。若 AB = 2 ， AD = 4 ，則 六邊形 QABRCD 的周長為何？",
+      "options": {
+        "A": "12",
+        "B": "4 + 2",
+        "C": "4 + 4",
+        "D": "4 + 4\n圖( 七)\n圖( 八)"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（4 + 4 圖( 七) 圖( 八)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 18,
+      "source_number": 18,
+      "display_number": 18,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 九) 為小麗和小歐依序進入電梯時，電梯因超重而警示音響起的過程，且 過程中沒有其他人進出。 已知當電梯乘載的重量超過 300 公斤時警示音會響起，且小麗、小歐的重量 分別為 50 公斤、 70 公斤。 若小麗進入電梯前， 電梯內已乘載的重量為 x 公斤， 則所有滿足題意的 x 可用下列哪一個不等式表示？",
+      "options": {
+        "A": "180 < x ≤ 250",
+        "B": "180 < x ≤ 300",
+        "C": "230 < x ≤ 250",
+        "D": "230 < x ≤ 300"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（180 < x ≤ 250）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_07.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圓上有 A 、 B 、 C 、 D 四點， 其位置如圖(十)所示， 其中 AC 與 BD 相交於 E 點，且 AB = BC 。根據圖中 標示的角度， 判斷下列四條線段何者的長度最長？",
+      "options": {
+        "A": "AE",
+        "B": "BE",
+        "C": "CE",
+        "D": "DE\n圖( 九)\n圖( 十)"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（BE）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖( 十一) 的正三角形 ABC 與正方形 CDEF 中， B 、 C 、 D 三點共線，且 AC = 10 ， CF = 8 。 若有一動點 P 沿著 CA 由 C 往 A 移動，則 FP 的長度最小為多少？",
+      "options": {
+        "A": "4",
+        "B": "5",
+        "C": "4",
+        "D": "5"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（4）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "坐標平面上有一水平線 L 與二次函數 y = a ( x + 7 )2 − 10 的圖形，其中 a 為 一正數，且 L 與二次函數圖形相交於 A 、 C 兩點，與 y 軸相交於 B 點，其 位置如圖( 十二) 所示。若 AB ： BC = 5 ： 1 ，則 AC 的長度為何？",
+      "options": {
+        "A": "17",
+        "B": "19",
+        "C": "21",
+        "D": "24"
+      },
+      "correct_answer": "C",
+      "explanation": "官方答案：C（21）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_08.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "如圖( 十三)，直線 L 將正九邊形 ABCDEFGHI 分割成兩個區域，且分別與 AB 、 EF 相交於 P 點、 Q 點。若 ∠APQ 的外角為 75 °，則 ∠PQE 的度數為何？",
+      "options": {
+        "A": "75",
+        "B": "85",
+        "C": "95",
+        "D": "105\n圖( 十一)\n圖( 十二)\n圖( 十三)"
+      },
+      "correct_answer": "B",
+      "explanation": "官方答案：B（85）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_09.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "已知有若干片相同的拼圖，其形狀如圖( 十四) 所示，且拼圖依同方向排列時\n可緊密拼成一列，此時底部可與直線貼齊。當 4 片拼圖緊密拼成一列時長度為",
+      "options": {},
+      "correct_answer": "D",
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "公分， 如圖( 十五) 所示。當 10 片拼圖緊密拼成一列時長度為 56 公分， 如圖( 十六) 所示。求圖( 十四) 中的拼圖長度為多少公分？",
+      "options": {
+        "A": "5.5",
+        "B": "5.6",
+        "C": "5.75",
+        "D": "6.5"
+      },
+      "correct_answer": "D",
+      "explanation": "官方答案：D（6.5）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 25,
+      "source_number": 25,
+      "display_number": 25,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_09.png",
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "圖( 十七) 為三角形紙片 ABC ，其中 D 點和 E 點將 AB 分成三等分， F 點為 DE\n中點。若小慕從 AB 上的一點 P ，沿著與直線 BC 平行的方向將紙片剪開後，剪下\n的小三角形紙片面積為 ∆ABC 的 1",
+      "options": {},
+      "correct_answer": "B",
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 26,
+      "source_number": 26,
+      "display_number": 26,
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\109\\math\\page_09.png",
+      "parse_status": "complete",
+      "context": "",
+      "stem": "則下列關於 P 點位置的敘述， 何者正確？",
+      "options": {
+        "A": "與 D 點重合",
+        "B": "與 E 點重合",
+        "C": "在 DF 上，但不與 D 點也不與 F 點重合",
+        "D": "在 FE 上，但不與 F 點也不與 E 點重合\n圖( 十四)\n圖( 十五)\n圖( 十六)\n圖( 十七)"
+      },
+      "correct_answer": "A",
+      "explanation": "官方答案：A（與 D 點重合）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 109 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    }
+  ],
+  "issues": [
+    {
+      "question_number": 23,
+      "display_source_number": 23,
+      "reason": "parse_incomplete",
+      "stem_length": 73,
+      "option_count": 0
+    },
+    {
+      "question_number": 25,
+      "display_source_number": 25,
+      "reason": "parse_incomplete",
+      "stem_length": 112,
+      "option_count": 0
+    },
+    {
+      "question_number": 27,
+      "display_source_number": 27,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 28,
+      "display_source_number": 28,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 29,
+      "display_source_number": 29,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 30,
+      "display_source_number": 30,
+      "reason": "out_of_range_question_number"
+    },
+    {
+      "question_number": 31,
+      "display_source_number": 31,
+      "reason": "out_of_range_question_number"
+    }
+  ]
+}

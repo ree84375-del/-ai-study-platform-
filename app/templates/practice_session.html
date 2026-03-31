@@ -1,622 +1,1023 @@
-﻿{% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}{{ _t('practice_title') }}{% endblock %}
 {% block content %}
 <style>
     .practice-stage {
-        display: flex;
-        flex-direction: column;
+        --paper: rgba(255, 252, 246, 0.96);
+        --paper-soft: rgba(249, 241, 224, 0.92);
+        --line: rgba(214, 183, 112, 0.24);
+        --ink: #3a3024;
+        --subtle: #726351;
+        --shadow: 0 22px 46px rgba(123, 96, 44, 0.11);
+        display: grid;
         gap: 1.2rem;
     }
 
-    .practice-hero {
+    .stage-hero,
+    .stage-panel,
+    .question-card,
+    .summary-panel,
+    .mode-card {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
+        box-shadow: var(--shadow);
+    }
+
+    .stage-hero {
         position: relative;
         overflow: hidden;
-        padding: 2rem;
-        border: 1px solid rgba(214, 183, 112, 0.28);
-        border-radius: 28px;
+        padding: 1.9rem;
         background:
-            radial-gradient(circle at top right, rgba(255, 220, 145, 0.35), transparent 34%),
-            linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(255, 247, 230, 0.92));
-        box-shadow: 0 22px 50px rgba(127, 93, 36, 0.12);
+            radial-gradient(circle at top right, rgba(255, 216, 133, 0.36), transparent 34%),
+            linear-gradient(140deg, rgba(255, 252, 246, 0.97), rgba(249, 240, 222, 0.95));
     }
 
-    .practice-kicker {
+    .stage-hero::after {
+        content: "";
+        position: absolute;
+        right: -56px;
+        bottom: -60px;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(219, 172, 90, 0.16), transparent 70%);
+        pointer-events: none;
+    }
+
+    .stage-kicker,
+    .stage-chip,
+    .scope-pill,
+    .summary-pill,
+    .timer-chip {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        padding: 0.45rem 0.95rem;
+        gap: 0.45rem;
         border-radius: 999px;
-        background: rgba(60, 55, 44, 0.9);
-        color: #fffaf1;
-        font-size: 0.92rem;
-        font-weight: 700;
-        letter-spacing: 0.03em;
+        font-weight: 800;
     }
 
-    .practice-hero h1 {
-        margin: 1rem 0 0.7rem;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.9rem, 3vw, 2.8rem);
-        color: #3a3024;
+    .stage-kicker {
+        padding: 0.48rem 0.95rem;
+        background: rgba(58, 48, 36, 0.92);
+        color: #fffaf2;
     }
 
-    .practice-hero p {
-        max-width: 720px;
+    .stage-hero h1 {
+        position: relative;
+        z-index: 1;
+        margin: 1rem 0 0.65rem;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: clamp(1.85rem, 2.8vw, 2.8rem);
+        line-height: 1.2;
+    }
+
+    .stage-hero p {
+        position: relative;
+        z-index: 1;
+        max-width: 760px;
         margin: 0;
-        color: #6b604e;
+        color: var(--subtle);
         line-height: 1.8;
-        font-size: 1rem;
     }
 
-    .practice-hero-stats {
+    .hero-stats,
+    .setup-grid,
+    .mode-grid,
+    .summary-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 0.9rem;
-        margin-top: 1.5rem;
     }
 
-    .practice-stat {
-        padding: 1rem 1.1rem;
+    .hero-stats {
+        position: relative;
+        z-index: 1;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        margin-top: 1.45rem;
+    }
+
+    .hero-stat,
+    .setup-card,
+    .summary-block {
+        padding: 1rem 1.05rem;
         border-radius: 20px;
-        border: 1px solid rgba(214, 183, 112, 0.22);
-        background: rgba(255, 255, 255, 0.66);
+        border: 1px solid rgba(214, 183, 112, 0.18);
+        background: rgba(255, 255, 255, 0.74);
     }
 
-    .practice-stat-label {
+    .hero-stat-label,
+    .summary-label,
+    .setup-label {
         display: block;
         margin-bottom: 0.35rem;
-        color: #8a7b63;
+        color: #8a7a61;
         font-size: 0.84rem;
         letter-spacing: 0.05em;
     }
 
-    .practice-stat-value {
+    .hero-stat-value,
+    .summary-value {
         color: #2f261b;
-        font-size: 1.55rem;
-        font-weight: 800;
+        font-size: 1.5rem;
+        font-weight: 900;
     }
 
-    .practice-toolbar {
+    .stage-panel {
+        padding: 1.35rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .panel-head,
+    .toolbar,
+    .question-head,
+    .summary-actions {
         display: flex;
-        align-items: center;
         justify-content: space-between;
         gap: 1rem;
         flex-wrap: wrap;
+        align-items: flex-start;
     }
 
-    .practice-back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        color: #6c5731;
-        text-decoration: none;
-        font-weight: 700;
+    .panel-head h2,
+    .mode-card h2,
+    .summary-panel h2 {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
     }
 
-    .practice-toolbar-right {
+    .panel-head p,
+    .mode-card p,
+    .setup-copy,
+    .summary-panel p {
+        margin: 0.35rem 0 0;
+        color: var(--subtle);
+        line-height: 1.75;
+    }
+
+    .scope-groups {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .scope-row {
+        display: grid;
+        gap: 0.65rem;
+    }
+
+    .scope-pill-list,
+    .setting-pill-list,
+    .summary-pills {
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
         flex-wrap: wrap;
+        gap: 0.65rem;
     }
 
-    .practice-chip {
+    .scope-pill,
+    .setting-pill {
+        padding: 0.72rem 0.95rem;
+        border: 1px solid rgba(196, 168, 108, 0.24);
+        background: rgba(255, 252, 244, 0.92);
+        color: #6b5837;
+        text-decoration: none;
+        min-height: 44px;
+    }
+
+    .scope-pill.is-active,
+    .setting-pill.is-active {
+        border-color: transparent;
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+        box-shadow: 0 10px 22px rgba(226, 143, 84, 0.22);
+    }
+
+    .setting-pill {
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
-        padding: 0.55rem 0.9rem;
-        border-radius: 999px;
-        border: 1px solid rgba(196, 168, 108, 0.26);
-        background: rgba(255, 252, 244, 0.9);
-        color: #725d36;
-        font-size: 0.9rem;
-        font-weight: 700;
+        border-radius: 18px;
+        font-weight: 800;
     }
 
-    .practice-primary-btn,
-    .practice-secondary-btn {
+    .setting-pill small {
+        font-size: 0.8rem;
+        opacity: 0.84;
+    }
+
+    .setting-pill.is-disabled {
+        opacity: 0.45;
+        pointer-events: none;
+    }
+
+    .mode-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .mode-card {
+        padding: 1.45rem;
+        display: grid;
+        gap: 0.95rem;
+    }
+
+    .mode-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        width: fit-content;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        font-weight: 800;
+    }
+
+    .mode-card.preview .mode-pill {
+        background: rgba(224, 236, 255, 0.95);
+        color: #43699f;
+    }
+
+    .mode-card.practice .mode-pill {
+        background: rgba(255, 239, 220, 0.96);
+        color: #a45d25;
+    }
+
+    .mode-list {
+        display: grid;
+        gap: 0.7rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .mode-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        padding: 0.85rem 0.95rem;
+        border-radius: 18px;
+        background: rgba(255, 251, 243, 0.9);
+        color: #5c4d39;
+        line-height: 1.7;
+    }
+
+    .primary-btn,
+    .secondary-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 0.55rem;
         min-height: 48px;
-        padding: 0.85rem 1.2rem;
+        padding: 0.86rem 1.2rem;
         border-radius: 16px;
         border: none;
         cursor: pointer;
+        text-decoration: none;
         font-weight: 800;
         font-size: 0.95rem;
-        text-decoration: none;
         transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
     }
 
-    .practice-primary-btn {
+    .primary-btn {
         background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
         color: #fff;
         box-shadow: 0 12px 24px rgba(226, 143, 84, 0.28);
     }
 
-    .practice-secondary-btn {
-        border: 1px solid rgba(196, 168, 108, 0.28);
+    .secondary-btn {
+        border: 1px solid rgba(196, 168, 108, 0.24);
         background: rgba(255, 255, 255, 0.88);
         color: #59492d;
     }
 
+    .setup-grid {
+        grid-template-columns: 1.4fr 1fr;
+    }
+
+    .setup-card h3 {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.08rem;
+    }
+
+    .setup-card p {
+        margin: 0.35rem 0 0;
+        color: var(--subtle);
+        line-height: 1.75;
+    }
+
+    .setup-summary {
+        display: grid;
+        gap: 0.9rem;
+    }
+
+    .summary-pills {
+        margin-top: 0.9rem;
+    }
+
+    .summary-pill,
+    .timer-chip,
+    .stage-chip {
+        padding: 0.52rem 0.9rem;
+        border: 1px solid rgba(196, 168, 108, 0.22);
+        background: rgba(255, 252, 244, 0.92);
+        color: #715d3b;
+    }
+
     .practice-layout {
         display: grid;
-        grid-template-columns: minmax(0, 1.8fr) minmax(300px, 1fr);
-        gap: 1.15rem;
+        grid-template-columns: minmax(0, 1.65fr) minmax(290px, 0.95fr);
+        gap: 1rem;
         align-items: start;
     }
 
-    .practice-panel,
-    .result-panel {
-        border-radius: 28px;
-        border: 1px solid rgba(214, 183, 112, 0.18);
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 244, 233, 0.92));
-        box-shadow: 0 22px 46px rgba(123, 96, 44, 0.1);
+    .question-stack {
+        display: grid;
+        gap: 1rem;
     }
 
-    .practice-panel {
-        padding: 2rem;
+    .question-card {
+        padding: 1.35rem;
+        display: grid;
+        gap: 1rem;
     }
 
-    .practice-subject-badge {
+    .question-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
+    .question-badge {
         display: inline-flex;
         align-items: center;
-        gap: 0.55rem;
-        padding: 0.58rem 0.95rem;
+        gap: 0.45rem;
+        padding: 0.42rem 0.82rem;
         border-radius: 999px;
         background: rgba(255, 244, 216, 0.96);
-        color: #8c6b33;
-        font-size: 0.92rem;
+        color: #8b6731;
+        font-size: 0.84rem;
         font-weight: 800;
     }
 
-    .practice-question-title {
-        margin: 1rem 0 0.7rem;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.35rem, 2.2vw, 1.85rem);
-        line-height: 1.9;
-        color: #362a1c;
+    .question-title {
+        margin: 0;
+        color: var(--ink);
+        font-family: "Kaisei Tokumin", serif;
+        font-size: 1.2rem;
+        line-height: 1.85;
     }
 
-    .practice-question-subtext {
-        margin: 0 0 1.4rem;
-        color: #87745b;
-        line-height: 1.75;
-        font-size: 0.95rem;
-    }
-
-    .practice-form {
-        display: flex;
-        flex-direction: column;
-        gap: 0.95rem;
+    .answer-list {
+        display: grid;
+        gap: 0.78rem;
     }
 
     .answer-card {
+        position: relative;
         display: flex;
         align-items: flex-start;
         gap: 0.9rem;
-        padding: 1rem 1.05rem;
+        padding: 0.95rem 1rem;
         border-radius: 20px;
-        border: 1px solid rgba(205, 187, 151, 0.8);
-        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(214, 183, 112, 0.14);
+        background: rgba(255, 255, 255, 0.82);
         cursor: pointer;
-        transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .answer-card:hover {
+    .answer-card:hover,
+    .answer-card.is-selected {
         transform: translateY(-2px);
-        border-color: rgba(214, 165, 61, 0.42);
+        border-color: rgba(222, 160, 63, 0.45);
         box-shadow: 0 12px 20px rgba(123, 96, 44, 0.08);
     }
 
-    .answer-card.is-active {
-        border-color: rgba(222, 160, 63, 0.72);
-        background: rgba(255, 247, 225, 0.92);
-    }
-
-    .answer-card.is-correct-answer {
-        border-color: rgba(92, 162, 113, 0.78);
-        background: rgba(231, 247, 236, 0.96);
-    }
-
-    .answer-card.is-wrong-answer {
-        border-color: rgba(227, 115, 85, 0.84);
-        background: rgba(255, 237, 232, 0.96);
-    }
-
     .answer-card input {
-        margin-top: 0.25rem;
+        position: absolute;
+        opacity: 0;
+        inset: 0;
+        cursor: pointer;
     }
 
-    .answer-letter {
+    .answer-key {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 38px;
-        height: 38px;
-        border-radius: 14px;
-        background: rgba(240, 230, 205, 0.9);
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        background: rgba(240, 230, 205, 0.92);
         color: #826947;
         font-weight: 900;
         flex-shrink: 0;
     }
 
     .answer-copy {
-        color: #433626;
+        color: #47392a;
         line-height: 1.8;
     }
 
-    .practice-actions {
-        display: flex;
-        gap: 0.9rem;
-        margin-top: 0.6rem;
-        flex-wrap: wrap;
+    .jump-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+        gap: 0.55rem;
     }
 
-    .result-panel {
-        padding: 1.5rem;
+    .jump-btn {
+        min-height: 42px;
+        border-radius: 14px;
+        border: 1px solid rgba(196, 168, 108, 0.22);
+        background: rgba(255, 252, 244, 0.95);
+        color: #6e5a38;
+        font-weight: 800;
+        cursor: pointer;
+    }
+
+    .jump-btn.is-active {
+        border-color: transparent;
+        background: linear-gradient(135deg, #dbac5a 0%, #f08e52 100%);
+        color: #fff;
+    }
+
+    .jump-btn.is-answered {
+        box-shadow: inset 0 0 0 2px rgba(95, 163, 111, 0.28);
+    }
+
+    .summary-panel {
         position: sticky;
         top: 90px;
-    }
-
-    .result-headline {
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        margin-bottom: 1rem;
-        color: #372d21;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: 1.28rem;
-    }
-
-    .result-status-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        border-radius: 16px;
-        font-size: 1.1rem;
-        color: #fff;
-        background: linear-gradient(135deg, #dba750, #f08d50);
-    }
-
-    .result-grid {
+        padding: 1.25rem;
         display: grid;
-        gap: 0.9rem;
+        gap: 1rem;
     }
 
-    .result-block {
-        padding: 1rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.74);
-        border: 1px solid rgba(214, 183, 112, 0.14);
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .result-label {
-        display: block;
-        margin-bottom: 0.35rem;
-        color: #8a785f;
-        font-size: 0.84rem;
-        letter-spacing: 0.05em;
+    .summary-value.is-large {
+        font-size: 1.9rem;
     }
 
-    .result-value {
-        color: #33291d;
-        line-height: 1.75;
-        font-weight: 700;
+    .timer-chip {
+        background: rgba(255, 247, 230, 0.96);
     }
 
-    .result-explanation {
-        color: #514331;
-        line-height: 1.85;
-        white-space: pre-line;
-        font-size: 0.95rem;
+    .timer-chip.is-ending {
+        border-color: rgba(214, 89, 66, 0.3);
+        background: rgba(255, 235, 231, 0.95);
+        color: #b24c3d;
     }
 
-    .result-tip-list {
-        display: grid;
-        gap: 0.8rem;
-        margin-top: 1rem;
-    }
-
-    .result-tip {
-        display: flex;
-        gap: 0.8rem;
-        align-items: flex-start;
+    .summary-help {
         padding: 0.95rem 1rem;
-        border-radius: 18px;
-        background: rgba(255, 252, 244, 0.82);
-        color: #735f3d;
-        line-height: 1.7;
-    }
-
-    .result-panel-actions {
-        display: flex;
-        gap: 0.75rem;
-        margin-top: 1.15rem;
-        flex-wrap: wrap;
+        border-radius: 20px;
+        background: rgba(255, 251, 243, 0.92);
+        color: #5b4c39;
+        line-height: 1.8;
     }
 
     @media (max-width: 980px) {
+        .setup-grid,
         .practice-layout {
             grid-template-columns: 1fr;
         }
 
-        .result-panel {
+        .summary-panel {
             position: static;
         }
     }
 
     @media (max-width: 720px) {
-        .practice-hero,
-        .practice-panel,
-        .result-panel {
-            padding: 1.3rem;
+        .stage-hero,
+        .stage-panel,
+        .mode-card,
+        .question-card,
+        .summary-panel {
             border-radius: 22px;
+            padding: 1.2rem;
         }
 
-        .practice-actions,
-        .result-panel-actions {
+        .panel-head,
+        .toolbar,
+        .summary-actions {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .scope-pill-list,
+        .setting-pill-list,
+        .summary-pills {
             flex-direction: column;
         }
 
-        .practice-primary-btn,
-        .practice-secondary-btn {
+        .scope-pill,
+        .setting-pill,
+        .primary-btn,
+        .secondary-btn {
             width: 100%;
+            justify-content: center;
         }
     }
 </style>
 
 <div class="practice-stage">
-    <section class="practice-hero">
-        <span class="practice-kicker"><i class="fa-solid fa-pen-ruler"></i> {{ current_subject.label }} 刷題中</span>
-        <h1>這題答完就能看詳解，直接延續你的刷題節奏。</h1>
-        <p>先專心作答，系統會在送出後立即顯示正確答案、你選的答案與完整解析，讓你知道自己是觀念卡住還是粗心失分。</p>
+    {% if view_state == 'mode_selector' %}
+    <section class="stage-hero">
+        <span class="stage-kicker"><i class="fa-solid fa-compass"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
+        <h1>先決定這一科要怎麼讀，再開始刷題。</h1>
+        <p>你現在進的是 {{ current_subject.label }} 的一般國中練習。先選範圍，再決定要用預覽模式直接看答案與詳解，還是進入練習模式做完整份、最後再交卷批改。</p>
 
-        <div class="practice-hero-stats">
-            <div class="practice-stat">
-                <span class="practice-stat-label">目前科目</span>
-                <span class="practice-stat-value">{{ current_subject.label }}</span>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-label">目前題庫數</span>
+                <span class="hero-stat-value">{{ question_pool_size }}</span>
             </div>
-            <div class="practice-stat">
-                <span class="practice-stat-label">同科題庫數</span>
-                <span class="practice-stat-value">{{ question_pool_size }}</span>
+            <div class="hero-stat">
+                <span class="hero-stat-label">目前冊別</span>
+                <span class="hero-stat-value">{{ selected_booklet.label }}</span>
             </div>
-            <div class="practice-stat">
-                <span class="practice-stat-label">作答方式</span>
-                <span class="practice-stat-value">即時詳解</span>
+            <div class="hero-stat">
+                <span class="hero-stat-label">練習預設</span>
+                <span class="hero-stat-value">{{ practice_defaults.count }} 題</span>
             </div>
         </div>
     </section>
 
-    <div class="practice-toolbar">
-        <a href="{{ url_for('study.practice_hub') }}" class="practice-back-link">
-            <i class="fa-solid fa-arrow-left"></i> 回到科目選擇
-        </a>
-
-        <div class="practice-toolbar-right">
-            <span class="practice-chip"><i class="fa-solid fa-layer-group"></i> 同科題庫 {{ question_pool_size }} 題</span>
-            <button type="button" id="ai-generate-btn" class="practice-secondary-btn">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> AI 生成同科新題
-            </button>
+    <section class="stage-panel">
+        <div class="panel-head">
+            <div>
+                <h2>先選範圍</h2>
+                <p>這一步先決定是總複習、某一冊、某個主章節，或直接縮到某個細主題。</p>
+            </div>
+            <span class="stage-chip"><i class="fa-solid fa-stopwatch"></i> {{ practice_defaults.preset_label }}：{{ practice_defaults.official_range }}</span>
         </div>
-    </div>
 
-    <div class="practice-layout">
-        <section class="practice-panel">
-            <span class="practice-subject-badge">
-                <i class="fa-solid {{ current_subject.icon }}"></i> {{ current_subject.label }}
-                {% if question.category %}<span>・{{ question.category }}</span>{% endif %}
-            </span>
-            <h2 class="practice-question-title">{{ question.content_text }}</h2>
-            <p class="practice-question-subtext">先選出你認為最正確的答案，送出後我會把這題的正解和詳解完整展開給你看。</p>
-
-            <form id="practice-form" class="practice-form">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="question_id" value="{{ question.id }}">
-                <input type="hidden" name="subject" value="{{ current_subject_query }}">
-
-                {% for label, text in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)] %}
-                <label class="answer-card" data-answer="{{ label }}">
-                    <input type="radio" name="answer" value="{{ label }}" {% if text %}required{% endif %}>
-                    <span class="answer-letter">{{ label }}</span>
-                    <span class="answer-copy">{{ text or '' }}</span>
-                </label>
-                {% endfor %}
-
-                <div class="practice-actions">
-                    <button type="submit" id="submit-btn" class="practice-primary-btn">
-                        <i class="fa-solid fa-paper-plane"></i> 送出答案
-                    </button>
-                    <a href="{{ url_for('study.practice_hub') }}" class="practice-secondary-btn">
-                        <i class="fa-solid fa-shuffle"></i> 改選其他科目
-                    </a>
-                </div>
-            </form>
-        </section>
-
-        <aside class="result-panel" id="result-panel">
-            <div id="pre-submit-state">
-                <div class="result-headline">
-                    <span class="result-status-icon"><i class="fa-solid fa-lightbulb"></i></span>
-                    <span>作答提示</span>
-                </div>
-                <div class="result-tip-list">
-                    <div class="result-tip">
-                        <i class="fa-solid fa-check"></i>
-                        <span>先自己判斷再作答，這樣送出後的詳解才會更有感。</span>
-                    </div>
-                    <div class="result-tip">
-                        <i class="fa-solid fa-book-open-reader"></i>
-                        <span>送出後會直接標記對錯、顯示正解，並整理這題的完整解析。</span>
-                    </div>
-                    <div class="result-tip">
-                        <i class="fa-solid fa-rotate-right"></i>
-                        <span>看完詳解後可以立即刷下一題，維持同一科的練習節奏。</span>
-                    </div>
+        <div class="scope-groups">
+            <div class="scope-row">
+                <strong>冊別</strong>
+                <div class="scope-pill-list">
+                    {% for booklet in booklet_options if booklet.available %}
+                        {% if booklet.is_selected %}
+                        <span class="scope-pill is-active"><i class="fa-solid fa-book"></i> {{ booklet.label }}</span>
+                        {% else %}
+                        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="scope-pill">
+                            <i class="fa-solid fa-book"></i> {{ booklet.label }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
 
-            <div id="post-submit-state" hidden>
-                <div class="result-headline">
-                    <span class="result-status-icon" id="result-status-icon"><i class="fa-solid fa-circle-check"></i></span>
-                    <span id="result-title">這題答對了</span>
+            <div class="scope-row">
+                <strong>主章節</strong>
+                <div class="scope-pill-list">
+                    {% for chapter in chapter_options if chapter.available %}
+                        {% if chapter.is_selected %}
+                        <span class="scope-pill is-active"><i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}</span>
+                        {% else %}
+                        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=chapter.query_value, topic=selected_topic.query_value) }}" class="scope-pill">
+                            <i class="fa-solid fa-folder-tree"></i> {{ chapter.label }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="scope-row">
+                <strong>細主題</strong>
+                <div class="scope-pill-list">
+                    {% for topic in topic_options if topic.available %}
+                        {% if topic.is_selected %}
+                        <span class="scope-pill is-active"><i class="fa-solid fa-bookmark"></i> {{ topic.label }}</span>
+                        {% else %}
+                        <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=topic.query_value) }}" class="scope-pill">
+                            <i class="fa-solid fa-bookmark"></i> {{ topic.label }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mode-grid">
+        <article class="mode-card preview">
+            <span class="mode-pill"><i class="fa-solid {{ preview_mode_meta.icon }}"></i> {{ preview_mode_meta.label }}</span>
+            <h2>{{ preview_mode_meta.hero_title }}</h2>
+            <p>{{ preview_mode_meta.hero_description }}</p>
+            <ul class="mode-list">
+                <li><i class="fa-solid fa-check"></i><span>一次看完整個篩選範圍的題目，不計分、不交卷。</span></li>
+                <li><i class="fa-solid fa-check"></i><span>每題展開後直接看正確答案與詳解，適合先熟悉題型。</span></li>
+                <li><i class="fa-solid fa-check"></i><span>很適合先點進某一冊、某一主題快速看完整份題庫。</span></li>
+            </ul>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='preview') }}" class="primary-btn">
+                <i class="fa-solid fa-eye"></i> 進入預覽模式
+            </a>
+        </article>
+
+        <article class="mode-card practice">
+            <span class="mode-pill"><i class="fa-solid {{ practice_mode_meta.icon }}"></i> {{ practice_mode_meta.label }}</span>
+            <h2>{{ practice_mode_meta.hero_title }}</h2>
+            <p>{{ practice_mode_meta.hero_description }}</p>
+            <ul class="mode-list">
+                <li><i class="fa-solid fa-check"></i><span>先設定題數和時間，再進正式作答。</span></li>
+                <li><i class="fa-solid fa-check"></i><span>可以上一題、下一題、修改答案，最後一題按交卷才批改。</span></li>
+                <li><i class="fa-solid fa-check"></i><span>目前先保留題庫順序，不先打亂；分數一律用 100 分制。</span></li>
+            </ul>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice') }}" class="primary-btn">
+                <i class="fa-solid fa-dumbbell"></i> 進入練習模式
+            </a>
+        </article>
+    </section>
+
+    {% elif view_state == 'practice_setup' %}
+    <section class="stage-hero">
+        <span class="stage-kicker"><i class="fa-solid fa-sliders"></i> {{ practice_bank_label }} / {{ current_subject.label }}</span>
+        <h1>先決定題數和時間，再開始正式作答。</h1>
+        <p>這一份會保留你現在選的冊別、主章節和細主題。題目目前先不打亂，會從一般國中題庫的目前範圍順序往下取題。</p>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-label">目前範圍題數</span>
+                <span class="hero-stat-value">{{ question_pool_size }}</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-label">建議題數</span>
+                <span class="hero-stat-value">{{ practice_defaults.count }}</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-label">建議時間</span>
+                <span class="hero-stat-value">{{ practice_defaults.duration }} 分鐘</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="stage-panel">
+        <div class="panel-head">
+            <div>
+                <h2>目前範圍</h2>
+                <p>後面會以這個範圍出題。若要換冊別或主題，可以先從這裡切回去。</p>
+            </div>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value) }}" class="secondary-btn">
+                <i class="fa-solid fa-arrow-left"></i> 回模式分流
+            </a>
+        </div>
+
+        <div class="summary-pills">
+            <span class="summary-pill"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
+            <span class="summary-pill"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
+            <span class="summary-pill"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
+            <span class="summary-pill"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>
+            <span class="summary-pill"><i class="fa-solid fa-stopwatch"></i> {{ practice_defaults.official_range }}</span>
+        </div>
+    </section>
+
+    <section class="setup-grid">
+        <article class="stage-panel">
+            <div class="panel-head">
+                <div>
+                    <h2>題數選擇</h2>
+                    <p>會先套用會考參考預設，但你也可以改成自己想要的題數。</p>
+                </div>
+                <span class="stage-chip"><i class="fa-solid fa-star"></i> 推薦：{{ practice_defaults.count }} 題</span>
+            </div>
+            <div class="setting-pill-list">
+                {% for option in practice_count_options %}
+                    {% if option.value == selected_count %}
+                    <span class="setting-pill is-active">
+                        <i class="fa-solid fa-list-ol"></i> {{ option.label }}
+                        {% if option.is_recommended %}<small>推薦</small>{% endif %}
+                    </span>
+                    {% else %}
+                    <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', count=option.value, duration=selected_duration) }}" class="setting-pill">
+                        <i class="fa-solid fa-list-ol"></i> {{ option.label }}
+                        {% if option.is_recommended %}<small>推薦</small>{% endif %}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="stage-panel">
+            <div class="panel-head">
+                <div>
+                    <h2>時間選擇</h2>
+                    <p>會考預設會先放進來，你也可以依今天想練的節奏改成短版或長版。</p>
+                </div>
+                <span class="stage-chip"><i class="fa-solid fa-clock"></i> 推薦：{{ practice_defaults.duration }} 分鐘</span>
+            </div>
+            <div class="setting-pill-list">
+                {% for option in practice_duration_options %}
+                    {% if option.value == selected_duration %}
+                    <span class="setting-pill is-active">
+                        <i class="fa-solid fa-clock"></i> {{ option.label }}
+                        {% if option.is_recommended %}<small>推薦</small>{% endif %}
+                    </span>
+                    {% else %}
+                    <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', count=selected_count, duration=option.value) }}" class="setting-pill">
+                        <i class="fa-solid fa-clock"></i> {{ option.label }}
+                        {% if option.is_recommended %}<small>推薦</small>{% endif %}
+                    </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+
+    <section class="setup-grid">
+        <article class="setup-card">
+            <span class="setup-label">這次會怎麼出</span>
+            <h3>保留順序，從目前範圍前 {{ selected_count }} 題開始</h3>
+            <p>目前先不打亂題目。等你之後要加隨機出題，我再照你的規則補上。</p>
+        </article>
+        <article class="stage-panel setup-summary">
+            <div>
+                <h2>本次設定摘要</h2>
+                <p>設定好後就會直接進作答頁，最後一題按交卷才會批改並顯示詳解。</p>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-block">
+                    <span class="summary-label">題數</span>
+                    <span class="summary-value">{{ selected_count }}</span>
+                </div>
+                <div class="summary-block">
+                    <span class="summary-label">時間</span>
+                    <span class="summary-value">{{ selected_duration }} 分</span>
+                </div>
+            </div>
+            <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', start=1, count=selected_count, duration=selected_duration) }}" class="primary-btn">
+                <i class="fa-solid fa-play"></i> 開始這份練習
+            </a>
+        </article>
+    </section>
+
+    {% elif view_state == 'practice_run' %}
+    <section class="stage-hero">
+        <span class="stage-kicker"><i class="fa-solid fa-pen-ruler"></i> {{ current_subject.label }} 練習模式</span>
+        <h1>這一份會一路做到最後一題，再一次交卷批改。</h1>
+        <p>你可以上一題、下一題、隨時改答案。時間到會自動交卷，最後會用 100 分制顯示成績，並列出每題的正確答案和詳解。</p>
+
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-label">本次題數</span>
+                <span class="hero-stat-value">{{ selected_question_total }}</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-label">設定時間</span>
+                <span class="hero-stat-value">{{ selected_duration }} 分鐘</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-label">評分方式</span>
+                <span class="hero-stat-value">100 分制</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="stage-panel">
+        <div class="toolbar">
+            <div class="summary-pills">
+                <span class="summary-pill"><i class="fa-solid fa-layer-group"></i> {{ practice_bank_label }}</span>
+                <span class="summary-pill"><i class="fa-solid fa-book"></i> {{ selected_booklet.label }}</span>
+                <span class="summary-pill"><i class="fa-solid fa-folder-tree"></i> {{ selected_chapter.label }}</span>
+                <span class="summary-pill"><i class="fa-solid fa-bookmark"></i> {{ selected_topic.label }}</span>
+                <span class="summary-pill"><i class="fa-solid fa-list-ol"></i> {{ selected_question_total }} 題</span>
+            </div>
+            <div class="summary-actions">
+                <span id="countdown-chip" class="timer-chip"><i class="fa-solid fa-hourglass-half"></i> <span id="countdown-time">{{ selected_duration }}:00</span></span>
+                <a href="{{ url_for('study.practice_session', subject=current_subject_query, booklet=selected_booklet.query_value, chapter=selected_chapter.query_value, topic=selected_topic.query_value, mode='practice', count=selected_count, duration=selected_duration) }}" class="secondary-btn">
+                    <i class="fa-solid fa-gear"></i> 回設定
+                </a>
+                <button type="button" id="ai-generate-btn" class="secondary-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI 補一題
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div class="practice-layout">
+        <form id="practice-exam-form" method="post" action="{{ url_for('study.practice_review') }}" class="question-stack">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="subject" value="{{ current_subject_query }}">
+            <input type="hidden" name="booklet" value="{{ selected_booklet.query_value }}">
+            <input type="hidden" name="chapter" value="{{ selected_chapter.query_value }}">
+            <input type="hidden" name="topic" value="{{ selected_topic.query_value }}">
+            <input type="hidden" name="count" value="{{ selected_count }}">
+            <input type="hidden" name="duration" value="{{ selected_duration }}">
+            <input type="hidden" name="question_ids" value="{{ selected_question_ids_csv }}">
+
+            <section class="stage-panel">
+                <div class="panel-head">
+                    <div>
+                        <h2>題目導航</h2>
+                        <p>已作答的題號會亮起來，讓你隨時跳回去修改。</p>
+                    </div>
+                </div>
+                <div class="jump-grid">
+                    {% for item in question_items %}
+                    <button type="button" class="jump-btn" data-index="{{ loop.index0 }}">{{ item.index }}</button>
+                    {% endfor %}
+                </div>
+            </section>
+
+            {% for item in question_items %}
+            <article class="question-card" data-question-index="{{ loop.index0 }}" {% if loop.index0 != initial_question_index %}hidden{% endif %}>
+                <div class="question-head">
+                    <div class="question-badges">
+                        <span class="question-badge"><i class="fa-solid fa-hashtag"></i> 第 {{ item.index }} 題</span>
+                        {% if item.booklet %}<span class="question-badge"><i class="fa-solid fa-book"></i> {{ item.booklet }}</span>{% endif %}
+                        {% if item.chapter %}<span class="question-badge"><i class="fa-solid fa-folder-tree"></i> {{ item.chapter }}</span>{% endif %}
+                        {% if item.topic %}<span class="question-badge"><i class="fa-solid fa-bookmark"></i> {{ item.topic }}</span>{% endif %}
+                    </div>
                 </div>
 
-                <div class="result-grid">
-                    <div class="result-block">
-                        <span class="result-label">你的答案</span>
-                        <div class="result-value" id="selected-answer-text">-</div>
-                    </div>
-                    <div class="result-block">
-                        <span class="result-label">正確答案</span>
-                        <div class="result-value" id="correct-answer-text">-</div>
-                    </div>
-                    <div class="result-block">
-                        <span class="result-label">詳解</span>
-                        <div class="result-explanation" id="explanation-text">-</div>
-                    </div>
-                </div>
+                <h2 class="question-title">{{ item.content_text }}</h2>
 
-                <div class="result-panel-actions">
-                    <a id="next-question-link" href="{{ url_for('study.practice_session', subject=current_subject_query) }}" class="practice-primary-btn">
-                        <i class="fa-solid fa-arrow-right"></i> 下一題
-                    </a>
-                    <a href="{{ url_for('study.practice_hub') }}" class="practice-secondary-btn">
-                        <i class="fa-solid fa-border-all"></i> 換科目
-                    </a>
+                <div class="answer-list">
+                    {% for option in item.options %}
+                    <label class="answer-card">
+                        <input type="radio" name="answer_{{ item.id }}" value="{{ option.key }}">
+                        <span class="answer-key">{{ option.key }}</span>
+                        <span class="answer-copy">{{ option.text }}</span>
+                    </label>
+                    {% endfor %}
                 </div>
+            </article>
+            {% endfor %}
+        </form>
+
+        <aside class="summary-panel">
+            <div>
+                <h2>作答摘要</h2>
+                <p>先把這一輪寫完。最後一題按交卷才會出成績和詳解。</p>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-block">
+                    <span class="summary-label">已作答</span>
+                    <span id="answered-count" class="summary-value is-large">0</span>
+                </div>
+                <div class="summary-block">
+                    <span class="summary-label">未作答</span>
+                    <span id="unanswered-count" class="summary-value is-large">{{ selected_question_total }}</span>
+                </div>
+            </div>
+
+            <div class="summary-help">
+                本次設定是 {{ selected_question_total }} 題 / {{ selected_duration }} 分鐘。現在先保留題庫原本順序，不打亂題號；頁面上的題號會依這次作答範圍重新編號。
+            </div>
+
+            <div class="summary-actions">
+                <button type="button" id="prev-question-btn" class="secondary-btn">
+                    <i class="fa-solid fa-arrow-left"></i> 上一題
+                </button>
+                <button type="button" id="next-question-btn" class="secondary-btn">
+                    <i class="fa-solid fa-arrow-right"></i> 下一題
+                </button>
+                <button type="submit" form="practice-exam-form" id="submit-practice-btn" class="primary-btn">
+                    <i class="fa-solid fa-paper-plane"></i> 交卷批改
+                </button>
             </div>
         </aside>
     </div>
+    {% endif %}
 </div>
 
+{% if view_state == 'practice_run' %}
 <script>
-    const practiceForm = document.getElementById('practice-form');
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('practice-exam-form');
+    if (!form) {
+        return;
+    }
+
+    const questionCards = Array.from(document.querySelectorAll('.question-card'));
+    const jumpButtons = Array.from(document.querySelectorAll('.jump-btn'));
     const answerCards = Array.from(document.querySelectorAll('.answer-card'));
-    const submitBtn = document.getElementById('submit-btn');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-    const preSubmitState = document.getElementById('pre-submit-state');
-    const postSubmitState = document.getElementById('post-submit-state');
-    const aiGenerateBtn = document.getElementById('ai-generate-btn');
+    const prevButton = document.getElementById('prev-question-btn');
+    const nextButton = document.getElementById('next-question-btn');
+    const answeredCount = document.getElementById('answered-count');
+    const unansweredCount = document.getElementById('unanswered-count');
+    const submitButton = document.getElementById('submit-practice-btn');
+    const aiGenerateButton = document.getElementById('ai-generate-btn');
+    const countdownChip = document.getElementById('countdown-chip');
+    const countdownTime = document.getElementById('countdown-time');
     const subjectQuery = {{ current_subject_query|tojson }};
+    const initialIndex = {{ initial_question_index|default(0) }};
+    const durationMinutes = {{ selected_duration|default(0) }};
+    let currentIndex = Math.max(0, Math.min(initialIndex, questionCards.length - 1));
+    let hasSubmitted = false;
+    let timeRemaining = durationMinutes * 60;
 
-    answerCards.forEach((card) => {
-        const input = card.querySelector('input[type="radio"]');
-        card.addEventListener('click', () => {
-            if (submitBtn.dataset.locked === 'true') {
-                return;
-            }
-            answerCards.forEach((item) => item.classList.remove('is-active'));
-            card.classList.add('is-active');
-            if (input) {
-                input.checked = true;
-            }
-        });
-    });
+    function getAnsweredTotal() {
+        return questionCards.filter((card) => card.querySelector('input[type="radio"]:checked')).length;
+    }
 
-    function setAnswerState(data) {
+    function updateAnswerStyles() {
         answerCards.forEach((card) => {
             const input = card.querySelector('input[type="radio"]');
-            const answer = card.dataset.answer;
-            card.classList.remove('is-active', 'is-correct-answer', 'is-wrong-answer');
-            if (input) {
-                input.disabled = true;
-            }
+            card.classList.toggle('is-selected', Boolean(input && input.checked));
+        });
+    }
 
-            if (answer === data.correct_answer) {
-                card.classList.add('is-correct-answer');
-            }
-            if (!data.correct && answer === data.selected_answer && data.selected_answer !== data.correct_answer) {
-                card.classList.add('is-wrong-answer');
+    function updateSummary() {
+        const answered = getAnsweredTotal();
+        answeredCount.textContent = answered;
+        unansweredCount.textContent = questionCards.length - answered;
+    }
+
+    function updateJumpButtons() {
+        jumpButtons.forEach((button, index) => {
+            const card = questionCards[index];
+            const answered = Boolean(card && card.querySelector('input[type="radio"]:checked'));
+            button.classList.toggle('is-active', index === currentIndex);
+            button.classList.toggle('is-answered', answered);
+        });
+    }
+
+    function updateNavigation() {
+        prevButton.disabled = currentIndex <= 0;
+        nextButton.disabled = currentIndex >= questionCards.length - 1;
+    }
+
+    function showQuestion(index) {
+        currentIndex = Math.max(0, Math.min(index, questionCards.length - 1));
+        questionCards.forEach((card, cardIndex) => {
+            card.hidden = cardIndex !== currentIndex;
+        });
+        updateJumpButtons();
+        updateNavigation();
+    }
+
+    function formatSeconds(totalSeconds) {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function tickCountdown() {
+        countdownTime.textContent = formatSeconds(timeRemaining);
+        if (timeRemaining <= 300) {
+            countdownChip.classList.add('is-ending');
+        }
+        if (timeRemaining <= 0 && !hasSubmitted) {
+            hasSubmitted = true;
+            submitButton.textContent = '時間到，自動交卷中...';
+            form.submit();
+            return;
+        }
+        timeRemaining -= 1;
+    }
+
+    jumpButtons.forEach((button) => {
+        button.addEventListener('click', () => showQuestion(Number(button.dataset.index)));
+    });
+
+    prevButton.addEventListener('click', () => showQuestion(currentIndex - 1));
+    nextButton.addEventListener('click', () => showQuestion(currentIndex + 1));
+
+    form.addEventListener('change', () => {
+        updateAnswerStyles();
+        updateSummary();
+        updateJumpButtons();
+    });
+
+    form.addEventListener('submit', () => {
+        hasSubmitted = true;
+        submitButton.disabled = true;
+        submitButton.textContent = '批改中...';
+    });
+
+    if (aiGenerateButton) {
+        aiGenerateButton.addEventListener('click', async () => {
+            aiGenerateButton.disabled = true;
+            aiGenerateButton.textContent = '生成中...';
+            try {
+                const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}&mode=practice`);
+                const payload = await response.json();
+                if (!response.ok || payload.error) {
+                    throw new Error(payload.error || 'AI 生成失敗');
+                }
+                if (payload.practice_url) {
+                    window.location.href = payload.practice_url;
+                    return;
+                }
+                throw new Error('AI 題目沒有提供跳轉網址');
+            } catch (error) {
+                alert(error.message || 'AI 生成失敗，請稍後再試');
+                aiGenerateButton.disabled = false;
+                aiGenerateButton.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> AI 補一題';
             }
         });
     }
 
-    practiceForm?.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        const checked = practiceForm.querySelector('input[name="answer"]:checked');
-        if (!checked) {
-            window.alert('請先選擇一個答案再送出。');
-            return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.dataset.locked = 'true';
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中';
-
-        try {
-            const response = await fetch('{{ url_for("study.practice_session") }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': csrfToken,
-                },
-                body: new FormData(practiceForm),
-            });
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || '作答提交失敗');
-            }
-
-            setAnswerState(data);
-
-            preSubmitState.hidden = true;
-            postSubmitState.hidden = false;
-
-            const resultTitle = document.getElementById('result-title');
-            const resultStatusIcon = document.getElementById('result-status-icon');
-            if (data.correct) {
-                resultTitle.textContent = '這題答對了，可以直接接下一題。';
-                resultStatusIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-                resultStatusIcon.style.background = 'linear-gradient(135deg, #5da271, #8dc99c)';
-            } else {
-                resultTitle.textContent = '這題答錯了，先把詳解看完再往下。';
-                resultStatusIcon.innerHTML = '<i class="fa-solid fa-circle-xmark"></i>';
-                resultStatusIcon.style.background = 'linear-gradient(135deg, #d86f58, #f49f6c)';
-            }
-
-            document.getElementById('selected-answer-text').textContent =
-                `${data.selected_answer || '未作答'}${data.selected_answer_text ? ` ・ ${data.selected_answer_text}` : ''}`;
-            document.getElementById('correct-answer-text').textContent =
-                `${data.correct_answer} ・ ${data.correct_answer_text || ''}`;
-            document.getElementById('explanation-text').textContent =
-                data.explanation || '目前這題沒有詳解，建議先回頭比對題幹與正確選項。';
-            document.getElementById('next-question-link').href = data.next_question_url;
-
-            submitBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已完成作答';
-        } catch (error) {
-            submitBtn.disabled = false;
-            submitBtn.dataset.locked = 'false';
-            submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> 送出答案';
-            window.alert(error.message || '提交失敗，請稍後再試。');
-        }
-    });
-
-    aiGenerateBtn?.addEventListener('click', async () => {
-        const originalLabel = aiGenerateBtn.innerHTML;
-        aiGenerateBtn.disabled = true;
-        aiGenerateBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 生成中';
-
-        try {
-            const response = await fetch(`{{ url_for('study.generate_question_api') }}?subject=${encodeURIComponent(subjectQuery)}`);
-            const data = await response.json();
-            if (!response.ok || data.status !== 'success') {
-                throw new Error(data.error || 'AI 生成題目失敗');
-            }
-
-            window.location.href = data.practice_url;
-        } catch (error) {
-            window.alert(error.message || 'AI 生成題目失敗');
-            aiGenerateBtn.disabled = false;
-            aiGenerateBtn.innerHTML = originalLabel;
-        }
-    });
+    updateAnswerStyles();
+    updateSummary();
+    showQuestion(currentIndex);
+    tickCountdown();
+    window.setInterval(tickCountdown, 1000);
+});
 </script>
+{% endif %}
 {% endblock %}

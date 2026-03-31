@@ -1,0 +1,505 @@
+{
+  "title": "AI 學習講義",
+  "generated_at": "2026-03-29T18:20:15",
+  "source_manifest": "study_guides\\king_an_manifest.json",
+  "subjects": [
+    {
+      "slug": "chinese",
+      "label": "國文",
+      "series": [
+        {
+          "label": "國文主題讚",
+          "slug": "國文主題讚",
+          "description": "把國文常見主題拆成可快速回頭看的主題筆記。",
+          "guides": [
+            {
+              "title": "115-國文-會考解題有策略(白話文+文言文)",
+              "guide_slug": "115-國文-會考解題有策略-白話文-文言文",
+              "structured_path": "guide_structured\\king_an\\chinese\\國文主題讚\\115-國文-會考解題有策略-白話文-文言文.json",
+              "chapter_count": 11,
+              "section_count": 14,
+              "page_count": 12
+            },
+            {
+              "title": "115-國文-會考趨勢CBA",
+              "guide_slug": "115-國文-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\chinese\\國文主題讚\\115-國文-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 5,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "新思維複習講義",
+          "slug": "新思維複習講義",
+          "description": "把國文或英文閱讀重點改寫成較好吸收的複習節奏。",
+          "guides": [
+            {
+              "title": "115-國文-會考解題有策略(白話文+文言文)",
+              "guide_slug": "115-國文-會考解題有策略-白話文-文言文",
+              "structured_path": "guide_structured\\king_an\\chinese\\新思維複習講義\\115-國文-會考解題有策略-白話文-文言文.json",
+              "chapter_count": 11,
+              "section_count": 14,
+              "page_count": 12
+            },
+            {
+              "title": "115-國文-會考趨勢CBA",
+              "guide_slug": "115-國文-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\chinese\\新思維複習講義\\115-國文-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 5,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "雙向溝通複習講義",
+          "slug": "雙向溝通複習講義",
+          "description": "用解題策略、題型分析與重點整理來做整體複習。",
+          "guides": [
+            {
+              "title": "115-國文-會考解題有策略(白話文+文言文)",
+              "guide_slug": "115-國文-會考解題有策略-白話文-文言文",
+              "structured_path": "guide_structured\\king_an\\chinese\\雙向溝通複習講義\\115-國文-會考解題有策略-白話文-文言文.json",
+              "chapter_count": 11,
+              "section_count": 14,
+              "page_count": 12
+            },
+            {
+              "title": "115-國文-會考趨勢CBA",
+              "guide_slug": "115-國文-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\chinese\\雙向溝通複習講義\\115-國文-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 5,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        }
+      ]
+    },
+    {
+      "slug": "english",
+      "label": "英文",
+      "series": [
+        {
+          "label": "圖解735輕鬆讀複習講義",
+          "slug": "圖解735輕鬆讀複習講義",
+          "description": "用圖解、分點與範例協助建立觀念與快速複習。",
+          "guides": [
+            {
+              "title": "115-英語-會考解題有策略",
+              "guide_slug": "115-英語-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\english\\圖解735輕鬆讀複習講義\\115-英語-會考解題有策略.json",
+              "chapter_count": 3,
+              "section_count": 13,
+              "page_count": 7
+            },
+            {
+              "title": "115-英語-會考趨勢CBA",
+              "guide_slug": "115-英語-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\english\\圖解735輕鬆讀複習講義\\115-英語-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 8,
+              "page_count": 4
+            },
+            {
+              "title": "英語-圖解735輕鬆讀複習講義-單字文法檢測卷(學用)",
+              "guide_slug": "英語-圖解735輕鬆讀複習講義-單字文法檢測卷-學用",
+              "structured_path": "guide_structured\\king_an\\english\\圖解735輕鬆讀複習講義\\英語-圖解735輕鬆讀複習講義-單字文法檢測卷-學用.json",
+              "chapter_count": 16,
+              "section_count": 766,
+              "page_count": 30
+            },
+            {
+              "title": "英語-圖解735輕鬆讀複習講義-單字文法檢測卷(教用)",
+              "guide_slug": "英語-圖解735輕鬆讀複習講義-單字文法檢測卷-教用",
+              "structured_path": "guide_structured\\king_an\\english\\圖解735輕鬆讀複習講義\\英語-圖解735輕鬆讀複習講義-單字文法檢測卷-教用.json",
+              "chapter_count": 16,
+              "section_count": 766,
+              "page_count": 30
+            },
+            {
+              "title": "英語-圖解735輕鬆讀複習講義-單字片語.docx",
+              "guide_slug": "英語-圖解735輕鬆讀複習講義-單字片語-docx",
+              "structured_path": "guide_structured\\king_an\\english\\圖解735輕鬆讀複習講義\\英語-圖解735輕鬆讀複習講義-單字片語-docx.json",
+              "chapter_count": 15,
+              "section_count": 1717,
+              "page_count": 89
+            },
+            {
+              "title": "英語-圖解735輕鬆讀複習講義-題組中譯",
+              "guide_slug": "英語-圖解735輕鬆讀複習講義-題組中譯",
+              "structured_path": "guide_structured\\king_an\\english\\圖解735輕鬆讀複習講義\\英語-圖解735輕鬆讀複習講義-題組中譯.json",
+              "chapter_count": 2,
+              "section_count": 102,
+              "page_count": 52
+            }
+          ],
+          "guide_count": 6
+        },
+        {
+          "label": "新思維複習講義",
+          "slug": "新思維複習講義",
+          "description": "把國文或英文閱讀重點改寫成較好吸收的複習節奏。",
+          "guides": [
+            {
+              "title": "115-英語-會考解題有策略",
+              "guide_slug": "115-英語-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\english\\新思維複習講義\\115-英語-會考解題有策略.json",
+              "chapter_count": 3,
+              "section_count": 13,
+              "page_count": 7
+            },
+            {
+              "title": "115-英語-會考趨勢CBA",
+              "guide_slug": "115-英語-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\english\\新思維複習講義\\115-英語-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 8,
+              "page_count": 4
+            },
+            {
+              "title": "英語-新思維複習講義-單字文法檢測卷(學用)",
+              "guide_slug": "英語-新思維複習講義-單字文法檢測卷-學用",
+              "structured_path": "guide_structured\\king_an\\english\\新思維複習講義\\英語-新思維複習講義-單字文法檢測卷-學用.json",
+              "chapter_count": 1,
+              "section_count": 651,
+              "page_count": 38
+            },
+            {
+              "title": "英語-新思維複習講義-單字文法檢測卷(教用)",
+              "guide_slug": "英語-新思維複習講義-單字文法檢測卷-教用",
+              "structured_path": "guide_structured\\king_an\\english\\新思維複習講義\\英語-新思維複習講義-單字文法檢測卷-教用.json",
+              "chapter_count": 14,
+              "section_count": 664,
+              "page_count": 38
+            },
+            {
+              "title": "英語-新思維複習講義-單字片語.docx",
+              "guide_slug": "英語-新思維複習講義-單字片語-docx",
+              "structured_path": "guide_structured\\king_an\\english\\新思維複習講義\\英語-新思維複習講義-單字片語-docx.json",
+              "chapter_count": 14,
+              "section_count": 1781,
+              "page_count": 91
+            },
+            {
+              "title": "英語-新思維複習講義-題組中譯",
+              "guide_slug": "英語-新思維複習講義-題組中譯",
+              "structured_path": "guide_structured\\king_an\\english\\新思維複習講義\\英語-新思維複習講義-題組中譯.json",
+              "chapter_count": 7,
+              "section_count": 66,
+              "page_count": 45
+            }
+          ],
+          "guide_count": 6
+        },
+        {
+          "label": "雙向溝通複習講義",
+          "slug": "雙向溝通複習講義",
+          "description": "用解題策略、題型分析與重點整理來做整體複習。",
+          "guides": [
+            {
+              "title": "115-英語-會考解題有策略",
+              "guide_slug": "115-英語-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\english\\雙向溝通複習講義\\115-英語-會考解題有策略.json",
+              "chapter_count": 3,
+              "section_count": 13,
+              "page_count": 7
+            },
+            {
+              "title": "115-英語-會考趨勢CBA",
+              "guide_slug": "115-英語-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\english\\雙向溝通複習講義\\115-英語-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 8,
+              "page_count": 4
+            },
+            {
+              "title": "英語-雙向複習講義-單字文法檢測卷(學用)",
+              "guide_slug": "英語-雙向複習講義-單字文法檢測卷-學用",
+              "structured_path": "guide_structured\\king_an\\english\\雙向溝通複習講義\\英語-雙向複習講義-單字文法檢測卷-學用.json",
+              "chapter_count": 16,
+              "section_count": 766,
+              "page_count": 30
+            },
+            {
+              "title": "英語-雙向複習講義-單字文法檢測卷(教用)",
+              "guide_slug": "英語-雙向複習講義-單字文法檢測卷-教用",
+              "structured_path": "guide_structured\\king_an\\english\\雙向溝通複習講義\\英語-雙向複習講義-單字文法檢測卷-教用.json",
+              "chapter_count": 16,
+              "section_count": 766,
+              "page_count": 30
+            },
+            {
+              "title": "英語-雙向複習講義-單字片語.docx",
+              "guide_slug": "英語-雙向複習講義-單字片語-docx",
+              "structured_path": "guide_structured\\king_an\\english\\雙向溝通複習講義\\英語-雙向複習講義-單字片語-docx.json",
+              "chapter_count": 16,
+              "section_count": 1806,
+              "page_count": 97
+            },
+            {
+              "title": "英語-雙向複習講義-題組中譯",
+              "guide_slug": "英語-雙向複習講義-題組中譯",
+              "structured_path": "guide_structured\\king_an\\english\\雙向溝通複習講義\\英語-雙向複習講義-題組中譯.json",
+              "chapter_count": 1,
+              "section_count": 84,
+              "page_count": 48
+            }
+          ],
+          "guide_count": 6
+        }
+      ]
+    },
+    {
+      "slug": "math",
+      "label": "數學",
+      "series": [
+        {
+          "label": "圖解735輕鬆讀複習講義",
+          "slug": "圖解735輕鬆讀複習講義",
+          "description": "用圖解、分點與範例協助建立觀念與快速複習。",
+          "guides": [
+            {
+              "title": "115-數學-會考解題有策略",
+              "guide_slug": "115-數學-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\math\\圖解735輕鬆讀複習講義\\115-數學-會考解題有策略.json",
+              "chapter_count": 1,
+              "section_count": 16,
+              "page_count": 8
+            },
+            {
+              "title": "115-數學-會考趨勢CBA",
+              "guide_slug": "115-數學-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\math\\圖解735輕鬆讀複習講義\\115-數學-會考趨勢cba.json",
+              "chapter_count": 1,
+              "section_count": 103,
+              "page_count": 16
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "雙向溝通複習講義",
+          "slug": "雙向溝通複習講義",
+          "description": "用解題策略、題型分析與重點整理來做整體複習。",
+          "guides": [
+            {
+              "title": "115-數學-會考解題有策略",
+              "guide_slug": "115-數學-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\math\\雙向溝通複習講義\\115-數學-會考解題有策略.json",
+              "chapter_count": 1,
+              "section_count": 16,
+              "page_count": 8
+            },
+            {
+              "title": "115-數學-會考趨勢CBA",
+              "guide_slug": "115-數學-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\math\\雙向溝通複習講義\\115-數學-會考趨勢cba.json",
+              "chapter_count": 1,
+              "section_count": 103,
+              "page_count": 16
+            },
+            {
+              "title": "會考觀測站-延伸試題",
+              "guide_slug": "會考觀測站-延伸試題",
+              "structured_path": "guide_structured\\king_an\\math\\雙向溝通複習講義\\會考觀測站-延伸試題.json",
+              "chapter_count": 1,
+              "section_count": 192,
+              "page_count": 16
+            }
+          ],
+          "guide_count": 3
+        }
+      ]
+    },
+    {
+      "slug": "nature",
+      "label": "自然",
+      "series": [
+        {
+          "label": "地球科學－雙向溝通複習講義",
+          "slug": "地球科學-雙向溝通複習講義",
+          "description": "整理地科現象、系統與圖表判讀重點。",
+          "guides": [
+            {
+              "title": "115-地球科學-會考解題有策略",
+              "guide_slug": "115-地球科學-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\nature\\地球科學-雙向溝通複習講義\\115-地球科學-會考解題有策略.json",
+              "chapter_count": 4,
+              "section_count": 22,
+              "page_count": 9
+            },
+            {
+              "title": "115-地球科學-會考趨勢CBA",
+              "guide_slug": "115-地球科學-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\nature\\地球科學-雙向溝通複習講義\\115-地球科學-會考趨勢cba.json",
+              "chapter_count": 1,
+              "section_count": 9,
+              "page_count": 5
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "理化－圖解735輕鬆讀複習講義",
+          "slug": "理化-圖解735輕鬆讀複習講義",
+          "description": "用圖解整理理化常考觀念與步驟。",
+          "guides": [
+            {
+              "title": "115-理化-會考解題有策略",
+              "guide_slug": "115-理化-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\nature\\理化-圖解735輕鬆讀複習講義\\115-理化-會考解題有策略.json",
+              "chapter_count": 1,
+              "section_count": 17,
+              "page_count": 6
+            },
+            {
+              "title": "115-理化-會考趨勢CBA",
+              "guide_slug": "115-理化-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\nature\\理化-圖解735輕鬆讀複習講義\\115-理化-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 7,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "理化－雙向溝通複習講義",
+          "slug": "理化-雙向溝通複習講義",
+          "description": "整理理化公式、現象、實驗與觀念題型。",
+          "guides": [
+            {
+              "title": "115-理化-會考解題有策略",
+              "guide_slug": "115-理化-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\nature\\理化-雙向溝通複習講義\\115-理化-會考解題有策略.json",
+              "chapter_count": 1,
+              "section_count": 17,
+              "page_count": 6
+            },
+            {
+              "title": "115-理化-會考趨勢CBA",
+              "guide_slug": "115-理化-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\nature\\理化-雙向溝通複習講義\\115-理化-會考趨勢cba.json",
+              "chapter_count": 2,
+              "section_count": 7,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "生物－雙向溝通複習講義",
+          "slug": "生物-雙向溝通複習講義",
+          "description": "整理生物的重要概念、系統與常見比較。",
+          "guides": [
+            {
+              "title": "115-生物-會考解題有策略",
+              "guide_slug": "115-生物-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\nature\\生物-雙向溝通複習講義\\115-生物-會考解題有策略.json",
+              "chapter_count": 4,
+              "section_count": 20,
+              "page_count": 9
+            },
+            {
+              "title": "115-生物-會考趨勢CBA",
+              "guide_slug": "115-生物-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\nature\\生物-雙向溝通複習講義\\115-生物-會考趨勢cba.json",
+              "chapter_count": 1,
+              "section_count": 5,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        }
+      ]
+    },
+    {
+      "slug": "social",
+      "label": "社會",
+      "series": [
+        {
+          "label": "公民－雙向溝通複習講義",
+          "slug": "公民-雙向溝通複習講義",
+          "description": "整理公民制度、法律、經濟與生活議題的講義。",
+          "guides": [
+            {
+              "title": "115-公民-會考解題有策略",
+              "guide_slug": "115-公民-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\social\\公民-雙向溝通複習講義\\115-公民-會考解題有策略.json",
+              "chapter_count": 3,
+              "section_count": 11,
+              "page_count": 8
+            },
+            {
+              "title": "115-公民-會考趨勢CBA",
+              "guide_slug": "115-公民-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\social\\公民-雙向溝通複習講義\\115-公民-會考趨勢cba.json",
+              "chapter_count": 1,
+              "section_count": 2,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "地理－雙向溝通複習講義",
+          "slug": "地理-雙向溝通複習講義",
+          "description": "把地理重點整理成區域、現象與概念的複習講義。",
+          "guides": [
+            {
+              "title": "115-地理-會考解題有策略",
+              "guide_slug": "115-地理-會考解題有策略",
+              "structured_path": "guide_structured\\king_an\\social\\地理-雙向溝通複習講義\\115-地理-會考解題有策略.json",
+              "chapter_count": 2,
+              "section_count": 22,
+              "page_count": 8
+            },
+            {
+              "title": "115-地理-會考趨勢CBA",
+              "guide_slug": "115-地理-會考趨勢cba",
+              "structured_path": "guide_structured\\king_an\\social\\地理-雙向溝通複習講義\\115-地理-會考趨勢cba.json",
+              "chapter_count": 1,
+              "section_count": 3,
+              "page_count": 4
+            }
+          ],
+          "guide_count": 2
+        },
+        {
+          "label": "歷史－雙向溝通複習講義",
+          "slug": "歷史-雙向溝通複習講義",
+          "description": "用歷史主題整理與重點回顧來建立時代脈絡。",
+          "guides": [
+            {
+              "title": "115-歷史-會考CBA",
+              "guide_slug": "115-歷史-會考cba",
+              "structured_path": "guide_structured\\king_an\\social\\歷史-雙向溝通複習講義\\115-歷史-會考cba.json",
+              "chapter_count": 1,
+              "section_count": 7,
+              "page_count": 4
+            },
+            {
+              "title": "115-歷史會考題有策略",
+              "guide_slug": "115-歷史會考題有策略",
+              "structured_path": "guide_structured\\king_an\\social\\歷史-雙向溝通複習講義\\115-歷史會考題有策略.json",
+              "chapter_count": 1,
+              "section_count": 14,
+              "page_count": 8
+            }
+          ],
+          "guide_count": 2
+        }
+      ]
+    }
+  ],
+  "issues": [
+    "社會 缺少指定系列：公民－圖解735輕鬆讀複習講義"
+  ],
+  "duplicate_files": []
+}
