@@ -36,6 +36,41 @@
             {% endif %}
         </div>
 
+        {% if current_user.is_admin %}
+        <!-- Admin Toolbar -->
+        <div id="admin-toolbar" style="display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 10px;">
+            <button class="admin-tool-btn" onclick="selectCommand('/status ')" title="系統狀態">
+                <i class="fa-solid fa-microchip"></i> 狀態
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/users ')" title="用戶總覽">
+                <i class="fa-solid fa-users"></i> 用戶
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/sessions ')" title="對話統計">
+                <i class="fa-solid fa-comments"></i> 對話
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/keys ')" title="API Key 狀態">
+                <i class="fa-solid fa-key"></i> Keys
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/logs ')" title="安全日誌">
+                <i class="fa-solid fa-shield-halved"></i> 日誌
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/dbcheck ')" title="DB 檢查">
+                <i class="fa-solid fa-database"></i> DB
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/sysinfo ')" title="系統環境">
+                <i class="fa-solid fa-server"></i> 環境
+            </button>
+            <button class="admin-tool-btn" onclick="selectCommand('/announce ')" title="發布公告">
+                <i class="fa-solid fa-bullhorn"></i> 公告
+            </button>
+            <div style="flex: 1;"></div>
+            <div id="api-health-indicator" title="API 健康度" style="display: flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; background: rgba(39,174,96,0.1); border: 1px solid rgba(39,174,96,0.2); font-size: 0.75rem; color: #27ae60; cursor: pointer;" onclick="selectCommand('/keys ')">
+                <span id="api-health-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #27ae60; animation: pulse-glow 2s infinite;"></span>
+                <span id="api-health-text">API 正常</span>
+            </div>
+        </div>
+        {% endif %}
+
         <div id="chat-window"
             style="flex-grow: 1; overflow-y: auto; padding: 1rem; background: #fafafa; border-radius: 12px; margin-bottom: 1.5rem;">
             <div id="messages" style="display: flex; flex-direction: column; gap: 1rem;">
@@ -1005,14 +1040,35 @@
     // Admin Commands Logic
     const commandSuggestions = document.getElementById('command-suggestions');
     const adminCommands = [
+        // 模式切換
         { name: '/antigravity', desc: '啟動 Antigravity 極效修復模式', icon: 'rocket' },
         { name: '/normal', desc: '恢復一般溫柔模式', icon: 'leaf' },
-        { name: '/status', desc: '查看系統狀態 (API、用戶數等)', icon: 'microchip' },
-        { name: '/broadcast', desc: '發布全站公告 (後接訊息)', icon: 'bullhorn' },
-        { name: '/clearkeys', desc: '清除所有失效的 API Key', icon: 'trash-can' },
         { name: '/coach', desc: '切換為魔鬼教練模式', icon: 'fire' },
         { name: '/senior', desc: '切換為學長模式', icon: 'user-graduate' },
-        { name: '/help', desc: '顯示完整管理員功能列表', icon: 'circle-question' }
+        // 系統查詢
+        { name: '/status', desc: '系統狀態總覽', icon: 'microchip' },
+        { name: '/users', desc: '用戶統計與最近註冊列表', icon: 'users' },
+        { name: '/find', desc: '搜尋用戶 (後接用戶名)', icon: 'magnifying-glass' },
+        { name: '/sessions', desc: 'AI 對話統計', icon: 'comments' },
+        { name: '/sysinfo', desc: '伺服器環境資訊', icon: 'server' },
+        { name: '/dbcheck', desc: '資料庫健康檢查', icon: 'database' },
+        { name: '/logs', desc: '最近 10 筆安全日誌', icon: 'shield-halved' },
+        { name: '/keys', desc: 'API Key 詳細狀態', icon: 'key' },
+        // 使用者管理
+        { name: '/ban', desc: '停權用戶 (後接用戶名)', icon: 'ban' },
+        { name: '/unban', desc: '解除 IP 封鎖 (後接 IP)', icon: 'unlock' },
+        { name: '/resetuser', desc: '重設用戶 AI 性格 (後接用戶名)', icon: 'rotate' },
+        // 公告
+        { name: '/broadcast', desc: '發布全站廣播 (後接訊息)', icon: 'bullhorn' },
+        { name: '/announce', desc: '建立全站公告 (後接訊息)', icon: 'newspaper' },
+        // 工具
+        { name: '/clearkeys', desc: '清除失效 API Key', icon: 'trash-can' },
+        { name: '/testai', desc: '原始 AI 測試 (後接提示詞)', icon: 'flask-vial' },
+        { name: '/image', desc: '生成圖片 (後接描述)', icon: 'palette' },
+        { name: '/memo', desc: '新增管理員備忘錄 (後接內容)', icon: 'sticky-note' },
+        { name: '/memos', desc: '查看備忘錄列表', icon: 'list-check' },
+        { name: '/clearmemo', desc: '清除所有備忘錄', icon: 'eraser' },
+        { name: '/help', desc: '顯示完整指令列表', icon: 'circle-question' }
     ];
     let selectedCommandIndex = -1;
 
@@ -1108,6 +1164,111 @@
                 });
         }
     }, 1000);
+    // --- Admin Context Menu for AI Messages ---
+    {% if current_user.is_admin %}
+    (function() {
+        const contextMenu = document.createElement('div');
+        contextMenu.id = 'admin-context-menu';
+        contextMenu.className = 'admin-context-menu';
+        contextMenu.innerHTML = `
+            <div class="ctx-item" id="ctx-copy"><i class="fa-solid fa-copy"></i> 複製原始回覆</div>
+            <div class="ctx-item" id="ctx-regen"><i class="fa-solid fa-rotate-right"></i> 重新生成</div>
+            <div class="ctx-item" id="ctx-testai"><i class="fa-solid fa-flask-vial"></i> 以原始 AI 重試</div>
+            <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.06); margin: 4px 0;">
+            <div class="ctx-item" id="ctx-speak"><i class="fa-solid fa-volume-high"></i> 朗讀此訊息</div>
+        `;
+        document.body.appendChild(contextMenu);
+
+        let ctxTarget = null;
+
+        document.getElementById('messages').addEventListener('contextmenu', function(e) {
+            const bubble = e.target.closest('.chat-bubble.ai');
+            if (!bubble) return;
+            e.preventDefault();
+            ctxTarget = bubble;
+            contextMenu.style.display = 'block';
+            const x = Math.min(e.clientX, window.innerWidth - 220);
+            const y = Math.min(e.clientY, window.innerHeight - 200);
+            contextMenu.style.left = x + 'px';
+            contextMenu.style.top = y + 'px';
+        });
+
+        document.addEventListener('click', () => { contextMenu.style.display = 'none'; });
+
+        document.getElementById('ctx-copy').onclick = () => {
+            if (ctxTarget) {
+                navigator.clipboard.writeText(ctxTarget.innerText).then(() => {
+                    ctxTarget.style.outline = '2px solid #27ae60';
+                    setTimeout(() => { ctxTarget.style.outline = 'none'; }, 800);
+                });
+            }
+        };
+
+        document.getElementById('ctx-regen').onclick = () => {
+            if (ctxTarget) {
+                const lastUserMsg = [...document.querySelectorAll('.chat-bubble.user')].pop();
+                if (lastUserMsg) {
+                    chatInput.value = lastUserMsg.innerText;
+                    sendMessage();
+                }
+            }
+        };
+
+        document.getElementById('ctx-testai').onclick = () => {
+            if (ctxTarget) {
+                const lastUserMsg = [...document.querySelectorAll('.chat-bubble.user')].pop();
+                if (lastUserMsg) {
+                    chatInput.value = '/testai ' + lastUserMsg.innerText;
+                    sendMessage();
+                }
+            }
+        };
+
+        document.getElementById('ctx-speak').onclick = () => {
+            if (ctxTarget) {
+                const wasAuto = autoSpeak;
+                autoSpeak = true;
+                speak(ctxTarget.innerText);
+                autoSpeak = wasAuto;
+            }
+        };
+    })();
+
+    // --- API Health Indicator Auto-Update ---
+    async function updateAPIHealth() {
+        try {
+            const res = await fetch('/admin/system_pulse');
+            if (res.ok) {
+                const data = await res.json();
+                const dot = document.getElementById('api-health-dot');
+                const txt = document.getElementById('api-health-text');
+                const indicator = document.getElementById('api-health-indicator');
+                if (dot && txt && indicator) {
+                    if (data.provider && data.provider !== 'none') {
+                        dot.style.background = '#27ae60';
+                        txt.textContent = 'API 正常';
+                        indicator.style.background = 'rgba(39,174,96,0.1)';
+                        indicator.style.borderColor = 'rgba(39,174,96,0.2)';
+                        txt.style.color = '#27ae60';
+                    } else {
+                        dot.style.background = '#e74c3c';
+                        txt.textContent = 'API 異常';
+                        indicator.style.background = 'rgba(231,76,60,0.1)';
+                        indicator.style.borderColor = 'rgba(231,76,60,0.2)';
+                        txt.style.color = '#e74c3c';
+                    }
+                }
+            }
+        } catch(e) {
+            const dot = document.getElementById('api-health-dot');
+            const txt = document.getElementById('api-health-text');
+            if (dot) dot.style.background = '#f39c12';
+            if (txt) { txt.textContent = '無法連線'; txt.style.color = '#f39c12'; }
+        }
+    }
+    updateAPIHealth();
+    setInterval(updateAPIHealth, 30000); // Every 30s
+    {% endif %}
 </script>
 
 <style>
@@ -1486,6 +1647,81 @@
     .calc-result i {
         font-size: 0.9rem;
         opacity: 0.8;
+    }
+
+    /* Admin Toolbar */
+    .admin-tool-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 12px;
+        border: 1px solid rgba(187,154,247,0.25);
+        border-radius: 20px;
+        background: rgba(187,154,247,0.06);
+        color: #7c6bc4;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        white-space: nowrap;
+    }
+    .admin-tool-btn:hover {
+        background: rgba(187,154,247,0.15);
+        border-color: rgba(187,154,247,0.5);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(187,154,247,0.15);
+    }
+    .admin-tool-btn:active {
+        transform: scale(0.97);
+    }
+    .admin-tool-btn i {
+        font-size: 0.8rem;
+    }
+
+    /* Admin Context Menu */
+    .admin-context-menu {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        min-width: 200px;
+        background: rgba(255,255,255,0.96);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(0,0,0,0.08);
+        border-radius: 14px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        padding: 6px;
+        animation: popIn 0.15s ease;
+    }
+    .ctx-item {
+        padding: 10px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.15s;
+    }
+    .ctx-item:hover {
+        background: rgba(187,154,247,0.1);
+        color: #7c6bc4;
+    }
+    .ctx-item i {
+        width: 16px;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        #admin-toolbar {
+            overflow-x: auto;
+            flex-wrap: nowrap !important;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        #admin-toolbar::-webkit-scrollbar { display: none; }
     }
 </style>
 {% endblock %}

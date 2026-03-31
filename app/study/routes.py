@@ -2,7 +2,9 @@ from flask import Blueprint, render_template, request, jsonify, redirect, url_fo
 from flask_login import login_required, current_user
 import random
 import json
+import os
 from datetime import datetime, timedelta, timezone
+from sqlalchemy import text
 from app.utils.i18n import get_text as _t
 
 study = Blueprint('study', __name__)
@@ -667,16 +669,44 @@ def tutor_chat():
             if cmd == '/help':
                 help_text = (
                     "🔧 **管理員專屬指令列表**\n\n"
+                    "**模式切換**\n"
                     "| 指令 | 功能 |\n"
                     "|------|------|\n"
                     "| `/antigravity` | 啟動 Antigravity 極效修復模式 |\n"
                     "| `/normal` | 恢復一般溫柔模式 |\n"
-                    "| `/status` | 查看系統狀態 (API Key、用戶數等) |\n"
-                    "| `/broadcast 訊息` | 發布全站公告 |\n"
-                    "| `/clearkeys` | 清除所有失效的 API Key |\n"
                     "| `/coach` | 切換為魔鬼教練模式 |\n"
-                    "| `/senior` | 切換為學長模式 |\n"
+                    "| `/senior` | 切換為學長模式 |\n\n"
+                    "**系統查詢**\n"
+                    "| 指令 | 功能 |\n"
+                    "|------|------|\n"
+                    "| `/status` | 系統狀態總覽 |\n"
+                    "| `/users` | 用戶統計與最近註冊列表 |\n"
+                    "| `/find 用戶名` | 搜尋特定用戶詳細資訊 |\n"
+                    "| `/sessions` | AI 對話統計 |\n"
+                    "| `/sysinfo` | 伺服器環境資訊 |\n"
+                    "| `/dbcheck` | 資料庫健康檢查 |\n"
+                    "| `/logs` | 最近安全日誌 |\n"
+                    "| `/keys` | API Key 詳細狀態 |\n\n"
+                    "**使用者管理**\n"
+                    "| 指令 | 功能 |\n"
+                    "|------|------|\n"
+                    "| `/ban 用戶名` | 對用戶發出警告/停權 |\n"
+                    "| `/unban IP` | 解除 IP 封鎖 |\n"
+                    "| `/resetuser 用戶名` | 重設用戶 AI 性格為預設 |\n\n"
+                    "**公告與廣播**\n"
+                    "| 指令 | 功能 |\n"
+                    "|------|------|\n"
+                    "| `/broadcast 訊息` | 發布全站廣播 |\n"
+                    "| `/announce 訊息` | 建立全站公告 |\n\n"
+                    "**工具**\n"
+                    "| 指令 | 功能 |\n"
+                    "|------|------|\n"
+                    "| `/clearkeys` | 清除失效 API Key |\n"
+                    "| `/testai 提示詞` | 原始 AI 測試（跳過雪音人格）|\n"
                     "| `/image 描述` | 生成圖片 |\n"
+                    "| `/memo 內容` | 新增管理員備忘錄 |\n"
+                    "| `/memos` | 查看備忘錄列表 |\n"
+                    "| `/clearmemo` | 清除所有備忘錄 |\n"
                     "| `/help` | 顯示此列表 |\n"
                 )
                 return jsonify({'status': 'success', 'reply': help_text})
@@ -719,6 +749,312 @@ def tutor_chat():
                 current_user.ai_personality = 'ai_guy'
                 db.session.commit()
                 return jsonify({'status': 'success', 'reply': '😎 **學長模式已啟動！**\n\n嘿嘿，學長我來陪你讀書囉～有什麼不懂的儘管問！'})
+
+            # ══════════════════════════════════════════════
+            # ══  NEW ADMIN COMMANDS (v2.5 Enhancement)  ══
+            # ══════════════════════════════════════════════
+
+            # --- /users: 用戶總覽 ---
+            if cmd == '/users':
+                from app.models import User
+                total = User.query.count()
+                admins = User.query.filter_by(role='admin').count()
+                students = User.query.filter_by(role='student').count()
+                guests = User.query.filter_by(role='guest').count()
+                recent_users = User.query.order_by(User.id.desc()).limit(5).all()
+                recent_list = '\n'.join([f"  • **{u.username}** ({u.email}) — {u.role}" for u in recent_users])
+                reply = (
+                    f"👥 **用戶總覽**\n\n"
+                    f"📊 總用戶數：**{total}**\n"
+                    f"👑 管理員：**{admins}**\n"
+                    f"📚 學生：**{students}**\n"
+                    f"👤 訪客：**{guests}**\n\n"
+                    f"🆕 **最近 5 位註冊用戶**\n{recent_list}"
+                )
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /find 用戶名: 搜尋用戶 ---
+            if cmd.startswith('/find '):
+                from app.models import User
+                query_name = user_msg.strip()[6:].strip()
+                if not query_name:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入用戶名，例如 `/find 小明`'})
+                found = User.query.filter(User.username.ilike(f'%{query_name}%')).all()
+                if not found:
+                    return jsonify({'status': 'success', 'reply': f'🔍 找不到包含「{query_name}」的用戶。'})
+                results = []
+                for u in found[:10]:
+                    last_login_str = (u.last_login.strftime('%Y-%m-%d %H:%M') if u.last_login else '從未登入')
+                    results.append(
+                        f"  **{u.username}** (ID: {u.id})\n"
+                        f"  📧 {u.email}\n"
+                        f"  🏷️ 角色：{u.role} | 🌐 IP：{u.last_ip or '---'}\n"
+                        f"  🕐 最後登入：{last_login_str}"
+                    )
+                reply = f"🔍 **搜尋結果：「{query_name}」** (共 {len(found)} 人)\n\n" + '\n\n'.join(results)
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /sessions: AI 對話統計 ---
+            if cmd == '/sessions':
+                from app.models import ChatSession, ChatMessage
+                total_sessions = ChatSession.query.count()
+                total_messages = ChatMessage.query.count()
+                today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+                today_sessions = ChatSession.query.filter(ChatSession.created_at >= today_start).count()
+                # Most active user
+                from sqlalchemy import func
+                top_user_row = db.session.query(
+                    ChatSession.user_id, func.count(ChatSession.id).label('cnt')
+                ).group_by(ChatSession.user_id).order_by(func.count(ChatSession.id).desc()).first()
+                top_user_info = '---'
+                if top_user_row:
+                    from app.models import User
+                    top_u = User.query.get(top_user_row[0])
+                    if top_u:
+                        top_user_info = f'{top_u.username} ({top_user_row[1]} 次對話)'
+                reply = (
+                    f"💬 **AI 對話統計**\n\n"
+                    f"📊 對話總數：**{total_sessions}**\n"
+                    f"✉️ 訊息總數：**{total_messages}**\n"
+                    f"📅 今日新增對話：**{today_sessions}**\n"
+                    f"🏆 最活躍用戶：**{top_user_info}**"
+                )
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /ban 用戶名: 停權用戶 ---
+            if cmd.startswith('/ban '):
+                from app.models import User, IPBan
+                target_name = user_msg.strip()[5:].strip()
+                if not target_name:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入用戶名，例如 `/ban 小明`'})
+                target = User.query.filter(User.username.ilike(f'%{target_name}%')).first()
+                if not target:
+                    return jsonify({'status': 'success', 'reply': f'❌ 找不到用戶「{target_name}」'})
+                if target.is_admin:
+                    return jsonify({'status': 'success', 'reply': '🛡️ 無法對管理員執行停權操作！'})
+                if not target.last_ip:
+                    return jsonify({'status': 'success', 'reply': f'⚠️ 用戶 **{target.username}** 尚未記錄 IP 位址，無法執行 IP 封鎖。'})
+                # Create a 1-day ban
+                existing = IPBan.query.filter_by(ip=target.last_ip).first()
+                if existing:
+                    return jsonify({'status': 'success', 'reply': f'⚠️ IP **{target.last_ip}** 已經在封鎖名單中。'})
+                ban = IPBan(
+                    ip=target.last_ip,
+                    reason=f'管理員透過聊天室指令封鎖 (對象：{target.username})',
+                    expires_at=datetime.now(timezone.utc) + timedelta(days=1),
+                    is_permanent=False,
+                    banned_by_id=current_user.id
+                )
+                db.session.add(ban)
+                db.session.commit()
+                reply = (
+                    f"🔨 **用戶已停權**\n\n"
+                    f"👤 對象：**{target.username}** ({target.email})\n"
+                    f"🌐 IP：**{target.last_ip}**\n"
+                    f"⏱️ 期限：**1 天**\n"
+                    f"📝 原因：管理員聊天室指令\n\n"
+                    f"如需更長期限，請至後台「使用者管理」操作。"
+                )
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /unban IP: 解除封鎖 ---
+            if cmd.startswith('/unban '):
+                from app.models import IPBan
+                target_ip = user_msg.strip()[7:].strip()
+                if not target_ip:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入 IP 位址，例如 `/unban 192.168.1.1`'})
+                ban = IPBan.query.filter_by(ip=target_ip).first()
+                if not ban:
+                    return jsonify({'status': 'success', 'reply': f'🔍 IP **{target_ip}** 不在封鎖名單中。'})
+                db.session.delete(ban)
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': f'✅ IP **{target_ip}** 已成功解封！'})
+
+            # --- /announce 訊息: 建立公告 ---
+            if cmd.startswith('/announce '):
+                from app.models import Announcement
+                ann_content = user_msg.strip()[10:].strip()
+                if not ann_content:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入公告內容，例如 `/announce 明天停機維護`'})
+                ann = Announcement(
+                    title='📢 管理員公告',
+                    content=ann_content,
+                    created_by_id=current_user.id,
+                    is_ai_generated=False
+                )
+                db.session.add(ann)
+                db.session.commit()
+                reply = (
+                    f"📢 **全站公告已建立！**\n\n"
+                    f"📝 內容：{ann_content}\n"
+                    f"🆔 公告 ID：#{ann.id}\n\n"
+                    f"公告會在全站首頁顯示給所有用戶。"
+                )
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /sysinfo: 系統環境資訊 ---
+            if cmd == '/sysinfo':
+                import sys
+                import platform
+                db_uri = db.engine.url
+                db_type = 'PostgreSQL' if 'postgresql' in str(db_uri) else ('SQLite' if 'sqlite' in str(db_uri) else str(db_uri.drivername))
+                from app.models import APIKeyTracker
+                gemini_keys = APIKeyTracker.query.filter_by(provider='gemini').count()
+                groq_keys = APIKeyTracker.query.filter_by(provider='groq').count()
+                ollama_keys = APIKeyTracker.query.filter_by(provider='ollama').count()
+                active_gemini = APIKeyTracker.query.filter_by(provider='gemini', is_blocked=False).count()
+                reply = (
+                    f"🖥️ **伺服器環境資訊**\n\n"
+                    f"🐍 Python 版本：**{sys.version.split()[0]}**\n"
+                    f"💻 作業系統：**{platform.system()} {platform.release()}**\n"
+                    f"🗄️ 資料庫類型：**{db_type}**\n"
+                    f"📦 Flask 版本：**{__import__('flask').__version__}**\n\n"
+                    f"🔑 **API Key 健康度**\n"
+                    f"  • Gemini：{active_gemini}/{gemini_keys} 可用\n"
+                    f"  • Groq：{groq_keys} 組\n"
+                    f"  • Ollama：{ollama_keys} 組\n\n"
+                    f"🌐 部署平台：**{'Vercel' if os.environ.get('VERCEL') else '本地開發'}**"
+                )
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /dbcheck: 資料庫健康檢查 ---
+            if cmd == '/dbcheck':
+                checks = []
+                try:
+                    result = db.session.execute(text("SELECT 1"))
+                    checks.append("✅ 資料庫連線：正常")
+                except Exception as e:
+                    checks.append(f"❌ 資料庫連線：失敗 ({str(e)[:50]})")
+                # Check important tables
+                tables_to_check = ['user', 'question', 'chat_session', 'chat_message', 'announcement', 'ip_ban', 'api_key_tracker']
+                for table in tables_to_check:
+                    try:
+                        count = db.session.execute(text(f'SELECT COUNT(*) FROM "{table}"')).scalar()
+                        checks.append(f"✅ `{table}`：{count} 筆紀錄")
+                    except Exception:
+                        db.session.rollback()
+                        checks.append(f"⚠️ `{table}`：無法存取")
+                reply = "🗄️ **資料庫健康檢查**\n\n" + '\n'.join(checks)
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /resetuser 用戶名: 重設 AI 性格 ---
+            if cmd.startswith('/resetuser '):
+                from app.models import User
+                target_name = user_msg.strip()[11:].strip()
+                if not target_name:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入用戶名，例如 `/resetuser 小明`'})
+                target = User.query.filter(User.username.ilike(f'%{target_name}%')).first()
+                if not target:
+                    return jsonify({'status': 'success', 'reply': f'❌ 找不到用戶「{target_name}」'})
+                old_personality = target.ai_personality
+                target.ai_personality = 'ai_personality_gentle'
+                db.session.commit()
+                reply = (
+                    f"🔄 **用戶 AI 性格已重設**\n\n"
+                    f"👤 對象：**{target.username}**\n"
+                    f"🔙 原性格：{old_personality}\n"
+                    f"✨ 新性格：ai_personality_gentle（溫柔型）"
+                )
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /logs: 安全日誌 ---
+            if cmd == '/logs':
+                from app.models import IPAccessLog
+                try:
+                    recent_logs = IPAccessLog.query.order_by(IPAccessLog.timestamp.desc()).limit(10).all()
+                    if not recent_logs:
+                        return jsonify({'status': 'success', 'reply': '📋 目前沒有安全日誌紀錄。'})
+                    log_lines = []
+                    for log in recent_logs:
+                        tw_time = log.timestamp + timedelta(hours=8)
+                        threat_icon = '🔴' if log.threat_level == 'dangerous' else ('🟡' if log.threat_level == 'suspicious' else '🟢')
+                        user_name = log.user.username if log.user else '匿名'
+                        log_lines.append(f"  {threat_icon} `{tw_time.strftime('%m/%d %H:%M')}` | {log.ip} | {user_name} | {log.path or '/'}")
+                    reply = "🛡️ **最近 10 筆安全日誌**\n\n" + '\n'.join(log_lines)
+                    return jsonify({'status': 'success', 'reply': reply})
+                except Exception as e:
+                    db.session.rollback()
+                    return jsonify({'status': 'success', 'reply': f'⚠️ 無法讀取安全日誌：{str(e)[:80]}'})
+
+            # --- /keys: API Key 詳細狀態 ---
+            if cmd == '/keys':
+                from app.models import APIKeyTracker
+                all_keys = APIKeyTracker.query.order_by(APIKeyTracker.provider, APIKeyTracker.id).all()
+                if not all_keys:
+                    return jsonify({'status': 'success', 'reply': '🔑 目前沒有任何 API Key 紀錄。'})
+                key_lines = []
+                for k in all_keys:
+                    status_icon = '🟢' if k.status in ('active', 'standby') and not k.is_blocked else ('🟡' if k.status == 'cooldown' else '🔴')
+                    masked = k.api_key[:8] + '...' + k.api_key[-4:] if len(k.api_key) > 12 else k.api_key[:8] + '...'
+                    last_used = k.last_used.strftime('%m/%d %H:%M') if k.last_used else '從未使用'
+                    key_lines.append(f"  {status_icon} **{k.provider}** | `{masked}` | {k.status} | {last_used}")
+                reply = f"🔑 **API Key 狀態一覽** (共 {len(all_keys)} 組)\n\n" + '\n'.join(key_lines)
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /testai 提示詞: 原始 AI 測試 ---
+            if cmd.startswith('/testai '):
+                raw_prompt = user_msg.strip()[8:].strip()
+                if not raw_prompt:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入測試提示詞，例如 `/testai 你好`'})
+                try:
+                    from app.utils.ai_helpers import generate_text_with_fallback
+                    raw_reply = generate_text_with_fallback(raw_prompt, system_instruction='You are a helpful AI assistant. Respond concisely.', user=current_user)
+                    reply = (
+                        f"🧪 **原始 AI 測試回應**\n\n"
+                        f"📤 **Prompt：**\n{raw_prompt}\n\n"
+                        f"📥 **回應：**\n{raw_reply}"
+                    )
+                    return jsonify({'status': 'success', 'reply': reply})
+                except Exception as e:
+                    return jsonify({'status': 'success', 'reply': f'❌ AI 測試失敗：{str(e)[:100]}'})
+
+            # --- /image 描述: 生成圖片 ---
+            if cmd.startswith('/image '):
+                img_prompt = user_msg.strip()[7:].strip()
+                if not img_prompt:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入圖片描述，例如 `/image 一隻可愛的貓咪在讀書`'})
+                reply = f"🎨 **圖片生成中...**\n\n[DRAW: {img_prompt}]"
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /memo 內容: 新增備忘錄 ---
+            if cmd.startswith('/memo '):
+                from app.models import MemoryFragment
+                memo_content = user_msg.strip()[6:].strip()
+                if not memo_content:
+                    return jsonify({'status': 'success', 'reply': '❌ 請輸入備忘錄內容，例如 `/memo 記得更新 SSL 憑證`'})
+                fragment = MemoryFragment(
+                    user_id=current_user.id,
+                    category='admin_memo',
+                    content=memo_content,
+                    importance=5
+                )
+                db.session.add(fragment)
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': f'📝 **備忘錄已儲存！**\n\n內容：{memo_content}\n🆔 ID：#{fragment.id}'})
+
+            # --- /memos: 查看備忘錄 ---
+            if cmd == '/memos':
+                from app.models import MemoryFragment
+                memos = MemoryFragment.query.filter_by(
+                    user_id=current_user.id, category='admin_memo'
+                ).order_by(MemoryFragment.created_at.desc()).limit(20).all()
+                if not memos:
+                    return jsonify({'status': 'success', 'reply': '📋 目前沒有備忘錄。使用 `/memo 內容` 新增一則。'})
+                memo_lines = []
+                for m in memos:
+                    tw_time = m.created_at + timedelta(hours=8)
+                    memo_lines.append(f"  • `#{m.id}` {tw_time.strftime('%m/%d %H:%M')} — {m.content}")
+                reply = f"📋 **管理員備忘錄** (共 {len(memos)} 則)\n\n" + '\n'.join(memo_lines)
+                return jsonify({'status': 'success', 'reply': reply})
+
+            # --- /clearmemo: 清除備忘錄 ---
+            if cmd == '/clearmemo':
+                from app.models import MemoryFragment
+                count = MemoryFragment.query.filter_by(
+                    user_id=current_user.id, category='admin_memo'
+                ).delete()
+                db.session.commit()
+                return jsonify({'status': 'success', 'reply': f'🗑️ **已清除 {count} 則備忘錄**'})
 
         if image_data:
             from app.utils.ai_helpers import generate_vision_with_fallback, VISION_RUTHLESS_PROMPT
