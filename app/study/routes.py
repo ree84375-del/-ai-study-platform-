@@ -15,6 +15,7 @@ from app.utils.study_assets import (
     DATA_ROOT as STUDY_DATA_ROOT,
     build_cap_subject_cards,
     build_guide_library_catalog,
+    build_guide_reader_payload,
     count_available_cap_questions,
     flatten_cap_questions,
     get_cap_year_entries,
@@ -499,8 +500,8 @@ def _serialize_cap_crop(crop_box):
         return None
 
 
-@lru_cache(maxsize=512)
-def _render_cap_page_png(relative_pdf_path, page_number, crop_signature=None):
+@lru_cache(maxsize=1024)
+def _render_document_page_png(relative_pdf_path, page_number, crop_signature=None):
     import fitz
 
     pdf_path = (STUDY_DATA_ROOT / relative_pdf_path).resolve()
@@ -527,6 +528,10 @@ def _render_cap_page_png(relative_pdf_path, page_number, crop_signature=None):
         return pixmap.tobytes('png')
     finally:
         document.close()
+
+
+def _render_cap_page_png(relative_pdf_path, page_number, crop_signature=None):
+    return _render_document_page_png(relative_pdf_path, page_number, crop_signature)
 
 
 def _build_cap_question_item(item, subject_slug):
@@ -874,6 +879,38 @@ def practice_cap_asset(year, subject, page_number):
     )
 
 
+@study.route("/practice/guides/assets")
+@login_required
+def practice_guide_asset():
+    subject_slug = (request.args.get('subject') or '').strip()
+    series_value = (request.args.get('series') or '').strip()
+    guide_value = (request.args.get('guide') or '').strip()
+    page_number = request.args.get('page', type=int) or 1
+
+    catalog = build_guide_library_catalog()
+    selected_subject = get_guide_catalog_subject(catalog, subject_slug) if subject_slug else None
+    selected_series = get_guide_catalog_series(selected_subject, series_value) if selected_subject else None
+    guide_document = get_guide_document(selected_subject, selected_series, guide_value) if selected_series else None
+    if not guide_document:
+        abort(404)
+
+    relative_pdf_path = str((guide_document.get('files') or {}).get('pdf', '')).replace('\\', '/').strip()
+    if not relative_pdf_path:
+        abort(404)
+
+    try:
+        image_bytes = _render_document_page_png(relative_pdf_path, page_number)
+    except (FileNotFoundError, ValueError, RuntimeError, KeyError, IndexError):
+        abort(404)
+
+    return send_file(
+        BytesIO(image_bytes),
+        mimetype='image/png',
+        download_name=f'{subject_slug}_{guide_value}_{page_number}.png',
+        max_age=86400,
+    )
+
+
 @study.route("/practice/cap/preview")
 @login_required
 def practice_cap_preview():
@@ -1103,7 +1140,7 @@ def practice_guides():
     selected_subject_slug = (request.args.get('subject') or '').strip() or None
     selected_series_value = (request.args.get('series') or '').strip() or None
 
-    selected_subject = get_guide_catalog_subject(catalog, selected_subject_slug) if selected_subject_slug else None
+    selected_subject = get_guide_catalog_subject(catalog, selected_subject_slug)
     selected_series = get_guide_catalog_series(selected_subject, selected_series_value) if selected_subject else None
 
     guide_subject_cards = []
@@ -1143,6 +1180,13 @@ def practice_guides():
         for guide in selected_series.get('guides', []):
             guide_cards.append({
                 **guide,
+                'cover_href': url_for(
+                    'study.practice_guide_asset',
+                    subject=selected_subject.get('slug'),
+                    series=selected_series.get('series_value'),
+                    guide=guide.get('guide_value'),
+                    page=1,
+                ),
                 'reader_href': url_for(
                     'study.guide_reader',
                     subject=selected_subject.get('slug'),
@@ -1184,6 +1228,21 @@ def guide_reader():
         **selected_subject,
         **_guide_subject_meta(selected_subject.get('slug')),
     }
+    reader_document = build_guide_reader_payload(guide_document, selected_subject.get('slug'))
+    for chapter in reader_document.get('chapters', []):
+        chapter['page_cards'] = [
+            {
+                'page_number': page_number,
+                'href': url_for(
+                    'study.practice_guide_asset',
+                    subject=selected_subject.get('slug'),
+                    series=selected_series.get('series_value'),
+                    guide=selected_guide.get('guide_value'),
+                    page=page_number,
+                ),
+            }
+            for page_number in chapter.get('page_numbers', [])
+        ]
 
     return render_template(
         'guide_reader.html',
@@ -1191,8 +1250,8 @@ def guide_reader():
         selected_subject=selected_subject,
         selected_series=selected_series,
         selected_guide=selected_guide,
-        guide_document=guide_document,
-        guide_summary=summarize_guide_document(guide_document),
+        guide_document=reader_document,
+        guide_summary=summarize_guide_document(guide_document, selected_subject.get('slug')),
         back_href=url_for('study.practice_guides', subject=selected_subject.get('slug'), series=selected_series.get('series_value')),
         practice_href=url_for('study.practice'),
     )
