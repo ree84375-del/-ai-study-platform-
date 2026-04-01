@@ -32,10 +32,10 @@
     "explanation_url": "https://drive.google.com/file/d/1VXI00Eb2KozpVJ-dsfrwCBr_vuC9Pfvp/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 158,
+    "question_chunks_found": 157,
     "answers_found": 54,
     "questions_kept": 54,
-    "issues_found": 54,
+    "issues_found": 56,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
       1,
@@ -142,14 +142,13 @@
       51,
       52,
       53,
-      2,
-      2,
       3,
+      4,
       5,
-      5,
-      6,
+      7,
       7,
       8,
+      10,
       10,
       11,
       12,
@@ -170,10 +169,10 @@
       27,
       28,
       29,
+      30,
       31,
       32,
       33,
-      34,
       35,
       36,
       37,
@@ -190,7 +189,7 @@
       48,
       49,
       50,
-      52,
+      51,
       52,
       53,
       54
@@ -262,6 +261,7 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\science\\page_02.png",
+      "crop_box": null,
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "圖 (一 ) 是 地 質 年 代 與 生 物種 類 的 對 照 示意 回 , [地 質 年 代 | 出 現 的 生 物種 類 | 圖 中 線段 表 示 該 種 類 生 物 生 存 的 時 間 範 圍 , 二 其 地 質 年 代 長 度 未 按 比 例 繪製 。 已 知 某 沉積 象 長 岩 地 層 形 成 的 時 間 大 約 在 中 生 代 末 期 , 根 遞 ei 圖 (一 ) 推 測 , 該 地 層 中 最 有 可 能 出 現 本 列 何 種 Ea 種 F 化 石 組 合 ? i ars 三 站 (BRS HFM BA PY be (OR> ZA HER",
@@ -269,6 +269,7 @@
         "D": "種 子 蕨 、 恐 龍 、 靈 長 類"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -277,6 +278,7 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\science\\page_02.png",
+      "crop_box": null,
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (一 ) ee ay , 此 實驗 的 主 題 應 為 下 列 何者 ? 品 了 ee La) 只 試管 口 朝 上 — nna ie eo? ane BE > | ey | es KBR oe HP - at = - Trl 氣 化 鈣 PATIL E 使 試 管 中 溶液 秤 得 瓶子 總 質 水 溶液 總 質量 為 mr 流出, 與 瓶 內 量 為 ma2, 並 觀 Canin ae 國 (三",
@@ -287,25 +289,28 @@
         "D": "100X es re ae\njm SS"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（10X a0: (©) 40x =) Ss) 點）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 3,
       "source_number": 3,
       "display_number": 3,
-      "page_number": 2,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_02.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "試管 口 朝 上 輕 輕 放 入 碳酸 負 rg KR 7 4 氣 化 鈣 得 RE RM PR 秤 得 瓶子 總 質 水 溶液 質量 為 , 出 , 與 瓶 內 量 為 ma, 並 觀 RRS 察 是 否 mi 三 m2",
-      "options": {
-        "A": "能 量 守恆",
-        "B": "買 量 守恆",
-        "C": "中 和 反應",
-        "D": "酯 化 反應\n3. 小 蘭 使 用 複式 顯微鏡 觀察 細胞 = 原 本 用 - 的 目鏡 和 物鏡 的 倍率 如 ss"
+      "page_number": 1,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_01.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.234892,
+        "x1": 1.0,
+        "y1": 0.34065
       },
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "讀 完 本 貝 的 說 明 , 聽 從 監 試 委員 的 指示 才 開 始 作 答 !\n※ 請 先 確認 你 的 答案 卡 、 准 考證 與 座位 號 碼 是 否 一 致 無 誤 。",
+      "options": {},
       "correct_answer": "C",
-      "explanation": "官方答案：C（中 和 反應）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 4,
@@ -313,6 +318,12 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\science\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.338369,
+        "x1": 1.0,
+        "y1": 0.366591
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "阿 麗 看 到 書 上 介紹 一 種 動物 : 具有 四 肢 、 長 尾 , 表 皮 光 滑 濕 黏 , 可 用 肺 呼吸 , 行 體外 受精 , 其 外 形 示意 圖 如 圖 (四 )。 根 據 以 上 次 料 , 判斷 此 動物 最 可 能 為 下 列 何 種 組 鄧 ?",
@@ -323,6 +334,7 @@
         "D": "旅 蟲 類 一 一 山椒魚 圖 (四 )"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（兩 生 類 一 一 山椒魚）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -331,6 +343,12 @@
       "display_number": 5,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.36431,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "在 一 個 無 風 的 下 午 , 阿 牛 對 著 遠 處 的 山 壁 喊 了 一 聲 「 喂 ! 」, 不 久 後 他 聽見 袁 方 傳 回 來 「 喂 ! 」 的 回 聲 , 則 關於 喊 了 一 聲 「 喂 ! 」 與 回 聲 「 喂 ! 」 的 敘述 , 下 列 何者 錯誤 ?",
@@ -341,6 +359,7 @@
         "D": "兩 聲波 響度 (計量 ) 的 大 小 均 與 其 振幅 有 開\nPT TE LEE\n(4) 設 計 實驗 四 個 步驟 來 得 到 結論 。"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（而 聲波 均 屬於 超 聲波 的 一 種 ~ 一）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -349,6 +368,7 @@
       "display_number": 6,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": null,
       "parse_status": "complete",
       "context": "",
       "stem": "在 一 個 無 風 的 下 午 , 阿 牛 對 著 遠 處 的 山 壁 喊 了 一 聲 「 喂 ! 」, 不 久 後 他 聽見 袁 方 傳 回 來 「 喂 ! 」 的 回 聲 , 則 關於 喊 了 一 聲 「 喂 ! 」 與 回 聲 「 喂 ! 」 的 敘述 , 下 列 何者 錯誤 ?",
@@ -359,6 +379,7 @@
         "D": "兩 聲波 響度 (計量 ) 的 大 小 均 與 其 振幅 有 開\nPT TE LEE\n(4) 設 計 實驗 四 個 步驟 來 得 到 結論 。"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（兩 聲波 過 到 障礙 物 均 會 反射）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -367,17 +388,24 @@
       "display_number": 7,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.143101,
+        "x1": 1.0,
+        "y1": 0.310148
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "Da 則 Li | AA 丙 、 丁 四 個 敘述 , 如 表 (一 ) 所 示 , 若 依 上 述 探討 生 物 現象 的 步驟 , 則 下 列 何者 屬 於 第 (3) 步 驟 ? (AP sae FAR THAT a RA RAMRH A De 2 [at eR shea ER BRITT RG HHI AH RIB eS HH | 上 (sake HG oH DSN DAH Ob 8b ey RAE 。- 當 他 發 現 前 方 的 號 誌 為 紅 燈 後 開 始 煞 車 減速 並 停車 , 等 到 號 誌 轉 為 緣 燈 後 再 向東 加 速 前 進 。 若 豆 豆 煞車 減速 時 與 加 速 前 進 時 的 加 速度 分 別 為 ay MA a> 則 兩 加 速記 的 方向 分 別 為 何 ?",
+      "stem": "豆 豆 騎 腳踏車 在 筆直 的 道路 上 向東 前 進 , 當 他 發 現 前 方 的 號 誌 為 紅 燈 後 開 始 然 車 減速 並 停車 , 等 到 號 誌 轉 為 緣 燈 後 再 向東 加 速 前 進 。 若 豆 豆 煞 車 減速 時 與 加 速 前 進 時 的 加 速度 分 別 為 ay Bay)? 則 兩 加 速 鹿 的 方向 分 別 為 何 ?",
       "options": {
-        "A": "aR i a 向東",
-        "B": "awk ine",
-        "C": "a 向 西 ; @ 向東",
-        "D": "a 向 西 ; a Mh\n某 科學 研究 計 畫 在 南大 西洋 申 洋 券 兩 側 取得 海洋 地 殼 的 | C |\n6 bb | ot bo Jot 1 ee OR 和 Dr."
+        "A": "al 向東 ;a 向東 (",
+        "B": "ai 向東 ;a2 向 西",
+        "C": "ai 向 西 ; a2 向東",
+        "D": "ai 向 西 ;a 向 西"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（a 向 西 ; @ 向東）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（ai 向 西 ; a2 向東）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 8,
@@ -385,6 +413,12 @@
       "display_number": 8,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.307868,
+        "x1": 1.0,
+        "y1": 0.566705
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "豆 豆 騎 腳踏車 在 筆直 的 道路 上 向東 前 進 , 當 他 發 現 前 方 的 號 誌 為 紅 燈 後 開 始 然 車 減速 並 停車 , 等 到 號 誌 轉 為 緣 燈 後 再 向東 加 速 前 進 。 若 豆 豆 煞 車 減速 時 與 加 速 前 進 時 的 加 速度 分 別 為 ay Bay)? 則 兩 加 速 鹿 的 方向 分 別 為 何 ?",
@@ -395,6 +429,7 @@
         "D": "ai 向 西 ;a 向 西"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（ai 向 西 ;a 向 西）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -403,6 +438,7 @@
       "display_number": 9,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": null,
       "parse_status": "complete",
       "context": "",
       "stem": "。 某 科學 研究 計 畫 在 南大 西洋 申 洋 春 十 側 取得 海洋 地 殼 的 樣本 , 其 中 四 個 取樣 點 分 別 為 皿 太 \"兩,、 丁 , 如 圖 (五 ) >) 所 示 > Arb PRvo Bh PA OSES TARE D 南美 洲 (AMP RRP ; 說",
@@ -411,14 +447,115 @@
         "C": "位 在 南美 洲 板塊 的 丙 (一 一 陸地 [海洋\n(Dy ae ERT =I | 閃光\n— 圖 (五 )\nLA Le\n相 同 , 則 下 列 何者 可 提供 人 體 最 多 的 能 量 ?\n表 (一 )\nPF | cl 了 一\nYES\nLi SS )| 圖 維生素 和 礦物 質\n口水\n(AP Bz OA ()T"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 10,
       "source_number": 10,
       "display_number": 10,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.738027,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "站 阿 麗 看 到 書 上 介紹 一 種 動物 : 具有 四 肢 、 長 尾 , 表 皮 光 滑 濕 黏 , 可 用 肺 呼吸 , 行 體外 受精 , vee ee Be BS) 根據 以 上 次 料 , 判 斷 此 動物 最 可 能 為 下 列 何 種 組",
+      "options": {
+        "A": "兩 生 類 一 一 蜥蜴",
+        "B": "捐 蟲 類 一 一 蜥蜴",
+        "C": "兩 生 類 一 一 山椒魚",
+        "D": "& se $2 — wh Hin. &, 圖 (四 )\n請 翻 負 繼續 作答"
+      },
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（& se $2 — wh Hin. &, 圖 (四 ) 請 翻 負 繼續 作答）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 11,
+      "source_number": 11,
+      "display_number": 11,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.195553,
+        "x1": 1.0,
+        "y1": 0.233181
+      },
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "6. 探討 未 知 的 生 物 現象 時 , 可 依 序 用 『(D 沖 察 、(2) 提 出 問題 、(3) 提 出 假設 性 的 答案 、\n(4) 設 計 定 驗 四 個 步驟 來 得 到 結 蔭 。 小 成 要 研究 螞 里 的 行 為 , 列 出 了 甲 、Z 乙 、",
+      "options": {},
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 12,
+      "source_number": 12,
+      "display_number": 12,
+      "page_number": 3,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.230901,
+        "x1": 1.0,
+        "y1": 0.568415
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "Da 則 Li | AA 丙 、 丁 四 個 敘述 , 如 表 (一 ) 所 示 , 若 依 上 述 探討 生 物 現象 的 步驟 , 則 下 列 何者 屬 於 第 (3) 步 驟 ? (AP sae FAR THAT a RA RAMRH A De 2 [at eR shea ER BRITT RG HHI AH RIB eS HH | 上 (sake HG oH DSN DAH Ob 8b ey RAE 。- 當 他 發 現 前 方 的 號 誌 為 紅 燈 後 開 始 煞 車 減速 並 停車 , 等 到 號 誌 轉 為 緣 燈 後 再 向東 加 速 前 進 。 若 豆 豆 煞車 減速 時 與 加 速 前 進 時 的 加 速度 分 別 為 ay MA a> 則 兩 加 速記 的 方向 分 別 為 何 ?",
+      "options": {
+        "A": "aR i a 向東",
+        "B": "awk ine",
+        "C": "a 向 西 ; @ 向東",
+        "D": "a 向 西 ; a Mh\n某 科學 研究 計 畫 在 南大 西洋 申 洋 券 兩 側 取得 海洋 地 殼 的 | C |\n6 bb | ot bo Jot 1 ee OR 和 Dr."
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B（awk ine）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 13,
+      "source_number": 13,
+      "display_number": 13,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.566135,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "SORIA» BLY ORF RRR BOMBA” SOAS 0O、 四 和 人 分 別 代表 此 膜 內 外 的 水 、 氧 氣 和 蛋白 換 三 種 信子 。 已 知 最 初 膜 內 外 分 子 的 分 布 如 甲 , 經 過 一 段 時 間 後 , 膜 內 外 分 子 , 的 分 浙 bo 。 下 列 有 關 這 些 分 子 的 敘述 , 何 者 最 合 理 ? e",
+      "options": {
+        "A": "水 由 袋 內 向 袋 外 擴散 FF (人\nByeemMM RA — (am eG” 加) 必 倫",
+        "C": "氣 氣 由 袋 內 向 袋 外 擴散 2 oaoeyo",
+        "D": "沒 通過 此 膜 的 只 有 蛋白質 一 GT ,8 二 SO 一 段 時 間 4 o 7 A\nwe eee OL\nDNs NCES\nog 回 o \\4 On\n0 0\nAN BIA)"
+      },
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（沒 通過 此 膜 的 只 有 蛋白質 一 GT ,8 二 SO 一 段 時 間 4 o 7 A we eee OL DNs NCES og 回 o \\4 On 0 0 AN BIA)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 14,
+      "source_number": 14,
+      "display_number": 14,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.157925
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "將 某 一 蘭花 植株 以 組 織 培 養 的 方式 繁殖 出 新 植株 , 若 不 考慮 突變 的 發 生 , 則 原 植株 和 新 植株 的 細胞 中 所 含 的 基因 , 有 多 少 比 例 相 同 ?",
@@ -428,70 +565,9 @@
         "C": "75%",
         "D": "100%\nNa\neet en d\n> rl ll"
       },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（100% Na eet en d > rl ll）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 11,
-      "source_number": 11,
-      "display_number": 11,
-      "page_number": 4,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
-      "parse_status": "image_or_layout_fallback",
-      "context": "",
-      "stem": "下 阿 徐 在 棒球 比 賽 中 擊 出 全 聖 皇後 、 A a\nGij—ib +b. ShAOHAL HRwH\n形成 一 個 正方 形 , 如 圖 (六 ) 所 示 ? 開 阿 鋒 經 過\nBBE > ABB ANAS A DIA\nSi\nOz%",
-      "options": {},
-      "correct_answer": "B",
-      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 12,
-      "source_number": 12,
-      "display_number": 12,
-      "page_number": 4,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "如 圖 (七) 所 示 \"Rabe AEE Eh ERE hh UNS EADY BLE RL PRE IL + RSS P RH ° 若 重新 把 這 些 幼蟲 放 回 起 點 , 則 再 藉 由 下 列 哪 一 實驗 及 結果 也 可 推 理 出 此 幼蟲 具有 趨 光 行 為 ?",
-      "options": {
-        "A": "將 光源 移 走 後 , 幼 蟲 仍 朝 甲 處 移 萌 當",
-        "B": "將 光源 移 走 後 , 幼 蟲 隨機 到 處 移動 - 一 一 | |,",
-        "C": "光 源 移 至 己 處 時 , 幼 蟲 仍 朝 中 -\nce EL RF > Hh MSV Hy 起 點 aie\na\n圖 (七)\n| N"
-      },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（將 光源 移 走 後 , 幼 蟲 隨機 到 處 移動 - 一 一 | |,）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 13,
-      "source_number": 13,
-      "display_number": 13,
-      "page_number": 4,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "如 圖 (八 ) 所 示 , 圖 中 的 袋子 是 由 三 思 腊 所 構 或 , 並 以 符號 oO、 圖 和 人 分 別 代表 此 膜 內 外 的 水 、 氧 氣 和 蛋白 賢三 種 分 子 。 已 知 最 初 膜 內 外 分 子 的 分 布 如 甲 , 經 過 一 段 時 間 後 , 腊 內 外 分 子 的 分 視 如 右 。 下 列 有 關 這 些 分 子 的 敘述 , 何 者 最 合 理 ?",
-      "options": {
-        "A": "水 由 袋 內 向 袋 外 擴散",
-        "B": "能 通過 此 膜 的 只 有 水\nee SA ws",
-        "D": "沒 通過 此 膜 的 只 有 蛋白 質 OO\n回 (八 )"
-      },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（沒 通過 此 膜 的 只 有 蛋白 質 OO 回 (八 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 14,
-      "source_number": 14,
-      "display_number": 14,
-      "page_number": 4,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
-      "parse_status": "image_or_layout_fallback",
-      "context": "",
-      "stem": "已 知 胰島 素 是 糖尿 病 患者 的 治療 藥物 之 一 , 其 成 分 是 蛋白 質 。 某 些 糖尿 病 患者 以 注射 方式 補充 胰島 素 , 卻 不 用 口服 , 這 是 因為 口服 會 造成 胰島 素 被 下 列 何者 所 含 的 物質 分 解 ? P C ec.",
-      "options": {
-        "D": "脆 汁\n請 翻 崗 繼續 作答"
-      },
       "correct_answer": "A",
-      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（25%）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 15,
@@ -499,17 +575,22 @@
       "display_number": 15,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\science\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.155644,
+        "x1": 1.0,
+        "y1": 0.310148
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "小 媛 看 到 令 人 感動 的 畫 面 而 流 滋 。 從 她 接受 刺激 到 產生 反應 的 過 程 中 , 下 列 相 關 敘 述 何者 正確 ?",
+      "stem": "小 媛 看 到 令 人 感動 的 畫 面 而 流淚 。 從 她 接受 刺激 到 產生 反應 的 過 程 中 , 下 列 相 關 敘述 何者 正確 ?",
       "options": {
-        "A": "此 反應 的 動 器 是 大 腦 =",
-        "B": "接 受 刺激 的 構造 是 淚腺 生",
-        "C": "此 反應 是 由 腺 體 發 出 命令 淚腺 是 一 種 分 泌 淚 液 的 腺 體",
-        "D": "訊 息 的 傳遞 是 藉 由 神 經"
+        "A": "此 反應 的 動 器 是 大 腦 =\nes MEA ED WTR AEA",
+        "D": "訊 息 的 傳遞 是 藉 由 神 經 細 乳 一 二\n~,"
       },
       "correct_answer": "D",
-      "explanation": "官方答案：D（訊 息 的 傳遞 是 藉 由 神 經）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（訊 息 的 傳遞 是 藉 由 神 經 細 乳 一 二 ~,）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 16,
@@ -517,6 +598,12 @@
       "display_number": 16,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\science\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.307868,
+        "x1": 1.0,
+        "y1": 0.54333
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (九 ) 為 甲 、 乙 兩 地 的 生 物種 類 與 數 量 示 意圖 。 比 較 兩 地 生 態 系 何者 較 穩 定 及 其 判斷 的 依據 , 下 列 敘 述 何者 最 合理 ? 點 地 si = Th 外 ga. » Hg Se Gis 44 , es DP WEE Ft By bg ge SWF 轉 ers. . . 3 a a le q & BA OW PRY BAR AAD Redden PPR ori eth PE",
@@ -525,6 +612,7 @@
         "C": "乙 地 , 因 物種 問 競爭 較 少 pa , 因 食物 鏈 較 短"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -533,6 +621,12 @@
       "display_number": 17,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\science\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.541049,
+        "x1": 1.0,
+        "y1": 0.837514
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "如 圖 (十 ) 所 示 , 甲 、 乙 是 內 分 泌 腺 體 , 會 分 泌 與 調節 血糖 濃度 有 關 的 激素 , 關於 旱 、 乙 所 分 泌 的 此 類 激素 對 血糖 濃度 調節 前 敘述 \"下列 何 才 正確 ? ML (QP ~ CAC TRE aR) 上 全 2. Ho RT",
@@ -543,14 +637,115 @@
         "B": "6)\nTat\n# ae\n~~\nCJ"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（甲 的 激素 可 增加 血糖 濃度 E CRT Aho 或 降低 血糖 濃度 = 圖 (十 ) BETS, eat ne ee ORG BRE RAMS > a 住 在 深海 中 的 派 大 星 所 受到 的 液體 壓力 情形 最 可 能 為 下 列 何者 ?）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 18,
       "source_number": 18,
       "display_number": 18,
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.835234,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "14. 已 知 胰島 素 是 糖尿 病 患者 的 治療 藥物 之 一 , 其 成 分 是 蛋白 質 。 某 些 糖尿 病 患者 以 注射 方式 補充 胰島 素 , 卻 不 用 口服 , 這 是 因為 口服 會 造成 胰島 素 被 下 列 何者 所 含 的 物質 分 解 ? P C ec.",
+      "options": {
+        "D": "脆 汁\n請 翻 崗 繼續 作答"
+      },
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 19,
+      "source_number": 19,
+      "display_number": 19,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\science\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063569,
+        "x1": 1.0,
+        "y1": 0.218358
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "15. 小 媛 看 到 令 人 感動 的 畫 面 而 流 滋 。 從 她 接受 刺激 到 產生 反應 的 過 程 中 , 下 列 相 關 敘 述 何者 正確 ?",
+      "options": {
+        "A": "此 反應 的 動 器 是 大 腦 =",
+        "B": "接 受 刺激 的 構造 是 淚腺 生",
+        "C": "此 反應 是 由 腺 體 發 出 命令 淚腺 是 一 種 分 泌 淚 液 的 腺 體",
+        "D": "訊 息 的 傳遞 是 藉 由 神 經"
+      },
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（訊 息 的 傳遞 是 藉 由 神 經）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.216078,
+        "x1": 1.0,
+        "y1": 0.261117
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "在 乾燥 無 風 的 空氣 中 , 聲 音 的 傳播 速 汀 (y) 與 空氣 溫度 (T) 有 關 , 其 單位 分 別 為 m/s 與 C , 關 係 式 為 v 二 331 十 0.6TP- 在 jH 櫥 環境 中 , 持 續 敲 擊 一 支 頻率 為 200 Hz 的 齊 又 , 若 音 又 持續 發 出 聲 意 的 過 程 中 記 此 空間 的 空氣 溫度 由 -15C 持 續 升 高 到 15C , 則 過 程 中 此 音 又 發 出 聲波 的 波長 將 如 何 變化 ?",
+      "options": {
+        "A": "持 續 變 短",
+        "B": "持 續 變 長",
+        "C": "先 變 長 再 變 短 _ (先 變 短 再 變 長\nec!\n人 TT g。 分 別 將 四 le]\n磁鐵 吸附 於 鐵 櫃 水 平 的 頂部 GRR NA PAE 的 側 ©\n壁 , 如 圖 (十 一 ) 所 示 。 若 兩 個 磁鐵 皆 保持 靜 4-, 磁 鐵 所 受\n磁力 方向 與 接觸 面 垂 直 , 甲 、 乙 兩 磁鐵 與 鐵 櫃 之 問 摩 控 力 an\nHAs fy 、fz , 則 下 到 何者 正確 ?\nPE\n人 Gi fz 三 200 gw"
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B（持 續 變 長）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.258837,
+        "x1": 1.0,
+        "y1": 0.491733
+      },
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "",
+      "options": {
+        "A": "甲 地 , 因 生 物 多 樣 性 較 高",
+        "C": "乙 地 , 因 物種 間 競 爭 較 少"
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.489453,
+        "x1": 1.0,
+        "y1": 0.722634
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "17.” 如 圖 (十 ) 所 示 , 甲 、 芝 分 了 原 季 : 時 站 當 ERA HBC al AS Fs 正確 ?",
@@ -561,72 +756,8 @@
         "D": "甲 的 激素 可 增加 血糖 濃度 , 乙 移 潮\n或 降低 血糖 濃度\n圖 (十 )\n圖"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（甲 的 激素 可 降低 血糖 濃度 ; 人 血糖 濃度）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 19,
-      "source_number": 19,
-      "display_number": 19,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
-      "parse_status": "image_or_layout_fallback",
-      "context": "",
-      "stem": "表 (三 ) 是 某 國 家 甲乙 兩 座 核電 廠 的 自 動 停機 安全 數 值 , 當 地 震 發 生 造成 核電 廠\n的 地 動 加 速度 超 過 表 中 的 安全 數 值 時 , 部 分 機 具 便 會 自 動 停止 運轉 。 表 (四 ) 是 該\n國 家 所 使用 的 震度 與 地 動 加 速度 的 對 照 表 。 已 知 某 次 地 震 , 甲 、 乙 都 因 超 過 安\n全 數 值 而 停止 運轉 , 下 列 何者 最 有 可 能 是 該 次 地 震 在 甲 、 乙 造成 的 震度 ?\nA) 甲 :3 級 , 乙 :4 紉 站 |\nwr GL 表 (四 )\n(BP :4 級 , 乙 :5 級 Cee)\nGhangea ion BOAR || 太 太公 | wm me RA)\n(DP 6m Crom | 代號 | 安信 數 傳 (ga || 0 | 08 以 下 |\n四 ~_|「T | 80~250_\n地 動 加 速度 補 是 表 示 地 表 搖晃 程 | 6 _ 250 一 400 |\nRG MAA + Eeheal [7 一 400 以 上 一",
-      "options": {},
-      "correct_answer": "D",
-      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 20,
-      "source_number": 20,
-      "display_number": 20,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "在 乾燥 無 風 的 空氣 中 , 聲 音 的 傳播 速 汀 (y) 與 空氣 溫度 (T) 有 關 , 其 單位 分 別 為 m/s 與 C , 關 係 式 為 v 二 331 十 0.6TP- 在 jH 櫥 環境 中 , 持 續 敲 擊 一 支 頻率 為 200 Hz 的 齊 又 , 若 音 又 持續 發 出 聲 意 的 過 程 中 記 此 空間 的 空氣 溫度 由 -15C 持 續 升 高 到 15C , 則 過 程 中 此 音 又 發 出 聲波 的 波長 將 如 何 變化 ?",
-      "options": {
-        "A": "持 續 變 短",
-        "B": "持 續 變 長",
-        "C": "先 變 長 再 變 短 _ (先 變 短 再 變 長\nec!\n人 TT g。 分 別 將 四 le]\n磁鐵 吸附 於 鐵 櫃 水 平 的 頂部 GRR NA PAE 的 側 ©\n壁 , 如 圖 (十 一 ) 所 示 。 若 兩 個 磁鐵 皆 保持 靜 4-, 磁 鐵 所 受\n磁力 方向 與 接觸 面 垂 直 , 甲 、 乙 兩 磁鐵 與 鐵 櫃 之 問 摩 控 力 an\nHAs fy 、fz , 則 下 到 何者 正確 ?\nPE\n人 Gi fz 三 200 gw"
-      },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（持 續 變 長）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 21,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "19. 表 (三 ) 是 某 國 家 甲 、 乙 兩 座 核電 廠 的 自 動 停機 安全 數 值 , 當 地 震 發 生 造成 核電 廠 的 地 動 加 速度 超 過 表 中 的 安全 數 值 時 , 部 分 機 具 便 會 自 動 停止 運轉 。 表 (四 ) 是 該 國 家 所 使用 的 震度 與 地 動 加 速度 的 對 照 表 。 已 知 某 次 地 震 , 甲 、 乙 都 因 超 過 安 全 數 值 而 停止 運轉 , 下 列 何者 最 有 可 能 是 該 次 地 震 在 甲 、 乙 造成 的 震度 ? 表 (加)",
-      "options": {
-        "A": "甲 : 3 級 , 乙 :4 級",
-        "B": "甲 : 4 級 , 乙 :5 紉",
-        "C": "甲 : 5 級 , 乙 :5 級",
-        "D": "甲 :6 級 , 乙 :6 級\n地 動 加 速度 2 RAORERE\n度 的 一 種 方式 , 單 位 為 gal"
-      },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（甲 : 4 級 , 乙 :5 紉）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 22,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "小 菲 施 SON 的 水 平 力 於 質量 為 10 kg WIS 沿 力 的 方向 移動 20 m 後 , 恰 巧遇 BBE BEAR RACE , 於 是 兩 人 就 各 施 25 N 的 水 平 力 於 餐車 , 繼 續 沿 力 的 方向 移動 40 m 到 達 教室 。 從 小 菲 開 始 推 車 至 到 達 教室 的 期 間 , 小 菲 總 共 對 餐車 作 功 多 少 ? La $$】",
-      "options": {
-        "B": "1000J 一”",
-        "C": "20001",
-        "D": "3000 J"
-      },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（20001）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 23,
@@ -634,6 +765,12 @@
       "display_number": 23,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.720353,
+        "x1": 1.0,
+        "y1": 0.745154
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "已 各 HH 的 原 子 量 為 1,C 的 原 子 量 為 12,O 的 原 子 量 為 16。 某 物質 所 含 C、H、oO 的 質量 比 是 6:1:8, 則 此 物質 最 可 能 是 下 列 何者 ?",
@@ -644,6 +781,7 @@
         "D": "CH,OH\n° 請 翻 頁 繼續 作答"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（CH;COOH）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -652,6 +790,12 @@
       "display_number": 24,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\science\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.742873,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "閨 璿 利用 同 一 個 穩定 的 熱源 , 分 別 對 相 同 表 (五 ) ate he noe hes Lowe. | #9 | LAB ECO)| 比 熱 (cal/ g C) | 質 加 熱 , 其 完成 的 紀錄 如 示 。 fs 失守 吸收 100 cal 的 熱量 。 若 加 熱 過 程 中 熱量 wren arte Le | | 04 | Sf 3S to BO PB AL?",
@@ -661,23 +805,33 @@
         "B": "溫度"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（g 和 ! 甲 兩 MM [人）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 25,
       "source_number": 25,
       "display_number": 25,
-      "page_number": 7,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_07.png",
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.400228
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "書 本 上 記載 , 進 行 脂肪 合成 的 反應 式 為 “脂肪酸 十 X 一 脂肪 十 水 」, 已 知 脂肪 酸 是 一 種 有 機 酸 , 而 脂肪 是 沁 種 酯 類 \"則 物質 XX 應 屬於 下 列 何 種 物質 ?",
+      "stem": "19. 表 (三 ) 是 某 國 家 甲 、 乙 兩 座 核電 廠 的 自 動 停機 安全 數 值 , 當 地 震 發 生 造成 核電 廠 的 地 動 加 速度 超 過 表 中 的 安全 數 值 時 , 部 分 機 具 便 會 自 動 停止 運轉 。 表 (四 ) 是 該 國 家 所 使用 的 震度 與 地 動 加 速度 的 對 照 表 。 已 知 某 次 地 震 , 甲 、 乙 都 因 超 過 安 全 數 值 而 停止 運轉 , 下 列 何者 最 有 可 能 是 該 次 地 震 在 甲 、 乙 造成 的 震度 ? 表 (加)",
       "options": {
-        "A": "有 機 醇 類 物質 PE",
-        "C": "無 機 酸性 物質 ecL"
+        "A": "甲 : 3 級 , 乙 :4 級",
+        "B": "甲 : 4 級 , 乙 :5 紉",
+        "C": "甲 : 5 級 , 乙 :5 級",
+        "D": "甲 :6 級 , 乙 :6 級\n地 動 加 速度 2 RAORERE\n度 的 一 種 方式 , 單 位 為 gal"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（有 機 醇 類 物質 PE）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（甲 : 3 級 , 乙 :4 級）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 26,
@@ -685,6 +839,12 @@
       "display_number": 26,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\science\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.397948,
+        "x1": 1.0,
+        "y1": 0.423603
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "君 君 將 定量 的 N MH, 通 入 十 個 密 義 容器 下放 各 種 分 子 的 分 布 與 數 目 示 意圖 如 圖 (十 二 ) 所 示 e>: 將 殉 容 器 崔 移 物質 在 適當 的 條 件 下 進 行 反應 且 達到 平衡 , 其 反應 式 為 = N2 十 3H 一 2NH 下 列 的 示意 圖 中 , 何 者 最 能 表 示 達 到 平衡 後 容器 內 分 子 的 分 布 SOREN 與 數 目 ? i (+=)",
@@ -694,6 +854,7 @@
         "D": ""
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -702,34 +863,49 @@
       "display_number": 27,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
-      "parse_status": "complete",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.421323,
+        "x1": 1.0,
+        "y1": 0.552452
+      },
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "22. 小 菲 施 SON 的 水 平 力 於 質量 為 10 kg HEP A 的 方向 移動 20m 後 , 恰 巧遇 見 媛 媛 , 媛 媛 表 示 要 一 起 幫忙 推 車 , 於 是 兩 人 就 各 施 ISN 的 水 平 力 於 餐車 , 繼 SUA 的 方向 移動 40 m 到 達 教室 。 從 小 菲 開 始 推 車 至 到 達 教 室 的 期 間 , 小 菲 總 共 對 餐車 作 功 多 少 ?",
+      "stem": "",
       "options": {
-        "A": "600 J",
-        "B": "1000 J",
-        "D": "3000 J"
+        "A": "持 續 變 短",
+        "C": "先 變 長 再 變 短",
+        "B": "持 續 變 長\nfe bake Pp > JF a Seek — & 4A A, 200 Hz\n5 宅 間 的 空氣 溫度 由 一 15 C 持 續 升 高\n可 變化 ?",
+        "D": "先 變 短 再 變 長"
       },
       "correct_answer": "D",
-      "explanation": "官方答案：D（3000 J）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（先 變 短 再 變 長）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 28,
       "source_number": 28,
       "display_number": 28,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.550171,
+        "x1": 1.0,
+        "y1": 0.575257
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "23. 已 知 本 的 原 子 量 為 1,C 的 原 子 量 為 12,O 的 原 子 量 為 16。 某 物質 所 含 C、H、O 的 質量 比 是 6:1:8, 則 此 物質 最 可 能 是 下 列 何者 ?",
+      "stem": "i TAR ATER 9 TRA 得 Hh IAA RA Ba IE A 得 。 關 於 棉 質 衣料 與 絲綢 衣料 的 此 較 - 下 列 北 可 何者 正確 ?",
       "options": {
-        "A": "CH;COOH",
-        "B": "C;H;0H",
-        "C": "HCOOH",
-        "D": "CH;OH\n請 翻 崗 繼續 作答"
+        "A": "前 者 為 無 機 物 , 後 者 為 有 eb)",
+        "B": "前 者 為 混合 物 , 後 者 為 純 物 負",
+        "C": "前 者 由 非 聚 合 物 組 成 , 後 者 由 聚合 物 組 成",
+        "D": "前 者 由 碳水 化 合 物 組 成 , 後 者 由 蛋白 質 組 成\n咐 口 ~"
       },
       "correct_answer": "D",
-      "explanation": "官方答案：D（CH;OH 請 翻 崗 繼續 作答）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（前 者 由 碳水 化 合 物 組 成 , 後 者 由 蛋白 質 組 成 咐 口 ~）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 29,
@@ -737,6 +913,12 @@
       "display_number": 29,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.572976,
+        "x1": 1.0,
+        "y1": 0.615735
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "小 均 作 有 關 黴菌 、 酵 母 菌 和 矽 讓 的 主 題 報告 , 需 要 分 析 這 三 類 生 物 的 相 同 和 相 異 處 。 下 列 有 關 小 均 報告 中 的 敘述 | 何者 兩 確 ?",
@@ -746,54 +928,79 @@
         "D": "都 無 法 利用 CO 製造 養分\n-_ N"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 30,
       "source_number": 30,
       "display_number": 30,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.613455,
+        "x1": 1.0,
+        "y1": 0.7252
+      },
       "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "阿 彥 參觀 某 動物 點 後 , 整 理 所 記 色 和 , 如 表 (六 ) 所 示 。 根 據 此 表 的 資料\n將 動物 分 類 , 推 測 下 列 哪 種 動物 的 體溫 調節 方式 可 能 與 其 他 三 者 不 同 ?\nEE",
-      "options": {},
+      "stem": "磁力 方向 與 接觸 面 垂直 , 甲 、 ~berep-eeieiaiaiainies 的 大 小 分 別 為 f? 、fz, 則 下 烈 何者 正事",
+      "options": {
+        "A": "fr 一 0 |\n全\nPa ee ee"
+      },
       "correct_answer": "D",
-      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 31,
       "source_number": 31,
       "display_number": 31,
-      "page_number": 7,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_07.png",
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.722919,
+        "x1": 1.0,
+        "y1": 0.857469
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "25. 書 本 上 記載 , 進 行 脂肪 合成 的 反 閥 式 為 。gz- 脂 肪 酸 十 X 一 脂肪 十 水 」, 已 知 脂肪 酸 是 一 種 有 機 酸 , 而 脂肪 是 一 種 酯 類 則 物質 文 應 屬於 下 列 何 種 物質 ?",
+      "stem": "22. 小 菲 施 SON 的 水 平 力 於 質量 為 10 kg HEP A 的 方向 移動 20m 後 , 恰 巧遇 見 媛 媛 , 媛 媛 表 示 要 一 起 幫忙 推 車 , 於 是 兩 人 就 各 施 ISN 的 水 平 力 於 餐車 , 繼 SUA 的 方向 移動 40 m 到 達 教室 。 從 小 菲 開 始 推 車 至 到 達 教 室 的 期 間 , 小 菲 總 共 對 餐車 作 功 多 少 ?",
       "options": {
-        "A": "有 機 醇 類 物質 cx",
-        "C": "無 機 酸性 物質"
+        "A": "600 J",
+        "B": "1000 J",
+        "D": "3000 J"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（有 機 醇 類 物質 cx）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（600 J）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 32,
       "source_number": 32,
       "display_number": 32,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.855188,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "HR RAR ee TAR 四 - BA Fo A Hohe BLE ' 兩 力 大 小 相 同 , 卻 無 法 互相 抵消 , 其 主 要 大國 與 作用 力 和 反作用 力 的 何 種 性 質 有 開 ?",
+      "stem": "23. 已 知 本 的 原 子 量 為 1,C 的 原 子 量 為 12,O 的 原 子 量 為 16。 某 物質 所 含 C、H、O 的 質量 比 是 6:1:8, 則 此 物質 最 可 能 是 下 列 何者 ?",
       "options": {
-        "A": "而 者 不 是 作用 在 同 一 物體 上 |「",
-        "B": "南 者 作 用 在 同 一 直 綠 上",
-        "C": "而 者 同 時 產生 , 同 時 消失",
-        "D": "兩 者 方向 不 同\n請 翻 崗 繼續 作答"
+        "A": "CH;COOH",
+        "B": "C;H;0H",
+        "C": "HCOOH",
+        "D": "CH;OH\n請 翻 崗 繼續 作答"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（而 者 不 是 作用 在 同 一 物體 上 |「）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（CH;COOH）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 33,
@@ -801,6 +1008,12 @@
       "display_number": 33,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\102\\science\\page_09.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.125143
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (十 三 ) 是 人 體 部 分 呼吸 系 統 的 示意 圖 , 圖 (十 四 ) 是 圖 (十 三 ) 中 乙 處 的 放大 示意 圖 , 箭頭 表 示 氣 體 交換 的 方向 。 已 知 丁 是 血液 中 其 有 血紅 素 的 血球 , 則 下 列 相 關 敘述 , 何者 正確 ? =| ie)",
@@ -810,6 +1023,7 @@
         "C": "COr 的 擴散 方向 主 要 是 由 成 到 丙 et\n(DF KIER PRAT RT eR ; 為\n圖 (十 三 ) = (+e)"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（COr 的 擴散 方向 主 要 是 由 成 到 丙 et (DF KIER PRAT RT eR ; 為 圖 (十 三 ) = (+e)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -818,6 +1032,7 @@
       "display_number": 34,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\102\\science\\page_09.png",
+      "crop_box": null,
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (十 三 ) 是 人 體 部 分 呼吸 系 統 的 示意 圖 , 圖 (十 四 ) 是 圖 (十 三 ) 中 乙 處 的 放大 示意 圖 , 箭頭 表 示 氣 體 交換 的 方向 。 已 知 丁 是 血液 中 其 有 血紅 素 的 血球 , 則 下 列 相 關 敘述 , 何者 正確 ? =| ie)",
@@ -827,25 +1042,31 @@
         "C": "COr 的 擴散 方向 主 要 是 由 成 到 丙 et\n(DF KIER PRAT RT eR ; 為\n圖 (十 三 ) = (+e)"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 35,
       "source_number": 35,
       "display_number": 35,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "page_number": 9,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_09.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.518814,
+        "x1": 1.0,
+        "y1": 0.653364
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "SES) EAR MIN AY S/S) a ARE NAT EE EN JG REN OTR RY] 17 的 主 要 來 源 。 點 燃 煙 火 後 , 上 3 oe: 的 過 氣 酸 鋪",
+      "stem": "氮氣 在 一 大 氣壓 下 , 溫 度 低 於 -196C 時 , 會 形 exezz 成 液態 氮 。 取 液態 氣 倒 入 常溫 的 適量 水 中 , 水 面 ( eT) 液態 氮 EGE BRAS 的 白色 煙霧 ~- 姑 回 (十 六 ) 所 ao Cory tT Fe BAe PA A M9 WL ak ow. 生 固體 的 原 因 , 下 列 敘 述 何者 正確 Saar",
       "options": {
-        "A": "艾 為 氧化 反應",
-        "B": "均 為 還 原 反應",
-        "C": "過 氣 酸 甸 : 氧 化 反應 , 鎂 粉 :",
-        "D": "過 氣 酸 甸 : 還 原 反應 , 鎂 粉 : 氧化 反 說\n| li"
+        "A": "液 態 水 吸收 熱量 而 昇華 SE",
+        "B": "液 態 水 放出 熱量 而 凝固 ree\n(CR AE LAMAR i BEA\nPT"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B（均 為 還 原 反應）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（液 態 水 放出 熱量 而 凝固 ree (CR AE LAMAR i BEA PT）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 36,
@@ -853,6 +1074,12 @@
       "display_number": 36,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.651083,
+        "x1": 1.0,
+        "y1": 0.714367
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "阿 銘 在 某 份 報告 上 看 到 一 張 實驗 紀錄 表 , 內 容 如 表 (七) 所 示 。 此 表 包含 五 組 實 驗 , 且 報告 上 指出 可 能 影響 實驗 結果 的 因素 只 有 變 因 一 與 變 因 二 , 則 利用 此 表 , 作 出 下 列 哪 一 個 判斷 最 合理 ? 表 (七) _ 變 因 二 _ 上 2g | 2g | 2g | 2g |",
@@ -862,32 +1089,143 @@
         "D": "變 因 一 與 實驗 結果 成 正比 , feo"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（變 因 一 與 實驗 結果 成 正比 , feo）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 37,
       "source_number": 37,
       "display_number": 37,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.712087,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "29:",
+      "stem": "阿 銘 在 某 份 報告 上 看 到 一 張 實驗 紀錄 表 , 內 容 如 表 (七) 所 示 。 此 表 包含 五 組 實 驗 , 且 報告 上 指出 可 能 影響 實驗 結果 的 因素 只 有 變 因 一 與 變 因 二 , 則 利用 此 表 , 作 出 下 列 哪 一 個 判斷 最 合理 ? 表 (七) _ 變 因 二 _ 上 2g | 2g | 2g | 2g |",
       "options": {
-        "B": "前 者 為 混合 物 , 後 者 為 純 $",
-        "C": "都 可 擔任 分 解 者 te\nhl",
-        "D": "前 者 由 碳水 化 合 物 組 成 , 後 者 由 蛋白 質 組 成",
-        "A": "都 具有 菌 絲"
+        "A": "變 因 一 與 實驗 結果 無 關 , 變 因 二 與 實驗 結果 無 關\nEL 的 關係",
+        "C": "變 因 一 與 實驗 結果 成 正比 , 變 因 二 與 實驗 結果 無 開",
+        "D": "變 因 一 與 實驗 結果 成 正比 , feo"
       },
       "correct_answer": "D",
-      "explanation": "官方答案：D（前 者 由 碳水 化 合 物 組 成 , 後 者 由 蛋白 質 組 成）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（變 因 一 與 實驗 結果 成 正比 , feo）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 38,
       "source_number": 38,
       "display_number": 38,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.1374
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "“人 類 的 牙齒 表 面 受 到 一 層 琺 瑯 質 保護 著 , 其 主 要 成 分 是 氮氣 磷 灰 石 (Cax(Po03OHD ° C40 AR th SBF (Ca) » BEORAR BEF (POs) 40 AAR BEF (OH) Pit a Be EEG IGBA P 45 xt FPL 2",
+      "options": {
+        "A": "2",
+        "B": "3 Jae e\n="
+      },
+      "correct_answer": "A",
+      "visual_primary": true,
+      "explanation": "官方答案：A（2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 39,
+      "source_number": 39,
+      "display_number": 39,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.13512,
+        "x1": 1.0,
+        "y1": 0.278506
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "SES) EAR MIN AY S/S) a ARE NAT EE EN JG REN OTR RY] 17 的 主 要 來 源 。 點 燃 煙 火 後 , 上 3 oe: 的 過 氣 酸 鋪",
+      "options": {
+        "A": "艾 為 氧化 反應",
+        "B": "均 為 還 原 反應",
+        "C": "過 氣 酸 甸 : 氧 化 反應 , 鎂 粉 :",
+        "D": "過 氣 酸 甸 : 還 原 反應 , 鎂 粉 : 氧化 反 說\n| li"
+      },
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（過 氣 酸 甸 : 還 原 反應 , 鎂 粉 : 氧化 反 說 | li）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 40,
+      "source_number": 40,
+      "display_number": 40,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.276226,
+        "x1": 1.0,
+        "y1": 0.300171
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖 (十 八) 是 太 陽 系 內 部 分 星體 的 軌道 示意 圖 (未 按 一 一 一 實際 比 例 繪製 ), 虛線 代表 各 自 的 公轉 軌道 。 因 i a EARL ORS + RAL MENEREME | yg NN Pe Le ca) 2 ae ee lee ce, ee ° BERNER OEM RACE ON Ky aM ff",
+      "options": {
+        "A": "爹 星 與 地 球",
+        "B": "水 星 與 地 球 2 a",
+        "C": "太 陽 與 月 球 —",
+        "D": "地 球 與 月 球 7\n回 (十 八 )\n請 翻 頁 繼續 作答"
+      },
+      "correct_answer": "A",
+      "visual_primary": true,
+      "explanation": "官方答案：A（爹 星 與 地 球）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 41,
+      "source_number": 41,
+      "display_number": 41,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.297891,
+        "x1": 1.0,
+        "y1": 0.54333
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖 (十 八) 是 太 陽 系 內 部 分 星體 的 軌道 示意 圖 (未 按 一 一 一 實際 比 例 繪製 ), 虛線 代表 各 自 的 公轉 軌道 。 因 i a EARL ORS + RAL MENEREME | yg NN Pe Le ca) 2 ae ee lee ce, ee ° BERNER OEM RACE ON Ky aM ff",
+      "options": {
+        "A": "爹 星 與 地 球",
+        "B": "水 星 與 地 球 2 a",
+        "C": "太 陽 與 月 球 —",
+        "D": "地 球 與 月 球 7\n回 (十 八 )\n請 翻 頁 繼續 作答"
+      },
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（地 球 與 月 球 7 回 (十 八 ) 請 翻 頁 繼續 作答）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 42,
+      "source_number": 42,
+      "display_number": 42,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.541049,
+        "x1": 1.0,
+        "y1": 0.797035
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "30. 阿 彥 參 觀 某 動物 園 後 , 整 理 所 記錄 的 動物 資料 , 如 表 (六 ) 所 示 。 根 據 此 表 的 資料 將 動物 分 類 , 推 測 下 列 哪 種 動物 芍 體 溫 調節 方式 可 能 與 其 他 三 者 不 同 ? 表 (六 ) 俗名 | 呼吸 構造 | 胚胎 發 育 方式 其 他 特 徵 cua | | ee.) [MAAS ROAR ase | RR |e) (eRe TAMARA $0 Ba TA RARE OBIS",
@@ -897,15 +1235,22 @@
         "C": "孟 加 拉 虎",
         "D": "豹 紋 瞼 虎"
       },
-      "correct_answer": "A",
-      "explanation": "官方答案：A（AR）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（豹 紋 瞼 虎）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 39,
-      "source_number": 39,
-      "display_number": 39,
+      "number": 43,
+      "source_number": 43,
+      "display_number": 43,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\science\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.794755,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "31. 瑋 瑋 推 著 娃娃 車 , 她 施 予 娃娃 車 的 作用 力 和 娃娃 車 給 她 的 反作用 力 , 兩 力 大 小 相 同 , 卻 無 法 互相 抵消 , 其 主 要 原 因 與 作用 力 和 反作用 力 的 何 種 性 質 有 關 ?",
@@ -915,68 +1260,22 @@
         "C": "兩 者 同 時 產生 , 同 時 消失 _",
         "D": "兩 者 方向 不 同\n請 翻 崗 繼續 作答"
       },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（兩 者 方向 不 同 請 翻 崗 繼續 作答）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B（兩 者 作用 在 同 一 直線 上）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 40,
-      "source_number": 40,
-      "display_number": 40,
-      "page_number": 10,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "圖 (十 八) 是 太 陽 系 內 部 分 星體 的 軌道 示意 圖 (未 按 一 一 一 實際 比 例 繪製 ), 虛線 代表 各 自 的 公轉 軌道 。 因 i a EARL ORS + RAL MENEREME | yg NN Pe Le ca) 2 ae ee lee ce, ee ° BERNER OEM RACE ON Ky aM ff",
-      "options": {
-        "A": "爹 星 與 地 球",
-        "B": "水 星 與 地 球 2 a",
-        "C": "太 陽 與 月 球 —",
-        "D": "地 球 與 月 球 7\n回 (十 八 )\n請 翻 頁 繼續 作答"
-      },
-      "correct_answer": "A",
-      "explanation": "官方答案：A（爹 星 與 地 球）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 41,
-      "source_number": 41,
-      "display_number": 41,
-      "page_number": 10,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "圖 (十 八) 是 太 陽 系 內 部 分 星體 的 軌道 示意 圖 (未 按 一 一 一 實際 比 例 繪製 ), 虛線 代表 各 自 的 公轉 軌道 。 因 i a EARL ORS + RAL MENEREME | yg NN Pe Le ca) 2 ae ee lee ce, ee ° BERNER OEM RACE ON Ky aM ff",
-      "options": {
-        "A": "爹 星 與 地 球",
-        "B": "水 星 與 地 球 2 a",
-        "C": "太 陽 與 月 球 —",
-        "D": "地 球 與 月 球 7\n回 (十 八 )\n請 翻 頁 繼續 作答"
-      },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（地 球 與 月 球 7 回 (十 八 ) 請 翻 頁 繼續 作答）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 42,
-      "source_number": 42,
-      "display_number": 42,
-      "page_number": 9,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_09.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "何者 正確 ? —=a |",
-      "options": {
-        "A": "丁 是 血小板 ——\n(BY HE BH He ah i Hs",
-        "C": "CO2 HRA 1) E Re REA",
-        "D": "呼 氣 時 氣體 主 要 由 甲 進 入 乙 後 再 由 丁 運 送\n—\nfal (+ =) 回 (十 四 )"
-      },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（呼 氣 時 氣體 主 要 由 甲 進 入 乙 後 再 由 丁 運 送 — fal (+ =) 回 (十 四 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 43,
-      "source_number": 43,
-      "display_number": 43,
+      "number": 44,
+      "source_number": 44,
+      "display_number": 44,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\science\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.380274
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "食物 中 的 澱粉 經 過 消化 作用 腸 吸收 的 小 分 子 。 有 關 此 小 分 子 的 敘 凡 , 下 列 何者 正確 ?",
@@ -985,43 +1284,32 @@
         "C": "是 光合 作用 的 原 料",
         "D": "是 呼吸 作用 的 原 料"
       },
-      "correct_answer": "B",
-      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 44,
-      "source_number": 44,
-      "display_number": 44,
-      "page_number": 10,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "36. 阿 銘 在 某 份 報告 上 看 到 一 張 實驗 紀錄 表 , 內 容 如 表 (七 ) 所 示 。 此 表 包含 五 組 實 驗 , 且 報告 上 指出 可 能 影響 實驗 結果 的 因素 只 有 變 因 一 與 變 因 二 , 則 利用 此 表 , 作 出 下 列 哪 一 個 判斷 最 合理 ?",
-      "options": {
-        "A": "變 因 一 與 實驗 結果 無 關 , 變 因 二 與 實驗 結果 無 關",
-        "B": "變 因 一 與 實驗 結果 無 關 , 變 因 一 無 法 判定 與 實驗 結果 的 關係",
-        "C": "變 因 一 與 實驗 結果 成 正比 , 變 因 二 與 實驗 結果 無 開",
-        "D": "變 因 一 i ieee meee RRS SEAT ees RO Hh\n| — i J"
-      },
       "correct_answer": "A",
-      "explanation": "官方答案：A（變 因 一 與 實驗 結果 無 關 , 變 因 二 與 實驗 結果 無 關）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（成 分 是 胺 基 酸 EE: 可 用 碘 液 檢測 出）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 45,
       "source_number": 45,
       "display_number": 45,
-      "page_number": 10,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "page_number": 12,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_12.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.377993,
+        "x1": 1.0,
+        "y1": 0.421893
+      },
       "parse_status": "complete",
-      "context": "",
-      "stem": "37.” 人 類 的 牙齒 表 面 受 到 一 層 琺 瑯 質 保護 著 , 其 主 要 成 分 是 氣 氧 磷 灰 石 (Cax(POO3OH)。 已 知 氮氣 磷 灰 石 由 鈣 離 子 (Ca2)、 名 -) 和 氮 氧 根 離子 (OH-) 所 組 成 , 則 氮 氧 磷 灰 石化 學 式 中 的 x 便 應 為 下 列 何 ?",
+      "context": "請 閱讀 下 列 敘述 後 , 回 答 45~46 是\n某 盆地 裡 有 個 村落 , 村 落 旁 有 條 河流 , 在 每 年 8 月 河流 氾濫 都 會 發 生 洪水\n淹沒 盆地 , 村 民 大 約 7 月 初 就 搬 到 山上 , 等 洪水 退去 之 後 盆地 內 會 多 出 一 層 新\n的 肥沃 土壤 , 村 民 就 利用 河流 每 年 帶 麻 的 瀛 上 亂 展 農業 。\nee",
+      "stem": "洪水 每 年 都 在 盆地 裡 留 下 新 的 士 曠 二 此 現象 主 要 是 指 哪 一 種 地 質 作用 ?",
       "options": {
-        "A": "2",
-        "B": "3",
-        "D": "5"
+        "A": "風 化 R 二 (Ore",
+        "D": "膠 結"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 46,
@@ -1029,6 +1317,12 @@
       "display_number": 46,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\science\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.419612,
+        "x1": 1.0,
+        "y1": 0.572976
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (二 十 二 ) 為 化 合 物 甲 於 100 高 水 oe 。 小 元 配製 X、Y 二 杯 溶液 如 下 : 全 一 之, = 六 杯 : 取 30g 化 合 物 皿 加 入 30C、120g 永 中 一 解 s0 Y 杯 : 取 30g 化 合 物 甲 加 入 50C、70g 水 中 度 40 若 過 程 中 二 杯 水 溶液 皆 維持 原 水 溫 / 且 水 量 並 翊 30 未 蒸發 減少 , 則 X、Y 二 杯 溶 液 蔭 重量 百 分 “520 RADAR ATH? NN & 10 人 ~ 0 1020304050 arc",
@@ -1038,6 +1332,7 @@
         "D": "X : 25% + ¥ : 43%"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（X : 25% + ¥ : 43%）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1046,6 +1341,12 @@
       "display_number": 47,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\science\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.570696,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (二 十 二 ) 為 化 合 物 甲 於 100 高 水 oe 。 小 元 配製 X、Y 二 杯 溶液 如 下 : 全 一 之, = 六 杯 : 取 30g 化 合 物 皿 加 入 30C、120g 永 中 一 解 s0 Y 杯 : 取 30g 化 合 物 甲 加 入 50C、70g 水 中 度 40 若 過 程 中 二 杯 水 溶液 皆 維持 原 水 溫 / 且 水 量 並 翊 30 未 蒸發 減少 , 則 X、Y 二 杯 溶 液 蔭 重量 百 分 “520 RADAR ATH? NN & 10 人 ~ 0 1020304050 arc",
@@ -1055,40 +1356,57 @@
         "D": "X : 25% + ¥ : 43%\n請 閱讀 下 列 敘述 後 , 回 答 45~46 是\n某 盆地 裡 有 個 村落 , 村 落 旁 有 條 河流 , 在 每 年 8 月 河流 氾濫 都 會 發 生 洪水\n淹沒 盆地 , 村 民 大 約 7 月 初 就 搬 到 山上 , 等 洪水 退去 之 後 盆地 內 會 多 出 一 層 新\n的 肥沃 土壤 , 村 民 就 利用 河流 每 年 帶 麻 的 瀛 上 亂 展 農業 。\nee"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（X : 17% + ¥ : 33% tan）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 48,
       "source_number": 48,
       "display_number": 48,
-      "page_number": 12,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_12.png",
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.350627
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "已 知 此 植物 花 辯 顏色 的 性 狀 是 由 一 對 遺傳 因子 (等 位 基因 ) 控 制 ,R 為 顯 性 ,I 為 隱 性 , 且 紅花 對 白花 為 顯 性 。 若 這 些 新 相 櫥 打 人 控制 此 性 疏 基因 型 皆 相 同 , 在 不 才 慮 突變 的 情況 下 , 下 列 有 關 這 些 新 入 林 問 情 因子 的 敘 讓 , 何 者 正確 ?",
+      "stem": "36. 阿 銘 在 某 份 報告 上 看 到 一 張 實驗 紀錄 表 , 內 容 如 表 (七 ) 所 示 。 此 表 包含 五 組 實 驗 , 且 報告 上 指出 可 能 影響 實驗 結果 的 因素 只 有 變 因 一 與 變 因 二 , 則 利用 此 表 , 作 出 下 列 哪 一 個 判斷 最 合理 ?",
       "options": {
-        "A": "花 辦 細胞 皆 缺 乏 控制 花 辦 顏色 的 遺傳 因子",
-        "B": "花 辯 細胞 控制 花 辯 顏色 的 遺傳 因子 皆 有 兩 對\nGT EP",
-        "D": "有 的 精細 胞 控制 花 辯 顏色 的 遺傳 因子 為 R, 有 的 為 r\n\" 請 翻 頁 繼續 作答"
+        "A": "變 因 一 與 實驗 結果 無 關 , 變 因 二 與 實驗 結果 無 關",
+        "B": "變 因 一 與 實驗 結果 無 關 , 變 因 一 無 法 判定 與 實驗 結果 的 關係",
+        "C": "變 因 一 與 實驗 結果 成 正比 , 變 因 二 與 實驗 結果 無 開",
+        "D": "變 因 一 i ieee meee RRS SEAT ees RO Hh\n| — i J"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（變 因 一 與 實驗 結果 成 正比 , 變 因 二 與 實驗 結果 無 開）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 49,
       "source_number": 49,
       "display_number": 49,
-      "page_number": 11,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_11.png",
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.348347,
+        "x1": 1.0,
+        "y1": 0.462942
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "41. 室 溫 時 , 在 一 個 水 平 的 桌面 上 放 有 甲 、 乙 、 丙 、 丁 四 個 相 同 的 紙杯 , 紙 杯 裝 有 的 物質 如 圖 (十 九 ) 所 示 。 若 液體 的 樵 發 忽略 不 計 , 則 相 對 於 地 面 而 言 , 哪 一 個 紙 pk RE ?",
+      "stem": "37.” 人 類 的 牙齒 表 面 受 到 一 層 琺 瑯 質 保護 著 , 其 主 要 成 分 是 氣 氧 磷 灰 石 (Cax(POO3OH)。 已 知 氮氣 磷 灰 石 由 鈣 離 子 (Ca2)、 名 -) 和 氮 氧 根 離子 (OH-) 所 組 成 , 則 氮 氧 磷 灰 石化 學 式 中 的 x 便 應 為 下 列 何 ?",
       "options": {
-        "A": "?\nGe",
-        "D": "T"
+        "A": "2",
+        "B": "3",
+        "D": "5"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（? Ge）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 50,
@@ -1096,6 +1414,12 @@
       "display_number": 50,
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\102\\science\\page_13.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.460661,
+        "x1": 1.0,
+        "y1": 0.747434
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "表 (九 ) 為 元 素 週期 表 , 表 中 格子 內 的 數 字 表 示 該 格 元 素 的 原 子 序 。 北 投石 含有 的 放射 性 元 素 Ra 與 下 列 哪 一 個 元 素 是 屬於 同 一 族 的 元 素 ?",
@@ -1104,6 +1428,7 @@
         "B": "xBa 國\n(COsRn SA J I\nsh 上 A A\nLOI\nCOCOA 4 7\n點 點 圖 圈 因 | 囝 圖 圖\n回 回 點 也 回 字 點 圖\n—s, C2\nMATCH BE HRA\nrat eho oI III 區 區\n請 閱讀 下 列 敘 述 後 , 回 答 51~52 是\nME RRE REBAR: _ rea\n£1 空氣 的 探索 一 一 第 4 章. 生 活 中 的 有 機 化 合 物"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（xBa 國 (COsRn SA J I sh 上 A A LOI COCOA 4 7 點 點 圖 圈 因 | 囝 圖 圖 回 回 點 也 回 字 點 圖 —s, C2 MATCH BE HRA rat eho oI III 區 區 請 閱讀 下 列 敘 述 後 , 回 答 51~52 是 ME RRE REBAR: _ rea £1 空氣 的 探索 一 一 第 4 章. 生 活 中 的 有 機 化 合 物）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1112,6 +1437,12 @@
       "display_number": 51,
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\102\\science\\page_12.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.745154,
+        "x1": 1.0,
+        "y1": 0.79675
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "已 知 此 植物 花 辯 顏色 的 性 狀 是 由 一 對 遺傳 因子 (等 位 基因 ) 控 制 ,R 為 顯 性 ,I 為 隱 性 , 且 紅花 對 白花 為 顯 性 。 若 這 些 新 相 櫥 打 人 控制 此 性 疏 基因 型 皆 相 同 , 在 不 才 慮 突變 的 情況 下 , 下 列 有 關 這 些 新 入 林 問 情 因子 的 敘 讓 , 何 者 正確 ?",
@@ -1121,6 +1452,7 @@
         "D": "有 的 精細 胞 控制 花 辯 顏色 的 遺傳 因子 為 R, 有 的 為 r\n\" 請 翻 頁 繼續 作答\n請 閱讀 下 列 敘述 後 , 回 答 49~50 是\n臺北 市 北 投 區 因 擁 有 豐富 的 溫泉 而 聞名, 該 地 區 主 要 的 溫泉 可 分 為 白 磺 泉 、\n表 太 泉 與 鐵 磺 泉 三 種 。 白 礦泉 是 酸性 泉 ,pH 值 在 3~4 之 問 , 有 硫磺 味 , 呈 混\n濁 的 乳白 色 ; 青 礦泉 是 強酸 性 溫泉 jpH 值 在 12 之 間 , 有 刺 鼻 味 , 呈 透明 微\nHE ARP HR» A SC)\nELMEMERRE RRHBRE OMA LRG) LRSSH MA\n放射 性 元 素 「 鐳 (ssRa)」, 在 地 訂 貼 的 含量 極少, 僅 在 臺灣 北 投 與 日 本 玉川 發 現\n過 , 是 目前 唯一 以 臺灣 地 名 來 命名 的 礦石 。"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（花 辦 細胞 皆 缺 乏 控制 花 辦 顏色 的 遺傳 因子）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1129,6 +1461,12 @@
       "display_number": 52,
       "page_number": 14,
       "page_image_path": "cap_practice_assets\\102\\science\\page_14.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.79447,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "Sl. 阿 健 想 由 書 本 中 獲得 關於 CH3COOH 性 質 的 知識 , 則 他 應 翻閱 哪 兩 章 最 有 可 能\n找 到 ?\n(A) 第 3 章 與 第 4 章 (B) 第 1 章 與 第 5 章\n(C) 第 2 章 與 第 3 章 (D) 第 1 章 與 第 4 章",
       "stem": "圖 (二 十 四 ) 為 此 書 本 第 5 章 ME 依照 實驗 內 容 所 要 探討 的 主 題 來 判 斷 , 該 實驗 最 有 可 能 出 現 ey : em 小 節 ? aS | - 0.2 M 硫 酸 J She 二 =| NY wo ATE a — ce 更 2 a Bk ; i i ~\\ BREDE Ug / ng 察 氣 pay 各 加 入 0.2M 觀察 並 記錄 氣泡 直接 及 iy I 酸 10mL 產生 的 快慢 | C E",
@@ -1139,24 +1477,32 @@
         "D": "5 一 4\n請 閱讀 下 列 和 敘述 後 , 回 答 53~54 題 二 一 LE\n表 (十 ) 為 鋁 、 銅 、 衝 三 種 金 屬 在 aie\n密度 、 原 子 量 與 狀態 的 資訊 ” | CI | 字 貨 | 密度 (gem)] KF ElRE,\n「 鋁 |] 27 | 270 [ae\na [89 | 636 [oe\nSoe Ts. _Loo.6 Tae]"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（5-3）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 53,
       "source_number": 53,
       "display_number": 53,
-      "page_number": 11,
-      "page_image_path": "cap_practice_assets\\102\\science\\page_11.png",
+      "page_number": 14,
+      "page_image_path": "cap_practice_assets\\102\\science\\page_14.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.278791
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "八 加 (二 十 二 ) 為 化 合 物 甲 於 100 遍 水 戰 的 深 解 度 與 水 溫 之 關係 圖 。 小 元 配製 X、Y 二 杯 溶液 如 下 : . XH! 30 gba PA 30C > DOE 解 50 Y 杯 : 取 30g 化 合 物 甲 加 入 SOC > gk 度 40 若 過 程 中 二 杯 水 溶液 皆 維持 原 水 溫 rok EH < 30 未 蒸發 減少 ' 則 X、Y = LED mg RED AR RET ge? ASN S10 Ce? Tie tee LU :。 10203040 50 4 wc)",
+      "stem": "在 常溫 常 壓 下 APL oR et 、 系 所 含 的 原 子 數 目 分 別 為 Ns、 LE",
       "options": {
-        "B": "X : 17%» Y : 33% ; _ | ae",
-        "C": "X : 20% » Y : 30% 圖 (二 十 二 )",
-        "D": "X:25%0,Y :430%"
+        "A": "2x27 gw Dp) = = 0.8 gw",
+        "C": "2x27x6x 108 gw",
+        "D": "2x27 x Gui x08 ew\n。"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B（X : 17%» Y : 33% ; _ | ae）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 54,
@@ -1164,6 +1510,12 @@
       "display_number": 54,
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\102\\science\\page_13.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.276511,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "KAM RD 7S ST HEREA REED 的 1-2 惰性 氣體 15 一 \"4-2 常見 的 有 機 化 合 物 86 1-3 溫室 氣體 22 4-3 有 機 聚合 物 95 第 2 章 構成 材料 的 物質 第 5 章 反應 速率 與 平衡 2-1 常見 金 屬 32 _5-1 溫度 對 反應 速率 的 影響 110 2-2 貴金屬 41 『 5-2 濃度 對 反應 速率 的 影響 。 117 2-3 RHR AR 2N41 faba Pep eae S$ fh kw [SAAC ASY RE OBE 130 TT aRERe se eee 137 3-2 常見 酸 與 崙 62 3-3 BR bie RM PL BB BA 70 Sl. 阿 健 想 由 書 本 中 獲得 關於 CH3COOH 性 質 的 知識 , 則 他 應 翻閱 哪 兩 章 最 有 可 能 找 到 ?",
@@ -1174,6 +1526,7 @@
         "D": "第 1 章 與 第 4 章"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（第 1 章 與 第 5 章）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。"
     }
   ],
@@ -1406,150 +1759,164 @@
       "option_count": 0
     },
     {
-      "question_number": 2,
-      "display_source_number": 2,
+      "question_number": 3,
+      "display_source_number": 3,
       "reason": "parse_incomplete",
-      "stem_length": 116,
+      "stem_length": 91,
       "option_count": 0
     },
     {
-      "question_number": 6,
-      "display_source_number": 6,
+      "question_number": 4,
+      "display_source_number": 4,
       "reason": "parse_incomplete",
-      "stem_length": 135,
+      "stem_length": 25,
+      "option_count": 0
+    },
+    {
+      "question_number": 5,
+      "display_source_number": 5,
+      "reason": "parse_incomplete",
+      "stem_length": 809,
+      "option_count": 0
+    },
+    {
+      "question_number": 7,
+      "display_source_number": 7,
+      "reason": "parse_incomplete",
+      "stem_length": 116,
       "option_count": 0
     },
     {
       "question_number": 11,
       "display_source_number": 11,
       "reason": "parse_incomplete",
-      "stem_length": 124,
+      "stem_length": 138,
       "option_count": 0
     },
     {
-      "question_number": 12,
-      "display_source_number": 12,
+      "question_number": 15,
+      "display_source_number": 15,
       "reason": "parse_incomplete",
-      "stem_length": 191,
-      "option_count": 1
-    },
-    {
-      "question_number": 14,
-      "display_source_number": 14,
-      "reason": "parse_incomplete",
-      "stem_length": 140,
-      "option_count": 1
+      "stem_length": 124,
+      "option_count": 0
     },
     {
       "question_number": 16,
       "display_source_number": 16,
       "reason": "parse_incomplete",
-      "stem_length": 95,
+      "stem_length": 194,
+      "option_count": 1
+    },
+    {
+      "question_number": 18,
+      "display_source_number": 18,
+      "reason": "parse_incomplete",
+      "stem_length": 144,
+      "option_count": 1
+    },
+    {
+      "question_number": 20,
+      "display_source_number": 20,
+      "reason": "parse_incomplete",
+      "stem_length": 99,
       "option_count": 0
     },
     {
-      "question_number": 17,
-      "display_source_number": 17,
+      "question_number": 21,
+      "display_source_number": 21,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 2
     },
     {
-      "question_number": 19,
-      "display_source_number": 19,
-      "reason": "parse_incomplete",
-      "stem_length": 63,
-      "option_count": 0
-    },
-    {
-      "question_number": 22,
-      "display_source_number": 22,
-      "reason": "parse_incomplete",
-      "stem_length": 64,
-      "option_count": 0
-    },
-    {
       "question_number": 23,
       "display_source_number": 23,
       "reason": "parse_incomplete",
-      "stem_length": 0,
-      "option_count": 4
-    },
-    {
-      "question_number": 24,
-      "display_source_number": 24,
-      "reason": "parse_incomplete",
-      "stem_length": 50,
-      "option_count": 0
-    },
-    {
-      "question_number": 25,
-      "display_source_number": 25,
-      "reason": "parse_incomplete",
-      "stem_length": 107,
+      "stem_length": 63,
       "option_count": 0
     },
     {
       "question_number": 26,
       "display_source_number": 26,
       "reason": "parse_incomplete",
-      "stem_length": 76,
-      "option_count": 1
+      "stem_length": 64,
+      "option_count": 0
+    },
+    {
+      "question_number": 27,
+      "display_source_number": 27,
+      "reason": "parse_incomplete",
+      "stem_length": 0,
+      "option_count": 4
+    },
+    {
+      "question_number": 28,
+      "display_source_number": 28,
+      "reason": "parse_incomplete",
+      "stem_length": 50,
+      "option_count": 0
     },
     {
       "question_number": 29,
       "display_source_number": 29,
       "reason": "parse_incomplete",
-      "stem_length": 114,
+      "stem_length": 107,
       "option_count": 0
     },
     {
-      "question_number": 32,
-      "display_source_number": 32,
+      "question_number": 30,
+      "display_source_number": 30,
       "reason": "parse_incomplete",
-      "stem_length": 148,
-      "option_count": 0
+      "stem_length": 76,
+      "option_count": 1
     },
     {
       "question_number": 33,
       "display_source_number": 33,
       "reason": "parse_incomplete",
-      "stem_length": 105,
-      "option_count": 1
-    },
-    {
-      "question_number": 34,
-      "display_source_number": 34,
-      "reason": "parse_incomplete",
-      "stem_length": 271,
+      "stem_length": 114,
       "option_count": 0
     },
     {
       "question_number": 36,
       "display_source_number": 36,
       "reason": "parse_incomplete",
+      "stem_length": 148,
+      "option_count": 0
+    },
+    {
+      "question_number": 37,
+      "display_source_number": 37,
+      "reason": "parse_incomplete",
+      "stem_length": 105,
+      "option_count": 1
+    },
+    {
+      "question_number": 38,
+      "display_source_number": 38,
+      "reason": "parse_incomplete",
+      "stem_length": 271,
+      "option_count": 0
+    },
+    {
+      "question_number": 40,
+      "display_source_number": 40,
+      "reason": "parse_incomplete",
       "stem_length": 54,
       "option_count": 0
     },
     {
-      "question_number": 41,
-      "display_source_number": 41,
+      "question_number": 45,
+      "display_source_number": 45,
       "reason": "parse_incomplete",
       "stem_length": 143,
       "option_count": 0
     },
     {
-      "question_number": 47,
-      "display_source_number": 47,
+      "question_number": 51,
+      "display_source_number": 51,
       "reason": "parse_incomplete",
       "stem_length": 77,
-      "option_count": 0
-    },
-    {
-      "question_number": 52,
-      "display_source_number": 52,
-      "reason": "parse_incomplete",
-      "stem_length": 137,
       "option_count": 0
     }
   ]

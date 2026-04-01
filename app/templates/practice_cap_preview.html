@@ -427,25 +427,30 @@
                     {% endif %}
                 </div>
 
+                {% if not item.use_visual_primary %}
                 <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
+                {% endif %}
 
-                {% if item.page_image_href and not group.context %}
+                {% if item.question_image_href and not group.context %}
                 <div class="cap-visual-box">
-                    <strong>原始題本頁面</strong>
-                    <div>{{ item.page_image_note }}</div>
-                    <img src="{{ item.page_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題原始頁面">
+                    <strong>{% if item.use_visual_primary %}官方題目圖{% else %}原始題本頁面{% endif %}</strong>
+                    <div>
+                        {{ item.page_image_note }}
+                        {% if item.use_visual_primary %}<br>這題以官方題圖為準，避免掃描題本造成的文字誤差。{% endif %}
+                    </div>
+                    <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題原始頁面">
                 </div>
                 {% endif %}
 
                 <div class="cap-options">
                     {% for key, text in item.options.items() %}
-                    <div class="cap-option"><strong>{{ key }}</strong> {{ (text|replace('\n', '<br>')|safe) if text else '此選項暫無可讀文字。' }}</div>
+                    <div class="cap-option"><strong>{{ key }}</strong> {% if item.use_visual_primary %}請依上方官方題圖查看選項內容。{% else %}{{ (text|replace('\n', '<br>')|safe) if text else '此選項暫無可讀文字。' }}{% endif %}</div>
                     {% endfor %}
                 </div>
 
                 <div class="cap-answer-box">
                     <strong>正確答案</strong>
-                    <div>{{ item.correct_answer }}{% if item.correct_option_text %} / {{ item.correct_option_text|replace('\n', '<br>')|safe }}{% endif %}</div>
+                    <div>{{ item.correct_answer }}{% if item.correct_option_text and not item.use_visual_primary %} / {{ item.correct_option_text|replace('\n', '<br>')|safe }}{% endif %}</div>
                 </div>
 
                 <div class="cap-explanation-grid">

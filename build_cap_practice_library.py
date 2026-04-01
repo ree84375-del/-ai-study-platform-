@@ -591,6 +591,12 @@ def extract_question_band_texts(
                 "page_number": None,
                 "carryover_context": "",
                 "body": text,
+                "crop_box": {
+                    "x0": round(band_left / width, 6),
+                    "y0": round(top / height, 6),
+                    "x1": round(band_right / width, 6),
+                    "y1": round(bottom / height, 6),
+                },
             }
         )
     return extracted
@@ -608,7 +614,7 @@ def extract_scanned_fallback_question_chunks(
     with fitz.open(pdf_path) as document:
         for page_index in range(document.page_count):
             page_number = page_index + 1
-            if page_number == 1:
+            if page_number == 1 and str(year) not in {"102", "103"}:
                 continue
             page_image_bytes = render_page_png(document[page_index], dpi=300)
             starts = extract_margin_question_starts(
@@ -842,6 +848,49 @@ def score_question_candidate(stem: str, options: dict[str, str], context: str, c
     return option_score + stem_score + context_score + answer_score + completeness_bonus
 
 
+def should_prioritize_visual(year: str, subject_slug: str, stem: str, options: dict[str, str], parse_status: str) -> bool:
+    if str(year) in {"102", "103"}:
+        return True
+    if parse_status != "complete":
+        return True
+    if len(options) < 4:
+        return True
+
+    combined = normalize_whitespace(
+        " ".join([stem, *(str(value or "") for value in (options or {}).values())])
+    )
+    if not combined:
+        return True
+
+    readable_chars = len(re.findall(r"[\u4e00-\u9fffA-Za-z0-9]", combined))
+    suspicious_chars = len(re.findall(r"[�\ufffd]|[?]{2,}|[A-Za-z]{5,}\s+[A-Za-z]{5,}", combined))
+    return readable_chars < 24 or suspicious_chars > 0
+
+
+def infer_missing_question_page(
+    candidate_buckets: dict[int, list[dict]],
+    missing_number: int,
+    default_page: int = 1,
+) -> int:
+    previous_candidates = [number for number in candidate_buckets if number < missing_number]
+    next_candidates = [number for number in candidate_buckets if number > missing_number]
+
+    previous_page = None
+    next_page = None
+    if previous_candidates:
+        previous_page = candidate_buckets[max(previous_candidates)][0].get("page_number")
+    if next_candidates:
+        next_page = candidate_buckets[min(next_candidates)][0].get("page_number")
+
+    if previous_page and next_page and previous_page == next_page:
+        return int(previous_page)
+    if next_page:
+        return int(next_page)
+    if previous_page:
+        return int(previous_page)
+    return int(default_page)
+
+
 def ensure_cap_page_assets(pdf_path: Path, year: str, subject_slug: str) -> dict[int, str]:
     asset_map: dict[int, str] = {}
     with fitz.open(pdf_path) as document:
@@ -897,7 +946,12 @@ def build_cap_structure_for_subject(
         )
     ]
     raw_unique_count = len(set(normalized_raw_numbers))
-    if official_question_count is None or raw_unique_count != official_question_count:
+    should_collect_scanned_fallback = (
+        str(year) in {"102", "103"}
+        or official_question_count is None
+        or raw_unique_count != official_question_count
+    )
+    if should_collect_scanned_fallback:
         raw_questions.extend(
             extract_scanned_fallback_question_chunks(
                 pdf_path,
@@ -959,6 +1013,7 @@ def build_cap_structure_for_subject(
                 "source_number": source_number,
                 "page_number": item["page_number"],
                 "page_image_path": page_assets.get(item["page_number"]),
+                "crop_box": item.get("crop_box"),
                 "context": context,
                 "stem": stem,
                 "options": options,
@@ -968,6 +1023,36 @@ def build_cap_structure_for_subject(
             }
         )
 
+    if official_question_count:
+        for missing_number in range(1, official_question_count + 1):
+            if missing_number in candidate_buckets:
+                continue
+            inferred_page = infer_missing_question_page(candidate_buckets, missing_number, default_page=1)
+            fallback_answer = answer_map.get(missing_number, "")
+            candidate_buckets[missing_number].append(
+                {
+                    "number": missing_number,
+                    "source_number": missing_number,
+                    "page_number": inferred_page,
+                    "page_image_path": page_assets.get(inferred_page),
+                    "crop_box": None,
+                    "context": "",
+                    "stem": "",
+                    "options": {"A": "", "B": "", "C": "", "D": ""},
+                    "correct_answer": fallback_answer,
+                    "parse_status": "missing_question_visual_fallback",
+                    "candidate_score": -1,
+                }
+            )
+            issues.append(
+                {
+                    "question_number": missing_number,
+                    "display_source_number": missing_number,
+                    "reason": "missing_question_visual_fallback",
+                    "page_number": inferred_page,
+                }
+            )
+
     for normalized_number in sorted(candidate_buckets):
         candidates = sorted(
             candidate_buckets[normalized_number],
@@ -975,18 +1060,32 @@ def build_cap_structure_for_subject(
             reverse=True,
         )
         best = candidates[0]
+        crop_box = best.get("crop_box")
+        if not crop_box:
+            for candidate in candidates:
+                if candidate.get("crop_box"):
+                    crop_box = candidate["crop_box"]
+                    break
         question_payload = {
             "number": best["number"],
             "source_number": best["source_number"],
             "display_number": len(questions) + 1,
             "page_number": best["page_number"],
             "page_image_path": best["page_image_path"],
+            "crop_box": crop_box,
             "parse_status": best["parse_status"],
             "context": best["context"],
             "stem": best["stem"],
             "options": best["options"],
             "correct_answer": best["correct_answer"],
         }
+        question_payload["visual_primary"] = should_prioritize_visual(
+            year,
+            subject_slug,
+            question_payload["stem"],
+            question_payload["options"],
+            question_payload["parse_status"],
+        )
         if best["correct_answer"]:
             answered_count += 1
             question_payload["explanation"] = build_local_cap_explanation(subject_label, year, question_payload)

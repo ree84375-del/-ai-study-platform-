@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆檢討{% endblock %}
+{% block title %}會考練習檢討{% endblock %}
 {% block content %}
 <style>
     .cap-review-shell {
         --review-bg: linear-gradient(180deg, rgba(251, 247, 239, 0.98), rgba(243, 237, 228, 0.98));
         --review-border: rgba(194, 157, 78, 0.22);
-        --review-card: rgba(255, 255, 255, 0.9);
+        --review-card: rgba(255, 255, 255, 0.92);
         --review-ink: #2d251f;
         --review-muted: #655a4d;
         --review-shadow: 0 18px 42px rgba(54, 43, 27, 0.08);
@@ -70,8 +70,8 @@
     .cap-review-hero p,
     .cap-review-panel p,
     .review-card p,
-    .review-card li {
-        margin: 0;
+    .review-card li,
+    .review-card div {
         color: var(--review-muted);
         line-height: 1.78;
     }
@@ -184,7 +184,9 @@
     }
 
     .review-answer-box strong,
-    .review-explanation-item strong {
+    .review-explanation-item strong,
+    .review-context strong,
+    .review-visual-box strong {
         color: #23405d;
     }
 
@@ -218,7 +220,7 @@
 
 <div class="cap-review-shell">
     <section class="cap-review-hero">
-        <span class="cap-kicker"><i class="fa-solid fa-chart-simple"></i> 會考檢討結果</span>
+        <span class="cap-kicker"><i class="fa-solid fa-chart-simple"></i> 會考練習檢討</span>
         <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
         <p>{{ feedback }}</p>
         <div class="cap-top-bar">
@@ -228,9 +230,9 @@
                 <span class="cap-chip"><i class="fa-solid fa-xmark"></i> {{ wrong_count }} 題答錯</span>
             </div>
             <div class="review-actions">
-                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
-                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 看完整預覽</a>
-                <a class="cap-btn" href="{{ retry_href }}"><i class="fa-solid fa-rotate-right"></i> 再做一次</a>
+                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 返回會考入口</a>
+                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 回到預覽</a>
+                <a class="cap-btn" href="{{ retry_href }}"><i class="fa-solid fa-rotate-right"></i> 再練一次</a>
             </div>
         </div>
     </section>
@@ -238,15 +240,15 @@
     <section class="cap-review-panel">
         <div class="cap-panel-head">
             <div>
-                <h2>本輪成績</h2>
-                <p>100 分制，小數點保留到第一位。未作答會列入未完成題數。</p>
+                <h2>作答總覽</h2>
+                <p>成績以 100 分制計算，這裡會整理你的答題狀態、正確答案和每題解題重點。</p>
             </div>
             <span class="cap-chip"><i class="fa-solid fa-list-check"></i> {{ total_count }} 題</span>
         </div>
         <div class="score-grid">
-            <div class="score-card">作答題數<strong>{{ answered_count }}</strong></div>
-            <div class="score-card">未作答<strong>{{ unanswered_count }}</strong></div>
-            <div class="score-card">設定題數<strong>{{ selected_count }}</strong></div>
+            <div class="score-card">已作答題數<strong>{{ answered_count }}</strong></div>
+            <div class="score-card">未作答題數<strong>{{ unanswered_count }}</strong></div>
+            <div class="score-card">本次練習題數<strong>{{ selected_count }}</strong></div>
             <div class="score-card">設定時間<strong>{{ selected_duration }} 分鐘</strong></div>
         </div>
     </section>
@@ -257,39 +259,49 @@
             <div class="review-meta">
                 <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
                     <span class="cap-chip">第 {{ loop.index }} 題</span>
-                    <span class="cap-chip">{{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
+                    <span class="cap-chip">{{ item.year }} 年 / 原卷第 {{ item.source_question_number }} 題</span>
                     {% if item.group_label %}<span class="cap-chip">{{ item.group_label }}</span>{% endif %}
                 </div>
                 <span class="cap-chip">
                     {% if item.is_correct %}
-                    <i class="fa-solid fa-circle-check"></i> 答對
+                    <i class="fa-solid fa-circle-check"></i> 作答正確
                     {% else %}
-                    <i class="fa-solid fa-circle-xmark"></i> 答錯
+                    <i class="fa-solid fa-circle-xmark"></i> 需要複習
                     {% endif %}
                 </span>
             </div>
 
             {% if item.context %}
             <div class="review-context">
-                <strong>題組材料</strong>
+                <strong>題組說明</strong>
                 <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
             </div>
             {% endif %}
 
+            {% if not item.use_visual_primary %}
             <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
+            {% endif %}
 
-            {% if item.page_image_href %}
+            {% if item.question_image_href %}
             <div class="review-visual-box">
-                <strong>原始題本頁面</strong>
-                <div>{{ item.page_image_note }}</div>
-                <img src="{{ item.page_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題原始頁面">
+                <strong>{% if item.use_visual_primary %}官方題目圖{% else %}題目原卷截圖{% endif %}</strong>
+                <div>
+                    {{ item.page_image_note }}
+                    {% if item.use_visual_primary %}<br>這題以官方題圖為準，避免掃描題本造成的文字誤差。{% endif %}
+                </div>
+                <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題截圖">
             </div>
             {% endif %}
 
             <div class="review-option-grid">
                 {% for option in item.options %}
                 <div class="review-option {% if option.is_correct %}is-correct{% endif %} {% if option.is_selected %}is-selected{% endif %}">
-                    <strong>{{ option.key }}</strong> {{ (option.text|replace('\n', '<br>')|safe) if option.text else '此選項暫無可讀文字。' }}
+                    <strong>{{ option.key }}</strong>
+                    {% if item.use_visual_primary %}
+                    請依上方官方題圖查看選項內容。
+                    {% else %}
+                    {{ (option.text|replace('\n', '<br>')|safe) if option.text else '此選項內容未能完整擷取。' }}
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -303,7 +315,13 @@
                 <div class="review-answer-box">
                     <strong>正確答案</strong>
                     <div>{{ item.correct_answer }}</div>
-                    <div>{{ item.correct_option_text|replace('\n', '<br>')|safe }}</div>
+                    <div>
+                        {% if item.correct_option_text and not item.use_visual_primary %}
+                        {{ item.correct_option_text|replace('\n', '<br>')|safe }}
+                        {% else %}
+                        請依上方官方題圖核對正確選項內容。
+                        {% endif %}
+                    </div>
                 </div>
             </div>
 

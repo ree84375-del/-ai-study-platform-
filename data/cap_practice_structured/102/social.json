@@ -32,10 +32,10 @@
     "explanation_url": "https://drive.google.com/file/d/1VXI00Eb2KozpVJ-dsfrwCBr_vuC9Pfvp/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 182,
+    "question_chunks_found": 181,
     "answers_found": 63,
     "questions_kept": 63,
-    "issues_found": 34,
+    "issues_found": 35,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
       1,
@@ -159,10 +159,9 @@
       61,
       62,
       63,
-      1,
-      2,
+      3,
+      4,
       5,
-      6,
       7,
       8,
       9,
@@ -214,8 +213,8 @@
       55,
       56,
       57,
+      58,
       59,
-      60,
       61,
       62,
       63
@@ -296,6 +295,7 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": null,
       "parse_status": "complete",
       "context": "一 、 單 題 :(1~55 題 ) 大 當",
       "stem": "。 圖 (一 ) 顯 示 2010 年 世界 各 洲 人口 數 占 全 球 人 口 總 數 的 wat 比 例 , 圖 中 「 甲 」 代 表 的 是 下 列 哪 一 洲 ? 10.6%",
@@ -306,6 +306,7 @@
         "D": "美 洲 圖 (一 )"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（亞 洲）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -314,6 +315,77 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": null,
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "空心 菜 是 家 庭 常 食用 的 蔬菜 , 原 產 於 中 國 , 性 喜 y》 溫暖 溼潤 , 可 耐 灣 、 耐 熱 EA SOR BS 的 生 長 溫度 為 15”C 至 40“C。 和 獲 氣 候 條 和 件 分 析 , le (=) Gs id SAGE 4 (AP ve |",
+      "options": {
+        "B": "U a\n(OA w\nD)T 圖 (二 )\nLU"
+      },
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 3,
+      "source_number": 3,
+      "display_number": 3,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.234322,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "。「 中 國 自 1980 年 代 經 濟 改革 開 站 以 乘 (積極 地 從 事 基礎 建設 。 例 如 , 近 年 來 興建 的 某 條 長 程 高 速 鐵路 可 連結 了 國 的 改 治 中 心 與 最 大 經 濟 中 心 。 HE 上 述 判 斷 , 此 鐵路 路 線 的 起 迄 點 應 為 下 列 何 組 ? PE",
+      "options": {
+        "B": "重 慶 一 北京",
+        "C": "上 海 一 廣州 MI[K rom\n_ 0JU REET Ses\nOH Se a Secreta\nTa] Ib ; BE ia ets"
+      },
+      "correct_answer": "A",
+      "visual_primary": true,
+      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 4,
+      "source_number": 4,
+      "display_number": 4,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.097491,
+        "x1": 1.0,
+        "y1": 0.303592
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "圖 (一 ) 顯 示 2010 年 世界 各 洲 人 口 數 出 全 球 人 口 總 數 的 比 例 ' 圖 中 「 甲 」 代 表 的 是 下 烈 哪 一 洲 ?",
+      "options": {
+        "A": "歐 洲",
+        "B": "亞 洲",
+        "C": "非 洲",
+        "D": "美 洲\nES RRR RA BRR , RERTE , aid"
+      },
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（非 洲）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 5,
+      "source_number": 5,
+      "display_number": 5,
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.301311,
+        "x1": 1.0,
+        "y1": 0.608324
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (二 ) 中 哪 一 區 域 最 適合 栽種 準 心",
@@ -323,44 +395,42 @@
         "C": "A",
         "D": "廣 州 一 重慶 ae e:\n4, 回 (三 ) 是 介紹 某 種 礦產 的 海外"
       },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（A）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（廣 州 一 重慶 ae e: 4, 回 (三 ) 是 介紹 某 種 礦產 的 海外）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 3,
-      "source_number": 3,
-      "display_number": 3,
+      "number": 6,
+      "source_number": 6,
+      "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
-      "parse_status": "complete",
+      "crop_box": null,
+      "parse_status": "missing_question_visual_fallback",
       "context": "",
-      "stem": "。「 中 國 自 1980 年 代 經 濟 改革 開 站 以 乘 (積極 地 從 事 基礎 建設 。 例 如 , 近 年 來 興建 的 某 條 長 程 高 速 鐵路 可 連結 了 國 的 改 治 中 心 與 最 大 經 濟 中 心 。 HE 上 述 判 斷 , 此 鐵路 路 線 的 起 迄 點 應 為 下 列 何 組 ? PE",
+      "stem": "",
       "options": {
-        "B": "重 慶 一 北京",
-        "C": "上 海 一 廣州 MI[K rom\n_ 0JU REET Ses\nOH Se a Secreta\nTa] Ib ; BE ia ets"
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": ""
       },
-      "correct_answer": "A",
-      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 4,
-      "source_number": 4,
-      "display_number": 4,
+      "number": 7,
+      "source_number": 7,
+      "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
-      "parse_status": "image_or_layout_fallback",
-      "context": "",
-      "stem": "圖 (三 ) 是 介紹 某 種 礦產 的 海報 。 根據 臺灣 各 點 家 公 | REE Cs",
-      "options": {},
-      "correct_answer": "C",
-      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 5,
-      "source_number": 5,
-      "display_number": 5,
-      "page_number": 2,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.606043,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "eR et iG eer POA VA 園 的 特 色 判 斷 , 該 海報 最 適合 展示 於 下 列 哪 一 個 國 4 上 圖 為 《 天 工 搬 家 公園 的 遊客 中 心 ? Pena",
@@ -369,40 +439,9 @@
         "C": "陽 明山 國 家 公園 重要 的 出 口 礦產",
         "D": "太 魯 閣 國 家 公園 圖 (三\n“人 口紅 利 」 愈 高 的 國 家 , 其 扶養 比 就 愈 低 , 因 此 勞動 力 較 充 足 , 有 利於 國\n家 整體 經 濟 發 展 。 下 列 是 某 國 四 個 時 期 的 人 口 結構 , 其 中 哪 一 時 期 具有 最 高\n的 人 口紅 利 ?"
       },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（太 魯 閣 國 家 公園 圖 (三 “人 口紅 利 」 愈 高 的 國 家 , 其 扶養 比 就 愈 低 , 因 此 勞動 力 較 充 足 , 有 利於 國 家 整體 經 濟 發 展 。 下 列 是 某 國 四 個 時 期 的 人 口 結構 , 其 中 哪 一 時 期 具有 最 高 的 人 口紅 利 ?）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 6,
-      "source_number": 6,
-      "display_number": 6,
-      "page_number": 3,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_03.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "圖 (四 ) 是 配合 某 一 原 住民 旅 祭 PRAT ORR HEARNE 判斷 , 此 一 ARIE SEE FAT TR [waver sa sal RER 有 關 ? a) > Sg |e",
-      "options": {
-        "A": "Ai BAK ON Fa BRS ee hh sae A",
-        "B": "be 9 ROR RELA HL | Mm sox\nnef is No 0016719 一 to 001679\nG He ak A]\nTU\nSM 人 ~ ~ fa] (9 )"
-      },
-      "correct_answer": "D",
-      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 7,
-      "source_number": 7,
-      "display_number": 7,
-      "page_number": 2,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "好 j 路 》 Als 合 ea A ; _ FINALS i 點 的 特 色 判 斷 , 該 海報 最 適合 展示 於 下 列 哪 一 個 國 「 工 圖 為 《 天 工 開 物 ) 家 公園 的 遊客 中 心 ? 中 燒 取 硫 磺 的 示意 圖",
-      "options": {
-        "A": "玉 山 國 家 公園 = , 硫 磺 常 與 溫泉 、 地\nB 家 公 回 熱 伴 生 , 是 臺灣 早 其\nBAT ARAB\na oa 重要 的 出 口 礦產 。",
-        "C": "陽 明山 國 家 公園 7\nOAKMARAM CP 一 二 圖 (三 )"
-      },
       "correct_answer": "A",
-      "explanation": "官方答案：A（玉 山 國 家 公園 = , 硫 磺 常 與 溫泉 、 地 B 家 公 回 熱 伴 生 , 是 臺灣 早 其 BAT ARAB a oa 重要 的 出 口 礦產 。）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（玉 山 國 家 公園 =] HERE BRR hh (BAT ARAB MEL REN）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 8,
@@ -410,6 +449,12 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\social\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.250285
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "。「 人 口紅 利 」 傅 高 的 國 家 , 其 扶養 比 就 愈 低 , 因 此 勞動 力 較 充 足 , 有 利於 國 家 整體 經 濟 發 展 。 下 列 是 某 國 四 個 時 期 的 人 口 結構 , 其 中 哪 一 時 期 具有 最 高 的 人 口紅 利 ? gam ©) 老年 396 一 一 人 老年 6 老年 8% 請 翻 頁 繼續 作答 。 圖 (四 ) 是 配合 某 一 原 住民 族 祭 | EC RED ae 典 所 發 行 的 車 票 。 由 車 票 內 容 Me ee 上 全 判斷 , 此 一 祭典 應 與 下 列 何 族 REE OO ee 有 關 ? 汪汪 2’ oe",
@@ -420,6 +465,7 @@
         "D": "路 易 十 相\nico"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（布 農 旅 Fe EA Rie Ro a AEA | _）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -428,17 +474,23 @@
       "display_number": 9,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\social\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.248005,
+        "x1": 1.0,
+        "y1": 0.332383
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "何者 ?",
+      "stem": "老師 用 圖 (五 ) 講 述 Feary \\(exns 玉生 ee ee sae” 說 的 主 題 最 可 能 是 下 列 EMM) Te Pa ae? | TAMER | \\ptlersoss -",
       "options": {
-        "A": "五 四 連動",
-        "B": "西 安 事變",
-        "C": "九 一 八 事變",
-        "D": "六 四 天 安 門 事件"
+        "A": "五 四 運動 加 和 van AD\nea el BSS ae)",
+        "C": "九 一 入 事變 IC ;",
+        "D": "六 四 天 安 門 事件 C—"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（五 四 連動）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（五 四 運動 加 和 van AD ea el BSS ae)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 10,
@@ -446,6 +498,12 @@
       "display_number": 10,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\social\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.330103,
+        "x1": 1.0,
+        "y1": 0.496579
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "、 阿 貴 想 進 一 步 了 解 課本 中 有 關西 亞 古文 明 的 歷史 , 到 博物 館 參 觀 「 美 索 不 達 米 亞 文 明 展 」。 阿 貴 在 這 殲 展 覽 中 了 最 可 能 看 到 哪 一 項 西亞 古文 明 的 文 物 ?",
@@ -455,6 +513,7 @@
         "D": "一 具 具 強壯 威武 的 陶 塑 兵馬 俑 士 丰"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（刻 在 一 塊 石柱 上 的 《 漢 摩 抽 se) Ge vs）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -463,6 +522,12 @@
       "display_number": 11,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\social\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.494299,
+        "x1": 1.0,
+        "y1": 0.614595
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "、 阿 貴 想 進 一 步 了 解 課本 中 有 關西 亞 古文 明 的 歷史 , 到 博物 館 參 觀 「 美 索 不 達 米 亞 文 明 展 」。 阿 貴 在 這 殲 展 覽 中 了 最 可 能 看 到 哪 一 項 西亞 古文 明 的 文 物 ?",
@@ -473,6 +538,7 @@
         "C": "發 展 國 際 貿 易"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（$z it 1k 84 fo）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -481,6 +547,12 @@
       "display_number": 12,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\social\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.612315,
+        "x1": 1.0,
+        "y1": 0.756556
+      },
       "parse_status": "complete",
       "context": "Ll. 近年 來 , 由 於 跨國 婚姻 與 工作 等 因素 , 使 得 許多 外 籍 人 士 移居 臺灣 , 因 此 政\n府 經 常 舉辦 跨國 文 化 的 交流 活動 , 希 望 藉 此 幫助 國 人 認識 與 我 們 共同 生 活 的\n新 夥伴 。 上 述 政府 的 作法 主 要 是 為 了 達到 下 列 何 種 目的 ?\n(A) 增 加 就 業 機 會\n(B)$z it 1k 84 fo\n(C) 發 展 國 際 貿 易\n(D) 落 實地 方 自 治",
       "stem": "國 人 常 視 姓氏 為 宗族 延續 的 重要 象徵 , 過 去 我 國 《 民 法 》 對 子女 姓氏 的 規定 主 要 是 「 從 父 姓 」, 但 民國 96 年 則 修 ? 「 依 父母 雙方 書 面 之 約 定 」。 上 加 法 規 修訂 的 主 要 目的 最 可 能",
@@ -491,6 +563,7 @@
         "D": "增 進 公共 利益"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（落 實 性 別 平等）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -499,17 +572,23 @@
       "display_number": 13,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\social\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.754276,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "12. 國 人 常 視 姓氏 為 宗族 延續 的 重要 象徵 , 過 去 我 國 《 民 法 》 對 子女 姓氏 的 規定 主 要 是 “從 父 姓 」, 但 民國 96 年 則 修 5 父母 雙方 書 面 之 約 定 」。 上 可 KEANE HERA BRAT HER",
+      "stem": "snastanenas eee 訟 等 程序 仍 可 能 會 對 人 民權 利 造成 侵害 , 因 此 我 國 制定 《 刑 事 補 倆 法) 一 使 坐 冤獄 的 受害 人 可 依法 向 國 家 和 deve eek sone pa RIAE cm — RAH AI ?",
       "options": {
-        "A": "加 強 親 權 行 使",
-        "B": "沙 實 性 別 平等",
-        "C": "維 護 社會 倫理",
-        "D": "增 進 公共 利益"
+        "A": "請 願 權",
+        "B": "Mil",
+        "C": "人 身 自 由 權\n全 二 陸生 ae"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（維 護 社會 倫理）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（人 身 自 由 權 全 二 陸生 ae）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 14,
@@ -517,17 +596,23 @@
       "display_number": 14,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\social\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.22919
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "請 求 賠償 。 這 種 制度 主 要 圳 為 了",
+      "stem": "ll. 近年 來 , 由 於 跨國 婚姻 與 工作 等 因素 , 使 得 許多 外 籍 人 士 移居 臺灣 , 因 此 政 府 經 常 舉辦 跨國 文 化 的 交流 活動 , 希 望 藉 此 幫助 國 人 認識 與 我 們 共同 生 活 的 新 夥伴 。 上 述 政 府 的 作法 主 要 是 為 了 達到 下 列 何 種 目的 ?",
       "options": {
-        "A": "請 願 權",
-        "B": "選 舉 權",
-        "C": "人 身 自 由 權",
-        "D": "應 考試 服 公職 權 eS"
+        "A": "增 加 就 業 機 會",
+        "B": "促 進 族群 和 諧\nGe",
+        "D": "落 實地 方 自 治"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B（選 舉 權）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（促 進 族群 和 諧 Ge）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 15,
@@ -535,6 +620,12 @@
       "display_number": 15,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\social\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.22691,
+        "x1": 1.0,
+        "y1": 0.413911
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "居住 在 嘉義 縣 朴 子 市 的 宏達 , 因 覺得 住家 周遭 的 路 燈 照明 不 足 , 讓 經 常 工作 晚 歸 的 他 感到 危險 , 於 是 向 當 地 的 螞 方 民意 代表 陳情 , 希 望 能 獲得 相 關 單 位 的 重視 。 根 據 上 述 內 容 判斷 , 宏 圈 所 陳情 的 對 象 最 可 能 是 下 列 何者 ?",
@@ -545,6 +636,7 @@
         "D": "市 民代 表"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（市 民代 表）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -553,33 +645,48 @@
       "display_number": 16,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\social\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.411631,
+        "x1": 1.0,
+        "y1": 0.598062
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "15. 居住 在 嘉義 縣 朴 子 市 的 宏達, 因 覺 得 住家 周遭 的 路 燈 照明 不 足 , 讓 經 常 工作 地 的 地 方 民 意 代表 陳情 , 希 望 能 獲得 相 關 單 位 所 陳情 的 對 象 最 可 能 是 下 列 何者 ?",
+      "stem": "請 求 賠償 。 這 種 制度 主 要 圳 為 了",
       "options": {
-        "A": "縣 長",
-        "B": "市 議員",
-        "C": "立 法 委員",
-        "D": "市 民代 表"
+        "A": "請 願 權",
+        "B": "選 舉 權",
+        "C": "人 身 自 由 權",
+        "D": "應 考試 服 公職 權 eS"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（立 法 委員）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（人 身 自 由 權）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 17,
       "source_number": 17,
       "display_number": 17,
-      "page_number": 5,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.595781,
+        "x1": 1.0,
+        "y1": 0.761117
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "「-...“. 芬 蘭 在 這 種 限制 下 , 要 架設 多 少 電線 桿 、 拉 多 少 電話 線 , 才 能 構成 完 整 的 通訊 網 ? 解決 之 道 就 是 發 展 無 線 通訊 網 路 (行 動 電話 ), 只 需 成 本 低廉 的 『 點 狀 』 基 地 台 , 不 必 高 成 IR Seok + 根據 共 蘭 的 地 理 條 件 , 上 文 所 提 到 的 限制 」 最 有 可 能 是 指 生 列 何 者 ? PE un",
+      "stem": "14. 某 日 , 阿 振 發 現 隔壁 的 空 屋 是 販 坦 集 團 的 毒 喇 製造 工廠 , 擔 有 憂 毒品 流入 市 面 勢必 危害 治安 。 根據 坊 國 法 律 規 定 , 他 可 以 採取 下 列 哪 一 種 作法 ?",
       "options": {
-        "B": "山 勢 陡 哺 、 河 短 流 急",
-        "C": "湖 泊 眾 多 、 地 廣 人 笑\ne"
+        "B": "向 檢察 官 或 者 警察 人 員",
+        "C": "依 目擊 情形 向 法 官 提出",
+        "D": "請 律師 直接 向 法 院 提起 了 6"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（湖 泊 眾 多 、 地 廣 人 笑 e）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（依 目擊 情形 向 法 官 提出）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 18,
@@ -587,6 +694,12 @@
       "display_number": 18,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.758837,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "ALRKBA RS 生 說 到 , 農 人 可 由 深 達 一 公里 的 地 層 中 抽取 地 下 水 , 以 水 井 為 貼心 灌溉 出 圓 形 的 農地 , 每 塊 農地 的 直徑 有 數 百 公 尺 到 三 公里 長 + Bh RBG 的 耕作 模式 ? 上 文 中 所 描述 的 農地 景觀 在 下 列 哪個 地 區 最 為 常見 ?",
@@ -597,6 +710,7 @@
         "D": "興 國 申 西 部 平原"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（興 國 申 西 部 平原）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -605,6 +719,62 @@
       "display_number": 19,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.109464
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "臺灣 自 加 入 WTO 之 後 , 除 子 議 3 yb 的 權利 之 表 (一 ) 外 , 也 必須 面 對 許多 他 生 的 問 十 (=) 2006% ee| gti, A A ARLE RSM te ERM (新 臺 幣 / 公 斤 ) 者 差異 的 原 因 , 與 下 列 何 項 臺灣 農業 特 色 的 關連 性 「 臺 灣 | 25.74 | een” al",
+      "options": {
+        "A": "生 產 集 約 度 下 降",
+        "B": "農 村人 口 高 齡 化",
+        "C": "農 場 經 營 規 模 小",
+        "D": "休 閒 農業 的 興起"
+      },
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（農 場 經 營 規 模 小）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 20,
+      "source_number": 20,
+      "display_number": 20,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.107184,
+        "x1": 1.0,
+        "y1": 0.22919
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "問題 。 下 列 何 者 是 三 者 的 共同 效益 ?",
+      "options": {
+        "A": "提 高 生 物 的 多 樣 性",
+        "B": "增 加 可 耕地 的 面積",
+        "C": "降 低 洪 水 氾濫 機 率",
+        "D": "有 效 利用 水 力 資 源"
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B（增 加 可 耕地 的 面積）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 21,
+      "source_number": 21,
+      "display_number": 21,
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.22691,
+        "x1": 1.0,
+        "y1": 0.555302
+      },
       "parse_status": "complete",
       "context": "",
       "stem": ". 在 地 表 水 較為 缺乏 的 地 區 , 近 來 sasses。 芬蘭 在 這 種 限制 下 , SROs Bea 拉 多 少 電話 線 , 才 能 構成 完 整 的 通訊 網 解決 之 道 就 是 發 民 訊 網 路 (行 動 電 話 ), 只 需 成 本 低廉 的 「 點 狀 』 基 地 台 , 不 必 高 成 生 線 狀 和 電話 線 。」 根 據 芬 蘭 的 地 理 條 件 , 上 文 所 提 到 的 ' 限 制 」 最 有 可 能 是 指 干 列 何 者 ?",
@@ -615,14 +785,21 @@
         "D": "峽 灣 發 達 、 海 岸 曲 折\n可 aR 之 賜 , 農 人 可 由 深 達 一 公里 的 地\n層 中 抽取 地 下 水 , 以 水 井 為 中 心 灌溉 出 圓 形 的 農地 , 每 塊 農地 的 直徑 有 數 百\n公 尺 到 三 公里 長 , 為 高 度 蔗 柜 人\n式 上 文 中 所 描述 的 農地 景觀 在 下\n列 哪個 地 區 最 為 常見 ?"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（巴 西亞 馬 孫 盆地 還 和 5-2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 20,
-      "source_number": 20,
-      "display_number": 20,
+      "number": 22,
+      "source_number": 22,
+      "display_number": 22,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.553022,
+        "x1": 1.0,
+        "y1": 0.761117
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "AMMABK HAMAD A SARA 者 差異 的 原 因 , 與 下 列 何 項 臺灣 農業 特 色 的 關連 性 最 密切 ?",
@@ -632,15 +809,22 @@
         "C": "農 場 經 營 規 模 小",
         "D": "休 閒 農業 的 興起\n平均 價 格\neal"
       },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（農 村人 品 高齡 化）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（農 場 經 營 規 模 小）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 21,
-      "source_number": 21,
-      "display_number": 21,
+      "number": 23,
+      "source_number": 23,
+      "display_number": 23,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\social\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.758837,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "20. 「 這 個 組 織 內 的 成 員 國 大 多 擁有 豐富 的 天 然 資源 , 所 生 產 的 橡膠 、 錫 礦 、 棕 櫚 油 、 椰 子 等 , 皆 占 世 界 重要 地 位 ) 有些 國 家 還 出 產 石油 、 天 然 氣 、 寶 厂 等 。 此 外 , 由 於 多 元 的 自 然 及 文 化 景觀 遊 。 」 上 文 中 所 指 的 組 織 應 是 下 有",
@@ -649,15 +833,22 @@
         "C": "北 美 自 由 貿易 區",
         "D": "zh"
       },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（北 美 自 由 貿易 區）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 22,
-      "source_number": 22,
-      "display_number": 22,
+      "number": 24,
+      "source_number": 24,
+      "display_number": 24,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\102\\social\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.22919
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "21. 十 六 世紀 歐洲 宗教 改革 後 , 路 德 教派 、 喀 爾 文 教派 及 英國 國 教派 等 統稱 “新 教 」, 這 些 教派 雖然 教義 各 有 不 同 , 但 也 有 一 些 共同 理念 , 下 列 何者 為 當 時 新 教 的 共同 理念 ?",
@@ -667,42 +858,9 @@
         "C": "否 定 有 羅馬 教會 的 權威",
         "D": "反 對 君主 權力 高 於 教"
       },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（否 定 有 羅馬 教會 的 權威）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 23,
-      "source_number": 23,
-      "display_number": 23,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_06.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "22. 圖 (七 ) 為 臺灣 人 發 行 的 某 刊物 對 當 時 社會 活動 zi BE ui gS 的 報導 。 根 據 內 容 判 斷 , 此 一 刊物 最 可 能 是 下 列 | eA MAE 何者 ?",
-      "options": {
-        "A": "(HH)",
-        "B": "(48%)",
-        "C": "《 臺 灣 民 報 》",
-        "D": "《 自 由 中 國 》"
-      },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（(48%)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 24,
-      "source_number": 24,
-      "display_number": 24,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_06.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "沈 谷 槓 曾 上 奏 朝 廷 , 指 出 為 了 防範 列強 的 野心 , 環 需 開 豚 臺 灣山 地 , 請 求 朝 JERR ERA oth AR Em BRR GF FO ae AD ? (AAAXERRH Coos Po LTNG",
-      "options": {
-        "C": "臺 灣 民主 國 成 立 二 一",
-        "D": "牡 丹 社 事件 發 生"
-      },
       "correct_answer": "D",
-      "explanation": "官方答案：D（牡 丹 社 事件 發 生）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（反 對 君主 權力 高 於 教）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 25,
@@ -710,6 +868,12 @@
       "display_number": 25,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\102\\social\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.22691,
+        "x1": 1.0,
+        "y1": 0.392246
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "清末 之 時 , 曾 有 人 主 張 「 師 夷 長 技 以 制 夷 」, 而 後 共 親 王 則 提出 「 自 強 之 術 , 必 先 練兵 」, 並 主 導 新 政令 的 推 伍 2 ERLE AE HOSE RA MT?",
@@ -720,24 +884,31 @@
         "D": "宣 揚 中 國 傳統 文 化 , 錦 疑 西方 科學 知識\n° ay GHA MRA ES"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（學 習 西方 科技 軍事 , 以 強化 中 國 起 吃）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 26,
       "source_number": 26,
       "display_number": 26,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_06.png",
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.389966,
+        "x1": 1.0,
+        "y1": 0.640821
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "25. 清末 之 時 , 曾 有 人 主 張 「 RAM MR 而 後 恭 親王 則 提出 「 自 強 之 術 , ARE 」, 並 主 導 新 政令 的 推 行 , 人 的 重要 主 張 為 何 ? Weer ees ie",
+      "stem": "政府 可 藉 由 司法 制度 , 以 達成 國 家 伸張 正義 的 功能 。 圖 (九 ) 是 某 一 種 衝突 處 理 的 程序 , 下 列 何 種 事件 最 可 能 依 圖 中 程序 處 理 ? (eer nee |— [ae | [ee] —[ea] [we] +(e] an )",
       "options": {
-        "B": "學 習 西方 科技 軍事 , 上 —D",
-        "C": "政 治 體 制 的 改革 是 追求 富國 強兵 的 基礎",
-        "D": "宣 揚 中 國 傳統 文 化 , 質 疑 西 方 科學 知識\n請 翻 負 繼續 作答"
+        "A": "不 滿 停業 處 分 的 訴訟 人 E 絕 價 還 債務 的 糾紛",
+        "C": "持 械 傷 害 他 人 的 行 為 | DBE SRF oe"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（政 治 體 制 的 改革 是 追求 富國 強兵 的 基礎）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（持 械 傷 害 他 人 的 行 為 | DBE SRF oe）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 27,
@@ -745,6 +916,12 @@
       "display_number": 27,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\social\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.63854,
+        "x1": 1.0,
+        "y1": 0.782782
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "表 (二 ) 是 四 位 我 國 甲 縣 縣 民 的 基 表 (二 ) Kin eraser, eee] ee ATRER CHURN tA gap] 2 [ERE SRNR, i Tae TERA? | egy] Tos [Rw EO 縣 縣 長 選 的 候選 人 資 6 加 生",
@@ -754,6 +931,7 @@
         "D": "林 發 達"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（張 一 偉）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -762,6 +940,12 @@
       "display_number": 28,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\social\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.780502,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "某 位 民眾 連續 撥打 多 通電 話 通 報 火災 ,, 但 消防 隊員 趕 到 現場 後 發 現 並 無 此 事 , 因 此 消防 單位 表 示 , 若 這 位 民眾 是 亂 打 電話 , 將 不 排除 對 其 開 罰 。 根 據 上 述 內 容 判 斷 , 若 這 位 民眾 被 開 罰 但 不 服 時 , 依 法 他 應 先 採取 下 列 何 種 方式 進 行 權利 救濟 ?",
@@ -772,6 +956,7 @@
         "D": "向 行 政 及 立法 機 關 提出 請 願"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（向 訴願 管轄 機 關 提 起 訴 有 』）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -780,15 +965,22 @@
       "display_number": 29,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\social\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.250285
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "我 國 中 央 政 府中 的 行 政 與 立法 部 門 ,'- 對 重大 政策 出 現 歧 見 時 , 可 以 採取 提出 覆 議 、 不 信任 案 等 方式 來 因應 二 放 HE 計 最 符合 下 列 何者 的 意 涵 ?",
+      "stem": "26. 政府 可 藉 由 司法 制度 , 以 達成 國 家 伸張 正義 的 功能 。 圖 (九 ) 是 某 一 種 衝突 處 理 的 程序 , 下 列 何 種 事件 最 可 能 依 圖 中 程序 處 理 ? 日 +(e] +] [mk] + [|",
       "options": {
-        "A": "分 權 制衡 — iE! 民",
-        "C": "均 權 制度 人 ees"
+        "A": "不 滿 停業 處 分 的 訴訟 BR a 0 #1 #9",
+        "C": "持 械 傷 害 他 人 的 行 為 CLE EH EM"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（分 權 制衡 — iE! 民）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（不 滿 停業 處 分 的 訴訟 BR a 0 #1 #9）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 30,
@@ -796,17 +988,22 @@
       "display_number": 30,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\social\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.248005,
+        "x1": 1.0,
+        "y1": 0.315279
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "28. 某 位 民眾 連續 撥打 多 通電 話 通 報 火災 ,, 但 消防 隊員 趕 到 現場 後 發 現 並 無 此 事 , 因 此 消防 單位 表 示 , 若 這 位 民眾 是 亂 打 電話 , 將 不 排除 對 其 開 罰 。 根 據 上 述 內 容 判 斷 , 若 這 位 民眾 被 開 罰 但 不 服 時 , 依 法 他 應 先 採取 下 列 何 種 方式 進 行 權利 救濟 ?",
+      "stem": "大 偉 與 阿 和 各 自 製作 燒餅 或 油條 , 大 偉 製作 二 者 皆 具 有 絕對 利益 , 且 每 分 鐘 產量 相 等 , 若 依 比 較 利 益 法 則 分 工 , 大 偉 將 因 機 會 成 本 較 低 而 負責 製作 油 條 。 根 據 上 述 內 容 判斷 , 下 列 何 者 最 可 能 是 大 偉 與 阿 和 的 商 品 產量 比 較 表 ?",
       "options": {
-        "A": "向 地 方法 院 提起 訴訟 汪汪",
-        "B": "向 調解 委員 會 聲請 調解",
-        "C": "向 訴願 管轄 機 關 提起 訴 /",
-        "D": "向 行 政 及 立法 機 關 提 出 請 願"
+        "A": "GB) 2",
+        "D": "eee get\nAe] 3 | 3 | [Af] 3 P38] ate] 3 3 | AMAL 3 3\n而 科 4 | 2 | [rte] 2 | 2 | [te] 1 | 2 | [te] 2 | 0\n單位 : 個 / 分 鐘 單位 : 個 / 分 鐘 單位 : 個 / 分 鐘 單位 : 個 / 分 鐘"
       },
       "correct_answer": "D",
-      "explanation": "官方答案：D（向 行 政 及 立法 機 關 提 出 請 願）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（eee get Ae] 3 | 3 | [Af] 3 P38] ate] 3 3 | AMAL 3 3 而 科 4 | 2 | [rte] 2 | 2 | [te] 1 | 2 | [te] 2 | 0 單位 : 個 / 分 鐘 單位 : 個 / 分 鐘 單位 : 個 / 分 鐘 單位 : 個 / 分 鐘）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 31,
@@ -814,6 +1011,12 @@
       "display_number": 31,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.312999,
+        "x1": 1.0,
+        "y1": 0.45667
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "「 立 夏 小 滿 , 兩 水 相 趕 」 這 句 表 (三 ) 諺語 是 形容 臺灣 每 年 逢 立 夏 、 小 滿 二 節氣 時 , 經 常 下 十, 十 AHMAR AOE 9 AACS) = wo oh_[ Ae oe 9A | | | | #8 | | IP 氣 的 時 間 判 斷 , 此 時 降 兩 的 最 : ROE SA E10 RR A eee DA 主 要 成 因為 下 列 何者 ? SF ARBARRAER",
@@ -824,22 +1027,33 @@
         "D": "來 自 海洋 的 熱帶 性 低壓"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（冷 暖 空氣 交會 形成 鋒面）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 32,
       "source_number": 32,
       "display_number": 32,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
-      "parse_status": "image_or_layout_fallback",
+      "page_number": 7,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.45439,
+        "x1": 1.0,
+        "y1": 0.640821
+      },
+      "parse_status": "complete",
       "context": "",
-      "stem": "mamage as | : 海 發 生 強烈 的 海底 地 震 , 當 她 政府 對 漲 海 地 上 Als pererrerter ie crc.) tt AAV AN 公 尺 以 下 的 地 區 , 因 此 政府 強制 搬 離 此 海拔 以 LIVE 5 下 的 居民 , 則 圖 中 有 幾 戶 居民 會 被 強制 搬 離 ? © Y 0 io ae 國 全 | 人 家 已 ()s",
+      "stem": "28. 某 位 民眾 連續 撥打 多 通電 話 通 報 火災 ,, 但 消防 隊員 趕 到 現場 後 發 現 並 無 此 事 , 因 此 消防 單位 表 示 , 若 這 位 民眾 是 亂 打 電話 , 將 不 排除 對 其 開 罰 。 根 據 上 述 內 容 判 斷 , 若 這 位 民眾 被 開 罰 但 不 服 時 , 依 法 他 應 先 採取 下 列 何 種 方式 進 行 權利 救濟 ?",
       "options": {
-        "D": "6 圖 (十 )"
+        "A": "向 地 方法 院 提起 訴訟 汪汪",
+        "B": "向 調解 委員 會 聲請 調解",
+        "C": "向 訴願 管轄 機 關 提起 訴 /",
+        "D": "向 行 政 及 立法 機 關 提 出 請 願"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（向 調解 委員 會 聲請 調解）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 33,
@@ -847,6 +1061,60 @@
       "display_number": 33,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.63854,
+        "x1": 1.0,
+        "y1": 0.740023
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "在 熱帶 及 副 熱帶 的 大 陸 西 大 海 晟 , 持 續 上 卯 的 深層 寒冷 海水 帶 來 豐富 營養 鹽 , 可 供應 浮游 生 物 所 需 , 故 吸引 大 量 魚群 聚集 , 成 為 良好 的 漁場 。 下 列 何 地 最 可 能 因 具 備 上 述 條 件 而 有 良好 的 漁場 ?",
+      "options": {
+        "A": "中 國 南海 沿岸",
+        "B": "挪 威 大 西洋 沿岸 a)",
+        "C": "秘 魯 太 平 洋 沿岸",
+        "D": "美 國 墨西哥 灣 沿 岸"
+      },
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（秘 魯 太 平 洋 沿岸）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 34,
+      "source_number": 34,
+      "display_number": 34,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.737742,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "阿 基 到 倫敦 工作 後 , 他 的 爸 媽 常 打 電話 跟 他 聯 表 (四 ) 繫 。 表 (四 ) 為 臺灣 某 電信 公司 國 際 電 話 計 費 六 式 , 阿 基 分 別 在 下 列 四 個 A | 00:00-06:00 | 7 | 臺灣 的 電話 Rea CORE REE 7",
+      "options": {
+        "C": "13:00",
+        "D": "19:00 ; : 1800-2400] 9 |"
+      },
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（19:00 ; : 1800-2400] 9 |）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 35,
+      "source_number": 35,
+      "display_number": 35,
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.293044
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "31. 「 立 岬 小滿, 雨水 相 趕 」 這 句 諺語 是 形容 臺灣 每 年 逢 立 夏 、 小 滿 二 節氣 時 , 經 常 下 兩, 十 水 紛 至 。 根 據 表 (三 ) 二 十 四 節 氣 的 時 間 判 斷 , 此 時 降 兩 的 最 > 陽 層 11 月 全 杏 年 1 月 faaigieis al g[stisle",
@@ -856,15 +1124,22 @@
         "C": "日 照 強 烈 導 致 對 流 旺 盛",
         "D": "來 自 海洋 的 熱帶 性 低壓"
       },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（日 照 強 烈 導 致 對 流 旺 盛）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（來 自 海洋 的 熱帶 性 低壓）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 34,
-      "source_number": 34,
-      "display_number": 34,
+      "number": 36,
+      "source_number": 36,
+      "display_number": 36,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.290764,
+        "x1": 1.0,
+        "y1": 0.45667
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "海 發 生 強烈 的 海底 地 震 , 當 地政 反 發 布 海嘯 警報 , 根 據 預測 海 嘯 將 侵襲 海拔 1 公 尺 以 下 的 地 區 , 因 此 政府 強制 搬 離 此 海拔 以 下 的 居民 , 則 圖 中 有 幾 戶 居民 會 被 強制 搬 離 ?",
@@ -874,15 +1149,22 @@
         "C": "5",
         "D": "6"
       },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（6）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（5）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 35,
-      "source_number": 35,
-      "display_number": 35,
+      "number": 37,
+      "source_number": 37,
+      "display_number": 37,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.45439,
+        "x1": 1.0,
+        "y1": 0.619726
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "33. 在 熱帶 及 副 熱帶 的 大 陸 西 岸 源 域 , 持 續 上 廈 的 深層 寒冷 海水 帶 來 豐富 營養 鹽 , 可 供應 浮游 生 物 所 需 , 故 吸引 大 量 魚 群 聚 集 , 成 為 良好 的 漁場 。 下 列 何 地 最 可 能 因 具備 上 述 條 件 而 有 良好 的 漁場 ?",
@@ -892,42 +1174,9 @@
         "C": "BEE 太 平 洋 沿岸",
         "D": "美 國 墨西哥 灣 沿岸"
       },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（美 國 墨西哥 灣 沿岸）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 36,
-      "source_number": 36,
-      "display_number": 36,
-      "page_number": 9,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "老師 講述 中 國 歷史 時 說 到 :「 這 個 民族 是 中 國 歷代 邊 貓 民族 中 , 漢 化 程度 較 淺 的 民族 之 一 。 他 們 入 主 中 國 後 , 為 了 保持 統治 地 位 , 各 級 長 官 甚 少 任用 漢族 人 士 , 對 漢人 、 南 人 採取 高 度 控制 的 態度 及 手段 , 結 果 引起 漢人 、 南 人 的 不 滿 與 反抗 。」 老 師 介紹 的 是 下 列 旺 =f",
-      "options": {
-        "A": "4 # tk 台 Ed i y",
-        "C": "RG Ak ~ ait"
-      },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（RG Ak ~ ait）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 37,
-      "source_number": 37,
-      "display_number": 37,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "35. 趙 博士 利用 氣象 衛星 及 各 地 氣象 站 的 資 河 布 , 他 可 觀察 到 下 列 何者 的 冬 溫 有 距 載 的 現象 ?",
-      "options": {
-        "A": "自 23.5 S 向 66.5 SHH 一 g/",
-        "B": "從 智利 北部 到 其 國 土 南 端",
-        "C": "歐 洲 自 荷蘭 向東 至 俄羅斯",
-        "D": "由 中 國 華北 沿 35”N 到 日 本"
-      },
       "correct_answer": "A",
-      "explanation": "官方答案：A（自 23.5 S 向 66.5 SHH 一 g/）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（中 國 南海 沿岸）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 38,
@@ -935,6 +1184,12 @@
       "display_number": 38,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.617446,
+        "x1": 1.0,
+        "y1": 0.782782
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "根據 清朝 官方 統計 資料 , 上 海 在 1840 年 之 前 並 無 任何 生 絲 出 口 , 但 在 1840 年 fa va Ah Ay a AE APH EBS LATED wy WE le SF Ht A (ABH RF",
@@ -944,22 +1199,33 @@
         "D": "入 國 聯軍\n{> =\n—=—_ Ped"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 39,
       "source_number": 39,
       "display_number": 39,
-      "page_number": 9,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
-      "parse_status": "image_or_layout_fallback",
+      "page_number": 8,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.780502,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "complete",
       "context": "",
-      "stem": "TLAO MMAR: | HTH ws ee 有 富 ERM OM NAIA lh : ALTER: RU-FRAAR PAWEL LC 命脈 。」 芽 丁 的 報告 , 最 可 能 在 描述 圖 (十 二 ) 中 哪 一 個 地 區 ? (ay? > y 全 5 Net ae : (Oa",
+      "stem": "35. 趙 博士 利用 氣象 衛星 及 各 地 氣象 站 的 資 河 布 , 他 可 觀察 到 下 列 何者 的 冬 溫 有 距 載 的 現象 ?",
       "options": {
-        "D": "T 圖 (十 二 )"
+        "A": "自 23.5 S 向 66.5 SHH 一 g/",
+        "B": "從 智利 北部 到 其 國 土 南 端",
+        "C": "歐 洲 自 荷蘭 向東 至 俄羅斯",
+        "D": "由 中 國 華北 沿 35”N 到 日 本"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（從 智利 北部 到 其 國 土 南 端）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 40,
@@ -967,6 +1233,12 @@
       "display_number": 40,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.207526
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (十 三 ) 是 某 本 臺灣 鐵道 旅遊 指南 上 所 刊載 的 「 設置 放行 紀念 草 的 還 下 部 分 訊息 , 根 據 內 容 判 斷 , 此 情況 避 早 可 能 出 人 基隆 、 臺 北 、 板 橋 、 桃 轅 現在 下 列 何時 ? Ma BR EP. wie",
@@ -977,25 +1249,31 @@
         "D": "二 十 世紀 前 其"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（二 十 世紀 前 其）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 41,
       "source_number": 41,
       "display_number": 41,
-      "page_number": 9,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.205245,
+        "x1": 1.0,
+        "y1": 0.22919
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "38. 根據 清朝 官方 統計 資料 , 止 江 在 1840 年 之 前 莽 無 化 何 生 系 出 口 , 但 在 1840 年 代 後 期 , 生 絲 的 出 口 量 卻 高 達 一 萬 多 包 - 其 巾 的 變化 應 與 下 列 何者 的 關係 最 密切 ?",
+      "stem": "我 國 《 民 法 》 規 定 , 不 同 年 齡 的 人 其 行 為 在 法 律 上 具有 不 同 的 效力 。 若 僅 依 年 齡 的 條 件 判斷 , 而 不 考慮 其 他 的 因素 , 下 列 哪 一 種 情況 最 可 能 屬於 《 民 法 》 上 有 效 的 法 律 行 為 ? PE ON",
       "options": {
-        "A": "鴉 片 戰爭",
-        "B": "英 法 聯軍",
-        "C": "太 平 天 國",
-        "D": "八 國 聯軍"
+        "B": "十 四 歲 的 阿 章 , 王后\n(CFA RR ERA» SRG RATER AALS",
+        "D": "十 九 歲 的 小 紀 , 為 了 創業 而 向 銀行 貸款\nA"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B（英 法 聯軍）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（十 四 歲 的 阿 章 , 王后 (CFA RR ERA» SRG RATER AALS）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 42,
@@ -1003,6 +1281,12 @@
       "display_number": 42,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.22691,
+        "x1": 1.0,
+        "y1": 0.371152
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "小 冬 的 媽媽 想 為 小 冬 的 外 公舉 辯 七 十 歲 的 壽 |B \"aux Eo RLARMHDILREH pais | NESE GHEE I DS OIL St CEE A «an 1 家 、 小 冬 的 親戚 家 和 公司 的 ; BREA ze PLS HWE + AEF HYPE OF He 成 媽媽 交付 的 任務 ? 圖 (十 四 )",
@@ -1013,6 +1297,7 @@
         "D": "政 府 施政 應 要 考量 利潤 多 家"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（經 濟 發 展 後 會 降低 社會 福利 環境 , 進 而 還 能 有 利於 經 濟 發 展 。）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1021,34 +1306,48 @@
       "display_number": 43,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.368871,
+        "x1": 1.0,
+        "y1": 0.555302
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "個 地 區 ?",
+      "stem": "38. 根據 清朝 官方 統計 資料 , 止 江 在 1840 年 之 前 莽 無 化 何 生 系 出 口 , 但 在 1840 年 代 後 期 , 生 絲 的 出 口 量 卻 高 達 一 萬 多 包 - 其 巾 的 變化 應 與 下 列 何者 的 關係 最 密切 ?",
       "options": {
-        "A": "?",
-        "C": "A ’",
-        "D": "T 7\n圖 (十 二 )"
+        "A": "鴉 片 戰爭",
+        "B": "英 法 聯軍",
+        "C": "太 平 天 國",
+        "D": "八 國 聯軍"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（英 法 聯軍）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 44,
       "source_number": 44,
       "display_number": 44,
-      "page_number": 9,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_09.png",
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.553022,
+        "x1": 1.0,
+        "y1": 0.642531
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "40 CT =) RR AEM a ET Ce ee sae en me 部 分 訊息 , 根 據 內 容 判斷 , 此 情況 1 和 現在 下 列 何時 ? aa. at 、 臺 中 :",
+      "stem": "因應 全 球 暖 化 , 各 地 民眾 # et, PRET WE + ldo: ack mB RAD SRM AES EEE RAKES RE ob HR OUR AE Fl — AE KEG EB",
       "options": {
-        "A": "十 七 世紀 中 期 和 人 ae i ee ae",
-        "B": "十 入 世紀 後 其 SB hee Ee",
-        "C": "十 九 世紀 中 期 圖 (十 三",
-        "D": "二 十 世紀 前 期"
+        "A": "器 物 生 活 B) 科 學 技術",
+        "C": "價 值 觀念",
+        "D": "社 會 制度"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（十 九 世紀 中 期 圖 (十 三）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（價 值 觀念）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 45,
@@ -1056,6 +1355,12 @@
       "display_number": 45,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.640251,
+        "x1": 1.0,
+        "y1": 0.761117
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "根據 我 國 《 憲 法 》 及 增 修 條 文 的 相 關 規 定 。 若 要 對 總 統 、 副 總 統 進 行 彈 協 , 必須 先 由 立法 院 提案 通過 後 , 再 經 何 種 程序 才 可 完成 ?",
@@ -1066,6 +1371,7 @@
         "D": "最 高 法 院 判 決"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（大 法 官 審理 一 之 LS）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1074,6 +1380,12 @@
       "display_number": 46,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\social\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.758837,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "三 位 同 學 聚 在 一 起 閒聊 自 己 的 中 秋 節 假期 生 活 , 下 列 是 他 們 的 對 話 內 容 : 安安 :「 我 爸 說 中 秋月 圓 人 團圓 , 所 以 全 家 回 老家 跟 奶奶 一 起 賞 月 、 吃 月 餅 。 6s: 「 媽 媽 開 車 帶 我 們 出 去 玩 , 不 過 我 坐 在 後 座 忘記 繫 安全 帶 , 被 警察 開 了 一 張 罰單 , 有 點 掃興 。 KA: BRERA 和 體 拜 後 我 們 開 始 烤 肉 , 不 過 我 們 不 能 烤 豬 肉 。 」 上 述 三 位 同 學 的 談話 內 容 依 冰 順序 最 同 能 屬於 哪些 社會 規範 ?",
@@ -1084,6 +1396,7 @@
         "D": "風 俗 習 慣 、 法 律 規範 、 eax. 本 城 領有 許可 證 的 師傅 , 不 得 以 任"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（風 俗 習 慣 、 法 律 規範 、 eax. 本 城 領有 許可 證 的 師傅 , 不 得 以 任）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1092,6 +1405,59 @@
       "display_number": 47,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.250285
+      },
+      "parse_status": "image_or_layout_fallback",
+      "context": "",
+      "stem": "41. 我 國 《 民 法 》 規 定 , 不 同 年 齡 的 人 其 行 為 在 法 律 上 具有 不 同 的 效力 。 若 僅 依 年 齡 的 條 件 判斷 , 而 不 考慮 其 他 的 因素 , 下 列 哪 一 種 情況 最 可 能 屬於 《 民 法 》 上 有 效 的 法 律 行 為 ? PE",
+      "options": {
+        "B": "-+ 09 aR RT ek 5 A A HA Ae"
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B（-+ 09 aR RT ek 5 A A HA Ae）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 48,
+      "source_number": 48,
+      "display_number": 48,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.248005,
+        "x1": 1.0,
+        "y1": 0.49943
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "42. 小 冬 的 媽媽 想 為 小 冬 的 外 公舉 辦 七 十 歲 的 壽 宴 , 於 是 交代 他 到 公司 上 班 鼠 前 , 順 道 發 送 邀請 卡 給 外 公 的 其 他 兒女 們 |] 圖 (十) 是 小 過 家 、 小 冬 的 親戚 家 和 公司 的 位 置 回 汪 根 據 上 述 內 容 判斷 , 小 冬 應 選擇 下 絢 哪 一 路 線 %- 才 能 先 成 媽媽 交付 的 任務 ?",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "VEER\n伯父 家\n姑姑 家 更 小\n阿姨 家 4 =\nRK\n點\n圖 (十 四 )",
+        "D": "和 一 一 一 na si\nll 和 陸生\n‘ | H\n|\n加 國 國"
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 49,
+      "source_number": 49,
+      "display_number": 49,
+      "page_number": 10,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.497149,
+        "x1": 1.0,
+        "y1": 0.662486
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "43. 右 列 是 小 墓 在 雜誌 上 所 看 到 的 一 段 內 容 。 根 據 內 容 判 斷 , 下 列 何者 最 能 文 中 的 看 法 ? dj",
@@ -1101,31 +1467,46 @@
         "D": "政 府 施政 應 要 考量 利潤 多 寡\n全 一 一 二 人 ae\n【 府 不 應 以 發 展 經 濟 為 理由 , 將 預\nMe AEA EE ABEL > i Ml\n完善 > 不 但 有 助 於 穩定 社會 及 政治\n多 , 進 而 還 能 有 利於 經 濟 發 展 。"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 48,
-      "source_number": 48,
-      "display_number": 48,
+      "number": 50,
+      "source_number": 50,
+      "display_number": 50,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\social\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.660205,
+        "x1": 1.0,
+        "y1": 0.782782
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "2 其 製造 及 出 售 的 貨 品 。 組 織 最 可 能 是 下 列 何者 ? PRAFRERE ILE (AYE A aT Ha a —— oe , 欺 腳 平 民 者 ,",
+      "stem": "圖 (十 六 ) 為 九 世紀 時 往返 放 于 圖 對 pa 4 海上 絲 路 主 要 航 綠 , 此 交通 網 配合 盛行 風 的 週 | Oe 期 , 讓 東方 和 西方 的 商 品 可 以 互相 交流 。 若 在 當 C1 Yt pe 時 有 一 艘 滿載 紙張 、 墨 、 pide cS Cy 4 A TR EE A — 3k AL aA | X om 載貨 物 來 源 及 盛行 風 風向 Eka —sene| SSS 行 的 描述 何者 正確 ? 回 (十 六 )",
       "options": {
-        "B": "中 古 西 歐 的 行 會",
-        "C": "荷 蘭 東 印 度 公司 —— iS",
-        "D": "總 理 各 國 事務 衙門 RE |"
+        "A": "麵 包 (hT( = 加",
+        "B": "煉 鋁 市 場 ae",
+        "C": "於 夏季 由 乙 地 出 發",
+        "D": "於 冬季 由 乙 地 出 發\n多 圖 (十 七) 是 某 工廠 選擇 廠址 的 區 位 考量 ~ 根據 該 工廠 所 ORO\n重視 的 區 位 要 素 判 斷 , 其 最 可 能 研 下 列 哪 一 種 工廠 ?"
       },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（中 古 西 歐 的 行 會）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（於 夏季 由 乙 地 出 發）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 49,
-      "source_number": 49,
-      "display_number": 49,
+      "number": 51,
+      "source_number": 51,
+      "display_number": 51,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\102\\social\\page_10.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.780502,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "45. 根據 我 國 《 憲 法 》 及 增 修 條 文 的 相 關 規 2 必須 先 由 立法 院 提案 通過 後 , 再 經 何 種 程 /",
@@ -1135,15 +1516,22 @@
         "C": "公 民 投票 複 決",
         "D": "最 高 法 院 判 決"
       },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（監 察 院 表 法）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D（最 高 法 院 判 決）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 50,
-      "source_number": 50,
-      "display_number": 50,
+      "number": 52,
+      "source_number": 52,
+      "display_number": 52,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\social\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.306157
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "46. 三 位 同 學 聚 在 一 起 聞 聊 自 己 的 中 秋 節 假期 生 活 , 下 列 是 他 們 的 對 話 內 容 : 安安 :「 我 爸 說 中 秋月 圓 人 團圓 , 所 以 全 家 回 老家 跟 奶奶 一 起 賞 月 、 吃 月 餅 。」 6b: 媽媽 開 車 帶 我 們 出 去 玩 , 不 過 我 坐 在 後 座 忘 記 繫 安全 帶 , 被 警察 開 了 一 張 罰單 , 有 點 掃興 。 美 美 :「 傍 晚 全 家 人 一 起 向 麥 2 VERBAL © | 上 述 三 位 同 學 的 談話 內 容 - 依 先 後 順",
@@ -1154,14 +1542,21 @@
         "D": "風 俗 習 慣 、 法 律 規範 、 宗 教 信和 發\naE 本 城 領有 許可 證 的 師傅 , RADE\n了"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（風 俗 習 慣 、 倫 理 道 德 、 宗 教 信和）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 51,
-      "source_number": 51,
-      "display_number": 51,
+      "number": 53,
+      "source_number": 53,
+      "display_number": 53,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\social\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.303877,
+        "x1": 1.0,
+        "y1": 0.448119
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "47. 圖 (十 五 ) 是 某 一 組 織 的 部 分 章 釉 沒 收 其 製造 及 出 售 的 貨 品 。 組 織 最 可 能 是 下 列 何者 ? RPE RED Ch -",
@@ -1170,38 +1565,9 @@
         "B": "中 古 西 歐 的 行 會",
         "C": "荷 蘭 東 印度 公司 |\nemw E 上 EE 荷蘭 打 印度 公司 二 荷蘭 聯合 東 印度 公司\n二"
       },
-      "correct_answer": "D",
-      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 52,
-      "source_number": 52,
-      "display_number": 52,
-      "page_number": 12,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_12.png",
-      "parse_status": "complete",
-      "context": "‘| 地 圖 所 描繪 的 樣 貌 可 呈現 當 時 人 ex\ntenes. Be 2\nparsons sere oe As\nY | 9 Qs\nRE + AP ie ||\n人\nms mane ora: a Meee is || SOD\n最 早 可 能 出 現 於 下 列 何時 nr Ss 4 / 7)\nse, 同 Joy | | a> fy\nyeaa neta | SSS oe\nce 人 圖 (十 入 )\n(C) 鄭 和 七 次 下 西洋 期 間\n(D) 明 末 傳 教士 來 華 期 間 同",
-      "stem": "表 (五 ) 為 十 七 世紀 荷蘭 勢力 在 某 地 的 發 蝴 情 況 , 就 內 容 ~ 判斷 , 此 地 應 位 於 圖 (十 九 ) 9 三口 ee 表 (7 ie ah a4 rd li aoe _1604 | A AHL 由 人 4 1622 年 MARRS MULE 二 二 | > 中 國 官方 出 兵 此 地 , 經 調解 協商 , 日 下 王府 襄 二 由",
-      "options": {
-        "A": "?",
-        "B": "Z 合計",
-        "D": "T"
-      },
-      "correct_answer": "C",
-      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 53,
-      "source_number": 53,
-      "display_number": 53,
-      "page_number": 12,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_12.png",
-      "parse_status": "image_or_layout_fallback",
-      "context": "",
-      "stem": "就 全 球 而 言 DERE ERROR > EE 表 (六 )\n人 口 數 女 多 於 男 人 性 | 2006 年 性 別 比 |\n加 多 說 女 性 , 且 陸續 過 入 高 其 一 影 儿 了 老年 人 | 「 新 生 匈 | 老年 人 可\n口 性 別 比 。 此 外 me ee Rese Mw [me | 106 | 為 |\n響 , 新 生 兒 性 別 比 有 失衡 的 狀況 。 根 據 上 文 判 | # | 105 | 3 |\n斷 , 表 (六 ) 中 甲 、 乙 、 丙 、 丁 何者 是 指 臺 灣 ?",
-      "options": {},
       "correct_answer": "B",
-      "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（中 古 西 歐 的 行 會）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 54,
@@ -1209,16 +1575,22 @@
       "display_number": 54,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\102\\social\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.445838,
+        "x1": 1.0,
+        "y1": 0.59008
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "行 的 描述 何者 正確 ?",
+      "stem": "48. 泰國 曾 因 政變 而 出 現 政局 動盪 的 現 銷 時 有 部 分 人 士 建議 泰 皇 應 出 面 調停 以 穩定 政局 , 但 泰 皇 依法 僅 是 不 具 實 權 的 國 家 元 首 , 多 數 人 仍 認為 泰 皇 並 不 適合 介入 政治 上 的 紛爭 。 就 目 前 各 國 政府 體制 而 言 , 下 列 何者 與 上 述 國 家 元 首 的 性 質 最 類 似 ?",
       "options": {
-        "A": "於 夏季 由 甲 地 出 發 4",
-        "C": "於 夏季 由 乙 地 出 發",
-        "D": "於 冬季 由 乙 地 出 發\n- —"
+        "A": "日 本 首相",
+        "C": "中 華 民國 總 統"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（於 夏季 由 乙 地 出 發）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（中 華 民國 總 統）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 55,
@@ -1226,6 +1598,12 @@
       "display_number": 55,
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\102\\social\\page_12.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.587799,
+        "x1": 1.0,
+        "y1": 0.655359
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "有 一 本 書 提 到 歷史 上 某 時 期 的 情況 :「 住 在 城 外 的 農民 大 多 生 活 艱苦 , 他 們 須 繳 交 沉 重 的 賦稅 給 莊園 主 人 , 並 為 其 服 勞 役 。 教 堂 是 當 時 精神 生 活 的 中 心 , 神 職人 員 以 拉丁 語 禱告 /- 為 民眾 舉行 名 種 宗教 儀式 。」 上 文 最 可 能 是 描 述 下 列 何時 何 地 的 情況 ? AN",
@@ -1236,6 +1614,7 @@
         "D": "西 元 十 三 世紀 的 君 士 坦 丁 堡 附近\n\" 請 翻 頁 繼續 作答"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（西 元 十 一 世紀 的 巴黎 附近）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -1244,6 +1623,12 @@
       "display_number": 56,
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\102\\social\\page_13.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.653079,
+        "x1": 1.0,
+        "y1": 0.795895
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 (二 十 ) 是 甲 、 乙 、 丙 、 丁 四 家 廠商 的 產品 供給 曲線 。 價 由 圖 中 內 容 判 斷 , 當 此 四 家 廠商 所 生 產 的 產品 售 價 均 Bf 甲乙 丙丁 AA , 且 所 有 產品 全 都 售 完 時 , 哪 一 家 廠商 的 銷 貨 二 收入 最 高 ? 20",
@@ -1253,14 +1638,69 @@
         "D": "T 圖 (二 十 )\n二 、 題 組 :(56~63 題 )\nre 還 轉\n圖 (二 十 一 ) m= + =) 84) ens\n一 CEES « || 好 好 吃 甜 甜 圈 專賣 店\nHk ty REMI > TH ease 才\n學 生 上 門 消費 , 分 別 發 送 的 傳單 : 原 價 一 個 25 元 , 每 個 一 律 20 元 ,\n今天 一 個 只 賣 10 元 。 | 任 挑 三 個 50 元 。\n只 有 今天 ! —O|| 當 天 現 做 , 要 買 要 快 !\nle ee 百 分 喔 上 _ 吃 全 多 保證 全 聰明 喔 !\n人 說 She =>\n只 ae Sass. >:\n一 to 圖 (二 十 二 )"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（T 圖 (二 十 ) 二 、 題 組 :(56~63 題 ) re 還 轉 圖 (二 十 一 ) m= + =) 84) ens 一 CEES « || 好 好 吃 甜 甜 圈 專賣 店 Hk ty REMI > TH ease 才 學 生 上 門 消費 , 分 別 發 送 的 傳單 : 原 價 一 個 25 元 , 每 個 一 律 20 元 , 今天 一 個 只 賣 10 元 。 | 任 挑 三 個 50 元 。 只 有 今天 ! —O|| 當 天 現 做 , 要 買 要 快 ! le ee 百 分 喔 上 _ 吃 全 多 保證 全 聰明 喔 ! 人 說 She => 只 ae Sass. >: 一 to 圖 (二 十 二 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 57,
       "source_number": 57,
       "display_number": 57,
+      "page_number": 11,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_11.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.793615,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "SO. 圖 (十 七 ) 是 某 工廠 選擇 廠址 HES 重視 的 區 位 要 素 判 斷 , 其 最 可",
+      "options": {
+        "A": "麵 包",
+        "B": "煉 鋁",
+        "C": "紡 織",
+        "D": "#8 58"
+      },
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（紡 織）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 58,
+      "source_number": 58,
+      "display_number": 58,
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_13.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.129989
+      },
+      "parse_status": "complete",
+      "context": "",
+      "stem": "根據 圖 (二 十 二 ) 中 關於 價 格 的 內 容 判 斷 , 好 好 吃 甜 甜 圈 專賣 店 的 銷售 策略 , 與 下 列 何者 運用 的 經 濟 學 概念 最 類 似 ? (AYR ok A > BPE aR A EJ =",
+      "options": {
+        "B": "口 味 獨特 , 僅 此 一 家",
+        "C": "四 人 同 行 , 一 人 免費\nAM\n人"
+      },
+      "correct_answer": "B",
+      "visual_primary": true,
+      "explanation": "官方答案：B（口 味 獨特 , 僅 此 一 家）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+    },
+    {
+      "number": 59,
+      "source_number": 59,
+      "display_number": 59,
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\102\\social\\page_12.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.127708,
+        "x1": 1.0,
+        "y1": 0.293044
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "圖 所 繪製 的 地 圖 , 如 圖 (十 人 De 人 所 示 。 根 據 圖 中 的 資訊 , 上 則 “aaa Aas 最 早 可 能 出 現 於 下 列 何時 \\ SS S AN",
@@ -1270,31 +1710,37 @@
         "C": "鄭 和 七 次 下 西洋 期 間 圖 (十 入)",
         "D": "明 末 傳 教士 來 華 期 間 = =)\nQS J"
       },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（鄭 和 七 次 下 西洋 期 間 圖 (十 入)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "A",
+      "visual_primary": true,
+      "explanation": "官方答案：A（玄 獎 西行 印度 取經 時 se）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 58,
-      "source_number": 58,
-      "display_number": 58,
-      "page_number": 13,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_13.png",
-      "parse_status": "complete",
+      "number": 60,
+      "source_number": 60,
+      "display_number": 60,
+      "page_number": 14,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_14.png",
+      "crop_box": null,
+      "parse_status": "image_or_layout_fallback",
       "context": "",
-      "stem": "根據 圖 (二 十 二 ) 中 關於 價 格 的 內 容 判 斷 , 好 好 吃 甜 甜 圈 專賣 店 的 銷售 策略 , 與 下 列 何者 運用 的 經 濟 學 概念 最 類 似 ? (AYR ok A > BPE aR A EJ =",
-      "options": {
-        "B": "口 味 獨特 , 僅 此 一 家",
-        "C": "四 人 同 行 , 一 人 免費\nAM\n人"
-      },
-      "correct_answer": "B",
-      "explanation": "官方答案：B（口 味 獨特 , 僅 此 一 家）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "stem": "對 照 現今 臺灣 行 政 區 的 畫 分 , 下 列 哪 一 個 行 政 區 大 部 分 未 被 涵蓋 在 此 圖 範圍 內 ?\nPE BAN\nGLE 花蓮 縣",
+      "options": {},
+      "correct_answer": "D",
+      "visual_primary": true,
+      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 59,
-      "source_number": 59,
-      "display_number": 59,
+      "number": 61,
+      "source_number": 61,
+      "display_number": 61,
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\102\\social\\page_12.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.625998,
+        "x1": 1.0,
+        "y1": 0.748005
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "斷 , 表 (六 ) 中 甲 、 乙 、 丙 、 丁 何者 是 指 臺灣 ?",
@@ -1304,15 +1750,22 @@
         "C": "A",
         "D": "T"
       },
-      "correct_answer": "A",
-      "explanation": "官方答案：A（?）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "correct_answer": "C",
+      "visual_primary": true,
+      "explanation": "官方答案：C（A）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
-      "number": 60,
-      "source_number": 60,
-      "display_number": 60,
+      "number": 62,
+      "source_number": 62,
+      "display_number": 62,
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\102\\social\\page_12.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.745724,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "54. 有 一 本 書 提 到 歷史 上 某 時 期 的 情況 :「 住 在 城 外 的 農民 大 多 生 活 艱苦 , 他 們 須 繳 交 沈 重 的 賦稅 給 莊園 主 人 , 並 為 其 服 勞 役 。 教 堂 是 當 時 精神 生 活 的 中 心 , 神 職人 員 以 拉丁 語 禱告 /- 薰 民眾 舉行 各 種 宗教 儀式 。」 上 文 最 可 能 是 描 述 下 列 何時 何 地 的 情況 ?",
@@ -1323,59 +1776,33 @@
         "D": "西 元 十 三 世紀 的 君 士 坦 丁 堡 附近"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（西 元 十 三 世紀 的 君 士 坦 丁 堡 附近）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 61,
-      "source_number": 61,
-      "display_number": 61,
-      "page_number": 14,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_14.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "上 圖 中 「 甲 」 行 政 中 心 下 方 的 虛線 範圍 內 太 許多 島嶼 , 其 成 因應 為 下 列 何者 ?",
-      "options": {
-        "A": "火 山 噴發 而 成 B) 丘 陵 沒 入 海中",
-        "C": "海 中 漂 沙 堆積 ec\n閱讀 下 列 選 文 , 回 答 第 62 至 63 REI 12\n下 文 是 某 人 自 述 其 生 平 的 摘要 生 一\n公 學 校 畢 業 後 , fi te RI 。 後 來 由 於 當 時 的 統治 者 實施 徵兵 ,\n我 被 徵召 成 為 皇 軍 , 為 躲 攻 美 蟬 的 協 衝 ~ 每天 控 防 空洞 。\n光復 後 , 國 軍 接 收 臺灣 , 並 以 高 薪 吸引 青年 從 軍 , 我 馬上 報名 參加 , 之 後\n政府 派 遺 我們 到 中 國 大 陸 參 與 內 戰 。 在 我 們 部 隊 轉 移 陣地 的 過 程 中 , 遭 到 敵 軍\n的 埋伏 , 我 被 俘 府 並 編入 敵 軍 CREE EERE\n1949 年 後 , eer A Lone , 長 期 無 法 和 臺灣 家 中 聯\n絡 , 直 到 臺灣 的 政策 改變 , 開 放 十 岸 探親 \"才 得 以 和 家 人 重逢 。\nan Pilea"
-      },
-      "correct_answer": "C",
-      "explanation": "官方答案：C（海 中 漂 沙 堆積 ec 閱讀 下 列 選 文 , 回 答 第 62 至 63 REI 12 下 文 是 某 人 自 述 其 生 平 的 摘要 生 一 公 學 校 畢 業 後 , fi te RI 。 後 來 由 於 當 時 的 統治 者 實施 徵兵 , 我 被 徵召 成 為 皇 軍 , 為 躲 攻 美 蟬 的 協 衝 ~ 每天 控 防 空洞 。 光復 後 , 國 軍 接 收 臺灣 , 並 以 高 薪 吸引 青年 從 軍 , 我 馬上 報名 參加 , 之 後 政府 派 遺 我們 到 中 國 大 陸 參 與 內 戰 。 在 我 們 部 隊 轉 移 陣地 的 過 程 中 , 遭 到 敵 軍 的 埋伏 , 我 被 俘 府 並 編入 敵 軍 CREE EERE 1949 年 後 , eer A Lone , 長 期 無 法 和 臺灣 家 中 聯 絡 , 直 到 臺灣 的 政策 改變 , 開 放 十 岸 探親 \"才 得 以 和 家 人 重逢 。 an Pilea）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
-    },
-    {
-      "number": 62,
-      "source_number": 62,
-      "display_number": 62,
-      "page_number": 13,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_13.png",
-      "parse_status": "complete",
-      "context": "",
-      "stem": "由 圖 中 內 容 判 斷 , 當 此 四 家 廠商 所 生 產 的 產品 售 價 均 = 為 20 元 , 且 所 有 產品 全 都 售 完 時 , 哪 一 家 廠商 的 銷 貨 一 收入 最 高 ? 20",
-      "options": {
-        "A": "?",
-        "B": "Z",
-        "C": "A 數 量 (個 )",
-        "D": "T 圖 (二 十 )\n- i+i she ||| | 一\n回 (二 十 一 )、 圖 (二 十 二 ) 是 學 校 ABR YP pam A at 主 x PAARL IG HH Ee SS re"
-      },
-      "correct_answer": "D",
-      "explanation": "官方答案：D（T 圖 (二 十 ) - i+i she ||| | 一 回 (二 十 一 )、 圖 (二 十 二 ) 是 學 校 ABR YP pam A at 主 x PAARL IG HH Ee SS re）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 63,
       "source_number": 63,
       "display_number": 63,
-      "page_number": 14,
-      "page_image_path": "cap_practice_assets\\102\\social\\page_14.png",
+      "page_number": 13,
+      "page_image_path": "cap_practice_assets\\102\\social\\page_13.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.063854,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "上 文 中 主 角 的 身分 在 不 同 時 期 而 有 所 差異 下 列 何者 正確 呈現 出 這 種 轉 變 ?",
+      "stem": "55. 圖 (二 十 ) 是 甲 、 乙 、 丙 、 丁 四 家 廠商 的 產品 供給 曲線 。 價 由 圖 中 內 容 判斷 , 當 此 四 家 廠商 所 生 產 的 產品 售 價 均 器 「OE】 為 20 元 , 且 所 有 產品 全 都 售 完 時 , 哪 一 家 廠商 的 銷 貨 人 收入 最 高 ? 0",
       "options": {
-        "A": "國 民政 府 的 士兵 一 共產 黨 的 士兵 一 臺 籍 日 本 兵",
-        "B": "國 民政 府 的 士兵 一 臺 籍 日 本 兵 一 共產 黨 的 士兵 [Og gane:",
-        "C": "臺 籍 日 本 兵 一 共產 黨 的 士兵 一 國 民政 府 的 士兵 指 臺灣 夭 的 日 本 兵 。",
-        "D": "臺 籍 日 本 兵 一 國 民政 府 的 士 還 > 共產 當 的 士兵\n上"
+        "A": "使 用 為 質 原 料 , 危 及 人 民 健康 祿",
+        "B": "刊 登 不 實 廣告 , 損 害 消費 民眾 權 冰",
+        "D": "壟 斷 商 品 市 場 , 聯 合 哄 抬 商 品 價 枚",
+        "C": "販 賣 逾 期 產品 , 不 願 接受 顧 容 退 人"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A（國 民政 府 的 士兵 一 共產 黨 的 士兵 一 臺 籍 日 本 兵）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（使 用 為 質 原 料 , 危 及 人 民 健康 祿）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。"
     }
   ],
   "issues": [
@@ -1525,95 +1952,101 @@
       "option_count": 0
     },
     {
-      "question_number": 7,
-      "display_source_number": 7,
+      "question_number": 3,
+      "display_source_number": 3,
+      "reason": "parse_incomplete",
+      "stem_length": 911,
+      "option_count": 0
+    },
+    {
+      "question_number": 9,
+      "display_source_number": 9,
       "reason": "parse_incomplete",
       "stem_length": 127,
       "option_count": 0
     },
     {
-      "question_number": 17,
-      "display_source_number": 17,
+      "question_number": 19,
+      "display_source_number": 19,
       "reason": "parse_incomplete",
       "stem_length": 87,
       "option_count": 0
     },
     {
-      "question_number": 24,
-      "display_source_number": 24,
+      "question_number": 26,
+      "display_source_number": 26,
       "reason": "parse_incomplete",
       "stem_length": 75,
       "option_count": 0
     },
     {
-      "question_number": 25,
-      "display_source_number": 25,
+      "question_number": 27,
+      "display_source_number": 27,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 4
     },
     {
-      "question_number": 28,
-      "display_source_number": 28,
+      "question_number": 30,
+      "display_source_number": 30,
       "reason": "parse_incomplete",
       "stem_length": 98,
       "option_count": 0
     },
     {
-      "question_number": 32,
-      "display_source_number": 32,
+      "question_number": 34,
+      "display_source_number": 34,
       "reason": "parse_incomplete",
       "stem_length": 193,
       "option_count": 1
     },
     {
-      "question_number": 39,
-      "display_source_number": 39,
+      "question_number": 41,
+      "display_source_number": 41,
       "reason": "parse_incomplete",
       "stem_length": 48,
       "option_count": 0
     },
     {
-      "question_number": 42,
-      "display_source_number": 42,
+      "question_number": 44,
+      "display_source_number": 44,
       "reason": "parse_incomplete",
       "stem_length": 159,
       "option_count": 0
     },
     {
-      "question_number": 45,
-      "display_source_number": 45,
+      "question_number": 47,
+      "display_source_number": 47,
       "reason": "parse_incomplete",
       "stem_length": 151,
       "option_count": 1
     },
     {
-      "question_number": 48,
-      "display_source_number": 48,
+      "question_number": 50,
+      "display_source_number": 50,
       "reason": "parse_incomplete",
       "stem_length": 0,
       "option_count": 3
     },
     {
-      "question_number": 53,
-      "display_source_number": 53,
+      "question_number": 55,
+      "display_source_number": 55,
       "reason": "parse_incomplete",
       "stem_length": 116,
       "option_count": 0
     },
     {
-      "question_number": 56,
-      "display_source_number": 56,
+      "question_number": 58,
+      "display_source_number": 58,
       "reason": "parse_incomplete",
       "stem_length": 88,
       "option_count": 0
     },
     {
-      "question_number": 61,
-      "display_source_number": 61,
-      "reason": "parse_incomplete",
-      "stem_length": 54,
-      "option_count": 0
+      "question_number": 6,
+      "display_source_number": 6,
+      "reason": "missing_question_visual_fallback",
+      "page_number": 2
     }
   ]
 }

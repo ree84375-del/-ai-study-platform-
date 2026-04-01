@@ -490,8 +490,17 @@ def _cap_pdf_relative_path(year, subject_slug):
     return pdf_relative
 
 
-@lru_cache(maxsize=256)
-def _render_cap_page_png(relative_pdf_path, page_number):
+def _serialize_cap_crop(crop_box):
+    if not crop_box:
+        return None
+    try:
+        return ",".join(f"{float(crop_box[key]):.6f}" for key in ('x0', 'y0', 'x1', 'y1'))
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+@lru_cache(maxsize=512)
+def _render_cap_page_png(relative_pdf_path, page_number, crop_signature=None):
     import fitz
 
     pdf_path = (STUDY_DATA_ROOT / relative_pdf_path).resolve()
@@ -501,7 +510,20 @@ def _render_cap_page_png(relative_pdf_path, page_number):
     document = fitz.open(pdf_path)
     try:
         page = document.load_page(max(0, int(page_number) - 1))
-        pixmap = page.get_pixmap(matrix=fitz.Matrix(2, 2), alpha=False)
+        clip = None
+        if crop_signature:
+            try:
+                x0, y0, x1, y1 = (float(value) for value in str(crop_signature).split(','))
+                page_rect = page.rect
+                clip = fitz.Rect(
+                    page_rect.width * x0,
+                    page_rect.height * y0,
+                    page_rect.width * x1,
+                    page_rect.height * y1,
+                )
+            except (TypeError, ValueError):
+                clip = None
+        pixmap = page.get_pixmap(matrix=fitz.Matrix(2, 2), clip=clip, alpha=False)
         return pixmap.tobytes('png')
     finally:
         document.close()
@@ -513,6 +535,8 @@ def _build_cap_question_item(item, subject_slug):
     page_number = item.get('page_number')
     page_image_href = None
     page_image_note = None
+    question_image_href = None
+    crop_signature = _serialize_cap_crop(item.get('crop_box'))
     if page_number:
         page_image_href = url_for(
             'study.practice_cap_asset',
@@ -520,6 +544,16 @@ def _build_cap_question_item(item, subject_slug):
             subject=subject_slug,
             page_number=page_number,
         )
+        if crop_signature:
+            question_image_href = url_for(
+                'study.practice_cap_asset',
+                year=item.get('year'),
+                subject=subject_slug,
+                page_number=page_number,
+                crop=crop_signature,
+            )
+        else:
+            question_image_href = page_image_href
         page_image_note = f"題目圖像擷取自原始題本第 {page_number} 頁。"
 
     return {
@@ -528,7 +562,9 @@ def _build_cap_question_item(item, subject_slug):
         'correct_answer': correct_answer,
         'correct_option_text': options.get(correct_answer, ''),
         'page_image_href': page_image_href,
+        'question_image_href': question_image_href,
         'page_image_note': page_image_note,
+        'use_visual_primary': bool(item.get('visual_primary')),
         'explanation_sections': _build_explanation_sections(item.get('explanation')),
         'answer_field_name': _cap_question_field_name(item.get('question_key')),
     }
@@ -825,7 +861,8 @@ def practice_cap_hub():
 def practice_cap_asset(year, subject, page_number):
     try:
         relative_pdf_path = _cap_pdf_relative_path(str(year), str(subject))
-        image_bytes = _render_cap_page_png(relative_pdf_path, page_number)
+        crop_signature = request.args.get('crop')
+        image_bytes = _render_cap_page_png(relative_pdf_path, page_number, crop_signature)
     except (FileNotFoundError, ValueError, RuntimeError, KeyError, IndexError):
         abort(404)
 

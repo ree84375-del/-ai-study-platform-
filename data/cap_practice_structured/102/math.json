@@ -29,10 +29,10 @@
     "explanation_url": "https://drive.google.com/file/d/1VXI00Eb2KozpVJ-dsfrwCBr_vuC9Pfvp/view?usp=drive_link"
   },
   "checks": {
-    "question_chunks_found": 81,
+    "question_chunks_found": 106,
     "answers_found": 25,
     "questions_kept": 25,
-    "issues_found": 47,
+    "issues_found": 57,
     "answer_completion_ratio": 1.0,
     "raw_question_numbers": [
       1,
@@ -94,7 +94,32 @@
       2,
       3,
       4,
-      5
+      5,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
     ],
     "kept_question_numbers": [
       1,
@@ -134,6 +159,12 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\math\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.348917,
+        "x1": 1.0,
+        "y1": 0.610319
+      },
       "parse_status": "complete",
       "context": "第 一 部 分 : 選 擇 題 ( 第 1~25 題 )",
       "stem": "算式 -6+2x[16—-(—32)+8] 21a ty ?",
@@ -144,6 +175,7 @@
         "D": "34"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（34）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -152,6 +184,12 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\math\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.608039,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "數 線上 AB RHA ORMPHA a aa <b> |a-b|=9° #4 4 點 向 右 移動 3 單位 到 達 C 點, 則 所 ai a3 uiU",
@@ -159,6 +197,7 @@
         "B": "6\n(Cc) 9\n. pa"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（6 (Cc) 9 . pa）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -167,6 +206,12 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\102\\math\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.062429,
+        "x1": 1.0,
+        "y1": 0.108324
+      },
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "“有 一 座 水 池 內 部 呈 長 方 深 為 $00 公分 。 小 明 想 要 將 水 池 內 的 水 , 以 每 30 分 鐘 下 降 40 公分 的 速率 , 等 速 放 水 5 小 時 。 若 經 過 x 分 鐘 後 , 水 深 為 y, 公 分, 則 下 列 哪 一 個 圖 形 可 以 表 示 戰 ~ 吃 的 關係 ?",
@@ -174,24 +219,33 @@
         "A": "y 【 | R\\ y\nwl FOES\na, Sues"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 4,
       "source_number": 4,
       "display_number": 4,
-      "page_number": 3,
-      "page_image_path": "cap_practice_assets\\102\\math\\page_03.png",
+      "page_number": 2,
+      "page_image_path": "cap_practice_assets\\102\\math\\page_02.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.106043,
+        "x1": 1.0,
+        "y1": 0.275086
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "(-) Po OH ABCDA TOE: DEH E ACDE & $33 ° % 214 ZBCD 的 外 角 , 則 下 列 有 關 Z1 + ZADE + ZACB 的 大 小 關係 , 何 者 正確 ? 4",
+      "stem": "ie BHX -6+2x[16-(-32)+8] 2 4A tq ?",
       "options": {
-        "A": "ZADE>Z1",
-        "B": "ZADE </1 B 1",
-        "C": "ZACB< Z1 C"
+        "A": "-24",
+        "B": "-4 15",
+        "C": "30 S/",
+        "D": "34\npe ge"
       },
       "correct_answer": "D",
-      "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：D（34 pe ge）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 5,
@@ -199,6 +253,12 @@
       "display_number": 5,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\math\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.272805,
+        "x1": 1.0,
+        "y1": 0.487172
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "ce 圖 (一 ) ? “如 圖 (二 ), 三 直線 圍 成 一 勻 不 等 長 的 銳角 > = {7% ABC > $RAA YP SABE i 下 列 關係 何者 正確 ?",
@@ -209,6 +269,7 @@
         "D": "Z5=Z1+ 23"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（Z1+ /3 > 90° sf €）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -217,6 +278,12 @@
       "display_number": 6,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\math\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.484892,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "若 4、 乃 分 別 表 示 多 項 式 2x 一 3 與 3x+1, 則 SAtB _ AMSB ger som 一 個 式 子 相 同 ? 0」 13x-12 回 41x-12 EL 13x — 36",
@@ -227,6 +294,7 @@
         "D": "47"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（41）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -235,17 +303,24 @@
       "display_number": 7,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\math\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.064424,
+        "x1": 1.0,
+        "y1": 0.280502
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "ce 圖 (一 ) ? “如 圖 (二 ), 三 直線 圍 成 一 勻 不 等 長 的 銳角 > = {7% ABC > $RAA YP SABE i 下 列 關係 何者 正確 ?",
+      "stem": "4. A(—-)P: 9% ABCDA FTO: DEH ACDE & #46° & Z1 4 ZBCD 45> > AF WA Hl Z1 + ZADE + ZACB &K-) MR > AT HEE ?",
       "options": {
-        "A": "Z1+ /3 > 90° sf €",
-        "B": "23 + /5 < 90°",
-        "C": "Z4= 21+ 22 圖 (二 )",
-        "D": "Z5=Z1+ 23"
+        "A": "ZADE>Z1",
+        "B": "ZADE </1",
+        "C": "ZACB <1",
+        "D": "ZACB= 71"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（Z4= 21+ 22 圖 (二 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（ZACB <1）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 8,
@@ -253,6 +328,12 @@
       "display_number": 8,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\102\\math\\page_03.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.278221,
+        "x1": 1.0,
+        "y1": 0.502851
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "若 4、 乃 分 別 表 示 多 項 式 2x 一 3 與 3x+1, 則 SAtB _ AMSB ger som 一 個 式 子 相 同 ? 0」 13x-12 回 41x-12 EL 13x — 36",
@@ -263,6 +344,7 @@
         "D": "47"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（47）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -271,6 +353,12 @@
       "display_number": 9,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\math\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.50057,
+        "x1": 1.0,
+        "y1": 0.740023
+      },
       "parse_status": "complete",
       "context": "ects 6 12 :\nOe nn Ra\n(A) 3V2 -3\n(B) 6V3 -2V6\nGo -2Vi1\n(D) 3V7+5V5-2V11",
       "stem": "已 知 一 等 差 數 列 的 公差 是 2 ap 2OH fo R500» Rib FEMI TMA?",
@@ -281,6 +369,7 @@
         "D": "12"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（6）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -289,6 +378,12 @@
       "display_number": 10,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\math\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.737742,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "如 圖 (三 ), OA Et 2% Kh ABCDEFG 內 部 A —1s OA» OB. OC: OD» OE OF < 0G og G ym TIS HHS HIB? RY A OBC. XKOCD + A 0Oz 了 已 涂 上 灰色 。 判 斷 下 列 哪 一 個 三 角形 塗 上 灰 色 後 , 四 個 灰色 區 域 所 形成 的 圖 形 不 是 線 對 稱 圖 形 ? ©",
@@ -299,6 +394,7 @@
         "D": "A OGA"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（A OAB）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -307,6 +403,12 @@
       "display_number": 11,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\math\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.071266,
+        "x1": 1.0,
+        "y1": 0.257127
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "已 知 一 等 差 數 列 的 公差 是 2 ap 2OH fo R500» Rib FEMI TMA?",
@@ -317,6 +419,7 @@
         "D": "12"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（6）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -325,6 +428,12 @@
       "display_number": 12,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\102\\math\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.254846,
+        "x1": 1.0,
+        "y1": 0.423033
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "如 圖 (三 ), OA Et 2% Kh ABCDEFG 內 部 A —1s OA» OB. OC: OD» OE OF < 0G og G ym TIS HHS HIB? RY A OBC. XKOCD + A 0Oz 了 已 涂 上 灰色 。 判 斷 下 列 哪 一 個 三 角形 塗 上 灰 色 後 , 四 個 灰色 區 域 所 形成 的 圖 形 不 是 線 對 稱 圖 形 ? ©",
@@ -335,6 +444,7 @@
         "D": "A OGA"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（A OFG 圖 (三 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -343,6 +453,12 @@
       "display_number": 13,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.420753,
+        "x1": 1.0,
+        "y1": 0.496864
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "座標 平面 上 有 一 和 矩形 -4 則 的 方程 式 為 文 十 2)y =7。 若 用 點 HRA (1,1)> B AB St y bh 47 > BI D Bb RAR A ft ?",
@@ -353,24 +469,33 @@
         "D": "(5,3)"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（(5,3)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 14,
       "source_number": 14,
       "display_number": 14,
-      "page_number": 5,
-      "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "page_number": 4,
+      "page_image_path": "cap_practice_assets\\102\\math\\page_04.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.494584,
+        "x1": 1.0,
+        "y1": 0.684151
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "算式 2 x (20007 - 1) - 20017-1999\" 之 值 為 何 ? aad 0」",
+      "stem": "A OEF BEER © FETE neh {8 = aa 4K? 1K E BIRTH",
       "options": {
-        "B": "-4",
-        "C": "7998",
-        "D": "-8002"
+        "A": "A OAB",
+        "B": "A ODE",
+        "C": "A OFG",
+        "D": "A OGA\nal (=)"
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B（-4）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（A ODE）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 15,
@@ -378,6 +503,12 @@
       "display_number": 15,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.68187,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "ee EL ri BE $2 it % # BCDE A 所 組 成 , 五 點 在 C7 上 , 大 聞 邊 形 ABCDE 的 面積 為 63, 且 AF =11% 8) 人 47 五 與 正方 形 乃 C2 五 的 B E 面積 比 為 何 ?",
@@ -388,6 +519,7 @@
         "D": "5:12"
       },
       "correct_answer": "A",
+      "visual_primary": true,
       "explanation": "官方答案：A（2:7）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -396,6 +528,12 @@
       "display_number": 16,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.064424,
+        "x1": 1.0,
+        "y1": 0.324971
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "座標 平面 上 有 一 和 矩形 -4 則 的 方程 式 為 文 十 2)y =7。 若 用 點 HRA (1,1)> B AB St y bh 47 > BI D Bb RAR A ft ?",
@@ -406,6 +544,7 @@
         "D": "(5,3)"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（(3,5)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -414,16 +553,24 @@
       "display_number": 17,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.322691,
+        "x1": 1.0,
+        "y1": 0.514823
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "算式 2 x (20007 - 1) - 20017-1999\" 之 值 為 何 ? aad 0」",
+      "stem": "13. BARA i LH — 489 ABCD y HP HMAC HF BAA x+y = 7° 3 BE FEA (1,1) BAB Sty Oh-% 77 > BY) D BRIA tq?",
       "options": {
-        "B": "-4",
-        "C": "7998",
-        "D": "-8002"
+        "A": "(1,3)",
+        "B": "(3,5) cio",
+        "C": "(5,1) —-",
+        "D": "(5,3)"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C（7998）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（(5,1) —-）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 18,
@@ -431,6 +578,12 @@
       "display_number": 18,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.512543,
+        "x1": 1.0,
+        "y1": 0.6813
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "ee EL ri BE $2 it % # BCDE A 所 組 成 , 五 點 在 C7 上 , 大 聞 邊 形 ABCDE 的 面積 為 63, 且 AF =11% 8) 人 47 五 與 正方 形 乃 C2 五 的 B E 面積 比 為 何 ?",
@@ -441,25 +594,33 @@
         "D": "5:12"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（5:12）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 19,
       "source_number": 19,
       "display_number": 19,
-      "page_number": 6,
-      "page_image_path": "cap_practice_assets\\102\\math\\page_06.png",
+      "page_number": 5,
+      "page_image_path": "cap_practice_assets\\102\\math\\page_05.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.679019,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "根據 下 列 各 選項 圖 中 所 給 的 邊 長 長 度 及 角度 , 判 斷 下 列 哪 一 個 圖 形 與 其 他 三 個 不 相 似 ?",
+      "stem": "15. A(h)H#hie% ABCDE 2h ALABE XE FH BCDE py fa > Fh 4 CD > » AFL CD: #23434 ABCDE mt 4 63> 2 AF =11> &] A ABE iL BCDE 4) @ fat A tq ?",
       "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": "Bp. A\n_\nAT) \\V/\n2 2"
+        "A": "2:7",
+        "B": "3:5",
+        "C": "3:16",
+        "D": "5:12\nB\nCc\nA\nfa] (& )\nE\nD"
       },
       "correct_answer": "C",
-      "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：C（3:16）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 20,
@@ -467,6 +628,12 @@
       "display_number": 20,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\math\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.064139,
+        "x1": 1.0,
+        "y1": 0.08894
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "wA",
@@ -476,6 +643,7 @@
         "C": "4\nD)5\n®)"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（4 D)5 ®)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -484,6 +652,12 @@
       "display_number": 21,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\102\\math\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.086659,
+        "x1": 1.0,
+        "y1": 0.297035
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "0B 40 圖 (六 )",
@@ -492,6 +666,7 @@
         "D": "70"
       },
       "correct_answer": "C",
+      "visual_primary": true,
       "explanation": "官方答案：C（50）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
@@ -500,6 +675,12 @@
       "display_number": 22,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\102\\math\\page_08.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.294755,
+        "x1": 1.0,
+        "y1": 0.391676
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "若 干 對 夫妻 參加 新 婚 座談 會 , 座 談 會 有 提供 參加 的 夫妻 每 人 一 杯 飲料 , 其 中 飲料 有 茶 、 咖 啡 、 果 汁 三 種 選擇 。 若 座談 會 中 丈夫 選擇 茶 、 咖 啡 、 果 汁 的 杯 數 比 為 85:3:2, 妻 子 選擇 茶 、 咖 啡 、 果 汁 的 杯 數 比 為 2:2:1, 則 所 有 參加 者 選擇 茶 、 咖 啡 、 果 汁 的 林 數 比 前 何 ? 一",
@@ -510,24 +691,33 @@
         "D": "20:16:9"
       },
       "correct_answer": "B",
+      "visual_primary": true,
       "explanation": "官方答案：B（9:7:4 4）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 23,
       "source_number": 23,
       "display_number": 23,
-      "page_number": 8,
-      "page_image_path": "cap_practice_assets\\102\\math\\page_08.png",
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\math\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.389396,
+        "x1": 1.0,
+        "y1": 0.605473
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "ee sl -",
+      "stem": "43> JLAS HP . Cag ages",
       "options": {
-        "A": "8-(- 38)\"",
-        "B": "8- (- 3)\nGi",
-        "D": "8 - (- 33)\nz= /\n— DT\n—]"
+        "A": "30 — 7",
+        "B": "40 BCX",
+        "C": "50",
+        "D": "70\n="
       },
       "correct_answer": "B",
-      "explanation": "官方答案：B（8- (- 3) Gi）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：B（40 BCX）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 24,
@@ -535,6 +725,12 @@
       "display_number": 24,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\102\\math\\page_07.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.603193,
+        "x1": 1.0,
+        "y1": 0.632269
+      },
       "parse_status": "complete",
       "context": "",
       "stem": "已 知 有 甲 、 乙 、 丙 、 丁 四 支 棒球 隊 , 每 隊 均 表 (一 ) 與 其 他 三 隊 各 比 20 場 。 表 (一 ) 為 四 隊 比 賽 Coweta ml AEE 戰績 紀錄 表 , 其 中 部 分 資料 汙 損 。 根 據 表 中 全 的 資料 , 判 斷 乙 隊 的 獲勝 場 數 為 何 ? an | ie",
@@ -544,24 +740,32 @@
         "D": "26"
       },
       "correct_answer": "D",
+      "visual_primary": true,
       "explanation": "官方答案：D（26）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     },
     {
       "number": 25,
       "source_number": 25,
       "display_number": 25,
-      "page_number": 7,
-      "page_image_path": "cap_practice_assets\\102\\math\\page_07.png",
+      "page_number": 6,
+      "page_image_path": "cap_practice_assets\\102\\math\\page_06.png",
+      "crop_box": {
+        "x0": 0.059629,
+        "y0": 0.629989,
+        "x1": 1.0,
+        "y1": 0.991448
+      },
       "parse_status": "complete",
       "context": "",
-      "stem": "wA",
+      "stem": "A ABC HES? HCHADE Ls $F 7 OH BDEG 4% 12> 8) A ABC Hy hae A g E",
       "options": {
-        "A": "",
-        "B": "3 了 品",
-        "C": "4\nD)5\n®)"
+        "A": "8 ©",
+        "B": "12 = 2\n(Cc) 15 fa] (+ )",
+        "D": "18\n9 Ee © wes"
       },
       "correct_answer": "A",
-      "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
+      "visual_primary": true,
+      "explanation": "官方答案：A（8 ©）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。"
     }
   ],
   "issues": [
@@ -850,6 +1054,76 @@
       "display_source_number": 5,
       "reason": "parse_incomplete",
       "stem_length": 172,
+      "option_count": 0
+    },
+    {
+      "question_number": 1,
+      "display_source_number": 1,
+      "reason": "parse_incomplete",
+      "stem_length": 308,
+      "option_count": 0
+    },
+    {
+      "question_number": 2,
+      "display_source_number": 2,
+      "reason": "parse_incomplete",
+      "stem_length": 438,
+      "option_count": 0
+    },
+    {
+      "question_number": 3,
+      "display_source_number": 3,
+      "reason": "parse_incomplete",
+      "stem_length": 28,
+      "option_count": 0
+    },
+    {
+      "question_number": 6,
+      "display_source_number": 6,
+      "reason": "parse_incomplete",
+      "stem_length": 93,
+      "option_count": 0
+    },
+    {
+      "question_number": 9,
+      "display_source_number": 9,
+      "reason": "parse_incomplete",
+      "stem_length": 90,
+      "option_count": 0
+    },
+    {
+      "question_number": 13,
+      "display_source_number": 13,
+      "reason": "parse_incomplete",
+      "stem_length": 114,
+      "option_count": 0
+    },
+    {
+      "question_number": 20,
+      "display_source_number": 20,
+      "reason": "parse_incomplete",
+      "stem_length": 39,
+      "option_count": 0
+    },
+    {
+      "question_number": 21,
+      "display_source_number": 21,
+      "reason": "parse_incomplete",
+      "stem_length": 12,
+      "option_count": 1
+    },
+    {
+      "question_number": 22,
+      "display_source_number": 22,
+      "reason": "parse_incomplete",
+      "stem_length": 6,
+      "option_count": 1
+    },
+    {
+      "question_number": 24,
+      "display_source_number": 24,
+      "reason": "parse_incomplete",
+      "stem_length": 28,
       "option_count": 0
     }
   ]
