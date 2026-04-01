@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-03-30T12:59:51",
   "status": "rebuilt-choice-questions-audited",
-  "note": "math question_count currently tracks multiple-choice items only; non-choice items are not yet merged into interactive practice.",
+  "note": "會考題數已依原始題本與答案卷重新核對；目前網站只納入互動式選擇題，未納入數學非選、英語聽力與寫作測驗。",
   "years": [
     {
       "year": "102",
@@ -12,13 +12,7 @@
         "social": 63,
         "science": 54
       },
-      "mismatches": [
-        {
-          "subject": "math",
-          "reference_count": 27,
-          "rebuilt_count": 25
-        }
-      ]
+      "mismatches": []
     },
     {
       "year": "103",
@@ -51,13 +45,7 @@
         "social": 63,
         "science": 54
       },
-      "mismatches": [
-        {
-          "subject": "math",
-          "reference_count": 26,
-          "rebuilt_count": 25
-        }
-      ]
+      "mismatches": []
     },
     {
       "year": "106",
@@ -159,26 +147,5 @@
       "mismatches": []
     }
   ],
-  "reference_differences": [
-    {
-      "year": "102",
-      "mismatches": [
-        {
-          "subject": "math",
-          "reference_count": 27,
-          "rebuilt_count": 25
-        }
-      ]
-    },
-    {
-      "year": "105",
-      "mismatches": [
-        {
-          "subject": "math",
-          "reference_count": 26,
-          "rebuilt_count": 25
-        }
-      ]
-    }
-  ]
+  "reference_differences": []
 }
