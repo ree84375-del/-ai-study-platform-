@@ -957,9 +957,22 @@
 
             if (!response.ok) {
                 removeTypingIndicator();
-                const errText = await response.text();
-                console.error("Server Error:", response.status, errText);
-                addMessage('ai', `{{ _t('conn_error') }} (${response.status})`);
+                let serverMessage = '';
+                try {
+                    const errorPayload = await response.clone().json();
+                    serverMessage = errorPayload.reply || errorPayload.error || '';
+                } catch (_) {
+                    const errText = await response.text();
+                    console.error("Server Error:", response.status, errText);
+                    if (/csrf/i.test(errText)) {
+                        serverMessage = '安全驗證已失效，請重新整理頁面後再試一次。';
+                    } else if (/unauthorized|forbidden/i.test(errText)) {
+                        serverMessage = '目前沒有權限執行這個操作。';
+                    } else {
+                        serverMessage = errText.slice(0, 160);
+                    }
+                }
+                addMessage('ai', serverMessage || `{{ _t('conn_error') }} (${response.status})`);
                 enableUI();
                 return;
             }
@@ -984,7 +997,7 @@
                 const updatedHistory = [...currentLocalHistory, { role: 'user', content: text }, { role: 'ai', content: data.reply }];
                 writeLocalHistory(historySessionId, updatedHistory);
             } else if (data.error) {
-                addMessage('ai', `發生問題：${data.error}`);
+                addMessage('ai', data.reply || `發生問題：${data.error}`);
             }
         } catch (e) {
             removeTypingIndicator();

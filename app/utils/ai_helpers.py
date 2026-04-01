@@ -994,6 +994,44 @@ AI_PERSONALITIES = {
 
 }
 
+AI_PERSONALITY_ALIASES = {
+    'ai_gentle': 'ai_gentle',
+    'ai_personality_gentle': 'ai_gentle',
+    '雪音-溫柔型': 'ai_gentle',
+    '雪音-温柔型': 'ai_gentle',
+    'ai_coach': 'ai_coach',
+    'ai_personality_strict': 'ai_coach',
+    '雪音-嚴厲型': 'ai_coach',
+    '雪音-严格型': 'ai_coach',
+    '雷恩教練': 'ai_coach',
+    '魔鬼教練': 'ai_coach',
+    'ai_guy': 'ai_guy',
+    'ai_personality_humorous': 'ai_guy',
+    '雪音-幽默型': 'ai_guy',
+    '阿哲學長': 'ai_guy',
+    'ai_antigravity': 'ai_antigravity',
+    'ai_antigravity_assist': 'ai_antigravity',
+    '雪音-Antigravity輔助型': 'ai_antigravity',
+}
+
+AI_PERSONALITIES['ai_gentle'] = AI_PERSONALITIES['雪音-溫柔型']
+AI_PERSONALITIES['ai_coach'] = AI_PERSONALITIES['嚴厲教練']
+AI_PERSONALITIES['ai_guy'] = AI_PERSONALITIES['幽默學長']
+AI_PERSONALITIES['ai_antigravity_assist'] = AI_PERSONALITIES['雪音-Antigravity輔助型']
+AI_PERSONALITIES['ai_personality_gentle'] = AI_PERSONALITIES['ai_gentle']
+AI_PERSONALITIES['ai_personality_strict'] = AI_PERSONALITIES['ai_coach']
+AI_PERSONALITIES['ai_personality_humorous'] = AI_PERSONALITIES['ai_guy']
+
+
+def normalize_ai_personality_key(personality_key=None):
+    return AI_PERSONALITY_ALIASES.get(personality_key or 'ai_gentle', 'ai_gentle')
+
+
+def get_ai_personality_name(personality_key=None):
+    canonical_key = normalize_ai_personality_key(personality_key)
+    personality = AI_PERSONALITIES.get(canonical_key, AI_PERSONALITIES['ai_gentle'])
+    return personality.get('name', '雪音')
+
 TOOL_INSTRUCTIONS = """
 
 --- 內部工具指令（僅供內部參考，嚴禁在回覆中提及任何內部標籤） ---
@@ -1237,7 +1275,8 @@ def get_ai_tutor_response(chat_history, user_message, personality_key='雪音-�
 
         return f"為您生成繪圖：**{p}**\n\n![AI Image]({generate_image_url(p)})"
 
-    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['雪音-溫柔型'])
+    personality_key = normalize_ai_personality_key(personality_key)
+    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['ai_gentle'])
 
     system_prompt = personality['system_prompt'] + TOOL_INSTRUCTIONS
 
@@ -1389,7 +1428,8 @@ def analyze_question_image(image_bytes, user=None, lang='zh'):
 
 def get_yukine_system_prompt(lang='zh', user=None):
 
-    personality = AI_PERSONALITIES.get(user.ai_personality if user else '雪音-溫柔型', AI_PERSONALITIES['雪音-溫柔型'])
+    personality_key = normalize_ai_personality_key(user.ai_personality if user else 'ai_gentle')
+    personality = AI_PERSONALITIES.get(personality_key, AI_PERSONALITIES['ai_gentle'])
 
     return personality['system_prompt']
 
@@ -1989,6 +2029,8 @@ def get_ai_user_by_personality(personality_key=None):
 
         '幽默學長': 'senior_bot@internal.ai',
 
+        'ai_gentle': 'yukine_bot@internal.ai',
+
         'ai_coach': 'coach_bot@internal.ai',
 
         'ai_guy': 'senior_bot@internal.ai',
@@ -2001,7 +2043,7 @@ def get_ai_user_by_personality(personality_key=None):
 
     
 
-    target_email = email_map.get(personality_key, 'yukine_bot@internal.ai')
+    target_email = email_map.get(normalize_ai_personality_key(personality_key), 'yukine_bot@internal.ai')
 
     
 

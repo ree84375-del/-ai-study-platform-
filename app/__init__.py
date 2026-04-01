@@ -30,6 +30,21 @@ def _is_truthy_env(name: str, default: bool = False) -> bool:
         return default
     return raw.strip().lower() in {"1", "true", "yes", "on"}
 
+
+def _ensure_legacy_chat_schema(app):
+    """Backfill chat columns that older local/remote databases may miss."""
+    try:
+        db.session.execute(text("SELECT is_pinned FROM chat_session LIMIT 1"))
+    except Exception:
+        db.session.rollback()
+        try:
+            db.session.execute(text("ALTER TABLE chat_session ADD COLUMN is_pinned BOOLEAN DEFAULT FALSE"))
+            db.session.commit()
+            app.logger.info("Backfilled chat_session.is_pinned column.")
+        except Exception as exc:
+            db.session.rollback()
+            app.logger.warning(f"Unable to backfill chat_session.is_pinned: {exc}")
+
 def create_app():
     app = Flask(__name__)
     
@@ -158,6 +173,8 @@ def create_app():
         if db_uri.startswith('sqlite:'):
             db.create_all()
             app.logger.info("Local SQLite initialized/verified.")
+
+        _ensure_legacy_chat_schema(app)
 
         if _is_truthy_env("AUTO_IMPORT_BUNDLED_QUESTION_BANKS", default=False):
             try:

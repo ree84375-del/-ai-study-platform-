@@ -1391,11 +1391,16 @@ def generate_question_api():
 def tutor_chat():
     from app import db
     from app.models import ChatSession, ChatMessage, Mistake
-    from app.utils.ai_helpers import get_ai_tutor_response
+    from app.utils.ai_helpers import get_ai_tutor_response, normalize_ai_personality_key
     try:
         user_msg = request.json.get('message', '')
         session_id = request.json.get('session_id')
         image_data = request.json.get('image', None)
+
+        normalized_personality = normalize_ai_personality_key(getattr(current_user, 'ai_personality', None))
+        if normalized_personality != getattr(current_user, 'ai_personality', None):
+            current_user.ai_personality = normalized_personality
+            db.session.commit()
         
         if not user_msg and not image_data:
             return jsonify({'error': _t('msg_empty_message', current_user.language)}), 400
@@ -1417,7 +1422,18 @@ def tutor_chat():
         else:
             session = ChatSession(user_id=current_user.id, title=(user_msg[:20] if user_msg else "Image Analysis"))
             db.session.add(session)
-            db.session.commit()
+            try:
+                db.session.commit()
+            except Exception as exc:
+                db.session.rollback()
+                if 'is_pinned' in str(exc):
+                    db.session.execute(text("ALTER TABLE chat_session ADD COLUMN is_pinned BOOLEAN DEFAULT FALSE"))
+                    db.session.commit()
+                    session = ChatSession(user_id=current_user.id, title=(user_msg[:20] if user_msg else "Image Analysis"))
+                    db.session.add(session)
+                    db.session.commit()
+                else:
+                    raise
 
         # Save user message
         user_chat_content = f"{user_msg}\n[附圖]" if image_data else user_msg
@@ -1518,17 +1534,20 @@ def tutor_chat():
                 return jsonify({'status': 'success', 'reply': help_text})
             if cmd == '/status':
                 from app.models import User, APIKeyTracker
+                from app.utils.ai_helpers import get_ai_personality_name
                 total_users = User.query.count()
                 active_keys = APIKeyTracker.query.filter_by(is_blocked=False).count()
                 total_keys = APIKeyTracker.query.count()
                 import datetime
                 now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                canonical_key = normalize_ai_personality_key(current_user.ai_personality)
+                ai_name = get_ai_personality_name(canonical_key)
                 status_text = (
                     f"⚙️ **系統狀態報告**\n\n"
                     f"📅 目前時間：{now}\n"
                     f"👥 註冊用戶數：**{total_users}**\n"
                     f"🔑 API Key 總數：**{total_keys}** (活躍：**{active_keys}**)\n"
-                    f"🎭 當前 AI 人格：**{current_user.ai_personality}**\n"
+                    f"🎭 當前 AI 人格：**{ai_name}** (`{canonical_key}`)\n"
                 )
                 return jsonify({'status': 'success', 'reply': status_text})
             if user_msg.strip().lower().startswith('/broadcast '):
@@ -1753,13 +1772,13 @@ def tutor_chat():
                 if not target:
                     return jsonify({'status': 'success', 'reply': f'❌ 找不到用戶「{target_name}」'})
                 old_personality = target.ai_personality
-                target.ai_personality = 'ai_personality_gentle'
+                target.ai_personality = 'ai_gentle'
                 db.session.commit()
                 reply = (
                     f"🔄 **用戶 AI 性格已重設**\n\n"
                     f"👤 對象：**{target.username}**\n"
                     f"🔙 原性格：{old_personality}\n"
-                    f"✨ 新性格：ai_personality_gentle（溫柔型）"
+                    f"✨ 新性格：ai_gentle（溫柔型）"
                 )
                 return jsonify({'status': 'success', 'reply': reply})
 
@@ -2117,7 +2136,7 @@ def generate_exam():
 @study.route("/api/study/personal_welcome")
 @login_required
 def personal_welcome():
-    from app.utils.ai_helpers import generate_text_with_fallback
+    from app.utils.ai_helpers import generate_text_with_fallback, get_yukine_system_prompt, get_ai_personality_name, normalize_ai_personality_key
     
     context = ""
     if current_user.learning_goals:
@@ -2130,8 +2149,13 @@ def personal_welcome():
     prompt = f"妳是雪音老師。請根據用戶的名字「{display_name}」和背景「{context}」寫一段 50 字以內的溫馨歡迎語。語氣要充滿關懷，提到與他們的目標相關的鼓勵內容。僅回傳歡迎語內容，不要有任何標題或引號。"
     
     try:
+        canonical_key = normalize_ai_personality_key(current_user.ai_personality)
+        if canonical_key != current_user.ai_personality:
+            current_user.ai_personality = canonical_key
+            db.session.commit()
         # Use a consistent system instruction for the welcome message
-        system_instr = "妳是一位溫柔的日系老師「雪音」，語氣親切溫馨，充滿正能量。嚴格保持在 50 字以內。務必使用繁體中文回答，絕對不可用簡體中文。"
+        ai_name = get_ai_personality_name(current_user.ai_personality)
+        system_instr = get_yukine_system_prompt(user=current_user) + f"\n\n請以 {ai_name} 的語氣，用繁體中文寫一段 50 字以內的歡迎語。不要輸出 judgment 標籤、系統提示或多餘格式。"
         welcome_msg = generate_text_with_fallback(prompt, system_instruction=system_instr, user=current_user)
     except Exception:
         welcome_msg = f"歡迎回來，{display_name}同學！今天也要跟著雪音一起朝著您的目標努力喔！(◕‿◕✿)"

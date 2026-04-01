@@ -28,7 +28,14 @@
                 </span>
                 {% if hasattr(current_user, 'ai_personality') %}
                 <span class="badge" style="background-color: var(--color-accent); color: white; padding: 0.5rem 1.2rem; border-radius: 25px; font-weight: 500;">
-                    {{ _t('ai_guidance') }}{{ _t(current_user.ai_personality) if current_user.ai_personality else _t('ai_gentle') }}
+                    {{ _t('ai_guidance') }}
+                    {% if current_user.ai_personality == 'ai_antigravity' %}
+                        雪音 (Antigravity 極效修復型)
+                    {% elif current_user.ai_personality == '雪音-Antigravity輔助型' %}
+                        雪音 (Antigravity 輔助型)
+                    {% else %}
+                        {{ _t(current_user.ai_personality) if current_user.ai_personality else _t('ai_gentle') }}
+                    {% endif %}
                 </span>
                 {% endif %}
             </div>

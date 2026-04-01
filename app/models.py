@@ -91,7 +91,7 @@ class User(db.Model, UserMixin):
     # 個人簡介與 AI 性格設定
     bio = db.Column(db.Text, nullable=True)
     learning_goals = db.Column(db.Text, nullable=True)
-    ai_personality = db.Column(db.String(50), default='ai_personality_gentle') # 溫柔型, 嚴厲型, 幽默型
+    ai_personality = db.Column(db.String(50), default='ai_gentle') # 溫柔型, 嚴厲型, 幽默型
     language = db.Column(db.String(5), default='zh') # zh, ja, en
     
     # 網站偏好設定
