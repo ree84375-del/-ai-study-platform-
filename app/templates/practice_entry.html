@@ -9,8 +9,23 @@
         --ink: #2f261d;
         --muted: #756551;
         --shadow: 0 26px 56px rgba(92, 69, 35, 0.12);
+        --accent-ink: #2c3f60;
+        --accent-line: rgba(73, 98, 138, 0.2);
+        --accent-surface: rgba(241, 247, 255, 0.98);
         display: grid;
         gap: 1.4rem;
+    }
+
+    .practice-entry-shell[data-track="guides"] {
+        --accent-ink: #2f5b41;
+        --accent-line: rgba(96, 148, 109, 0.2);
+        --accent-surface: rgba(243, 251, 245, 0.98);
+    }
+
+    .practice-entry-shell[data-track="general"] {
+        --accent-ink: #64574b;
+        --accent-line: rgba(135, 122, 109, 0.16);
+        --accent-surface: rgba(246, 243, 239, 0.96);
     }
 
     .practice-entry-shell section {
@@ -108,7 +123,7 @@
 
     .practice-workspace {
         display: grid;
-        grid-template-columns: minmax(0, 1.8fr) minmax(320px, 0.95fr);
+        grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.92fr);
         gap: 1rem;
         align-items: start;
     }
@@ -141,15 +156,15 @@
     }
 
     .practice-track-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: 1fr;
     }
 
     .practice-option-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
 
     .practice-chip-grid {
-        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
     }
 
     .practice-track-card,
@@ -163,8 +178,8 @@
     }
 
     .practice-track-card {
-        min-height: 210px;
-        padding: 1.2rem;
+        min-height: 172px;
+        padding: 1.1rem;
         border-radius: 26px;
         display: grid;
         gap: 0.8rem;
@@ -274,16 +289,16 @@
 
     .practice-choice-card[data-active="true"],
     .practice-chip[data-active="true"] {
-        border-color: var(--choice-border, rgba(73, 98, 138, 0.26));
-        background: linear-gradient(180deg, var(--choice-surface, rgba(244, 248, 255, 0.98)), rgba(255, 255, 255, 0.96));
+        border-color: var(--choice-border, var(--accent-line));
+        background: linear-gradient(180deg, var(--choice-surface, var(--accent-surface)), rgba(255, 255, 255, 0.96));
         box-shadow: 0 14px 28px rgba(69, 51, 24, 0.1);
     }
 
     .practice-chip {
-        min-height: 48px;
-        padding: 0.72rem 0.8rem;
+        min-height: 52px;
+        padding: 0.76rem 0.82rem;
         border-radius: 18px;
-        color: var(--choice-ink, #2f261d);
+        color: var(--choice-ink, var(--accent-ink));
         font-weight: 800;
         cursor: pointer;
     }
@@ -291,8 +306,26 @@
     .practice-empty-state {
         padding: 1rem;
         border-radius: 22px;
-        border: 1px dashed rgba(207, 172, 108, 0.24);
+        border: 1px dashed var(--accent-line);
         background: rgba(255, 255, 255, 0.65);
+    }
+
+    .practice-stage-box {
+        border-radius: 24px;
+        border: 1px solid var(--accent-line);
+        background: linear-gradient(180deg, var(--accent-surface), rgba(255, 255, 255, 0.95));
+        padding: 1rem;
+        display: grid;
+        gap: 1rem;
+    }
+
+    .practice-stage-section {
+        display: grid;
+        gap: 0.85rem;
+    }
+
+    .practice-stage-section h3 {
+        color: var(--accent-ink);
     }
 
     .practice-summary-card {
@@ -325,6 +358,16 @@
     .practice-summary-item strong {
         color: var(--ink);
         font-size: 1rem;
+    }
+
+    .practice-summary-tip {
+        padding: 0.95rem 1rem;
+        border-radius: 20px;
+        border: 1px solid var(--accent-line);
+        background: var(--accent-surface);
+        color: var(--accent-ink);
+        line-height: 1.75;
+        font-size: 0.94rem;
     }
 
     .practice-summary-actions {
@@ -385,7 +428,7 @@
         }
     }
 </style>
-<div class="practice-entry-shell">
+<div class="practice-entry-shell" id="practice-entry-shell" data-track="cap">
     <section class="practice-entry-hero">
         <span class="practice-entry-kicker"><i class="fa-solid fa-compass"></i> 開始刷題</span>
         <div class="practice-entry-copy">
@@ -431,7 +474,7 @@
                         <h2>2. 再選範圍</h2>
                         <p id="step-copy">先選一個入口，右邊會同步顯示你目前選到的內容。</p>
                     </div>
-                    <span class="practice-pill"><i class="fa-solid fa-shuffle"></i> 會即時更新摘要</span>
+                    <span class="practice-pill" id="stage-badge"><i class="fa-solid fa-shuffle"></i> 會即時更新摘要</span>
                 </div>
                 <div id="interactive-stage" class="practice-empty-state">先選上方入口，這裡才會展開年份、科目、模式或講義系列。</div>
             </section>
@@ -446,6 +489,7 @@
                 <span class="practice-pill"><i class="fa-solid fa-sparkles"></i> 即時摘要</span>
             </div>
             <div class="practice-summary-list" id="summary-list"></div>
+            <div class="practice-summary-tip" id="summary-tip">先從會考或講義選一條路，右邊就會整理出你目前鎖定的年份、科目、系列或講義內容。</div>
             <div class="practice-summary-actions">
                 <a id="primary-action" class="practice-primary-btn" href="#" aria-disabled="true"><i class="fa-solid fa-arrow-right"></i> 先完成上方選擇</a>
                 <a id="secondary-action" class="practice-secondary-btn" href="#"><i class="fa-solid fa-up-right-from-square"></i> 進完整頁面</a>
@@ -459,10 +503,13 @@
     const tracks = {{ tracks|tojson }};
     const payload = {{ entry_payload|tojson }};
 
+    const shell = document.getElementById('practice-entry-shell');
     const trackGrid = document.getElementById('track-grid');
     const stepCopy = document.getElementById('step-copy');
+    const stageBadge = document.getElementById('stage-badge');
     const interactiveStage = document.getElementById('interactive-stage');
     const summaryList = document.getElementById('summary-list');
+    const summaryTip = document.getElementById('summary-tip');
     const primaryAction = document.getElementById('primary-action');
     const secondaryAction = document.getElementById('secondary-action');
 
@@ -555,6 +602,7 @@
 
     function renderCapStage() {
         stepCopy.textContent = '先選年份，再選科目與模式；右邊會即時整理你目前選到的會考範圍。';
+        stageBadge.innerHTML = `${iconMarkup('fa-graduation-cap')} 會考互動設定`;
 
         const selectedYears = state.cap.years;
         const selectedSubject = capSubjects.find((subject) => subject.slug === state.cap.subject) || null;
@@ -574,9 +622,9 @@
         ];
 
         interactiveStage.innerHTML = `
-            <div style="display:grid; gap:1rem;">
-                <div>
-                    <div class="practice-step-head" style="margin-bottom:0.75rem;">
+            <div class="practice-stage-box">
+                <div class="practice-stage-section">
+                    <div class="practice-step-head" style="margin-bottom:0;">
                         <div>
                             <h3 style="margin:0; color:#2f261d;">年份範圍</h3>
                             <p class="practice-option-help">可單一年份，也可多個年份混合；科目仍維持單選。</p>
@@ -585,8 +633,8 @@
                     </div>
                     <div class="practice-chip-grid" id="cap-year-grid"></div>
                 </div>
-                <div>
-                    <div class="practice-step-head" style="margin-bottom:0.75rem;">
+                <div class="practice-stage-section">
+                    <div class="practice-step-head" style="margin-bottom:0;">
                         <div>
                             <h3 style="margin:0; color:#2f261d;">科目</h3>
                             <p class="practice-option-help">先做單科，避免把不同科目的作答節奏混在一起。</p>
@@ -595,8 +643,8 @@
                     </div>
                     <div class="practice-option-grid" id="cap-subject-grid"></div>
                 </div>
-                <div>
-                    <div class="practice-step-head" style="margin-bottom:0.75rem;">
+                <div class="practice-stage-section">
+                    <div class="practice-step-head" style="margin-bottom:0;">
                         <div>
                             <h3 style="margin:0; color:#2f261d;">模式</h3>
                             <p class="practice-option-help">先決定要預覽整批題目，還是直接進入正式練習。</p>
@@ -605,6 +653,7 @@
                     </div>
                     <div class="practice-option-grid" id="cap-mode-grid"></div>
                 </div>
+                ${selectedSubject ? `<p class="practice-option-help">目前鎖定 ${escapeHtml(selectedSubject.label)}，共可用 ${escapeHtml(selectedSubject.question_count)} 題，橫跨 ${escapeHtml(selectedSubject.year_count)} 個年份。</p>` : ''}
             </div>
         `;
 
@@ -685,14 +734,15 @@
 
     function renderGuidesStage() {
         stepCopy.textContent = '先選科目，再一路往下選講義系列與內容；右邊會即時整理你現在看到的是哪一套。';
+        stageBadge.innerHTML = `${iconMarkup('fa-book-bookmark')} 講義互動導覽`;
 
         const selectedSubject = guideSubjects.find((subject) => subject.slug === state.guides.subject) || null;
         const selectedSeries = selectedSubject?.series?.find((series) => series.value === state.guides.series) || null;
 
         interactiveStage.innerHTML = `
-            <div style="display:grid; gap:1rem;">
-                <div>
-                    <div class="practice-step-head" style="margin-bottom:0.75rem;">
+            <div class="practice-stage-box">
+                <div class="practice-stage-section">
+                    <div class="practice-step-head" style="margin-bottom:0;">
                         <div>
                             <h3 style="margin:0; color:#2f261d;">科目</h3>
                             <p class="practice-option-help">先決定要讀哪一科，再往下縮到講義系列與單一講義。</p>
@@ -701,8 +751,8 @@
                     </div>
                     <div class="practice-option-grid" id="guide-subject-grid"></div>
                 </div>
-                <div>
-                    <div class="practice-step-head" style="margin-bottom:0.75rem;">
+                <div class="practice-stage-section">
+                    <div class="practice-step-head" style="margin-bottom:0;">
                         <div>
                             <h3 style="margin:0; color:#2f261d;">講義系列</h3>
                             <p class="practice-option-help">每個科目底下可能有多套講義，先選系列再挑單本內容。</p>
@@ -711,8 +761,8 @@
                     </div>
                     <div class="practice-option-grid" id="guide-series-grid"></div>
                 </div>
-                <div>
-                    <div class="practice-step-head" style="margin-bottom:0.75rem;">
+                <div class="practice-stage-section">
+                    <div class="practice-step-head" style="margin-bottom:0;">
                         <div>
                             <h3 style="margin:0; color:#2f261d;">講義內容</h3>
                             <p class="practice-option-help">會直接進到章節化閱讀頁，不再只是單純的檔案連結。</p>
@@ -721,6 +771,7 @@
                     </div>
                     <div class="practice-option-grid" id="guide-guide-grid"></div>
                 </div>
+                ${selectedSeries ? `<p class="practice-option-help">${escapeHtml(selectedSeries.label)} 目前整理了 ${escapeHtml(selectedSeries.guideCount)} 份講義，可以直接往章與小節閱讀。</p>` : ''}
             </div>
         `;
 
@@ -900,6 +951,7 @@
             const secondaryHref = state.cap.subject
                 ? `${payload.routes.capHub}?years=${encodeURIComponent(yearQuery)}&subject=${encodeURIComponent(state.cap.subject)}`
                 : payload.routes.capHub;
+            summaryTip.textContent = '會考這條線會保留年份混合、科目單選、題組與圖片題。先把年份與科目鎖定，再決定要預覽還是正式作答。';
             setActionState(primaryAction, {
                 href,
                 label: state.cap.mode === 'practice' ? '開始會考練習' : '開始會考預覽',
@@ -923,6 +975,7 @@
             const secondaryHref = state.guides.subject
                 ? `${payload.routes.guides}?subject=${encodeURIComponent(state.guides.subject)}${state.guides.series ? `&series=${encodeURIComponent(state.guides.series)}` : ''}`
                 : payload.routes.guides;
+            summaryTip.textContent = '講義這條線會直接進到章節化閱讀頁，先選科目、系列、內容，再一路往下看章與小節。';
             setActionState(primaryAction, {
                 href,
                 label: '開始閱讀講義',
@@ -950,9 +1003,11 @@
             icon: 'fa-lock',
             disabled: true,
         });
+        summaryTip.textContent = '一般國中題庫這一區先維持整理中，等題目全面重建完成後再正式開放。';
     }
 
     function renderStage() {
+        shell.dataset.track = state.track;
         if (state.track === 'cap') {
             renderCapStage();
             return;
@@ -962,6 +1017,7 @@
             return;
         }
         stepCopy.textContent = '一般國中題庫目前仍在全面重建中，等這批題目重新清洗完成後才會再重新上線。';
+        stageBadge.innerHTML = `${iconMarkup('fa-hourglass-half')} 一般題庫整理中`;
         renderEmptyStage('一般國中題庫正在重建中', '這一區先暫停開放，避免再讀到錯誤題目。你現在可以先使用會考歷屆練習或 AI 學習講義。');
     }
 

@@ -3,19 +3,19 @@
 {% block content %}
 <style>
     .reader-shell {
-        --paper: rgba(255, 251, 244, 0.96);
-        --paper-soft: rgba(249, 241, 227, 0.94);
-        --line: rgba(214, 183, 112, 0.24);
-        --ink: #3a2f24;
-        --subtle: #7a6a56;
-        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        --paper: rgba(250, 253, 247, 0.98);
+        --paper-soft: rgba(240, 247, 238, 0.98);
+        --line: rgba(119, 161, 117, 0.2);
+        --ink: #24362b;
+        --subtle: #617267;
+        --shadow: 0 24px 50px rgba(65, 93, 68, 0.11);
         display: grid;
-        gap: 1.35rem;
+        gap: 1.25rem;
     }
 
     .reader-hero,
     .reader-panel,
-    .chapter-card {
+    .reader-chapter {
         border-radius: 30px;
         border: 1px solid var(--line);
         background: linear-gradient(180deg, var(--paper), var(--paper-soft));
@@ -24,206 +24,266 @@
 
     .reader-hero,
     .reader-panel {
-        padding: 1.5rem;
+        padding: 1.45rem;
+    }
+
+    .reader-hero {
+        display: grid;
+        gap: 1rem;
+        background:
+            radial-gradient(circle at top right, rgba(157, 202, 139, 0.28), transparent 30%),
+            radial-gradient(circle at left bottom, rgba(98, 139, 111, 0.1), transparent 24%),
+            linear-gradient(145deg, rgba(253, 255, 250, 0.98), rgba(239, 247, 237, 0.96));
     }
 
     .reader-kicker,
-    .reader-chip,
-    .reader-count {
+    .reader-pill,
+    .reader-chip {
         display: inline-flex;
         align-items: center;
         gap: 0.45rem;
-        padding: 0.45rem 0.85rem;
+        width: fit-content;
         border-radius: 999px;
         font-weight: 800;
     }
 
     .reader-kicker {
-        background: rgba(58, 47, 36, 0.92);
-        color: #fffaf2;
+        padding: 0.48rem 0.92rem;
+        background: rgba(48, 80, 55, 0.94);
+        color: #f7fff5;
     }
 
-    .reader-chip,
-    .reader-count {
-        background: rgba(255, 244, 213, 0.94);
-        color: #8a6632;
-        font-size: 0.88rem;
+    .reader-pill,
+    .reader-chip {
+        padding: 0.42rem 0.8rem;
+        background: rgba(236, 248, 232, 0.96);
+        color: #4b7151;
+        font-size: 0.86rem;
     }
 
     .reader-copy {
         display: grid;
-        gap: 0.8rem;
-        margin-top: 1rem;
+        gap: 0.75rem;
     }
 
     .reader-copy h1,
     .reader-panel h2,
-    .chapter-card h2 {
+    .reader-chapter h2,
+    .reader-section h3 {
         margin: 0;
         color: var(--ink);
         font-family: "Kaisei Tokumin", serif;
     }
 
     .reader-copy h1 {
-        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
-        line-height: 1.2;
+        font-size: clamp(1.95rem, 2.8vw, 2.9rem);
+        line-height: 1.16;
     }
 
     .reader-copy p,
     .reader-panel p,
-    .section-card p {
+    .reader-section p,
+    .reader-section div {
         margin: 0;
         color: var(--subtle);
         line-height: 1.82;
     }
 
-    .reader-summary,
-    .reader-nav {
+    .reader-top-bar,
+    .reader-nav,
+    .reader-summary {
         display: flex;
         flex-wrap: wrap;
         gap: 0.7rem;
     }
 
-    .reader-nav a,
+    .reader-link,
     .reader-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 0.45rem;
         min-height: 42px;
-        padding: 0.68rem 1rem;
+        padding: 0.7rem 1rem;
         border-radius: 999px;
         font-weight: 800;
         text-decoration: none;
     }
 
-    .reader-nav a {
-        border: 1px solid rgba(214, 183, 112, 0.24);
-        background: rgba(255, 255, 255, 0.74);
-        color: #745e41;
+    .reader-link {
+        border: 1px solid rgba(119, 161, 117, 0.18);
+        background: rgba(255, 255, 255, 0.76);
+        color: #4e7357;
     }
 
     .reader-btn {
-        background: linear-gradient(135deg, #99bf6b, #6f9d58);
-        color: #fffaf2;
         border: none;
+        background: linear-gradient(135deg, #86b46a, #5f8d54);
+        color: #fffdf8;
     }
 
-    .chapter-list {
+    .reader-layout {
+        display: grid;
+        grid-template-columns: minmax(260px, 0.78fr) minmax(0, 1.4fr);
+        gap: 1rem;
+        align-items: start;
+    }
+
+    .reader-panel.sticky {
+        position: sticky;
+        top: 92px;
+    }
+
+    .reader-outline {
+        display: grid;
+        gap: 0.65rem;
+    }
+
+    .reader-outline a {
+        display: block;
+        padding: 0.82rem 0.92rem;
+        border-radius: 18px;
+        border: 1px solid rgba(119, 161, 117, 0.16);
+        background: rgba(255, 255, 255, 0.76);
+        color: #44634b;
+        text-decoration: none;
+        line-height: 1.7;
+        font-weight: 700;
+    }
+
+    .reader-chapter-list {
         display: grid;
         gap: 1rem;
     }
 
-    .chapter-card {
-        padding: 1.35rem;
+    .reader-chapter {
+        padding: 1.3rem;
+        display: grid;
+        gap: 1rem;
     }
 
-    .chapter-top {
+    .reader-chapter-head {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        gap: 1rem;
-        margin-bottom: 1rem;
+        gap: 0.9rem;
+        flex-wrap: wrap;
     }
 
-    .section-list {
+    .reader-section-list {
         display: grid;
-        gap: 0.85rem;
+        gap: 0.9rem;
     }
 
-    .section-card {
+    .reader-section {
         padding: 1rem;
         border-radius: 22px;
-        border: 1px solid rgba(214, 183, 112, 0.2);
-        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(119, 161, 117, 0.16);
+        background: rgba(255, 255, 255, 0.8);
+        display: grid;
+        gap: 0.7rem;
     }
 
-    .section-card h3 {
-        margin: 0 0 0.55rem;
-        color: var(--ink);
-    }
-
-    .section-content {
+    .reader-section-content {
         white-space: pre-line;
-        color: #504232;
-        line-height: 1.82;
+        color: #405244;
+    }
+
+    @media (max-width: 980px) {
+        .reader-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .reader-panel.sticky {
+            position: static;
+        }
     }
 
     @media (max-width: 720px) {
         .reader-hero,
         .reader-panel,
-        .chapter-card {
+        .reader-chapter {
             border-radius: 24px;
+            padding: 1.15rem;
         }
     }
 </style>
 
 <div class="reader-shell">
     <section class="reader-hero">
-        <span class="reader-kicker"><i class="fa-solid fa-book"></i> AI 學習講義</span>
+        <span class="reader-kicker"><i class="fa-solid fa-book-open"></i> AI 學習講義</span>
         <div class="reader-copy">
             <h1>{{ selected_guide.title }}</h1>
-            <p>{{ selected_subject.label }} / {{ selected_series.label }}。這份講義已拆成章與小節，方便直接閱讀、回看重點，再銜接到對應科目的刷題流程。</p>
+            <p>{{ selected_subject.label }} / {{ selected_series.label }}。這份講義已經整理成可閱讀頁面，你可以直接沿著章、小節往下看，再回到刷題入口接續練習。</p>
         </div>
-        <div class="reader-summary" style="margin-top:1rem;">
-            <span class="reader-count"><i class="fa-solid fa-layer-group"></i> {{ guide_summary.chapter_count }} 章</span>
-            <span class="reader-count"><i class="fa-solid fa-list-ul"></i> {{ guide_summary.section_count }} 小節</span>
-            <span class="reader-count"><i class="fa-solid fa-file-lines"></i> {{ guide_summary.page_count }} 頁</span>
+        <div class="reader-summary">
+            <span class="reader-chip"><i class="fa-solid fa-layer-group"></i> {{ guide_summary.chapter_count }} 章</span>
+            <span class="reader-chip"><i class="fa-solid fa-list-ul"></i> {{ guide_summary.section_count }} 小節</span>
+            <span class="reader-chip"><i class="fa-solid fa-file-lines"></i> {{ guide_summary.page_count }} 頁</span>
         </div>
-        <div class="reader-nav" style="margin-top:1rem;">
-            <a href="{{ back_href }}"><i class="fa-solid fa-arrow-left"></i> 回講義列表</a>
-            <a class="reader-btn" href="{{ practice_href }}"><i class="fa-solid fa-pen"></i> 去刷這科題目</a>
+        <div class="reader-top-bar">
+            <a class="reader-link" href="{{ back_href }}"><i class="fa-solid fa-arrow-left"></i> 回講義列表</a>
+            <a class="reader-btn" href="{{ practice_href }}"><i class="fa-solid fa-pen"></i> 回刷題入口</a>
         </div>
     </section>
 
     {% if guide_summary.summary %}
     <section class="reader-panel">
-        <h2>這份講義重點</h2>
+        <h2>快速摘要</h2>
         <div class="reader-summary" style="margin-top:1rem;">
             {% for line in guide_summary.summary[:6] %}
-            <span class="reader-chip">{{ line }}</span>
+            <span class="reader-pill">{{ line|replace('', '')|replace('', '')|replace('', '') }}</span>
             {% endfor %}
         </div>
     </section>
     {% endif %}
 
-    <section class="reader-panel">
-        <h2>章節導覽</h2>
-        <div class="reader-nav" style="margin-top:1rem;">
-            {% for chapter in guide_document.chapters %}
-            <a href="#chapter-{{ loop.index }}">{{ chapter.title }}</a>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="chapter-list">
-        {% for chapter in guide_document.chapters %}
-        <article id="chapter-{{ loop.index }}" class="chapter-card">
-            <div class="chapter-top">
-                <div>
-                    <h2>{{ loop.index }}. {{ chapter.title }}</h2>
-                    <p>頁數：{{ chapter.page_start }} - {{ chapter.page_end }}</p>
-                </div>
-                <span class="reader-count">{{ chapter.sections|length }} 小節</span>
-            </div>
-            <div class="section-list">
-                {% for section in chapter.sections %}
-                <section class="section-card">
-                    <h3>{{ section.title }}</h3>
-                    <p>頁數：{{ section.page_start }} - {{ section.page_end }}</p>
-                    {% if section.summary_points %}
-                    <div class="reader-summary" style="margin:0.75rem 0 0.9rem;">
-                        {% for line in section.summary_points[:4] %}
-                        <span class="reader-chip">{{ line }}</span>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    <div class="section-content">{{ section.content }}</div>
-                </section>
+    <div class="reader-layout">
+        <aside class="reader-panel sticky">
+            <h2>章節導覽</h2>
+            <p>先用左側快速跳到章節，再往下閱讀各小節重點。</p>
+            <div class="reader-outline" style="margin-top:1rem;">
+                {% for chapter in guide_document.chapters %}
+                <a href="#chapter-{{ loop.index }}">
+                    {{ loop.index }}. {{ chapter.title }}
+                    <br>
+                    <small style="color:#74846f;">{{ chapter.sections|length }} 個小節 / 頁 {{ chapter.page_start }}-{{ chapter.page_end }}</small>
+                </a>
                 {% endfor %}
             </div>
-        </article>
-        {% endfor %}
-    </section>
+        </aside>
+
+        <section class="reader-chapter-list">
+            {% for chapter in guide_document.chapters %}
+            <article id="chapter-{{ loop.index }}" class="reader-chapter">
+                <div class="reader-chapter-head">
+                    <div style="display:grid; gap:0.35rem;">
+                        <h2>{{ loop.index }}. {{ chapter.title }}</h2>
+                        <p>頁數：{{ chapter.page_start }} - {{ chapter.page_end }}</p>
+                    </div>
+                    <span class="reader-chip">{{ chapter.sections|length }} 個小節</span>
+                </div>
+                <div class="reader-section-list">
+                    {% for section in chapter.sections %}
+                    <section class="reader-section">
+                        <div style="display:grid; gap:0.35rem;">
+                            <h3>{{ section.title }}</h3>
+                            <p>頁數：{{ section.page_start }} - {{ section.page_end }}</p>
+                        </div>
+                        {% if section.summary_points %}
+                        <div class="reader-summary">
+                            {% for line in section.summary_points[:4] %}
+                            <span class="reader-pill">{{ line|replace('', '')|replace('', '')|replace('', '') }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="reader-section-content">{{ section.content|replace('', '')|replace('', '')|replace('', '') }}</div>
+                    </section>
+                    {% endfor %}
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </div>
 </div>
 {% endblock %}

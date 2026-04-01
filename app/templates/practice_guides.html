@@ -3,60 +3,69 @@
 {% block content %}
 <style>
     .guide-shell {
-        --paper: rgba(255, 251, 244, 0.96);
-        --paper-soft: rgba(249, 241, 227, 0.94);
-        --line: rgba(214, 183, 112, 0.24);
-        --ink: #3a2f24;
-        --subtle: #7a6a56;
-        --shadow: 0 22px 42px rgba(127, 94, 39, 0.12);
+        --paper: rgba(251, 253, 248, 0.98);
+        --paper-soft: rgba(241, 247, 238, 0.98);
+        --line: rgba(120, 162, 118, 0.2);
+        --ink: #23352a;
+        --subtle: #5f7165;
+        --shadow: 0 24px 52px rgba(62, 89, 64, 0.11);
         display: grid;
-        gap: 1.4rem;
+        gap: 1.25rem;
     }
 
     .guide-hero,
-    .guide-panel {
+    .guide-panel,
+    .guide-card,
+    .guide-item {
         border-radius: 30px;
         border: 1px solid var(--line);
         background: linear-gradient(180deg, var(--paper), var(--paper-soft));
         box-shadow: var(--shadow);
-        padding: 1.45rem;
+    }
+
+    .guide-hero,
+    .guide-panel {
+        padding: 1.5rem;
     }
 
     .guide-hero {
+        display: grid;
+        gap: 1rem;
         background:
-            radial-gradient(circle at top right, rgba(183, 218, 146, 0.32), transparent 34%),
-            linear-gradient(145deg, rgba(255, 252, 246, 0.98), rgba(246, 242, 228, 0.95));
+            radial-gradient(circle at top right, rgba(160, 203, 140, 0.3), transparent 30%),
+            radial-gradient(circle at left bottom, rgba(99, 142, 112, 0.12), transparent 26%),
+            linear-gradient(145deg, rgba(253, 255, 250, 0.98), rgba(239, 247, 237, 0.96));
     }
 
     .guide-kicker,
-    .guide-note,
-    .guide-count {
+    .guide-pill,
+    .guide-mini-pill {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.45rem;
+        width: fit-content;
         border-radius: 999px;
         font-weight: 800;
     }
 
     .guide-kicker {
         padding: 0.48rem 0.92rem;
-        background: rgba(58, 47, 36, 0.92);
-        color: #fffaf2;
+        background: rgba(46, 78, 54, 0.94);
+        color: #f7fff5;
     }
 
-    .guide-note,
-    .guide-count {
-        padding: 0.4rem 0.74rem;
-        background: rgba(255, 244, 213, 0.94);
-        color: #8a6632;
-        font-size: 0.85rem;
+    .guide-pill,
+    .guide-mini-pill {
+        padding: 0.42rem 0.78rem;
+        background: rgba(236, 248, 232, 0.96);
+        color: #48704f;
+        font-size: 0.86rem;
     }
 
     .guide-copy {
         display: grid;
-        gap: 0.8rem;
-        max-width: 760px;
-        margin-top: 1rem;
+        gap: 0.75rem;
+        max-width: 860px;
     }
 
     .guide-copy h1,
@@ -67,8 +76,8 @@
     }
 
     .guide-copy h1 {
-        font-size: clamp(1.95rem, 2.8vw, 2.8rem);
-        line-height: 1.2;
+        font-size: clamp(1.95rem, 2.8vw, 2.95rem);
+        line-height: 1.16;
     }
 
     .guide-copy p,
@@ -77,54 +86,111 @@
     .guide-item p {
         margin: 0;
         color: var(--subtle);
-        line-height: 1.82;
+        line-height: 1.78;
+    }
+
+    .guide-stat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.9rem;
+    }
+
+    .guide-stat-card {
+        border-radius: 22px;
+        padding: 1rem 1.05rem;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(120, 162, 118, 0.16);
+        display: grid;
+        gap: 0.3rem;
+    }
+
+    .guide-stat-card span {
+        color: var(--subtle);
+        font-size: 0.9rem;
+    }
+
+    .guide-stat-card strong {
+        color: var(--ink);
+        font-size: clamp(1.35rem, 2vw, 1.8rem);
+    }
+
+    .guide-panel-header,
+    .guide-card-top,
+    .guide-item-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.9rem;
+        flex-wrap: wrap;
     }
 
     .guide-subject-grid,
     .guide-series-grid,
     .guide-item-grid {
         display: grid;
-        gap: 0.9rem;
+        gap: 0.95rem;
     }
 
     .guide-subject-grid {
-        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     }
 
     .guide-series-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     }
 
     .guide-item-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
     }
 
     .guide-card,
     .guide-item {
-        border-radius: 24px;
-        border: 1px solid rgba(214, 183, 112, 0.2);
-        background: rgba(255, 255, 255, 0.78);
         padding: 1.1rem;
         display: grid;
-        gap: 0.7rem;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+        background: rgba(255, 255, 255, 0.84);
     }
 
     .guide-card.active {
-        border-color: rgba(113, 153, 111, 0.34);
-        box-shadow: 0 16px 28px rgba(96, 123, 79, 0.12);
+        border-color: rgba(104, 155, 113, 0.28);
+        background: linear-gradient(180deg, rgba(246, 252, 244, 0.99), rgba(233, 247, 236, 0.98));
+        box-shadow: 0 18px 30px rgba(74, 120, 80, 0.12);
     }
 
     .guide-card h3,
     .guide-item h3 {
         margin: 0;
         color: var(--ink);
+        font-size: 1.12rem;
     }
 
-    .guide-top {
+    .guide-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 18px;
+        background: rgba(239, 248, 235, 0.96);
+        color: #3f6e48;
+        font-size: 1.25rem;
+    }
+
+    .guide-summary-list {
+        display: grid;
+        gap: 0.45rem;
+        margin: 0;
+        padding-left: 1.1rem;
+        color: var(--subtle);
+        line-height: 1.72;
+    }
+
+    .guide-actions {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 0.8rem;
+        flex-wrap: wrap;
+        gap: 0.7rem;
     }
 
     .guide-link,
@@ -134,39 +200,31 @@
         justify-content: center;
         gap: 0.45rem;
         min-height: 42px;
-        padding: 0.68rem 1rem;
+        padding: 0.7rem 1rem;
         border-radius: 999px;
         font-weight: 800;
         text-decoration: none;
     }
 
     .guide-link {
-        border: 1px solid rgba(214, 183, 112, 0.24);
+        border: 1px solid rgba(120, 162, 118, 0.18);
         background: rgba(255, 255, 255, 0.74);
-        color: #745e41;
+        color: #4d7256;
     }
 
     .guide-btn {
-        background: linear-gradient(135deg, #99bf6b, #6f9d58);
-        color: #fffaf2;
         border: none;
-    }
-
-    .guide-summary {
-        display: grid;
-        gap: 0.45rem;
-        margin: 0;
-        padding-left: 1.1rem;
-        color: var(--subtle);
-        line-height: 1.7;
+        background: linear-gradient(135deg, #86b46a, #5c8c52);
+        color: #fffdf8;
     }
 
     .guide-empty {
-        padding: 1.2rem;
+        padding: 1.05rem;
         border-radius: 22px;
-        background: rgba(255, 255, 255, 0.7);
+        border: 1px dashed rgba(120, 162, 118, 0.2);
+        background: rgba(255, 255, 255, 0.72);
         color: var(--subtle);
-        line-height: 1.8;
+        line-height: 1.78;
     }
 
     @media (max-width: 720px) {
@@ -182,28 +240,48 @@
     <section class="guide-hero">
         <span class="guide-kicker"><i class="fa-solid fa-book-bookmark"></i> AI 學習講義</span>
         <div class="guide-copy">
-            <h1>把講義整理成真正可閱讀的章與小節，再接上對應練習。</h1>
-            <p>這裡不是只有下載連結，而是把講義拆成章節閱讀頁。你可以先選科目，再選系列，最後直接進到講義內容頁看重點，再回到該科練習。</p>
+            <h1>先選科目，再一路縮到系列、章節與小節，讓講義不只是檔案，而是真正可閱讀的學習入口。</h1>
+            <p>這裡先把金安講義整理成分科閱讀頁。你可以先選科目，再看不同系列的內容，最後進到章節化閱讀頁，讀完後再回到會考或之後重建完成的一般題庫做練習。</p>
+        </div>
+        <div class="guide-stat-grid">
+            <div class="guide-stat-card">
+                <span>可讀講義總數</span>
+                <strong>{{ guide_download_count }}</strong>
+            </div>
+            <div class="guide-stat-card">
+                <span>已開放科目</span>
+                <strong>{{ guide_subject_cards|length }}</strong>
+            </div>
+            <div class="guide-stat-card">
+                <span>目前狀態</span>
+                <strong>章節閱讀</strong>
+            </div>
         </div>
     </section>
 
     <section class="guide-panel">
-        <div class="guide-top">
+        <div class="guide-panel-header">
             <div>
-                <h2>第一步：選科目</h2>
-                <p>先挑講義要看的科目，再往下選該科的講義系列。</p>
+                <h2>1. 先選科目</h2>
+                <p>先決定這次要讀哪一科，再往下展開對應的講義系列與單本內容。</p>
             </div>
-            <span class="guide-note"><i class="fa-solid fa-book-open-reader"></i> 共 {{ guide_download_count }} 份已整理講義</span>
+            <span class="guide-pill"><i class="fa-solid fa-folder-tree"></i> 先科目，再展開系列</span>
         </div>
         <div class="guide-subject-grid">
             {% for card in guide_subject_cards %}
             <a class="guide-card {% if card.is_selected %}active{% endif %}" href="{{ card.href }}">
-                <div class="guide-top">
-                    <h3><i class="fa-solid {{ card.icon }}"></i> {{ card.label }}</h3>
-                    <span class="guide-count">{{ card.guide_count }} 份</span>
+                <div class="guide-card-top">
+                    <span class="guide-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+                    <span class="guide-mini-pill">{{ card.guide_count }} 份講義</span>
                 </div>
-                <p>{{ card.description }}</p>
-                <span class="guide-count"><i class="fa-solid fa-layer-group"></i> {{ card.series_count }} 個系列</span>
+                <div style="display:grid; gap:0.45rem;">
+                    <h3>{{ card.label }}</h3>
+                    <p>{{ card.description }}</p>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                    <span class="guide-mini-pill">{{ card.series_count }} 套系列</span>
+                    <span class="guide-mini-pill">可直接閱讀</span>
+                </div>
             </a>
             {% endfor %}
         </div>
@@ -211,66 +289,71 @@
 
     {% if selected_subject %}
     <section class="guide-panel">
-        <div class="guide-top">
+        <div class="guide-panel-header">
             <div>
-                <h2>第二步：選系列</h2>
+                <h2>2. 再選系列</h2>
                 <p>{{ selected_subject.description }}</p>
             </div>
-            <span class="guide-count">{{ selected_subject.series_count }} 個系列</span>
+            <span class="guide-pill"><i class="fa-solid fa-layer-group"></i> {{ selected_subject.series_count }} 套系列</span>
         </div>
 
         {% if series_cards %}
         <div class="guide-series-grid">
             {% for card in series_cards %}
             <a class="guide-card {% if card.is_selected %}active{% endif %}" href="{{ card.href }}">
-                <div class="guide-top">
-                    <h3>{{ card.label }}</h3>
-                    <span class="guide-count">{{ card.guide_count }} 份</span>
+                <div class="guide-card-top">
+                    <span class="guide-icon"><i class="fa-solid fa-book-bookmark"></i></span>
+                    <span class="guide-mini-pill">{{ card.guide_count }} 份</span>
                 </div>
-                <p>點進去後可以看到這個系列下已整理好的講義，並直接進閱讀頁。</p>
+                <div style="display:grid; gap:0.45rem;">
+                    <h3>{{ card.label }}</h3>
+                    <p>這套系列已整理成可閱讀頁面，適合直接沿著章節往下讀，再搭配對應練習。</p>
+                </div>
             </a>
             {% endfor %}
         </div>
         {% else %}
-        <div class="guide-empty">這個科目目前還沒有可閱讀的講義系列。</div>
+        <div class="guide-empty">這一科目前還沒有整理好的講義系列。</div>
         {% endif %}
     </section>
     {% endif %}
 
     {% if selected_series %}
     <section class="guide-panel">
-        <div class="guide-top">
+        <div class="guide-panel-header">
             <div>
-                <h2>第三步：選講義</h2>
-                <p>選一份講義進去後，就能看到章、小節和整理好的內文。</p>
+                <h2>3. 最後選內容</h2>
+                <p>這裡列出目前系列下可直接閱讀的講義。點進去之後會直接看到章、小節與內容摘要。</p>
             </div>
-            <span class="guide-count">{{ guide_cards|length }} 份講義</span>
+            <span class="guide-pill"><i class="fa-solid fa-book-open-reader"></i> {{ guide_cards|length }} 份內容</span>
         </div>
 
         {% if guide_cards %}
         <div class="guide-item-grid">
             {% for guide in guide_cards %}
             <article class="guide-item">
-                <div class="guide-top">
-                    <h3>{{ guide.title }}</h3>
-                    <span class="guide-count">{{ guide.page_count }} 頁</span>
+                <div class="guide-item-top">
+                    <div style="display:grid; gap:0.35rem;">
+                        <h3>{{ guide.title }}</h3>
+                        <p>{{ guide.chapter_count }} 章 / {{ guide.section_count }} 小節 / {{ guide.page_count }} 頁</p>
+                    </div>
+                    <span class="guide-mini-pill"><i class="fa-solid fa-file-lines"></i> 已整理</span>
                 </div>
-                <p>{{ guide.chapter_count }} 章 / {{ guide.section_count }} 小節</p>
                 {% if guide.summary %}
-                <ul class="guide-summary">
+                <ul class="guide-summary-list">
                     {% for line in guide.summary[:3] %}
-                    <li>{{ line }}</li>
+                    <li>{{ line|replace('', '')|replace('', '')|replace('', '') }}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}
-                <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
-                    <a class="guide-btn" href="{{ guide.reader_href }}"><i class="fa-solid fa-book-open"></i> 進入講義</a>
+                <div class="guide-actions">
+                    <a class="guide-btn" href="{{ guide.reader_href }}"><i class="fa-solid fa-book-open"></i> 開始閱讀</a>
                 </div>
             </article>
             {% endfor %}
         </div>
         {% else %}
-        <div class="guide-empty">這個系列目前還沒有可閱讀的講義內容。</div>
+        <div class="guide-empty">這個系列目前還沒有可讀的講義內容。</div>
         {% endif %}
     </section>
     {% endif %}
