@@ -2,408 +2,158 @@
 {% block title %}會考歷屆練習{% endblock %}
 {% block content %}
 <style>
-    .cap-hub-shell {
-        --paper: rgba(250, 246, 239, 0.98);
-        --paper-soft: rgba(243, 236, 224, 0.98);
-        --line: rgba(194, 157, 78, 0.22);
-        --ink: #2e261f;
-        --subtle: #6b5e52;
-        --shadow: 0 24px 54px rgba(68, 52, 31, 0.12);
-        display: grid;
-        gap: 1.25rem;
-    }
-
-    .cap-hero,
-    .cap-panel,
-    .cap-subject-card,
-    .cap-mode-card {
-        border-radius: 30px;
-        border: 1px solid var(--line);
-        background: linear-gradient(180deg, var(--paper), var(--paper-soft));
-        box-shadow: var(--shadow);
-    }
-
-    .cap-hero,
-    .cap-panel {
-        padding: 1.5rem;
-    }
-
-    .cap-hero {
-        display: grid;
-        gap: 1rem;
-        background:
-            radial-gradient(circle at top right, rgba(239, 189, 88, 0.32), transparent 30%),
-            radial-gradient(circle at left bottom, rgba(76, 109, 145, 0.18), transparent 26%),
-            linear-gradient(145deg, rgba(255, 251, 245, 0.99), rgba(244, 237, 224, 0.96));
-    }
-
-    .cap-kicker,
-    .cap-pill,
-    .cap-mini-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        width: fit-content;
-        border-radius: 999px;
-        font-weight: 800;
-    }
-
-    .cap-kicker {
-        padding: 0.48rem 0.92rem;
-        background: rgba(28, 44, 72, 0.94);
-        color: #fffaf1;
-    }
-
-    .cap-pill,
-    .cap-mini-pill {
-        padding: 0.42rem 0.78rem;
-        background: rgba(255, 242, 206, 0.95);
-        color: #8b6330;
-        font-size: 0.86rem;
-    }
-
-    .cap-copy {
-        display: grid;
-        gap: 0.75rem;
-        max-width: 860px;
-    }
-
-    .cap-copy h1,
-    .cap-panel h2,
-    .cap-subject-card h3,
-    .cap-mode-card h3 {
-        margin: 0;
-        color: var(--ink);
-        font-family: "Kaisei Tokumin", serif;
-    }
-
-    .cap-copy h1 {
-        font-size: clamp(1.95rem, 2.9vw, 3rem);
-        line-height: 1.14;
-    }
-
-    .cap-copy p,
-    .cap-panel p,
-    .cap-subject-card p,
-    .cap-mode-card p {
-        margin: 0;
-        color: var(--subtle);
-        line-height: 1.78;
-    }
-
-    .cap-stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-        gap: 0.9rem;
-    }
-
-    .cap-stat-card {
-        border-radius: 22px;
-        padding: 1rem 1.05rem;
-        background: rgba(255, 255, 255, 0.76);
-        border: 1px solid rgba(194, 157, 78, 0.16);
-        display: grid;
-        gap: 0.3rem;
-    }
-
-    .cap-stat-card span {
-        color: var(--subtle);
-        font-size: 0.9rem;
-    }
-
-    .cap-stat-card strong {
-        color: var(--ink);
-        font-size: clamp(1.35rem, 2vw, 1.8rem);
-    }
-
-    .cap-panel {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .cap-panel-header,
-    .cap-year-actions,
-    .cap-card-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 0.9rem;
-        flex-wrap: wrap;
-    }
-
-    .cap-year-form {
-        display: grid;
-        gap: 0.95rem;
-    }
-
-    .cap-year-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
-        gap: 0.75rem;
-    }
-
-    .cap-year-choice {
-        position: relative;
-        min-height: 56px;
-        overflow: hidden;
-        border-radius: 18px;
-        border: 1px solid rgba(76, 109, 145, 0.18);
-        background: rgba(255, 255, 255, 0.84);
-    }
-
-    .cap-year-choice input {
-        position: absolute;
-        inset: 0;
-        opacity: 0;
-        cursor: pointer;
-    }
-
-    .cap-year-choice span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        color: #4d627c;
-        font-weight: 800;
-        transition: 160ms ease;
-    }
-
-    .cap-year-choice input:checked + span {
-        background: linear-gradient(135deg, #23405e, #12203a);
-        color: #fffaf1;
-    }
-
-    .cap-link,
-    .cap-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.45rem;
-        min-height: 44px;
-        padding: 0.72rem 1.05rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-decoration: none;
-    }
-
-    .cap-link {
-        border: 1px solid rgba(76, 109, 145, 0.18);
-        background: rgba(255, 255, 255, 0.8);
-        color: #4b617c;
-    }
-
-    .cap-btn {
-        border: none;
-        background: linear-gradient(135deg, #ebb24b, #ce8739);
-        color: #fffaf2;
-    }
-
-    .cap-subject-grid,
-    .cap-mode-grid {
-        display: grid;
-        gap: 0.95rem;
-    }
-
-    .cap-subject-grid {
-        grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
-    }
-
-    .cap-mode-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-
-    .cap-subject-card,
-    .cap-mode-card {
-        padding: 1.1rem;
-        display: grid;
-        gap: 0.75rem;
-        text-decoration: none;
-        color: inherit;
-        background: rgba(255, 255, 255, 0.86);
-    }
-
-    .cap-subject-card {
-        background: linear-gradient(180deg, var(--card-surface), rgba(255, 255, 255, 0.94));
-        border-color: var(--card-border);
-    }
-
-    .cap-subject-card.is-active {
-        box-shadow: 0 18px 30px rgba(30, 40, 62, 0.12);
-        transform: translateY(-2px);
-    }
-
-    .cap-subject-card.is-disabled {
-        opacity: 0.56;
-        pointer-events: none;
-    }
-
-    .cap-card-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 54px;
-        height: 54px;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.78);
-        color: var(--card-ink);
-        font-size: 1.25rem;
-    }
-
-    .cap-card-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .cap-empty {
-        padding: 1.05rem;
-        border-radius: 22px;
-        border: 1px dashed rgba(194, 157, 78, 0.2);
-        background: rgba(255, 255, 255, 0.72);
-        color: var(--subtle);
-        line-height: 1.78;
-    }
-
-    @media (max-width: 720px) {
-        .cap-hero,
-        .cap-panel {
-            border-radius: 24px;
-            padding: 1.2rem;
-        }
-    }
+.cap-hub{--paper:#fff9f0;--paper-soft:#f3e8d8;--line:rgba(193,154,81,.18);--ink:#2d251d;--muted:#6b5f51;display:grid;gap:1rem}
+.cap-hub section,.cap-hub aside{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,var(--paper),var(--paper-soft));box-shadow:0 24px 54px rgba(74,57,33,.1)}
+.cap-hero,.cap-panel,.cap-summary{padding:1.3rem;display:grid;gap:1rem}.cap-hero{background:radial-gradient(circle at top right,rgba(236,191,95,.24),transparent 30%),linear-gradient(145deg,rgba(255,252,246,.99),rgba(244,237,224,.96))}
+.cap-badge,.cap-pill{display:inline-flex;align-items:center;gap:.45rem;width:fit-content;border-radius:999px;font-weight:800}.cap-badge{padding:.48rem .92rem;background:#20354c;color:#fffaf2}.cap-pill{padding:.38rem .74rem;background:rgba(255,240,203,.94);color:#8d6530;font-size:.84rem}
+.cap-copy h1,.cap-panel h2,.cap-summary h2,.cap-card h3{margin:0;color:var(--ink);font-family:"Kaisei Tokumin",serif}.cap-copy h1{font-size:clamp(2rem,3vw,3rem);line-height:1.13}.cap-copy p,.cap-panel p,.cap-summary p,.cap-empty{margin:0;color:var(--muted);line-height:1.8}
+.cap-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.8rem}.cap-stat{padding:1rem;border-radius:18px;background:rgba(255,255,255,.82);border:1px solid rgba(193,154,81,.12);display:grid;gap:.2rem}.cap-stat span{font-size:.88rem;color:#86745e}.cap-stat strong{font-size:1.6rem;color:var(--ink)}
+.cap-layout{display:grid;grid-template-columns:minmax(0,1.5fr) 320px;gap:1rem;align-items:start}.cap-stack,.cap-summary{display:grid;gap:1rem}.cap-summary{position:sticky;top:92px}
+.cap-head,.cap-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap}
+.cap-years,.cap-grid,.cap-actions,.cap-summary-grid{display:grid;gap:.85rem}.cap-years{grid-template-columns:repeat(auto-fit,minmax(88px,1fr))}.cap-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.cap-year,.cap-card,.cap-link,.cap-primary{border-radius:22px;border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.84);transition:.16s ease}.cap-year,.cap-card{padding:1rem;text-align:left}.cap-year{min-height:52px;font-weight:900;color:#274c77}.cap-card{display:grid;gap:.65rem;text-decoration:none;color:inherit}.cap-year:hover,.cap-card:hover,.cap-link:hover,.cap-primary:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(74,57,33,.1)}.is-active{border-color:rgba(68,111,164,.24);background:linear-gradient(180deg,rgba(240,246,255,.98),rgba(255,255,255,.96));box-shadow:0 16px 28px rgba(74,57,33,.1)}.is-disabled{opacity:.55;pointer-events:none}
+.cap-icon{display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:18px;background:rgba(255,255,255,.86);color:#274c77;font-size:1.15rem}
+.cap-item{padding:.9rem 1rem;border-radius:18px;background:rgba(255,255,255,.82);border:1px solid rgba(193,154,81,.12);display:grid;gap:.2rem}.cap-item span{font-size:.86rem;color:#86745e}.cap-item strong{color:var(--ink)}
+.cap-note{padding:1rem;border-radius:20px;background:rgba(236,244,255,.95);border:1px solid rgba(68,111,164,.14);color:#274c77;line-height:1.74}
+.cap-primary,.cap-link{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:46px;padding:.8rem 1rem;text-decoration:none;font-weight:900}.cap-primary{background:linear-gradient(135deg,#d39b45,#b56a31);color:#fffaf2;border:none}.cap-link{color:#516781}
+.cap-empty{padding:1rem;border-radius:20px;border:1px dashed rgba(68,111,164,.16);background:rgba(255,255,255,.72)}
+@media (max-width:980px){.cap-layout{grid-template-columns:1fr}.cap-summary{position:static}}
 </style>
 
-<div class="cap-hub-shell">
-    <section class="cap-hero">
-        <span class="cap-kicker"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
-        <div class="cap-copy">
-            <h1>先把年份範圍鎖定，再選科目，最後決定要預覽整批題目還是直接正式作答。</h1>
-            <p>這一區只收會考歷屆題目，維持年份可混、科目單選。題組和圖片題會保留，先選年份後，下面的科目卡就會跟著整理出目前可用的範圍與題數。</p>
-        </div>
-        <div class="cap-stat-grid">
-            <div class="cap-stat-card">
-                <span>目前選年份數</span>
-                <strong>{{ selected_years|length }}</strong>
-            </div>
-            <div class="cap-stat-card">
-                <span>可選科目</span>
-                <strong>{{ available_subject_count }}</strong>
-            </div>
-            <div class="cap-stat-card">
-                <span>這批年份總題數</span>
-                <strong>{{ total_question_count }}</strong>
-            </div>
-            <div class="cap-stat-card">
-                <span>目前科目狀態</span>
-                <strong>{% if selected_subject %}已鎖定{% else %}待選擇{% endif %}</strong>
-            </div>
-        </div>
-    </section>
+<div class="cap-hub">
+  <section class="cap-hero">
+    <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
+    <div class="cap-copy">
+      <h1>先選年份，再選科目，最後決定要先預覽還是直接練習。</h1>
+      <p>這一頁只做會考設定，不把其他功能混進來。先把年份和科目選對，再進入預覽或正式作答。</p>
+    </div>
+    <div class="cap-stats">
+      <div class="cap-stat"><span>可用年份</span><strong>{{ available_years|length }}</strong></div>
+      <div class="cap-stat"><span>可練科目</span><strong>{{ available_subject_count }}</strong></div>
+      <div class="cap-stat"><span>題庫總數</span><strong>{{ total_question_count }}</strong></div>
+      <div class="cap-stat"><span>僅能預覽年份</span><strong>{{ preview_only_count }}</strong></div>
+    </div>
+  </section>
 
-    <section class="cap-panel">
-        <div class="cap-panel-header">
-            <div>
-                <h2>1. 先選年份</h2>
-                <p>年份可以單選，也可以多個混合。等你勾好之後，再往下選科目與模式。</p>
-            </div>
-            <span class="cap-pill"><i class="fa-solid fa-calendar-days"></i> 102-114 年</span>
+  <div class="cap-layout">
+    <div class="cap-stack">
+      <section class="cap-panel">
+        <div class="cap-head">
+          <div>
+            <h2>STEP 1. 選年份</h2>
+            <p>可單一年份，也可以多年份混合練習。</p>
+          </div>
+          <span class="cap-pill">年份可混</span>
         </div>
-
-        <form class="cap-year-form" method="get" action="{{ url_for('study.practice_cap_hub') }}">
-            <div class="cap-year-grid">
-                {% for year in available_years %}
-                <label class="cap-year-choice">
-                    <input type="checkbox" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %}>
-                    <span>{{ year }} 年</span>
-                </label>
-                {% endfor %}
-            </div>
-            <div class="cap-year-actions">
-                <p>先把年份範圍縮好，下面的科目卡會跟著更新可練題數。</p>
-                <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
-                    <a class="cap-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-arrow-left"></i> 回刷題入口</a>
-                    <button class="cap-btn" type="submit"><i class="fa-solid fa-filter"></i> 更新年份範圍</button>
-                </div>
-            </div>
-        </form>
-    </section>
-
-    <section class="cap-panel">
-        <div class="cap-panel-header">
-            <div>
-                <h2>2. 再選科目</h2>
-                <p>會考歷屆這裡維持單科作答。先挑一科，右邊才會展開預覽和正式練習入口。</p>
-            </div>
-            <span class="cap-pill"><i class="fa-solid fa-list-check"></i> 科目不混</span>
-        </div>
-
-        <div class="cap-subject-grid">
-            {% for card in cap_subject_cards %}
-            <a
-                class="cap-subject-card {% if card.is_active %}is-active{% endif %} {% if not card.available %}is-disabled{% endif %}"
-                {% if card.href %}href="{{ card.href }}"{% else %}aria-disabled="true"{% endif %}
-                style="--card-surface: {{ card.accent.surface }}; --card-border: {{ card.accent.border }}; --card-ink: {{ card.accent.ink }};"
-            >
-                <div class="cap-card-top">
-                    <span class="cap-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-                    <span class="cap-mini-pill">{{ card.question_count }} 題</span>
-                </div>
-                <div style="display:grid; gap:0.45rem;">
-                    <h3>{{ card.label }}</h3>
-                    <p>{{ card.description }}</p>
-                </div>
-                <div class="cap-card-meta">
-                    <span class="cap-mini-pill">{{ card.year_count }} 年已驗證</span>
-                    <span class="cap-mini-pill">{{ card.ready_year_count }} 年可練</span>
-                </div>
-            </a>
+        <form method="get" action="{{ url_for('study.practice_cap_hub') }}">
+          <div class="cap-years">
+            {% for year in available_years %}
+            <label class="cap-year{% if year in selected_years %} is-active{% endif %}">
+              <input type="checkbox" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %} hidden>
+              {{ year }}
+            </label>
             {% endfor %}
-        </div>
-    </section>
+          </div>
+          {% if selected_subject %}
+          <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
+          {% endif %}
+          <div class="cap-actions" style="margin-top:.9rem;">
+            <button class="cap-primary" type="submit"><i class="fa-solid fa-filter"></i> 套用年份範圍</button>
+          </div>
+        </form>
+      </section>
 
-    <section class="cap-panel">
-        <div class="cap-panel-header">
-            <div>
-                <h2>3. 最後選模式</h2>
-                <p>{% if selected_subject %}目前已鎖定 {{ selected_subject.label }}，下面可以直接選預覽或正式練習。{% else %}先從上面選一科，這裡才會展開下一步。{% endif %}</p>
+      <section class="cap-panel">
+        <div class="cap-head">
+          <div>
+            <h2>STEP 2. 選科目</h2>
+            <p>只顯示目前在這些年份裡可用的會考科目。</p>
+          </div>
+          <span class="cap-pill">科目不混</span>
+        </div>
+        <div class="cap-grid">
+          {% for card in cap_subject_cards %}
+          <a class="cap-card{% if card.is_active %} is-active{% endif %}{% if not card.available %} is-disabled{% endif %}" href="{{ card.href or '#' }}">
+            <div class="cap-top">
+              <span class="cap-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+              <span class="cap-pill">{{ card.question_count }} 題</span>
             </div>
-            {% if selected_subject %}
-            <span class="cap-pill"><i class="fa-solid fa-file-pen"></i> {{ question_bank_count }} 題可用</span>
-            {% endif %}
+            <div>
+              <h3>{{ card.label }}</h3>
+              <p>{{ card.description }}</p>
+            </div>
+            <span class="cap-pill"><i class="fa-solid fa-layer-group"></i> 已整理 {{ card.ready_year_count }} 年</span>
+          </a>
+          {% endfor %}
         </div>
+      </section>
 
+      <section class="cap-panel">
+        <div class="cap-head">
+          <div>
+            <h2>STEP 3. 選模式</h2>
+            <p>預覽會先看題與詳解；練習模式會正式作答。</p>
+          </div>
+          <span class="cap-pill">先看或直接做</span>
+        </div>
         {% if selected_subject %}
-        <div class="cap-mode-grid">
-            <a class="cap-mode-card" href="{{ preview_href }}">
-                <div class="cap-card-top">
-                    <span class="cap-card-icon"><i class="fa-solid fa-eye"></i></span>
-                    <span class="cap-mini-pill">先看題目</span>
-                </div>
-                <div style="display:grid; gap:0.45rem;">
-                    <h3>預覽模式</h3>
-                    <p>先把題組、圖片題、答案與詳解掃過一遍，適合逐年或混合年份對照。</p>
-                </div>
-            </a>
-
-            <a class="cap-mode-card" href="{{ practice_href }}">
-                <div class="cap-card-top">
-                    <span class="cap-card-icon"><i class="fa-solid fa-pen-ruler"></i></span>
-                    <span class="cap-mini-pill">正式作答</span>
-                </div>
-                <div style="display:grid; gap:0.45rem;">
-                    <h3>練習模式</h3>
-                    <p>會進到一題一頁的作答流程，交卷後直接看分數、正解和完整檢討。</p>
-                </div>
-            </a>
+        <div class="cap-grid">
+          <a class="cap-card is-active" href="{{ preview_href }}">
+            <div class="cap-top">
+              <span class="cap-icon"><i class="fa-solid fa-book-open"></i></span>
+              <span class="cap-pill">{{ question_bank_count }} 題</span>
+            </div>
+            <div>
+              <h3>預覽模式</h3>
+              <p>先把題目、圖片與詳解整理出來，確認內容後再決定是否練習。</p>
+            </div>
+          </a>
+          <a class="cap-card is-active" href="{{ practice_href }}">
+            <div class="cap-top">
+              <span class="cap-icon"><i class="fa-solid fa-pen-ruler"></i></span>
+              <span class="cap-pill">正式作答</span>
+            </div>
+            <div>
+              <h3>練習模式</h3>
+              <p>一題一頁正式作答，交卷後再看成績與詳細檢討。</p>
+            </div>
+          </a>
         </div>
-
-        {% if preview_only_count %}
-        <div class="cap-empty">目前有 {{ preview_only_count }} 個年份科目組合仍是預覽用資料，尚未進入正式練習題庫。</div>
-        {% endif %}
         {% else %}
-        <div class="cap-empty">先從上面選一個科目，這裡才會展開預覽與練習模式。</div>
+        <div class="cap-empty">先選好年份與科目，這裡才會出現預覽與練習入口。</div>
         {% endif %}
-    </section>
+      </section>
+    </div>
+
+    <aside class="cap-summary">
+      <div class="cap-head">
+        <div>
+          <h2>目前設定</h2>
+          <p>把已經選到的範圍整理在右邊，避免畫面上同時出現過多資訊。</p>
+        </div>
+        <span class="cap-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
+      </div>
+      <div class="cap-summary-grid">
+        <div class="cap-item"><span>年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
+        <div class="cap-item"><span>科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></div>
+        <div class="cap-item"><span>可用題數</span><strong>{{ question_bank_count }}</strong></div>
+        <div class="cap-item"><span>僅能預覽年份</span><strong>{{ preview_only_count }}</strong></div>
+      </div>
+      <div class="cap-note">建議先用預覽模式確認題組與圖片，再切到練習模式正式作答，會比較不容易走錯流程。</div>
+      <div class="cap-actions">
+        <a class="cap-primary" href="{{ preview_href or '#' }}"><i class="fa-solid fa-book-open"></i> 前往預覽</a>
+        <a class="cap-link" href="{{ practice_href or '#' }}"><i class="fa-solid fa-pen-ruler"></i> 開始練習</a>
+        <a class="cap-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-arrow-left"></i> 回主入口</a>
+      </div>
+    </aside>
+  </div>
 </div>
+
+<script>
+document.querySelectorAll('.cap-year input[type="checkbox"]').forEach((input) => {
+  input.addEventListener('change', () => {
+    input.closest('.cap-year')?.classList.toggle('is-active', input.checked);
+  });
+});
+</script>
 {% endblock %}

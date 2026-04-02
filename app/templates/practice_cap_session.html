@@ -1,431 +1,498 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆練習{% endblock %}
+{% block title %}{% if view_state == 'run' %}會考正式練習{% else %}會考練習設定{% endif %}{% endblock %}
 {% block content %}
 <style>
-    .cap-session-shell {
-        --session-bg: linear-gradient(180deg, rgba(249, 245, 238, 0.98), rgba(241, 236, 227, 0.98));
-        --session-border: rgba(196, 157, 79, 0.22);
-        --session-card: rgba(255, 255, 255, 0.9);
-        --session-ink: #2c241d;
-        --session-muted: #66594d;
-        --session-shadow: 0 18px 40px rgba(57, 44, 26, 0.08);
-        display: grid;
-        gap: 1.2rem;
+  .cap-session-shell {
+    --session-bg: linear-gradient(180deg, rgba(249, 245, 238, 0.98), rgba(241, 236, 227, 0.98));
+    --session-border: rgba(196, 157, 79, 0.22);
+    --session-card: rgba(255, 255, 255, 0.9);
+    --session-ink: #2c241d;
+    --session-muted: #66594d;
+    --session-shadow: 0 18px 40px rgba(57, 44, 26, 0.08);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-session-shell section,
+  .cap-session-shell article,
+  .cap-session-shell aside,
+  .cap-session-shell form {
+    border-radius: 30px;
+    border: 1px solid var(--session-border);
+    background: var(--session-bg);
+    box-shadow: var(--session-shadow);
+  }
+
+  .cap-session-hero,
+  .cap-session-panel,
+  .cap-run-card,
+  .cap-setup-form,
+  .cap-sidebar {
+    padding: 1.35rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-session-hero {
+    background:
+      radial-gradient(circle at top right, rgba(232, 182, 73, 0.28), transparent 28%),
+      radial-gradient(circle at left bottom, rgba(49, 73, 116, 0.15), transparent 24%),
+      var(--session-bg);
+  }
+
+  .cap-badge,
+  .cap-pill,
+  .cap-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    border-radius: 999px;
+    font-weight: 800;
+  }
+
+  .cap-badge {
+    padding: 0.48rem 0.88rem;
+    background: rgba(22, 37, 59, 0.94);
+    color: #fffaf2;
+  }
+
+  .cap-pill,
+  .cap-chip {
+    padding: 0.4rem 0.78rem;
+    background: rgba(255, 242, 211, 0.92);
+    color: #8b6431;
+    font-size: 0.9rem;
+  }
+
+  .cap-session-hero h1,
+  .cap-session-panel h2,
+  .cap-run-card h2,
+  .cap-run-card h3,
+  .cap-sidebar h2 {
+    margin: 0;
+    color: var(--session-ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-session-hero h1 {
+    font-size: clamp(1.9rem, 2.8vw, 2.7rem);
+    line-height: 1.14;
+  }
+
+  .cap-session-hero p,
+  .cap-session-panel p,
+  .cap-run-card p,
+  .cap-sidebar p,
+  .cap-run-card label {
+    margin: 0;
+    color: var(--session-muted);
+    line-height: 1.78;
+  }
+
+  .cap-head,
+  .cap-top,
+  .cap-actions,
+  .cap-question-meta,
+  .cap-run-nav,
+  .cap-sidebar-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cap-link,
+  .cap-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 46px;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 900;
+  }
+
+  .cap-link {
+    border: 1px solid rgba(73, 98, 138, 0.18);
+    background: rgba(255, 255, 255, 0.82);
+    color: #49617d;
+  }
+
+  .cap-btn {
+    border: none;
+    background: linear-gradient(135deg, #ebb24b, #cf8b35);
+    color: #fffaf2;
+  }
+
+  .cap-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) 320px;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .cap-stack,
+  .cap-sidebar {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-sidebar {
+    position: sticky;
+    top: 92px;
+  }
+
+  .cap-stat-grid,
+  .cap-choice-grid,
+  .cap-chip-grid,
+  .cap-sidebar-grid,
+  .cap-option-grid {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .cap-stat-grid,
+  .cap-sidebar-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .cap-choice-grid {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
+
+  .cap-chip-grid {
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  }
+
+  .cap-stat-card,
+  .cap-choice-card,
+  .cap-chip-btn,
+  .cap-sidebar-item,
+  .cap-question-card,
+  .cap-option,
+  .cap-context-box,
+  .cap-visual-box {
+    border-radius: 22px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.84);
+  }
+
+  .cap-stat-card,
+  .cap-choice-card,
+  .cap-sidebar-item {
+    padding: 1rem;
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .cap-choice-card {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cap-choice-card:hover,
+  .cap-chip-btn:hover,
+  .cap-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 28px rgba(57, 44, 26, 0.08);
+  }
+
+  .cap-choice-card.is-active,
+  .cap-chip-btn.is-active {
+    border-color: rgba(73, 98, 138, 0.22);
+    background: linear-gradient(180deg, rgba(241, 246, 255, 0.98), rgba(255, 255, 255, 0.95));
+  }
+
+  .cap-stat-card span,
+  .cap-choice-card span,
+  .cap-sidebar-item span {
+    color: var(--session-muted);
+    font-size: 0.92rem;
+  }
+
+  .cap-stat-card strong,
+  .cap-choice-card strong,
+  .cap-sidebar-item strong {
+    color: var(--session-ink);
+    font-size: 1.25rem;
+  }
+
+  .cap-chip-btn {
+    min-height: 52px;
+    padding: 0.8rem;
+    font-weight: 900;
+    color: var(--session-ink);
+    text-align: center;
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .cap-run-card {
+    display: none;
+    gap: 1rem;
+    background: var(--session-card);
+  }
+
+  .cap-run-card.is-active {
+    display: grid;
+  }
+
+  .cap-progress-track {
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(48, 72, 110, 0.12);
+    overflow: hidden;
+  }
+
+  .cap-progress-fill {
+    width: 0;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #17253d, #5d7db0);
+    transition: width 180ms ease;
+  }
+
+  .cap-context-box,
+  .cap-visual-box,
+  .cap-option {
+    padding: 0.95rem;
+  }
+
+  .cap-context-box {
+    display: grid;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(73, 98, 138, 0.14);
+  }
+
+  .cap-visual-box {
+    display: grid;
+    gap: 0.65rem;
+    background: rgba(233, 242, 255, 0.9);
+    border-color: rgba(73, 98, 138, 0.18);
+  }
+
+  .cap-visual-box img,
+  .cap-option-image {
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    border: 1px solid rgba(73, 98, 138, 0.14);
+    background: #fff;
+    padding: 0.35rem;
+  }
+
+  .cap-option {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: 160ms ease;
+    background: rgba(248, 244, 236, 0.9);
+    border-color: rgba(196, 157, 79, 0.14);
+  }
+
+  .cap-option input {
+    margin-top: 0.28rem;
+    accent-color: #1f3a63;
+  }
+
+  .cap-option.is-selected {
+    border-color: rgba(73, 98, 138, 0.3);
+    background: rgba(241, 246, 255, 0.94);
+  }
+
+  .cap-option-content {
+    display: grid;
+    gap: 0.65rem;
+    flex: 1;
+  }
+
+  .cap-option-note {
+    color: #5f584f;
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  details.cap-jump-panel {
+    border-radius: 22px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(73, 98, 138, 0.14);
+  }
+
+  details.cap-jump-panel summary {
+    cursor: pointer;
+    font-weight: 800;
+    color: var(--session-ink);
+  }
+
+  .cap-jump-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+  }
+
+  .cap-jump-chip {
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(73, 98, 138, 0.16);
+    background: rgba(255, 255, 255, 0.88);
+    color: #48617f;
+    font-weight: 800;
+  }
+
+  .cap-jump-chip.is-active {
+    background: linear-gradient(135deg, #1b2d49, #4b6998);
+    color: #fffaf2;
+  }
+
+  .cap-question-card[hidden] {
+    display: none !important;
+  }
+
+  @media (max-width: 980px) {
+    .cap-layout {
+      grid-template-columns: 1fr;
     }
 
-    .cap-session-hero,
-    .cap-session-panel,
-    .cap-run-card {
-        border-radius: 28px;
-        border: 1px solid var(--session-border);
-        background: var(--session-bg);
-        box-shadow: var(--session-shadow);
-        padding: 1.35rem;
+    .cap-sidebar {
+      position: static;
     }
-
-    .cap-session-hero {
-        display: grid;
-        gap: 0.95rem;
-        background:
-            radial-gradient(circle at top right, rgba(232, 182, 73, 0.28), transparent 28%),
-            radial-gradient(circle at left bottom, rgba(49, 73, 116, 0.15), transparent 24%),
-            var(--session-bg);
-    }
-
-    .cap-kicker,
-    .cap-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.48rem 0.88rem;
-        border-radius: 999px;
-        font-weight: 800;
-    }
-
-    .cap-kicker {
-        background: rgba(22, 37, 59, 0.94);
-        color: #fffaf2;
-        width: fit-content;
-    }
-
-    .cap-chip {
-        background: rgba(255, 242, 211, 0.92);
-        color: #8b6431;
-        font-size: 0.9rem;
-    }
-
-    .cap-session-hero h1,
-    .cap-session-panel h2,
-    .cap-run-card h2,
-    .cap-run-card h3 {
-        margin: 0;
-        color: var(--session-ink);
-        font-family: "Kaisei Tokumin", serif;
-    }
-
-    .cap-session-hero h1 {
-        font-size: clamp(1.85rem, 2.7vw, 2.65rem);
-        line-height: 1.15;
-    }
-
-    .cap-session-hero p,
-    .cap-session-panel p,
-    .cap-run-card p,
-    .cap-run-card label {
-        margin: 0;
-        color: var(--session-muted);
-        line-height: 1.78;
-    }
-
-    .cap-top-bar,
-    .cap-panel-head,
-    .cap-run-actions,
-    .cap-choice-grid,
-    .cap-question-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .cap-link,
-    .cap-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        min-height: 46px;
-        padding: 0.75rem 1.15rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-decoration: none;
-    }
-
-    .cap-link {
-        border: 1px solid rgba(73, 98, 138, 0.18);
-        background: rgba(255, 255, 255, 0.82);
-        color: #49617d;
-    }
-
-    .cap-btn {
-        border: none;
-        background: linear-gradient(135deg, #ebb24b, #cf8b35);
-        color: #fffaf2;
-    }
-
-    .cap-session-panel {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .cap-stat-grid,
-    .cap-choice-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 0.9rem;
-    }
-
-    .cap-stat-card,
-    .cap-choice-card {
-        border-radius: 22px;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.84);
-        border: 1px solid rgba(73, 98, 138, 0.14);
-        display: grid;
-        gap: 0.35rem;
-    }
-
-    .cap-stat-card span,
-    .cap-choice-card span {
-        color: var(--session-muted);
-        font-size: 0.92rem;
-    }
-
-    .cap-stat-card strong,
-    .cap-choice-card strong {
-        color: var(--session-ink);
-        font-size: 1.3rem;
-    }
-
-    .cap-field-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
-    }
-
-    .cap-field {
-        display: grid;
-        gap: 0.45rem;
-        color: var(--session-muted);
-        font-size: 0.94rem;
-    }
-
-    .cap-field select {
-        min-height: 46px;
-        border-radius: 16px;
-        border: 1px solid rgba(73, 98, 138, 0.16);
-        background: rgba(255, 255, 255, 0.9);
-        padding: 0 0.95rem;
-        color: var(--session-ink);
-        font-weight: 700;
-    }
-
-    .cap-progress-wrap {
-        display: grid;
-        gap: 0.65rem;
-    }
-
-    .cap-progress-track {
-        width: 100%;
-        height: 12px;
-        border-radius: 999px;
-        background: rgba(48, 72, 110, 0.12);
-        overflow: hidden;
-    }
-
-    .cap-progress-fill {
-        width: 0;
-        height: 100%;
-        border-radius: 999px;
-        background: linear-gradient(135deg, #17253d, #5d7db0);
-        transition: width 180ms ease;
-    }
-
-    .cap-run-card {
-        display: none;
-        gap: 1rem;
-        background: var(--session-card);
-    }
-
-    .cap-run-card.is-active {
-        display: grid;
-    }
-
-    .cap-context-box,
-    .cap-visual-box,
-    .cap-option {
-        padding: 0.95rem;
-        border-radius: 20px;
-        background: rgba(248, 244, 236, 0.9);
-        border: 1px solid rgba(196, 157, 79, 0.14);
-    }
-
-    .cap-context-box {
-        display: grid;
-        gap: 0.5rem;
-        background: rgba(255, 255, 255, 0.85);
-        border-color: rgba(73, 98, 138, 0.14);
-    }
-
-    .cap-visual-box {
-        display: grid;
-        gap: 0.65rem;
-        background: rgba(233, 242, 255, 0.9);
-        border-color: rgba(73, 98, 138, 0.18);
-    }
-
-    .cap-visual-box img {
-        width: 100%;
-        border-radius: 18px;
-        border: 1px solid rgba(73, 98, 138, 0.14);
-        background: #fff;
-    }
-
-    .cap-option-grid {
-        display: grid;
-        gap: 0.75rem;
-    }
-
-    .cap-option {
-        display: flex;
-        gap: 0.8rem;
-        align-items: flex-start;
-        cursor: pointer;
-        transition: 160ms ease;
-    }
-
-    .cap-option:hover {
-        border-color: rgba(207, 139, 53, 0.3);
-        transform: translateY(-1px);
-    }
-
-    .cap-option input {
-        margin-top: 0.28rem;
-        accent-color: #1f3a63;
-    }
-
-    .cap-option-content {
-        display: grid;
-        gap: 0.65rem;
-        flex: 1;
-    }
-
-    .cap-option-image {
-        width: 100%;
-        max-width: 520px;
-        border-radius: 16px;
-        border: 1px solid rgba(73, 98, 138, 0.16);
-        background: #fff;
-        padding: 0.35rem;
-    }
-
-    .cap-option-note {
-        color: #5f584f;
-        font-size: 0.94rem;
-        line-height: 1.55;
-    }
-
-    details.cap-jump-panel {
-        border-radius: 22px;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid rgba(73, 98, 138, 0.14);
-    }
-
-    .cap-jump-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem;
-        margin-top: 0.9rem;
-    }
-
-    .cap-jump-chip {
-        min-width: 44px;
-        min-height: 44px;
-        border-radius: 999px;
-        border: 1px solid rgba(73, 98, 138, 0.16);
-        background: rgba(255, 255, 255, 0.88);
-        color: #48617f;
-        font-weight: 800;
-    }
-
-    .cap-jump-chip.is-active {
-        background: linear-gradient(135deg, #1b2d49, #4b6998);
-        color: #fffaf2;
-    }
-
-    @media (max-width: 760px) {
-        .cap-session-hero,
-        .cap-session-panel,
-        .cap-run-card {
-            border-radius: 24px;
-            padding: 1.15rem;
-        }
-    }
+  }
 </style>
 
 <div class="cap-session-shell">
-    {% if view_state == 'setup' %}
-    <section class="cap-session-hero">
-        <span class="cap-kicker"><i class="fa-solid fa-sliders"></i> 會考練習設定</span>
-        <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
-        <p>會考練習模式維持一題一頁。你可以先沿用該科的會考預設，也可以改成自己的題數與時間。</p>
-        <div class="cap-top-bar">
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <span class="cap-chip"><i class="fa-solid fa-list-check"></i> 題庫共 {{ question_pool_size }} 題</span>
-                <span class="cap-chip"><i class="fa-solid fa-clock"></i> 預設 {{ practice_defaults.duration }} 分鐘</span>
-            </div>
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 先看預覽</a>
-                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
-            </div>
-        </div>
-    </section>
+  {% if view_state == 'setup' %}
+  <section class="cap-session-hero">
+    <span class="cap-badge"><i class="fa-solid fa-sliders"></i> 會考練習設定</span>
+    <div>
+      <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+      <p>先把這次練習的題數和作答時間定好，再進正式作答頁。這樣會考流程會清楚很多，不會一進來就被一堆題目淹沒。</p>
+    </div>
+    <div class="cap-actions">
+      <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-book-open"></i> 先看預覽</a>
+      <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回會考設定</a>
+    </div>
+  </section>
 
-    <section class="cap-session-panel">
-        <div class="cap-panel-head">
-            <div>
-                <h2>本輪設定</h2>
-                <p>會考預設會先帶入這一科最常用的題數與時間，再由你自己調整。</p>
-            </div>
-            <span class="cap-chip"><i class="fa-solid fa-file-pen"></i> {{ practice_defaults.count }} 題 / {{ practice_defaults.duration }} 分鐘</span>
+  <div class="cap-layout">
+    <div class="cap-stack">
+      <section class="cap-session-panel">
+        <div class="cap-head">
+          <div>
+            <h2>STEP 1. 看題庫規模</h2>
+            <p>先確認目前年份與科目範圍內共有多少題，再決定你這輪要做多少。</p>
+          </div>
+          <span class="cap-pill">題庫摘要</span>
         </div>
         <div class="cap-stat-grid">
-            <div class="cap-stat-card">
-                <span>預設題數</span>
-                <strong>{{ practice_defaults.count }}</strong>
-            </div>
-            <div class="cap-stat-card">
-                <span>預設時間</span>
-                <strong>{{ practice_defaults.duration }} 分鐘</strong>
-            </div>
-            <div class="cap-stat-card">
-                <span>可選年份</span>
-                <strong>{{ selected_years|length }}</strong>
-            </div>
-            <div class="cap-stat-card">
-                <span>作答方式</span>
-                <strong>一題一頁</strong>
-            </div>
+          <div class="cap-stat-card"><span>可用題數</span><strong>{{ question_pool_size }}</strong></div>
+          <div class="cap-stat-card"><span>預設題數</span><strong>{{ practice_defaults.count }}</strong></div>
+          <div class="cap-stat-card"><span>預設時間</span><strong>{{ practice_defaults.duration }} 分鐘</strong></div>
+          <div class="cap-stat-card"><span>年份數</span><strong>{{ selected_years|length }}</strong></div>
         </div>
+      </section>
 
-        <form method="get" action="{{ url_for('study.practice_cap_session') }}" style="display:grid; gap:1rem;">
-            <input type="hidden" name="years" value="{{ selected_years_query }}">
-            <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
-            <input type="hidden" name="start" value="1">
-            <div class="cap-field-grid">
-                <label class="cap-field">
-                    題數
-                    <select name="count">
-                        {% for option in practice_count_options %}
-                        <option value="{{ option.value }}" {% if option.value == selected_count %}selected{% endif %}>{{ option.label }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                <label class="cap-field">
-                    時間
-                    <select name="duration">
-                        {% for option in practice_duration_options %}
-                        <option value="{{ option.value }}" {% if option.value == selected_duration %}selected{% endif %}>{{ option.label }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-            </div>
-            <div class="cap-run-actions">
-                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
-                <button class="cap-btn" type="submit"><i class="fa-solid fa-play"></i> 開始正式作答</button>
-            </div>
-        </form>
-    </section>
-    {% else %}
-    <section class="cap-session-hero">
-        <span class="cap-kicker"><i class="fa-solid fa-stopwatch"></i> 正式作答中</span>
-        <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
-        <p>這輪共有 {{ selected_question_total }} 題。題組材料會整塊保留，一題一頁作答；若遇到圖片題，會直接附上原始題本頁面。</p>
-        <div class="cap-top-bar">
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <span class="cap-chip"><i class="fa-solid fa-list-check"></i> {{ selected_question_total }} 題</span>
-                <span class="cap-chip"><i class="fa-solid fa-image"></i> {{ visual_question_count }} 題附原始頁面</span>
-                <span class="cap-chip"><i class="fa-solid fa-clock"></i> 剩餘時間 <span id="cap-timer"></span></span>
-            </div>
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 看預覽</a>
-                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="cap-session-panel">
-        <div class="cap-panel-head">
+      <form class="cap-setup-form" method="get" action="{{ url_for('study.practice_cap_session') }}">
+        <input type="hidden" name="years" value="{{ selected_years_query }}">
+        <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
+        <section class="cap-session-panel" style="padding:0; border:none; background:none; box-shadow:none;">
+          <div class="cap-head">
             <div>
-                <h2>作答進度</h2>
-                <p>每換一題都會更新進度條，交卷前可以回上一題改答案。</p>
+              <h2>STEP 2. 選題數</h2>
+              <p>你可以用預設值，也可以切成自己今天負擔得起的份量。</p>
             </div>
-            <span class="cap-chip"><i class="fa-solid fa-bullseye"></i> 第 <span id="cap-current-index">{{ initial_question_index + 1 }}</span> / {{ selected_question_total }} 題</span>
-        </div>
-        <div class="cap-progress-wrap">
-            <div class="cap-progress-track">
-                <div class="cap-progress-fill" id="cap-progress-fill"></div>
-            </div>
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <span class="cap-chip"><i class="fa-solid fa-pen"></i> 已作答 <span id="cap-answered-count">0</span> 題</span>
-                <span class="cap-chip"><i class="fa-solid fa-file-lines"></i> 本輪題數 {{ selected_question_total }}</span>
-            </div>
-        </div>
-    </section>
+            <span class="cap-pill">正式作答</span>
+          </div>
+          <div class="cap-chip-grid">
+            {% for option in practice_count_options %}
+            <button class="cap-chip-btn{% if option.value == selected_count %} is-active{% endif %}" type="submit" name="count" value="{{ option.value }}">{{ option.label }}</button>
+            {% endfor %}
+          </div>
+        </section>
 
-    <form method="post" action="{{ url_for('study.practice_cap_review') }}" id="cap-practice-form" style="display:grid; gap:1rem;">
+        <section class="cap-session-panel" style="padding:0; border:none; background:none; box-shadow:none;">
+          <div class="cap-head">
+            <div>
+              <h2>STEP 3. 選時間</h2>
+              <p>把這輪練習的時間限制先定好，正式作答頁會直接倒數。</p>
+            </div>
+            <span class="cap-pill">倒數作答</span>
+          </div>
+          <div class="cap-choice-grid">
+            {% for option in practice_duration_options %}
+            <button class="cap-choice-card{% if option.value == selected_duration %} is-active{% endif %}" type="submit" name="duration" value="{{ option.value }}">
+              <span>{{ option.label }}</span>
+              <strong>{{ option.value }} 分鐘</strong>
+              <p>適合用 {{ option.value }} 分鐘完成這輪練習。</p>
+            </button>
+            {% endfor %}
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <aside class="cap-sidebar">
+      <div class="cap-head">
+        <div>
+          <h2>目前設定</h2>
+          <p>右側只整理這輪正式作答會用到的重點，確認後就直接進入作答頁。</p>
+        </div>
+        <span class="cap-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
+      </div>
+      <div class="cap-sidebar-grid">
+        <div class="cap-sidebar-item"><span>年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
+        <div class="cap-sidebar-item"><span>科目</span><strong>{{ selected_subject.label }}</strong></div>
+        <div class="cap-sidebar-item"><span>題數</span><strong>{{ selected_count }} 題</strong></div>
+        <div class="cap-sidebar-item"><span>時間</span><strong>{{ selected_duration }} 分鐘</strong></div>
+      </div>
+      <div class="cap-context-box">
+        建議先用預覽模式確認題組與圖片，再切到正式作答。這樣一進考題頁就不會被版面干擾。
+      </div>
+      <div class="cap-sidebar-actions">
+        <a class="cap-btn" href="{{ url_for('study.practice_cap_session', years=selected_years_query, subject=selected_subject.slug, count=selected_count, duration=selected_duration, start=1) }}"><i class="fa-solid fa-pen-ruler"></i> 開始正式作答</a>
+        <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-book-open"></i> 回預覽再看</a>
+      </div>
+    </aside>
+  </div>
+
+  {% else %}
+  <section class="cap-session-hero">
+    <span class="cap-badge"><i class="fa-solid fa-pen-ruler"></i> 會考正式練習</span>
+    <div>
+      <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+      <p>這一頁會一題一頁正式作答。你可以上一題、下一題，也可以用題號導覽快速切換位置。</p>
+    </div>
+    <div class="cap-actions">
+      <span class="cap-pill"><i class="fa-solid fa-list-check"></i> {{ selected_question_total }} 題</span>
+      <span class="cap-pill"><i class="fa-solid fa-clock"></i> {{ selected_duration }} 分鐘</span>
+      <span class="cap-pill"><i class="fa-solid fa-image"></i> {{ visual_question_count }} 題含圖</span>
+    </div>
+  </section>
+
+  <div class="cap-layout">
+    <div class="cap-stack">
+      <section class="cap-session-panel">
+        <div class="cap-head">
+          <div>
+            <h2>作答進度</h2>
+            <p>一題一頁作答，右上角會一直同步目前題號與整體進度。</p>
+          </div>
+          <span class="cap-pill" id="progress-label">第 1 / {{ selected_question_total }} 題</span>
+        </div>
+        <div class="cap-progress-track">
+          <div class="cap-progress-fill" id="cap-progress-fill"></div>
+        </div>
+      </section>
+
+      <form class="cap-stack" method="post" action="{{ url_for('study.practice_cap_review') }}" id="cap-run-form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="years" value="{{ selected_years_query }}">
         <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
@@ -434,155 +501,141 @@
         <input type="hidden" name="question_keys" value="{{ selected_question_keys_csv }}">
 
         {% for item in question_items %}
-        {% set field_name = 'answer_' ~ item.question_key|replace(':', '__') %}
-        <article class="cap-run-card {% if loop.index0 == initial_question_index %}is-active{% endif %}" data-question-card="{{ loop.index0 }}">
-            <div class="cap-question-meta">
-                <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                    <span class="cap-chip">第 {{ loop.index }} 題</span>
-                    <span class="cap-chip">{{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
-                    {% if item.group_label %}<span class="cap-chip">{{ item.group_label }}</span>{% endif %}
-                </div>
-                <span class="cap-chip"><i class="fa-solid fa-crosshairs"></i> 單題作答</span>
+        <article class="cap-run-card{% if loop.index0 == initial_question_index %} is-active{% endif %}" data-question-index="{{ loop.index0 }}">
+          <div class="cap-question-meta">
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+              <span class="cap-pill">第 {{ loop.index }} 題</span>
+              <span class="cap-pill">{{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
+              {% if item.group_label %}<span class="cap-pill">{{ item.group_label }}</span>{% endif %}
             </div>
+            <span class="cap-pill">{{ selected_subject.label }}</span>
+          </div>
 
-            {% if item.context %}
-            <div class="cap-context-box">
-                <strong>題組材料</strong>
-                <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
-                {% if item.group_image_href %}
-                <img class="cap-option-image" src="{{ item.group_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題組共用圖">
-                {% endif %}
-            </div>
+          {% if item.context %}
+          <div class="cap-context-box">
+            <strong>題組說明</strong>
+            <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
+            {% if item.group_image_href %}
+            <img class="cap-option-image" src="{{ item.group_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題組圖片">
             {% endif %}
+          </div>
+          {% endif %}
 
-            <div style="display:grid; gap:0.65rem;">
-                {% if item.stem %}
-                <h2>{{ item.stem|replace('\n', '<br>')|safe }}</h2>
-                {% endif %}
-                {% if item.has_question_visual and item.question_image_href %}
-                <div class="cap-visual-box">
-                    <strong>題目附圖</strong>
-                    <div>
-                        {{ item.page_image_note }}
-                        <br>題目文字和題目附圖分開呈現，作答時可直接對照。
-                    </div>
-                    <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
-                </div>
-                {% endif %}
-            </div>
+          {% if item.stem %}
+          <h2>{{ item.stem|replace('\n', '<br>')|safe }}</h2>
+          {% endif %}
 
-            <div class="cap-option-grid">
-                {% for option in item.option_items %}
-                <label class="cap-option">
-                    <input type="radio" name="{{ field_name }}" value="{{ option.key }}">
-                    <span class="cap-option-content">
-                        <span><strong>{{ option.key }}</strong></span>
-                        {% if option.has_text %}
-                        <span>{{ option.text|replace('\n', '<br>')|safe }}</span>
-                        {% endif %}
-                        {% if option.has_image %}
-                        <img class="cap-option-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
-                        {% endif %}
-                        {% if not option.has_text and not option.has_image %}
-                        <span class="cap-option-note">此選項目前沒有可用文字或圖片資料。</span>
-                        {% endif %}
-                    </span>
-                </label>
-                {% endfor %}
-            </div>
+          {% if item.has_question_visual and item.question_image_href %}
+          <div class="cap-visual-box">
+            <strong>題目圖片</strong>
+            <p>{{ item.page_image_note }}</p>
+            <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目圖片">
+          </div>
+          {% endif %}
+
+          <div class="cap-option-grid">
+            {% for option in item.option_items %}
+            <label class="cap-option">
+              <input type="radio" name="{{ item.answer_field_name }}" value="{{ option.key }}" {% if option.key == item.correct_answer and false %}checked{% endif %}>
+              <div class="cap-option-content">
+                <strong>{{ option.key }}</strong>
+                {% if option.text %}
+                <div>{{ option.text|replace('\n', '<br>')|safe }}</div>
+                {% endif %}
+                {% if option.image_href %}
+                <img class="cap-option-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
+                {% endif %}
+                {% if not option.text and not option.image_href %}
+                <div class="cap-option-note">這個選項目前沒有可顯示的文字或圖片內容。</div>
+                {% endif %}
+              </div>
+            </label>
+            {% endfor %}
+          </div>
         </article>
         {% endfor %}
 
-        <section class="cap-session-panel">
-            <div class="cap-run-actions">
-                <button class="cap-link" type="button" id="cap-prev-btn"><i class="fa-solid fa-arrow-left"></i> 上一題</button>
-                <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                    <button class="cap-link" type="button" id="cap-next-btn">下一題 <i class="fa-solid fa-arrow-right"></i></button>
-                    <button class="cap-btn" type="submit"><i class="fa-solid fa-paper-plane"></i> 交卷批改</button>
-                </div>
-            </div>
+        <div class="cap-run-nav">
+          <button class="cap-link" type="button" id="cap-prev-btn"><i class="fa-solid fa-chevron-left"></i> 上一題</button>
+          <button class="cap-btn" type="submit"><i class="fa-solid fa-check-double"></i> 交卷檢討</button>
+          <button class="cap-link" type="button" id="cap-next-btn">下一題 <i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </form>
+    </div>
 
-            <details class="cap-jump-panel">
-                <summary style="cursor:pointer; font-weight:800; color:#1f3454;">快速跳題</summary>
-                <div class="cap-jump-grid">
-                    {% for item in question_items %}
-                    <button class="cap-jump-chip {% if loop.index0 == initial_question_index %}is-active{% endif %}" type="button" data-question-jump="{{ loop.index0 }}">{{ loop.index }}</button>
-                    {% endfor %}
-                </div>
-            </details>
-        </section>
-    </form>
+    <aside class="cap-sidebar">
+      <div class="cap-head">
+        <div>
+          <h2>作答摘要</h2>
+          <p>右側會顯示目前題號、年份、科目與快速題號導覽，不用離開題目頁就能跳題。</p>
+        </div>
+        <span class="cap-pill"><i class="fa-solid fa-location-arrow"></i> 即時定位</span>
+      </div>
+      <div class="cap-sidebar-grid">
+        <div class="cap-sidebar-item"><span>年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
+        <div class="cap-sidebar-item"><span>科目</span><strong>{{ selected_subject.label }}</strong></div>
+        <div class="cap-sidebar-item"><span>題數</span><strong>{{ selected_question_total }} 題</strong></div>
+        <div class="cap-sidebar-item"><span>時間</span><strong>{{ selected_duration }} 分鐘</strong></div>
+      </div>
+      <details class="cap-jump-panel" open>
+        <summary>題號導覽</summary>
+        <div class="cap-jump-grid" id="cap-jump-grid">
+          {% for item in question_items %}
+          <button class="cap-jump-chip{% if loop.index0 == initial_question_index %} is-active{% endif %}" type="button" data-jump-index="{{ loop.index0 }}">{{ loop.index }}</button>
+          {% endfor %}
+        </div>
+      </details>
+      <div class="cap-sidebar-actions">
+        <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-book-open"></i> 回預覽頁</a>
+        <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回會考設定</a>
+      </div>
+    </aside>
+  </div>
 
-    <script>
-        (function() {
-            const cards = Array.from(document.querySelectorAll('[data-question-card]'));
-            const jumps = Array.from(document.querySelectorAll('[data-question-jump]'));
-            const prevBtn = document.getElementById('cap-prev-btn');
-            const nextBtn = document.getElementById('cap-next-btn');
-            const timerEl = document.getElementById('cap-timer');
-            const form = document.getElementById('cap-practice-form');
-            const progressFill = document.getElementById('cap-progress-fill');
-            const currentIndexEl = document.getElementById('cap-current-index');
-            const answeredCountEl = document.getElementById('cap-answered-count');
-            let activeIndex = Math.max(0, Math.min(cards.length - 1, Number('{{ initial_question_index or 0 }}')));
-            let remainingSeconds = Number('{{ (selected_duration or 0) * 60 }}');
+  <script>
+    (() => {
+      const cards = Array.from(document.querySelectorAll('.cap-run-card'));
+      const jumpButtons = Array.from(document.querySelectorAll('[data-jump-index]'));
+      const progressFill = document.getElementById('cap-progress-fill');
+      const progressLabel = document.getElementById('progress-label');
+      const prevBtn = document.getElementById('cap-prev-btn');
+      const nextBtn = document.getElementById('cap-next-btn');
+      let activeIndex = {{ initial_question_index }};
 
-            function updateAnsweredCount() {
-                const answered = new Set();
-                form.querySelectorAll('input[type="radio"]:checked').forEach((input) => {
-                    answered.add(input.name);
-                });
-                answeredCountEl.textContent = answered.size;
-            }
+      function updateActiveCard(index) {
+        activeIndex = Math.max(0, Math.min(index, cards.length - 1));
+        cards.forEach((card, cardIndex) => {
+          card.classList.toggle('is-active', cardIndex === activeIndex);
+        });
+        jumpButtons.forEach((button, buttonIndex) => {
+          button.classList.toggle('is-active', buttonIndex === activeIndex);
+        });
+        const progress = ((activeIndex + 1) / Math.max(cards.length, 1)) * 100;
+        progressFill.style.width = `${progress}%`;
+        progressLabel.textContent = `第 ${activeIndex + 1} / ${cards.length} 題`;
+        prevBtn.disabled = activeIndex === 0;
+        nextBtn.disabled = activeIndex === cards.length - 1;
+      }
 
-            function updateQuestionView(index) {
-                activeIndex = Math.max(0, Math.min(cards.length - 1, index));
-                cards.forEach((card, cardIndex) => {
-                    card.classList.toggle('is-active', cardIndex === activeIndex);
-                });
-                jumps.forEach((button, buttonIndex) => {
-                    button.classList.toggle('is-active', buttonIndex === activeIndex);
-                });
-                prevBtn.disabled = activeIndex === 0;
-                nextBtn.disabled = activeIndex === cards.length - 1;
-                currentIndexEl.textContent = activeIndex + 1;
-                progressFill.style.width = `${((activeIndex + 1) / cards.length) * 100}%`;
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+      jumpButtons.forEach((button) => {
+        button.addEventListener('click', () => updateActiveCard(Number(button.dataset.jumpIndex || 0)));
+      });
 
-            jumps.forEach((button) => {
-                button.addEventListener('click', () => updateQuestionView(Number(button.dataset.questionJump)));
-            });
+      prevBtn.addEventListener('click', () => updateActiveCard(activeIndex - 1));
+      nextBtn.addEventListener('click', () => updateActiveCard(activeIndex + 1));
 
-            form.querySelectorAll('input[type="radio"]').forEach((input) => {
-                input.addEventListener('change', updateAnsweredCount);
-            });
+      document.querySelectorAll('.cap-option input[type="radio"]').forEach((input) => {
+        input.addEventListener('change', () => {
+          const groupName = input.name;
+          document.querySelectorAll(`input[name="${groupName}"]`).forEach((node) => {
+            node.closest('.cap-option')?.classList.toggle('is-selected', node.checked);
+          });
+        });
+      });
 
-            prevBtn.addEventListener('click', () => updateQuestionView(activeIndex - 1));
-            nextBtn.addEventListener('click', () => updateQuestionView(activeIndex + 1));
-
-            function formatTime(seconds) {
-                const safe = Math.max(0, seconds);
-                const minutes = Math.floor(safe / 60);
-                const remainder = safe % 60;
-                return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
-            }
-
-            function tick() {
-                timerEl.textContent = formatTime(remainingSeconds);
-                if (remainingSeconds <= 0) {
-                    form.submit();
-                    return;
-                }
-                remainingSeconds -= 1;
-                window.setTimeout(tick, 1000);
-            }
-
-            updateAnsweredCount();
-            updateQuestionView(activeIndex);
-            tick();
-        })();
-    </script>
-    {% endif %}
+      updateActiveCard(activeIndex);
+    })();
+  </script>
+  {% endif %}
 </div>
 {% endblock %}

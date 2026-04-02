@@ -1,545 +1,544 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆預覽{% endblock %}
+{% block title %}會考題目預覽{% endblock %}
 {% block content %}
 <style>
-    .cap-preview-shell {
-        --preview-bg: linear-gradient(180deg, rgba(252, 247, 238, 0.98), rgba(245, 239, 230, 0.98));
-        --preview-card: rgba(255, 255, 255, 0.9);
-        --preview-border: rgba(201, 165, 86, 0.22);
-        --preview-text: #2f261f;
-        --preview-muted: #6a5c4f;
-        --preview-shadow: 0 18px 40px rgba(58, 45, 25, 0.08);
-        display: grid;
-        gap: 1.25rem;
-    }
+  .cap-preview-shell {
+    --preview-bg: linear-gradient(180deg, rgba(252, 247, 238, 0.98), rgba(245, 239, 230, 0.98));
+    --preview-card: rgba(255, 255, 255, 0.9);
+    --preview-border: rgba(201, 165, 86, 0.22);
+    --preview-ink: #2f261f;
+    --preview-muted: #6a5c4f;
+    --preview-shadow: 0 18px 40px rgba(58, 45, 25, 0.08);
+    display: grid;
+    gap: 1rem;
+  }
 
-    .cap-preview-hero,
-    .cap-preview-panel,
-    .cap-group-card,
-    .cap-question-card {
-        border-radius: 28px;
-        border: 1px solid var(--preview-border);
-        background: var(--preview-bg);
-        box-shadow: var(--preview-shadow);
-    }
+  .cap-preview-shell section,
+  .cap-preview-shell article {
+    border-radius: 30px;
+    border: 1px solid var(--preview-border);
+    background: var(--preview-bg);
+    box-shadow: var(--preview-shadow);
+  }
 
-    .cap-preview-hero,
-    .cap-preview-panel,
-    .cap-group-card,
-    .cap-question-card {
-        padding: 1.35rem;
-    }
+  .cap-preview-hero,
+  .cap-preview-panel,
+  .cap-group-card,
+  .cap-question-card {
+    padding: 1.35rem;
+    display: grid;
+    gap: 1rem;
+  }
 
-    .cap-preview-hero {
-        background:
-            radial-gradient(circle at top right, rgba(238, 191, 89, 0.28), transparent 28%),
-            radial-gradient(circle at left bottom, rgba(55, 79, 118, 0.16), transparent 26%),
-            var(--preview-bg);
-        display: grid;
-        gap: 1rem;
-    }
+  .cap-preview-hero {
+    background:
+      radial-gradient(circle at top right, rgba(238, 191, 89, 0.28), transparent 28%),
+      radial-gradient(circle at left bottom, rgba(55, 79, 118, 0.16), transparent 26%),
+      var(--preview-bg);
+  }
 
-    .cap-kicker,
-    .cap-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.48rem 0.9rem;
-        border-radius: 999px;
-        font-weight: 800;
-    }
+  .cap-badge,
+  .cap-pill,
+  .cap-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    border-radius: 999px;
+    font-weight: 800;
+  }
 
-    .cap-kicker {
-        background: rgba(28, 44, 72, 0.94);
-        color: #fffaf2;
-        width: fit-content;
-    }
+  .cap-badge {
+    padding: 0.48rem 0.9rem;
+    background: rgba(28, 44, 72, 0.94);
+    color: #fffaf2;
+  }
 
-    .cap-chip {
-        background: rgba(255, 240, 202, 0.92);
-        color: #8d6632;
-        font-size: 0.9rem;
-    }
+  .cap-pill,
+  .cap-chip {
+    padding: 0.4rem 0.78rem;
+    background: rgba(255, 240, 202, 0.92);
+    color: #8d6632;
+    font-size: 0.9rem;
+  }
 
-    .cap-preview-hero h1,
-    .cap-preview-panel h2,
-    .cap-group-card h2,
-    .cap-question-card h3 {
-        margin: 0;
-        color: var(--preview-text);
-        font-family: "Kaisei Tokumin", serif;
-    }
+  .cap-preview-hero h1,
+  .cap-preview-panel h2,
+  .cap-group-card h2,
+  .cap-question-card h3 {
+    margin: 0;
+    color: var(--preview-ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
 
-    .cap-preview-hero h1 {
-        font-size: clamp(1.85rem, 2.7vw, 2.7rem);
-        line-height: 1.15;
-    }
+  .cap-preview-hero h1 {
+    font-size: clamp(1.9rem, 2.8vw, 2.8rem);
+    line-height: 1.13;
+  }
 
-    .cap-preview-hero p,
-    .cap-preview-panel p,
-    .cap-group-card p,
-    .cap-question-card p,
-    .cap-question-card li {
-        margin: 0;
-        color: var(--preview-muted);
-        line-height: 1.78;
-    }
+  .cap-preview-hero p,
+  .cap-preview-panel p,
+  .cap-group-card p,
+  .cap-question-card p,
+  .cap-question-card li {
+    margin: 0;
+    color: var(--preview-muted);
+    line-height: 1.78;
+  }
 
-    .cap-top-actions,
-    .cap-panel-head,
-    .cap-question-meta,
-    .cap-pagination {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        justify-content: space-between;
-        align-items: center;
-    }
+  .cap-head,
+  .cap-top,
+  .cap-actions,
+  .cap-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
 
-    .cap-link,
-    .cap-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        min-height: 46px;
-        padding: 0.75rem 1.15rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-decoration: none;
-    }
+  .cap-link,
+  .cap-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 46px;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    font-weight: 900;
+    text-decoration: none;
+  }
 
-    .cap-link {
-        border: 1px solid rgba(74, 99, 140, 0.18);
-        background: rgba(255, 255, 255, 0.82);
-        color: #49617d;
-    }
+  .cap-link {
+    border: 1px solid rgba(74, 99, 140, 0.18);
+    background: rgba(255, 255, 255, 0.82);
+    color: #49617d;
+  }
 
-    .cap-btn {
-        border: none;
-        background: linear-gradient(135deg, #ebb24b, #d18d37);
-        color: #fffaf2;
-    }
+  .cap-btn {
+    border: none;
+    background: linear-gradient(135deg, #ebb24b, #d18d37);
+    color: #fffaf2;
+  }
 
-    .cap-preview-panel {
-        display: grid;
-        gap: 1rem;
-    }
+  .cap-stats,
+  .cap-reference-grid,
+  .cap-question-list,
+  .cap-explanation-grid {
+    display: grid;
+    gap: 0.9rem;
+  }
 
-    .cap-filter-row {
-        display: flex;
-        gap: 0.85rem;
-        flex-wrap: wrap;
-        align-items: end;
-    }
+  .cap-stats {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
 
-    .cap-field {
-        display: grid;
-        gap: 0.45rem;
-        min-width: 150px;
-        color: var(--preview-muted);
-        font-size: 0.92rem;
-    }
+  .cap-stat {
+    display: grid;
+    gap: 0.2rem;
+    padding: 1rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(201, 165, 86, 0.12);
+  }
 
-    .cap-field select {
-        min-height: 44px;
-        border-radius: 16px;
-        border: 1px solid rgba(74, 99, 140, 0.18);
-        background: rgba(255, 255, 255, 0.9);
-        padding: 0 0.95rem;
-        color: var(--preview-text);
-        font-weight: 700;
-    }
+  .cap-stat span {
+    font-size: 0.88rem;
+    color: #86745e;
+  }
 
-    .cap-reference-grid,
-    .cap-question-list,
-    .cap-explanation-grid {
-        display: grid;
-        gap: 1rem;
-    }
+  .cap-stat strong {
+    color: var(--preview-ink);
+    font-size: 1.55rem;
+  }
 
-    .cap-reference-grid {
-        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    }
+  .cap-filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    align-items: end;
+  }
 
-    .cap-reference-card {
-        border-radius: 22px;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(74, 99, 140, 0.14);
-        display: grid;
-        gap: 0.6rem;
-    }
+  .cap-field {
+    display: grid;
+    gap: 0.4rem;
+    min-width: 160px;
+    color: var(--preview-muted);
+    font-size: 0.92rem;
+  }
 
-    .cap-reference-card h3 {
-        margin: 0;
-        color: var(--preview-text);
-    }
+  .cap-field select {
+    min-height: 44px;
+    border-radius: 16px;
+    border: 1px solid rgba(74, 99, 140, 0.18);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0 0.95rem;
+    color: var(--preview-ink);
+    font-weight: 700;
+  }
 
-    .cap-reference-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.55rem;
-    }
+  .cap-reference-grid {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  }
 
-    .cap-reference-links a {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.45rem 0.75rem;
-        border-radius: 999px;
-        background: rgba(241, 247, 255, 0.88);
-        color: #365a80;
-        font-weight: 700;
-        text-decoration: none;
-    }
+  .cap-reference-card {
+    border-radius: 22px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(74, 99, 140, 0.14);
+    display: grid;
+    gap: 0.65rem;
+  }
 
-    .cap-group-card {
-        display: grid;
-        gap: 1rem;
-        background:
-            linear-gradient(180deg, rgba(255, 253, 249, 0.98), rgba(246, 241, 232, 0.96));
-    }
+  .cap-reference-card h3 {
+    margin: 0;
+    color: var(--preview-ink);
+  }
 
-    .cap-group-context {
-        display: grid;
-        gap: 0.75rem;
-        padding: 1rem;
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid rgba(64, 89, 126, 0.14);
-    }
+  .cap-reference-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
 
-    .cap-question-card {
-        display: grid;
-        gap: 0.95rem;
-        background: var(--preview-card);
-    }
+  .cap-reference-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(241, 247, 255, 0.88);
+    color: #365a80;
+    font-weight: 700;
+    text-decoration: none;
+  }
 
-    .cap-question-card ul {
-        margin: 0;
-        padding-left: 1.2rem;
-    }
+  .cap-group-card {
+    background: linear-gradient(180deg, rgba(255, 253, 249, 0.98), rgba(246, 241, 232, 0.96));
+  }
 
-    .cap-options {
-        display: grid;
-        gap: 0.7rem;
-    }
+  .cap-group-context {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(64, 89, 126, 0.14);
+  }
 
-    .cap-option {
-        padding: 0.85rem 0.95rem;
-        border-radius: 18px;
-        background: rgba(248, 244, 236, 0.9);
-        border: 1px solid rgba(201, 165, 86, 0.14);
-        display: grid;
-        gap: 0.65rem;
-    }
+  .cap-group-context img,
+  .cap-visual-box img,
+  .cap-option-image {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid rgba(74, 99, 140, 0.16);
+    background: #fff;
+    padding: 0.35rem;
+  }
 
-    .cap-option-key {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 999px;
-        background: rgba(42, 83, 145, 0.1);
-        color: #26466a;
-        font-weight: 700;
-    }
+  .cap-question-card {
+    background: var(--preview-card);
+  }
 
-    .cap-option-body {
-        display: grid;
-        gap: 0.65rem;
-    }
+  .cap-question-card ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
 
-    .cap-option-image {
-        width: 100%;
-        max-width: 540px;
-        border-radius: 16px;
-        border: 1px solid rgba(74, 99, 140, 0.16);
-        background: #fff;
-        padding: 0.35rem;
-    }
+  .cap-options {
+    display: grid;
+    gap: 0.75rem;
+  }
 
-    .cap-option-note {
-        color: #5e5a54;
-        font-size: 0.95rem;
-        line-height: 1.55;
-    }
+  .cap-option {
+    padding: 0.9rem 0.95rem;
+    border-radius: 18px;
+    background: rgba(248, 244, 236, 0.9);
+    border: 1px solid rgba(201, 165, 86, 0.14);
+    display: grid;
+    gap: 0.65rem;
+  }
 
-    .cap-visual-box {
-        display: grid;
-        gap: 0.65rem;
-        padding: 0.95rem;
-        border-radius: 20px;
-        background: rgba(235, 243, 255, 0.88);
-        border: 1px solid rgba(74, 99, 140, 0.18);
-    }
+  .cap-option-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
 
-    .cap-visual-box img {
-        width: 100%;
-        border-radius: 18px;
-        border: 1px solid rgba(74, 99, 140, 0.14);
-        background: #fff;
-    }
+  .cap-option-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: rgba(42, 83, 145, 0.1);
+    color: #26466a;
+    font-weight: 700;
+  }
 
-    .cap-answer-box {
-        display: grid;
-        gap: 0.35rem;
-        padding: 0.95rem;
-        border-radius: 20px;
-        background: rgba(255, 247, 222, 0.86);
-        border: 1px solid rgba(214, 169, 82, 0.18);
-    }
+  .cap-option-note {
+    color: #5e5a54;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
 
-    .cap-explanation-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
+  .cap-visual-box {
+    display: grid;
+    gap: 0.65rem;
+    padding: 0.95rem;
+    border-radius: 20px;
+    background: rgba(235, 243, 255, 0.88);
+    border: 1px solid rgba(74, 99, 140, 0.18);
+  }
 
-    .cap-explanation-item {
-        display: grid;
-        gap: 0.35rem;
-        padding: 0.95rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.84);
-        border: 1px solid rgba(74, 99, 140, 0.12);
-    }
+  .cap-answer-box {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem;
+    border-radius: 20px;
+    background: rgba(255, 247, 222, 0.86);
+    border: 1px solid rgba(214, 169, 82, 0.18);
+  }
 
-    .cap-explanation-item strong {
-        color: #26415f;
-    }
+  .cap-explanation-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 
-    .cap-pagination a,
-    .cap-pagination span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 44px;
-        min-height: 44px;
-        padding: 0 0.9rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-decoration: none;
-    }
+  .cap-explanation-item {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.95rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(74, 99, 140, 0.12);
+  }
 
-    .cap-pagination a {
-        background: rgba(255, 255, 255, 0.84);
-        border: 1px solid rgba(74, 99, 140, 0.16);
-        color: #48617f;
-    }
+  .cap-explanation-item strong {
+    color: #26415f;
+  }
 
-    .cap-pagination .is-active {
-        background: linear-gradient(135deg, #1c2f4b, #415e8d);
-        color: #fffaf2;
-    }
+  .cap-pagination a,
+  .cap-pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(74, 99, 140, 0.14);
+    color: #49617d;
+  }
 
-    .cap-empty {
-        padding: 1rem 1.05rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.74);
-        color: var(--preview-muted);
-    }
+  .cap-pagination .is-active {
+    background: linear-gradient(135deg, #1d3150, #4a6998);
+    color: #fffaf2;
+  }
 
-    @media (max-width: 760px) {
-        .cap-preview-hero,
-        .cap-preview-panel,
-        .cap-group-card,
-        .cap-question-card {
-            border-radius: 24px;
-            padding: 1.15rem;
-        }
-    }
+  .cap-empty {
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px dashed rgba(74, 99, 140, 0.16);
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--preview-muted);
+  }
 </style>
 
 <div class="cap-preview-shell">
-    <section class="cap-preview-hero">
-        <span class="cap-kicker"><i class="fa-solid fa-eye"></i> 會考預覽模式</span>
-        <div style="display:grid; gap:0.75rem;">
-            <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
-            <p>預覽模式會保留年份範圍內的題型順序，直接顯示題目、答案、詳解，遇到圖片題或排版較複雜的題目，也可以同步對照原始題本頁面。</p>
-        </div>
-        <div class="cap-top-actions">
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <span class="cap-chip"><i class="fa-solid fa-list-check"></i> 共 {{ question_bank_count }} 題</span>
-                <span class="cap-chip"><i class="fa-solid fa-clone"></i> 本頁顯示 {{ visible_question_count }} 題</span>
-            </div>
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回年份與科目</a>
-                <a class="cap-btn" href="{{ practice_href }}"><i class="fa-solid fa-pen-ruler"></i> 進入練習模式</a>
-            </div>
-        </div>
-    </section>
+  <section class="cap-preview-hero">
+    <span class="cap-badge"><i class="fa-solid fa-book-open"></i> 會考題目預覽</span>
+    <div>
+      <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+      <p>這裡會先把題目、題組、圖片與詳解整理成可閱讀的預覽頁。先看懂題目，再決定是否切到正式練習。</p>
+    </div>
+    <div class="cap-stats">
+      <div class="cap-stat"><span>總題數</span><strong>{{ question_bank_count }}</strong></div>
+      <div class="cap-stat"><span>本頁題數</span><strong>{{ visible_question_count }}</strong></div>
+      <div class="cap-stat"><span>每頁顯示</span><strong>{{ per_page }}</strong></div>
+      <div class="cap-stat"><span>目前頁次</span><strong>{{ current_page }} / {{ total_pages }}</strong></div>
+    </div>
+    <div class="cap-actions">
+      <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回會考設定</a>
+      <a class="cap-btn" href="{{ practice_href }}"><i class="fa-solid fa-pen-ruler"></i> 切到練習模式</a>
+    </div>
+  </section>
 
-    <section class="cap-preview-panel">
-        <div class="cap-panel-head">
-            <div>
-                <h2>顯示範圍</h2>
-                <p>可以調整每頁題數，題組會保持整組顯示，不會被硬拆到不同頁。</p>
+  <section class="cap-preview-panel">
+    <div class="cap-head">
+      <div>
+        <h2>頁面控制</h2>
+        <p>可以切換每頁題數與頁次，讓你先把同一批題看完，再往下練習。</p>
+      </div>
+      <span class="cap-pill"><i class="fa-solid fa-filter"></i> 先看再做</span>
+    </div>
+    <form class="cap-filter-row" method="get" action="{{ url_for('study.practice_cap_preview') }}">
+      <input type="hidden" name="years" value="{{ selected_years|join(',') }}">
+      <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
+      <div class="cap-field">
+        <label for="per-page">一頁幾題</label>
+        <select id="per-page" name="per_page">
+          {% for option in per_page_options %}
+          <option value="{{ option }}" {% if option == per_page %}selected{% endif %}>{{ option }} 題</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="cap-field">
+        <label for="page">頁次</label>
+        <select id="page" name="page">
+          {% for page_value in range(1, total_pages + 1) %}
+          <option value="{{ page_value }}" {% if page_value == current_page %}selected{% endif %}>第 {{ page_value }} 頁</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="cap-btn" type="submit"><i class="fa-solid fa-arrows-rotate"></i> 更新預覽</button>
+    </form>
+  </section>
+
+  {% if official_reference_cards %}
+  <section class="cap-preview-panel">
+    <div class="cap-head">
+      <div>
+        <h2>官方原始資料</h2>
+        <p>如果你想回看原始題本、參考答案或試題說明，這裡可以直接開啟官方來源。</p>
+      </div>
+      <span class="cap-pill"><i class="fa-solid fa-link"></i> 官方對照</span>
+    </div>
+    <div class="cap-reference-grid">
+      {% for card in official_reference_cards %}
+      <article class="cap-reference-card">
+        <h3>{{ card.year }} 年資料</h3>
+        <p>可以直接對照原始題本與答案卷，確認這一批預覽題目和官方資料一致。</p>
+        <div class="cap-reference-links">
+          {% if card.question_url %}<a href="{{ card.question_url }}"><i class="fa-solid fa-file-lines"></i> 題本</a>{% endif %}
+          {% if card.answer_url %}<a href="{{ card.answer_url }}"><i class="fa-solid fa-square-check"></i> 答案</a>{% endif %}
+          {% if card.explanation_url %}<a href="{{ card.explanation_url }}"><i class="fa-solid fa-circle-info"></i> 試題說明</a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="cap-question-list">
+    {% if question_groups %}
+      {% for group in question_groups %}
+      <article class="cap-group-card">
+        <div class="cap-head">
+          <div>
+            <h2>{{ group.year }} 年題目{% if group.question_total > 1 %} / 題組 {{ loop.index }}{% endif %}</h2>
+            <p>{% if group.question_total > 1 %}這組共有 {{ group.question_total }} 題，已保留題組共用文字與圖片。{% else %}這是單題預覽，題幹、選項與圖片都會一起顯示。{% endif %}</p>
+          </div>
+          <span class="cap-pill">{{ group.question_total }} 題</span>
+        </div>
+
+        {% if group.context or group.shared_image_href %}
+        <div class="cap-group-context">
+          {% if group.context %}
+          <div>{{ group.context|replace('\n', '<br>')|safe }}</div>
+          {% endif %}
+          {% if group.shared_image_href %}
+          <img src="{{ group.shared_image_href }}" alt="{{ group.year }} 年 {{ selected_subject.label }} 題組圖片">
+          {% endif %}
+        </div>
+        {% endif %}
+
+        {% for item in group.questions %}
+        <section class="cap-question-card">
+          <div class="cap-top">
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+              <span class="cap-pill">第 {{ item.source_question_number }} 題</span>
+              {% if item.group_label %}<span class="cap-pill">{{ item.group_label }}</span>{% endif %}
+              {% if item.page_number %}<span class="cap-pill">原始題本第 {{ item.page_number }} 頁</span>{% endif %}
             </div>
-            <span class="cap-chip"><i class="fa-solid fa-layer-group"></i> 第 {{ current_page }} / {{ total_pages }} 頁</span>
-        </div>
+            <span class="cap-pill"><i class="fa-solid fa-image"></i> {% if item.has_any_visuals %}含題圖或選項圖{% else %}純文字題{% endif %}</span>
+          </div>
 
-        <form class="cap-filter-row" method="get" action="{{ url_for('study.practice_cap_preview') }}">
-            <input type="hidden" name="years" value="{{ selected_years|join(',') }}">
-            <input type="hidden" name="subject" value="{{ selected_subject.slug }}">
-            <label class="cap-field">
-                一頁顯示幾題
-                <select name="per_page">
-                    {% for option in per_page_options %}
-                    <option value="{{ option }}" {% if option == per_page %}selected{% endif %}>{{ option }} 題</option>
-                    {% endfor %}
-                </select>
-            </label>
-            <label class="cap-field">
-                目前頁碼
-                <select name="page">
-                    {% for page_no in range(1, total_pages + 1) %}
-                    <option value="{{ page_no }}" {% if page_no == current_page %}selected{% endif %}>第 {{ page_no }} 頁</option>
-                    {% endfor %}
-                </select>
-            </label>
-            <button class="cap-btn" type="submit"><i class="fa-solid fa-filter"></i> 更新顯示</button>
-        </form>
-    </section>
+          {% if item.stem %}
+          <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
+          {% endif %}
 
-    {% if official_reference_cards %}
-    <section class="cap-preview-panel">
-        <div class="cap-panel-head">
-            <div>
-                <h2>官方來源對照</h2>
-                <p>每個年份都保留官方題本、答案與試題說明連結，方便快速核對來源。</p>
-            </div>
-            <span class="cap-chip"><i class="fa-solid fa-link"></i> {{ official_reference_cards|length }} 個年份</span>
-        </div>
-        <div class="cap-reference-grid">
-            {% for card in official_reference_cards %}
-            <article class="cap-reference-card">
-                <h3>{{ card.year }} 年</h3>
-                <div class="cap-reference-links">
-                    {% if card.question_url %}<a href="{{ card.question_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i> 題本</a>{% endif %}
-                    {% if card.answer_url %}<a href="{{ card.answer_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-square-check"></i> 答案</a>{% endif %}
-                    {% if card.explanation_url %}<a href="{{ card.explanation_url }}" target="_blank" rel="noopener"><i class="fa-solid fa-circle-info"></i> 試題說明</a>{% endif %}
-                </div>
-            </article>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
+          {% if item.has_question_visual and item.question_image_href %}
+          <div class="cap-visual-box">
+            <strong>題目圖片</strong>
+            <p>{{ item.page_image_note }}</p>
+            <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目圖片">
+          </div>
+          {% endif %}
 
-    <section class="cap-question-list">
-        {% for group in question_groups %}
-        <article class="cap-group-card">
-            {% if group.context %}
-            <div class="cap-group-context">
-                <div class="cap-panel-head">
-                    <div>
-                        <h2>題組材料</h2>
-                        <p>{{ group.year }} 年 / 共 {{ group.question_total }} 題共用同一段材料</p>
-                    </div>
-                    <span class="cap-chip"><i class="fa-solid fa-book-open-reader"></i> 題組整組保留</span>
-                </div>
-                <div>{{ group.context|replace('\n', '<br>')|safe }}</div>
-                {% if group.shared_image_href %}
-                <div class="cap-visual-box">
-                    <strong>題組共用圖</strong>
-                    <div>題組材料與共用圖片一起保留，避免題組資訊被拆散。</div>
-                    <img src="{{ group.shared_image_href }}" alt="{{ group.year }} 年 {{ selected_subject.label }} 題組共用圖">
-                </div>
+          <div class="cap-options">
+            {% for option in item.option_items %}
+            <div class="cap-option">
+              <div class="cap-option-head">
+                <span class="cap-option-key">{{ option.key }}</span>
+                {% if option.key == item.correct_answer %}
+                <span class="cap-pill"><i class="fa-solid fa-circle-check"></i> 正確答案</span>
                 {% endif %}
+              </div>
+              {% if option.text %}
+              <div>{{ option.text|replace('\n', '<br>')|safe }}</div>
+              {% endif %}
+              {% if option.image_href %}
+              <img class="cap-option-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
+              {% endif %}
+              {% if not option.text and not option.image_href %}
+              <div class="cap-option-note">這個選項目前沒有可顯示的文字或圖片內容。</div>
+              {% endif %}
             </div>
+            {% endfor %}
+          </div>
+
+          <div class="cap-answer-box">
+            <strong>正確答案</strong>
+            <div>{{ item.correct_answer }}</div>
+            {% if item.correct_option_text %}
+            <div>{{ item.correct_option_text|replace('\n', '<br>')|safe }}</div>
             {% endif %}
+            {% if item.correct_option_image_href %}
+            <img class="cap-option-image" src="{{ item.correct_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題正解圖片">
+            {% endif %}
+          </div>
 
-            {% for item in group.questions %}
-            <article class="cap-question-card">
-                <div class="cap-question-meta">
-                    <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                        <span class="cap-chip">第 {{ item.display_number }} 題</span>
-                        <span class="cap-chip">{{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
-                        {% if item.group_label %}<span class="cap-chip">{{ item.group_label }}</span>{% endif %}
-                    </div>
-                    {% if item.has_any_visuals %}
-                    <span class="cap-chip"><i class="fa-solid fa-image"></i> 含題圖或選項圖</span>
-                    {% endif %}
-                </div>
-
-                {% if item.stem %}
-                <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
-                {% endif %}
-
-                {% if item.has_question_visual and item.question_image_href %}
-                <div class="cap-visual-box">
-                    <strong>題目附圖</strong>
-                    <div>
-                        {{ item.page_image_note }}
-                        <br>題目文字與題目附圖會分開顯示，作答時不用再回頭看整頁。
-                    </div>
-                    <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
-                </div>
-                {% endif %}
-
-                <div class="cap-options">
-                    {% for option in item.option_items %}
-                    <div class="cap-option">
-                        <span class="cap-option-key">{{ option.key }}</span>
-                        <div class="cap-option-body">
-                            {% if option.has_text %}
-                            <div>{{ option.text|replace('\n', '<br>')|safe }}</div>
-                            {% endif %}
-                            {% if option.has_image %}
-                            <img class="cap-option-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
-                            {% endif %}
-                            {% if not option.has_text and not option.has_image %}
-                            <div class="cap-option-note">此選項目前沒有可用文字或圖片資料。</div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <div class="cap-answer-box">
-                    <strong>正確答案</strong>
-                    <div>{{ item.correct_answer }}{% if item.correct_option_text %} / {{ item.correct_option_text|replace('\n', '<br>')|safe }}{% endif %}</div>
-                    {% if item.correct_option_image_href %}
-                    <img class="cap-option-image" src="{{ item.correct_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題正確選項 {{ item.correct_answer }}">
-                    {% endif %}
-                </div>
-
-                <div class="cap-explanation-grid">
-                    {% for section in item.explanation_sections %}
-                    <div class="cap-explanation-item">
-                        <strong>{{ section.title }}</strong>
-                        <div>{{ section.body|replace('\n', '<br>')|safe }}</div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </article>
+          {% if item.explanation_sections %}
+          <div class="cap-explanation-grid">
+            {% for section in item.explanation_sections %}
+            <div class="cap-explanation-item">
+              <strong>{{ section.title }}</strong>
+              <div>{{ section.body|replace('\n', '<br>')|safe }}</div>
+            </div>
             {% endfor %}
-        </article>
+          </div>
+          {% endif %}
+        </section>
         {% endfor %}
-    </section>
+      </article>
+      {% endfor %}
+    {% else %}
+      <div class="cap-empty">這一頁目前沒有可顯示的題目，請調整年份、科目或分頁設定後再試一次。</div>
+    {% endif %}
+  </section>
 
-    <section class="cap-preview-panel">
-        <div class="cap-pagination">
-            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                {% if current_page > 1 %}
-                <a href="{{ url_for('study.practice_cap_preview', years=selected_years|join(','), subject=selected_subject.slug, per_page=per_page, page=current_page-1) }}"><i class="fa-solid fa-arrow-left"></i> 上一頁</a>
-                {% endif %}
-            </div>
-            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                {% for page_no in range(1, total_pages + 1) %}
-                {% if page_no == current_page %}
-                <span class="is-active">{{ page_no }}</span>
-                {% else %}
-                <a href="{{ url_for('study.practice_cap_preview', years=selected_years|join(','), subject=selected_subject.slug, per_page=per_page, page=page_no) }}">{{ page_no }}</a>
-                {% endif %}
-                {% endfor %}
-            </div>
-            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                {% if current_page < total_pages %}
-                <a href="{{ url_for('study.practice_cap_preview', years=selected_years|join(','), subject=selected_subject.slug, per_page=per_page, page=current_page+1) }}">下一頁 <i class="fa-solid fa-arrow-right"></i></a>
-                {% endif %}
-            </div>
-        </div>
-    </section>
+  <section class="cap-preview-panel">
+    <div class="cap-pagination">
+      {% if current_page > 1 %}
+      <a href="{{ url_for('study.practice_cap_preview', years=selected_years|join(','), subject=selected_subject.slug, per_page=per_page, page=current_page-1) }}"><i class="fa-solid fa-chevron-left"></i> 上一頁</a>
+      {% else %}
+      <span><i class="fa-solid fa-chevron-left"></i> 上一頁</span>
+      {% endif %}
+
+      <span class="is-active">第 {{ current_page }} / {{ total_pages }} 頁</span>
+
+      {% if current_page < total_pages %}
+      <a href="{{ url_for('study.practice_cap_preview', years=selected_years|join(','), subject=selected_subject.slug, per_page=per_page, page=current_page+1) }}">下一頁 <i class="fa-solid fa-chevron-right"></i></a>
+      {% else %}
+      <span>下一頁 <i class="fa-solid fa-chevron-right"></i></span>
+      {% endif %}
+    </div>
+  </section>
 </div>
 {% endblock %}

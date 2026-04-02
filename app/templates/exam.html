@@ -1,302 +1,281 @@
 {% extends "base.html" %}
-{% block title %}{{ _t('nav_exam') }}{% endblock %}
+{% block title %}模擬考{% endblock %}
 {% block content %}
 <style>
-    .mock-shell{--paper:rgba(249,247,255,.98);--paper-2:rgba(239,234,252,.96);--line:rgba(111,104,187,.18);--ink:#2f274d;--muted:#6a6285;display:grid;gap:1.2rem}
-    .mock-shell section,.mock-shell aside{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,var(--paper),var(--paper-2));box-shadow:0 24px 52px rgba(79,68,122,.11)}
-    .mock-hero,.mock-card,.mock-summary{padding:1.35rem;display:grid;gap:1rem}
-    .mock-hero{background:radial-gradient(circle at top right,rgba(255,212,128,.32),transparent 28%),linear-gradient(140deg,rgba(251,250,255,.99),rgba(238,235,252,.96))}
-    .mock-badge,.mock-pill{display:inline-flex;align-items:center;gap:.45rem;width:fit-content;border-radius:999px;font-weight:800}
-    .mock-badge{padding:.48rem .9rem;background:#3d325a;color:#fffaf7}.mock-pill{padding:.38rem .72rem;background:rgba(255,245,218,.94);color:#8e6a35;font-size:.84rem}
-    .mock-hero h1,.mock-card h2,.mock-summary h2{margin:0;color:var(--ink);font-family:"Kaisei Tokumin",serif}
-    .mock-hero h1{font-size:clamp(2rem,3vw,2.8rem);line-height:1.12}.mock-hero p,.mock-card p,.mock-summary p{margin:0;color:var(--muted);line-height:1.8}
-    .mock-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.85rem}.mock-stat{padding:1rem;border-radius:20px;background:rgba(255,255,255,.8);border:1px solid rgba(111,104,187,.12);display:grid;gap:.25rem}.mock-stat span{font-size:.88rem;color:#8a80a2}.mock-stat strong{font-size:1.7rem;color:var(--ink)}
-    .mock-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.95fr);gap:1rem;align-items:start}
-    .mock-stack{display:grid;gap:1rem}
-    .mock-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap}
-    .mock-choice-grid,.mock-chip-grid,.mock-question-list,.mock-review-list{display:grid;gap:.85rem}
-    .mock-choice-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.mock-chip-grid{grid-template-columns:repeat(auto-fit,minmax(96px,1fr))}
-    .mock-choice,.mock-chip,.mock-option{border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.86);transition:.16s ease}
-    .mock-choice{padding:1rem;border-radius:22px;display:grid;gap:.6rem;text-align:left}.mock-chip{padding:.72rem .8rem;border-radius:16px;font-weight:800;color:#433780}.mock-option{padding:.9rem 1rem;border-radius:18px;display:flex;gap:.8rem;align-items:flex-start;cursor:pointer}
-    .mock-choice:hover,.mock-chip:hover,.mock-option:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(79,68,122,.1)}
-    .mock-choice[data-active="true"],.mock-chip[data-active="true"],.mock-option.is-active{border-color:rgba(111,104,187,.3);background:linear-gradient(180deg,rgba(246,244,255,.98),rgba(255,255,255,.95));box-shadow:0 18px 28px rgba(79,68,122,.12)}
-    .mock-choice-top,.mock-question-top,.mock-review-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap}
-    .mock-icon,.mock-index,.mock-option-letter{display:inline-flex;align-items:center;justify-content:center}
-    .mock-icon{width:52px;height:52px;border-radius:18px;background:rgba(255,255,255,.82);font-size:1.2rem;color:#433780}
-    .mock-index{width:42px;height:42px;border-radius:14px;background:rgba(241,237,255,.94);color:#483b7b;font-weight:900}
-    .mock-question,.mock-review{padding:1.2rem;border-radius:24px;background:rgba(255,255,255,.82);border:1px solid rgba(111,104,187,.14);display:grid;gap:1rem}
-    .mock-question-text,.mock-review-text{margin:0;color:#342b53;line-height:1.85}
-    .mock-question-image,.mock-review-image{overflow:hidden;border-radius:18px;border:1px solid rgba(111,104,187,.12);background:rgba(245,244,255,.96)}
-    .mock-question-image img,.mock-review-image img{width:100%;display:block}
-    .mock-option-letter{width:34px;height:34px;border-radius:12px;background:rgba(238,233,252,.94);color:#4a3c80;font-weight:900;flex-shrink:0}
-    .mock-option input{margin-top:.25rem}
-    .mock-option.correct-answer{border-color:rgba(90,156,104,.7);background:rgba(241,251,244,.95)}
-    .mock-option.wrong-answer{border-color:rgba(214,104,83,.72);background:rgba(255,242,238,.95)}
-    .mock-actions,.mock-summary-actions{display:flex;flex-wrap:wrap;gap:.75rem}
-    .mock-btn,.mock-link{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:46px;padding:.8rem 1rem;border-radius:999px;text-decoration:none;font-weight:900}
-    .mock-btn{border:none;background:linear-gradient(135deg,#8766d2,#5a48af);color:#fff}.mock-link{background:rgba(255,255,255,.86);border:1px solid rgba(111,104,187,.14);color:#56488a}
-    .mock-summary{position:sticky;top:92px}
-    .mock-summary-grid{display:grid;gap:.7rem}.mock-summary-item{padding:.88rem 1rem;border-radius:18px;border:1px solid rgba(111,104,187,.13);background:rgba(255,255,255,.82);display:grid;gap:.22rem}.mock-summary-item span{font-size:.86rem;color:#8a80a2}.mock-summary-item strong{color:var(--ink)}
-    .mock-empty{padding:1rem;border-radius:20px;border:1px dashed rgba(111,104,187,.2);background:rgba(255,255,255,.7);color:var(--muted);line-height:1.8}
-    .mock-result[hidden]{display:none !important}.mock-result-score{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
-    .mock-score-box{padding:1rem;border-radius:20px;border:1px solid rgba(111,104,187,.13);background:rgba(255,255,255,.82);display:grid;gap:.22rem}
-    .mock-answer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem}.mock-answer-box{padding:.88rem 1rem;border-radius:18px;background:rgba(255,255,255,.86);border:1px solid rgba(111,104,187,.12)}.mock-answer-box strong{display:block;margin-bottom:.28rem;color:#867da1;font-size:.84rem}
-    @media (max-width:980px){.mock-layout{grid-template-columns:1fr}.mock-summary{position:static}}
+.mock-shell{--paper:rgba(249,247,255,.98);--paper-2:rgba(239,234,252,.96);--line:rgba(111,104,187,.18);--ink:#2f274d;--muted:#6a6285;display:grid;gap:1.2rem}
+.mock-shell section,.mock-shell aside{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,var(--paper),var(--paper-2));box-shadow:0 24px 52px rgba(79,68,122,.11)}
+.mock-hero,.mock-card,.mock-summary{padding:1.35rem;display:grid;gap:1rem}.mock-hero{background:radial-gradient(circle at top right,rgba(255,212,128,.32),transparent 28%),linear-gradient(140deg,rgba(251,250,255,.99),rgba(238,235,252,.96))}
+.mock-badge,.mock-pill{display:inline-flex;align-items:center;gap:.45rem;width:fit-content;border-radius:999px;font-weight:800}.mock-badge{padding:.48rem .9rem;background:#3d325a;color:#fffaf7}.mock-pill{padding:.38rem .72rem;background:rgba(255,245,218,.94);color:#8e6a35;font-size:.84rem}
+.mock-hero h1,.mock-card h2,.mock-summary h2,.mock-card h3{margin:0;color:var(--ink);font-family:"Kaisei Tokumin",serif}.mock-hero h1{font-size:clamp(2rem,3vw,2.8rem);line-height:1.12}.mock-hero p,.mock-card p,.mock-summary p,.mock-empty{margin:0;color:var(--muted);line-height:1.8}
+.mock-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.85rem}.mock-stat{padding:1rem;border-radius:20px;background:rgba(255,255,255,.8);border:1px solid rgba(111,104,187,.12);display:grid;gap:.25rem}.mock-stat span{font-size:.88rem;color:#8a80a2}.mock-stat strong{font-size:1.7rem;color:var(--ink)}
+.mock-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.95fr);gap:1rem;align-items:start}.mock-stack{display:grid;gap:1rem}.mock-head,.mock-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap}
+.mock-choice-grid,.mock-chip-grid,.mock-question-list,.mock-review-list,.mock-score-grid{display:grid;gap:.85rem}.mock-choice-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.mock-chip-grid{grid-template-columns:repeat(auto-fit,minmax(96px,1fr))}.mock-score-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.mock-choice,.mock-chip,.mock-question,.mock-review,.mock-option{border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.86);transition:.16s ease}
+.mock-choice,.mock-review,.mock-question{padding:1rem;border-radius:22px;display:grid;gap:.7rem}.mock-chip{padding:.72rem .8rem;border-radius:16px;font-weight:800;color:#433780;text-align:center}.mock-option{padding:.9rem 1rem;border-radius:18px;display:flex;gap:.8rem;align-items:flex-start;cursor:pointer}
+.mock-choice:hover,.mock-chip:hover,.mock-option:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(79,68,122,.1)}.mock-choice.is-active,.mock-chip.is-active,.mock-option.is-active{border-color:rgba(111,104,187,.3);background:linear-gradient(180deg,rgba(246,244,255,.98),rgba(255,255,255,.95));box-shadow:0 18px 28px rgba(79,68,122,.12)}
+.mock-icon,.mock-index,.mock-letter{display:inline-flex;align-items:center;justify-content:center}.mock-icon{width:52px;height:52px;border-radius:18px;background:rgba(255,255,255,.82);font-size:1.2rem;color:#433780}.mock-index{width:42px;height:42px;border-radius:14px;background:rgba(241,237,255,.94);color:#483b7b;font-weight:900}.mock-letter{width:34px;height:34px;border-radius:12px;background:rgba(238,233,252,.94);color:#4a3c80;font-weight:900;flex-shrink:0}
+.mock-image{overflow:hidden;border-radius:18px;border:1px solid rgba(111,104,187,.12);background:rgba(245,244,255,.96)}.mock-image img{width:100%;display:block}
+.mock-option.correct{border-color:rgba(90,156,104,.7);background:rgba(241,251,244,.95)}.mock-option.wrong{border-color:rgba(214,104,83,.72);background:rgba(255,242,238,.95)}
+.mock-actions,.mock-summary-actions{display:flex;flex-wrap:wrap;gap:.75rem}.mock-btn,.mock-link{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:46px;padding:.8rem 1rem;border-radius:999px;text-decoration:none;font-weight:900}.mock-btn{border:none;background:linear-gradient(135deg,#8766d2,#5a48af);color:#fff}.mock-link{background:rgba(255,255,255,.86);border:1px solid rgba(111,104,187,.14);color:#56488a}
+.mock-summary{position:sticky;top:92px}.mock-summary-grid{display:grid;gap:.7rem}.mock-summary-item{padding:.88rem 1rem;border-radius:18px;border:1px solid rgba(111,104,187,.13);background:rgba(255,255,255,.82);display:grid;gap:.22rem}.mock-summary-item span{font-size:.86rem;color:#8a80a2}.mock-summary-item strong{color:var(--ink)}
+.mock-empty{padding:1rem;border-radius:20px;border:1px dashed rgba(111,104,187,.2);background:rgba(255,255,255,.7)}.mock-result[hidden]{display:none !important}
+@media (max-width:980px){.mock-layout{grid-template-columns:1fr}.mock-summary{position:static}}
 </style>
 
 <div class="mock-shell">
-    <section class="mock-hero">
-        <span class="mock-badge"><i class="fa-solid fa-file-signature"></i> 弱點模擬考</span>
-        <div>
-            <h1>把錯題本整理成一份可以直接作答的模擬考，先設定策略與範圍，再一次把最需要補救的地方抓出來。</h1>
-            <p>這裡會從你的錯題資料即時組卷。你可以先選題數、策略與科目，交卷後會看到分數、答題狀態、正解和完整詳解。</p>
-        </div>
-        <div class="mock-stats">
-            <div class="mock-stat"><span>待複習錯題</span><strong>{{ mistake_overview.unresolved_count }}</strong></div>
-            <div class="mock-stat"><span>今天到期</span><strong>{{ mistake_overview.due_count }}</strong></div>
-            <div class="mock-stat"><span>已掌握</span><strong>{{ mistake_overview.resolved_count }}</strong></div>
-            <div class="mock-stat"><span>本次考卷</span><strong>{{ mistakes|length }}</strong></div>
-        </div>
-    </section>
-
-    <div class="mock-layout">
-        <div class="mock-stack">
-            <section class="mock-card">
-                <div class="mock-head">
-                    <div>
-                        <h2>先設定這份模擬考</h2>
-                        <p>策略會決定怎麼從錯題本挑題；題數和科目則決定這份考卷的範圍。</p>
-                    </div>
-                    <span class="mock-pill"><i class="fa-solid fa-sliders"></i> 即時組卷</span>
-                </div>
-                <form method="get" action="{{ url_for('study.generate_exam') }}" class="mock-choice-grid">
-                    {% for option in exam_strategy_options %}
-                    <button type="submit" name="mode" value="{{ option.value }}" class="mock-choice" data-active="{{ option.value == selected_strategy }}">
-                        <div class="mock-choice-top"><span class="mock-icon"><i class="fa-solid fa-bullseye"></i></span><span class="mock-pill">{{ option.label }}</span></div>
-                        <p>{{ option.description }}</p>
-                        <input type="hidden" name="count" value="{{ selected_count }}">
-                        {% if selected_subject_slug %}<input type="hidden" name="subject" value="{{ selected_subject_slug }}">{% endif %}
-                    </button>
-                    {% endfor %}
-                </form>
-                <div class="mock-choice-grid" style="grid-template-columns:1fr 1fr;">
-                    <form method="get" action="{{ url_for('study.generate_exam') }}">
-                        <h2 style="font-size:1.1rem;">題數</h2>
-                        <div class="mock-chip-grid">
-                            {% for count in exam_count_options %}
-                            <button type="submit" name="count" value="{{ count }}" class="mock-chip" data-active="{{ count == selected_count }}">{{ count }} 題
-                                <input type="hidden" name="mode" value="{{ selected_strategy }}">
-                                {% if selected_subject_slug %}<input type="hidden" name="subject" value="{{ selected_subject_slug }}">{% endif %}
-                            </button>
-                            {% endfor %}
-                        </div>
-                    </form>
-                    <form method="get" action="{{ url_for('study.generate_exam') }}">
-                        <h2 style="font-size:1.1rem;">科目</h2>
-                        <div class="mock-choice-grid">
-                            <button type="submit" class="mock-choice" data-active="{{ not selected_subject_slug }}">
-                                <div class="mock-choice-top"><span class="mock-icon"><i class="fa-solid fa-layer-group"></i></span><span class="mock-pill">全部科目</span></div>
-                                <p>先混合目前待複習的所有錯題。</p>
-                                <input type="hidden" name="mode" value="{{ selected_strategy }}">
-                                <input type="hidden" name="count" value="{{ selected_count }}">
-                            </button>
-                            {% for subject in available_subjects %}
-                            <button type="submit" name="subject" value="{{ subject.slug }}" class="mock-choice" data-active="{{ subject.slug == selected_subject_slug }}">
-                                <div class="mock-choice-top"><span class="mock-icon"><i class="fa-solid fa-book"></i></span><span class="mock-pill">{{ subject.total - subject.resolved }} 題</span></div>
-                                <div><h3>{{ subject.label }}</h3><p>今天到期 {{ subject.due }} 題，已掌握 {{ subject.resolved }} 題。</p></div>
-                                <input type="hidden" name="mode" value="{{ selected_strategy }}">
-                                <input type="hidden" name="count" value="{{ selected_count }}">
-                            </button>
-                            {% endfor %}
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            {% if mistakes %}
-            <section class="mock-card">
-                <div class="mock-head">
-                    <div>
-                        <h2>開始作答</h2>
-                        <p>這份考卷會從你選到的範圍直接出題。全部作答後再交卷，就會在下面生成完整檢討。</p>
-                    </div>
-                    <span class="mock-pill"><i class="fa-solid fa-pen-ruler"></i> 本次 {{ mistakes|length }} 題</span>
-                </div>
-                <form id="exam-form" class="mock-question-list">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    {% for mistake in mistakes %}
-                    <article class="mock-question" data-question-id="{{ mistake.question.id }}">
-                        <div class="mock-question-top">
-                            <div class="mock-choice-top">
-                                <span class="mock-index">{{ loop.index }}</span>
-                                <span class="mock-pill"><i class="fa-solid fa-book"></i> {{ mistake.subject_label or mistake.question.subject }}</span>
-                            </div>
-                            <span class="mock-pill"><i class="fa-solid fa-repeat"></i> 錯 {{ mistake.mistake_count }} 次</span>
-                        </div>
-                        <p class="mock-question-text">{{ mistake.question.content_text }}</p>
-                        {% if mistake.content_image_href %}
-                        <div class="mock-question-image"><img src="{{ mistake.content_image_href }}" alt="題目圖片"></div>
-                        {% endif %}
-                        <div class="mock-choice-grid" style="grid-template-columns:1fr;">
-                            {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
-                            <label class="mock-option" data-answer="{{ label }}">
-                                <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}" required>
-                                <span class="mock-option-letter">{{ label }}</span>
-                                <span>{{ text or '' }}</span>
-                            </label>
-                            {% endfor %}
-                        </div>
-                    </article>
-                    {% endfor %}
-                    <div class="mock-actions">
-                        <a class="mock-link" href="{{ practice_href }}"><i class="fa-solid fa-arrow-left"></i> 回刷題控制台</a>
-                        <button type="submit" id="submit-exam-btn" class="mock-btn"><i class="fa-solid fa-check-double"></i> 交卷並看詳解</button>
-                    </div>
-                </form>
-            </section>
-
-            <section class="mock-card mock-result" id="exam-result" hidden>
-                <div class="mock-head">
-                    <div>
-                        <h2>模擬考檢討</h2>
-                        <p id="exam-feedback-text">交卷後，這裡會整理成績、答題狀態與逐題詳解。</p>
-                    </div>
-                    <span class="mock-pill"><i class="fa-solid fa-chart-line"></i> 交卷後更新</span>
-                </div>
-                <div class="mock-result-score">
-                    <div class="mock-score-box"><span>分數</span><strong id="score-percent">0</strong></div>
-                    <div class="mock-score-box"><span>答對</span><strong id="correct-count">0</strong></div>
-                    <div class="mock-score-box"><span>答錯</span><strong id="wrong-count">0</strong></div>
-                    <div class="mock-score-box"><span>總題數</span><strong id="total-count">{{ mistakes|length }}</strong></div>
-                </div>
-                <div class="mock-review-list" id="exam-review-list"></div>
-            </section>
-            {% else %}
-            <section class="mock-card">
-                <div class="mock-empty">目前沒有可用的錯題可以組模擬考。先從錯題本或會考練習補一些作答紀錄，再回來這裡組卷。</div>
-            </section>
-            {% endif %}
-        </div>
-
-        <aside class="mock-summary">
-            <div class="mock-head">
-                <div>
-                    <h2>這份考卷摘要</h2>
-                    <p>右邊只放你真正需要確認的資訊：策略、題數、科目和目前可用的錯題量。</p>
-                </div>
-                <span class="mock-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
-            </div>
-            <div class="mock-summary-grid">
-                <div class="mock-summary-item"><span>策略</span><strong>{{ exam_strategy_options|selectattr('value', 'equalto', selected_strategy)|map(attribute='label')|first or '智慧混合' }}</strong></div>
-                <div class="mock-summary-item"><span>題數</span><strong>{{ selected_count }} 題</strong></div>
-                <div class="mock-summary-item"><span>科目</span><strong>{% if selected_subject_slug %}{{ available_subjects|selectattr('slug', 'equalto', selected_subject_slug)|map(attribute='label')|first or '指定科目' }}{% else %}全部科目{% endif %}</strong></div>
-                <div class="mock-summary-item"><span>待複習題</span><strong>{{ mistake_overview.unresolved_count }} 題</strong></div>
-            </div>
-            <div class="mock-summary-actions">
-                <a class="mock-link" href="{{ url_for('study.mistakes', status='unresolved', subject=selected_subject_slug or '') }}"><i class="fa-solid fa-book-journal-whills"></i> 去看錯題本</a>
-                <a class="mock-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-house"></i> 回刷題控制台</a>
-            </div>
-        </aside>
+  <section class="mock-hero">
+    <span class="mock-badge"><i class="fa-solid fa-file-signature"></i> 模擬考</span>
+    <div>
+      <h1>先決定策略、題數和科目，再開始一場真正有方向的弱點模擬考。</h1>
+      <p>這裡只處理錯題本延伸出的模擬考。你可以先選今天要補哪一類題，再直接開始作答與檢討。</p>
     </div>
+    <div class="mock-stats">
+      <div class="mock-stat"><span>待處理錯題</span><strong>{{ mistake_overview.unresolved_count }}</strong></div>
+      <div class="mock-stat"><span>今天到期</span><strong>{{ mistake_overview.due_count }}</strong></div>
+      <div class="mock-stat"><span>已掌握</span><strong>{{ mistake_overview.resolved_count }}</strong></div>
+      <div class="mock-stat"><span>本次題目</span><strong>{{ mistakes|length }}</strong></div>
+    </div>
+  </section>
+
+  <div class="mock-layout">
+    <div class="mock-stack">
+      <section class="mock-card">
+        <div class="mock-head">
+          <div>
+            <h2>STEP 1. 選策略</h2>
+            <p>先決定這份模擬考的組卷邏輯，再往下選題數與科目。</p>
+          </div>
+          <span class="mock-pill"><i class="fa-solid fa-sliders"></i> 模擬考設定</span>
+        </div>
+        <div class="mock-choice-grid">
+          {% for option in exam_strategy_options %}
+          <a class="mock-choice{% if option.value == selected_strategy %} is-active{% endif %}" href="{{ url_for('study.generate_exam', mode=option.value, count=selected_count, subject=selected_subject_slug or '') }}">
+            <div class="mock-top">
+              <span class="mock-icon"><i class="fa-solid fa-bullseye"></i></span>
+              <span class="mock-pill">{{ option.label }}</span>
+            </div>
+            <p>{{ option.description }}</p>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="mock-card">
+        <div class="mock-head">
+          <div>
+            <h2>STEP 2. 選題數與科目</h2>
+            <p>先調整題數，再決定要不要集中在某一科。</p>
+          </div>
+          <span class="mock-pill"><i class="fa-solid fa-list-ol"></i> 題量控制</span>
+        </div>
+        <div class="mock-chip-grid">
+          {% for count in exam_count_options %}
+          <a class="mock-chip{% if count == selected_count %} is-active{% endif %}" href="{{ url_for('study.generate_exam', mode=selected_strategy, count=count, subject=selected_subject_slug or '') }}">{{ count }} 題</a>
+          {% endfor %}
+        </div>
+        <div class="mock-choice-grid">
+          <a class="mock-choice{% if not selected_subject_slug %} is-active{% endif %}" href="{{ url_for('study.generate_exam', mode=selected_strategy, count=selected_count) }}">
+            <div class="mock-top">
+              <span class="mock-icon"><i class="fa-solid fa-layer-group"></i></span>
+              <span class="mock-pill">全部科目</span>
+            </div>
+            <p>從目前待複習錯題中混合抽題，適合快速熱身。</p>
+          </a>
+          {% for subject in available_subjects %}
+          <a class="mock-choice{% if subject.slug == selected_subject_slug %} is-active{% endif %}" href="{{ url_for('study.generate_exam', mode=selected_strategy, count=selected_count, subject=subject.slug) }}">
+            <div class="mock-top">
+              <span class="mock-icon"><i class="fa-solid fa-book"></i></span>
+              <span class="mock-pill">{{ subject.total - subject.resolved }} 題</span>
+            </div>
+            <div>
+              <h3>{{ subject.label }}</h3>
+              <p>今天到期 {{ subject.due }} 題，已掌握 {{ subject.resolved }} 題。</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </section>
+
+      {% if mistakes %}
+      <section class="mock-card">
+        <div class="mock-head">
+          <div>
+            <h2>STEP 3. 作答</h2>
+            <p>這一份模擬考會直接根據你剛才的設定出題，送出後會得到完整檢討。</p>
+          </div>
+          <span class="mock-pill"><i class="fa-solid fa-pen-ruler"></i> 正式作答</span>
+        </div>
+        <form id="exam-form" class="mock-question-list">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          {% for mistake in mistakes %}
+          <article class="mock-question" data-question-id="{{ mistake.question.id }}">
+            <div class="mock-top">
+              <div class="mock-top">
+                <span class="mock-index">{{ loop.index }}</span>
+                <span class="mock-pill"><i class="fa-solid fa-book"></i> {{ mistake.subject_label or mistake.question.subject }}</span>
+              </div>
+              <span class="mock-pill"><i class="fa-solid fa-repeat"></i> 錯過 {{ mistake.mistake_count }} 次</span>
+            </div>
+            <p>{{ mistake.question.content_text }}</p>
+            {% if mistake.content_image_href %}
+            <div class="mock-image"><img src="{{ mistake.content_image_href }}" alt="題目圖片"></div>
+            {% endif %}
+            <div class="mock-question-list">
+              {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
+              <label class="mock-option" data-answer="{{ label }}">
+                <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}">
+                <span class="mock-letter">{{ label }}</span>
+                <span>{{ text or '' }}</span>
+              </label>
+              {% endfor %}
+            </div>
+          </article>
+          {% endfor %}
+          <div class="mock-actions">
+            <a class="mock-link" href="{{ practice_href }}"><i class="fa-solid fa-arrow-left"></i> 回刷題入口</a>
+            <button type="submit" id="submit-exam-btn" class="mock-btn"><i class="fa-solid fa-check-double"></i> 交卷並檢討</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="mock-card mock-result" id="exam-result" hidden>
+        <div class="mock-head">
+          <div>
+            <h2>模擬考結果</h2>
+            <p id="exam-feedback-text">交卷後會在這裡整理分數、答對答錯與逐題檢討。</p>
+          </div>
+          <span class="mock-pill"><i class="fa-solid fa-chart-line"></i> 完成後顯示</span>
+        </div>
+        <div class="mock-score-grid">
+          <div class="mock-summary-item"><span>分數</span><strong id="score-percent">0</strong></div>
+          <div class="mock-summary-item"><span>答對</span><strong id="correct-count">0</strong></div>
+          <div class="mock-summary-item"><span>答錯</span><strong id="wrong-count">0</strong></div>
+          <div class="mock-summary-item"><span>總題數</span><strong id="total-count">{{ mistakes|length }}</strong></div>
+        </div>
+        <div class="mock-review-list" id="exam-review-list"></div>
+      </section>
+      {% else %}
+      <section class="mock-card">
+        <div class="mock-empty">目前沒有可用來組模擬考的錯題。先去刷題或錯題本累積資料，再回來做模擬考。</div>
+      </section>
+      {% endif %}
+    </div>
+
+    <aside class="mock-summary">
+      <div class="mock-head">
+        <div>
+          <h2>這次設定</h2>
+          <p>右邊只保留這次模擬考最重要的設定，讓你不用在頁面裡反覆找資訊。</p>
+        </div>
+        <span class="mock-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
+      </div>
+      <div class="mock-summary-grid">
+        <div class="mock-summary-item"><span>策略</span><strong>{{ exam_strategy_options|selectattr('value', 'equalto', selected_strategy)|map(attribute='label')|first or '尚未選擇' }}</strong></div>
+        <div class="mock-summary-item"><span>題數</span><strong>{{ selected_count }} 題</strong></div>
+        <div class="mock-summary-item"><span>科目</span><strong>{% if selected_subject_slug %}{{ available_subjects|selectattr('slug', 'equalto', selected_subject_slug)|map(attribute='label')|first or '尚未選擇' }}{% else %}全部科目{% endif %}</strong></div>
+        <div class="mock-summary-item"><span>待處理錯題</span><strong>{{ mistake_overview.unresolved_count }} 題</strong></div>
+      </div>
+      <div class="mock-summary-actions">
+        <a class="mock-link" href="{{ url_for('study.mistakes', status='unresolved', subject=selected_subject_slug or '') }}"><i class="fa-solid fa-book-journal-whills"></i> 看錯題本</a>
+        <a class="mock-link" href="{{ practice_href }}"><i class="fa-solid fa-house"></i> 回刷題入口</a>
+      </div>
+    </aside>
+  </div>
 </div>
 
 {% if mistakes %}
 <script>
 (() => {
-    const examForm = document.getElementById('exam-form');
-    const submitExamBtn = document.getElementById('submit-exam-btn');
-    const examResult = document.getElementById('exam-result');
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-    const totalQuestions = {{ mistakes|length }};
+  const form = document.getElementById('exam-form');
+  const submitBtn = document.getElementById('submit-exam-btn');
+  const resultPanel = document.getElementById('exam-result');
+  const totalQuestions = {{ mistakes|length }};
 
-    function escapeHtml(value) {
-        return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    }
+  const escapeHtml = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 
-    document.querySelectorAll('.mock-option').forEach((option) => {
-        const input = option.querySelector('input[type="radio"]');
-        option.addEventListener('click', () => {
-            if (submitExamBtn.dataset.locked === 'true') return;
-            const card = option.closest('.mock-question');
-            card.querySelectorAll('.mock-option').forEach((node) => node.classList.remove('is-active'));
-            option.classList.add('is-active');
-            if (input) input.checked = true;
-        });
+  document.querySelectorAll('.mock-option').forEach((option) => {
+    option.addEventListener('click', () => {
+      if (submitBtn.dataset.locked === 'true') return;
+      const question = option.closest('.mock-question');
+      question.querySelectorAll('.mock-option').forEach((node) => node.classList.remove('is-active'));
+      option.classList.add('is-active');
+      const input = option.querySelector('input[type="radio"]');
+      if (input) input.checked = true;
+    });
+  });
+
+  function renderReview(results) {
+    const container = document.getElementById('exam-review-list');
+    container.innerHTML = results.map((item) => `
+      <article class="mock-review">
+        <div class="mock-top">
+          <div class="mock-top">
+            <span class="mock-index">${item.index}</span>
+            <span class="mock-pill">${escapeHtml(item.subject_label || item.subject)}</span>
+          </div>
+          <span class="mock-pill">${item.is_correct ? '答對' : '答錯'}</span>
+        </div>
+        <p>${escapeHtml(item.content_text)}</p>
+        ${item.content_image_href ? `<div class="mock-image"><img src="${escapeHtml(item.content_image_href)}" alt="題目圖片"></div>` : ''}
+        <div class="mock-score-grid">
+          <div class="mock-summary-item"><span>你的答案</span><strong>${escapeHtml(item.selected_answer)} ${item.selected_answer_text ? `・${escapeHtml(item.selected_answer_text)}` : ''}</strong></div>
+          <div class="mock-summary-item"><span>正確答案</span><strong>${escapeHtml(item.correct_answer)} ${item.correct_answer_text ? `・${escapeHtml(item.correct_answer_text)}` : ''}</strong></div>
+        </div>
+        <div class="mock-summary-item"><span>詳細解答</span><strong style="font-size:1rem;line-height:1.8;font-weight:700;">${escapeHtml(item.explanation)}</strong></div>
+      </article>
+    `).join('');
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const answers = {};
+    const questionIds = [];
+
+    document.querySelectorAll('.mock-question').forEach((card) => {
+      questionIds.push(card.dataset.questionId);
+      const checked = card.querySelector('input[type="radio"]:checked');
+      if (checked) answers[card.dataset.questionId] = checked.value;
     });
 
-    function renderReview(results) {
-        const reviewList = document.getElementById('exam-review-list');
-        reviewList.innerHTML = results.map((item) => `
-            <article class="mock-review">
-                <div class="mock-review-top">
-                    <div class="mock-choice-top">
-                        <span class="mock-index">${item.index}</span>
-                        <span class="mock-pill">${escapeHtml(item.subject_label || item.subject)}</span>
-                    </div>
-                    <span class="mock-pill">${item.is_correct ? '答對' : '答錯'}</span>
-                </div>
-                <p class="mock-review-text">${escapeHtml(item.content_text)}</p>
-                ${item.content_image_href ? `<div class="mock-review-image"><img src="${escapeHtml(item.content_image_href)}" alt="題目圖片"></div>` : ''}
-                <div class="mock-answer-grid">
-                    <div class="mock-answer-box"><strong>你的答案</strong><span>${escapeHtml(item.selected_answer)} ・ ${escapeHtml(item.selected_answer_text)}</span></div>
-                    <div class="mock-answer-box"><strong>正確答案</strong><span>${escapeHtml(item.correct_answer)} ・ ${escapeHtml(item.correct_answer_text)}</span></div>
-                </div>
-                <div class="mock-answer-box"><strong>詳細解答</strong><span>${escapeHtml(item.explanation)}</span></div>
-            </article>
-        `).join('');
+    if (Object.keys(answers).length !== totalQuestions) {
+      window.alert('還有題目尚未作答，請先完成全部題目再交卷。');
+      return;
     }
 
-    examForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const answers = {};
-        const questionIds = [];
-        document.querySelectorAll('.mock-question').forEach((card) => {
-            questionIds.push(card.dataset.questionId);
-            const checked = card.querySelector('input[type="radio"]:checked');
-            if (checked) answers[card.dataset.questionId] = checked.value;
-        });
-        if (Object.keys(answers).length !== totalQuestions) {
-            window.alert('請先完成所有題目再交卷。');
-            return;
-        }
+    submitBtn.dataset.locked = 'true';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中...';
 
-        submitExamBtn.disabled = true;
-        submitExamBtn.dataset.locked = 'true';
-        submitExamBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中';
+    try {
+      const response = await fetch('{{ url_for("study.generate_exam") }}?mode={{ selected_strategy }}&count={{ selected_count }}{% if selected_subject_slug %}&subject={{ selected_subject_slug }}{% endif %}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers, question_ids: questionIds }),
+      });
+      const data = await response.json();
+      if (!response.ok || data.status !== 'success') throw new Error(data.message || '批改失敗');
 
-        try {
-            const response = await fetch('{{ url_for("study.generate_exam", mode=selected_strategy, count=selected_count, subject=selected_subject_slug or "") }}', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ answers, question_ids: questionIds }),
-            });
-            const data = await response.json();
-            if (!response.ok || data.status !== 'success') throw new Error(data.message || data.error || '模擬考批改失敗');
-            document.getElementById('score-percent').textContent = `${data.score_percent} 分`;
-            document.getElementById('correct-count').textContent = data.correct_count;
-            document.getElementById('wrong-count').textContent = data.wrong_count;
-            document.getElementById('total-count').textContent = data.total_questions;
-            document.getElementById('exam-feedback-text').textContent = data.feedback;
-            document.querySelectorAll('.mock-option').forEach((node) => node.querySelector('input').disabled = true);
-            data.results.forEach((item) => {
-                const card = document.querySelector(`.mock-question[data-question-id="${item.question_id}"]`);
-                if (!card) return;
-                card.querySelectorAll('.mock-option').forEach((option) => {
-                    if (option.dataset.answer === item.correct_answer) option.classList.add('correct-answer');
-                    if (!item.is_correct && option.dataset.answer === item.selected_answer && item.selected_answer !== item.correct_answer) option.classList.add('wrong-answer');
-                });
-            });
-            renderReview(data.results);
-            examResult.hidden = false;
-            examResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            submitExamBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已完成批改';
-        } catch (error) {
-            submitExamBtn.disabled = false;
-            submitExamBtn.dataset.locked = 'false';
-            submitExamBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> 交卷並看詳解';
-            window.alert(error.message || '模擬考批改失敗，請稍後再試。');
-        }
-    });
+      document.getElementById('score-percent').textContent = `${data.score_percent}`;
+      document.getElementById('correct-count').textContent = `${data.correct_count}`;
+      document.getElementById('wrong-count').textContent = `${data.wrong_count}`;
+      document.getElementById('total-count').textContent = `${data.total_questions}`;
+      document.getElementById('exam-feedback-text').textContent = data.feedback || '已完成批改。';
+      renderReview(data.results || []);
+      resultPanel.hidden = false;
+      resultPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (error) {
+      window.alert(error.message || '模擬考批改失敗，請稍後再試。');
+    } finally {
+      submitBtn.dataset.locked = 'false';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> 交卷並檢討';
+    }
+  });
 })();
 </script>
 {% endif %}

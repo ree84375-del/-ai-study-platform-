@@ -1,302 +1,386 @@
 {% extends "base.html" %}
-{% block title %}會考練習檢討{% endblock %}
+{% block title %}會考練習結果{% endblock %}
 {% block content %}
 <style>
-    .cap-review-shell {
-        --review-bg: linear-gradient(180deg, rgba(251, 247, 239, 0.98), rgba(243, 237, 228, 0.98));
-        --review-border: rgba(194, 157, 78, 0.22);
-        --review-card: rgba(255, 255, 255, 0.92);
-        --review-ink: #2d251f;
-        --review-muted: #655a4d;
-        --review-shadow: 0 18px 42px rgba(54, 43, 27, 0.08);
-        display: grid;
-        gap: 1.2rem;
+  .cap-review-shell {
+    --review-bg: linear-gradient(180deg, rgba(251, 247, 239, 0.98), rgba(243, 237, 228, 0.98));
+    --review-card: rgba(255, 255, 255, 0.9);
+    --review-border: rgba(194, 157, 78, 0.22);
+    --review-ink: #2d251f;
+    --review-muted: #66594d;
+    --review-shadow: 0 18px 40px rgba(58, 44, 26, 0.08);
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-review-shell section,
+  .cap-review-shell article,
+  .cap-review-shell aside {
+    border-radius: 30px;
+    border: 1px solid var(--review-border);
+    background: var(--review-bg);
+    box-shadow: var(--review-shadow);
+  }
+
+  .cap-review-hero,
+  .cap-review-panel,
+  .review-card,
+  .cap-review-sidebar {
+    padding: 1.35rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-review-hero {
+    background:
+      radial-gradient(circle at top right, rgba(238, 191, 89, 0.3), transparent 28%),
+      radial-gradient(circle at left bottom, rgba(55, 79, 118, 0.16), transparent 24%),
+      var(--review-bg);
+  }
+
+  .cap-badge,
+  .cap-pill,
+  .cap-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    width: fit-content;
+    border-radius: 999px;
+    font-weight: 800;
+  }
+
+  .cap-badge {
+    padding: 0.48rem 0.9rem;
+    background: rgba(28, 44, 72, 0.94);
+    color: #fffaf2;
+  }
+
+  .cap-pill,
+  .cap-chip {
+    padding: 0.4rem 0.78rem;
+    background: rgba(255, 240, 202, 0.92);
+    color: #8d6632;
+    font-size: 0.9rem;
+  }
+
+  .cap-review-hero h1,
+  .cap-review-panel h2,
+  .review-card h3,
+  .cap-review-sidebar h2 {
+    margin: 0;
+    color: var(--review-ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-review-hero h1 {
+    font-size: clamp(1.95rem, 2.8vw, 2.75rem);
+    line-height: 1.14;
+  }
+
+  .cap-review-hero p,
+  .cap-review-panel p,
+  .review-card p,
+  .review-card li,
+  .cap-review-sidebar p {
+    margin: 0;
+    color: var(--review-muted);
+    line-height: 1.78;
+  }
+
+  .cap-head,
+  .cap-top,
+  .cap-actions,
+  .review-top,
+  .review-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .cap-link,
+  .cap-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 46px;
+    padding: 0.8rem 1rem;
+    border-radius: 999px;
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  .cap-link {
+    border: 1px solid rgba(74, 99, 140, 0.18);
+    background: rgba(255, 255, 255, 0.82);
+    color: #49617d;
+  }
+
+  .cap-btn {
+    border: none;
+    background: linear-gradient(135deg, #ebb24b, #d18d37);
+    color: #fffaf2;
+  }
+
+  .cap-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) 320px;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .cap-stack,
+  .cap-review-sidebar,
+  .review-list,
+  .review-option-grid,
+  .review-explanation-grid,
+  .review-answer-grid,
+  .cap-score-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-review-sidebar {
+    position: sticky;
+    top: 92px;
+  }
+
+  .cap-score-grid,
+  .cap-review-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .cap-score-card,
+  .cap-summary-card,
+  .review-context-box,
+  .review-visual-box,
+  .review-answer-box,
+  .review-option,
+  .review-explanation-item {
+    border-radius: 22px;
+    border: 1px solid rgba(74, 99, 140, 0.12);
+    background: rgba(255, 255, 255, 0.84);
+  }
+
+  .cap-score-card,
+  .cap-summary-card {
+    padding: 1rem;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .cap-score-card span,
+  .cap-summary-card span {
+    font-size: 0.88rem;
+    color: #8a775f;
+  }
+
+  .cap-score-card strong,
+  .cap-summary-card strong {
+    color: var(--review-ink);
+    font-size: 1.5rem;
+  }
+
+  .review-card {
+    background: var(--review-card);
+  }
+
+  .review-card.is-correct {
+    border-color: rgba(82, 153, 113, 0.26);
+    background: linear-gradient(180deg, rgba(244, 251, 246, 0.98), rgba(232, 246, 236, 0.98));
+  }
+
+  .review-card.is-wrong {
+    border-color: rgba(196, 98, 86, 0.24);
+    background: linear-gradient(180deg, rgba(255, 247, 245, 0.98), rgba(251, 236, 232, 0.98));
+  }
+
+  .review-context-box,
+  .review-visual-box,
+  .review-answer-box,
+  .review-option,
+  .review-explanation-item {
+    padding: 0.95rem;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .review-context-box strong,
+  .review-visual-box strong,
+  .review-answer-box strong,
+  .review-explanation-item strong {
+    color: #26415f;
+  }
+
+  .review-visual-box {
+    background: rgba(235, 243, 255, 0.88);
+    border-color: rgba(74, 99, 140, 0.18);
+  }
+
+  .review-option-grid {
+    gap: 0.75rem;
+  }
+
+  .review-option {
+    background: rgba(248, 244, 236, 0.9);
+    border-color: rgba(201, 165, 86, 0.14);
+  }
+
+  .review-option.is-correct {
+    border-color: rgba(82, 153, 113, 0.28);
+    background: rgba(232, 246, 236, 0.92);
+  }
+
+  .review-option.is-selected {
+    outline: 2px solid rgba(74, 99, 140, 0.18);
+  }
+
+  .review-option-head {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+
+  .review-option-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: rgba(42, 83, 145, 0.1);
+    color: #26466a;
+    font-weight: 700;
+  }
+
+  .review-answer-grid,
+  .review-explanation-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .review-image {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid rgba(74, 99, 140, 0.16);
+    background: #fff;
+    padding: 0.35rem;
+  }
+
+  .review-empty {
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px dashed rgba(74, 99, 140, 0.18);
+    background: rgba(255, 255, 255, 0.75);
+    color: var(--review-muted);
+  }
+
+  @media (max-width: 980px) {
+    .cap-layout {
+      grid-template-columns: 1fr;
     }
 
-    .cap-review-hero,
-    .cap-review-panel,
-    .review-card {
-        border-radius: 28px;
-        border: 1px solid var(--review-border);
-        background: var(--review-bg);
-        box-shadow: var(--review-shadow);
-        padding: 1.35rem;
+    .cap-review-sidebar {
+      position: static;
     }
-
-    .cap-review-hero {
-        display: grid;
-        gap: 0.95rem;
-        background:
-            radial-gradient(circle at top right, rgba(232, 182, 73, 0.26), transparent 28%),
-            radial-gradient(circle at left bottom, rgba(49, 73, 116, 0.15), transparent 24%),
-            var(--review-bg);
-    }
-
-    .cap-kicker,
-    .cap-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.48rem 0.88rem;
-        border-radius: 999px;
-        font-weight: 800;
-    }
-
-    .cap-kicker {
-        background: rgba(26, 40, 66, 0.94);
-        color: #fffaf2;
-        width: fit-content;
-    }
-
-    .cap-chip {
-        background: rgba(255, 242, 211, 0.92);
-        color: #8b6431;
-        font-size: 0.9rem;
-    }
-
-    .cap-review-hero h1,
-    .cap-review-panel h2,
-    .review-card h3 {
-        margin: 0;
-        color: var(--review-ink);
-        font-family: "Kaisei Tokumin", serif;
-    }
-
-    .cap-review-hero h1 {
-        font-size: clamp(1.9rem, 2.8vw, 2.7rem);
-        line-height: 1.15;
-    }
-
-    .cap-review-hero p,
-    .cap-review-panel p,
-    .review-card p,
-    .review-card li,
-    .review-card div {
-        color: var(--review-muted);
-        line-height: 1.78;
-    }
-
-    .cap-top-bar,
-    .cap-panel-head,
-    .review-meta,
-    .review-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .cap-link,
-    .cap-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        min-height: 46px;
-        padding: 0.75rem 1.15rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-decoration: none;
-    }
-
-    .cap-link {
-        border: 1px solid rgba(73, 98, 138, 0.18);
-        background: rgba(255, 255, 255, 0.82);
-        color: #49617d;
-    }
-
-    .cap-btn {
-        border: none;
-        background: linear-gradient(135deg, #ebb24b, #cf8b35);
-        color: #fffaf2;
-    }
-
-    .score-grid,
-    .review-list,
-    .review-answer-grid,
-    .review-explanation-grid {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .score-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-
-    .score-card {
-        border-radius: 22px;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.84);
-        border: 1px solid rgba(73, 98, 138, 0.12);
-        display: grid;
-        gap: 0.35rem;
-        color: var(--review-muted);
-    }
-
-    .score-card strong {
-        color: var(--review-ink);
-        font-size: 1.35rem;
-    }
-
-    .review-card {
-        display: grid;
-        gap: 1rem;
-        background: var(--review-card);
-    }
-
-    .review-card.is-correct {
-        border-color: rgba(82, 153, 113, 0.26);
-        background: linear-gradient(180deg, rgba(244, 251, 246, 0.98), rgba(232, 246, 236, 0.98));
-    }
-
-    .review-card.is-wrong {
-        border-color: rgba(196, 98, 86, 0.24);
-        background: linear-gradient(180deg, rgba(255, 247, 245, 0.98), rgba(251, 236, 232, 0.98));
-    }
-
-    .review-context,
-    .review-visual-box,
-    .review-answer-box,
-    .review-option,
-    .review-explanation-item {
-        padding: 0.95rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.82);
-        border: 1px solid rgba(73, 98, 138, 0.12);
-    }
-
-    .review-visual-box {
-        display: grid;
-        gap: 0.65rem;
-        background: rgba(236, 243, 255, 0.9);
-    }
-
-    .review-visual-box img {
-        width: 100%;
-        border-radius: 18px;
-        border: 1px solid rgba(73, 98, 138, 0.14);
-        background: #fff;
-    }
-
-    .review-answer-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    .review-answer-box strong,
-    .review-explanation-item strong,
-    .review-context strong,
-    .review-visual-box strong {
-        color: #23405d;
-    }
-
-    .review-option-grid {
-        display: grid;
-        gap: 0.7rem;
-    }
-
-    .review-option.is-correct {
-        border-color: rgba(82, 153, 113, 0.28);
-        background: rgba(232, 246, 236, 0.92);
-    }
-
-    .review-option.is-selected {
-        outline: 2px solid rgba(73, 98, 138, 0.2);
-    }
-
-    .review-option-body {
-        display: grid;
-        gap: 0.65rem;
-    }
-
-    .review-option-image {
-        width: 100%;
-        max-width: 520px;
-        border-radius: 16px;
-        border: 1px solid rgba(73, 98, 138, 0.16);
-        background: #fff;
-        padding: 0.35rem;
-    }
-
-    .review-option-note {
-        color: #5b5854;
-        line-height: 1.55;
-    }
-
-    .review-explanation-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    @media (max-width: 760px) {
-        .cap-review-hero,
-        .cap-review-panel,
-        .review-card {
-            border-radius: 24px;
-            padding: 1.15rem;
-        }
-    }
+  }
 </style>
 
 <div class="cap-review-shell">
-    <section class="cap-review-hero">
-        <span class="cap-kicker"><i class="fa-solid fa-chart-simple"></i> 會考練習檢討</span>
-        <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
-        <p>{{ feedback }}</p>
-        <div class="cap-top-bar">
-            <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
-                <span class="cap-chip"><i class="fa-solid fa-star"></i> {{ '%.1f'|format(score_percent) }} 分</span>
-                <span class="cap-chip"><i class="fa-solid fa-check"></i> {{ correct_count }} 題答對</span>
-                <span class="cap-chip"><i class="fa-solid fa-xmark"></i> {{ wrong_count }} 題答錯</span>
-            </div>
-            <div class="review-actions">
-                <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 返回會考入口</a>
-                <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-eye"></i> 回到預覽</a>
-                <a class="cap-btn" href="{{ retry_href }}"><i class="fa-solid fa-rotate-right"></i> 再練一次</a>
-            </div>
-        </div>
-    </section>
+  <section class="cap-review-hero">
+    <span class="cap-badge"><i class="fa-solid fa-chart-column"></i> 會考練習結果</span>
+    <div>
+      <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
+      <p>{{ feedback }}</p>
+    </div>
+    <div class="cap-score-grid">
+      <div class="cap-score-card">
+        <span>本次分數</span>
+        <strong>{{ '%.1f'|format(score_percent) }}</strong>
+      </div>
+      <div class="cap-score-card">
+        <span>答對題數</span>
+        <strong>{{ correct_count }}</strong>
+      </div>
+      <div class="cap-score-card">
+        <span>答錯題數</span>
+        <strong>{{ wrong_count }}</strong>
+      </div>
+      <div class="cap-score-card">
+        <span>未作答</span>
+        <strong>{{ unanswered_count }}</strong>
+      </div>
+    </div>
+    <div class="cap-actions">
+      <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-arrow-left"></i> 回設定頁</a>
+      <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-book-open"></i> 看完整預覽</a>
+      <a class="cap-btn" href="{{ retry_href }}"><i class="fa-solid fa-rotate-right"></i> 再練一次</a>
+    </div>
+  </section>
 
-    <section class="cap-review-panel">
-        <div class="cap-panel-head">
-            <div>
-                <h2>作答總覽</h2>
-                <p>成績以 100 分制計算，這裡會整理你的答題狀態、正確答案和每題解題重點。</p>
-            </div>
-            <span class="cap-chip"><i class="fa-solid fa-list-check"></i> {{ total_count }} 題</span>
+  <div class="cap-layout">
+    <div class="cap-stack">
+      <section class="cap-review-panel">
+        <div class="cap-head">
+          <div>
+            <h2>本次作答摘要</h2>
+            <p>先看整體，再往下逐題檢討。這裡會整理你這次的作答範圍、答題狀態與練習設定。</p>
+          </div>
+          <span class="cap-pill"><i class="fa-solid fa-list-check"></i> {{ total_count }} 題</span>
         </div>
-        <div class="score-grid">
-            <div class="score-card">已作答題數<strong>{{ answered_count }}</strong></div>
-            <div class="score-card">未作答題數<strong>{{ unanswered_count }}</strong></div>
-            <div class="score-card">本次練習題數<strong>{{ selected_count }}</strong></div>
-            <div class="score-card">設定時間<strong>{{ selected_duration }} 分鐘</strong></div>
+        <div class="cap-review-summary-grid">
+          <div class="cap-summary-card">
+            <span>已作答</span>
+            <strong>{{ answered_count }}</strong>
+          </div>
+          <div class="cap-summary-card">
+            <span>設定題數</span>
+            <strong>{{ selected_count }}</strong>
+          </div>
+          <div class="cap-summary-card">
+            <span>練習時間</span>
+            <strong>{{ selected_duration }} 分鐘</strong>
+          </div>
+          <div class="cap-summary-card">
+            <span>年份範圍</span>
+            <strong>{{ selected_years|join('、') }}</strong>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section class="review-list">
-        {% for item in review_items %}
-        <article class="review-card {% if item.is_correct %}is-correct{% else %}is-wrong{% endif %}">
-            <div class="review-meta">
-                <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
-                    <span class="cap-chip">第 {{ loop.index }} 題</span>
-                    <span class="cap-chip">{{ item.year }} 年 / 原卷第 {{ item.source_question_number }} 題</span>
-                    {% if item.group_label %}<span class="cap-chip">{{ item.group_label }}</span>{% endif %}
-                </div>
-                <span class="cap-chip">
-                    {% if item.is_correct %}
-                    <i class="fa-solid fa-circle-check"></i> 作答正確
-                    {% else %}
-                    <i class="fa-solid fa-circle-xmark"></i> 需要複習
-                    {% endif %}
-                </span>
+      <section class="review-list">
+        {% if review_items %}
+          {% for item in review_items %}
+          <article class="review-card {% if item.is_correct %}is-correct{% else %}is-wrong{% endif %}">
+            <div class="review-top">
+              <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+                <span class="cap-chip">第 {{ loop.index }} 題</span>
+                <span class="cap-chip">{{ item.year }} 年 / 原始題號 {{ item.source_question_number }}</span>
+                {% if item.group_label %}
+                <span class="cap-chip">{{ item.group_label }}</span>
+                {% endif %}
+              </div>
+              <span class="cap-chip">
+                {% if item.is_correct %}
+                <i class="fa-solid fa-circle-check"></i> 答對
+                {% else %}
+                <i class="fa-solid fa-circle-xmark"></i> 答錯
+                {% endif %}
+              </span>
             </div>
 
             {% if item.context %}
-            <div class="review-context">
-                <strong>題組說明</strong>
-                <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
-                {% if item.group_image_href %}
-                <img class="review-option-image" src="{{ item.group_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題組共用圖">
-                {% endif %}
+            <div class="review-context-box">
+              <strong>題組 / 閱讀素材</strong>
+              <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
+              {% if item.group_image_href %}
+              <img class="review-image" src="{{ item.group_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題組圖">
+              {% endif %}
             </div>
             {% endif %}
 
@@ -306,67 +390,113 @@
 
             {% if item.has_question_visual and item.question_image_href %}
             <div class="review-visual-box">
-                <strong>題目附圖</strong>
-                <div>
-                    {{ item.page_image_note }}
-                    <br>檢討時會同時保留題目文字與題目附圖，不需要再回整頁找內容。
-                </div>
-                <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
+              <strong>題目附圖</strong>
+              <p>{{ item.page_image_note }}</p>
+              <img class="review-image" src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題圖">
             </div>
             {% endif %}
 
             <div class="review-option-grid">
-                {% for option in item.options %}
-                <div class="review-option {% if option.is_correct %}is-correct{% endif %} {% if option.is_selected %}is-selected{% endif %}">
-                    <strong>{{ option.key }}</strong>
-                    <div class="review-option-body">
-                        {% if option.text %}
-                        <div>{{ option.text|replace('\n', '<br>')|safe }}</div>
-                        {% endif %}
-                        {% if option.image_href %}
-                        <img class="review-option-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
-                        {% endif %}
-                        {% if not option.text and not option.image_href %}
-                        <div class="review-option-note">此選項內容未能完整擷取。</div>
-                        {% endif %}
-                    </div>
+              {% for option in item.options %}
+              <div class="review-option {% if option.is_correct %}is-correct{% endif %} {% if option.is_selected %}is-selected{% endif %}">
+                <div class="review-option-head">
+                  <span class="review-option-key">{{ option.key }}</span>
+                  {% if option.is_correct %}
+                  <span class="cap-pill"><i class="fa-solid fa-circle-check"></i> 正確答案</span>
+                  {% endif %}
+                  {% if option.is_selected and not option.is_correct %}
+                  <span class="cap-pill"><i class="fa-solid fa-hand-point-right"></i> 你的選擇</span>
+                  {% endif %}
                 </div>
-                {% endfor %}
+                {% if option.text %}
+                <div>{{ option.text|replace('\n', '<br>')|safe }}</div>
+                {% endif %}
+                {% if option.image_href %}
+                <img class="review-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
+                {% endif %}
+                {% if not option.text and not option.image_href %}
+                <div>這個選項沒有可顯示的文字或圖片內容。</div>
+                {% endif %}
+              </div>
+              {% endfor %}
             </div>
 
             <div class="review-answer-grid">
-                <div class="review-answer-box">
-                    <strong>你的答案</strong>
-                    <div>{{ item.user_answer }}</div>
-                    {% if item.selected_option_text %}
-                    <div>{{ item.selected_option_text|replace('\n', '<br>')|safe }}</div>
-                    {% endif %}
-                    {% if item.selected_option_image_href %}
-                    <img class="review-option-image" src="{{ item.selected_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題你的選項 {{ item.selected_answer }}">
-                    {% endif %}
-                </div>
-                <div class="review-answer-box">
-                    <strong>正確答案</strong>
-                    <div>{{ item.correct_answer }}</div>
-                    {% if item.correct_option_text %}
-                    <div>{{ item.correct_option_text|replace('\n', '<br>')|safe }}</div>
-                    {% endif %}
-                    {% if item.correct_option_image_href %}
-                    <img class="review-option-image" src="{{ item.correct_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題正確選項 {{ item.correct_answer }}">
-                    {% endif %}
-                </div>
+              <div class="review-answer-box">
+                <strong>你的答案</strong>
+                <div>{{ item.selected_answer }}</div>
+                {% if item.selected_option_text %}
+                <div>{{ item.selected_option_text|replace('\n', '<br>')|safe }}</div>
+                {% endif %}
+                {% if item.selected_option_image_href %}
+                <img class="review-image" src="{{ item.selected_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題你的選項 {{ item.selected_answer }}">
+                {% endif %}
+              </div>
+              <div class="review-answer-box">
+                <strong>正確答案</strong>
+                <div>{{ item.correct_answer }}</div>
+                {% if item.correct_option_text %}
+                <div>{{ item.correct_option_text|replace('\n', '<br>')|safe }}</div>
+                {% endif %}
+                {% if item.correct_option_image_href %}
+                <img class="review-image" src="{{ item.correct_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題正確選項 {{ item.correct_answer }}">
+                {% endif %}
+              </div>
             </div>
 
+            {% if item.explanation_sections %}
             <div class="review-explanation-grid">
-                {% for section in item.explanation_sections %}
-                <div class="review-explanation-item">
-                    <strong>{{ section.title }}</strong>
-                    <div>{{ section.body|replace('\n', '<br>')|safe }}</div>
-                </div>
-                {% endfor %}
+              {% for section in item.explanation_sections %}
+              <div class="review-explanation-item">
+                <strong>{{ section.title }}</strong>
+                <div>{{ section.body|replace('\n', '<br>')|safe }}</div>
+              </div>
+              {% endfor %}
             </div>
-        </article>
-        {% endfor %}
-    </section>
+            {% endif %}
+          </article>
+          {% endfor %}
+        {% else %}
+          <div class="review-empty">這次沒有可顯示的檢討題目，請回到設定頁重新開始練習。</div>
+        {% endif %}
+      </section>
+    </div>
+
+    <aside class="cap-review-sidebar">
+      <div class="cap-head">
+        <div>
+          <h2>這次練習結論</h2>
+          <p>右邊先幫你整理重點，讓你不用整頁來回找資料，再往下看逐題檢討會更快。</p>
+        </div>
+        <span class="cap-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
+      </div>
+      <div class="cap-review-summary-grid">
+        <div class="cap-summary-card">
+          <span>科目</span>
+          <strong>{{ selected_subject.label }}</strong>
+        </div>
+        <div class="cap-summary-card">
+          <span>年份</span>
+          <strong>{{ selected_years|join('、') }}</strong>
+        </div>
+        <div class="cap-summary-card">
+          <span>答對率</span>
+          <strong>{{ '%.1f'|format(score_percent) }}%</strong>
+        </div>
+        <div class="cap-summary-card">
+          <span>需再複習</span>
+          <strong>{{ wrong_count }} 題</strong>
+        </div>
+      </div>
+      <div class="review-context-box">
+        先看答錯題和未作答題，這兩塊最能反映你目前還沒穩定掌握的觀念。如果是題組題，建議先回看題組素材，再看每一題的選項差異。
+      </div>
+      <div class="cap-actions">
+        <a class="cap-btn" href="{{ retry_href }}"><i class="fa-solid fa-pen-ruler"></i> 用同設定再練一次</a>
+        <a class="cap-link" href="{{ preview_href }}"><i class="fa-solid fa-book-open"></i> 回完整預覽</a>
+        <a class="cap-link" href="{{ hub_href }}"><i class="fa-solid fa-sliders"></i> 重新設定範圍</a>
+      </div>
+    </aside>
+  </div>
 </div>
 {% endblock %}
