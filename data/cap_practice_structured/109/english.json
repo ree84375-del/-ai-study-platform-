@@ -119,7 +119,51 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.089388,
+        "x1": 0.98,
+        "y1": 0.257255
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.089388,
+        "x1": 0.98,
+        "y1": 0.118583
+      },
+      "group_crop_box": {
+        "x0": 0.06,
+        "y0": 0.089388,
+        "x1": 0.98,
+        "y1": 0.118583
+      },
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.113723,
+          "x1": 0.98,
+          "y1": 0.131358
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.133791,
+          "x1": 0.98,
+          "y1": 0.151427
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.15386,
+          "x1": 0.98,
+          "y1": 0.171495
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.173928,
+          "x1": 0.98,
+          "y1": 0.257255
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分: 單題 (第1-15題，共15題)",
       "stem": "Look at the picture. The man is holding one of the _____.",
@@ -139,7 +183,46 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.257255,
+        "x1": 0.98,
+        "y1": 0.341197
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.257255,
+        "x1": 0.98,
+        "y1": 0.299226
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.301659,
+          "x1": 0.256904,
+          "y1": 0.341197
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.301659,
+          "x1": 0.437834,
+          "y1": 0.341197
+        },
+        "C": {
+          "x0": 0.437834,
+          "y0": 0.301659,
+          "x1": 0.61863,
+          "y1": 0.341197
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.301659,
+          "x1": 0.98,
+          "y1": 0.341197
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "My mom puts the _____ on to keep her hands away from water when she washes the dishes.",
@@ -159,7 +242,21 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.341197,
+        "x1": 0.98,
+        "y1": 0.426973
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.341197,
+        "x1": 0.98,
+        "y1": 0.370392
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Can you _____ your feet a little off the floor? I want to see if my keys are under the sofa.",
@@ -179,7 +276,46 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.426973,
+        "x1": 0.98,
+        "y1": 0.512749
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.426973,
+        "x1": 0.98,
+        "y1": 0.470778
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.473211,
+          "x1": 0.256904,
+          "y1": 0.512749
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.473211,
+          "x1": 0.437834,
+          "y1": 0.512749
+        },
+        "C": {
+          "x0": 0.437834,
+          "y0": 0.473211,
+          "x1": 0.61863,
+          "y1": 0.512749
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.473211,
+          "x1": 0.98,
+          "y1": 0.512749
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "_____ of my sisters are older than I am. I’m the youngest of the three children in my family.",
@@ -199,7 +335,34 @@
       "display_number": 5,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.512749,
+        "x1": 0.98,
+        "y1": 0.598525
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.512749,
+        "x1": 0.98,
+        "y1": 0.541944
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.515182,
+          "x1": 0.98,
+          "y1": 0.556554
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.558987,
+          "x1": 0.98,
+          "y1": 0.598525
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "The beach near our town is a very _____ place. Every summer at least one kid dies there in the water.",
@@ -219,7 +382,46 @@
       "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.598525,
+        "x1": 0.98,
+        "y1": 0.684301
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.598525,
+        "x1": 0.98,
+        "y1": 0.642331
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.644764,
+          "x1": 0.256904,
+          "y1": 0.684301
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.644764,
+          "x1": 0.437834,
+          "y1": 0.684301
+        },
+        "C": {
+          "x0": 0.437834,
+          "y0": 0.644764,
+          "x1": 0.61863,
+          "y1": 0.684301
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.644764,
+          "x1": 0.98,
+          "y1": 0.684301
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "My wife enjoys going to the movies with her friends, but I like to watch TV at home by _____.",
@@ -239,7 +441,34 @@
       "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.684301,
+        "x1": 0.98,
+        "y1": 0.770078
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.684301,
+        "x1": 0.98,
+        "y1": 0.713496
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.686734,
+          "x1": 0.98,
+          "y1": 0.728107
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.73054,
+          "x1": 0.98,
+          "y1": 0.770078
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "For the past twenty years, my father _____ in a school library. But he’ll leave the job next month.",
@@ -259,7 +488,34 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.770078,
+        "x1": 0.98,
+        "y1": 0.855854
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.770078,
+        "x1": 0.98,
+        "y1": 0.799273
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.794413,
+          "x1": 0.98,
+          "y1": 0.813883
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.816316,
+          "x1": 0.98,
+          "y1": 0.855854
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "It’s great that we can buy train tickets over the phone without going out. It _____ us a lot of time.",
@@ -279,7 +535,46 @@
       "display_number": 9,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\109\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.855854,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.855854,
+        "x1": 0.98,
+        "y1": 0.885049
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.880189,
+          "x1": 0.256926,
+          "y1": 0.985402
+        },
+        "B": {
+          "x0": 0.256926,
+          "y0": 0.880189,
+          "x1": 0.437856,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.880189,
+          "x1": 0.621381,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.621381,
+          "y0": 0.880189,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Mozart _____ his first music when he was only six years old.",
@@ -299,7 +594,34 @@
       "display_number": 10,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.141705
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.085124
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.080265,
+          "x1": 0.98,
+          "y1": 0.099734
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.102167,
+          "x1": 0.98,
+          "y1": 0.141705
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Jill: Have you decided _____ you will celebrate your 30th birthday? Sue: Yeah, I’m going to have a big barbecue party.",
@@ -319,7 +641,46 @@
       "display_number": 11,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.141705,
+        "x1": 0.98,
+        "y1": 0.205579
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.141705,
+        "x1": 0.98,
+        "y1": 0.1709
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.166041,
+          "x1": 0.256929,
+          "y1": 0.205579
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.166041,
+          "x1": 0.43786,
+          "y1": 0.205579
+        },
+        "C": {
+          "x0": 0.43786,
+          "y0": 0.166041,
+          "x1": 0.618655,
+          "y1": 0.205579
+        },
+        "D": {
+          "x0": 0.618655,
+          "y0": 0.166041,
+          "x1": 0.98,
+          "y1": 0.205579
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Alison doesn’t like _____ what to do. She only does things she wants to do.",
@@ -339,7 +700,34 @@
       "display_number": 12,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.205579,
+        "x1": 0.98,
+        "y1": 0.269452
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.205579,
+        "x1": 0.98,
+        "y1": 0.234774
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.208012,
+          "x1": 0.98,
+          "y1": 0.227481
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.229914,
+          "x1": 0.98,
+          "y1": 0.269452
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Josh has planned to make a trip to New York and _____ some of his friends there.",
@@ -359,7 +747,46 @@
       "display_number": 13,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.269452,
+        "x1": 0.98,
+        "y1": 0.355228
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.269452,
+        "x1": 0.98,
+        "y1": 0.313258
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.315691,
+          "x1": 0.256929,
+          "y1": 0.355228
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.315691,
+          "x1": 0.43786,
+          "y1": 0.355228
+        },
+        "C": {
+          "x0": 0.43786,
+          "y0": 0.315691,
+          "x1": 0.618655,
+          "y1": 0.355228
+        },
+        "D": {
+          "x0": 0.618655,
+          "y0": 0.315691,
+          "x1": 0.98,
+          "y1": 0.355228
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Ms. Johnson has been taking phone calls since she entered the office this morning. Just when she thought she could finally leave work, _____ call came in.",
@@ -379,7 +806,21 @@
       "display_number": 14,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.355228,
+        "x1": 0.98,
+        "y1": 0.441005
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.355228,
+        "x1": 0.98,
+        "y1": 0.399034
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "We were so sure that Jerry _____ well on the difficult job. His past experience in other work showed he was the right guy for it. So when he failed, no one believed it.",
@@ -399,7 +840,46 @@
       "display_number": 15,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\109\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.441005,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.441005,
+        "x1": 0.98,
+        "y1": 0.48481
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.487243,
+          "x1": 0.256951,
+          "y1": 0.985402
+        },
+        "B": {
+          "x0": 0.256951,
+          "y0": 0.487243,
+          "x1": 0.437882,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.437882,
+          "y0": 0.487243,
+          "x1": 0.618677,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.618677,
+          "y0": 0.487243,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "For Mike, the price is _____ important thing when he shops for jeans. He cares even more about the shape and the size of the pockets.",
@@ -419,7 +899,21 @@
       "display_number": 16,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\109\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.722309,
+        "x1": 0.98,
+        "y1": 0.786182
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.722309,
+        "x1": 0.98,
+        "y1": 0.751504
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "What is it in the reading?",
@@ -439,7 +933,21 @@
       "display_number": 17,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\109\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.786182,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.786182,
+        "x1": 0.98,
+        "y1": 0.815377
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "How does Dad feel“when it comes”?",
@@ -459,7 +967,46 @@
       "display_number": 18,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\109\\english\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.619163,
+        "x1": 0.98,
+        "y1": 0.743241
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.619163,
+        "x1": 0.98,
+        "y1": 0.648358
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.643498,
+          "x1": 0.98,
+          "y1": 0.661133
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.663566,
+          "x1": 0.98,
+          "y1": 0.681202
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.683635,
+          "x1": 0.98,
+          "y1": 0.70127
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.703703,
+          "x1": 0.98,
+          "y1": 0.743241
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Buffy’s friends?",
@@ -479,7 +1026,46 @@
       "display_number": 19,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\109\\english\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.743241,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.743241,
+        "x1": 0.98,
+        "y1": 0.772436
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.745674,
+          "x1": 0.98,
+          "y1": 0.785212
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.787645,
+          "x1": 0.98,
+          "y1": 0.80528
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.807713,
+          "x1": 0.98,
+          "y1": 0.825348
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.827781,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What do Buffy’s friends think about having a yard sale?",
@@ -500,6 +1086,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\109\\english\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "I have a lot of things I don’t need, so I’m\nthinking about having a yard sale. What do you think?\nHaving a yard sale is not easy. You have to collect things, put\nprices on them, put them out on tables and then wait for people\nto come. And usually you have to sell things at VERY low prices.\nFor all that time and work, you make very little money. Why not\njust sell your things online for higher prices?\nDebby’s right. But I think it’d be even better to just give your\nthings to people who need them. I just sent out a lot of things\nlast week.\nHey, I love yard sales! It’s a great chance to make big money if\nyou pick the right day. In my experience, Saturday is the best.",
       "stem": "agree with Albert. You can make money and meet interesting\npeople. I made some good friends at my last yard sale.\n(20-21)\nHere is an ad for Sunny Market.",
@@ -514,7 +1104,46 @@
       "display_number": 21,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\109\\english\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.64592,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.64592,
+        "x1": 0.98,
+        "y1": 0.675115
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.648353,
+          "x1": 0.98,
+          "y1": 0.687891
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.690324,
+          "x1": 0.98,
+          "y1": 0.707959
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.710392,
+          "x1": 0.98,
+          "y1": 0.728027
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.73046,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "From the ad, which is true about Sunny Sun pictures?",
@@ -535,6 +1164,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\109\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Sammy has 7 Sunny Sun pictures. She wants to get a Sunny Cup. How can she get one?",
@@ -554,7 +1187,46 @@
       "display_number": 23,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.723778,
+        "x1": 0.98,
+        "y1": 0.807716
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.723778,
+        "x1": 0.98,
+        "y1": 0.752973
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.74811,
+          "x1": 0.347438,
+          "y1": 0.765745
+        },
+        "B": {
+          "x0": 0.347438,
+          "y0": 0.74811,
+          "x1": 0.98,
+          "y1": 0.765745
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.768178,
+          "x1": 0.347691,
+          "y1": 0.807716
+        },
+        "D": {
+          "x0": 0.347691,
+          "y0": 0.768178,
+          "x1": 0.98,
+          "y1": 0.807716
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "★ Collect 10 pictures, and you can get any of\nthe desserts on the right for free!\n★ Collect 6 pictures, and you can buy a Sunny\nCup for $200, or any of the desserts on the\nright for $100!\nFrom Jan. 4 to Feb. 10, you can use Sunny\nSun pictures to get Sunny Cups or desserts.\nWith Sunny Sun pictures, you\ncan get one of the prizes below\nfor free or at low prices!!\nSunny Cup\nChocolate\nFruitcake\nIce cream\n(22-24)",
       "stem": "From the reading, which picture best shows the “bain-marie” way of working with chocolate?",
@@ -574,7 +1246,46 @@
       "display_number": 24,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.807716,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.807716,
+        "x1": 0.98,
+        "y1": 0.836911
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.832051,
+          "x1": 0.98,
+          "y1": 0.849687
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.85212,
+          "x1": 0.98,
+          "y1": 0.869755
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.872188,
+          "x1": 0.98,
+          "y1": 0.889823
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.892256,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What does them mean in the reading?",
@@ -595,6 +1306,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "From the reading, which is true about working with chocolate?",
@@ -615,6 +1330,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\109\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "myself love the name “bain-marie.” To make a “bain-marie,”\nyou need two pots, one bigger than the other.\nFirst, break the chocolate into small pieces and put them in the\nsmaller pot. Usually when making chocolate desserts, you’ll need to\nmix chocolate with butter and sugar. So if you do, put them in the\npot too.\nNow, half fill the bigger pot with warm water. Put the smaller\npot over the bigger one, and start to slowly mix the chocolate, the butter, and\nthe sugar together. Keep the water under 50ºC, or the chocolate may lose its\nshine. And make sure that no water goes in the smaller pot, or the chocolate will\nbecome hard and cannot be used.\nKeep mixing for about five to ten minutes, and the job is done. Easy, right?\n(25-27)",
@@ -629,7 +1348,46 @@
       "display_number": 27,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\109\\english\\page_08.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.811372,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.811372,
+        "x1": 0.98,
+        "y1": 0.840567
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.835696,
+          "x1": 0.98,
+          "y1": 0.853331
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.855764,
+          "x1": 0.98,
+          "y1": 0.873399
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.875832,
+          "x1": 0.98,
+          "y1": 0.893468
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.8959,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What does the news story say about the Yangs’ food truck?",
@@ -650,6 +1408,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\109\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when business is slack?",
@@ -670,6 +1432,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\109\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does that mean in the news story?",
@@ -690,6 +1456,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\109\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "Well, they hope one day there will be a\nblock with Taiwanese food in the city, just like there is a Chinatown, a Korea Town,\nand a Little Italy. And their bian-dang food truck might just help to make that happen.\nnational 國家的\n(28-30)\nThis is a letter by Selena Bieber to the students in her school.",
       "stem": "What problem is Selena Bieber trying to fix?",
@@ -710,6 +1480,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\109\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn from the letter?",
@@ -730,6 +1504,10 @@
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\109\\english\\page_10.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "Selena Bieber\nNorthville High School\nDo you feel it’s hard to get up early for school and even harder to listen\nwell in the first class at 8 a.m.? Well, this happens to most of us and is\nnot helpful for our learning!\nSome studies show that teenagers’ brains make melatonin, the hormone that\nhelps sleep, between 11 p.m. and 8 a.m. So it’s better for us to sleep during\nthese nine hours. But here comes the problem. We’re asked to get to school\nby 7:30 a.m. That means we have to get up before 7, when our brains\nshould still be sleeping. That’s why we’re always so tired and can’t think\nclearly in early morning classes. No clear head, no good learning, right?\nIf we can’t change how our body works, why can’t school start later? In\nthis way, we can not only sleep more but also learn better!\nWant to help us make it happen?\nVisit www.nvhsstudsup.org/later-better to learn more.",
       "stem": "Below is some information from another study. Do the ideas in Selena Bieber’s letter agree with the information?",
@@ -750,6 +1528,10 @@
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\109\\english\\page_11.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Kivalina?",
@@ -769,7 +1551,21 @@
       "display_number": 34,
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\109\\english\\page_12.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.304085,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.304085,
+        "x1": 0.98,
+        "y1": 0.33328
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when we say a place is uninhabitable?",
@@ -790,6 +1586,10 @@
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\109\\english\\page_12.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does the writer think about the Inuit people in Kivalina?",
@@ -810,6 +1610,10 @@
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\109\\english\\page_12.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does the reading say about the Arctic ice?",
@@ -829,7 +1633,46 @@
       "display_number": 37,
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\109\\english\\page_13.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.597849,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.597849,
+        "x1": 0.98,
+        "y1": 0.627044
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.600282,
+          "x1": 0.98,
+          "y1": 0.620353
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.622786,
+          "x1": 0.98,
+          "y1": 0.640421
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.642854,
+          "x1": 0.98,
+          "y1": 0.660489
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.662922,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -850,6 +1693,10 @@
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\109\\english\\page_13.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -870,6 +1717,10 @@
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\109\\english\\page_13.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -889,7 +1740,46 @@
       "display_number": 40,
       "page_number": 14,
       "page_image_path": "cap_practice_assets\\109\\english\\page_14.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.80103,
+        "x1": 0.98,
+        "y1": 0.894096
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.80103,
+        "x1": 0.98,
+        "y1": 0.830225
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.803463,
+          "x1": 0.98,
+          "y1": 0.822933
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.825366,
+          "x1": 0.98,
+          "y1": 0.843001
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.845434,
+          "x1": 0.98,
+          "y1": 0.863069
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.865502,
+          "x1": 0.98,
+          "y1": 0.894096
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -909,7 +1799,46 @@
       "display_number": 41,
       "page_number": 14,
       "page_image_path": "cap_practice_assets\\109\\english\\page_14.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.894096,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.894096,
+        "x1": 0.98,
+        "y1": 0.923291
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.896529,
+          "x1": 0.26596,
+          "y1": 0.985402
+        },
+        "B": {
+          "x0": 0.26596,
+          "y0": 0.896529,
+          "x1": 0.45613,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.45613,
+          "y0": 0.896529,
+          "x1": 0.637879,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.637879,
+          "y0": 0.896529,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",

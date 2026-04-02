@@ -117,7 +117,51 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.087791,
+        "x1": 0.98,
+        "y1": 0.251702
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.087791,
+        "x1": 0.98,
+        "y1": 0.116298
+      },
+      "group_crop_box": {
+        "x0": 0.06,
+        "y0": 0.087791,
+        "x1": 0.98,
+        "y1": 0.116298
+      },
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.111553,
+          "x1": 0.98,
+          "y1": 0.128773
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.131148,
+          "x1": 0.98,
+          "y1": 0.148368
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.150743,
+          "x1": 0.98,
+          "y1": 0.167963
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.170339,
+          "x1": 0.98,
+          "y1": 0.251702
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分: 單題 (第1-12題，共12題)",
       "stem": "Look at the picture. The girl drew two on the wall.",
@@ -137,7 +181,21 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.251702,
+        "x1": 0.98,
+        "y1": 0.31407
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.251702,
+        "x1": 0.98,
+        "y1": 0.280209
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "This dress is pretty, it does not look good on me.",
@@ -157,7 +215,21 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.31407,
+        "x1": 0.98,
+        "y1": 0.376438
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.31407,
+        "x1": 0.98,
+        "y1": 0.342577
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Getting up early on a cold morning is not easy, ?",
@@ -177,7 +249,46 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.376438,
+        "x1": 0.98,
+        "y1": 0.438806
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.376438,
+        "x1": 0.98,
+        "y1": 0.404945
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.4002,
+          "x1": 0.256907,
+          "y1": 0.438806
+        },
+        "B": {
+          "x0": 0.256907,
+          "y0": 0.4002,
+          "x1": 0.437835,
+          "y1": 0.438806
+        },
+        "C": {
+          "x0": 0.437835,
+          "y0": 0.4002,
+          "x1": 0.618615,
+          "y1": 0.438806
+        },
+        "D": {
+          "x0": 0.618615,
+          "y0": 0.4002,
+          "x1": 0.98,
+          "y1": 0.438806
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Tonight I’ll stay at the office until I the work.",
@@ -197,7 +308,34 @@
       "display_number": 5,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.438806,
+        "x1": 0.98,
+        "y1": 0.501174
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.438806,
+        "x1": 0.98,
+        "y1": 0.467313
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.441182,
+          "x1": 0.98,
+          "y1": 0.460192
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.462568,
+          "x1": 0.98,
+          "y1": 0.501174
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Charles a day in the department store looking for a hat for his wife.",
@@ -217,7 +355,21 @@
       "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.501174,
+        "x1": 0.98,
+        "y1": 0.563542
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.501174,
+        "x1": 0.98,
+        "y1": 0.529681
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Tom ten pounds over the past two months. He looks much thinner now.",
@@ -237,7 +389,46 @@
       "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.563542,
+        "x1": 0.98,
+        "y1": 0.62591
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.563542,
+        "x1": 0.98,
+        "y1": 0.592049
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.587304,
+          "x1": 0.256929,
+          "y1": 0.62591
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.587304,
+          "x1": 0.437856,
+          "y1": 0.62591
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.587304,
+          "x1": 0.618647,
+          "y1": 0.62591
+        },
+        "D": {
+          "x0": 0.618647,
+          "y0": 0.587304,
+          "x1": 0.98,
+          "y1": 0.62591
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -252,7 +443,46 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.62591,
+        "x1": 0.98,
+        "y1": 0.709664
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.62591,
+        "x1": 0.98,
+        "y1": 0.668683
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.671058,
+          "x1": 0.256929,
+          "y1": 0.709664
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.671058,
+          "x1": 0.437856,
+          "y1": 0.709664
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.671058,
+          "x1": 0.618647,
+          "y1": 0.709664
+        },
+        "D": {
+          "x0": 0.618647,
+          "y0": 0.671058,
+          "x1": 0.98,
+          "y1": 0.709664
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "don’t like any one of these three watches. Can you show me one?",
@@ -272,7 +502,34 @@
       "display_number": 9,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.709664,
+        "x1": 0.98,
+        "y1": 0.793419
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.709664,
+        "x1": 0.98,
+        "y1": 0.738171
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.71204,
+          "x1": 0.98,
+          "y1": 0.752437
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.754813,
+          "x1": 0.98,
+          "y1": 0.793419
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "The waiters are asked to be ; they should always smile and remember to say “Welcome” and “Please.”",
@@ -292,7 +549,46 @@
       "display_number": 10,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.793419,
+        "x1": 0.98,
+        "y1": 0.985746
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.793419,
+        "x1": 0.98,
+        "y1": 0.836192
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.838567,
+          "x1": 0.256929,
+          "y1": 0.985746
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.838567,
+          "x1": 0.437856,
+          "y1": 0.985746
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.838567,
+          "x1": 0.618647,
+          "y1": 0.985746
+        },
+        "D": {
+          "x0": 0.618647,
+          "y0": 0.838567,
+          "x1": 0.98,
+          "y1": 0.985746
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "On Children’s Day, Ms. Lee, a famous storybook writer, to Molly’s Bookstore to talk about her new book. My two little kids just can’t wait to see her.",
@@ -313,6 +609,10 @@
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\104\\english\\page_02.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "No one thought James would appear at Katie’s party. So when he , everyone was surprised and could not believe their eyes.",
@@ -332,7 +632,46 @@
       "display_number": 12,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.140658,
+        "x1": 0.98,
+        "y1": 0.695963
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.140658,
+        "x1": 0.98,
+        "y1": 0.183431
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.185806,
+          "x1": 0.34745,
+          "y1": 0.204817
+        },
+        "B": {
+          "x0": 0.34745,
+          "y0": 0.185806,
+          "x1": 0.98,
+          "y1": 0.204817
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.207193,
+          "x1": 0.347696,
+          "y1": 0.695963
+        },
+        "D": {
+          "x0": 0.347696,
+          "y0": 0.207193,
+          "x1": 0.98,
+          "y1": 0.695963
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "B&J Café known as the tallest building in town. However, O&G Restaurant became the tallest building in 2010.",
@@ -352,7 +691,46 @@
       "display_number": 13,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.695963,
+        "x1": 0.98,
+        "y1": 0.758331
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.695963,
+        "x1": 0.98,
+        "y1": 0.72447
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.698339,
+          "x1": 0.346549,
+          "y1": 0.71735
+        },
+        "B": {
+          "x0": 0.346549,
+          "y0": 0.698339,
+          "x1": 0.98,
+          "y1": 0.71735
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.719725,
+          "x1": 0.347696,
+          "y1": 0.758331
+        },
+        "D": {
+          "x0": 0.347696,
+          "y0": 0.719725,
+          "x1": 0.98,
+          "y1": 0.758331
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "Actor David Piper became tired of talking about the movie after he was interviewed about it many times.",
@@ -373,6 +751,10 @@
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -392,7 +774,40 @@
       "display_number": 15,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.553997,
+        "x1": 0.98,
+        "y1": 0.985746
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.553997,
+        "x1": 0.98,
+        "y1": 0.582504
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.539788,
+          "x1": 0.98,
+          "y1": 0.695963
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.698339,
+          "x1": 0.98,
+          "y1": 0.71735
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.719725,
+          "x1": 0.98,
+          "y1": 0.985746
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -413,6 +828,10 @@
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\104\\english\\page_03.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -432,7 +851,46 @@
       "display_number": 17,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.323725,
+        "x1": 0.98,
+        "y1": 0.774951
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.323725,
+        "x1": 0.98,
+        "y1": 0.417717
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.420092,
+          "x1": 0.98,
+          "y1": 0.582504
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.58488,
+          "x1": 0.98,
+          "y1": 0.60389
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.606266,
+          "x1": 0.98,
+          "y1": 0.625277
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.627652,
+          "x1": 0.98,
+          "y1": 0.774951
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -452,7 +910,46 @@
       "display_number": 18,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.774951,
+        "x1": 0.98,
+        "y1": 0.985746
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.774951,
+        "x1": 0.98,
+        "y1": 0.803458
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.777326,
+          "x1": 0.98,
+          "y1": 0.796337
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.798713,
+          "x1": 0.98,
+          "y1": 0.817724
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.820099,
+          "x1": 0.98,
+          "y1": 0.83911
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.841486,
+          "x1": 0.98,
+          "y1": 0.985746
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -473,6 +970,10 @@
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -493,6 +994,10 @@
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "It is much bigger, it is made of gas and it is burning hot. In\nheat as great as 1,000°C, life is not possible. What is worse, it rains glass. If",
@@ -508,6 +1013,10 @@
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\104\\english\\page_04.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "000°C does not kill you, glass rain will.\nEven so, finding this blue giant 18 . It is the first time that we have\nbeen able to see the color of an exoplanet. The color of a planet gives us\nideas about what is happening on it. While we have a long way to go before\nwe find a new planet to live on, finding a blue dot is a good start.\nexoplanet 系外行星 Solar System 太陽系\n(19-20)",
@@ -523,6 +1032,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\104\\english\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "On the order list, Ginny ordered a sandwich with cheese, a fruit milk shake, and a fruit drink without ice. How much did she have to pay for her food?",
@@ -543,6 +1056,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\104\\english\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Ginny wants to go to Howell’s Bowl again during Joy Time. When will she possibly go there?",
@@ -563,6 +1080,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "Tel: XXX-XXXX\nHowell’s Bowl\nOpen Hours:\n11:30 am - 11:30 pm\nTues. to Sun.\nJoy Time: 20% oﬀ\n2:00 - 4:00 pm\n9:30 - 11:30 pm\nx\nLast Saturday, Ginny and her friends had lunch at Howell’s Bowl. Here is their\norder, and the poster of the restaurant.\nposter 海報\n(21-23)\nBelow is how four students answered their teacher’s question in class.",
       "stem": "What question did the teacher most likely ask in class?",
@@ -583,6 +1104,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What do we know from the reading?",
@@ -603,6 +1128,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does them mean?",
@@ -623,6 +1152,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\104\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "like shopping and talking to people. I think I can learn how to do business.\nMaybe selling clothes is a good business for me.\nMy hobbies are playing computer games and making friends online. We often\nshare our funny stories by e-mail. I guess I will learn more about computers and\nmake super-smart computer programs.\nMy parents have kept lots of pets since I was little. We’ve experienced many\nthings together, good and bad, happy and sad. Those stories have always stayed\nin my mind. One day, I will share them with people by drawing and writing\nbooks.\nThough my mom and two sisters are all doctors, I’m sure I will stay as far away\nfrom a hospital as I can. I hate being sick, and I’m afraid of seeing sick people\nlooking weak and sad. I’ll keep strong by playing my favorite sport, tennis,\nevery day. One day I’ll join the national team and be another Lu Yen-Hsun.\nLily:\nRyan:\nBill:\nAnna:\nlikely 可能\n(24-25)",
@@ -638,6 +1171,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\104\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when someone is lousy at something?",
@@ -658,6 +1195,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\104\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn from the preface?",
@@ -678,6 +1219,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Below are the cards which four kids have taken since they began the game. Who has won the game?",
@@ -698,6 +1243,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about the game?",
@@ -718,6 +1267,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "Each player begins at\n.",
@@ -733,6 +1286,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "In each turn, first take one of the four cards\nto decide how many spaces\nto move:\nfor one space,\nfor two spaces,\nfor three spaces, and\nfor four\nspaces. Then follow the words next to the\n, if there is a\nat the place you\narrive at.",
@@ -748,6 +1305,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\104\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "The first one who gets to Dreamland wins the game. turn 回合 space 步、格\n(28-31)",
@@ -763,6 +1324,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does The idea mean in the reading?",
@@ -783,6 +1348,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What is the reading mostly about?",
@@ -803,6 +1372,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What do we know from the reading?",
@@ -823,6 +1396,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\104\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "minutes from clean water spend 12% more time at school than those who live an\nhour away. More time spent collecting water means less time for learning. For these\ngirls, “Knowledge is power” is not just words; it is a sad fact in real life. With less\ntime spent at school, their chances of getting well-paid jobs are small, and they often\nhave no voice in important matters, like who to marry. These girls are often married\ninto poor families. They have little money or knowledge to take care of their children,\nwho often end up dying young. For the baby girls who are lucky enough to live, their\nlife may still center around “water,” just like it did for their mothers.",
@@ -838,6 +1415,10 @@
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\104\\english\\page_10.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Families in the countries of Benin, Ghana, Guinea and Madagascar deal with the job of water-collecting the same way Tanzanian families do. From the reading, which chart best shows the fact?",
@@ -858,6 +1439,10 @@
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\104\\english\\page_11.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What is Garden House?",

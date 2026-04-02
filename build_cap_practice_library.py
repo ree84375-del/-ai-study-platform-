@@ -74,6 +74,9 @@ SCANNED_FALLBACK_LANGUAGES = {
     "english": "eng",
     "math": "eng",
 }
+OPTION_KEYS = ("A", "B", "C", "D")
+OPTION_MARKER_RE = re.compile(r"^[\(\[\{（]?\s*([ABCD])\s*[\)\]\}）\.．:]?$", re.IGNORECASE)
+QUESTION_NUMBER_RE = re.compile(r"^(\d{1,2})(?:[\.．、\)]?)$")
 
 
 def load_cap_manifest() -> dict:
@@ -602,6 +605,338 @@ def extract_question_band_texts(
     return extracted
 
 
+def normalize_option_marker_token(text: str) -> str:
+    token = normalize_whitespace(text).upper()
+    token = (
+        token.replace("（", "(")
+        .replace("）", ")")
+        .replace("【", "(")
+        .replace("】", ")")
+        .replace("．", ".")
+    )
+    match = OPTION_MARKER_RE.match(token)
+    if match:
+        return match.group(1)
+    if token in OPTION_KEYS:
+        return token
+    return ""
+
+
+def pdf_words_to_rows(page: fitz.Page) -> list[dict]:
+    rows: list[dict] = []
+    for word in page.get_text("words"):
+        text = normalize_whitespace(word[4])
+        if not text:
+            continue
+        rows.append(
+            {
+                "x0": float(word[0]),
+                "y0": float(word[1]),
+                "x1": float(word[2]),
+                "y1": float(word[3]),
+                "text": text,
+                "confidence": 100.0,
+                "source": "pdf",
+            }
+        )
+    return rows
+
+
+def normalize_crop_box_absolute(crop_box: dict | None, page_rect: fitz.Rect) -> tuple[float, float, float, float] | None:
+    if not crop_box:
+        return None
+    try:
+        return (
+            float(crop_box["x0"]) * float(page_rect.width),
+            float(crop_box["y0"]) * float(page_rect.height),
+            float(crop_box["x1"]) * float(page_rect.width),
+            float(crop_box["y1"]) * float(page_rect.height),
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def build_normalized_crop_box(
+    x0: float,
+    y0: float,
+    x1: float,
+    y1: float,
+    page_rect: fitz.Rect,
+) -> dict | None:
+    width = float(page_rect.width or 0)
+    height = float(page_rect.height or 0)
+    if width <= 0 or height <= 0:
+        return None
+
+    x0 = max(0.0, min(width, x0))
+    x1 = max(0.0, min(width, x1))
+    y0 = max(0.0, min(height, y0))
+    y1 = max(0.0, min(height, y1))
+    if x1 - x0 < width * 0.015 or y1 - y0 < height * 0.015:
+        return None
+
+    return {
+        "x0": round(x0 / width, 6),
+        "y0": round(y0 / height, 6),
+        "x1": round(x1 / width, 6),
+        "y1": round(y1 / height, 6),
+    }
+
+
+def get_cap_page_analysis(
+    document: fitz.Document,
+    page_cache: dict[int, dict],
+    page_number: int,
+    subject_slug: str,
+) -> dict:
+    analysis = page_cache.get(page_number)
+    if analysis:
+        return analysis
+
+    page = document[page_number - 1]
+    analysis = {
+        "page": page,
+        "page_rect": page.rect,
+        "pdf_rows": pdf_words_to_rows(page),
+        "ocr_rows": None,
+        "ocr_subject": subject_slug,
+    }
+    page_cache[page_number] = analysis
+    return analysis
+
+
+def ensure_cap_page_ocr_rows(analysis: dict, subject_slug: str) -> list[dict]:
+    if analysis.get("ocr_rows") is not None and analysis.get("ocr_subject") == subject_slug:
+        return analysis["ocr_rows"]
+
+    page = analysis["page"]
+    page_rect = analysis["page_rect"]
+    page_image = Image.open(io.BytesIO(render_page_png(page, dpi=300)))
+    image_width, image_height = page_image.size
+    rows = run_tesseract_tsv_on_image(
+        render_page_png(page, dpi=300),
+        languages=get_scanned_fallback_languages(subject_slug),
+        psm=6,
+    )
+    scaled_rows = []
+    for row in rows:
+        scaled_rows.append(
+            {
+                **row,
+                "x0": float(row["x0"]) * page_rect.width / image_width,
+                "y0": float(row["y0"]) * page_rect.height / image_height,
+                "x1": float(row["x1"]) * page_rect.width / image_width,
+                "y1": float(row["y1"]) * page_rect.height / image_height,
+            }
+        )
+    analysis["ocr_rows"] = scaled_rows
+    analysis["ocr_subject"] = subject_slug
+    return scaled_rows
+
+
+def find_question_number_rows(rows: list[dict], question_number: int, page_rect: fitz.Rect) -> list[dict]:
+    matches = []
+    number_text = str(question_number)
+    left_limit = float(page_rect.width) * 0.22
+    for row in rows:
+        text = normalize_whitespace(row.get("text", ""))
+        if not text or float(row.get("x0", 0)) > left_limit:
+            continue
+        match = QUESTION_NUMBER_RE.match(text)
+        if match and match.group(1) == number_text:
+            matches.append(row)
+            continue
+        if text == number_text:
+            matches.append(row)
+    return sorted(matches, key=lambda item: (item["y0"], item["x0"]))
+
+
+def infer_question_band_crop_box(
+    analysis: dict,
+    question_number: int,
+    fallback_crop_box: dict | None = None,
+) -> dict | None:
+    page_rect = analysis["page_rect"]
+    fallback_absolute = normalize_crop_box_absolute(fallback_crop_box, page_rect)
+    if fallback_absolute:
+        return build_normalized_crop_box(*fallback_absolute, page_rect)
+
+    question_rows = find_question_number_rows(analysis["pdf_rows"], question_number, page_rect)
+    if not question_rows:
+        question_rows = find_question_number_rows(
+            ensure_cap_page_ocr_rows(analysis, analysis.get("ocr_subject") or "chi_tra+eng"),
+            question_number,
+            page_rect,
+        )
+    if not question_rows:
+        return None
+
+    current_row = question_rows[0]
+    next_rows = find_question_number_rows(analysis["pdf_rows"], question_number + 1, page_rect)
+    if not next_rows:
+        next_rows = find_question_number_rows(
+            ensure_cap_page_ocr_rows(analysis, analysis.get("ocr_subject") or "chi_tra+eng"),
+            question_number + 1,
+            page_rect,
+        )
+    next_row = next_rows[0] if next_rows else None
+
+    top = max(0.0, float(current_row["y0"]) - 8.0)
+    bottom = float(next_row["y0"]) - 8.0 if next_row else float(page_rect.height) - 12.0
+    left = float(page_rect.width) * 0.06
+    right = float(page_rect.width) * 0.98
+    return build_normalized_crop_box(left, top, right, bottom, page_rect)
+
+
+def find_option_markers_in_band(
+    analysis: dict,
+    crop_box: dict | None,
+    subject_slug: str,
+) -> list[dict]:
+    if not crop_box:
+        return []
+
+    page_rect = analysis["page_rect"]
+    absolute = normalize_crop_box_absolute(crop_box, page_rect)
+    if not absolute:
+        return []
+    x0, y0, x1, y1 = absolute
+    marker_candidates: list[dict] = []
+
+    def collect(rows: list[dict]):
+        for row in rows:
+            if row["x0"] < x0 - 8 or row["x1"] > x1 + 8:
+                continue
+            if row["y0"] < y0 - 8 or row["y1"] > y1 + 8:
+                continue
+            marker_key = normalize_option_marker_token(row.get("text", ""))
+            if not marker_key:
+                continue
+            marker_candidates.append(
+                {
+                    "key": marker_key,
+                    "x0": float(row["x0"]),
+                    "y0": float(row["y0"]),
+                    "x1": float(row["x1"]),
+                    "y1": float(row["y1"]),
+                    "source": row.get("source", "pdf"),
+                }
+            )
+
+    collect(analysis["pdf_rows"])
+    if len({item["key"] for item in marker_candidates}) < 4:
+        collect(ensure_cap_page_ocr_rows(analysis, subject_slug))
+
+    deduped: list[dict] = []
+    seen: dict[str, dict] = {}
+    for candidate in sorted(marker_candidates, key=lambda item: (item["y0"], item["x0"])):
+        existing = seen.get(candidate["key"])
+        if existing is None:
+            seen[candidate["key"]] = candidate
+            deduped.append(candidate)
+            continue
+        same_line = abs(existing["y0"] - candidate["y0"]) <= 12
+        if same_line and candidate["x0"] < existing["x0"]:
+            seen[candidate["key"]] = candidate
+            deduped = [seen.get(item["key"], item) if item["key"] == candidate["key"] else item for item in deduped]
+    return sorted(deduped, key=lambda item: (item["y0"], item["x0"]))
+
+
+def classify_option_marker_layout(markers: list[dict]) -> str:
+    if len(markers) < 2:
+        return "single"
+
+    sorted_markers = sorted(markers, key=lambda item: (item["y0"], item["x0"]))
+    row_groups: list[list[dict]] = []
+    tolerance = 14.0
+    for marker in sorted_markers:
+        if not row_groups or abs(row_groups[-1][0]["y0"] - marker["y0"]) > tolerance:
+            row_groups.append([marker])
+        else:
+            row_groups[-1].append(marker)
+
+    if len(row_groups) == 1:
+        return "horizontal"
+    if len(row_groups) == 2 and all(len(group) <= 2 for group in row_groups):
+        return "grid"
+    return "vertical"
+
+
+def build_question_and_option_crop_boxes(
+    analysis: dict,
+    crop_box: dict | None,
+    markers: list[dict],
+) -> tuple[dict | None, dict[str, dict], str]:
+    if not crop_box:
+        return None, {}, "none"
+
+    page_rect = analysis["page_rect"]
+    absolute = normalize_crop_box_absolute(crop_box, page_rect)
+    if not absolute:
+        return crop_box, {}, "none"
+    band_x0, band_y0, band_x1, band_y1 = absolute
+
+    if not markers:
+        return crop_box, {}, "single"
+
+    layout = classify_option_marker_layout(markers)
+    question_crop_box = crop_box
+    option_crop_boxes: dict[str, dict] = {}
+    top_marker = min(markers, key=lambda item: item["y0"])
+    question_bottom = max(band_y0 + 24.0, top_marker["y0"] - 8.0)
+    inferred_question_crop = build_normalized_crop_box(band_x0, band_y0, band_x1, question_bottom, page_rect)
+    if inferred_question_crop:
+        question_crop_box = inferred_question_crop
+
+    if layout == "vertical":
+        ordered = sorted(markers, key=lambda item: item["y0"])
+        for index, marker in enumerate(ordered):
+            next_y = ordered[index + 1]["y0"] - 8.0 if index + 1 < len(ordered) else band_y1
+            option_box = build_normalized_crop_box(
+                band_x0,
+                marker["y0"] - 6.0,
+                band_x1,
+                next_y,
+                page_rect,
+            )
+            if option_box:
+                option_crop_boxes[marker["key"]] = option_box
+        return question_crop_box, option_crop_boxes, layout
+
+    if layout in {"horizontal", "grid"}:
+        row_groups: list[list[dict]] = []
+        tolerance = 14.0
+        for marker in sorted(markers, key=lambda item: (item["y0"], item["x0"])):
+            if not row_groups or abs(row_groups[-1][0]["y0"] - marker["y0"]) > tolerance:
+                row_groups.append([marker])
+            else:
+                row_groups[-1].append(marker)
+
+        for row_index, row_group in enumerate(row_groups):
+            row_group = sorted(row_group, key=lambda item: item["x0"])
+            row_top = row_group[0]["y0"] - 6.0
+            row_bottom = row_groups[row_index + 1][0]["y0"] - 8.0 if row_index + 1 < len(row_groups) else band_y1
+            boundaries = [band_x0]
+            centers = [((marker["x0"] + marker["x1"]) / 2.0) for marker in row_group]
+            for index in range(len(centers) - 1):
+                boundaries.append((centers[index] + centers[index + 1]) / 2.0)
+            boundaries.append(band_x1)
+
+            for index, marker in enumerate(row_group):
+                option_box = build_normalized_crop_box(
+                    boundaries[index],
+                    row_top,
+                    boundaries[index + 1],
+                    row_bottom,
+                    page_rect,
+                )
+                if option_box:
+                    option_crop_boxes[marker["key"]] = option_box
+        return question_crop_box, option_crop_boxes, layout
+
+    return question_crop_box, option_crop_boxes, layout
+
+
 def extract_scanned_fallback_question_chunks(
     pdf_path: Path,
     year: str,
@@ -867,6 +1202,13 @@ def should_prioritize_visual(year: str, subject_slug: str, stem: str, options: d
     return readable_chars < 24 or suspicious_chars > 0
 
 
+def should_extract_option_visuals(question_payload: dict) -> bool:
+    options = question_payload.get("options") or {}
+    if question_payload.get("visual_primary"):
+        return True
+    return any(not normalize_whitespace(options.get(key, "")) for key in OPTION_KEYS)
+
+
 def infer_missing_question_page(
     candidate_buckets: dict[int, list[dict]],
     missing_number: int,
@@ -1053,52 +1395,83 @@ def build_cap_structure_for_subject(
                 }
             )
 
-    for normalized_number in sorted(candidate_buckets):
-        candidates = sorted(
-            candidate_buckets[normalized_number],
-            key=lambda item: (item["candidate_score"], len(item["options"]), len(item["stem"])),
-            reverse=True,
-        )
-        best = candidates[0]
-        crop_box = best.get("crop_box")
-        if not crop_box:
-            for candidate in candidates:
-                if candidate.get("crop_box"):
-                    crop_box = candidate["crop_box"]
-                    break
-        question_payload = {
-            "number": best["number"],
-            "source_number": best["source_number"],
-            "display_number": len(questions) + 1,
-            "page_number": best["page_number"],
-            "page_image_path": best["page_image_path"],
-            "crop_box": crop_box,
-            "parse_status": best["parse_status"],
-            "context": best["context"],
-            "stem": best["stem"],
-            "options": best["options"],
-            "correct_answer": best["correct_answer"],
-        }
-        question_payload["visual_primary"] = should_prioritize_visual(
-            year,
-            subject_slug,
-            question_payload["stem"],
-            question_payload["options"],
-            question_payload["parse_status"],
-        )
-        if best["correct_answer"]:
-            answered_count += 1
-            question_payload["explanation"] = build_local_cap_explanation(subject_label, year, question_payload)
-        else:
-            question_payload["explanation"] = "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
-            issues.append(
-                {
-                    "question_number": best["source_number"],
-                    "display_source_number": normalized_number,
-                    "reason": "missing_answer",
-                }
+    page_cache: dict[int, dict] = {}
+    with fitz.open(pdf_path) as source_document:
+        for normalized_number in sorted(candidate_buckets):
+            candidates = sorted(
+                candidate_buckets[normalized_number],
+                key=lambda item: (item["candidate_score"], len(item["options"]), len(item["stem"])),
+                reverse=True,
             )
-        questions.append(question_payload)
+            best = candidates[0]
+            crop_box = best.get("crop_box")
+            if not crop_box:
+                for candidate in candidates:
+                    if candidate.get("crop_box"):
+                        crop_box = candidate["crop_box"]
+                        break
+            question_payload = {
+                "number": best["number"],
+                "source_number": best["source_number"],
+                "display_number": len(questions) + 1,
+                "page_number": best["page_number"],
+                "page_image_path": best["page_image_path"],
+                "crop_box": crop_box,
+                "question_crop_box": crop_box,
+                "group_crop_box": None,
+                "option_crop_boxes": {},
+                "option_layout": "none",
+                "parse_status": best["parse_status"],
+                "context": best["context"],
+                "stem": best["stem"],
+                "options": best["options"],
+                "correct_answer": best["correct_answer"],
+            }
+            question_payload["visual_primary"] = should_prioritize_visual(
+                year,
+                subject_slug,
+                question_payload["stem"],
+                question_payload["options"],
+                question_payload["parse_status"],
+            )
+
+            page_number = question_payload.get("page_number")
+            if page_number:
+                analysis = get_cap_page_analysis(source_document, page_cache, page_number, subject_slug)
+                band_crop_box = infer_question_band_crop_box(
+                    analysis,
+                    int(best["source_number"]),
+                    fallback_crop_box=crop_box,
+                )
+                if band_crop_box:
+                    question_payload["crop_box"] = band_crop_box
+                    question_payload["question_crop_box"] = band_crop_box
+                    markers = find_option_markers_in_band(analysis, band_crop_box, subject_slug)
+                    question_crop_box, option_crop_boxes, option_layout = build_question_and_option_crop_boxes(
+                        analysis,
+                        band_crop_box,
+                        markers,
+                    )
+                    question_payload["question_crop_box"] = question_crop_box or band_crop_box
+                    question_payload["option_layout"] = option_layout
+                    if should_extract_option_visuals(question_payload):
+                        question_payload["option_crop_boxes"] = option_crop_boxes
+                    if question_payload["context"] and question_has_visual_reference(question_payload):
+                        question_payload["group_crop_box"] = question_payload["question_crop_box"]
+
+            if best["correct_answer"]:
+                answered_count += 1
+                question_payload["explanation"] = build_local_cap_explanation(subject_label, year, question_payload)
+            else:
+                question_payload["explanation"] = "這題的官方答案目前還在補查中，先用預覽模式閱讀題目與選項。"
+                issues.append(
+                    {
+                        "question_number": best["source_number"],
+                        "display_source_number": normalized_number,
+                        "reason": "missing_answer",
+                    }
+                )
+            questions.append(question_payload)
 
     raw_question_numbers = [
         normalize_subject_question_number(year, subject_slug, item["number"])

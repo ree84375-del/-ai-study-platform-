@@ -87,7 +87,26 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\111\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.092459,
+        "x1": 0.98,
+        "y1": 0.288106
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.092459,
+        "x1": 0.98,
+        "y1": 0.141119
+      },
+      "group_crop_box": {
+        "x0": 0.06,
+        "y0": 0.092459,
+        "x1": 0.98,
+        "y1": 0.141119
+      },
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分：選擇題 (1 ～ 25 題)",
       "stem": "圖( 一) 數線上的 A、B、C、D 四點所表示的數分別為 a、b、c、d，且 O 為 原點。根據圖中各點的位置判斷，下列何者的值最小？",
@@ -107,7 +126,21 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\111\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.288106,
+        "x1": 0.98,
+        "y1": 0.457402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.288106,
+        "x1": 0.98,
+        "y1": 0.317301
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "計算多項式 6x2 + 4x 除以 2x2 後，得到的餘式為何？",
@@ -128,6 +161,10 @@
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\111\\math\\page_02.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "下列何者為 156 的質因數？",
@@ -147,7 +184,21 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\111\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.334109,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.334109,
+        "x1": 0.98,
+        "y1": 0.363304
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 二) 為一個長方體的展開圖，且長方體的底面為 正方形。根據圖中標示的長度，求此長方體的體積 為何？",
@@ -167,7 +218,21 @@
       "display_number": 5,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\111\\math\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.064347,
+        "x1": 0.98,
+        "y1": 0.331443
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.064347,
+        "x1": 0.98,
+        "y1": 0.105812
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "算式 9 22 + 11 18 − ( 23 22 − 7 18 ) 之值為何？",
@@ -187,7 +252,21 @@
       "display_number": 6,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\111\\math\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.331443,
+        "x1": 0.98,
+        "y1": 0.501159
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.331443,
+        "x1": 0.98,
+        "y1": 0.360638
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "2022 的值介於下列哪兩個數之間？",
@@ -207,7 +286,21 @@
       "display_number": 7,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\111\\math\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.501159,
+        "x1": 0.98,
+        "y1": 0.621162
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.501159,
+        "x1": 0.98,
+        "y1": 0.530354
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "已知坐標平面上有一直線 L 與一點 A。若 L 的方程式為 x = −2，A 點坐標為 (6 , 5 )，則 A 點到直線 L 的距離為何？",
@@ -228,6 +321,10 @@
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\111\\math\\page_03.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "多項式 39x2 + 5x −14 可因式分解成 ( 3x + a )( bx + c )，其中 a、b、c 均為 整數，求 a + 2c 之值為何？",
@@ -247,7 +344,21 @@
       "display_number": 9,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\111\\math\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.368635
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.182428
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "箱子內有分別標示號碼 1 ~ 6 的球，每個號碼各 2 顆，總共 12 顆。已知小茹先 從箱內抽出 5 顆球且不將球放回箱內，這 5 顆球的號碼分別是 1、 2、2、3、5。 今阿純打算從此箱內剩下的球中抽出 1 顆球，若箱內剩下的每顆球被他抽出 的機會相等，則他抽出的球的號碼，與小茹已抽出的 5 顆球中任意一顆球 的號碼相同的機率是多少？",
@@ -267,7 +378,21 @@
       "display_number": 10,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\111\\math\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.368635,
+        "x1": 0.98,
+        "y1": 0.563271
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.368635,
+        "x1": 0.98,
+        "y1": 0.39783
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "已知一元二次方程式 ( x − 2 )2 = 3 的兩根為 a、b，且 a > b，求 2a + b 之值 為何？",
@@ -287,7 +412,21 @@
       "display_number": 11,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\111\\math\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.563271,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.563271,
+        "x1": 0.98,
+        "y1": 0.611931
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "根據圖( 三) 中兩人的對話紀錄，求 出哥哥買遊戲機的預算為多少元？",
@@ -307,7 +446,21 @@
       "display_number": 12,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\111\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.056425,
+        "x1": 0.98,
+        "y1": 0.243266
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.056425,
+        "x1": 0.98,
+        "y1": 0.08562
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "已知 p = 7.52 × 10− 6，下列關於 p 值的敘述何者正確？",
@@ -327,7 +480,21 @@
       "display_number": 13,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\111\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.243266,
+        "x1": 0.98,
+        "y1": 0.437902
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.243266,
+        "x1": 0.98,
+        "y1": 0.272461
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 四)，AB 為圓 O 的一弦，且 C 點在 AB 上。若 AC = 6， BC = 2，AB 的弦心距為 3，則 OC 的長度為何？",
@@ -347,7 +514,21 @@
       "display_number": 14,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\111\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.437902,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.437902,
+        "x1": 0.98,
+        "y1": 0.812574
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "某國主計處調查 2017 年該國所有受僱員工的年薪資料，並公布調查結果如 圖( 五) 的直方圖所示。 已知總調查人數為 750 萬人，根據圖中資訊計算，該國受僱員工年薪低於平均數 的人數占總調查人數的百分率為下列何者？",
@@ -368,6 +549,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\111\\math\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "30 25 20 18 16 14 12 10 9 8 8 7 6\n5 5\n80 80\n2017ԃڙႿ঩πԃᖒϩѲ\nѳ֡ኧ\n60࿤ϡ\n( )\n(࿤ϡ)\nΓ\nኧ\nԃᖒ\nຏǺҗܭހय़ज़ڋǴคݤᡉҢԃᖒ144࿤ϡа΢ޑڙႿ঩πၗ਑\n࿤\nΓ",
@@ -382,7 +567,21 @@
       "display_number": 16,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\111\\math\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.420872,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.420872,
+        "x1": 0.98,
+        "y1": 0.63982
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 六)，∆ABC 中，D 點在 AB 上，E 點在 BC 上，DE 為 AB 的中垂線。若 ∠B = ∠C，且 ∠EAC > 90°，則根據圖中標示的角， 判斷下列敘述何者正確？",
@@ -403,6 +602,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\111\\math\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "緩降機是火災發生時避難的逃生設備， 圖( 七) 是廠商提供的緩降機安裝示意 圖，圖中呈現在三樓安裝緩降機時，使 用此緩降機直接緩降到一樓地面的所需 繩長( 不計安全帶)。若某棟建築的每個 樓層高度皆為 3 公尺，則根據圖( 七) 的安裝方式在該建築八樓安裝緩降機 時，使用此緩降機直接緩降到一樓地面 的所需繩長( 不計安全帶) 為多少公尺？",
@@ -422,7 +625,21 @@
       "display_number": 18,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\111\\math\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.396542,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.396542,
+        "x1": 0.98,
+        "y1": 0.664171
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 八) 為兩直線 L、M 與 ∆ABC 相交的情形，其中 L、M 分別與 BC、AB 平行。根據圖中標示的角度， 求 ∠B 的度數為何？",
@@ -443,6 +660,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\111\\math\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "某鞋店正舉辦開學特惠活動，圖( 九) 為活動說明。 小徹打算在該店同時購買一雙球鞋及一雙皮鞋，且他有一張所有購買的商品 定價皆打 8 折的折價券。若小徹計算後發現使用折價券與參加特惠活動兩者 的花費相差 50 元，則下列敘述何者正確？",
@@ -462,7 +683,21 @@
       "display_number": 20,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\111\\math\\page_08.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.347883,
+        "x1": 0.98,
+        "y1": 0.664167
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.347883,
+        "x1": 0.98,
+        "y1": 0.377078
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 十)，∆ABC 的重心為 G， BC 的 中點為 D， 今以 G 為圓心， GD 長為半徑 畫一圓，且作 A 點到圓 G 的兩切線段 AE、 AF，其中 E、F 均為切點。根據圖中標示的 角與角度，求 ∠1 與 ∠2 的度數和為多少？",
@@ -482,7 +717,21 @@
       "display_number": 21,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\111\\math\\page_08.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.664167,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.664167,
+        "x1": 0.98,
+        "y1": 0.761481
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 十一) 為一張正三角形紙片 ABC，其中 D 點在 AB 上，E 點在 BC 上。 今以 DE 為摺線將 B 點往右摺後，BD、BE 分別與 AC 相交於 F 點、G 點， 如圖( 十二) 所示。若 AD = 10，AF = 16，DF = 14，BF = 8，則 CG 的長度 為多少？",
@@ -503,6 +752,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\111\\math\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "有一直徑為 AB 的圓，且圓上有 C、D、E、F 四點， 其位置如圖( 十三) 所示。若 AC = 6， AD = 8， AE = 5，AF = 9，AB = 10，則下列弧長關係何者 正確？",
@@ -522,7 +775,21 @@
       "display_number": 23,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\111\\math\\page_09.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.445201,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.445201,
+        "x1": 0.98,
+        "y1": 0.518194
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "已知坐標平面上有二次函數 y = − ( x + 6 )2 + 5 的圖形，函數圖形與 x 軸相交 於 ( a , 0 )、( b , 0 ) 兩點，其中 a < b。今將此函數圖形往上平移，平移後函數 圖形與 x 軸相交於 ( c , 0 )、 ( d , 0 ) 兩點，其中 c < d，判斷下列敘述何者 正確？",
@@ -543,6 +810,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\111\\math\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "∆ABC 的邊上有 D、E、F 三點，各點位置如圖( 十四) 所示。若 ∠B = ∠FAC， BD = AC，∠BDE = ∠C，則根據圖中標示的長度，求四邊形 ADEF 與 ∆ABC 的面積比為何？",
@@ -562,7 +833,46 @@
       "display_number": 25,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\111\\math\\page_10.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.59602,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.59602,
+        "x1": 0.98,
+        "y1": 0.822298
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.824731,
+          "x1": 0.98,
+          "y1": 0.846638
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.849071,
+          "x1": 0.98,
+          "y1": 0.870968
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.8734,
+          "x1": 0.98,
+          "y1": 0.895297
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.89773,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "請閱讀下列敘述後，回答24 ～25 題",

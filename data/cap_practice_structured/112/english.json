@@ -156,7 +156,26 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.08842,
+        "x1": 0.98,
+        "y1": 0.237438
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.08842,
+        "x1": 0.98,
+        "y1": 0.117615
+      },
+      "group_crop_box": {
+        "x0": 0.06,
+        "y0": 0.08842,
+        "x1": 0.98,
+        "y1": 0.117615
+      },
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分：單題 (第1 - 23題，共23題)",
       "stem": "Look at the picture. The man is holding a of grapes in his hands.",
@@ -182,6 +201,15 @@
         "x1": 1.0,
         "y1": 0.099825
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.063631,
+        "x1": 1.0,
+        "y1": 0.099825
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "Dennis enjoys in public. He is proud of his beautiful voice.",
@@ -201,7 +229,46 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.301303,
+        "x1": 0.98,
+        "y1": 0.365168
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.301303,
+        "x1": 0.98,
+        "y1": 0.330498
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.330121,
+          "x1": 0.255945,
+          "y1": 0.365168
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.330121,
+          "x1": 0.43682,
+          "y1": 0.365168
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.330121,
+          "x1": 0.617493,
+          "y1": 0.365168
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.330121,
+          "x1": 0.98,
+          "y1": 0.365168
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Mrs. Johnson can’t hear very well. If you need to talk to her, you must .",
@@ -221,7 +288,46 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.365168,
+        "x1": 0.98,
+        "y1": 0.429033
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.365168,
+        "x1": 0.98,
+        "y1": 0.394363
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.394044,
+          "x1": 0.255945,
+          "y1": 0.429033
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.394044,
+          "x1": 0.43682,
+          "y1": 0.429033
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.394044,
+          "x1": 0.617493,
+          "y1": 0.429033
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.394044,
+          "x1": 0.98,
+          "y1": 0.429033
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "People got very excited when they watched Ms. Smith at the party.",
@@ -241,7 +347,46 @@
       "display_number": 5,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.429033,
+        "x1": 0.98,
+        "y1": 0.492898
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.429033,
+        "x1": 0.98,
+        "y1": 0.458228
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.457967,
+          "x1": 0.255945,
+          "y1": 0.492898
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.457967,
+          "x1": 0.43682,
+          "y1": 0.492898
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.457967,
+          "x1": 0.617493,
+          "y1": 0.492898
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.457967,
+          "x1": 0.98,
+          "y1": 0.492898
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -256,7 +401,46 @@
       "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.492898,
+        "x1": 0.98,
+        "y1": 0.556763
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.492898,
+        "x1": 0.98,
+        "y1": 0.522093
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.52189,
+          "x1": 0.255945,
+          "y1": 0.556763
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.52189,
+          "x1": 0.43682,
+          "y1": 0.556763
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.52189,
+          "x1": 0.617493,
+          "y1": 0.556763
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.52189,
+          "x1": 0.98,
+          "y1": 0.556763
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "tried on these shoes in several different , and I thought the white pair looked best on me.",
@@ -276,7 +460,46 @@
       "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.556763,
+        "x1": 0.98,
+        "y1": 0.620628
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.556763,
+        "x1": 0.98,
+        "y1": 0.585958
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.585521,
+          "x1": 0.255945,
+          "y1": 0.620628
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.585521,
+          "x1": 0.43682,
+          "y1": 0.620628
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.585521,
+          "x1": 0.617493,
+          "y1": 0.620628
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.585521,
+          "x1": 0.98,
+          "y1": 0.620628
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Rex did not feel the earthquake this morning. He in the park at the time.",
@@ -296,7 +519,34 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.620628,
+        "x1": 0.98,
+        "y1": 0.705781
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.620628,
+        "x1": 0.98,
+        "y1": 0.649823
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.626677,
+          "x1": 0.98,
+          "y1": 0.668318
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.670751,
+          "x1": 0.98,
+          "y1": 0.705781
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Mr. Lee has worked in the same store for ten years; he’s never thought about his job.",
@@ -316,7 +566,46 @@
       "display_number": 9,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.705781,
+        "x1": 0.98,
+        "y1": 0.769646
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.705781,
+        "x1": 0.98,
+        "y1": 0.734976
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.734674,
+          "x1": 0.255945,
+          "y1": 0.769646
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.734674,
+          "x1": 0.43682,
+          "y1": 0.769646
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.734674,
+          "x1": 0.617493,
+          "y1": 0.769646
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.734674,
+          "x1": 0.98,
+          "y1": 0.769646
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -331,7 +620,34 @@
       "display_number": 10,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\112\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.769646,
+        "x1": 0.98,
+        "y1": 0.854799
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.769646,
+        "x1": 0.98,
+        "y1": 0.798841
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.772079,
+          "x1": 0.98,
+          "y1": 0.81718
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.819613,
+          "x1": 0.98,
+          "y1": 0.854799
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "didn’t take the bus today because it was . All the seats were taken and a lot of students were standing.",
@@ -357,6 +673,15 @@
         "x1": 1.0,
         "y1": 0.248978
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.09749,
+        "x1": 1.0,
+        "y1": 0.126685
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Look at the picture. The man is holding a of grapes in his hands.",
@@ -382,6 +707,40 @@
         "x1": 1.0,
         "y1": 0.312609
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.246643,
+        "x1": 1.0,
+        "y1": 0.275838
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.26649,
+          "x1": 0.255945,
+          "y1": 0.312609
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.26649,
+          "x1": 0.43682,
+          "y1": 0.312609
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.26649,
+          "x1": 0.617493,
+          "y1": 0.312609
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.26649,
+          "x1": 1.0,
+          "y1": 0.312609
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Jerry wanted to know he was kicked off the soccer team, but no one gave him a good reason.",
@@ -407,6 +766,40 @@
         "x1": 1.0,
         "y1": 0.376532
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.310274,
+        "x1": 1.0,
+        "y1": 0.339469
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.330121,
+          "x1": 0.255945,
+          "y1": 0.376532
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.330121,
+          "x1": 0.43682,
+          "y1": 0.376532
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.330121,
+          "x1": 0.617493,
+          "y1": 0.376532
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.330121,
+          "x1": 1.0,
+          "y1": 0.376532
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Jenny is already forty, doesn’t have a job and often makes trouble for her parents. To them, she is really a(n) .",
@@ -432,6 +825,40 @@
         "x1": 1.0,
         "y1": 0.440747
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.374197,
+        "x1": 1.0,
+        "y1": 0.403392
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.361936,
+          "x1": 0.255945,
+          "y1": 0.440747
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.361936,
+          "x1": 0.43682,
+          "y1": 0.440747
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.361936,
+          "x1": 0.617493,
+          "y1": 0.440747
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.361936,
+          "x1": 1.0,
+          "y1": 0.440747
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Ed and Jill camping this weekend, so they have to finish their homework by Friday.",
@@ -457,6 +884,40 @@
         "x1": 1.0,
         "y1": 0.504378
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.438412,
+        "x1": 1.0,
+        "y1": 0.467607
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.457967,
+          "x1": 0.255945,
+          "y1": 0.504378
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.457967,
+          "x1": 0.43682,
+          "y1": 0.504378
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.457967,
+          "x1": 0.617493,
+          "y1": 0.504378
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.457967,
+          "x1": 1.0,
+          "y1": 0.504378
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "5. I tried on these shoes in several different , and I thought the white pair looked best on me.",
@@ -482,6 +943,40 @@
         "x1": 1.0,
         "y1": 0.568301
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.502043,
+        "x1": 1.0,
+        "y1": 0.531238
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.532106,
+          "x1": 0.255945,
+          "y1": 0.568301
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.532106,
+          "x1": 0.43682,
+          "y1": 0.568301
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.532106,
+          "x1": 0.617493,
+          "y1": 0.568301
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.532106,
+          "x1": 1.0,
+          "y1": 0.568301
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "If we play some interesting games in class, there more fun in learning English.",
@@ -507,6 +1002,40 @@
         "x1": 1.0,
         "y1": 0.631932
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.565966,
+        "x1": 1.0,
+        "y1": 0.595161
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.585521,
+          "x1": 0.255945,
+          "y1": 0.631932
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.585521,
+          "x1": 0.43682,
+          "y1": 0.631932
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.585521,
+          "x1": 0.617493,
+          "y1": 0.631932
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.585521,
+          "x1": 1.0,
+          "y1": 0.631932
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "7. | Mr. Lee has worked in the same store for ten years; he’s never thought about his job.",
@@ -532,6 +1061,40 @@
         "x1": 1.0,
         "y1": 0.717163
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.629597,
+        "x1": 1.0,
+        "y1": 0.678534
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.680967,
+          "x1": 0.255945,
+          "y1": 0.717163
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.680967,
+          "x1": 0.43682,
+          "y1": 0.717163
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.680967,
+          "x1": 0.617493,
+          "y1": 0.717163
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.680967,
+          "x1": 1.0,
+          "y1": 0.717163
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "It’s not easy to see those islands clearly from here on sunny days, and it’s even less to see them on cloudy days.",
@@ -557,6 +1120,40 @@
         "x1": 1.0,
         "y1": 0.781086
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.714828,
+        "x1": 1.0,
+        "y1": 0.744023
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.74489,
+          "x1": 0.255945,
+          "y1": 0.781086
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.74489,
+          "x1": 0.43682,
+          "y1": 0.781086
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.74489,
+          "x1": 0.617493,
+          "y1": 0.781086
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.74489,
+          "x1": 1.0,
+          "y1": 0.781086
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Do you remember the CD I was looking for for months? I found it in a small shop. Look, here it is!",
@@ -582,6 +1179,40 @@
         "x1": 1.0,
         "y1": 0.866025
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.778751,
+        "x1": 1.0,
+        "y1": 0.807946
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.808813,
+          "x1": 0.255945,
+          "y1": 0.866025
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.808813,
+          "x1": 0.43682,
+          "y1": 0.866025
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.808813,
+          "x1": 0.617493,
+          "y1": 0.866025
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.808813,
+          "x1": 1.0,
+          "y1": 0.866025
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Business at Jane’s shop has not been good these days. And the new supermarket across the street only makes things .",
@@ -607,6 +1238,28 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.863689,
+        "x1": 1.0,
+        "y1": 0.892884
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.857232,
+          "x1": 1.0,
+          "y1": 0.902411
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.904844,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "11. Jenny is already forty, doesn’t have a job and often makes trouble for her parents. To them, she is really a(n)",
@@ -632,6 +1285,40 @@
         "x1": 1.0,
         "y1": 0.13164
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.065382,
+        "x1": 1.0,
+        "y1": 0.094577
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.085229,
+          "x1": 0.255945,
+          "y1": 0.13164
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.085229,
+          "x1": 0.43682,
+          "y1": 0.13164
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.085229,
+          "x1": 0.617493,
+          "y1": 0.13164
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.085229,
+          "x1": 1.0,
+          "y1": 0.13164
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "I swimming for several years before I went to this high school. I gave it up because of heavy schoolwork.",
@@ -657,6 +1344,28 @@
         "x1": 1.0,
         "y1": 0.195271
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.129305,
+        "x1": 1.0,
+        "y1": 0.1585
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.122481,
+          "x1": 1.0,
+          "y1": 0.146427
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.14886,
+          "x1": 1.0,
+          "y1": 0.195271
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Frank Kane is so good in the movie that many people he will win the best actor prize.",
@@ -682,6 +1391,40 @@
         "x1": 1.0,
         "y1": 0.259194
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.192936,
+        "x1": 1.0,
+        "y1": 0.222131
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.212783,
+          "x1": 0.255945,
+          "y1": 0.259194
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.212783,
+          "x1": 0.43682,
+          "y1": 0.259194
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.212783,
+          "x1": 0.617493,
+          "y1": 0.259194
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.212783,
+          "x1": 1.0,
+          "y1": 0.259194
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "14. If we play some interesting games in class, there more fun in learning English.",
@@ -707,6 +1450,40 @@
         "x1": 1.0,
         "y1": 0.323117
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.256859,
+        "x1": 1.0,
+        "y1": 0.286054
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.276706,
+          "x1": 0.255945,
+          "y1": 0.323117
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.276706,
+          "x1": 0.43682,
+          "y1": 0.323117
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.276706,
+          "x1": 0.617493,
+          "y1": 0.323117
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.276706,
+          "x1": 1.0,
+          "y1": 0.323117
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Now I often think of those days with Pip, my pet dog. When I read in my room, he quietly beside me.",
@@ -732,6 +1509,15 @@
         "x1": 1.0,
         "y1": 0.408056
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.320782,
+        "x1": 1.0,
+        "y1": 0.408056
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "Amy went to Four Seasons’ Kitchen with her mother after she collected 15 stars. They ordered two Garden Sandwiches, an Autumn Wind, and a Winter Snow. After using the stars, how much did they pay for their meals?",
@@ -757,6 +1543,15 @@
         "x1": 1.0,
         "y1": 0.429364
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.405721,
+        "x1": 1.0,
+        "y1": 0.429364
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "Amy wants to bring her friends to Four Seasons’ Kitchen in August. She looks at her calendar to pick a time to go there. Which are the time and date she can choose?",
@@ -782,6 +1577,15 @@
         "x1": 1.0,
         "y1": 0.493287
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.427029,
+        "x1": 1.0,
+        "y1": 0.493287
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "According to the notes, which is the WRONG way to help a baby bird that is out of its nest?",
@@ -807,6 +1611,40 @@
         "x1": 1.0,
         "y1": 0.578517
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.490952,
+        "x1": 1.0,
+        "y1": 0.529673
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.532106,
+          "x1": 0.255945,
+          "y1": 0.578517
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.532106,
+          "x1": 0.43682,
+          "y1": 0.578517
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.532106,
+          "x1": 0.617493,
+          "y1": 0.578517
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.532106,
+          "x1": 1.0,
+          "y1": 0.578517
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "18. Business at Jane’s shop has not been good these days. And the new supermarket across the street only makes things",
@@ -832,6 +1670,28 @@
         "x1": 1.0,
         "y1": 0.64244
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.576182,
+        "x1": 1.0,
+        "y1": 0.605377
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.569536,
+          "x1": 1.0,
+          "y1": 0.593596
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.596029,
+          "x1": 1.0,
+          "y1": 0.64244
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "19. Scott wasn’t sure if the young woman before him was pulled him out of a car on fire.",
@@ -857,6 +1717,40 @@
         "x1": 1.0,
         "y1": 0.727379
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.640105,
+        "x1": 1.0,
+        "y1": 0.678534
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.680967,
+          "x1": 0.255945,
+          "y1": 0.727379
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.680967,
+          "x1": 0.43682,
+          "y1": 0.727379
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.680967,
+          "x1": 0.617493,
+          "y1": 0.727379
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.680967,
+          "x1": 1.0,
+          "y1": 0.727379
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "20. I swimming for several years before I went to this high school. I gave it up because of heavy schoolwork.",
@@ -882,6 +1776,40 @@
         "x1": 1.0,
         "y1": 0.791302
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.725044,
+        "x1": 1.0,
+        "y1": 0.754239
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.74489,
+          "x1": 0.255945,
+          "y1": 0.791302
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.74489,
+          "x1": 0.43682,
+          "y1": 0.791302
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.74489,
+          "x1": 0.617493,
+          "y1": 0.791302
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.74489,
+          "x1": 1.0,
+          "y1": 0.791302
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "21. Frank Kane is so good in the movie that many people he will win the best actor prize.",
@@ -907,6 +1835,40 @@
         "x1": 1.0,
         "y1": 0.855225
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.788967,
+        "x1": 1.0,
+        "y1": 0.818162
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.808813,
+          "x1": 0.255945,
+          "y1": 0.855225
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.808813,
+          "x1": 0.43682,
+          "y1": 0.855225
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.808813,
+          "x1": 0.617493,
+          "y1": 0.855225
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.808813,
+          "x1": 1.0,
+          "y1": 0.855225
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "22. The new medicine that just came out on the market thousands of lives.",
@@ -932,6 +1894,28 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.85289,
+        "x1": 1.0,
+        "y1": 0.891611
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.894044,
+          "x1": 0.436618,
+          "y1": 0.991243
+        },
+        "D": {
+          "x0": 0.436618,
+          "y0": 0.894044,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "23. Now I often think of those days with Pip, my pet dog. When I read in my room, he quietly beside me.",
@@ -957,6 +1941,28 @@
         "x1": 1.0,
         "y1": 0.568009
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.09749,
+        "x1": 1.0,
+        "y1": 0.126685
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.094569,
+          "x1": 1.0,
+          "y1": 0.537554
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.539987,
+          "x1": 1.0,
+          "y1": 0.568009
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "What is the trick that the mosquito uses in rain?",
@@ -982,6 +1988,28 @@
         "x1": 1.0,
         "y1": 0.674548
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.565674,
+        "x1": 1.0,
+        "y1": 0.594869
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.580479,
+          "x1": 1.0,
+          "y1": 0.625411
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.627844,
+          "x1": 1.0,
+          "y1": 0.674548
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "24. Amy went to Four Seasons’ Kitchen with her mother after she collected 15 stars. They ordered two Garden Sandwiches, an Autumn Wind, and a Winter Snow. After using the stars, how much did they pay for their meals?",
@@ -1007,6 +2035,28 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.672212,
+        "x1": 1.0,
+        "y1": 0.701407
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.686926,
+          "x1": 1.0,
+          "y1": 0.774565
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.776998,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "25. Amy wants to bring her friends to Four Seasons’ Kitchen in August. She looks at her calendar to pick a time to go there. Which are the time and date she calendar A can choose?",
@@ -1032,6 +2082,15 @@
         "x1": 1.0,
         "y1": 0.339171
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.065382,
+        "x1": 1.0,
+        "y1": 0.232825
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "What do the three stories in the reading all talk about?",
@@ -1052,6 +2111,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\112\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What do we know about “For Elise” from the reading?",
@@ -1077,6 +2140,15 @@
         "x1": 1.0,
         "y1": 0.38237
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.358435,
+        "x1": 1.0,
+        "y1": 0.38237
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about the three women from the stories?",
@@ -1102,6 +2174,15 @@
         "x1": 1.0,
         "y1": 0.40397
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.380035,
+        "x1": 1.0,
+        "y1": 0.40923
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "One story is that Elise was Elisabeth Röckel. She once sang in\nBeethoven’s opera Fidelio, and the two became very good friends.\nBeethoven called her “Elise.” When Röckel was leaving the city of\nVienna, Beethoven wrote “For Elise” to say goodbye to her. Another\nstory is that Elise was Therese Malfatti. Beethoven was in love with\nher. He wrote a piece for her and put “For Therese” on the manuscript. Malfatti kept the\nmanuscript and left it to her family when she died. Later, a man copied the manuscript\nand wrote “For Elise” by mistake. There is another possible Elise: Elise Barensfeld. She\nlearned the piano from Malfatti, the same Malfatti in the second story. To help Malfatti,\nBeethoven wrote the piece for her to use to teach Barensfeld.\nThese are just some guesses about who Elise was. We may never know the right answer.\nNo one knew about the piece until 1867, when the manuscript was found. This was 40 years\nafter Beethoven’s death, so he wasn’t around to tell us who Elise was. Only one thing is for\nsure: “For Elise” will always be enjoyed.\nopera 歌劇 manuscript 手稿\n(36-38)",
       "stem": "What idea does Jesse Cohen talk about in the reading?",
@@ -1127,6 +2208,20 @@
         "x1": 1.0,
         "y1": 0.690309
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.401635,
+        "x1": 1.0,
+        "y1": 0.690309
+      },
+      "group_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.401635,
+        "x1": 1.0,
+        "y1": 0.690309
+      },
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "If you choose the\ntruck, well, you’re not alone. Most people think that some toys are for boys and some\nare for girls. We might pick building toys for boys and kitchen toys for girls. But why\ndo we do this? Are boys and girls really born with different interests in toys?\nNo, they are not. Children start to show different interests in toys at age three, but\nonly because at this time, they begin to learn about gender and to follow what others\nof their gender do. If you give a girl kitchen toys, she will think they are girls’ toys\nbecause she sees other girls playing with them. But if you give a girl a toy car and\nshow her a group of girls who are playing with cars, she’ll play with the toy car and\nthink it is a girls’ toy. This “watch and follow” habit often becomes a rule for both\nboys and girls in choosing the “right” toys.\nHowever, this rule can be bad for children. Different toys teach children different\nthings. Dolls help with their early language use, and building toys are good for\nlearning math and science. By playing with different toys, children can find out what\nthey are interested in or what they are good at. If they only play one kind of toy, they\nmay lose this important chance. They may also get a wrong idea about what boys\nor girls are able to do. Some doctors worry that children may use the same kind of\nthinking when they look for jobs in the future. If they do, they may miss something\nmore important than just getting a chance to play with different toys. They may miss\nmany, perhaps better, chances in life.\ngender 性別",
       "stem": "In the third paragraph, why does Jesse Cohen think “this rule can be bad for children”?",
@@ -1152,6 +2247,15 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.687974,
+        "x1": 1.0,
+        "y1": 0.991243
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "complete",
       "context": "",
       "stem": "In the reading, after Jesse Cohen talks about an idea, he often gives an example to make it clear. Below are four of the sentences in the third paragraph. Which is used as an example?",

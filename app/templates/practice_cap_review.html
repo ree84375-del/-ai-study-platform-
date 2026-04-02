@@ -204,6 +204,25 @@
         outline: 2px solid rgba(73, 98, 138, 0.2);
     }
 
+    .review-option-body {
+        display: grid;
+        gap: 0.65rem;
+    }
+
+    .review-option-image {
+        width: 100%;
+        max-width: 520px;
+        border-radius: 16px;
+        border: 1px solid rgba(73, 98, 138, 0.16);
+        background: #fff;
+        padding: 0.35rem;
+    }
+
+    .review-option-note {
+        color: #5b5854;
+        line-height: 1.55;
+    }
+
     .review-explanation-grid {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
@@ -275,6 +294,9 @@
             <div class="review-context">
                 <strong>題組說明</strong>
                 <div>{{ item.context|replace('\n', '<br>')|safe }}</div>
+                {% if item.group_image_href %}
+                <img class="review-option-image" src="{{ item.group_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題組共用圖">
+                {% endif %}
             </div>
             {% endif %}
 
@@ -282,14 +304,14 @@
             <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
             {% endif %}
 
-            {% if item.question_image_href %}
+            {% if item.has_question_visual and item.question_image_href %}
             <div class="review-visual-box">
-                <strong>{% if item.use_visual_primary %}官方題目圖{% else %}題目原卷截圖{% endif %}</strong>
+                <strong>{% if item.use_visual_primary %}題目主圖{% else %}題目截圖{% endif %}</strong>
                 <div>
                     {{ item.page_image_note }}
-                    {% if item.use_visual_primary %}<br>這題以官方題圖為準，避免掃描題本造成的文字誤差。{% endif %}
+                    {% if item.use_visual_primary %}<br>這題的主圖已獨立抽出，檢討時不用再回頭找整頁。{% endif %}
                 </div>
-                <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題截圖">
+                <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
             </div>
             {% endif %}
 
@@ -297,11 +319,17 @@
                 {% for option in item.options %}
                 <div class="review-option {% if option.is_correct %}is-correct{% endif %} {% if option.is_selected %}is-selected{% endif %}">
                     <strong>{{ option.key }}</strong>
-                    {% if item.use_visual_primary %}
-                    請依上方官方題圖查看選項內容。
-                    {% else %}
-                    {{ (option.text|replace('\n', '<br>')|safe) if option.text else '此選項內容未能完整擷取。' }}
-                    {% endif %}
+                    <div class="review-option-body">
+                        {% if option.text %}
+                        <div>{{ option.text|replace('\n', '<br>')|safe }}</div>
+                        {% endif %}
+                        {% if option.image_href %}
+                        <img class="review-option-image" src="{{ option.image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題選項 {{ option.key }}">
+                        {% endif %}
+                        {% if not option.text and not option.image_href %}
+                        <div class="review-option-note">此選項內容未能完整擷取。</div>
+                        {% endif %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -310,18 +338,22 @@
                 <div class="review-answer-box">
                     <strong>你的答案</strong>
                     <div>{{ item.user_answer }}</div>
-                    <div>{{ item.selected_answer_text|replace('\n', '<br>')|safe }}</div>
+                    {% if item.selected_option_text %}
+                    <div>{{ item.selected_option_text|replace('\n', '<br>')|safe }}</div>
+                    {% endif %}
+                    {% if item.selected_option_image_href %}
+                    <img class="review-option-image" src="{{ item.selected_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題你的選項 {{ item.selected_answer }}">
+                    {% endif %}
                 </div>
                 <div class="review-answer-box">
                     <strong>正確答案</strong>
                     <div>{{ item.correct_answer }}</div>
-                    <div>
-                        {% if item.correct_option_text and not item.use_visual_primary %}
-                        {{ item.correct_option_text|replace('\n', '<br>')|safe }}
-                        {% else %}
-                        請依上方官方題圖核對正確選項內容。
-                        {% endif %}
-                    </div>
+                    {% if item.correct_option_text %}
+                    <div>{{ item.correct_option_text|replace('\n', '<br>')|safe }}</div>
+                    {% endif %}
+                    {% if item.correct_option_image_href %}
+                    <img class="review-option-image" src="{{ item.correct_option_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題正確選項 {{ item.correct_answer }}">
+                    {% endif %}
                 </div>
             </div>
 

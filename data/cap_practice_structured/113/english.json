@@ -125,7 +125,26 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.088426,
+        "x1": 0.98,
+        "y1": 0.301289
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.088426,
+        "x1": 0.98,
+        "y1": 0.117621
+      },
+      "group_crop_box": {
+        "x0": 0.06,
+        "y0": 0.088426,
+        "x1": 0.98,
+        "y1": 0.117621
+      },
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分：單題 (第1 - 21題，共21題)",
       "stem": "Look at the picture. There is under the door.",
@@ -145,7 +164,21 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.301289,
+        "x1": 0.98,
+        "y1": 0.365154
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.301289,
+        "x1": 0.98,
+        "y1": 0.330484
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "My hurts so much that I cannot even turn my head.",
@@ -165,7 +198,46 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.365154,
+        "x1": 0.98,
+        "y1": 0.429019
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.365154,
+        "x1": 0.98,
+        "y1": 0.394349
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.394044,
+          "x1": 0.255945,
+          "y1": 0.429019
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.394044,
+          "x1": 0.43682,
+          "y1": 0.429019
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.394044,
+          "x1": 0.617493,
+          "y1": 0.429019
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.394044,
+          "x1": 0.98,
+          "y1": 0.429019
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Our school basketball team won the national game last night. We are so them.",
@@ -185,7 +257,46 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.429019,
+        "x1": 0.98,
+        "y1": 0.492884
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.429019,
+        "x1": 0.98,
+        "y1": 0.458214
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.457967,
+          "x1": 0.255945,
+          "y1": 0.492884
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.457967,
+          "x1": 0.43682,
+          "y1": 0.492884
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.457967,
+          "x1": 0.617493,
+          "y1": 0.492884
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.457967,
+          "x1": 0.98,
+          "y1": 0.492884
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Tomorrow is Sam’s last day in the office. Nobody knows why he decided to .",
@@ -205,7 +316,34 @@
       "display_number": 5,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.492884,
+        "x1": 0.98,
+        "y1": 0.578032
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.492884,
+        "x1": 0.98,
+        "y1": 0.522079
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.495317,
+          "x1": 0.98,
+          "y1": 0.540473
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.542905,
+          "x1": 0.98,
+          "y1": 0.578032
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "It’s not a good idea to go mountain climbing in this bad . We should wait until the typhoon goes away.",
@@ -225,7 +363,46 @@
       "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.578032,
+        "x1": 0.98,
+        "y1": 0.641897
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.578032,
+        "x1": 0.98,
+        "y1": 0.607227
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.606828,
+          "x1": 0.255945,
+          "y1": 0.641897
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.606828,
+          "x1": 0.43682,
+          "y1": 0.641897
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.606828,
+          "x1": 0.617493,
+          "y1": 0.641897
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.606828,
+          "x1": 0.98,
+          "y1": 0.641897
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Chris loves walking with Anna on snowy days, but Anna hates very much.",
@@ -245,7 +422,34 @@
       "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.641897,
+        "x1": 0.98,
+        "y1": 0.705762
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.641897,
+        "x1": 0.98,
+        "y1": 0.671092
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.647984,
+          "x1": 0.98,
+          "y1": 0.668318
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.670751,
+          "x1": 0.98,
+          "y1": 0.705762
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Lora likes to eat bananas that are already a little brown on the outside, and so I.",
@@ -265,7 +469,34 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.705762,
+        "x1": 0.98,
+        "y1": 0.790911
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.705762,
+        "x1": 0.98,
+        "y1": 0.734957
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.708195,
+          "x1": 0.98,
+          "y1": 0.753549
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.755982,
+          "x1": 0.98,
+          "y1": 0.790911
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Your refrigerator shouldn’t be making loud noises now, but if it does, just give me a call and I’ll come check it again.",
@@ -285,7 +516,34 @@
       "display_number": 9,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\113\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.790911,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.790911,
+        "x1": 0.98,
+        "y1": 0.820391
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.822824,
+          "x1": 0.98,
+          "y1": 0.838488
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.840921,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "After winning money in the card game, Jay decided to try again. He felt that he might also be a second time.",
@@ -305,7 +563,46 @@
       "display_number": 10,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.120048
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.085378
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.085229,
+          "x1": 0.255945,
+          "y1": 0.120048
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.085229,
+          "x1": 0.43682,
+          "y1": 0.120048
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.085229,
+          "x1": 0.617493,
+          "y1": 0.120048
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.085229,
+          "x1": 0.98,
+          "y1": 0.120048
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "The knife doesn’t cut very well. It’s not as as before.",
@@ -325,7 +622,46 @@
       "display_number": 11,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.120048,
+        "x1": 0.98,
+        "y1": 0.183913
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.120048,
+        "x1": 0.98,
+        "y1": 0.149243
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.14886,
+          "x1": 0.255945,
+          "y1": 0.183913
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.14886,
+          "x1": 0.43682,
+          "y1": 0.183913
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.14886,
+          "x1": 0.617493,
+          "y1": 0.183913
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.14886,
+          "x1": 0.98,
+          "y1": 0.183913
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "John will stay with his sister until he an apartment.",
@@ -345,7 +681,46 @@
       "display_number": 12,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.183913,
+        "x1": 0.98,
+        "y1": 0.247778
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.183913,
+        "x1": 0.98,
+        "y1": 0.213108
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.212783,
+          "x1": 0.255945,
+          "y1": 0.247778
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.212783,
+          "x1": 0.43682,
+          "y1": 0.247778
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.212783,
+          "x1": 0.617493,
+          "y1": 0.247778
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.212783,
+          "x1": 0.98,
+          "y1": 0.247778
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Students to go on the school trip should ask their parents first.",
@@ -365,7 +740,21 @@
       "display_number": 13,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.247778,
+        "x1": 0.98,
+        "y1": 0.311643
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.247778,
+        "x1": 0.98,
+        "y1": 0.276973
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "The temple sits alone in the mountains at a height of 3,000m sea level.",
@@ -385,7 +774,34 @@
       "display_number": 14,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.311643,
+        "x1": 0.98,
+        "y1": 0.396791
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.311643,
+        "x1": 0.98,
+        "y1": 0.340838
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.314076,
+          "x1": 0.98,
+          "y1": 0.359503
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.361936,
+          "x1": 0.98,
+          "y1": 0.396791
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Patty spent several days planning to invite Charlie to dinner, she couldn’t say a word when they met.",
@@ -405,7 +821,46 @@
       "display_number": 15,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.396791,
+        "x1": 0.98,
+        "y1": 0.48194
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.396791,
+        "x1": 0.98,
+        "y1": 0.444442
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.446875,
+          "x1": 0.255945,
+          "y1": 0.48194
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.446875,
+          "x1": 0.43682,
+          "y1": 0.48194
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.446875,
+          "x1": 0.617493,
+          "y1": 0.48194
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.446875,
+          "x1": 0.98,
+          "y1": 0.48194
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "I can’t tell you what I think of the movie because I it. I’ll probably watch it this Saturday.",
@@ -425,7 +880,34 @@
       "display_number": 16,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.48194,
+        "x1": 0.98,
+        "y1": 0.567088
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.48194,
+        "x1": 0.98,
+        "y1": 0.511135
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.484373,
+          "x1": 0.98,
+          "y1": 0.529673
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.532106,
+          "x1": 0.98,
+          "y1": 0.567088
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "The new guy at the help desk answers calls like a . There are no ups and downs in his voice and you can’t tell if he is happy or sad.",
@@ -445,7 +927,46 @@
       "display_number": 17,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.567088,
+        "x1": 0.98,
+        "y1": 0.652237
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.567088,
+        "x1": 0.98,
+        "y1": 0.614903
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.617336,
+          "x1": 0.255945,
+          "y1": 0.652237
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.617336,
+          "x1": 0.43682,
+          "y1": 0.652237
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.617336,
+          "x1": 0.617493,
+          "y1": 0.652237
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.617336,
+          "x1": 0.98,
+          "y1": 0.652237
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Jasmine planned to spend her summer in the country, but right after she got there, she started to the noise in the city.",
@@ -465,7 +986,46 @@
       "display_number": 18,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.652237,
+        "x1": 0.98,
+        "y1": 0.737385
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.652237,
+        "x1": 0.98,
+        "y1": 0.699842
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.702275,
+          "x1": 0.255945,
+          "y1": 0.737385
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.702275,
+          "x1": 0.43682,
+          "y1": 0.737385
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.702275,
+          "x1": 0.617493,
+          "y1": 0.737385
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.702275,
+          "x1": 0.98,
+          "y1": 0.737385
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "“Bad traffic” is perhaps the excuse for being late when your boss knows it only takes you five minutes to walk to work.",
@@ -485,7 +1045,46 @@
       "display_number": 19,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.737385,
+        "x1": 0.98,
+        "y1": 0.822534
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.737385,
+        "x1": 0.98,
+        "y1": 0.785073
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.787506,
+          "x1": 0.255945,
+          "y1": 0.822534
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.787506,
+          "x1": 0.43682,
+          "y1": 0.822534
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.787506,
+          "x1": 0.617493,
+          "y1": 0.822534
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.787506,
+          "x1": 0.98,
+          "y1": 0.822534
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "The housework in Mr. and Mrs. Wang’s family between them and their kids. Everyone’s got their own job to do.",
@@ -505,7 +1104,34 @@
       "display_number": 20,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\113\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.822534,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.822534,
+        "x1": 0.98,
+        "y1": 0.851729
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.824967,
+          "x1": 0.98,
+          "y1": 0.848996
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.851429,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "I want to find another dentist because pulled out a good tooth last time I went to him.",
@@ -525,7 +1151,46 @@
       "display_number": 21,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\113\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.557352
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.125119
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.127552,
+          "x1": 0.260983,
+          "y1": 0.557352
+        },
+        "B": {
+          "x0": 0.260983,
+          "y0": 0.127552,
+          "x1": 0.441858,
+          "y1": 0.557352
+        },
+        "C": {
+          "x0": 0.441858,
+          "y0": 0.127552,
+          "x1": 0.620012,
+          "y1": 0.557352
+        },
+        "D": {
+          "x0": 0.620012,
+          "y0": 0.127552,
+          "x1": 0.98,
+          "y1": 0.557352
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Mom:\u0007 Linda, you’ve been playing computer games all evening! Have you finished your report? Linda:\u0007 Well, most of it this afternoon, and I’ll finish it by Friday.",
@@ -545,7 +1210,21 @@
       "display_number": 22,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\113\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.557352,
+        "x1": 0.98,
+        "y1": 0.685067
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.557352,
+        "x1": 0.98,
+        "y1": 0.586547
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Why did Philip go out?",
@@ -565,7 +1244,46 @@
       "display_number": 23,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\113\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.685067,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.685067,
+        "x1": 0.98,
+        "y1": 0.714262
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.71395,
+          "x1": 0.98,
+          "y1": 0.732825
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.735258,
+          "x1": 0.98,
+          "y1": 0.754133
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.756566,
+          "x1": 0.98,
+          "y1": 0.775149
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.777581,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Why was Philip’s father angry?",
@@ -585,7 +1303,46 @@
       "display_number": 24,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\113\\english\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.673549,
+        "x1": 0.98,
+        "y1": 0.779981
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.673549,
+        "x1": 0.98,
+        "y1": 0.742457
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.74489,
+          "x1": 0.255945,
+          "y1": 0.779981
+        },
+        "B": {
+          "x0": 0.255945,
+          "y0": 0.74489,
+          "x1": 0.43682,
+          "y1": 0.779981
+        },
+        "C": {
+          "x0": 0.43682,
+          "y0": 0.74489,
+          "x1": 0.617493,
+          "y1": 0.779981
+        },
+        "D": {
+          "x0": 0.617493,
+          "y0": 0.74489,
+          "x1": 0.98,
+          "y1": 0.779981
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "I forgot my keys and was just\ntrying to get into MY OWN HOUSE!” But the police didn’t believe him until Philip ran\nto them and explained everything.\nThe police told Philip that the woman called 110 when she saw Philip’s father trying\nto get into a house through a window. That was how it all happened.\n(24-25)",
       "stem": "Kevin is going to buy some fresh bread at Baker’s Kitchen. He loves white bread, his mom likes farm bread, his father enjoys bagels, and his sister eats only challah. Which is the earliest possible time for him to get all these breads for his family?",
@@ -605,7 +1362,46 @@
       "display_number": 25,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\113\\english\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.779981,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.779981,
+        "x1": 0.98,
+        "y1": 0.809176
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.808813,
+          "x1": 0.98,
+          "y1": 0.827688
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.830121,
+          "x1": 0.98,
+          "y1": 0.848996
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.851429,
+          "x1": 0.98,
+          "y1": 0.870303
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.872736,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What do we know about Baker’s Kitchen?",
@@ -625,7 +1421,46 @@
       "display_number": 26,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\113\\english\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.67355,
+        "x1": 0.98,
+        "y1": 0.801266
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.67355,
+        "x1": 0.98,
+        "y1": 0.702745
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.702275,
+          "x1": 0.98,
+          "y1": 0.72115
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.723583,
+          "x1": 0.98,
+          "y1": 0.742457
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.74489,
+          "x1": 0.98,
+          "y1": 0.763765
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.766198,
+          "x1": 0.98,
+          "y1": 0.801266
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What is recommended to people who want to visit the festival?",
@@ -645,7 +1480,46 @@
       "display_number": 27,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\113\\english\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.801266,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.801266,
+        "x1": 0.98,
+        "y1": 0.830461
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.830121,
+          "x1": 0.98,
+          "y1": 0.848996
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.851429,
+          "x1": 0.98,
+          "y1": 0.870303
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.872736,
+          "x1": 0.98,
+          "y1": 0.891319
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.893752,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about the farmers’ market from the map?",
@@ -665,7 +1539,46 @@
       "display_number": 28,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\113\\english\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.601159,
+        "x1": 0.98,
+        "y1": 0.750158
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.601159,
+        "x1": 0.98,
+        "y1": 0.64847
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.650903,
+          "x1": 0.98,
+          "y1": 0.669778
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.672211,
+          "x1": 0.98,
+          "y1": 0.691085
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.693518,
+          "x1": 0.98,
+          "y1": 0.712393
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.714826,
+          "x1": 0.98,
+          "y1": 0.750158
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What kind of people do Yan’s and Chang’s friends most likely think Yan and Chang are?",
@@ -685,7 +1598,46 @@
       "display_number": 29,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\113\\english\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.750158,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.750158,
+        "x1": 0.98,
+        "y1": 0.779353
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.778749,
+          "x1": 0.98,
+          "y1": 0.797624
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.800057,
+          "x1": 0.98,
+          "y1": 0.818931
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.821364,
+          "x1": 0.98,
+          "y1": 0.839947
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.84238,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What is it in the second story?",
@@ -705,7 +1657,46 @@
       "display_number": 30,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\113\\english\\page_09.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.183898
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.085378
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.058616,
+          "x1": 0.98,
+          "y1": 0.104104
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.106537,
+          "x1": 0.98,
+          "y1": 0.125119
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.127552,
+          "x1": 0.98,
+          "y1": 0.146427
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.14886,
+          "x1": 0.98,
+          "y1": 0.183898
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Why does the writer talk about doctors and a health center in the reading?",
@@ -725,7 +1716,46 @@
       "display_number": 31,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\113\\english\\page_09.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.183898,
+        "x1": 0.98,
+        "y1": 0.311614
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.183898,
+        "x1": 0.98,
+        "y1": 0.213093
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.212783,
+          "x1": 0.98,
+          "y1": 0.231658
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.234091,
+          "x1": 0.98,
+          "y1": 0.252965
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.255398,
+          "x1": 0.98,
+          "y1": 0.274273
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.276706,
+          "x1": 0.98,
+          "y1": 0.311614
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Why is Chen Bing-Hong’s job important in the example he gave?",
@@ -745,7 +1775,46 @@
       "display_number": 32,
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\113\\english\\page_09.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.311614,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.311614,
+        "x1": 0.98,
+        "y1": 0.340809
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.340629,
+          "x1": 0.98,
+          "y1": 0.359503
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.361936,
+          "x1": 0.98,
+          "y1": 0.380519
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.382952,
+          "x1": 0.98,
+          "y1": 0.401827
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.40426,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What is his magic?",
@@ -765,7 +1834,46 @@
       "display_number": 33,
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\113\\english\\page_10.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.706994,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.706994,
+        "x1": 0.98,
+        "y1": 0.736189
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.735842,
+          "x1": 0.98,
+          "y1": 0.754717
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.757149,
+          "x1": 0.98,
+          "y1": 0.776024
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.778457,
+          "x1": 0.98,
+          "y1": 0.797332
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.799765,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "According to the reading, why did Rohla and Kreytenberg open Habibi & Hawara?",
@@ -785,7 +1893,46 @@
       "display_number": 34,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\113\\english\\page_11.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.183898
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.056183,
+        "x1": 0.98,
+        "y1": 0.085378
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.085229,
+          "x1": 0.98,
+          "y1": 0.104104
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.106537,
+          "x1": 0.98,
+          "y1": 0.125119
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.127552,
+          "x1": 0.98,
+          "y1": 0.146427
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.14886,
+          "x1": 0.98,
+          "y1": 0.183898
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Habibi & Hawara?",
@@ -805,7 +1952,46 @@
       "display_number": 35,
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\113\\english\\page_11.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.183898,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.183898,
+        "x1": 0.98,
+        "y1": 0.213093
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.212783,
+          "x1": 0.98,
+          "y1": 0.231658
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.234091,
+          "x1": 0.98,
+          "y1": 0.252965
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.255398,
+          "x1": 0.98,
+          "y1": 0.274273
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.276706,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when people beg to differ?",
@@ -826,6 +2012,10 @@
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\113\\english\\page_12.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "can’t agree with everything he says.\nFrom his book, I can see Smith is an advocate of bringing extinct animals back. He\nsays we have lost many animals because we made their living spaces too dirty. He also\nthinks we must do everything we can to bring them back. However, I don’t know how\nmuch time and money we would need to make the world a better place for them, and\nhonestly no one knows if they could actually come back.\nSmith also says that bringing back extinct animals may be good for us. He talks about\nan extinct frog that grew tadpoles in its stomach. Some women’s babies die before they\nare born, and Smith believes bringing back the frog may be an answer to the problem.\nAccording to him, by studying how the tadpoles grow inside the frog’s stomach, we\nmight be able to find new ways to help these women successfully keep their babies. But",
@@ -841,6 +2031,10 @@
       "page_number": 12,
       "page_image_path": "cap_practice_assets\\113\\english\\page_12.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "don’t think things are as easy as Smith thinks. We have spent ten years and millions\nof dollars on this kind of frog, but all we have got are only a few dead frog eggs. If we\ncan’t see a real frog, how can we be sure women will get the help they need?\nDr. Solomon Wang from the Animal Saving Office says the study of bringing back\nextinct animals is “throwing good money after bad.” And he’s right. A lot of hard work\nhas been put into this expensive dream, but we haven’t seen anything come out of it.\nSo should we still keep going down this road?\nextinct 絕種的 tadpole 蝌蚪\nVOICES OF PEOPLE\nEllen Zimmer",
@@ -855,7 +2049,46 @@
       "display_number": 38,
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\113\\english\\page_13.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.311614,
+        "x1": 0.98,
+        "y1": 0.439329
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.311614,
+        "x1": 0.98,
+        "y1": 0.340809
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.340629,
+          "x1": 0.98,
+          "y1": 0.359212
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.361645,
+          "x1": 0.98,
+          "y1": 0.380519
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.382952,
+          "x1": 0.98,
+          "y1": 0.401827
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.40426,
+          "x1": 0.98,
+          "y1": 0.439329
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What does it mean when someone is an advocate of something?",
@@ -875,7 +2108,46 @@
       "display_number": 39,
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\113\\english\\page_13.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.439329,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.439329,
+        "x1": 0.98,
+        "y1": 0.468524
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.468183,
+          "x1": 0.98,
+          "y1": 0.487057
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.48949,
+          "x1": 0.98,
+          "y1": 0.508365
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.510798,
+          "x1": 0.98,
+          "y1": 0.529673
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.532106,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What is special about the extinct frog in Smith’s book?",
@@ -896,6 +2168,10 @@
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\113\\english\\page_13.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Why does Ellen Zimmer use the words from Dr. Solomon Wang?",
@@ -916,6 +2192,10 @@
       "page_number": 13,
       "page_image_path": "cap_practice_assets\\113\\english\\page_13.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does Ellen Zimmer most likely think about bringing back extinct animals?",
@@ -935,7 +2215,34 @@
       "display_number": 42,
       "page_number": 15,
       "page_image_path": "cap_practice_assets\\113\\english\\page_15.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.595062,
+        "x1": 0.98,
+        "y1": 0.701494
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.595062,
+        "x1": 0.98,
+        "y1": 0.624257
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.645065,
+          "x1": 0.98,
+          "y1": 0.66394
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.666373,
+          "x1": 0.98,
+          "y1": 0.701494
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "The\nAmericans’ experience can tell us whether it really saved lives.\n試題結束",
       "stem": "",
@@ -955,7 +2262,46 @@
       "display_number": 43,
       "page_number": 15,
       "page_image_path": "cap_practice_assets\\113\\english\\page_15.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.701494,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.701494,
+        "x1": 0.98,
+        "y1": 0.730689
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.708988,
+          "x1": 0.98,
+          "y1": 0.727863
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.730296,
+          "x1": 0.98,
+          "y1": 0.749171
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.751604,
+          "x1": 0.98,
+          "y1": 0.770478
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.772911,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",

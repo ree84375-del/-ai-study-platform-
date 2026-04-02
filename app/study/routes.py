@@ -566,44 +566,110 @@ def _render_cap_page_png(relative_pdf_path, page_number, crop_signature=None):
     return _render_document_page_png(relative_pdf_path, page_number, crop_signature)
 
 
+def _build_cap_asset_href(year, subject_slug, page_number, crop_box=None):
+    if not page_number:
+        return None
+    crop_signature = _serialize_cap_crop(crop_box)
+    return url_for(
+        'study.practice_cap_asset',
+        year=year,
+        subject=subject_slug,
+        page_number=page_number,
+        crop=crop_signature if crop_signature else None,
+    )
+
+
+def _build_cap_option_items(item, subject_slug):
+    options = item.get('options') or {}
+    option_crop_boxes = item.get('option_crop_boxes') or {}
+    option_items = []
+    for key in ('A', 'B', 'C', 'D'):
+        text = options.get(key, '')
+        crop_box = option_crop_boxes.get(key)
+        image_href = _build_cap_asset_href(
+            item.get('year'),
+            subject_slug,
+            item.get('page_number'),
+            crop_box,
+        ) if crop_box else None
+        option_items.append(
+            {
+                'key': key,
+                'text': text,
+                'image_href': image_href,
+                'has_text': bool(str(text or '').strip()),
+                'has_image': bool(image_href),
+            }
+        )
+    return option_items
+
+
+def _mark_cap_review_options(option_items, selected_answer, correct_answer):
+    marked_options = []
+    selected_answer = str(selected_answer or '').strip().upper()
+    correct_answer = str(correct_answer or '').strip().upper()
+    for option in option_items:
+        marked_options.append(
+            {
+                **option,
+                'is_selected': option.get('key') == selected_answer,
+                'is_correct': option.get('key') == correct_answer,
+            }
+        )
+    return marked_options
+
+
 def _build_cap_question_item(item, subject_slug):
     options = item.get('options') or {}
     correct_answer = str(item.get('correct_answer') or '').strip().upper()
     page_number = item.get('page_number')
-    page_image_href = None
+    page_image_href = _build_cap_asset_href(item.get('year'), subject_slug, page_number)
     page_image_note = None
     question_image_href = None
-    crop_signature = _serialize_cap_crop(item.get('crop_box'))
+    group_image_href = None
+    question_crop_box = item.get('question_crop_box') or item.get('crop_box')
+    group_crop_box = item.get('group_crop_box')
     if page_number:
-        page_image_href = url_for(
-            'study.practice_cap_asset',
-            year=item.get('year'),
-            subject=subject_slug,
-            page_number=page_number,
-        )
-        if crop_signature:
-            question_image_href = url_for(
-                'study.practice_cap_asset',
-                year=item.get('year'),
-                subject=subject_slug,
-                page_number=page_number,
-                crop=crop_signature,
+        if question_crop_box and bool(item.get('visual_primary')):
+            question_image_href = _build_cap_asset_href(
+                item.get('year'),
+                subject_slug,
+                page_number,
+                question_crop_box,
             )
-        else:
-            question_image_href = page_image_href
-        page_image_note = f"題目圖像擷取自原始題本第 {page_number} 頁。"
+        if group_crop_box:
+            group_image_href = _build_cap_asset_href(
+                item.get('year'),
+                subject_slug,
+                page_number,
+                group_crop_box,
+            )
+        page_image_note = f"題圖依原始題本第 {page_number} 頁裁切。"
+
+    option_items = _build_cap_option_items(item, subject_slug)
+    correct_option = next((option for option in option_items if option.get('key') == correct_answer), None)
+    has_group_visual = bool(group_image_href)
+    has_question_visual = bool(question_image_href and question_image_href != group_image_href)
+    has_option_visuals = any(option.get('has_image') for option in option_items)
 
     return {
         **item,
         'group_label': item.get('group_label'),
         'correct_answer': correct_answer,
         'correct_option_text': options.get(correct_answer, ''),
+        'correct_option_image_href': correct_option.get('image_href') if correct_option else None,
         'page_image_href': page_image_href,
         'question_image_href': question_image_href,
+        'group_image_href': group_image_href,
         'page_image_note': page_image_note,
         'use_visual_primary': bool(item.get('visual_primary')),
         'explanation_sections': _build_explanation_sections(item.get('explanation')),
         'answer_field_name': _cap_question_field_name(item.get('question_key')),
+        'option_items': option_items,
+        'has_group_visual': has_group_visual,
+        'has_question_visual': has_question_visual,
+        'has_option_visuals': has_option_visuals,
+        'has_any_visuals': bool(has_group_visual or has_question_visual or has_option_visuals),
     }
 
 
@@ -638,7 +704,7 @@ def _build_cap_question_groups(question_items):
             'year': item.get('year'),
             'context': context,
             'question_total': 1,
-            'shared_image_href': item.get('page_image_href'),
+            'shared_image_href': item.get('group_image_href') or item.get('question_image_href') or item.get('page_image_href'),
             'questions': [item],
         }
         groups.append(current_group)
@@ -1347,10 +1413,22 @@ def practice_cap_review():
         if is_correct:
             correct_count += 1
 
+        review_option_items = _mark_cap_review_options(
+            item.get('option_items') or [],
+            selected_answer,
+            item.get('correct_answer'),
+        )
+        selected_option = next((option for option in review_option_items if option.get('is_selected')), None)
+        correct_option = next((option for option in review_option_items if option.get('is_correct')), None)
+
         review_items.append({
             **item,
             'selected_answer': selected_answer or '未作答',
-            'selected_option_text': item.get('options', {}).get(selected_answer, '') if selected_answer else '',
+            'selected_option_text': selected_option.get('text', '') if selected_option else '',
+            'selected_option_image_href': selected_option.get('image_href') if selected_option else None,
+            'correct_option_text': correct_option.get('text', '') if correct_option else item.get('correct_option_text', ''),
+            'correct_option_image_href': correct_option.get('image_href') if correct_option else None,
+            'options': review_option_items,
             'is_correct': is_correct,
         })
 

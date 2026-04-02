@@ -132,7 +132,51 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.089382,
+        "x1": 0.98,
+        "y1": 0.257256
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.089382,
+        "x1": 0.98,
+        "y1": 0.118577
+      },
+      "group_crop_box": {
+        "x0": 0.06,
+        "y0": 0.089382,
+        "x1": 0.98,
+        "y1": 0.118577
+      },
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.113712,
+          "x1": 0.98,
+          "y1": 0.13135
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.133783,
+          "x1": 0.98,
+          "y1": 0.151422
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.153855,
+          "x1": 0.98,
+          "y1": 0.171494
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.173927,
+          "x1": 0.98,
+          "y1": 0.257256
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分: 單題 (第1-15題，共15題)",
       "stem": "Look at the picture. The girl is the clothes.",
@@ -152,7 +196,46 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.257256,
+        "x1": 0.98,
+        "y1": 0.321121
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.257256,
+        "x1": 0.98,
+        "y1": 0.286451
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.281585,
+          "x1": 0.256914,
+          "y1": 0.321121
+        },
+        "B": {
+          "x0": 0.256914,
+          "y0": 0.281585,
+          "x1": 0.437844,
+          "y1": 0.321121
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.281585,
+          "x1": 0.61864,
+          "y1": 0.321121
+        },
+        "D": {
+          "x0": 0.61864,
+          "y0": 0.281585,
+          "x1": 0.98,
+          "y1": 0.321121
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "The is so strong today that my hair keeps blowing in the air.",
@@ -172,7 +255,21 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.321121,
+        "x1": 0.98,
+        "y1": 0.384986
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.321121,
+        "x1": 0.98,
+        "y1": 0.350316
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "When the baby cried, Mr. Wu in the kitchen and did not hear it.",
@@ -192,7 +289,46 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.384986,
+        "x1": 0.98,
+        "y1": 0.448851
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.384986,
+        "x1": 0.98,
+        "y1": 0.414181
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.409315,
+          "x1": 0.256913,
+          "y1": 0.448851
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.409315,
+          "x1": 0.437844,
+          "y1": 0.448851
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.409315,
+          "x1": 0.618639,
+          "y1": 0.448851
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.409315,
+          "x1": 0.98,
+          "y1": 0.448851
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -207,7 +343,21 @@
       "display_number": 5,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.448851,
+        "x1": 0.98,
+        "y1": 0.512716
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.448851,
+        "x1": 0.98,
+        "y1": 0.478046
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "don’t have any money with me because I my wallet this morning.",
@@ -227,7 +377,34 @@
       "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.512716,
+        "x1": 0.98,
+        "y1": 0.598477
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.512716,
+        "x1": 0.98,
+        "y1": 0.541911
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.515149,
+          "x1": 0.98,
+          "y1": 0.556509
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.558942,
+          "x1": 0.98,
+          "y1": 0.598477
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "You need not only good luck but also hard work to become a baseball player.",
@@ -247,7 +424,34 @@
       "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.598477,
+        "x1": 0.98,
+        "y1": 0.684239
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.598477,
+        "x1": 0.98,
+        "y1": 0.627672
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.622807,
+          "x1": 0.98,
+          "y1": 0.64227
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.644703,
+          "x1": 0.98,
+          "y1": 0.684239
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "The woman who lives next door to Ken is a to him. They have never met and he doesn’t even know her name.",
@@ -267,7 +471,46 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.684239,
+        "x1": 0.98,
+        "y1": 0.77
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.684239,
+        "x1": 0.98,
+        "y1": 0.728032
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.730465,
+          "x1": 0.256913,
+          "y1": 0.77
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.730465,
+          "x1": 0.437844,
+          "y1": 0.77
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.730465,
+          "x1": 0.618639,
+          "y1": 0.77
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.730465,
+          "x1": 0.98,
+          "y1": 0.77
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "With the new bus line, it is much more for Fanny to go to school. It saves her a lot of time now.",
@@ -287,7 +530,21 @@
       "display_number": 9,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.77,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.77,
+        "x1": 0.98,
+        "y1": 0.814401
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Dad: Have you brushed your teeth yet? Ann: No, but I before I go to bed.",
@@ -308,6 +565,10 @@
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\107\\english\\page_02.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Alice: Do you know Grandma is going to visit us? Willy: It’s next week. She told me on the phone. And we’ll take her to the national park.",
@@ -333,6 +594,40 @@
         "x1": 1.0,
         "y1": 0.269119
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.098949,
+        "x1": 1.0,
+        "y1": 0.128144
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.113712,
+          "x1": 1.0,
+          "y1": 0.13135
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.133783,
+          "x1": 1.0,
+          "y1": 0.151422
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.153855,
+          "x1": 1.0,
+          "y1": 0.171494
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.173927,
+          "x1": 1.0,
+          "y1": 0.269119
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "Over the past 20 years, this\ncity has used smart ways 19 . One is to keep the same total number of parking\nspaces. For example, if 50 new parking spaces are built in one part of the city, then",
       "stem": "1. Look atthe picture. The girlis __ the clothes.",
@@ -358,6 +653,40 @@
         "x1": 1.0,
         "y1": 0.333041
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.266783,
+        "x1": 1.0,
+        "y1": 0.295978
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.249957,
+          "x1": 0.256913,
+          "y1": 0.333041
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.249957,
+          "x1": 0.437844,
+          "y1": 0.333041
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.249957,
+          "x1": 0.618639,
+          "y1": 0.333041
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.249957,
+          "x1": 1.0,
+          "y1": 0.333041
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Many famous people visit this restaurant. Popular singers like A-mei and Jay Chou here with their friends.",
@@ -383,6 +712,40 @@
         "x1": 1.0,
         "y1": 0.396673
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.330706,
+        "x1": 1.0,
+        "y1": 0.359901
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.335719,
+          "x1": 0.256913,
+          "y1": 0.396673
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.335719,
+          "x1": 0.437844,
+          "y1": 0.396673
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.335719,
+          "x1": 0.618639,
+          "y1": 0.396673
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.335719,
+          "x1": 1.0,
+          "y1": 0.396673
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "The factory has been throwing trash into the river for years. Now must be taken to stop this.",
@@ -408,6 +771,40 @@
         "x1": 1.0,
         "y1": 0.460887
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.394337,
+        "x1": 1.0,
+        "y1": 0.423532
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.42148,
+          "x1": 0.256913,
+          "y1": 0.460887
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.42148,
+          "x1": 0.437844,
+          "y1": 0.460887
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.42148,
+          "x1": 0.618639,
+          "y1": 0.460887
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.42148,
+          "x1": 1.0,
+          "y1": 0.460887
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "The beach party tonight the end of our summer vacation. Tomorrow we are all going back home and getting ready for school.",
@@ -433,6 +830,22 @@
         "x1": 1.0,
         "y1": 0.524518
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.458552,
+        "x1": 1.0,
+        "y1": 0.487747
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.463717,
+          "x1": 1.0,
+          "y1": 0.510408
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Anyone who reads Loren’s business plan will quickly see some serious problems in it, or feel something is not right.",
@@ -458,6 +871,40 @@
         "x1": 1.0,
         "y1": 0.546118
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.522183,
+        "x1": 1.0,
+        "y1": 0.551378
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.507242,
+          "x1": 0.256913,
+          "y1": 0.546118
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.507242,
+          "x1": 0.437844,
+          "y1": 0.546118
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.507242,
+          "x1": 0.618639,
+          "y1": 0.546118
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.507242,
+          "x1": 1.0,
+          "y1": 0.546118
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "I’ve wanted to read The Diary of a Young Girl for months, today I finally borrowed the book from the library.",
@@ -483,6 +930,40 @@
         "x1": 1.0,
         "y1": 0.610625
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.543783,
+        "x1": 1.0,
+        "y1": 0.572978
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.558942,
+          "x1": 0.256913,
+          "y1": 0.610625
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.558942,
+          "x1": 0.437844,
+          "y1": 0.610625
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.558942,
+          "x1": 0.618639,
+          "y1": 0.610625
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.558942,
+          "x1": 1.0,
+          "y1": 0.610625
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "he doesn’t even know her name.",
@@ -508,6 +989,28 @@
         "x1": 1.0,
         "y1": 0.695855
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.60829,
+        "x1": 1.0,
+        "y1": 0.637485
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.622807,
+          "x1": 1.0,
+          "y1": 0.64227
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.644703,
+          "x1": 1.0,
+          "y1": 0.695855
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "7. With the new bus line, it is much more for Fanny to go to school. It saves her a lot of time now.",
@@ -533,6 +1036,15 @@
         "x1": 1.0,
         "y1": 0.78167
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.69352,
+        "x1": 1.0,
+        "y1": 0.728032
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "8. Dad: Have you brushed your teeth yet? Ann: No, but I before I go to bed.",
@@ -558,6 +1070,15 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.779335,
+        "x1": 1.0,
+        "y1": 0.814401
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "9. Alice: Do you know Grandma is going to visit us? Willy: It’s next week. She told me on the phone. And we'll take her to the national park.",
@@ -583,6 +1104,15 @@
         "x1": 1.0,
         "y1": 0.13164
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.065382,
+        "x1": 1.0,
+        "y1": 0.094577
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "10. It took the police lots of time who entered Liu’s house and killed her one year ago.",
@@ -608,6 +1138,40 @@
         "x1": 1.0,
         "y1": 0.215412
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.129305,
+        "x1": 1.0,
+        "y1": 0.163587
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.16602,
+          "x1": 0.256913,
+          "y1": 0.215412
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.16602,
+          "x1": 0.437844,
+          "y1": 0.215412
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.16602,
+          "x1": 0.618639,
+          "y1": 0.215412
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.16602,
+          "x1": 1.0,
+          "y1": 0.215412
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "11. Many famous people visit this restaurant. Popular singers like A-mei and Jay Chou here with their friends.",
@@ -633,6 +1197,40 @@
         "x1": 1.0,
         "y1": 0.301226
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.213076,
+        "x1": 1.0,
+        "y1": 0.247524
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.249957,
+          "x1": 0.256913,
+          "y1": 0.301226
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.249957,
+          "x1": 0.437844,
+          "y1": 0.301226
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.249957,
+          "x1": 0.618639,
+          "y1": 0.301226
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.249957,
+          "x1": 1.0,
+          "y1": 0.301226
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "12. The factory has been throwing trash into the river for years. Now must be taken to stop this.",
@@ -658,6 +1256,40 @@
         "x1": 1.0,
         "y1": 0.38704
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.298891,
+        "x1": 1.0,
+        "y1": 0.333286
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.335719,
+          "x1": 0.256913,
+          "y1": 0.38704
+        },
+        "B": {
+          "x0": 0.256913,
+          "y0": 0.335719,
+          "x1": 0.437844,
+          "y1": 0.38704
+        },
+        "C": {
+          "x0": 0.437844,
+          "y0": 0.335719,
+          "x1": 0.618639,
+          "y1": 0.38704
+        },
+        "D": {
+          "x0": 0.618639,
+          "y0": 0.335719,
+          "x1": 1.0,
+          "y1": 0.38704
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "13. The beach party tonight the end of our summer vacation. Tomorrow we are all going back home and getting ready for school.",
@@ -683,6 +1315,15 @@
         "x1": 1.0,
         "y1": 0.40864
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.384705,
+        "x1": 1.0,
+        "y1": 0.40864
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "14. Anyone who reads Loren’s business plan will quickly see some serious problems in",
@@ -703,6 +1344,15 @@
         "x1": 1.0,
         "y1": 0.472855
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.406305,
+        "x1": 1.0,
+        "y1": 0.4355
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "it, or feel something is not right.",
@@ -728,6 +1378,28 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.47052,
+        "x1": 1.0,
+        "y1": 0.499715
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.463717,
+          "x1": 1.0,
+          "y1": 0.504809
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.507242,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "15. DTve wanted to read The Diary of a Young Girl for months, today I finally borrowed the book from the library.",
@@ -753,6 +1425,15 @@
         "x1": 1.0,
         "y1": 0.100701
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.063923,
+        "x1": 1.0,
+        "y1": 0.100701
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "; —_— ay: A\na? 3+.26 3)",
@@ -773,6 +1454,15 @@
         "x1": 1.0,
         "y1": 0.152072
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.098365,
+        "x1": 1.0,
+        "y1": 0.12756
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "(16-18)\nRobert likes to take a walk in the park after work. One day when he was walking",
@@ -793,6 +1483,15 @@
         "x1": 1.0,
         "y1": 0.217747
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.149737,
+        "x1": 1.0,
+        "y1": 0.178932
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "in the park, he heard a woman calling his name. He stopped to look around, but\ndidn’t see anything 16. Shortly after Robert saw it, it was gone.\nThough Robert felt a little strange, he did not think about it too much and sat",
@@ -813,6 +1512,15 @@
         "x1": 1.0,
         "y1": 0.283421
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.215412,
+        "x1": 1.0,
+        "y1": 0.244607
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "down for a rest on a bench in the park. Then he noticed the snake he had just seen\n17__. Robert was too afraid to move away from the bench. Right at this moment,\na woman behind him shouted, “Come here, Robert. You can’t stay on the bench like",
@@ -833,6 +1541,15 @@
         "x1": 1.0,
         "y1": 0.328955
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.281086,
+        "x1": 1.0,
+        "y1": 0.328955
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "that. 18 .”\nIn surprise, Robert turned around and said to the woman, “Excuse me, but that’s",
@@ -853,6 +1570,15 @@
         "x1": 1.0,
         "y1": 0.392878
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.32662,
+        "x1": 1.0,
+        "y1": 0.355815
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "not a very nice thing to say, and in fact some people\nsay I’m handsome.” (2) 2.\n“T’m not talking to you,” said the woman. “I’m al LY a”",
@@ -873,6 +1599,15 @@
         "x1": 1.0,
         "y1": 0.481319
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.390543,
+        "x1": 1.0,
+        "y1": 0.481319
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "telling Robert, my pet snake, to get down from the\nbench, not you.” oe ie\nwoe MH",
@@ -893,6 +1628,40 @@
         "x1": 1.0,
         "y1": 0.590776
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.478984,
+        "x1": 1.0,
+        "y1": 0.508179
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.471964,
+          "x1": 1.0,
+          "y1": 0.491427
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.49386,
+          "x1": 1.0,
+          "y1": 0.513324
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.515757,
+          "x1": 1.0,
+          "y1": 0.535221
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.537653,
+          "x1": 1.0,
+          "y1": 0.590776
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "16.",
@@ -918,6 +1687,40 @@
         "x1": 1.0,
         "y1": 0.700234
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.588441,
+        "x1": 1.0,
+        "y1": 0.617636
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.581447,
+          "x1": 1.0,
+          "y1": 0.60091
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.603343,
+          "x1": 1.0,
+          "y1": 0.622807
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.62524,
+          "x1": 1.0,
+          "y1": 0.644703
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.647136,
+          "x1": 1.0,
+          "y1": 0.700234
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "17.",
@@ -943,6 +1746,40 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.697898,
+        "x1": 1.0,
+        "y1": 0.727093
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.690929,
+          "x1": 1.0,
+          "y1": 0.710393
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.712826,
+          "x1": 1.0,
+          "y1": 0.732289
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.734722,
+          "x1": 1.0,
+          "y1": 0.754186
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.756619,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "18.",
@@ -968,6 +1805,15 @@
         "x1": 1.0,
         "y1": 0.120841
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.06509,
+        "x1": 1.0,
+        "y1": 0.120841
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "(19-21)\nIf you cannot live without your car, Zurich might be the last city you would like",
@@ -988,6 +1834,15 @@
         "x1": 1.0,
         "y1": 0.208406
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.118506,
+        "x1": 1.0,
+        "y1": 0.208406
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "to visit. In Zurich, people are welcome, but cars are not! Over the past 20 years, this\ncity has used smart ways 19. One is to keep the same total number of parking\nspaces. For example, if 50 new parking spaces are built in one part of the city, then\n50 old spaces in other parts are taken away for other uses. So the total number does",
@@ -1008,6 +1863,15 @@
         "x1": 1.0,
         "y1": 0.276124
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.206071,
+        "x1": 1.0,
+        "y1": 0.276124
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "single",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "not change. Some are unhappy that there are never enough spaces. That is just what\nthe city has in mind: If people find parking more difficult, they will drive less.\n20 __, the total number of cars in the city is counted. Over 3,500 little",
@@ -1028,6 +1892,40 @@
         "x1": 1.0,
         "y1": 0.991243
       },
+      "question_crop_box": {
+        "x0": 0.059653,
+        "y0": 0.273789,
+        "x1": 1.0,
+        "y1": 0.458583
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.461016,
+          "x1": 1.0,
+          "y1": 0.480479
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.482912,
+          "x1": 1.0,
+          "y1": 0.502376
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.504809,
+          "x1": 1.0,
+          "y1": 0.524272
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.526705,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "computers are put under Zurich roads to check the number of cars that enter the city. If the number is higher than the city can deal with, the traffic lights on the roads that enter the city will be kept red. So drivers who are traveling into Zurich have to stop and wait until there are fewer cars in the city. Now, you may wonder 21 . The answer is simple: The city wants to make more space for its people. 19.",

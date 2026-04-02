@@ -119,7 +119,21 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.089388,
+        "x1": 0.98,
+        "y1": 0.237187
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.089388,
+        "x1": 0.98,
+        "y1": 0.118583
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分: 單題 (第1-14題，共14題)",
       "stem": "In the picture, the boy is the old man.",
@@ -139,7 +153,34 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.237187,
+        "x1": 0.98,
+        "y1": 0.300586
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.237187,
+        "x1": 0.98,
+        "y1": 0.266382
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.23962,
+          "x1": 0.98,
+          "y1": 0.25909
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.261523,
+          "x1": 0.98,
+          "y1": 0.300586
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Listen! The baby in the bedroom. Why don’t you go in and take a look?",
@@ -159,7 +200,46 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.300586,
+        "x1": 0.98,
+        "y1": 0.385129
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.300586,
+        "x1": 0.98,
+        "y1": 0.344249
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.346682,
+          "x1": 0.256904,
+          "y1": 0.385129
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.346682,
+          "x1": 0.437834,
+          "y1": 0.385129
+        },
+        "C": {
+          "x0": 0.437834,
+          "y0": 0.346682,
+          "x1": 0.61863,
+          "y1": 0.385129
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.346682,
+          "x1": 0.98,
+          "y1": 0.385129
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Jill is that the city park is closed for the music festival because now she can’t jog there.",
@@ -179,7 +259,34 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.385129,
+        "x1": 0.98,
+        "y1": 0.448385
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.385129,
+        "x1": 0.98,
+        "y1": 0.414324
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.387562,
+          "x1": 0.98,
+          "y1": 0.407506
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.409939,
+          "x1": 0.98,
+          "y1": 0.448385
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Steven wants to be a , because he loves to watch people enjoy the food he prepares.",
@@ -199,7 +306,21 @@
       "display_number": 5,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.448385,
+        "x1": 0.98,
+        "y1": 0.532928
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.448385,
+        "x1": 0.98,
+        "y1": 0.47758
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Paul misses his parents a lot. He them since he came to work in Taiwan a year ago.",
@@ -219,7 +340,46 @@
       "display_number": 6,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.532928,
+        "x1": 0.98,
+        "y1": 0.617471
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.532928,
+        "x1": 0.98,
+        "y1": 0.576591
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.579024,
+          "x1": 0.256925,
+          "y1": 0.617471
+        },
+        "B": {
+          "x0": 0.256925,
+          "y0": 0.579024,
+          "x1": 0.437856,
+          "y1": 0.617471
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.579024,
+          "x1": 0.618651,
+          "y1": 0.617471
+        },
+        "D": {
+          "x0": 0.618651,
+          "y0": 0.579024,
+          "x1": 0.98,
+          "y1": 0.617471
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Our teacher Ms. Wu seldom laughs, but when she , everyone in the same building can hear her.",
@@ -239,7 +399,34 @@
       "display_number": 7,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.617471,
+        "x1": 0.98,
+        "y1": 0.680727
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.617471,
+        "x1": 0.98,
+        "y1": 0.646666
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.619904,
+          "x1": 0.98,
+          "y1": 0.639848
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.642281,
+          "x1": 0.98,
+          "y1": 0.680727
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "My sister is coming to my home today. She with me for a week.",
@@ -259,7 +446,34 @@
       "display_number": 8,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.680727,
+        "x1": 0.98,
+        "y1": 0.76527
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.680727,
+        "x1": 0.98,
+        "y1": 0.709922
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.68316,
+          "x1": 0.98,
+          "y1": 0.72439
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.726823,
+          "x1": 0.98,
+          "y1": 0.76527
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Edward had worked as a computer engineer for ten years. This helped him a lot when he started his own computer shop.",
@@ -279,7 +493,21 @@
       "display_number": 9,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\110\\english\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.76527,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.76527,
+        "x1": 0.98,
+        "y1": 0.808933
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "If you’re interested in our business plan, this number and ask for Ms. Lee. She’ll answer your questions.",
@@ -299,7 +527,46 @@
       "display_number": 10,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\110\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.141705
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.099734
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.102167,
+          "x1": 0.256904,
+          "y1": 0.141705
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.102167,
+          "x1": 0.437835,
+          "y1": 0.141705
+        },
+        "C": {
+          "x0": 0.437835,
+          "y0": 0.102167,
+          "x1": 0.61863,
+          "y1": 0.141705
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.102167,
+          "x1": 0.98,
+          "y1": 0.141705
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Jimmy would not get up for breakfast, his dad had already tried to pull him from his bed several times.",
@@ -319,7 +586,46 @@
       "display_number": 11,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\110\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.141705,
+        "x1": 0.98,
+        "y1": 0.225647
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.141705,
+        "x1": 0.98,
+        "y1": 0.185511
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.187944,
+          "x1": 0.256904,
+          "y1": 0.225647
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.187944,
+          "x1": 0.437835,
+          "y1": 0.225647
+        },
+        "C": {
+          "x0": 0.437835,
+          "y0": 0.187944,
+          "x1": 0.61863,
+          "y1": 0.225647
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.187944,
+          "x1": 0.98,
+          "y1": 0.225647
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Duncan spent all his money trying to the bookstore his mom left him. Sadly, the business never got better, and he had to close it in the end.",
@@ -339,7 +645,46 @@
       "display_number": 12,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\110\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.225647,
+        "x1": 0.98,
+        "y1": 0.287686
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.225647,
+        "x1": 0.98,
+        "y1": 0.254842
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.249983,
+          "x1": 0.256467,
+          "y1": 0.287686
+        },
+        "B": {
+          "x0": 0.256467,
+          "y0": 0.249983,
+          "x1": 0.437398,
+          "y1": 0.287686
+        },
+        "C": {
+          "x0": 0.437398,
+          "y0": 0.249983,
+          "x1": 0.618193,
+          "y1": 0.287686
+        },
+        "D": {
+          "x0": 0.618193,
+          "y0": 0.249983,
+          "x1": 0.98,
+          "y1": 0.287686
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Fiona loves listening to her children sing songs at school.",
@@ -359,7 +704,46 @@
       "display_number": 13,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\110\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.287686,
+        "x1": 0.98,
+        "y1": 0.371628
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.287686,
+        "x1": 0.98,
+        "y1": 0.331491
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.333924,
+          "x1": 0.256904,
+          "y1": 0.371628
+        },
+        "B": {
+          "x0": 0.256904,
+          "y0": 0.333924,
+          "x1": 0.437835,
+          "y1": 0.371628
+        },
+        "C": {
+          "x0": 0.437835,
+          "y0": 0.333924,
+          "x1": 0.61863,
+          "y1": 0.371628
+        },
+        "D": {
+          "x0": 0.61863,
+          "y0": 0.333924,
+          "x1": 0.98,
+          "y1": 0.371628
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Beverly eats lots of snacks meals. That’s why she is often too full to eat anything at mealtimes.",
@@ -379,7 +763,34 @@
       "display_number": 14,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\110\\english\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.371628,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.371628,
+        "x1": 0.98,
+        "y1": 0.400823
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.395963,
+          "x1": 0.98,
+          "y1": 0.415433
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.417866,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "Nora: Can I check your drawer for some tools we can use? Matt: Sure. Take a look. See if you can find in there.",
@@ -399,7 +810,46 @@
       "display_number": 15,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\110\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.682404,
+        "x1": 0.98,
+        "y1": 0.806482
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.682404,
+        "x1": 0.98,
+        "y1": 0.711599
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.706739,
+          "x1": 0.98,
+          "y1": 0.724374
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.726807,
+          "x1": 0.98,
+          "y1": 0.744443
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.746876,
+          "x1": 0.98,
+          "y1": 0.764511
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.766944,
+          "x1": 0.98,
+          "y1": 0.806482
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What is this ad for?",
@@ -419,7 +869,46 @@
       "display_number": 16,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\110\\english\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.806482,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.806482,
+        "x1": 0.98,
+        "y1": 0.835677
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.830817,
+          "x1": 0.98,
+          "y1": 0.848452
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.850885,
+          "x1": 0.98,
+          "y1": 0.868521
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.870954,
+          "x1": 0.98,
+          "y1": 0.888589
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.891022,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What will NOT get you BeautiMed points?",
@@ -439,7 +928,46 @@
       "display_number": 17,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\110\\english\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.414796,
+        "x1": 0.98,
+        "y1": 0.766978
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.414796,
+        "x1": 0.98,
+        "y1": 0.443991
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.439132,
+          "x1": 0.284192,
+          "y1": 0.597276
+        },
+        "B": {
+          "x0": 0.284192,
+          "y0": 0.439132,
+          "x1": 0.98,
+          "y1": 0.597276
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.599709,
+          "x1": 0.284433,
+          "y1": 0.766978
+        },
+        "D": {
+          "x0": 0.284433,
+          "y0": 0.599709,
+          "x1": 0.98,
+          "y1": 0.766978
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "Join “BeautiMed Friend” online for free and get 2000\nBeautiMed points!\nAlready a “BeautiMed Friend” ? Come collect your free\ngift by entering your “BeautiMed Friend” card number at\ne-BeautiMed before 8/31.\nGet 500 BeautiMed points by shopping at e-BeautiMed and\nyou’ll get 500 more points if you spend more than $1,000.\nShop at e-BeautiMed during 7/1-8/31 and you may win $5,000\nor free movie tickets!\nInvite a friend to join “BeautiMed Friend” and you both can\nget 1000 points each!\nSurprise 1\nSurprise 3\nSurprise 4\nSurprise 5\nSurprise 2\n(17-18)",
       "stem": "Lynn took some photos at Tom’s party. Which is most likely one of them?",
@@ -459,7 +987,46 @@
       "display_number": 18,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\110\\english\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.766978,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.766978,
+        "x1": 0.98,
+        "y1": 0.796173
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.791313,
+          "x1": 0.98,
+          "y1": 0.808949
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.811382,
+          "x1": 0.98,
+          "y1": 0.829017
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.83145,
+          "x1": 0.98,
+          "y1": 0.849085
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.851518,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about Lynn from the dialogue?",
@@ -480,6 +1047,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\110\\english\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "have. I went there once for Tom’s party.\nAnd?\nWell, I never thought I would have to cook for myself when eating out.\nBut it’s fun to cook your own food.",
@@ -495,6 +1066,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\110\\english\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "don’t see any fun in that. Besides, I want nice food.\nSo you didn’t like the food there?\nEverything tasted the same. I mean, they were all cooked in the same boiling\npot. How could they taste different? I just kept throwing strange things into\nthe pot. I didn’t even know what half the things were made of.\nDon’t worry. Everything should be safe to eat after a hot bath in the pot.\nAnd you didn’t get sick after that, right? Besides, you tried something\ndifferent there. Still a good experience, I think?",
@@ -510,6 +1085,10 @@
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\110\\english\\page_05.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "don’t think we share the same idea of good experiences.\nlikely 可能\n(19-21)\nBelow is a page from Katie’s diary.",
@@ -525,6 +1104,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\110\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What do we know about Woollie from Katie’s diary?",
@@ -545,6 +1128,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\110\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Which picture of Woollie and Ms. Clark did Katie talk about in her diary?",
@@ -565,6 +1152,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\110\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What happened when Woollie was put down?",
@@ -585,6 +1176,10 @@
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\110\\english\\page_06.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "was very sad to hear what happened to Woollie yesterday.\nWoollie was my favorite sheep. I have a storybook about Woollie.\nIt says when Woollie was four, he ran away from Mr. Armstrong’s\nfarm, and it took Mr. Armstrong six years to find Woollie. But\nWoollie had grown so much fleece that he didn’t even look like a\nsheep. Mr. Armstrong decided to cut his fleece on TV so everyone\ncould see. Daddy said this happened on the day I was born.\nWoollie’s fleece weighed 27 kg, and could make clothes for 20 large\nmen. I asked Daddy if his favorite vest was made from Woollie’s\nfleece. Daddy said no, because Woollie’s fleece was sold to collect\nmoney for sick kids. In the storybook, Woollie was taken to see\nMs. Stella Clark, the leader of our city then. They even had tea\ntogether. Daddy said Woollie did meet Ms. Clark, but he wasn’t\nsure if they had tea. Daddy said Woollie was put down because he\nwas too sick and there was no way to help him. I cried. I hope\nWoollie will be happy up there in the sky.\n(22-24)",
@@ -600,6 +1195,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\110\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What can we learn about The Piano Lesson from the reading?",
@@ -620,6 +1219,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\110\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does do that mean in the reading?",
@@ -640,6 +1243,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\110\\english\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What is NOT used in the reading to refer to Henri Matisse?",
@@ -660,6 +1267,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\110\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "Well,\nlook at the yellow candle on the red piano. It’s\nalmost burned down. So maybe Pierre has\nalready practiced for hours. And Matisse uses a\nlot of gray, not a very fun color, right? It shows\nhow the poor kid feels, don’t you think?\nOn the top right corner, you can see a woman\nsitting straight on a seat. Is she Pierre’s piano\nteacher? Or his mother? Well, if you’re a\nMatisse fan, you’ll know this is in fact another\npainting by him, Woman on a High Stool. Interesting, right? Matisse likes to do that\na lot. In fact, there’s another work by Matisse in the picture. Did you find it? Right!\nThe sculpture on the bottom left corner!\nMatisse painted this picture in 1916. Pierre was already 16 then, but the artist\npainted his son much younger than he really was. Pierre\nhad gone away to be a soldier, and Matisse didn’t know\nwhether he would come back. Maybe this is a worried\nfather’s way to remember the good old days.\nsculpture 雕像\nrefer to 指稱\n(25-28)",
       "stem": "What idea is talked about in the reading?",
@@ -680,6 +1291,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\110\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Which is true about Teachers’ Day from the reading?",
@@ -700,6 +1315,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\110\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does “not everyone hailed this decision” mean in the reading?",
@@ -720,6 +1339,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\110\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What does the writer try to do with this reading?",
@@ -740,6 +1363,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\110\\english\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "That was when we started to celebrate Teachers’ Day on Confucius’s real\nbirthday.\nrespect 尊敬 government 政府\n(29-31)\nTrain\nNew Line (from 8/14 to 8/28)\nGoing\nSouth\nRL101\nWhite Water City Cloud City\nRL102\nWhite Water City Spring Town\nRL103\nGreen City Cloud City\nGoing\nNorth\nRL201\nSpring Town Green City\nRL202\nCloud City Green City\nTrains that run between Green City and Cloud\nCity will take the Smoke Town – Spring Town\nline, and will stop at every station. Below are\nthe trains that will change lines.",
@@ -755,6 +1382,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\110\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "The free buses for the Sand Town – Spring\nTown line will wait at Green City (going south)\nand Spring Town (going north) stations. No\nstop at Gray Village.",
@@ -770,6 +1401,10 @@
       "page_number": 9,
       "page_image_path": "cap_practice_assets\\110\\english\\page_09.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "White Water City\nSand Town\nGreen City\nSmoke Town\nHill Town\nSpring Town\nCloud City\nGray Village\nBlack Town\nline 路線\nDear Traveler,\nYou have bought an NFR ticket online for a train that runs between White\nWater City and Cloud City.\nWe are sorry to tell you that, because of the typhoon last month, the Sand\nTown – Spring Town line will be closed between August 14 and 28 2016. During\nthis time, some trains will change lines and will not stop at a few stations.\nThere will be free buses to take travelers to these stations. Please check below\nfor the changes. Visit http://www.nfr.gov/ for more information.\nWe wish you a nice summer.\nLena Muller\nNational Formosa Railway",
@@ -785,6 +1420,10 @@
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\110\\english\\page_10.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Why does National Formosa Railway write this letter?",
@@ -805,6 +1444,10 @@
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\110\\english\\page_10.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What is true about NFR’s trains between August 14 and 28 2016?",
@@ -825,6 +1468,10 @@
       "page_number": 10,
       "page_image_path": "cap_practice_assets\\110\\english\\page_10.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "James lives in Smoke Town. He wants to go to Black Town on August 19. How can he get there?",
@@ -845,6 +1492,10 @@
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\110\\english\\page_11.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Below are the ideas that are talked about in the reading. a. The problems Darayya has. b. How Darayya’s library was started. c. What makes Darayya’s library special. d. How Darayya’s library helps people there. In what order does the writer put his ideas in the reading?",
@@ -865,6 +1516,10 @@
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\110\\english\\page_11.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "Why do people in Darayya go to the library even during the war?",
@@ -885,6 +1540,10 @@
       "page_number": 11,
       "page_image_path": "cap_practice_assets\\110\\english\\page_11.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "What do we know about Darayya’s library?",

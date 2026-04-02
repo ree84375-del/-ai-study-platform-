@@ -87,7 +87,21 @@
       "display_number": 1,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\105\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.093883,
+        "x1": 0.98,
+        "y1": 0.272705
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.093883,
+        "x1": 0.98,
+        "y1": 0.123078
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "第一部分：選擇題（第1 ~ 25 題）",
       "stem": "x = −3 ， y = 1 為下列哪一個二元一次方程式的解？",
@@ -107,7 +121,40 @@
       "display_number": 2,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\105\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.272705,
+        "x1": 0.98,
+        "y1": 0.361165
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.272705,
+        "x1": 0.98,
+        "y1": 0.3019
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.280792,
+          "x1": 0.98,
+          "y1": 0.300684
+        },
+        "A": {
+          "x0": 0.06,
+          "y0": 0.303117,
+          "x1": 0.98,
+          "y1": 0.321364
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.323797,
+          "x1": 0.98,
+          "y1": 0.361165
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "算式 [ −5 − (−11) ] ÷ ( 3 2 × 4 ) 之值為何？",
@@ -127,7 +174,21 @@
       "display_number": 3,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\105\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.361165,
+        "x1": 0.98,
+        "y1": 0.666843
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.361165,
+        "x1": 0.98,
+        "y1": 0.39036
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "計算 ( 2x + 1 )( x − 1 ) − ( x2 + x − 2 ) 的結果，與下列哪一個式子相同？",
@@ -147,7 +208,21 @@
       "display_number": 4,
       "page_number": 2,
       "page_image_path": "cap_practice_assets\\105\\math\\page_02.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.666843,
+        "x1": 0.98,
+        "y1": 0.786846
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.666843,
+        "x1": 0.98,
+        "y1": 0.696038
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 一)，已知扇形 AOB 的半徑為10 公分，圓心角為 54°， 則此扇形面積為多少平方公分？",
@@ -167,7 +242,21 @@
       "display_number": 5,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\105\\math\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.348379
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.085124
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 二) 數線上的 A、B、C 三點所表示的數分別為 a、 b、 c 。若 a − b = 3， b − c = 5 ， 且原點 O 與 A、 B 的距離分別為 4、 1 ，則關於 O 的位置，下列 敘述何者正確？",
@@ -187,7 +276,21 @@
       "display_number": 6,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\105\\math\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.348379,
+        "x1": 0.98,
+        "y1": 0.591178
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.348379,
+        "x1": 0.98,
+        "y1": 0.377574
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "多項式 77x2 − 13x − 30 可因式分解成 ( 7x + a )( bx + c )，其中 a、 b、c 均為 整數，求 a + b + c 之值為何？",
@@ -207,7 +310,21 @@
       "display_number": 7,
       "page_number": 3,
       "page_image_path": "cap_practice_assets\\105\\math\\page_03.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.591178,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.591178,
+        "x1": 0.98,
+        "y1": 0.638125
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 三)、圖( 四) 分別為甲、乙兩班學生參加投籃測驗的投進球數長條圖。 若甲、乙兩班學生的投進球數的衆數分別為 a、b ；中位數分別為 c、d ，則 下列關於 a、b、c、 d 的大小關係，何者正確？",
@@ -227,7 +344,21 @@
       "display_number": 8,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\105\\math\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.323554
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.100022
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖(五)， 有一平行四邊形 ABCD 與一正方形 CEFG， 其中 E 點在 AD 上。 若 ∠ECD = 35°， ∠AEF = 15°，則 ∠B 的度數為何？",
@@ -247,7 +378,21 @@
       "display_number": 9,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\105\\math\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.323554,
+        "x1": 0.98,
+        "y1": 0.591178
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.323554,
+        "x1": 0.98,
+        "y1": 0.420872
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "小昱和阿帆均從同一本書的第 1 頁開始，逐頁依順序在每一頁上寫一個數。小昱 在第 1 頁寫 1，且之後每一頁寫的數均為他在前一頁寫的數加 2；阿帆在第 1 頁 寫 1，且之後每一頁寫的數均為他在前一頁寫的數加 7。若小昱在某頁寫的數為 101，則阿帆在該頁寫的數為何？",
@@ -267,7 +412,21 @@
       "display_number": 10,
       "page_number": 4,
       "page_image_path": "cap_practice_assets\\105\\math\\page_04.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.591178,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.591178,
+        "x1": 0.98,
+        "y1": 0.674349
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "甲箱內有 4 顆球，顏色分別為紅、 黃、 綠、藍；乙箱內有 3 顆球，顏色分別 為紅、黃、黑。小賴打算同時從甲、乙兩個箱子中各抽出一顆球，若同一箱中 每球被抽出的機會相等，則小賴抽出的兩顆球顏色相同的機率為何？",
@@ -287,7 +446,21 @@
       "display_number": 11,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\105\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.250565
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.104588
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "坐標平面上有一個二元一次方程式的圖形，此圖形通過 ( − 3 , 0 )、 ( 0 , − 5 ) 兩點。 判斷此圖形與下列哪一個方程式的圖形的交點在第三象限？",
@@ -307,7 +480,21 @@
       "display_number": 12,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\105\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.250565,
+        "x1": 0.98,
+        "y1": 0.469531
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.250565,
+        "x1": 0.98,
+        "y1": 0.27976
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 六)， △ABC 中， D、E 兩點分別在 AC 、 BC 上， DE 為 BC 的中垂線， BD 為 ∠ADE 的角平分線。 若 ∠A = 58°， 則 ∠ABD 的度數為何？",
@@ -327,7 +514,21 @@
       "display_number": 13,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\105\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.469531,
+        "x1": 0.98,
+        "y1": 0.664167
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.469531,
+        "x1": 0.98,
+        "y1": 0.51819
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "若一正方形的面積為 20 平方公分，周長為 x 公分，則 x 的值介於下列哪兩個 整數之間？",
@@ -347,7 +548,21 @@
       "display_number": 14,
       "page_number": 5,
       "page_image_path": "cap_practice_assets\\105\\math\\page_05.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.664167,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.664167,
+        "x1": 0.98,
+        "y1": 0.728444
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 七)，圓 O 通過五邊形 OABCD 的四個頂點。 若 ABD = 150°， ∠A = 65°， ∠D = 60°，則 BC 的度數 為何？",
@@ -367,7 +582,21 @@
       "display_number": 15,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\105\\math\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.372213
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.138238
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖(八)的六邊形是由甲、 乙兩個長方形和丙、 丁兩個等腰直角三角形所組成， 其中甲、乙的面積和等於丙、丁的面積和。若丙的一股長為 2，且丁的面積比 丙的面積小，則丁的一股長為何？",
@@ -387,7 +616,21 @@
       "display_number": 16,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\105\\math\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.372213,
+        "x1": 0.98,
+        "y1": 0.639837
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.372213,
+        "x1": 0.98,
+        "y1": 0.445201
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 九) 的矩形 ABCD 中， E 點在 CD 上，且 AE < AC 。若 P、 Q 兩點分別在 AD 、 AE 上， AP：PD = 4：1， AQ：QE = 4：1，直線 PQ 交 AC 於 R 點， 且 Q、R 兩點到 CD 的距離分別為 q、 r ，則下列關係何者正確？",
@@ -407,7 +650,21 @@
       "display_number": 17,
       "page_number": 6,
       "page_image_path": "cap_practice_assets\\105\\math\\page_06.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.639837,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.639837,
+        "x1": 0.98,
+        "y1": 0.687263
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "已知 a、 b、c 為三正整數，且 a、b 的最大公因數為 12， a、c 的最大公因數 為 18。若a 介於 50 與 100 之間，則下列敘述何者正確？",
@@ -427,7 +684,21 @@
       "display_number": 18,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\105\\math\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.333285
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.055929,
+        "x1": 0.98,
+        "y1": 0.153247
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 十)，有一內部裝有水的直圓柱形水桶，桶高 20 公分；另有一直圓柱形的 實心鐵柱， 柱高 30 公分， 直立放置於水桶底面上， 水桶內的水面高度為 12 公分， 且水桶與鐵柱的底面半徑比為 2：1。今小賢將鐵柱移至水桶外部，過程中 水桶內的水量未改變，若不計水桶厚度，則水桶內的水面高度變為多少公分？",
@@ -447,7 +718,21 @@
       "display_number": 19,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\105\\math\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.333285,
+        "x1": 0.98,
+        "y1": 0.649569
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.333285,
+        "x1": 0.98,
+        "y1": 0.454933
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "表( 一) 為小潔打算在某電信公司購買一支MAT 手機與搭配一個門號的兩種方案。 此公司每個月收取通話費與月租費的方式如下：若通話費超過月租費，只收通話費； 若通話費不超過月租費，只收月租費。若小潔每個月的通話費均為 x 元，x 為 400 到 600 之間的整數，則在不考慮其他費用並使用兩年的情況下，x 至少為多少 才會使得選擇乙方案的總花費比甲方案便宜？",
@@ -467,7 +752,40 @@
       "display_number": 20,
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\105\\math\\page_07.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.649569,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.649569,
+        "x1": 0.98,
+        "y1": 0.678764
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.650769,
+          "x1": 0.98,
+          "y1": 0.672186
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.674619,
+          "x1": 0.98,
+          "y1": 0.766351
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.768784,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "如圖( 十一)，以矩形 ABCD 的 A 為圓心， AD 長為半徑\n畫弧，交 AB 於 F 點；再以 C 為圓心， CD 長為半徑畫弧，\n交 AB 於 E 點。 若 AD = 5， CD = 17",
@@ -483,6 +801,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\105\\math\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "則 EF 的長度為何？",
@@ -503,6 +825,10 @@
       "page_number": 7,
       "page_image_path": "cap_practice_assets\\105\\math\\page_07.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "MATЋᐒሽ਱(ϡ)\nҘБਢ\nΌБਢ\n圖( 十一)\nA\nE\nF\nD\nB\nC",
@@ -517,7 +843,21 @@
       "display_number": 23,
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\105\\math\\page_08.png",
-      "crop_box": null,
+      "crop_box": {
+        "x0": 0.06,
+        "y0": 0.639837,
+        "x1": 0.98,
+        "y1": 0.985402
+      },
+      "question_crop_box": {
+        "x0": 0.06,
+        "y0": 0.639837,
+        "x1": 0.98,
+        "y1": 0.669032
+      },
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "坐標平面上，某二次函數圖形的頂點為 ( 2 , −1 )，此函數圖形與 x 軸相交於 P、 Q 兩點， 且 PQ = 6。若此函數圖形通過 ( 1 , a )、 ( 3 , b )、 ( −1 , c )、 ( −3 , d ) 四點， 則 a、b 、c 、d 之值何者為正？",
@@ -538,6 +878,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\105\\math\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "圖( 十二) 的矩形 ABCD 中， E 為 AB 的中點，有一圓過 C、D、E 三點， 且此圓分別與 AD、BC 相交於 P、Q 兩點。甲、乙兩人想找到此圓的圓心O ， 其作法如下： ( 甲) 作 ∠DEC 的角平分線 L，作 DE 的中垂線，交 L 於 O 點，則 O 即為所求 ( 乙) 連接 PC、QD ，兩線段交於一點 O，則 O 即為所求 對於甲、乙兩人的作法，下列判斷何者正確？",
@@ -558,6 +902,10 @@
       "page_number": 8,
       "page_image_path": "cap_practice_assets\\105\\math\\page_08.png",
       "crop_box": null,
+      "question_crop_box": null,
+      "group_crop_box": null,
+      "option_crop_boxes": {},
+      "option_layout": "none",
       "parse_status": "complete",
       "context": "",
       "stem": "如圖( 十三)，正六邊形 ABCDEF 中， P、 Q 兩點 分別為 △ACF、 △CEF 的內心。若 AF = 2，則 PQ 的長度為何？",
