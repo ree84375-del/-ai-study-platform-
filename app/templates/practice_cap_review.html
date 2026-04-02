@@ -300,16 +300,16 @@
             </div>
             {% endif %}
 
-            {% if not item.use_visual_primary %}
+            {% if item.stem %}
             <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
             {% endif %}
 
             {% if item.has_question_visual and item.question_image_href %}
             <div class="review-visual-box">
-                <strong>{% if item.use_visual_primary %}題目主圖{% else %}題目截圖{% endif %}</strong>
+                <strong>題目附圖</strong>
                 <div>
                     {{ item.page_image_note }}
-                    {% if item.use_visual_primary %}<br>這題的主圖已獨立抽出，檢討時不用再回頭找整頁。{% endif %}
+                    <br>檢討時會同時保留題目文字與題目附圖，不需要再回整頁找內容。
                 </div>
                 <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
             </div>

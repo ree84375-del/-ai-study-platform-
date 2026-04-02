@@ -627,10 +627,10 @@ def _build_cap_question_item(item, subject_slug):
     page_image_note = None
     question_image_href = None
     group_image_href = None
-    question_crop_box = item.get('question_crop_box') or item.get('crop_box')
+    question_crop_box = item.get('question_visual_crop_box') or item.get('question_crop_box') or item.get('crop_box')
     group_crop_box = item.get('group_crop_box')
     if page_number:
-        if question_crop_box and bool(item.get('visual_primary')):
+        if question_crop_box:
             question_image_href = _build_cap_asset_href(
                 item.get('year'),
                 subject_slug,

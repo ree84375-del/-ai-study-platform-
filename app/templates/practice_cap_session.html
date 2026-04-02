@@ -456,15 +456,15 @@
             {% endif %}
 
             <div style="display:grid; gap:0.65rem;">
-                {% if not item.use_visual_primary %}
+                {% if item.stem %}
                 <h2>{{ item.stem|replace('\n', '<br>')|safe }}</h2>
                 {% endif %}
                 {% if item.has_question_visual and item.question_image_href %}
                 <div class="cap-visual-box">
-                    <strong>{% if item.use_visual_primary %}題目主圖{% else %}題目截圖{% endif %}</strong>
+                    <strong>題目附圖</strong>
                     <div>
                         {{ item.page_image_note }}
-                        {% if item.use_visual_primary %}<br>題目主圖已抽成單獨區塊，作答時可以直接對照。{% endif %}
+                        <br>題目文字和題目附圖分開呈現，作答時可直接對照。
                     </div>
                     <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
                 </div>

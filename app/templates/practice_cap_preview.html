@@ -462,16 +462,16 @@
                     {% endif %}
                 </div>
 
-                {% if not item.use_visual_primary %}
+                {% if item.stem %}
                 <h3>{{ item.stem|replace('\n', '<br>')|safe }}</h3>
                 {% endif %}
 
                 {% if item.has_question_visual and item.question_image_href %}
                 <div class="cap-visual-box">
-                    <strong>{% if item.use_visual_primary %}題目主圖{% else %}題目截圖{% endif %}</strong>
+                    <strong>題目附圖</strong>
                     <div>
                         {{ item.page_image_note }}
-                        {% if item.use_visual_primary %}<br>題目文字與圖像一起比對，避免只看整頁造成閱讀負擔。{% endif %}
+                        <br>題目文字與題目附圖會分開顯示，作答時不用再回頭看整頁。
                     </div>
                     <img src="{{ item.question_image_href }}" alt="{{ item.year }} 年 {{ selected_subject.label }} 第 {{ item.source_question_number }} 題題目截圖">
                 </div>

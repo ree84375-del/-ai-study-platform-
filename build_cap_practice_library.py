@@ -7,7 +7,9 @@ from collections import Counter, defaultdict
 from datetime import datetime
 from pathlib import Path
 
+import cv2
 import fitz
+import numpy as np
 import requests
 from PIL import Image
 
@@ -703,6 +705,133 @@ def get_cap_page_analysis(
     }
     page_cache[page_number] = analysis
     return analysis
+
+
+def get_cap_page_render_data(analysis: dict, dpi: int = 300) -> dict:
+    cache_key = f"render_{dpi}"
+    cached = analysis.get(cache_key)
+    if cached:
+        return cached
+
+    image = Image.open(io.BytesIO(render_page_png(analysis["page"], dpi=dpi))).convert("RGB")
+    width, height = image.size
+    page_rect = analysis["page_rect"]
+    render_data = {
+        "image": image,
+        "width": width,
+        "height": height,
+        "scale_x": width / float(page_rect.width or 1.0),
+        "scale_y": height / float(page_rect.height or 1.0),
+    }
+    analysis[cache_key] = render_data
+    return render_data
+
+
+def collect_rows_in_crop(
+    analysis: dict,
+    absolute_crop: tuple[float, float, float, float],
+    subject_slug: str,
+    margin: float = 6.0,
+) -> list[dict]:
+    x0, y0, x1, y1 = absolute_crop
+
+    def within(rows: list[dict]) -> list[dict]:
+        return [
+            row
+            for row in rows
+            if float(row["x1"]) >= x0 - margin
+            and float(row["x0"]) <= x1 + margin
+            and float(row["y1"]) >= y0 - margin
+            and float(row["y0"]) <= y1 + margin
+        ]
+
+    rows = within(analysis["pdf_rows"])
+    if rows:
+        return rows
+    return within(ensure_cap_page_ocr_rows(analysis, subject_slug))
+
+
+def infer_question_visual_crop_box(
+    analysis: dict,
+    crop_box: dict | None,
+    subject_slug: str,
+) -> dict | None:
+    page_rect = analysis["page_rect"]
+    absolute = normalize_crop_box_absolute(crop_box, page_rect)
+    if not absolute:
+        return None
+
+    x0, y0, x1, y1 = absolute
+    render = get_cap_page_render_data(analysis, dpi=300)
+    scale_x = render["scale_x"]
+    scale_y = render["scale_y"]
+    image = np.array(render["image"])
+
+    px0 = max(0, int(math.floor(x0 * scale_x)))
+    py0 = max(0, int(math.floor(y0 * scale_y)))
+    px1 = min(render["width"], int(math.ceil(x1 * scale_x)))
+    py1 = min(render["height"], int(math.ceil(y1 * scale_y)))
+    if px1 - px0 < 32 or py1 - py0 < 32:
+        return None
+
+    crop = image[py0:py1, px0:px1]
+    if crop.size == 0:
+        return None
+
+    gray = cv2.cvtColor(crop, cv2.COLOR_RGB2GRAY)
+    mask = (gray < 245).astype(np.uint8) * 255
+
+    text_rows = collect_rows_in_crop(analysis, absolute, subject_slug)
+    for row in text_rows:
+        rx0 = max(0, int(math.floor((float(row["x0"]) - x0) * scale_x)) - 3)
+        ry0 = max(0, int(math.floor((float(row["y0"]) - y0) * scale_y)) - 3)
+        rx1 = min(mask.shape[1], int(math.ceil((float(row["x1"]) - x0) * scale_x)) + 3)
+        ry1 = min(mask.shape[0], int(math.ceil((float(row["y1"]) - y0) * scale_y)) + 3)
+        if rx1 <= rx0 or ry1 <= ry0:
+            continue
+        cv2.rectangle(mask, (rx0, ry0), (rx1, ry1), 0, thickness=-1)
+
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8), iterations=1)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8), iterations=1)
+
+    component_count, _, stats, _ = cv2.connectedComponentsWithStats(mask, connectivity=8)
+    crop_area = float((px1 - px0) * (py1 - py0))
+    min_component_area = max(500.0, crop_area * 0.015)
+    boxes = []
+    for index in range(1, component_count):
+        area = float(stats[index, cv2.CC_STAT_AREA])
+        width = int(stats[index, cv2.CC_STAT_WIDTH])
+        height = int(stats[index, cv2.CC_STAT_HEIGHT])
+        if area < min_component_area:
+            continue
+        if width < 20 or height < 20:
+            continue
+        left = int(stats[index, cv2.CC_STAT_LEFT])
+        top = int(stats[index, cv2.CC_STAT_TOP])
+        boxes.append((left, top, left + width, top + height))
+
+    if not boxes:
+        return None
+
+    vx0 = min(box[0] for box in boxes)
+    vy0 = min(box[1] for box in boxes)
+    vx1 = max(box[2] for box in boxes)
+    vy1 = max(box[3] for box in boxes)
+
+    visual_area = float((vx1 - vx0) * (vy1 - vy0))
+    if visual_area < crop_area * 0.02:
+        return None
+
+    if (vx1 - vx0) > (px1 - px0) * 0.96 and (vy1 - vy0) > (py1 - py0) * 0.9:
+        return None
+
+    return build_normalized_crop_box(
+        x0 + (vx0 / scale_x),
+        y0 + (vy0 / scale_y),
+        x0 + (vx1 / scale_x),
+        y0 + (vy1 / scale_y),
+        page_rect,
+    )
 
 
 def ensure_cap_page_ocr_rows(analysis: dict, subject_slug: str) -> list[dict]:
@@ -1418,6 +1547,7 @@ def build_cap_structure_for_subject(
                 "page_image_path": best["page_image_path"],
                 "crop_box": crop_box,
                 "question_crop_box": crop_box,
+                "question_visual_crop_box": None,
                 "group_crop_box": None,
                 "option_crop_boxes": {},
                 "option_layout": "none",
@@ -1453,11 +1583,19 @@ def build_cap_structure_for_subject(
                         markers,
                     )
                     question_payload["question_crop_box"] = question_crop_box or band_crop_box
+                    question_payload["question_visual_crop_box"] = infer_question_visual_crop_box(
+                        analysis,
+                        question_payload["question_crop_box"],
+                        subject_slug,
+                    )
                     question_payload["option_layout"] = option_layout
                     if should_extract_option_visuals(question_payload):
                         question_payload["option_crop_boxes"] = option_crop_boxes
                     if question_payload["context"] and question_has_visual_reference(question_payload):
-                        question_payload["group_crop_box"] = question_payload["question_crop_box"]
+                        question_payload["group_crop_box"] = (
+                            question_payload["question_visual_crop_box"]
+                            or question_payload["question_crop_box"]
+                        )
 
             if best["correct_answer"]:
                 answered_count += 1
@@ -1625,6 +1763,70 @@ def build_library() -> dict:
     }
     write_json(CAP_LIBRARY_MANIFEST, payload)
     return payload
+
+
+def refresh_existing_visual_crops() -> dict:
+    manifest = load_cap_manifest()
+    refreshed = []
+
+    for year_entry in sorted(manifest.get("years", []), key=lambda item: str(item.get("year"))):
+        year = str(year_entry["year"])
+        for subject_entry in year_entry.get("subjects", []):
+            subject_slug = subject_entry["slug"]
+            structured_path = CAP_STRUCTURED_ROOT / year / f"{subject_slug}.json"
+            if not structured_path.exists():
+                continue
+
+            import json
+
+            payload = json.loads(structured_path.read_text(encoding="utf-8"))
+            pdf_relative = (payload.get("files") or {}).get("pdf")
+            if not pdf_relative:
+                continue
+            pdf_path = DATA_ROOT / pdf_relative
+            if not pdf_path.exists():
+                continue
+
+            changed = 0
+            page_cache: dict[int, dict] = {}
+            with fitz.open(pdf_path) as source_document:
+                for question in payload.get("questions", []):
+                    page_number = question.get("page_number")
+                    question_crop_box = question.get("question_crop_box") or question.get("crop_box")
+                    if not page_number or not question_crop_box:
+                        continue
+
+                    analysis = get_cap_page_analysis(source_document, page_cache, int(page_number), subject_slug)
+                    visual_crop_box = infer_question_visual_crop_box(
+                        analysis,
+                        question_crop_box,
+                        subject_slug,
+                    )
+                    if visual_crop_box != question.get("question_visual_crop_box"):
+                        question["question_visual_crop_box"] = visual_crop_box
+                        changed += 1
+
+                    if question.get("context") and question_has_visual_reference(question):
+                        next_group_crop = visual_crop_box or question.get("group_crop_box") or question_crop_box
+                        if next_group_crop != question.get("group_crop_box"):
+                            question["group_crop_box"] = next_group_crop
+                            changed += 1
+
+            if changed:
+                write_json(structured_path, payload)
+            refreshed.append(
+                {
+                    "year": year,
+                    "subject": subject_slug,
+                    "changed": changed,
+                    "question_count": len(payload.get("questions") or []),
+                }
+            )
+
+    return {
+        "generated_at": datetime.now().isoformat(timespec="seconds"),
+        "subjects": refreshed,
+    }
 
 
 if __name__ == "__main__":
