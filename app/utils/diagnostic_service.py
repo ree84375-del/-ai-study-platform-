@@ -4,6 +4,7 @@ import requests
 from datetime import datetime, timedelta
 from app.models import APIKeyTracker
 from app import db
+from app.utils.ai_helpers import should_auto_delete_key
 
 def validate_one_key(tracker):
     """Performs a real-world validation test for a single API key tracker."""
@@ -153,6 +154,7 @@ def proactive_self_heal():
     trackers = APIKeyTracker.query.all()
     count_fixed = 0
     count_broken = 0
+    count_deleted = 0
     
     for t in trackers:
         # We only re-verify keys that are NOT currently active
@@ -164,12 +166,21 @@ def proactive_self_heal():
         
         if needs_check:
             success = validate_one_key(t)
-            if success: count_fixed += 1
-            else: count_broken += 1
+            if success:
+                t.retry_count = 0
+                t.is_blocked = False
+                count_fixed += 1
+            else:
+                t.retry_count = (t.retry_count or 0) + 1
+                if should_auto_delete_key(t.provider, t.api_key, t.error_message, t.retry_count):
+                    db.session.delete(t)
+                    count_deleted += 1
+                else:
+                    count_broken += 1
             
     try:
         db.session.commit()
-        print(f"Audit Complete. Fixed: {count_fixed}, Broken: {count_broken}")
+        print(f"Audit Complete. Fixed: {count_fixed}, Broken: {count_broken}, Deleted: {count_deleted}")
     except Exception as e:
         db.session.rollback()
         print(f"Audit Commit Failed: {e}")

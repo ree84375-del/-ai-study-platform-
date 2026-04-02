@@ -428,7 +428,102 @@ def get_ollama_keys():
 
     return [k.strip() for k in keys_str.split(',') if k.strip()]
 
+def _is_quota_or_rate_limit_error(error_text):
+
+    normalized_error = str(error_text or '').lower()
+
+    return any(indicator in normalized_error for indicator in [
+
+        '429', 'quota', 'resource_exhausted', 'rate limit', 'rate_limit'
+
+    ])
+
+def _is_permanent_key_failure(provider, key, error_text):
+
+    normalized_error = str(error_text or '').lower()
+
+    permanent_block_indicators = [
+
+        'api key not found',
+        'invalid api key',
+        'api key blocked',
+        'api key is invalid',
+        'api_key_invalid',
+        'api key expired',
+        'permission denied',
+        'unauthorized',
+        'forbidden',
+        'restricted',
+        'leaked',
+        'disabled',
+        '401',
+        '403',
+
+    ]
+
+    if any(indicator in normalized_error for indicator in permanent_block_indicators):
+
+        return True
+
+    if provider == 'groq' and (
+
+        'invalid_api_key' in normalized_error or
+
+        'organization has been restricted' in normalized_error
+
+    ):
+
+        return True
+
+    if provider == 'ollama':
+
+        key_text = str(key or '').strip().lower()
+
+        if not key_text.startswith('http'):
+
+            return True
+
+        if 'invalid url format' in normalized_error:
+
+            return True
+
+    return False
+
+def should_auto_delete_key(provider, key, error_text, retry_count=0):
+
+    if _is_permanent_key_failure(provider, key, error_text):
+
+        return True
+
+    if _is_quota_or_rate_limit_error(error_text):
+
+        return False
+
+    return (retry_count or 0) >= 3
+
+def _auto_delete_tracker(tracker, reason):
+
+    if not tracker:
+
+        return False
+
+    provider = tracker.provider
+
+    key_preview = (tracker.api_key or '')[:10]
+
+    db.session.flush()
+
+    db.session.delete(tracker)
+
+    db.session.commit()
+
+    print(f"Auto-deleted broken API key: {provider} | {key_preview}... | {str(reason)[:120]}")
+
+    return True
+
 def mark_key_status(provider, key, status, error=None):
+
+    verify_api_key_table()
 
     try:
 
@@ -440,7 +535,11 @@ def mark_key_status(provider, key, status, error=None):
 
         return
 
-    if not tracker: return
+    if not tracker:
+
+        tracker = APIKeyTracker(provider=provider, api_key=key, status='standby')
+
+        db.session.add(tracker)
 
     now = datetime.now(timezone.utc)
 
@@ -462,31 +561,7 @@ def mark_key_status(provider, key, status, error=None):
 
         tracker.error_message = error
 
-        
-
-        # Check for permanent blocks
-
-        permanent_block_indicators = [
-
-            'api key not found', 'invalid api key', 'api key blocked', 
-
-            'api key is invalid', 'not found', 'apikey limited',
-
-            'api_key_invalid'
-
-        ]
-
-        is_permanent = any(ind in str(error).lower() for ind in permanent_block_indicators)
-
-        
-
-        if is_permanent:
-
-            tracker.is_blocked = True
-
-            tracker.status = 'error' # Permanent error
-
-        elif error and ('429' in error or 'quota' in error.lower() or 'resource_exhausted' in error.lower()):
+        if error and _is_quota_or_rate_limit_error(error):
 
             tracker.retry_count = (tracker.retry_count or 0) + 1
 
@@ -499,6 +574,26 @@ def mark_key_status(provider, key, status, error=None):
             tracker.status = 'cooldown'
 
         else:
+
+            tracker.retry_count = (tracker.retry_count or 0) + 1
+
+            if should_auto_delete_key(provider, key, error, tracker.retry_count):
+
+                tracker.is_blocked = True
+
+                tracker.status = 'error'
+
+                try:
+
+                    _auto_delete_tracker(tracker, error or 'Repeated non-recoverable failures')
+
+                except Exception as delete_error:
+
+                    db.session.rollback()
+
+                    print(f"Auto-delete API key failed: {provider} | {str(delete_error)[:120]}")
+
+                return
 
             tracker.cooldown_until = now + timedelta(minutes=2)
 
