@@ -1,673 +1,292 @@
-﻿{% extends "base.html" %}
-{% block title %}{{ _t('exam_title') }}{% endblock %}
+{% extends "base.html" %}
+{% block title %}{{ _t('nav_exam') }}{% endblock %}
 {% block content %}
 <style>
-    .exam-shell {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    .exam-hero {
-        padding: 2rem;
-        border-radius: 30px;
-        border: 1px solid rgba(214, 183, 112, 0.24);
-        background:
-            radial-gradient(circle at top right, rgba(255, 218, 150, 0.3), transparent 34%),
-            linear-gradient(135deg, rgba(255, 253, 247, 0.97), rgba(250, 242, 224, 0.94));
-        box-shadow: 0 24px 52px rgba(120, 94, 46, 0.12);
-    }
-
-    .exam-kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.55rem;
-        padding: 0.48rem 0.95rem;
-        border-radius: 999px;
-        background: rgba(53, 48, 38, 0.92);
-        color: #fffaf2;
-        font-size: 0.92rem;
-        font-weight: 700;
-    }
-
-    .exam-hero h1 {
-        margin: 1rem 0 0.8rem;
-        color: #32271b;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: clamp(1.9rem, 3vw, 2.7rem);
-    }
-
-    .exam-hero p {
-        margin: 0;
-        max-width: 760px;
-        color: #6d614f;
-        line-height: 1.85;
-    }
-
-    .exam-summary-strip {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-        gap: 0.9rem;
-        margin-top: 1.5rem;
-    }
-
-    .exam-summary-card {
-        padding: 1rem 1.1rem;
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.74);
-        border: 1px solid rgba(214, 183, 112, 0.18);
-    }
-
-    .exam-summary-label {
-        display: block;
-        margin-bottom: 0.35rem;
-        color: #8a7c65;
-        font-size: 0.84rem;
-        letter-spacing: 0.05em;
-    }
-
-    .exam-summary-value {
-        color: #302517;
-        font-size: 1.55rem;
-        font-weight: 800;
-    }
-
-    .exam-progress-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 1rem 1.2rem;
-        border-radius: 20px;
-        border: 1px solid rgba(214, 183, 112, 0.18);
-        background: rgba(255, 255, 255, 0.82);
-        color: #5f5037;
-        font-weight: 700;
-    }
-
-    .exam-list {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .exam-card {
-        padding: 1.6rem;
-        border-radius: 26px;
-        border: 1px solid rgba(210, 188, 150, 0.76);
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(249, 243, 229, 0.94));
-        box-shadow: 0 18px 36px rgba(120, 94, 46, 0.08);
-    }
-
-    .exam-card-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 0.9rem;
-        flex-wrap: wrap;
-        margin-bottom: 1rem;
-    }
-
-    .exam-card-meta {
-        display: flex;
-        align-items: center;
-        gap: 0.7rem;
-        flex-wrap: wrap;
-    }
-
-    .exam-index {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #ead8ae, #f8efd8);
-        color: #7a5c2d;
-        font-weight: 900;
-    }
-
-    .exam-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.46rem 0.82rem;
-        border-radius: 999px;
-        background: rgba(255, 244, 216, 0.95);
-        color: #8a6c37;
-        font-size: 0.84rem;
-        font-weight: 800;
-    }
-
-    .exam-question-text {
-        margin: 0;
-        color: #362b1f;
-        font-size: 1.08rem;
-        line-height: 1.9;
-    }
-
-    .exam-options {
-        display: grid;
-        gap: 0.85rem;
-        margin-top: 1.25rem;
-    }
-
-    .exam-option {
-        display: flex;
-        gap: 0.85rem;
-        align-items: flex-start;
-        padding: 0.95rem 1rem;
-        border-radius: 18px;
-        border: 1px solid rgba(205, 187, 151, 0.8);
-        background: rgba(255, 255, 255, 0.86);
-        cursor: pointer;
-        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-    }
-
-    .exam-option:hover {
-        transform: translateY(-2px);
-        border-color: rgba(214, 165, 61, 0.4);
-        box-shadow: 0 10px 18px rgba(120, 94, 46, 0.08);
-    }
-
-    .exam-option.is-active {
-        background: rgba(255, 248, 229, 0.95);
-        border-color: rgba(214, 165, 61, 0.72);
-    }
-
-    .exam-option.is-correct-answer {
-        border-color: rgba(92, 162, 113, 0.82);
-        background: rgba(232, 248, 236, 0.95);
-    }
-
-    .exam-option.is-wrong-answer {
-        border-color: rgba(223, 107, 82, 0.84);
-        background: rgba(255, 239, 234, 0.96);
-    }
-
-    .exam-option input {
-        margin-top: 0.25rem;
-    }
-
-    .exam-option-letter {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 13px;
-        background: rgba(239, 229, 207, 0.92);
-        color: #7e6540;
-        font-weight: 900;
-        flex-shrink: 0;
-    }
-
-    .exam-option-text {
-        color: #453628;
-        line-height: 1.75;
-    }
-
-    .exam-actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.9rem;
-        flex-wrap: wrap;
-    }
-
-    .exam-primary-btn,
-    .exam-secondary-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.55rem;
-        min-height: 48px;
-        padding: 0.85rem 1.2rem;
-        border-radius: 16px;
-        border: none;
-        text-decoration: none;
-        font-weight: 800;
-        cursor: pointer;
-        transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .exam-primary-btn {
-        background: linear-gradient(135deg, #dbac5a 0%, #ef9155 100%);
-        color: #fff;
-        box-shadow: 0 12px 24px rgba(226, 143, 84, 0.28);
-    }
-
-    .exam-secondary-btn {
-        border: 1px solid rgba(196, 168, 108, 0.26);
-        background: rgba(255, 255, 255, 0.88);
-        color: #5b4b2e;
-    }
-
-    .exam-result {
-        padding: 1.7rem;
-        border-radius: 28px;
-        border: 1px solid rgba(214, 183, 112, 0.2);
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(249, 244, 233, 0.94));
-        box-shadow: 0 24px 46px rgba(120, 94, 46, 0.1);
-    }
-
-    .exam-result[hidden] {
-        display: none !important;
-    }
-
-    .exam-result-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin-bottom: 1.2rem;
-    }
-
-    .exam-score-circle {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 126px;
-        height: 126px;
-        border-radius: 50%;
-        background:
-            radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.94), rgba(255, 244, 218, 0.96));
-        border: 1px solid rgba(214, 183, 112, 0.24);
-        color: #3f3224;
-        box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.84);
-    }
-
-    .exam-score-circle strong {
-        font-size: 2rem;
-        line-height: 1;
-    }
-
-    .exam-score-circle span {
-        margin-top: 0.35rem;
-        font-size: 0.86rem;
-        color: #856d46;
-    }
-
-    .exam-result h2 {
-        margin: 0 0 0.45rem;
-        color: #32271b;
-        font-family: 'Kaisei Tokumin', serif;
-        font-size: 1.8rem;
-    }
-
-    .exam-result p {
-        margin: 0;
-        color: #6b5c46;
-        line-height: 1.85;
-    }
-
-    .exam-result-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-        gap: 0.9rem;
-        margin-top: 1.2rem;
-    }
-
-    .exam-result-card {
-        padding: 1rem 1.05rem;
-        border-radius: 20px;
-        border: 1px solid rgba(214, 183, 112, 0.14);
-        background: rgba(255, 255, 255, 0.74);
-    }
-
-    .exam-review-list {
-        display: grid;
-        gap: 1rem;
-        margin-top: 1.35rem;
-    }
-
-    .review-card {
-        padding: 1.2rem;
-        border-radius: 22px;
-        border: 1px solid rgba(214, 183, 112, 0.16);
-        background: rgba(255, 255, 255, 0.8);
-    }
-
-    .review-card.is-wrong {
-        border-color: rgba(223, 107, 82, 0.32);
-        background: rgba(255, 246, 242, 0.92);
-    }
-
-    .review-card.is-correct {
-        border-color: rgba(92, 162, 113, 0.24);
-        background: rgba(243, 250, 245, 0.92);
-    }
-
-    .review-card-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin-bottom: 0.8rem;
-    }
-
-    .review-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        padding: 0.42rem 0.78rem;
-        border-radius: 999px;
-        font-size: 0.82rem;
-        font-weight: 800;
-    }
-
-    .review-badge.correct {
-        background: rgba(225, 245, 231, 0.92);
-        color: #437552;
-    }
-
-    .review-badge.wrong {
-        background: rgba(255, 233, 227, 0.95);
-        color: #a85040;
-    }
-
-    .review-question {
-        margin: 0;
-        color: #382c1f;
-        line-height: 1.8;
-    }
-
-    .review-answer-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 0.8rem;
-        margin: 1rem 0 0.9rem;
-    }
-
-    .review-answer-box {
-        padding: 0.95rem 1rem;
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.72);
-        border: 1px solid rgba(214, 183, 112, 0.14);
-    }
-
-    .review-answer-box strong {
-        display: block;
-        margin-bottom: 0.35rem;
-        color: #8a785f;
-        font-size: 0.84rem;
-        letter-spacing: 0.05em;
-    }
-
-    .review-answer-box span {
-        color: #372d21;
-        line-height: 1.7;
-        font-weight: 700;
-    }
-
-    .review-explanation {
-        color: #524330;
-        line-height: 1.85;
-        white-space: pre-line;
-    }
-
-    @media (max-width: 720px) {
-        .exam-hero,
-        .exam-card,
-        .exam-result {
-            padding: 1.3rem;
-            border-radius: 22px;
-        }
-
-        .exam-actions {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .exam-primary-btn,
-        .exam-secondary-btn {
-            width: 100%;
-        }
-    }
+    .mock-shell{--paper:rgba(249,247,255,.98);--paper-2:rgba(239,234,252,.96);--line:rgba(111,104,187,.18);--ink:#2f274d;--muted:#6a6285;display:grid;gap:1.2rem}
+    .mock-shell section,.mock-shell aside{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,var(--paper),var(--paper-2));box-shadow:0 24px 52px rgba(79,68,122,.11)}
+    .mock-hero,.mock-card,.mock-summary{padding:1.35rem;display:grid;gap:1rem}
+    .mock-hero{background:radial-gradient(circle at top right,rgba(255,212,128,.32),transparent 28%),linear-gradient(140deg,rgba(251,250,255,.99),rgba(238,235,252,.96))}
+    .mock-badge,.mock-pill{display:inline-flex;align-items:center;gap:.45rem;width:fit-content;border-radius:999px;font-weight:800}
+    .mock-badge{padding:.48rem .9rem;background:#3d325a;color:#fffaf7}.mock-pill{padding:.38rem .72rem;background:rgba(255,245,218,.94);color:#8e6a35;font-size:.84rem}
+    .mock-hero h1,.mock-card h2,.mock-summary h2{margin:0;color:var(--ink);font-family:"Kaisei Tokumin",serif}
+    .mock-hero h1{font-size:clamp(2rem,3vw,2.8rem);line-height:1.12}.mock-hero p,.mock-card p,.mock-summary p{margin:0;color:var(--muted);line-height:1.8}
+    .mock-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.85rem}.mock-stat{padding:1rem;border-radius:20px;background:rgba(255,255,255,.8);border:1px solid rgba(111,104,187,.12);display:grid;gap:.25rem}.mock-stat span{font-size:.88rem;color:#8a80a2}.mock-stat strong{font-size:1.7rem;color:var(--ink)}
+    .mock-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,.95fr);gap:1rem;align-items:start}
+    .mock-stack{display:grid;gap:1rem}
+    .mock-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap}
+    .mock-choice-grid,.mock-chip-grid,.mock-question-list,.mock-review-list{display:grid;gap:.85rem}
+    .mock-choice-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.mock-chip-grid{grid-template-columns:repeat(auto-fit,minmax(96px,1fr))}
+    .mock-choice,.mock-chip,.mock-option{border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.86);transition:.16s ease}
+    .mock-choice{padding:1rem;border-radius:22px;display:grid;gap:.6rem;text-align:left}.mock-chip{padding:.72rem .8rem;border-radius:16px;font-weight:800;color:#433780}.mock-option{padding:.9rem 1rem;border-radius:18px;display:flex;gap:.8rem;align-items:flex-start;cursor:pointer}
+    .mock-choice:hover,.mock-chip:hover,.mock-option:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(79,68,122,.1)}
+    .mock-choice[data-active="true"],.mock-chip[data-active="true"],.mock-option.is-active{border-color:rgba(111,104,187,.3);background:linear-gradient(180deg,rgba(246,244,255,.98),rgba(255,255,255,.95));box-shadow:0 18px 28px rgba(79,68,122,.12)}
+    .mock-choice-top,.mock-question-top,.mock-review-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap}
+    .mock-icon,.mock-index,.mock-option-letter{display:inline-flex;align-items:center;justify-content:center}
+    .mock-icon{width:52px;height:52px;border-radius:18px;background:rgba(255,255,255,.82);font-size:1.2rem;color:#433780}
+    .mock-index{width:42px;height:42px;border-radius:14px;background:rgba(241,237,255,.94);color:#483b7b;font-weight:900}
+    .mock-question,.mock-review{padding:1.2rem;border-radius:24px;background:rgba(255,255,255,.82);border:1px solid rgba(111,104,187,.14);display:grid;gap:1rem}
+    .mock-question-text,.mock-review-text{margin:0;color:#342b53;line-height:1.85}
+    .mock-question-image,.mock-review-image{overflow:hidden;border-radius:18px;border:1px solid rgba(111,104,187,.12);background:rgba(245,244,255,.96)}
+    .mock-question-image img,.mock-review-image img{width:100%;display:block}
+    .mock-option-letter{width:34px;height:34px;border-radius:12px;background:rgba(238,233,252,.94);color:#4a3c80;font-weight:900;flex-shrink:0}
+    .mock-option input{margin-top:.25rem}
+    .mock-option.correct-answer{border-color:rgba(90,156,104,.7);background:rgba(241,251,244,.95)}
+    .mock-option.wrong-answer{border-color:rgba(214,104,83,.72);background:rgba(255,242,238,.95)}
+    .mock-actions,.mock-summary-actions{display:flex;flex-wrap:wrap;gap:.75rem}
+    .mock-btn,.mock-link{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:46px;padding:.8rem 1rem;border-radius:999px;text-decoration:none;font-weight:900}
+    .mock-btn{border:none;background:linear-gradient(135deg,#8766d2,#5a48af);color:#fff}.mock-link{background:rgba(255,255,255,.86);border:1px solid rgba(111,104,187,.14);color:#56488a}
+    .mock-summary{position:sticky;top:92px}
+    .mock-summary-grid{display:grid;gap:.7rem}.mock-summary-item{padding:.88rem 1rem;border-radius:18px;border:1px solid rgba(111,104,187,.13);background:rgba(255,255,255,.82);display:grid;gap:.22rem}.mock-summary-item span{font-size:.86rem;color:#8a80a2}.mock-summary-item strong{color:var(--ink)}
+    .mock-empty{padding:1rem;border-radius:20px;border:1px dashed rgba(111,104,187,.2);background:rgba(255,255,255,.7);color:var(--muted);line-height:1.8}
+    .mock-result[hidden]{display:none !important}.mock-result-score{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem}
+    .mock-score-box{padding:1rem;border-radius:20px;border:1px solid rgba(111,104,187,.13);background:rgba(255,255,255,.82);display:grid;gap:.22rem}
+    .mock-answer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem}.mock-answer-box{padding:.88rem 1rem;border-radius:18px;background:rgba(255,255,255,.86);border:1px solid rgba(111,104,187,.12)}.mock-answer-box strong{display:block;margin-bottom:.28rem;color:#867da1;font-size:.84rem}
+    @media (max-width:980px){.mock-layout{grid-template-columns:1fr}.mock-summary{position:static}}
 </style>
 
-<div class="exam-shell">
-    <section class="exam-hero">
-        <span class="exam-kicker"><i class="fa-solid fa-file-lines"></i> 弱點模擬考</span>
-        <h1>把最近錯最多的題目，組成一份真正能檢討的模考。</h1>
-        <p>這份模考會直接從你的錯題資料出題。交卷後不是只看分數，而是會把每一題的對錯、你的答案、正確答案與完整詳解一起整理好。</p>
-
-        <div class="exam-summary-strip">
-            <div class="exam-summary-card">
-                <span class="exam-summary-label">本次題數</span>
-                <span class="exam-summary-value">{{ mistakes|length }}</span>
-            </div>
-            <div class="exam-summary-card">
-                <span class="exam-summary-label">模考目標</span>
-                <span class="exam-summary-value">補強弱點</span>
-            </div>
-            <div class="exam-summary-card">
-                <span class="exam-summary-label">交卷後內容</span>
-                <span class="exam-summary-value">完整詳解</span>
-            </div>
+<div class="mock-shell">
+    <section class="mock-hero">
+        <span class="mock-badge"><i class="fa-solid fa-file-signature"></i> 弱點模擬考</span>
+        <div>
+            <h1>把錯題本整理成一份可以直接作答的模擬考，先設定策略與範圍，再一次把最需要補救的地方抓出來。</h1>
+            <p>這裡會從你的錯題資料即時組卷。你可以先選題數、策略與科目，交卷後會看到分數、答題狀態、正解和完整詳解。</p>
+        </div>
+        <div class="mock-stats">
+            <div class="mock-stat"><span>待複習錯題</span><strong>{{ mistake_overview.unresolved_count }}</strong></div>
+            <div class="mock-stat"><span>今天到期</span><strong>{{ mistake_overview.due_count }}</strong></div>
+            <div class="mock-stat"><span>已掌握</span><strong>{{ mistake_overview.resolved_count }}</strong></div>
+            <div class="mock-stat"><span>本次考卷</span><strong>{{ mistakes|length }}</strong></div>
         </div>
     </section>
 
-    <div class="exam-progress-bar">
-        <span><i class="fa-solid fa-pen-ruler"></i> 已作答 <strong id="answered-count">0</strong> / {{ mistakes|length }}</span>
-        <span>全部作答後即可交卷看檢討。</span>
-    </div>
-
-    <form id="exam-form" class="exam-list">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-        {% for mistake in mistakes %}
-        <article class="exam-card" data-question-id="{{ mistake.question.id }}">
-            <div class="exam-card-top">
-                <div class="exam-card-meta">
-                    <span class="exam-index">{{ loop.index }}</span>
-                    <span class="exam-pill"><i class="fa-solid fa-book"></i> {{ mistake.question.subject }}</span>
-                    <span class="exam-pill"><i class="fa-solid fa-repeat"></i> 錯誤 {{ mistake.mistake_count }} 次</span>
+    <div class="mock-layout">
+        <div class="mock-stack">
+            <section class="mock-card">
+                <div class="mock-head">
+                    <div>
+                        <h2>先設定這份模擬考</h2>
+                        <p>策略會決定怎麼從錯題本挑題；題數和科目則決定這份考卷的範圍。</p>
+                    </div>
+                    <span class="mock-pill"><i class="fa-solid fa-sliders"></i> 即時組卷</span>
                 </div>
-            </div>
+                <form method="get" action="{{ url_for('study.generate_exam') }}" class="mock-choice-grid">
+                    {% for option in exam_strategy_options %}
+                    <button type="submit" name="mode" value="{{ option.value }}" class="mock-choice" data-active="{{ option.value == selected_strategy }}">
+                        <div class="mock-choice-top"><span class="mock-icon"><i class="fa-solid fa-bullseye"></i></span><span class="mock-pill">{{ option.label }}</span></div>
+                        <p>{{ option.description }}</p>
+                        <input type="hidden" name="count" value="{{ selected_count }}">
+                        {% if selected_subject_slug %}<input type="hidden" name="subject" value="{{ selected_subject_slug }}">{% endif %}
+                    </button>
+                    {% endfor %}
+                </form>
+                <div class="mock-choice-grid" style="grid-template-columns:1fr 1fr;">
+                    <form method="get" action="{{ url_for('study.generate_exam') }}">
+                        <h2 style="font-size:1.1rem;">題數</h2>
+                        <div class="mock-chip-grid">
+                            {% for count in exam_count_options %}
+                            <button type="submit" name="count" value="{{ count }}" class="mock-chip" data-active="{{ count == selected_count }}">{{ count }} 題
+                                <input type="hidden" name="mode" value="{{ selected_strategy }}">
+                                {% if selected_subject_slug %}<input type="hidden" name="subject" value="{{ selected_subject_slug }}">{% endif %}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </form>
+                    <form method="get" action="{{ url_for('study.generate_exam') }}">
+                        <h2 style="font-size:1.1rem;">科目</h2>
+                        <div class="mock-choice-grid">
+                            <button type="submit" class="mock-choice" data-active="{{ not selected_subject_slug }}">
+                                <div class="mock-choice-top"><span class="mock-icon"><i class="fa-solid fa-layer-group"></i></span><span class="mock-pill">全部科目</span></div>
+                                <p>先混合目前待複習的所有錯題。</p>
+                                <input type="hidden" name="mode" value="{{ selected_strategy }}">
+                                <input type="hidden" name="count" value="{{ selected_count }}">
+                            </button>
+                            {% for subject in available_subjects %}
+                            <button type="submit" name="subject" value="{{ subject.slug }}" class="mock-choice" data-active="{{ subject.slug == selected_subject_slug }}">
+                                <div class="mock-choice-top"><span class="mock-icon"><i class="fa-solid fa-book"></i></span><span class="mock-pill">{{ subject.total - subject.resolved }} 題</span></div>
+                                <div><h3>{{ subject.label }}</h3><p>今天到期 {{ subject.due }} 題，已掌握 {{ subject.resolved }} 題。</p></div>
+                                <input type="hidden" name="mode" value="{{ selected_strategy }}">
+                                <input type="hidden" name="count" value="{{ selected_count }}">
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+            </section>
 
-            <p class="exam-question-text">{{ mistake.question.content_text }}</p>
+            {% if mistakes %}
+            <section class="mock-card">
+                <div class="mock-head">
+                    <div>
+                        <h2>開始作答</h2>
+                        <p>這份考卷會從你選到的範圍直接出題。全部作答後再交卷，就會在下面生成完整檢討。</p>
+                    </div>
+                    <span class="mock-pill"><i class="fa-solid fa-pen-ruler"></i> 本次 {{ mistakes|length }} 題</span>
+                </div>
+                <form id="exam-form" class="mock-question-list">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    {% for mistake in mistakes %}
+                    <article class="mock-question" data-question-id="{{ mistake.question.id }}">
+                        <div class="mock-question-top">
+                            <div class="mock-choice-top">
+                                <span class="mock-index">{{ loop.index }}</span>
+                                <span class="mock-pill"><i class="fa-solid fa-book"></i> {{ mistake.subject_label or mistake.question.subject }}</span>
+                            </div>
+                            <span class="mock-pill"><i class="fa-solid fa-repeat"></i> 錯 {{ mistake.mistake_count }} 次</span>
+                        </div>
+                        <p class="mock-question-text">{{ mistake.question.content_text }}</p>
+                        {% if mistake.content_image_href %}
+                        <div class="mock-question-image"><img src="{{ mistake.content_image_href }}" alt="題目圖片"></div>
+                        {% endif %}
+                        <div class="mock-choice-grid" style="grid-template-columns:1fr;">
+                            {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
+                            <label class="mock-option" data-answer="{{ label }}">
+                                <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}" required>
+                                <span class="mock-option-letter">{{ label }}</span>
+                                <span>{{ text or '' }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </article>
+                    {% endfor %}
+                    <div class="mock-actions">
+                        <a class="mock-link" href="{{ practice_href }}"><i class="fa-solid fa-arrow-left"></i> 回刷題控制台</a>
+                        <button type="submit" id="submit-exam-btn" class="mock-btn"><i class="fa-solid fa-check-double"></i> 交卷並看詳解</button>
+                    </div>
+                </form>
+            </section>
 
-            <div class="exam-options">
-                {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
-                <label class="exam-option" data-answer="{{ label }}">
-                    <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}" required>
-                    <span class="exam-option-letter">{{ label }}</span>
-                    <span class="exam-option-text">{{ text or '' }}</span>
-                </label>
-                {% endfor %}
-            </div>
-        </article>
-        {% endfor %}
-
-        <div class="exam-actions">
-            <a href="{{ url_for('study.practice') }}" class="exam-secondary-btn">
-                <i class="fa-solid fa-arrow-left"></i> 回去刷題
-            </a>
-            <button type="submit" id="submit-exam-btn" class="exam-primary-btn">
-                <i class="fa-solid fa-check-double"></i> 交卷並看詳解
-            </button>
+            <section class="mock-card mock-result" id="exam-result" hidden>
+                <div class="mock-head">
+                    <div>
+                        <h2>模擬考檢討</h2>
+                        <p id="exam-feedback-text">交卷後，這裡會整理成績、答題狀態與逐題詳解。</p>
+                    </div>
+                    <span class="mock-pill"><i class="fa-solid fa-chart-line"></i> 交卷後更新</span>
+                </div>
+                <div class="mock-result-score">
+                    <div class="mock-score-box"><span>分數</span><strong id="score-percent">0</strong></div>
+                    <div class="mock-score-box"><span>答對</span><strong id="correct-count">0</strong></div>
+                    <div class="mock-score-box"><span>答錯</span><strong id="wrong-count">0</strong></div>
+                    <div class="mock-score-box"><span>總題數</span><strong id="total-count">{{ mistakes|length }}</strong></div>
+                </div>
+                <div class="mock-review-list" id="exam-review-list"></div>
+            </section>
+            {% else %}
+            <section class="mock-card">
+                <div class="mock-empty">目前沒有可用的錯題可以組模擬考。先從錯題本或會考練習補一些作答紀錄，再回來這裡組卷。</div>
+            </section>
+            {% endif %}
         </div>
-    </form>
 
-    <section class="exam-result" id="exam-result" hidden>
-        <div class="exam-result-top">
-            <div>
-                <h2>這份模考的結果出來了。</h2>
-                <p id="exam-feedback-text">你的整體表現與下一步補強方向會顯示在這裡。</p>
+        <aside class="mock-summary">
+            <div class="mock-head">
+                <div>
+                    <h2>這份考卷摘要</h2>
+                    <p>右邊只放你真正需要確認的資訊：策略、題數、科目和目前可用的錯題量。</p>
+                </div>
+                <span class="mock-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
             </div>
-            <div class="exam-score-circle">
-                <strong id="score-percent">0%</strong>
-                <span>本次正確率</span>
+            <div class="mock-summary-grid">
+                <div class="mock-summary-item"><span>策略</span><strong>{{ exam_strategy_options|selectattr('value', 'equalto', selected_strategy)|map(attribute='label')|first or '智慧混合' }}</strong></div>
+                <div class="mock-summary-item"><span>題數</span><strong>{{ selected_count }} 題</strong></div>
+                <div class="mock-summary-item"><span>科目</span><strong>{% if selected_subject_slug %}{{ available_subjects|selectattr('slug', 'equalto', selected_subject_slug)|map(attribute='label')|first or '指定科目' }}{% else %}全部科目{% endif %}</strong></div>
+                <div class="mock-summary-item"><span>待複習題</span><strong>{{ mistake_overview.unresolved_count }} 題</strong></div>
             </div>
-        </div>
-
-        <div class="exam-result-grid">
-            <div class="exam-result-card">
-                <span class="exam-summary-label">答對題數</span>
-                <span class="exam-summary-value" id="correct-count">0</span>
+            <div class="mock-summary-actions">
+                <a class="mock-link" href="{{ url_for('study.mistakes', status='unresolved', subject=selected_subject_slug or '') }}"><i class="fa-solid fa-book-journal-whills"></i> 去看錯題本</a>
+                <a class="mock-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-house"></i> 回刷題控制台</a>
             </div>
-            <div class="exam-result-card">
-                <span class="exam-summary-label">答錯題數</span>
-                <span class="exam-summary-value" id="wrong-count">0</span>
-            </div>
-            <div class="exam-result-card">
-                <span class="exam-summary-label">總題數</span>
-                <span class="exam-summary-value" id="total-count">{{ mistakes|length }}</span>
-            </div>
-        </div>
-
-        <div class="exam-review-list" id="exam-review-list"></div>
-    </section>
+        </aside>
+    </div>
 </div>
 
+{% if mistakes %}
 <script>
+(() => {
     const examForm = document.getElementById('exam-form');
     const submitExamBtn = document.getElementById('submit-exam-btn');
     const examResult = document.getElementById('exam-result');
-    const answeredCount = document.getElementById('answered-count');
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
     const totalQuestions = {{ mistakes|length }};
 
-    function updateAnsweredCount() {
-        const answered = new Set();
-        document.querySelectorAll('.exam-card').forEach((card) => {
-            const checked = card.querySelector('input[type="radio"]:checked');
-            if (checked) {
-                answered.add(card.dataset.questionId);
-            }
-        });
-        answeredCount.textContent = answered.size;
+    function escapeHtml(value) {
+        return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
-    document.querySelectorAll('.exam-option').forEach((option) => {
+    document.querySelectorAll('.mock-option').forEach((option) => {
         const input = option.querySelector('input[type="radio"]');
         option.addEventListener('click', () => {
-            if (submitExamBtn.dataset.locked === 'true') {
-                return;
-            }
-            const card = option.closest('.exam-card');
-            card.querySelectorAll('.exam-option').forEach((item) => item.classList.remove('is-active'));
+            if (submitExamBtn.dataset.locked === 'true') return;
+            const card = option.closest('.mock-question');
+            card.querySelectorAll('.mock-option').forEach((node) => node.classList.remove('is-active'));
             option.classList.add('is-active');
-            if (input) {
-                input.checked = true;
-            }
-            updateAnsweredCount();
+            if (input) input.checked = true;
         });
     });
 
-    function escapeHtml(value) {
-        return String(value ?? '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
-    }
-
     function renderReview(results) {
         const reviewList = document.getElementById('exam-review-list');
-        reviewList.innerHTML = results.map((item) => {
-            const badgeClass = item.is_correct ? 'correct' : 'wrong';
-            const badgeLabel = item.is_correct ? '答對' : '答錯';
-            return `
-                <article class="review-card ${item.is_correct ? 'is-correct' : 'is-wrong'}">
-                    <div class="review-card-top">
-                        <div>
-                            <span class="exam-pill"><i class="fa-solid fa-book"></i> 第 ${escapeHtml(item.index)} 題 ・ ${escapeHtml(item.subject)}</span>
-                        </div>
-                        <span class="review-badge ${badgeClass}">
-                            <i class="fa-solid ${item.is_correct ? 'fa-circle-check' : 'fa-circle-xmark'}"></i> ${badgeLabel}
-                        </span>
+        reviewList.innerHTML = results.map((item) => `
+            <article class="mock-review">
+                <div class="mock-review-top">
+                    <div class="mock-choice-top">
+                        <span class="mock-index">${item.index}</span>
+                        <span class="mock-pill">${escapeHtml(item.subject_label || item.subject)}</span>
                     </div>
-                    <p class="review-question">${escapeHtml(item.content_text)}</p>
-                    <div class="review-answer-grid">
-                        <div class="review-answer-box">
-                            <strong>你的答案</strong>
-                            <span>${escapeHtml(item.selected_answer)} ・ ${escapeHtml(item.selected_answer_text)}</span>
-                        </div>
-                        <div class="review-answer-box">
-                            <strong>正確答案</strong>
-                            <span>${escapeHtml(item.correct_answer)} ・ ${escapeHtml(item.correct_answer_text)}</span>
-                        </div>
-                    </div>
-                    <div class="review-explanation">${escapeHtml(item.explanation)}</div>
-                </article>
-            `;
-        }).join('');
-    }
-
-    function applyCardFeedback(results) {
-        results.forEach((item) => {
-            const card = document.querySelector(`.exam-card[data-question-id="${item.question_id}"]`);
-            if (!card) {
-                return;
-            }
-
-            card.querySelectorAll('.exam-option').forEach((option) => {
-                const input = option.querySelector('input[type="radio"]');
-                option.classList.remove('is-active');
-                input.disabled = true;
-
-                if (option.dataset.answer === item.correct_answer) {
-                    option.classList.add('is-correct-answer');
-                }
-                if (!item.is_correct && option.dataset.answer === item.selected_answer && item.selected_answer !== item.correct_answer) {
-                    option.classList.add('is-wrong-answer');
-                }
-            });
-        });
+                    <span class="mock-pill">${item.is_correct ? '答對' : '答錯'}</span>
+                </div>
+                <p class="mock-review-text">${escapeHtml(item.content_text)}</p>
+                ${item.content_image_href ? `<div class="mock-review-image"><img src="${escapeHtml(item.content_image_href)}" alt="題目圖片"></div>` : ''}
+                <div class="mock-answer-grid">
+                    <div class="mock-answer-box"><strong>你的答案</strong><span>${escapeHtml(item.selected_answer)} ・ ${escapeHtml(item.selected_answer_text)}</span></div>
+                    <div class="mock-answer-box"><strong>正確答案</strong><span>${escapeHtml(item.correct_answer)} ・ ${escapeHtml(item.correct_answer_text)}</span></div>
+                </div>
+                <div class="mock-answer-box"><strong>詳細解答</strong><span>${escapeHtml(item.explanation)}</span></div>
+            </article>
+        `).join('');
     }
 
     examForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-
-        updateAnsweredCount();
-        if (Number(answeredCount.textContent) !== totalQuestions) {
+        const answers = {};
+        const questionIds = [];
+        document.querySelectorAll('.mock-question').forEach((card) => {
+            questionIds.push(card.dataset.questionId);
+            const checked = card.querySelector('input[type="radio"]:checked');
+            if (checked) answers[card.dataset.questionId] = checked.value;
+        });
+        if (Object.keys(answers).length !== totalQuestions) {
             window.alert('請先完成所有題目再交卷。');
             return;
         }
-
-        const answers = {};
-        document.querySelectorAll('.exam-card').forEach((card) => {
-            const checked = card.querySelector('input[type="radio"]:checked');
-            if (checked) {
-                answers[card.dataset.questionId] = checked.value;
-            }
-        });
 
         submitExamBtn.disabled = true;
         submitExamBtn.dataset.locked = 'true';
         submitExamBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 批改中';
 
         try {
-            const response = await fetch('{{ url_for("study.generate_exam") }}', {
+            const response = await fetch('{{ url_for("study.generate_exam", mode=selected_strategy, count=selected_count, subject=selected_subject_slug or "") }}', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({ answers }),
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ answers, question_ids: questionIds }),
             });
             const data = await response.json();
-
-            if (!response.ok || data.status !== 'success') {
-                throw new Error(data.message || data.error || '模考批改失敗');
-            }
-
-            document.getElementById('score-percent').textContent = `${data.score_percent}%`;
+            if (!response.ok || data.status !== 'success') throw new Error(data.message || data.error || '模擬考批改失敗');
+            document.getElementById('score-percent').textContent = `${data.score_percent} 分`;
             document.getElementById('correct-count').textContent = data.correct_count;
             document.getElementById('wrong-count').textContent = data.wrong_count;
             document.getElementById('total-count').textContent = data.total_questions;
             document.getElementById('exam-feedback-text').textContent = data.feedback;
-
-            applyCardFeedback(data.results);
+            document.querySelectorAll('.mock-option').forEach((node) => node.querySelector('input').disabled = true);
+            data.results.forEach((item) => {
+                const card = document.querySelector(`.mock-question[data-question-id="${item.question_id}"]`);
+                if (!card) return;
+                card.querySelectorAll('.mock-option').forEach((option) => {
+                    if (option.dataset.answer === item.correct_answer) option.classList.add('correct-answer');
+                    if (!item.is_correct && option.dataset.answer === item.selected_answer && item.selected_answer !== item.correct_answer) option.classList.add('wrong-answer');
+                });
+            });
             renderReview(data.results);
-
             examResult.hidden = false;
             examResult.scrollIntoView({ behavior: 'smooth', block: 'start' });
             submitExamBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> 已完成批改';
@@ -675,8 +294,10 @@
             submitExamBtn.disabled = false;
             submitExamBtn.dataset.locked = 'false';
             submitExamBtn.innerHTML = '<i class="fa-solid fa-check-double"></i> 交卷並看詳解';
-            window.alert(error.message || '模考批改失敗，請稍後再試。');
+            window.alert(error.message || '模擬考批改失敗，請稍後再試。');
         }
     });
+})();
 </script>
+{% endif %}
 {% endblock %}

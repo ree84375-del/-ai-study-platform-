@@ -1,498 +1,107 @@
 {% extends "base.html" %}
-{% block title %}開始刷題{% endblock %}
+{% block title %}{{ _t('nav_practice') }}{% endblock %}
 {% block content %}
 <style>
-    .practice-entry-shell {
-        --paper: rgba(255, 251, 243, 0.98);
-        --paper-strong: rgba(248, 239, 221, 0.96);
-        --line: rgba(207, 172, 108, 0.22);
-        --ink: #2f261d;
-        --muted: #756551;
-        --shadow: 0 26px 56px rgba(92, 69, 35, 0.12);
-        --accent-ink: #2c3f60;
-        --accent-line: rgba(73, 98, 138, 0.2);
-        --accent-surface: rgba(241, 247, 255, 0.98);
-        display: grid;
-        gap: 1.4rem;
-    }
-
-    .practice-entry-shell[data-track="guides"] {
-        --accent-ink: #2f5b41;
-        --accent-line: rgba(96, 148, 109, 0.2);
-        --accent-surface: rgba(243, 251, 245, 0.98);
-    }
-
-    .practice-entry-shell[data-track="general"] {
-        --accent-ink: #64574b;
-        --accent-line: rgba(135, 122, 109, 0.16);
-        --accent-surface: rgba(246, 243, 239, 0.96);
-    }
-
-    .practice-entry-shell section {
-        border-radius: 30px;
-        border: 1px solid var(--line);
-        background: linear-gradient(180deg, var(--paper), var(--paper-strong));
-        box-shadow: var(--shadow);
-    }
-
-    .practice-entry-hero {
-        padding: 1.8rem;
-        display: grid;
-        gap: 1rem;
-        background:
-            radial-gradient(circle at top right, rgba(244, 203, 107, 0.35), transparent 28%),
-            radial-gradient(circle at left bottom, rgba(111, 153, 124, 0.15), transparent 26%),
-            linear-gradient(140deg, rgba(255, 252, 247, 0.99), rgba(247, 238, 220, 0.95));
-    }
-
-    .practice-entry-kicker,
-    .practice-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.45rem;
-        width: fit-content;
-        padding: 0.5rem 0.9rem;
-        border-radius: 999px;
-        font-weight: 800;
-    }
-
-    .practice-entry-kicker {
-        background: rgba(55, 43, 30, 0.94);
-        color: #fffaf2;
-    }
-
-    .practice-pill {
-        background: rgba(255, 244, 213, 0.96);
-        color: #8b6632;
-        font-size: 0.88rem;
-    }
-
-    .practice-entry-copy {
-        display: grid;
-        gap: 0.75rem;
-        max-width: 860px;
-    }
-
-    .practice-entry-copy h1,
-    .practice-step-card h2,
-    .practice-summary-card h2 {
-        margin: 0;
-        color: var(--ink);
-        font-family: "Kaisei Tokumin", serif;
-    }
-
-    .practice-entry-copy h1 {
-        font-size: clamp(2rem, 3vw, 3.1rem);
-        line-height: 1.15;
-    }
-
-    .practice-entry-copy p,
-    .practice-step-card p,
-    .practice-summary-card p,
-    .practice-option-help,
-    .practice-empty-state {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.8;
-    }
-
-    .practice-stat-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 0.95rem;
-    }
-
-    .practice-stat-card {
-        border-radius: 22px;
-        padding: 1rem 1.1rem;
-        border: 1px solid rgba(207, 172, 108, 0.16);
-        background: rgba(255, 255, 255, 0.74);
-        display: grid;
-        gap: 0.35rem;
-    }
-
-    .practice-stat-card span {
-        color: #8a775d;
-        font-size: 0.9rem;
-    }
-
-    .practice-stat-card strong {
-        color: var(--ink);
-        font-size: clamp(1.45rem, 2vw, 1.9rem);
-    }
-
-    .practice-workspace {
-        display: grid;
-        grid-template-columns: minmax(0, 1.65fr) minmax(320px, 0.92fr);
-        gap: 1rem;
-        align-items: start;
-    }
-
-    .practice-step-stack {
-        display: grid;
-        gap: 1rem;
-    }
-
-    .practice-step-card,
-    .practice-summary-card {
-        padding: 1.35rem;
-        display: grid;
-        gap: 1rem;
-    }
-
-    .practice-step-head {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        align-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    .practice-track-grid,
-    .practice-option-grid,
-    .practice-chip-grid {
-        display: grid;
-        gap: 0.85rem;
-    }
-
-    .practice-track-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .practice-option-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-
-    .practice-chip-grid {
-        grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
-    }
-
-    .practice-track-card,
-    .practice-choice-card,
-    .practice-chip {
-        border: 1px solid rgba(0, 0, 0, 0.06);
-        background: rgba(255, 255, 255, 0.82);
-        width: 100%;
-        appearance: none;
-        transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease, background 160ms ease;
-    }
-
-    .practice-track-card {
-        min-height: 172px;
-        padding: 1.1rem;
-        border-radius: 26px;
-        display: grid;
-        gap: 0.8rem;
-        text-align: left;
-        cursor: pointer;
-    }
-
-    .practice-track-card:hover,
-    .practice-choice-card:hover,
-    .practice-chip:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 16px 30px rgba(69, 51, 24, 0.1);
-    }
-
-    .practice-track-card[disabled],
-    .practice-choice-card[disabled],
-    .practice-chip[disabled] {
-        opacity: 0.58;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .practice-track-card[data-active="true"] {
-        border-color: var(--track-border, rgba(201, 165, 86, 0.3));
-        background: linear-gradient(180deg, var(--track-surface, rgba(255, 251, 244, 0.98)), rgba(255, 255, 255, 0.94));
-        box-shadow: 0 18px 32px rgba(69, 51, 24, 0.12);
-    }
-
-    .practice-track-card[data-track="general"] {
-        --track-border: rgba(142, 134, 121, 0.28);
-        --track-surface: rgba(248, 246, 241, 0.96);
-    }
-
-    .practice-track-card[data-track="cap"] {
-        --track-border: rgba(72, 107, 168, 0.26);
-        --track-surface: rgba(243, 247, 255, 0.98);
-    }
-
-    .practice-track-card[data-track="guides"] {
-        --track-border: rgba(100, 149, 112, 0.26);
-        --track-surface: rgba(245, 251, 246, 0.98);
-    }
-
-    .practice-track-top,
-    .practice-choice-top {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.75rem;
-        align-items: flex-start;
-    }
-
-    .practice-track-icon,
-    .practice-choice-icon {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 58px;
-        height: 58px;
-        border-radius: 18px;
-        font-size: 1.35rem;
-        color: var(--card-ink, #3b2f21);
-        background: rgba(255, 255, 255, 0.76);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    }
-
-    .practice-track-card h3,
-    .practice-choice-card h3 {
-        margin: 0;
-        color: var(--card-ink, #3b2f21);
-        font-size: 1.2rem;
-    }
-
-    .practice-track-card p,
-    .practice-choice-card p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.72;
-    }
-
-    .practice-track-meta,
-    .practice-choice-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .practice-mini-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.42rem 0.72rem;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.82);
-        color: var(--card-ink, #3b2f21);
-        font-size: 0.84rem;
-        font-weight: 800;
-    }
-
-    .practice-choice-card {
-        padding: 1rem 1.05rem;
-        border-radius: 22px;
-        display: grid;
-        gap: 0.65rem;
-        cursor: pointer;
-    }
-
-    .practice-choice-card[data-active="true"],
-    .practice-chip[data-active="true"] {
-        border-color: var(--choice-border, var(--accent-line));
-        background: linear-gradient(180deg, var(--choice-surface, var(--accent-surface)), rgba(255, 255, 255, 0.96));
-        box-shadow: 0 14px 28px rgba(69, 51, 24, 0.1);
-    }
-
-    .practice-chip {
-        min-height: 52px;
-        padding: 0.76rem 0.82rem;
-        border-radius: 18px;
-        color: var(--choice-ink, var(--accent-ink));
-        font-weight: 800;
-        cursor: pointer;
-    }
-
-    .practice-empty-state {
-        padding: 1rem;
-        border-radius: 22px;
-        border: 1px dashed var(--accent-line);
-        background: rgba(255, 255, 255, 0.65);
-    }
-
-    .practice-stage-box {
-        border-radius: 24px;
-        border: 1px solid var(--accent-line);
-        background: linear-gradient(180deg, var(--accent-surface), rgba(255, 255, 255, 0.95));
-        padding: 1rem;
-        display: grid;
-        gap: 1rem;
-    }
-
-    .practice-stage-section {
-        display: grid;
-        gap: 0.85rem;
-    }
-
-    .practice-stage-section h3 {
-        color: var(--accent-ink);
-    }
-
-    .practice-summary-card {
-        position: sticky;
-        top: 92px;
-        background:
-            radial-gradient(circle at top right, rgba(205, 227, 183, 0.28), transparent 36%),
-            linear-gradient(180deg, rgba(255, 252, 247, 0.99), rgba(244, 237, 223, 0.96));
-    }
-
-    .practice-summary-list {
-        display: grid;
-        gap: 0.75rem;
-    }
-
-    .practice-summary-item {
-        padding: 0.95rem 1rem;
-        border-radius: 20px;
-        border: 1px solid rgba(207, 172, 108, 0.16);
-        background: rgba(255, 255, 255, 0.76);
-        display: grid;
-        gap: 0.3rem;
-    }
-
-    .practice-summary-item span {
-        color: #8b775d;
-        font-size: 0.88rem;
-    }
-
-    .practice-summary-item strong {
-        color: var(--ink);
-        font-size: 1rem;
-    }
-
-    .practice-summary-tip {
-        padding: 0.95rem 1rem;
-        border-radius: 20px;
-        border: 1px solid var(--accent-line);
-        background: var(--accent-surface);
-        color: var(--accent-ink);
-        line-height: 1.75;
-        font-size: 0.94rem;
-    }
-
-    .practice-summary-actions {
-        display: grid;
-        gap: 0.75rem;
-    }
-
-    .practice-primary-btn,
-    .practice-secondary-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        min-height: 48px;
-        padding: 0.82rem 1.12rem;
-        border-radius: 999px;
-        font-weight: 900;
-        text-decoration: none;
-    }
-
-    .practice-primary-btn {
-        border: none;
-        background: linear-gradient(135deg, #d49439, #b56b2f);
-        color: #fffaf2;
-    }
-
-    .practice-primary-btn[aria-disabled="true"] {
-        opacity: 0.56;
-        pointer-events: none;
-    }
-
-    .practice-secondary-btn {
-        border: 1px solid rgba(73, 98, 138, 0.18);
-        background: rgba(255, 255, 255, 0.82);
-        color: #4d627d;
-    }
-
-    @media (max-width: 980px) {
-        .practice-workspace {
-            grid-template-columns: 1fr;
-        }
-
-        .practice-summary-card {
-            position: static;
-        }
-    }
-
-    @media (max-width: 720px) {
-        .practice-entry-hero,
-        .practice-step-card,
-        .practice-summary-card {
-            border-radius: 24px;
-            padding: 1.15rem;
-        }
-
-        .practice-track-card {
-            min-height: 0;
-        }
-    }
+    .practice-dashboard{--paper:rgba(255,251,243,.98);--paper-2:rgba(247,238,220,.96);--line:rgba(205,170,104,.18);--ink:#2f251b;--muted:#72624f;--accent:#294167;--accent-bg:rgba(242,247,255,.96);display:grid;gap:1.2rem}
+    .practice-dashboard[data-track="exam"]{--accent:#4a3c80;--accent-bg:rgba(245,244,255,.96)}
+    .practice-dashboard[data-track="mistakes"]{--accent:#8a4638;--accent-bg:rgba(255,246,243,.96)}
+    .practice-dashboard[data-track="guides"]{--accent:#315b3d;--accent-bg:rgba(244,251,245,.96)}
+    .practice-dashboard section,.practice-dashboard aside{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,var(--paper),var(--paper-2));box-shadow:0 24px 50px rgba(94,68,35,.11)}
+    .practice-hero,.practice-card,.practice-summary{padding:1.35rem;display:grid;gap:1rem}
+    .practice-hero{background:radial-gradient(circle at top right,rgba(244,199,104,.34),transparent 28%),linear-gradient(140deg,rgba(255,252,247,.99),rgba(245,237,224,.96))}
+    .practice-badge,.practice-pill{display:inline-flex;align-items:center;gap:.45rem;width:fit-content;border-radius:999px;font-weight:800}
+    .practice-badge{padding:.48rem .9rem;background:#3c2e22;color:#fffaf2}
+    .practice-pill{padding:.4rem .78rem;background:rgba(255,244,214,.94);color:#8d6833;font-size:.86rem}
+    .practice-hero h1,.practice-card h2,.practice-summary h2{margin:0;color:var(--ink);font-family:"Kaisei Tokumin",serif}
+    .practice-hero h1{font-size:clamp(2rem,3vw,3rem);line-height:1.14;max-width:900px}
+    .practice-hero p,.practice-card p,.practice-summary p,.practice-empty{margin:0;color:var(--muted);line-height:1.8}
+    .practice-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.85rem}
+    .practice-stat{padding:1rem;border-radius:20px;border:1px solid rgba(205,170,104,.14);background:rgba(255,255,255,.78);display:grid;gap:.25rem}
+    .practice-stat span{font-size:.9rem;color:#8a775f}.practice-stat strong{font-size:1.7rem;color:var(--ink)}
+    .practice-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(310px,.95fr);gap:1rem;align-items:start}
+    .practice-stack{display:grid;gap:1rem}
+    .practice-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap}
+    .practice-grid,.practice-choice-grid,.practice-chip-grid,.practice-stage-grid{display:grid;gap:.85rem}
+    .practice-grid{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+    .practice-choice-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .practice-chip-grid{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+    .practice-stage-grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+    .practice-tile,.practice-choice,.practice-chip{width:100%;border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.84);transition:.16s ease;border-radius:22px}
+    .practice-tile,.practice-choice{padding:1rem;display:grid;gap:.65rem;text-align:left}
+    .practice-chip{padding:.78rem .82rem;min-height:52px;font-weight:800;color:var(--accent)}
+    .practice-tile:hover,.practice-choice:hover,.practice-chip:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(94,68,35,.1)}
+    .practice-tile[data-active="true"],.practice-choice[data-active="true"],.practice-chip[data-active="true"]{border-color:rgba(97,121,168,.22);background:linear-gradient(180deg,var(--accent-bg),rgba(255,255,255,.95));box-shadow:0 18px 28px rgba(94,68,35,.11)}
+    .practice-tile[disabled]{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+    .practice-tile-top,.practice-choice-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem}
+    .practice-icon{display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:18px;background:rgba(255,255,255,.8);color:var(--accent);font-size:1.2rem}
+    .practice-mini{display:inline-flex;align-items:center;gap:.35rem;padding:.38rem .68rem;border-radius:999px;background:rgba(255,255,255,.82);font-size:.82rem;font-weight:800;color:var(--accent)}
+    .practice-stage{padding:1rem;border-radius:22px;border:1px solid rgba(97,121,168,.16);background:linear-gradient(180deg,var(--accent-bg),rgba(255,255,255,.95));display:grid;gap:1rem}
+    .practice-stage h3{margin:0;color:var(--accent);font-size:1.02rem}
+    .practice-empty{padding:1rem;border-radius:20px;border:1px dashed rgba(97,121,168,.18);background:rgba(255,255,255,.68)}
+    .practice-summary{position:sticky;top:92px;background:radial-gradient(circle at top right,rgba(202,225,183,.28),transparent 35%),linear-gradient(180deg,rgba(255,252,247,.99),rgba(245,237,224,.96))}
+    .practice-summary-grid{display:grid;gap:.75rem}
+    .practice-summary-item{padding:.9rem 1rem;border-radius:18px;border:1px solid rgba(205,170,104,.14);background:rgba(255,255,255,.8);display:grid;gap:.22rem}
+    .practice-summary-item span{font-size:.86rem;color:#8a775f}.practice-summary-item strong{color:var(--ink)}
+    .practice-tip{padding:.95rem 1rem;border-radius:18px;background:var(--accent-bg);border:1px solid rgba(97,121,168,.16);color:var(--accent);line-height:1.76}
+    .practice-actions{display:grid;gap:.7rem}.practice-btn,.practice-link{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:48px;padding:.82rem 1rem;border-radius:999px;font-weight:900;text-decoration:none}
+    .practice-btn{background:linear-gradient(135deg,#d69b42,#b86e32);color:#fffaf2}.practice-btn[aria-disabled="true"]{opacity:.55;pointer-events:none}
+    .practice-link{background:rgba(255,255,255,.84);border:1px solid rgba(97,121,168,.15);color:#4f617c}
+    @media (max-width:980px){.practice-layout,.practice-stage-grid{grid-template-columns:1fr}.practice-summary{position:static}}
 </style>
-<div class="practice-entry-shell" id="practice-entry-shell" data-track="cap">
-    <section class="practice-entry-hero">
-        <span class="practice-entry-kicker"><i class="fa-solid fa-compass"></i> 開始刷題</span>
-        <div class="practice-entry-copy">
-            <h1>先選入口，再用互動式步驟鎖定年份、科目、講義或模式。</h1>
-            <p>這一頁先幫你把會考歷屆練習與 AI 學習講義整理成真正可操作的入口。一般國中題庫目前仍在重建中，所以先明確標成整理中，不再讓錯誤資料混進來。</p>
+
+<div class="practice-dashboard" id="practice-dashboard" data-track="cap">
+    <section class="practice-hero">
+        <span class="practice-badge"><i class="fa-solid fa-compass-drafting"></i> 刷題控制台</span>
+        <div>
+            <h1>把刷題、模擬考、錯題本和講義整理成同一條互動流程，先選入口，再一路帶你走到能開始的地方。</h1>
+            <p>這裡不再把所有功能混在一起。你可以先決定現在要做會考歷屆、弱點模擬考、回看錯題，或先讀 AI 學習講義，右側會即時整理你目前選到的範圍。</p>
         </div>
-        <div class="practice-stat-grid">
-            <div class="practice-stat-card">
-                <span>一般國中題庫</span>
-                <strong>重建中</strong>
-            </div>
-            <div class="practice-stat-card">
-                <span>會考可用題數</span>
-                <strong>{{ cap_material_count }}</strong>
-            </div>
-            <div class="practice-stat-card">
-                <span>會考年份範圍</span>
-                <strong>{{ cap_year_count }}</strong>
-            </div>
-            <div class="practice-stat-card">
-                <span>已整理講義</span>
-                <strong>{{ guide_download_count }}</strong>
-            </div>
+        <div class="practice-stats">
+            <div class="practice-stat"><span>會考可用題數</span><strong>{{ cap_material_count }}</strong></div>
+            <div class="practice-stat"><span>待複習錯題</span><strong>{{ exam_unresolved_count }}</strong></div>
+            <div class="practice-stat"><span>今天到期複習</span><strong>{{ exam_due_count }}</strong></div>
+            <div class="practice-stat"><span>可讀講義</span><strong>{{ guide_download_count }}</strong></div>
         </div>
     </section>
 
-    <div class="practice-workspace">
-        <div class="practice-step-stack">
-            <section class="practice-step-card">
-                <div class="practice-step-head">
+    <div class="practice-layout">
+        <div class="practice-stack">
+            <section class="practice-card">
+                <div class="practice-head">
                     <div>
-                        <h2>1. 先選入口</h2>
-                        <p>先決定你是要做會考練習、閱讀講義，還是等待一般國中題庫重建完成。</p>
+                        <h2>1. 先選主入口</h2>
+                        <p>先決定你現在是要練會考、做模擬考、回錯題，還是先讀講義。一般國中題庫維持整理中，不會誤接回來。</p>
                     </div>
-                    <span class="practice-pill"><i class="fa-solid fa-hand-pointer"></i> 點一下就會往下展開</span>
+                    <span class="practice-pill"><i class="fa-solid fa-hand-pointer"></i> 先選入口再展開下一步</span>
                 </div>
-                <div class="practice-track-grid" id="track-grid"></div>
+                <div class="practice-grid" id="track-grid"></div>
             </section>
 
-            <section class="practice-step-card">
-                <div class="practice-step-head">
+            <section class="practice-card">
+                <div class="practice-head">
                     <div>
-                        <h2>2. 再選範圍</h2>
-                        <p id="step-copy">先選一個入口，右邊會同步顯示你目前選到的內容。</p>
+                        <h2>2. 互動式縮小範圍</h2>
+                        <p id="stage-copy">選完入口之後，這裡才會展開對應的年份、科目、模式或講義系列，不再一上來就把所有資訊混成一頁。</p>
                     </div>
-                    <span class="practice-pill" id="stage-badge"><i class="fa-solid fa-shuffle"></i> 會即時更新摘要</span>
+                    <span class="practice-pill" id="stage-badge"><i class="fa-solid fa-layer-group"></i> 逐步鎖定</span>
                 </div>
-                <div id="interactive-stage" class="practice-empty-state">先選上方入口，這裡才會展開年份、科目、模式或講義系列。</div>
+                <div id="interactive-stage" class="practice-empty">請先點選上面的入口卡，這裡才會展開下一步。</div>
             </section>
         </div>
 
-        <aside class="practice-summary-card">
-            <div class="practice-step-head">
+        <aside class="practice-summary">
+            <div class="practice-head">
                 <div>
                     <h2>目前選擇</h2>
-                    <p>這裡會整理你已經選到的範圍，最後可以直接進預覽、練習或閱讀。</p>
+                    <p>右邊只做最後確認與直達，不再堆一堆說明卡。</p>
                 </div>
-                <span class="practice-pill"><i class="fa-solid fa-sparkles"></i> 即時摘要</span>
+                <span class="practice-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
             </div>
-            <div class="practice-summary-list" id="summary-list"></div>
-            <div class="practice-summary-tip" id="summary-tip">先從會考或講義選一條路，右邊就會整理出你目前鎖定的年份、科目、系列或講義內容。</div>
-            <div class="practice-summary-actions">
-                <a id="primary-action" class="practice-primary-btn" href="#" aria-disabled="true"><i class="fa-solid fa-arrow-right"></i> 先完成上方選擇</a>
-                <a id="secondary-action" class="practice-secondary-btn" href="#"><i class="fa-solid fa-up-right-from-square"></i> 進完整頁面</a>
+            <div class="practice-summary-grid" id="summary-grid"></div>
+            <div class="practice-tip" id="summary-tip">會考歷屆、弱點模擬考、錯題本與 AI 學習講義，現在都從這裡進，不需要再分別找入口。</div>
+            <div class="practice-actions">
+                <a id="primary-action" class="practice-btn" href="#" aria-disabled="true"><i class="fa-solid fa-arrow-right"></i> 先完成選擇</a>
+                <a id="secondary-action" class="practice-link" href="{{ url_for('study.practice_cap_hub') }}"><i class="fa-solid fa-up-right-from-square"></i> 開啟對應頁面</a>
             </div>
         </aside>
     </div>
@@ -502,531 +111,280 @@
 (() => {
     const tracks = {{ tracks|tojson }};
     const payload = {{ entry_payload|tojson }};
-
-    const shell = document.getElementById('practice-entry-shell');
+    const shell = document.getElementById('practice-dashboard');
     const trackGrid = document.getElementById('track-grid');
-    const stepCopy = document.getElementById('step-copy');
+    const stageCopy = document.getElementById('stage-copy');
     const stageBadge = document.getElementById('stage-badge');
     const interactiveStage = document.getElementById('interactive-stage');
-    const summaryList = document.getElementById('summary-list');
+    const summaryGrid = document.getElementById('summary-grid');
     const summaryTip = document.getElementById('summary-tip');
     const primaryAction = document.getElementById('primary-action');
     const secondaryAction = document.getElementById('secondary-action');
 
     const state = {
         track: 'cap',
-        cap: {
-            years: [String((payload.cap?.years || [])[0] || '')].filter(Boolean),
-            subject: '',
-            mode: '',
-        },
-        guides: {
-            subject: '',
-            series: '',
-            guide: '',
-        },
+        cap: { years: [String((payload.cap?.years || [])[0] || '')].filter(Boolean), subject: '', mode: 'preview' },
+        exam: { strategy: payload.exam?.strategies?.[0]?.value || 'mixed', count: payload.exam?.recommendedCount || payload.exam?.countOptions?.[0] || 5, subject: '' },
+        mistakes: { status: 'unresolved', subject: '' },
+        guides: { subject: payload.guides?.subjects?.[0]?.slug || '', series: '', guide: '' },
     };
 
-    const capYearValues = (payload.cap?.years || []).map(String);
+    const capYears = (payload.cap?.years || []).map(String);
     const capSubjects = payload.cap?.subjects || [];
     const guideSubjects = payload.guides?.subjects || [];
+    const mistakeSubjects = payload.mistakes?.subjects || [];
+    const statusOptions = [
+        { value: 'unresolved', label: '待複習' },
+        { value: 'due', label: '今天到期' },
+        { value: 'resolved', label: '已掌握' },
+        { value: 'all', label: '全部狀態' },
+    ];
 
     function escapeHtml(value) {
-        return String(value ?? '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;');
+        return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function icon(iconName) { return `<i class="fa-solid ${escapeHtml(iconName || 'fa-shapes')}"></i>`; }
+    function buildUrl(base, params = {}) {
+        const url = new URL(base, window.location.origin);
+        Object.entries(params).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') url.searchParams.set(key, value);
+        });
+        return `${url.pathname}${url.search}`;
+    }
+    function setAction(node, config) {
+        node.innerHTML = `${icon(config.icon)} ${escapeHtml(config.label)}`;
+        node.href = config.disabled ? '#' : config.href;
+        node.setAttribute('aria-disabled', config.disabled ? 'true' : 'false');
     }
 
-    function iconMarkup(iconClass) {
-        return `<i class="fa-solid ${escapeHtml(iconClass || 'fa-shapes')}"></i>`;
-    }
-
-    function setCardAccent(node, accent) {
-        if (!node || !accent) return;
-        node.style.setProperty('--choice-surface', accent.surface || 'rgba(255,255,255,0.96)');
-        node.style.setProperty('--choice-border', accent.border || 'rgba(201,165,86,0.24)');
-        node.style.setProperty('--choice-ink', accent.ink || '#2f261d');
-        node.style.setProperty('--card-ink', accent.ink || '#2f261d');
-    }
-
-    function setActionState(anchor, { href, label, icon, disabled }) {
-        anchor.innerHTML = `${iconMarkup(icon)} ${escapeHtml(label)}`;
-        anchor.setAttribute('href', disabled ? '#' : href);
-        anchor.setAttribute('aria-disabled', disabled ? 'true' : 'false');
-    }
-
-    function renderTrackCards() {
-        trackGrid.innerHTML = '';
-        tracks.forEach((track) => {
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'practice-track-card';
-            button.dataset.track = track.slug;
-            button.dataset.active = String(state.track === track.slug);
-            if (track.slug === 'general') {
-                button.disabled = true;
-            }
-
-            button.innerHTML = `
-                <div class="practice-track-top">
-                    <span class="practice-track-icon">${iconMarkup(track.icon)}</span>
-                    <span class="practice-mini-pill">${escapeHtml(track.badge)}</span>
+    function renderTracks() {
+        trackGrid.innerHTML = tracks.map((track) => `
+            <button type="button" class="practice-tile" data-track="${escapeHtml(track.slug)}" data-active="${String(state.track === track.slug)}" ${track.slug === 'general' ? 'disabled' : ''}>
+                <div class="practice-tile-top">
+                    <span class="practice-icon">${icon(track.icon)}</span>
+                    <span class="practice-mini">${escapeHtml(track.badge)}</span>
                 </div>
-                <div style="display:grid; gap:0.55rem;">
+                <div>
                     <h3>${escapeHtml(track.label)}</h3>
                     <p>${escapeHtml(track.description)}</p>
                 </div>
-                <div class="practice-track-meta">
-                    ${track.slug === 'cap' ? '<span class="practice-mini-pill">年份可混</span><span class="practice-mini-pill">科目不混</span>' : ''}
-                    ${track.slug === 'guides' ? '<span class="practice-mini-pill">章節閱讀</span><span class="practice-mini-pill">小節導航</span>' : ''}
-                    ${track.slug === 'general' ? '<span class="practice-mini-pill">題庫重建中</span>' : ''}
-                </div>
-            `;
-
-            button.addEventListener('click', () => {
-                if (track.slug === 'general') return;
-                state.track = track.slug;
+            </button>
+        `).join('');
+        trackGrid.querySelectorAll('[data-track]').forEach((node) => {
+            node.addEventListener('click', () => {
+                if (node.disabled) return;
+                state.track = node.dataset.track;
                 renderAll();
             });
-
-            trackGrid.appendChild(button);
         });
-    }
-
-    function renderEmptyStage(title, body) {
-        interactiveStage.innerHTML = `<div class="practice-empty-state"><strong style="display:block; color:#2f261d; margin-bottom:0.4rem;">${escapeHtml(title)}</strong><span>${escapeHtml(body)}</span></div>`;
     }
 
     function renderCapStage() {
-        stepCopy.textContent = '先選年份，再選科目與模式；右邊會即時整理你目前選到的會考範圍。';
-        stageBadge.innerHTML = `${iconMarkup('fa-graduation-cap')} 會考互動設定`;
-
-        const selectedYears = state.cap.years;
-        const selectedSubject = capSubjects.find((subject) => subject.slug === state.cap.subject) || null;
-        const modeCards = [
-            {
-                value: 'preview',
-                label: '預覽模式',
-                icon: 'fa-book-open-reader',
-                description: '先看題組、圖片與詳解，適合逐年或多年混合對照。',
-            },
-            {
-                value: 'practice',
-                label: '練習模式',
-                icon: 'fa-pen-ruler',
-                description: '正式一題一頁作答，交卷後看成績、答案與詳解。',
-            },
-        ];
-
+        shell.dataset.track = 'cap';
+        stageCopy.textContent = '先鎖定年份與科目，再決定要先預覽全卷還是直接開始互動作答。';
+        stageBadge.innerHTML = `${icon('fa-graduation-cap')} 會考歷屆練習`;
+        const years = capYears.map((year) => `<button type="button" class="practice-chip" data-year="${year}" data-active="${String(state.cap.years.includes(year))}">${year} 年</button>`).join('');
+        const subjects = capSubjects.map((subject) => `
+            <button type="button" class="practice-choice" data-cap-subject="${escapeHtml(subject.slug)}" data-active="${String(state.cap.subject === subject.slug)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon(subject.icon)}</span><span class="practice-mini">${escapeHtml(subject.question_count)} 題</span></div>
+                <div><h3>${escapeHtml(subject.label)}</h3><p>${escapeHtml(subject.description)}</p></div>
+            </button>
+        `).join('');
+        const modes = [
+            { value: 'preview', label: '預覽模式', desc: '先看題組與材料，再進預覽頁分頁閱讀。', icon: 'fa-book-open-reader' },
+            { value: 'practice', label: '練習模式', desc: '直接開始互動作答，一題一頁，交卷後看檢討。', icon: 'fa-pen-ruler' },
+        ].map((mode) => `
+            <button type="button" class="practice-choice" data-cap-mode="${mode.value}" data-active="${String(state.cap.mode === mode.value)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon(mode.icon)}</span><span class="practice-mini">${mode.value === 'preview' ? '先看全卷' : '直接作答'}</span></div>
+                <div><h3>${mode.label}</h3><p>${mode.desc}</p></div>
+            </button>
+        `).join('');
         interactiveStage.innerHTML = `
-            <div class="practice-stage-box">
-                <div class="practice-stage-section">
-                    <div class="practice-step-head" style="margin-bottom:0;">
-                        <div>
-                            <h3 style="margin:0; color:#2f261d;">年份範圍</h3>
-                            <p class="practice-option-help">可單一年份，也可多個年份混合；科目仍維持單選。</p>
-                        </div>
-                        <span class="practice-pill"><i class="fa-solid fa-calendar-days"></i> 102-114</span>
-                    </div>
-                    <div class="practice-chip-grid" id="cap-year-grid"></div>
+            <div class="practice-stage">
+                <div class="practice-choice-grid">
+                    <div><h3>年份</h3><div class="practice-chip-grid">${years}</div></div>
                 </div>
-                <div class="practice-stage-section">
-                    <div class="practice-step-head" style="margin-bottom:0;">
-                        <div>
-                            <h3 style="margin:0; color:#2f261d;">科目</h3>
-                            <p class="practice-option-help">先做單科，避免把不同科目的作答節奏混在一起。</p>
-                        </div>
-                        <span class="practice-pill"><i class="fa-solid fa-list-check"></i> 單科練習</span>
-                    </div>
-                    <div class="practice-option-grid" id="cap-subject-grid"></div>
+                <div class="practice-stage-grid">
+                    <div><h3>科目</h3><div class="practice-choice-grid">${subjects}</div></div>
+                    <div><h3>模式</h3><div class="practice-choice-grid">${modes}</div></div>
                 </div>
-                <div class="practice-stage-section">
-                    <div class="practice-step-head" style="margin-bottom:0;">
-                        <div>
-                            <h3 style="margin:0; color:#2f261d;">模式</h3>
-                            <p class="practice-option-help">先決定要預覽整批題目，還是直接進入正式練習。</p>
-                        </div>
-                        <span class="practice-pill"><i class="fa-solid fa-compass-drafting"></i> 先選模式</span>
-                    </div>
-                    <div class="practice-option-grid" id="cap-mode-grid"></div>
-                </div>
-                ${selectedSubject ? `<p class="practice-option-help">目前鎖定 ${escapeHtml(selectedSubject.label)}，共可用 ${escapeHtml(selectedSubject.question_count)} 題，橫跨 ${escapeHtml(selectedSubject.year_count)} 個年份。</p>` : ''}
             </div>
         `;
+        interactiveStage.querySelectorAll('[data-year]').forEach((node) => node.addEventListener('click', () => {
+            const year = node.dataset.year;
+            const exists = state.cap.years.includes(year);
+            if (exists && state.cap.years.length > 1) state.cap.years = state.cap.years.filter((value) => value !== year);
+            if (!exists) state.cap.years = [...state.cap.years, year].sort();
+            renderAll();
+        }));
+        interactiveStage.querySelectorAll('[data-cap-subject]').forEach((node) => node.addEventListener('click', () => { state.cap.subject = node.dataset.capSubject || ''; renderAll(); }));
+        interactiveStage.querySelectorAll('[data-cap-mode]').forEach((node) => node.addEventListener('click', () => { state.cap.mode = node.dataset.capMode || 'preview'; renderAll(); }));
+    }
 
-        const yearGrid = document.getElementById('cap-year-grid');
-        capYearValues.forEach((yearValue) => {
-            const chip = document.createElement('button');
-            chip.type = 'button';
-            chip.className = 'practice-chip';
-            chip.dataset.active = String(selectedYears.includes(yearValue));
-            chip.textContent = `${yearValue} 年`;
-            chip.addEventListener('click', () => {
-                if (state.cap.years.includes(yearValue)) {
-                    state.cap.years = state.cap.years.filter((item) => item !== yearValue);
-                } else {
-                    state.cap.years = [...state.cap.years, yearValue].sort((a, b) => Number(b) - Number(a));
-                }
-                renderAll();
-            });
-            yearGrid.appendChild(chip);
-        });
+    function renderExamStage() {
+        shell.dataset.track = 'exam';
+        stageCopy.textContent = '模擬考會直接從你的錯題資料組卷。先決定策略、題數，再看要不要鎖定某一科。';
+        stageBadge.innerHTML = `${icon('fa-file-signature')} 弱點模擬考`;
+        const strategies = (payload.exam?.strategies || []).map((strategy) => `
+            <button type="button" class="practice-choice" data-exam-strategy="${escapeHtml(strategy.value)}" data-active="${String(state.exam.strategy === strategy.value)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon('fa-bullseye')}</span><span class="practice-mini">${escapeHtml(strategy.label)}</span></div>
+                <p>${escapeHtml(strategy.description)}</p>
+            </button>
+        `).join('');
+        const counts = (payload.exam?.countOptions || []).map((count) => `<button type="button" class="practice-chip" data-exam-count="${count}" data-active="${String(Number(state.exam.count) === Number(count))}">${count} 題</button>`).join('');
+        const subjects = [
+            `<button type="button" class="practice-choice" data-exam-subject="" data-active="${String(!state.exam.subject)}"><div class="practice-choice-top"><span class="practice-icon">${icon('fa-layer-group')}</span><span class="practice-mini">全部科目</span></div><p>先用所有待複習題組成一份綜合補強卷。</p></button>`,
+            ...(payload.exam?.subjects || []).map((subject) => `
+                <button type="button" class="practice-choice" data-exam-subject="${escapeHtml(subject.slug)}" data-active="${String(state.exam.subject === subject.slug)}">
+                    <div class="practice-choice-top"><span class="practice-icon">${icon('fa-book')}</span><span class="practice-mini">${escapeHtml(subject.questionCount)} 題</span></div>
+                    <div><h3>${escapeHtml(subject.label)}</h3><p>今天到期 ${escapeHtml(subject.dueCount)} 題，已掌握 ${escapeHtml(subject.resolvedCount)} 題。</p></div>
+                </button>
+            `),
+        ].join('');
+        interactiveStage.innerHTML = `
+            <div class="practice-stage">
+                <div><h3>組卷策略</h3><div class="practice-choice-grid">${strategies || '<div class="practice-empty">目前沒有可用策略。</div>'}</div></div>
+                <div class="practice-stage-grid">
+                    <div><h3>題數</h3><div class="practice-chip-grid">${counts || '<div class="practice-empty">目前沒有可用題數。</div>'}</div></div>
+                    <div><h3>科目範圍</h3><div class="practice-choice-grid">${subjects}</div></div>
+                </div>
+            </div>
+        `;
+        interactiveStage.querySelectorAll('[data-exam-strategy]').forEach((node) => node.addEventListener('click', () => { state.exam.strategy = node.dataset.examStrategy || state.exam.strategy; renderAll(); }));
+        interactiveStage.querySelectorAll('[data-exam-count]').forEach((node) => node.addEventListener('click', () => { state.exam.count = Number(node.dataset.examCount || state.exam.count); renderAll(); }));
+        interactiveStage.querySelectorAll('[data-exam-subject]').forEach((node) => node.addEventListener('click', () => { state.exam.subject = node.dataset.examSubject || ''; renderAll(); }));
+    }
 
-        const subjectGrid = document.getElementById('cap-subject-grid');
-        capSubjects.forEach((subject) => {
-            const card = document.createElement('button');
-            card.type = 'button';
-            card.className = 'practice-choice-card';
-            card.dataset.active = String(state.cap.subject === subject.slug);
-            setCardAccent(card, {
-                surface: subject.accent?.surface,
-                border: subject.accent?.border,
-                ink: subject.accent?.ink,
-            });
-            card.innerHTML = `
-                <div class="practice-choice-top">
-                    <span class="practice-choice-icon">${iconMarkup(subject.icon)}</span>
-                    <span class="practice-mini-pill">${escapeHtml(`${subject.question_count} 題`)}</span>
-                </div>
-                <div style="display:grid; gap:0.45rem;">
-                    <h3>${escapeHtml(subject.label)}</h3>
-                    <p>${escapeHtml(subject.description)}</p>
-                </div>
-                <div class="practice-choice-meta">
-                    <span class="practice-mini-pill">${escapeHtml(`${subject.year_count} 個年份`)}</span>
-                </div>
-            `;
-            card.addEventListener('click', () => {
-                state.cap.subject = subject.slug;
-                renderAll();
-            });
-            subjectGrid.appendChild(card);
-        });
-
-        const modeGrid = document.getElementById('cap-mode-grid');
-        modeCards.forEach((mode) => {
-            const card = document.createElement('button');
-            card.type = 'button';
-            card.className = 'practice-choice-card';
-            card.dataset.active = String(state.cap.mode === mode.value);
-            setCardAccent(card, {
-                surface: selectedSubject?.accent?.surface || 'rgba(245,248,255,0.98)',
-                border: selectedSubject?.accent?.border || 'rgba(73,98,138,0.24)',
-                ink: selectedSubject?.accent?.ink || '#2f3552',
-            });
-            card.innerHTML = `
-                <div class="practice-choice-top">
-                    <span class="practice-choice-icon">${iconMarkup(mode.icon)}</span>
-                    <span class="practice-mini-pill">${escapeHtml(mode.label)}</span>
-                </div>
-                <p>${escapeHtml(mode.description)}</p>
-            `;
-            card.addEventListener('click', () => {
-                state.cap.mode = mode.value;
-                renderAll();
-            });
-            modeGrid.appendChild(card);
-        });
+    function renderMistakesStage() {
+        shell.dataset.track = 'mistakes';
+        stageCopy.textContent = '錯題本會先把題目按狀態整理好，再讓你挑科目，避免每次回來複習都像從零開始。';
+        stageBadge.innerHTML = `${icon('fa-book-journal-whills')} 錯題本`;
+        const statuses = statusOptions.map((status) => `
+            <button type="button" class="practice-choice" data-mistake-status="${status.value}" data-active="${String(state.mistakes.status === status.value)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon(status.value === 'resolved' ? 'fa-circle-check' : 'fa-rotate-left')}</span><span class="practice-mini">${escapeHtml(status.label)}</span></div>
+                <p>${status.value === 'due' ? '今天該回來複習的題會先排在前面。' : status.value === 'resolved' ? '回看已經掌握但想再確認的題。' : status.value === 'all' ? '把所有狀態攤開來看。' : '優先看還沒真正補回來的題。'}</p>
+            </button>
+        `).join('');
+        const subjects = [
+            `<button type="button" class="practice-choice" data-mistake-subject="" data-active="${String(!state.mistakes.subject)}"><div class="practice-choice-top"><span class="practice-icon">${icon('fa-layer-group')}</span><span class="practice-mini">全部科目</span></div><p>先把整份錯題本攤開，再決定要不要鎖定某一科。</p></button>`,
+            ...mistakeSubjects.map((subject) => `
+                <button type="button" class="practice-choice" data-mistake-subject="${escapeHtml(subject.slug)}" data-active="${String(state.mistakes.subject === subject.slug)}">
+                    <div class="practice-choice-top"><span class="practice-icon">${icon('fa-book-open')}</span><span class="practice-mini">${escapeHtml(subject.questionCount)} 題</span></div>
+                    <div><h3>${escapeHtml(subject.label)}</h3><p>今天到期 ${escapeHtml(subject.dueCount)} 題，已掌握 ${escapeHtml(subject.resolvedCount)} 題。</p></div>
+                </button>
+            `),
+        ].join('');
+        interactiveStage.innerHTML = `<div class="practice-stage"><div class="practice-stage-grid"><div><h3>狀態</h3><div class="practice-choice-grid">${statuses}</div></div><div><h3>科目</h3><div class="practice-choice-grid">${subjects}</div></div></div></div>`;
+        interactiveStage.querySelectorAll('[data-mistake-status]').forEach((node) => node.addEventListener('click', () => { state.mistakes.status = node.dataset.mistakeStatus || 'unresolved'; renderAll(); }));
+        interactiveStage.querySelectorAll('[data-mistake-subject]').forEach((node) => node.addEventListener('click', () => { state.mistakes.subject = node.dataset.mistakeSubject || ''; renderAll(); }));
     }
 
     function renderGuidesStage() {
-        stepCopy.textContent = '先選科目，再一路往下選講義系列與內容；右邊會即時整理你現在看到的是哪一套。';
-        stageBadge.innerHTML = `${iconMarkup('fa-book-bookmark')} 講義互動導覽`;
-
+        shell.dataset.track = 'guides';
+        stageCopy.textContent = '先選科目，再往下鎖定講義系列與單本內容，最後直接跳進閱讀頁。';
+        stageBadge.innerHTML = `${icon('fa-book-bookmark')} AI 學習講義`;
         const selectedSubject = guideSubjects.find((subject) => subject.slug === state.guides.subject) || null;
-        const selectedSeries = selectedSubject?.series?.find((series) => series.value === state.guides.series) || null;
-
+        const seriesList = selectedSubject?.series || [];
+        if (selectedSubject && !state.guides.series && seriesList.length) state.guides.series = seriesList[0].value;
+        const selectedSeries = seriesList.find((series) => series.value === state.guides.series) || null;
+        const guideList = selectedSeries?.guides || [];
+        if (selectedSeries && !state.guides.guide && guideList.length) state.guides.guide = guideList[0].value;
+        const subjectCards = guideSubjects.map((subject) => `
+            <button type="button" class="practice-choice" data-guide-subject="${escapeHtml(subject.slug)}" data-active="${String(state.guides.subject === subject.slug)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon(subject.icon)}</span><span class="practice-mini">${escapeHtml(subject.guideCount)} 本</span></div>
+                <div><h3>${escapeHtml(subject.label)}</h3><p>${escapeHtml(subject.description)}</p></div>
+            </button>
+        `).join('');
+        const seriesCards = selectedSubject ? seriesList.map((series) => `
+            <button type="button" class="practice-choice" data-guide-series="${escapeHtml(series.value)}" data-active="${String(state.guides.series === series.value)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon('fa-book-atlas')}</span><span class="practice-mini">${escapeHtml(series.guideCount)} 本</span></div>
+                <div><h3>${escapeHtml(series.label)}</h3><p>這個系列目前收了 ${escapeHtml(series.guideCount)} 本講義。</p></div>
+            </button>
+        `).join('') : '<div class="practice-empty">先選科目，這裡才會展開系列。</div>';
+        const guideCards = selectedSeries ? guideList.map((guide) => `
+            <button type="button" class="practice-choice" data-guide-doc="${escapeHtml(guide.value)}" data-active="${String(state.guides.guide === guide.value)}">
+                <div class="practice-choice-top"><span class="practice-icon">${icon('fa-file-lines')}</span><span class="practice-mini">${escapeHtml(guide.pageCount)} 頁</span></div>
+                <div><h3>${escapeHtml(guide.title)}</h3><p>${escapeHtml(guide.chapterCount)} 章 / ${escapeHtml(guide.sectionCount)} 小節</p></div>
+            </button>
+        `).join('') : '<div class="practice-empty">先選系列，這裡才會展開單本講義。</div>';
         interactiveStage.innerHTML = `
-            <div class="practice-stage-box">
-                <div class="practice-stage-section">
-                    <div class="practice-step-head" style="margin-bottom:0;">
-                        <div>
-                            <h3 style="margin:0; color:#2f261d;">科目</h3>
-                            <p class="practice-option-help">先決定要讀哪一科，再往下縮到講義系列與單一講義。</p>
-                        </div>
-                        <span class="practice-pill"><i class="fa-solid fa-folder-tree"></i> 先科目</span>
-                    </div>
-                    <div class="practice-option-grid" id="guide-subject-grid"></div>
+            <div class="practice-stage">
+                <div><h3>科目</h3><div class="practice-choice-grid">${subjectCards}</div></div>
+                <div class="practice-stage-grid">
+                    <div><h3>講義系列</h3><div class="practice-choice-grid">${seriesCards}</div></div>
+                    <div><h3>單本講義</h3><div class="practice-choice-grid">${guideCards}</div></div>
                 </div>
-                <div class="practice-stage-section">
-                    <div class="practice-step-head" style="margin-bottom:0;">
-                        <div>
-                            <h3 style="margin:0; color:#2f261d;">講義系列</h3>
-                            <p class="practice-option-help">每個科目底下可能有多套講義，先選系列再挑單本內容。</p>
-                        </div>
-                        <span class="practice-pill"><i class="fa-solid fa-layer-group"></i> 再系列</span>
-                    </div>
-                    <div class="practice-option-grid" id="guide-series-grid"></div>
-                </div>
-                <div class="practice-stage-section">
-                    <div class="practice-step-head" style="margin-bottom:0;">
-                        <div>
-                            <h3 style="margin:0; color:#2f261d;">講義內容</h3>
-                            <p class="practice-option-help">會直接進到章節化閱讀頁，不再只是單純的檔案連結。</p>
-                        </div>
-                        <span class="practice-pill"><i class="fa-solid fa-book-atlas"></i> 看章節</span>
-                    </div>
-                    <div class="practice-option-grid" id="guide-guide-grid"></div>
-                </div>
-                ${selectedSeries ? `<p class="practice-option-help">${escapeHtml(selectedSeries.label)} 目前整理了 ${escapeHtml(selectedSeries.guideCount)} 份講義，可以直接往章與小節閱讀。</p>` : ''}
             </div>
         `;
-
-        const subjectGrid = document.getElementById('guide-subject-grid');
-        guideSubjects.forEach((subject) => {
-            const card = document.createElement('button');
-            card.type = 'button';
-            card.className = 'practice-choice-card';
-            card.dataset.active = String(state.guides.subject === subject.slug);
-            setCardAccent(card, {
-                surface: 'rgba(245, 251, 246, 0.98)',
-                border: 'rgba(97, 149, 111, 0.24)',
-                ink: '#2f5d39',
-            });
-            card.innerHTML = `
-                <div class="practice-choice-top">
-                    <span class="practice-choice-icon">${iconMarkup(subject.icon)}</span>
-                    <span class="practice-mini-pill">${escapeHtml(`${subject.guideCount} 本`)}</span>
-                </div>
-                <div style="display:grid; gap:0.45rem;">
-                    <h3>${escapeHtml(subject.label)}</h3>
-                    <p>${escapeHtml(subject.description)}</p>
-                </div>
-                <div class="practice-choice-meta">
-                    <span class="practice-mini-pill">${escapeHtml(`${subject.seriesCount} 套系列`)}</span>
-                </div>
-            `;
-            card.addEventListener('click', () => {
-                state.guides.subject = subject.slug;
-                state.guides.series = '';
-                state.guides.guide = '';
-                renderAll();
-            });
-            subjectGrid.appendChild(card);
-        });
-
-        const seriesGrid = document.getElementById('guide-series-grid');
-        if (!selectedSubject) {
-            seriesGrid.innerHTML = '<div class="practice-empty-state">先選科目，這裡才會展開可用的講義系列。</div>';
-        } else {
-            selectedSubject.series.forEach((series) => {
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.className = 'practice-choice-card';
-                card.dataset.active = String(state.guides.series === series.value);
-                setCardAccent(card, {
-                    surface: 'rgba(246, 252, 247, 0.98)',
-                    border: 'rgba(110, 155, 117, 0.24)',
-                    ink: '#36633f',
-                });
-                card.innerHTML = `
-                    <div class="practice-choice-top">
-                        <span class="practice-choice-icon">${iconMarkup('fa-book-bookmark')}</span>
-                        <span class="practice-mini-pill">${escapeHtml(`${series.guideCount} 本`)}</span>
-                    </div>
-                    <div style="display:grid; gap:0.45rem;">
-                        <h3>${escapeHtml(series.label)}</h3>
-                        <p>${escapeHtml(`這套系列目前整理了 ${series.guideCount} 本講義。`)}</p>
-                    </div>
-                `;
-                card.addEventListener('click', () => {
-                    state.guides.series = series.value;
-                    state.guides.guide = '';
-                    renderAll();
-                });
-                seriesGrid.appendChild(card);
-            });
-        }
-
-        const guideGrid = document.getElementById('guide-guide-grid');
-        if (!selectedSeries) {
-            guideGrid.innerHTML = '<div class="practice-empty-state">先選系列，這裡才會列出講義內容與章節數。</div>';
-        } else {
-            selectedSeries.guides.forEach((guide) => {
-                const card = document.createElement('button');
-                card.type = 'button';
-                card.className = 'practice-choice-card';
-                card.dataset.active = String(state.guides.guide === guide.value);
-                setCardAccent(card, {
-                    surface: 'rgba(248, 252, 249, 0.99)',
-                    border: 'rgba(121, 165, 128, 0.24)',
-                    ink: '#2e5e37',
-                });
-                card.innerHTML = `
-                    <div class="practice-choice-top">
-                        <span class="practice-choice-icon">${iconMarkup('fa-scroll')}</span>
-                        <span class="practice-mini-pill">${escapeHtml(`${guide.chapterCount} 章`)}</span>
-                    </div>
-                    <div style="display:grid; gap:0.45rem;">
-                        <h3>${escapeHtml(guide.title)}</h3>
-                        <p>${escapeHtml(`共 ${guide.sectionCount} 個小節，${guide.pageCount} 頁內容。`)}</p>
-                    </div>
-                `;
-                card.addEventListener('click', () => {
-                    state.guides.guide = guide.value;
-                    renderAll();
-                });
-                guideGrid.appendChild(card);
-            });
-        }
+        interactiveStage.querySelectorAll('[data-guide-subject]').forEach((node) => node.addEventListener('click', () => { state.guides.subject = node.dataset.guideSubject || ''; state.guides.series = ''; state.guides.guide = ''; renderAll(); }));
+        interactiveStage.querySelectorAll('[data-guide-series]').forEach((node) => node.addEventListener('click', () => { state.guides.series = node.dataset.guideSeries || ''; state.guides.guide = ''; renderAll(); }));
+        interactiveStage.querySelectorAll('[data-guide-doc]').forEach((node) => node.addEventListener('click', () => { state.guides.guide = node.dataset.guideDoc || ''; renderAll(); }));
     }
 
-    function buildSummaryItems() {
-        if (state.track === 'cap') {
-            const selectedSubject = capSubjects.find((subject) => subject.slug === state.cap.subject) || null;
-            return [
-                {
-                    label: '入口',
-                    value: '會考歷屆練習',
-                },
-                {
-                    label: '年份',
-                    value: state.cap.years.length ? state.cap.years.map((year) => `${year} 年`).join('、') : '尚未選擇',
-                },
-                {
-                    label: '科目',
-                    value: selectedSubject ? selectedSubject.label : '尚未選擇',
-                },
-                {
-                    label: '模式',
-                    value: state.cap.mode === 'preview' ? '預覽模式' : state.cap.mode === 'practice' ? '練習模式' : '尚未選擇',
-                },
-            ];
-        }
-
-        if (state.track === 'guides') {
-            const selectedSubject = guideSubjects.find((subject) => subject.slug === state.guides.subject) || null;
-            const selectedSeries = selectedSubject?.series?.find((series) => series.value === state.guides.series) || null;
-            const selectedGuide = selectedSeries?.guides?.find((guide) => guide.value === state.guides.guide) || null;
-            return [
-                {
-                    label: '入口',
-                    value: 'AI 學習講義',
-                },
-                {
-                    label: '科目',
-                    value: selectedSubject ? selectedSubject.label : '尚未選擇',
-                },
-                {
-                    label: '系列',
-                    value: selectedSeries ? selectedSeries.label : '尚未選擇',
-                },
-                {
-                    label: '講義',
-                    value: selectedGuide ? selectedGuide.title : '尚未選擇',
-                },
-            ];
-        }
-
-        return [
-            {
-                label: '入口',
-                value: '一般國中練習',
-            },
-            {
-                label: '狀態',
-                value: '題庫重建中，暫不開放',
-            },
-        ];
+    function renderGeneralStage() {
+        shell.dataset.track = 'general';
+        stageCopy.textContent = '一般國中題庫還在重建，所以這條線先維持整理中，不會把舊資料誤接回來。';
+        stageBadge.innerHTML = `${icon('fa-school')} 一般國中練習`;
+        interactiveStage.innerHTML = `<div class="practice-empty"><strong style="display:block;color:#4c4134;margin-bottom:.45rem;">一般國中題庫目前維持整理中</strong>等題庫重建驗證完，再重新接回這裡。</div>`;
     }
 
     function renderSummary() {
-        const items = buildSummaryItems();
-        summaryList.innerHTML = '';
-        items.forEach((item) => {
-            const block = document.createElement('div');
-            block.className = 'practice-summary-item';
-            block.innerHTML = `<span>${escapeHtml(item.label)}</span><strong>${escapeHtml(item.value)}</strong>`;
-            summaryList.appendChild(block);
-        });
+        const cards = [];
+        let tip = '右邊只保留最後確認與直達，確認好就直接開始。';
+        let primary = { href: '#', label: '先完成選擇', icon: 'fa-arrow-right', disabled: true };
+        let secondary = { href: payload.routes.practice || '#', label: '回到控制台', icon: 'fa-house', disabled: false };
 
         if (state.track === 'cap') {
-            const canProceed = Boolean(state.cap.years.length && state.cap.subject && state.cap.mode);
-            const yearQuery = state.cap.years.join(',');
-            const hrefBase = state.cap.mode === 'practice' ? payload.routes.capSession : payload.routes.capPreview;
-            const href = canProceed ? `${hrefBase}?years=${encodeURIComponent(yearQuery)}&subject=${encodeURIComponent(state.cap.subject)}` : '#';
-            const secondaryHref = state.cap.subject
-                ? `${payload.routes.capHub}?years=${encodeURIComponent(yearQuery)}&subject=${encodeURIComponent(state.cap.subject)}`
-                : payload.routes.capHub;
-            summaryTip.textContent = '會考這條線會保留年份混合、科目單選、題組與圖片題。先把年份與科目鎖定，再決定要預覽還是正式作答。';
-            setActionState(primaryAction, {
-                href,
-                label: state.cap.mode === 'practice' ? '開始會考練習' : '開始會考預覽',
-                icon: state.cap.mode === 'practice' ? 'fa-play' : 'fa-eye',
-                disabled: !canProceed,
-            });
-            setActionState(secondaryAction, {
-                href: secondaryHref,
-                label: '進完整會考頁面',
-                icon: 'fa-up-right-from-square',
-                disabled: false,
-            });
-            return;
+            const subject = capSubjects.find((item) => item.slug === state.cap.subject);
+            cards.push({label:'入口',value:'會考歷屆練習'},{label:'年份',value:state.cap.years.join('、') || '尚未選擇'},{label:'科目',value:subject?.label || '尚未選擇'},{label:'模式',value:state.cap.mode === 'practice' ? '練習模式' : '預覽模式'});
+            tip = '會考這條線建議先用預覽模式確認題組與材料，再進練習模式正式作答。';
+            if (subject && state.cap.years.length) {
+                const years = state.cap.years.join(',');
+                primary = { href: state.cap.mode === 'practice' ? buildUrl(payload.routes.capSession,{years,subject:subject.slug}) : buildUrl(payload.routes.capPreview,{years,subject:subject.slug}), label: state.cap.mode === 'practice' ? '開始會考練習' : '打開會考預覽', icon: state.cap.mode === 'practice' ? 'fa-pen-ruler' : 'fa-book-open-reader', disabled: false };
+                secondary = { href: buildUrl(payload.routes.capHub,{years,subject:subject.slug}), label:'前往會考設定頁', icon:'fa-sliders', disabled:false };
+            }
+        } else if (state.track === 'exam') {
+            const subject = (payload.exam?.subjects || []).find((item) => item.slug === state.exam.subject);
+            cards.push({label:'入口',value:'弱點模擬考'},{label:'策略',value:(payload.exam?.strategies || []).find((item) => item.value === state.exam.strategy)?.label || '智慧混合'},{label:'題數',value:`${state.exam.count} 題`},{label:'科目',value:subject?.label || '全部科目'});
+            tip = '模擬考會直接從你的錯題資料組卷。進去之後直接作答，交卷後會把每題檢討整理好。';
+            primary = { href: buildUrl(payload.routes.exam,{mode:state.exam.strategy,count:state.exam.count,subject:state.exam.subject || ''}), label:'開始模擬考', icon:'fa-file-signature', disabled:(payload.exam?.unresolvedCount || 0) <= 0 };
+            secondary = { href: buildUrl(payload.routes.mistakes,{status:'unresolved',subject:state.exam.subject || ''}), label:'先看錯題本', icon:'fa-book-journal-whills', disabled:false };
+        } else if (state.track === 'mistakes') {
+            const subject = mistakeSubjects.find((item) => item.slug === state.mistakes.subject);
+            cards.push({label:'入口',value:'錯題本'},{label:'狀態',value:statusOptions.find((item) => item.value === state.mistakes.status)?.label || '待複習'},{label:'科目',value:subject?.label || '全部科目'},{label:'待複習題數',value:`${payload.mistakes?.unresolvedCount || 0} 題`});
+            tip = '錯題本適合先看今天到期的題，再決定要不要直接組一份模擬考回練。';
+            primary = { href: buildUrl(payload.routes.mistakes,{status:state.mistakes.status,subject:state.mistakes.subject || ''}), label:'打開錯題本', icon:'fa-book-journal-whills', disabled:false };
+            secondary = { href: buildUrl(payload.routes.exam,{mode:'mixed',count:payload.exam?.recommendedCount || 5,subject:state.mistakes.subject || ''}), label:'用這些題出模擬考', icon:'fa-file-signature', disabled:(payload.mistakes?.unresolvedCount || 0) <= 0 };
+        } else if (state.track === 'guides') {
+            const subject = guideSubjects.find((item) => item.slug === state.guides.subject);
+            const series = subject?.series?.find((item) => item.value === state.guides.series);
+            const guide = series?.guides?.find((item) => item.value === state.guides.guide);
+            cards.push({label:'入口',value:'AI 學習講義'},{label:'科目',value:subject?.label || '尚未選擇'},{label:'系列',value:series?.label || '尚未選擇'},{label:'講義',value:guide?.title || '尚未選擇'});
+            tip = '講義這條線適合先把章節看懂，再回去接刷題或模擬考。';
+            if (subject && series && guide) {
+                primary = { href: buildUrl(payload.routes.guideReader,{subject:subject.slug,series:series.value,guide:guide.value}), label:'開始閱讀講義', icon:'fa-book-open', disabled:false };
+                secondary = { href: buildUrl(payload.routes.guides,{subject:subject.slug,series:series.value}), label:'打開講義列表', icon:'fa-layer-group', disabled:false };
+            }
+        } else {
+            cards.push({label:'入口',value:'一般國中練習'},{label:'狀態',value:'整理中'},{label:'題庫',value:'暫不開放'});
+            tip = '一般國中題庫暫時不接回來，避免你再次看到還沒重建好的舊題。';
         }
 
-        if (state.track === 'guides') {
-            const canProceed = Boolean(state.guides.subject && state.guides.series && state.guides.guide);
-            const href = canProceed
-                ? `${payload.routes.guideReader}?subject=${encodeURIComponent(state.guides.subject)}&series=${encodeURIComponent(state.guides.series)}&guide=${encodeURIComponent(state.guides.guide)}`
-                : '#';
-            const secondaryHref = state.guides.subject
-                ? `${payload.routes.guides}?subject=${encodeURIComponent(state.guides.subject)}${state.guides.series ? `&series=${encodeURIComponent(state.guides.series)}` : ''}`
-                : payload.routes.guides;
-            summaryTip.textContent = '講義這條線會直接進到章節化閱讀頁，先選科目、系列、內容，再一路往下看章與小節。';
-            setActionState(primaryAction, {
-                href,
-                label: '開始閱讀講義',
-                icon: 'fa-book-open',
-                disabled: !canProceed,
-            });
-            setActionState(secondaryAction, {
-                href: secondaryHref,
-                label: '進完整講義頁面',
-                icon: 'fa-up-right-from-square',
-                disabled: false,
-            });
-            return;
-        }
-
-        setActionState(primaryAction, {
-            href: '#',
-            label: '一般國中題庫重建中',
-            icon: 'fa-hourglass-half',
-            disabled: true,
-        });
-        setActionState(secondaryAction, {
-            href: '#',
-            label: '目前暫不開放',
-            icon: 'fa-lock',
-            disabled: true,
-        });
-        summaryTip.textContent = '一般國中題庫這一區先維持整理中，等題目全面重建完成後再正式開放。';
-    }
-
-    function renderStage() {
-        shell.dataset.track = state.track;
-        if (state.track === 'cap') {
-            renderCapStage();
-            return;
-        }
-        if (state.track === 'guides') {
-            renderGuidesStage();
-            return;
-        }
-        stepCopy.textContent = '一般國中題庫目前仍在全面重建中，等這批題目重新清洗完成後才會再重新上線。';
-        stageBadge.innerHTML = `${iconMarkup('fa-hourglass-half')} 一般題庫整理中`;
-        renderEmptyStage('一般國中題庫正在重建中', '這一區先暫停開放，避免再讀到錯誤題目。你現在可以先使用會考歷屆練習或 AI 學習講義。');
+        summaryGrid.innerHTML = cards.map((card) => `<div class="practice-summary-item"><span>${escapeHtml(card.label)}</span><strong>${escapeHtml(card.value)}</strong></div>`).join('');
+        summaryTip.textContent = tip;
+        setAction(primaryAction, primary);
+        setAction(secondaryAction, secondary);
     }
 
     function renderAll() {
-        renderTrackCards();
-        renderStage();
+        renderTracks();
+        if (state.track === 'cap') renderCapStage();
+        else if (state.track === 'exam') renderExamStage();
+        else if (state.track === 'mistakes') renderMistakesStage();
+        else if (state.track === 'guides') renderGuidesStage();
+        else renderGeneralStage();
         renderSummary();
     }
-
     renderAll();
 })();
 </script>

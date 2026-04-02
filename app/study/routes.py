@@ -92,13 +92,6 @@ PRACTICE_SUBJECT_GROUPS = [
 
 PRACTICE_TRACKS = [
     {
-        'slug': 'general',
-        'label': '一般國中練習',
-        'badge': '整理中',
-        'icon': 'fa-school',
-        'description': '一般國中題庫正在全面重建，這段時間先暫停開放，避免再讀到錯誤題目。',
-    },
-    {
         'slug': 'cap',
         'label': '會考歷屆練習',
         'badge': '已接線',
@@ -106,11 +99,32 @@ PRACTICE_TRACKS = [
         'description': '依年份與科目做互動式篩選，先預覽、再練習，題組與圖片題都會保留。',
     },
     {
+        'slug': 'exam',
+        'label': '弱點模擬考',
+        'badge': '動態組卷',
+        'icon': 'fa-file-signature',
+        'description': '依到期複習與錯誤次數即時組卷，把最需要補回來的題目集中練一次。',
+    },
+    {
+        'slug': 'mistakes',
+        'label': '錯題本',
+        'badge': '待複習',
+        'icon': 'fa-book-journal-whills',
+        'description': '把錯題依狀態與科目整理成複習中心，隨時回來補洞，不再整頁亂找。',
+    },
+    {
         'slug': 'guides',
         'label': 'AI 學習講義',
         'badge': '可閱讀',
         'icon': 'fa-book-bookmark',
         'description': '依科目、系列、章與小節逐步展開，讓講義內容更容易看懂也更容易找到。',
+    },
+    {
+        'slug': 'general',
+        'label': '一般國中練習',
+        'badge': '整理中',
+        'icon': 'fa-school',
+        'description': '一般國中題庫正在全面重建，這段時間先暫停開放，避免再讀到錯誤題目。',
     },
 ]
 
@@ -203,6 +217,24 @@ GUIDE_SUBJECT_UI = {
 CAP_PREVIEW_PER_PAGE_OPTIONS = [5, 10, 15, 20]
 CAP_PRACTICE_COUNT_OPTIONS = [5, 10, 15, 20, 25, 30, 40]
 CAP_PRACTICE_DURATION_OPTIONS = [5, 10, 20, 30, 40, 50, 60]
+EXAM_COUNT_OPTIONS = [5, 10, 15]
+EXAM_STRATEGY_OPTIONS = [
+    {
+        'value': 'mixed',
+        'label': '智慧混合',
+        'description': '先抓到期錯題，再補高錯誤次數題，做成比較像真實複習節奏的一份模擬考。',
+    },
+    {
+        'value': 'due',
+        'label': '優先複習到期題',
+        'description': '把今天該回來複習的錯題優先拉進考卷，快速補洞。',
+    },
+    {
+        'value': 'hardest',
+        'label': '高錯誤次數題',
+        'description': '直接把你最常錯的題目拉出來，集中火力再練一次。',
+    },
+]
 
 
 def normalize_subject_key(value):
@@ -719,6 +751,191 @@ def build_exam_feedback(score_percent, wrong_results):
         return headline + f" \u5efa\u8b70\u512a\u5148\u56de\u982d\u8907\u7fd2\uff1a{'\u3001'.join(weak_subjects[:3])}\u3002"
     return headline + " \u5efa\u8b70\u5148\u628a\u932f\u984c\u8a73\u89e3\u770b\u5b8c\uff0c\u518d\u91cd\u65b0\u5237\u4e00\u6b21\u3002"
 
+
+def _coerce_utc_datetime(value):
+    if not value:
+        return None
+    if value.tzinfo is None:
+        return value.replace(tzinfo=timezone.utc)
+    return value.astimezone(timezone.utc)
+
+
+def _format_review_due_label(value, now=None):
+    dt = _coerce_utc_datetime(value)
+    if not dt:
+        return '待安排'
+
+    now = _coerce_utc_datetime(now) or datetime.now(timezone.utc)
+    diff_days = (dt.date() - now.date()).days
+    if diff_days < 0:
+        return f'逾期 {-diff_days} 天'
+    if diff_days == 0:
+        return '今天複習'
+    if diff_days == 1:
+        return '明天複習'
+    return f'{diff_days} 天後複習'
+
+
+def _question_subject_slug(question):
+    definition = resolve_subject_definition(getattr(question, 'subject', None))
+    return definition['slug'] if definition else normalize_subject_key(getattr(question, 'subject', None))
+
+
+def _question_subject_label(question):
+    definition = resolve_subject_definition(getattr(question, 'subject', None))
+    return definition['label'] if definition else (getattr(question, 'subject', None) or '未分類')
+
+
+def _question_content_image_href(question):
+    image_value = str(getattr(question, 'content_image', '') or '').strip()
+    if not image_value:
+        return None
+    if image_value.startswith(('http://', 'https://', '/')):
+        return image_value
+    normalized = image_value.replace('\\', '/').lstrip('/')
+    if normalized.startswith('static/'):
+        normalized = normalized.split('static/', 1)[1]
+    return url_for('static', filename=normalized)
+
+
+def _load_user_mistake_records(user_id):
+    from app.models import Mistake
+
+    return Mistake.query.filter_by(user_id=user_id).all()
+
+
+def _build_mistake_dashboard(records):
+    now = datetime.now(timezone.utc)
+    unresolved = []
+    resolved = []
+    subject_map = {}
+
+    for mistake in records:
+        question = getattr(mistake, 'question', None)
+        if not question:
+            continue
+
+        subject_slug = _question_subject_slug(question) or 'other'
+        subject_label = _question_subject_label(question)
+        next_review = _coerce_utc_datetime(mistake.next_review_date)
+        last_attempt = _coerce_utc_datetime(mistake.last_attempt_date)
+        is_due = (not mistake.is_resolved) and (next_review is None or next_review <= now)
+
+        card = {
+            'id': mistake.id,
+            'question_id': question.id,
+            'subject_slug': subject_slug,
+            'subject_label': subject_label,
+            'content_text': question.content_text,
+            'content_image_href': _question_content_image_href(question),
+            'mistake_count': mistake.mistake_count or 0,
+            'srs_level': mistake.srs_level or 0,
+            'is_resolved': bool(mistake.is_resolved),
+            'is_due': is_due,
+            'next_review_date': next_review,
+            'next_review_label': _format_review_due_label(next_review, now),
+            'last_attempt_date': last_attempt,
+        }
+
+        bucket = subject_map.setdefault(subject_slug, {
+            'slug': subject_slug,
+            'label': subject_label,
+            'total': 0,
+            'due': 0,
+            'resolved': 0,
+        })
+        bucket['total'] += 1
+        if card['is_due']:
+            bucket['due'] += 1
+        if card['is_resolved']:
+            bucket['resolved'] += 1
+
+        if card['is_resolved']:
+            resolved.append(card)
+        else:
+            unresolved.append(card)
+
+    unresolved.sort(key=lambda item: (
+        0 if item['is_due'] else 1,
+        item['next_review_date'] or datetime.max.replace(tzinfo=timezone.utc),
+        -item['mistake_count'],
+        -(item['srs_level'] or 0),
+    ))
+    resolved.sort(key=lambda item: item['last_attempt_date'] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+
+    subject_cards = sorted(
+        subject_map.values(),
+        key=lambda item: (-item['due'], -(item['total'] - item['resolved']), item['label'])
+    )
+
+    due_count = sum(1 for item in unresolved if item['is_due'])
+    recent_window = now - timedelta(days=7)
+    recent_attempt_count = sum(
+        1 for item in unresolved + resolved
+        if item['last_attempt_date'] and item['last_attempt_date'] >= recent_window
+    )
+
+    return {
+        'unresolved': unresolved,
+        'resolved': resolved,
+        'subject_cards': subject_cards,
+        'unresolved_count': len(unresolved),
+        'due_count': due_count,
+        'resolved_count': len(resolved),
+        'recent_attempt_count': recent_attempt_count,
+        'recommended_exam_count': min(10, len(unresolved)) if unresolved else 0,
+    }
+
+
+def _select_exam_mistakes(records, strategy='mixed', limit=5, subject_slug=None):
+    subject_slug = (subject_slug or '').strip()
+    pool = []
+    for mistake in records:
+        question = getattr(mistake, 'question', None)
+        if not question or mistake.is_resolved:
+            continue
+        if subject_slug and _question_subject_slug(question) != subject_slug:
+            continue
+        pool.append(mistake)
+
+    if not pool:
+        return []
+
+    now = datetime.now(timezone.utc)
+
+    def due_rank(item):
+        next_review = _coerce_utc_datetime(item.next_review_date) or now
+        due_flag = 0 if next_review <= now else 1
+        return (due_flag, next_review, -(item.mistake_count or 0), -(item.srs_level or 0))
+
+    def hardest_rank(item):
+        next_review = _coerce_utc_datetime(item.next_review_date) or now
+        last_attempt = _coerce_utc_datetime(item.last_attempt_date) or now
+        return (-(item.mistake_count or 0), -(item.srs_level or 0), next_review, -last_attempt.timestamp())
+
+    def recent_rank(item):
+        last_attempt = _coerce_utc_datetime(item.last_attempt_date) or now
+        return (-last_attempt.timestamp(), -(item.mistake_count or 0))
+
+    if strategy == 'due':
+        ordered = sorted(pool, key=due_rank)
+    elif strategy == 'hardest':
+        ordered = sorted(pool, key=hardest_rank)
+    else:
+        ordered = []
+        seen = set()
+        for candidate in (
+            sorted(pool, key=due_rank) +
+            sorted(pool, key=hardest_rank) +
+            sorted(pool, key=recent_rank)
+        ):
+            if candidate.id in seen:
+                continue
+            seen.add(candidate.id)
+            ordered.append(candidate)
+
+    return ordered[:max(1, min(limit, len(ordered)))]
+
 @study.route("/practice")
 @login_required
 def practice_entry():
@@ -771,18 +988,49 @@ def practice_entry():
             'series': series_entries,
         })
 
+    mistake_overview = _build_mistake_dashboard(_load_user_mistake_records(current_user.id))
+    exam_subject_cards = [
+        {
+            'slug': card['slug'],
+            'label': card['label'],
+            'questionCount': card['total'] - card['resolved'],
+            'dueCount': card['due'],
+            'resolvedCount': card['resolved'],
+        }
+        for card in mistake_overview['subject_cards']
+        if (card['total'] - card['resolved']) > 0
+    ]
+
     entry_payload = {
         'cap': {
             'years': available_years,
             'subjects': cap_subject_cards,
         },
+        'exam': {
+            'strategies': EXAM_STRATEGY_OPTIONS,
+            'countOptions': EXAM_COUNT_OPTIONS,
+            'subjects': exam_subject_cards,
+            'recommendedCount': mistake_overview['recommended_exam_count'],
+            'unresolvedCount': mistake_overview['unresolved_count'],
+            'dueCount': mistake_overview['due_count'],
+        },
+        'mistakes': {
+            'subjects': exam_subject_cards,
+            'unresolvedCount': mistake_overview['unresolved_count'],
+            'dueCount': mistake_overview['due_count'],
+            'resolvedCount': mistake_overview['resolved_count'],
+            'recentAttemptCount': mistake_overview['recent_attempt_count'],
+        },
         'guides': {
             'subjects': guide_subjects,
         },
         'routes': {
+            'practice': url_for('study.practice'),
             'capHub': url_for('study.practice_cap_hub'),
             'capPreview': url_for('study.practice_cap_preview'),
             'capSession': url_for('study.practice_cap_session'),
+            'exam': url_for('study.generate_exam'),
+            'mistakes': url_for('study.mistakes'),
             'guides': url_for('study.practice_guides'),
             'guideReader': url_for('study.guide_reader'),
         },
@@ -798,6 +1046,9 @@ def practice_entry():
         guide_download_count=guide_download_count,
         general_subject_count=0,
         guide_subject_count=sum(1 for subject in guide_subjects if subject['guideCount']),
+        exam_unresolved_count=mistake_overview['unresolved_count'],
+        exam_due_count=mistake_overview['due_count'],
+        resolved_mistake_count=mistake_overview['resolved_count'],
         entry_payload=entry_payload,
     )
 
@@ -1322,13 +1573,43 @@ def practice_session():
 @study.route("/mistakes")
 @login_required
 def mistakes():
-    if not current_user.is_admin:
-        flash(_t('msg_unauthorized', current_user.language), 'danger')
-        return redirect(url_for('main.home'))
-    from app.models import Mistake
-    from app.utils.i18n import get_text
-    mistake_records = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).all()
-    return render_template('mistakes.html', title=_t('nav_mistakes', current_user.language), mistakes=mistake_records)
+    mistake_overview = _build_mistake_dashboard(_load_user_mistake_records(current_user.id))
+    selected_status = (request.args.get('status') or 'unresolved').strip()
+    if selected_status not in {'all', 'due', 'unresolved', 'resolved'}:
+        selected_status = 'unresolved'
+    selected_subject_slug = (request.args.get('subject') or '').strip() or None
+
+    filtered_cards = []
+    for card in mistake_overview['unresolved'] + mistake_overview['resolved']:
+        if selected_subject_slug and card['subject_slug'] != selected_subject_slug:
+            continue
+        if selected_status == 'due' and not card['is_due']:
+            continue
+        if selected_status == 'unresolved' and card['is_resolved']:
+            continue
+        if selected_status == 'resolved' and not card['is_resolved']:
+            continue
+        filtered_cards.append(card)
+
+    quick_exam_href = None
+    if mistake_overview['recommended_exam_count']:
+        quick_exam_href = url_for(
+            'study.generate_exam',
+            mode='mixed',
+            count=mistake_overview['recommended_exam_count'],
+            subject=selected_subject_slug or '',
+        )
+
+    return render_template(
+        'mistakes.html',
+        title=_t('nav_mistakes', current_user.language),
+        mistake_overview=mistake_overview,
+        mistake_cards=filtered_cards,
+        selected_status=selected_status,
+        selected_subject_slug=selected_subject_slug,
+        quick_exam_href=quick_exam_href,
+        practice_href=url_for('study.practice'),
+    )
 
 
 @study.route("/ai_vision", methods=['GET', 'POST'])
@@ -2168,7 +2449,34 @@ def generate_exam():
     from app import db
     from app.models import Mistake
 
-    mistakes = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).order_by(Mistake.mistake_count.desc()).limit(5).all()
+    mistake_records = _load_user_mistake_records(current_user.id)
+    mistake_overview = _build_mistake_dashboard(mistake_records)
+    available_subjects = [
+        card for card in mistake_overview['subject_cards']
+        if (card['total'] - card['resolved']) > 0
+    ]
+
+    selected_strategy = (request.args.get('mode') or 'mixed').strip()
+    if selected_strategy not in {option['value'] for option in EXAM_STRATEGY_OPTIONS}:
+        selected_strategy = EXAM_STRATEGY_OPTIONS[0]['value']
+
+    selected_count = request.args.get('count', type=int) or mistake_overview['recommended_exam_count'] or EXAM_COUNT_OPTIONS[0]
+    if selected_count not in EXAM_COUNT_OPTIONS:
+        selected_count = EXAM_COUNT_OPTIONS[0]
+
+    selected_subject_slug = (request.args.get('subject') or '').strip() or None
+    mistakes = _select_exam_mistakes(
+        mistake_records,
+        strategy=selected_strategy,
+        limit=selected_count,
+        subject_slug=selected_subject_slug,
+    )
+    for mistake in mistakes:
+        question = getattr(mistake, 'question', None)
+        if not question:
+            continue
+        setattr(mistake, 'content_image_href', _question_content_image_href(question))
+        setattr(mistake, 'subject_label', _question_subject_label(question))
 
     if request.method == 'POST':
         if not mistakes:
@@ -2176,6 +2484,30 @@ def generate_exam():
 
         payload = request.get_json(silent=True) or {}
         answers = payload.get('answers') or {}
+        requested_ids = []
+        for raw in payload.get('question_ids') or []:
+            try:
+                requested_ids.append(int(raw))
+            except (TypeError, ValueError):
+                continue
+
+        if requested_ids:
+            lookup = {
+                mistake.question.id: mistake
+                for mistake in mistake_records
+                if getattr(mistake, 'question', None) and not mistake.is_resolved
+            }
+            selected_mistakes = []
+            seen = set()
+            for question_id in requested_ids:
+                candidate = lookup.get(question_id)
+                if not candidate or question_id in seen:
+                    continue
+                seen.add(question_id)
+                selected_mistakes.append(candidate)
+            if selected_mistakes:
+                mistakes = selected_mistakes
+
         results = []
         correct_count = 0
         resolved_count = 0
@@ -2196,12 +2528,15 @@ def generate_exam():
                 'index': index,
                 'question_id': question.id,
                 'subject': question.subject,
+                'subject_label': _question_subject_label(question),
                 'content_text': question.content_text,
+                'content_image_href': _question_content_image_href(question),
                 'selected_answer': evaluation['answer_key'] or '\u672a\u4f5c\u7b54',
                 'selected_answer_text': get_question_option_text(question, evaluation['answer_key']) or '\u9019\u984c\u672a\u4f5c\u7b54',
                 'correct_answer': question.correct_answer,
                 'correct_answer_text': get_question_option_text(question, question.correct_answer),
                 'is_correct': evaluation['correct'],
+                'mistake_count': mistake.mistake_count or 0,
                 'explanation': question.explanation or '\u9019\u984c\u76ee\u524d\u6c92\u6709\u984c\u76ee\u89e3\u6790\uff0c\u5efa\u8b70\u5148\u56de\u982d\u8907\u7fd2\u984c\u5e79\u95dc\u9375\u5b57\u8207\u6b63\u78ba\u9078\u9805\u3002',
             })
 
@@ -2209,7 +2544,7 @@ def generate_exam():
         reward_correct_progress(correct_count, resolved_count)
 
         total_questions = len(results)
-        score_percent = round((correct_count / total_questions) * 100) if total_questions else 0
+        score_percent = round((correct_count / total_questions) * 100, 1) if total_questions else 0
         wrong_results = [item for item in results if not item['is_correct']]
 
         return jsonify({
@@ -2222,11 +2557,19 @@ def generate_exam():
             'results': results,
         })
 
-    if not mistakes:
-        flash(_t('msg_no_mistakes', current_user.language), "info")
-        return redirect(url_for('study.practice_hub'))
-
-    return render_template('exam.html', title=_t('nav_exam', current_user.language), mistakes=mistakes)
+    return render_template(
+        'exam.html',
+        title=_t('nav_exam', current_user.language),
+        mistakes=mistakes,
+        mistake_overview=mistake_overview,
+        available_subjects=available_subjects,
+        selected_strategy=selected_strategy,
+        selected_count=selected_count,
+        selected_subject_slug=selected_subject_slug,
+        exam_strategy_options=EXAM_STRATEGY_OPTIONS,
+        exam_count_options=EXAM_COUNT_OPTIONS,
+        practice_href=url_for('study.practice'),
+    )
 
 
 @study.route("/api/study/personal_welcome")
