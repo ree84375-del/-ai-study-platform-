@@ -579,19 +579,34 @@ def _build_cap_asset_href(year, subject_slug, page_number, crop_box=None):
     )
 
 
+def _build_cap_static_asset_href(asset_relative_path):
+    normalized_path = str(asset_relative_path or '').replace('\\', '/').strip().lstrip('/')
+    if not normalized_path:
+        return None
+    return url_for('study.practice_cap_static_asset', asset_path=normalized_path)
+
+
 def _build_cap_option_items(item, subject_slug):
     options = item.get('options') or {}
     option_crop_boxes = item.get('option_crop_boxes') or {}
+    option_image_paths = item.get('option_image_paths') or {}
     option_items = []
     for key in ('A', 'B', 'C', 'D'):
         text = options.get(key, '')
         crop_box = option_crop_boxes.get(key)
-        image_href = _build_cap_asset_href(
-            item.get('year'),
-            subject_slug,
-            item.get('page_number'),
-            crop_box,
-        ) if crop_box else None
+        image_href = (
+            _build_cap_static_asset_href(option_image_paths.get(key))
+            or (
+                _build_cap_asset_href(
+                    item.get('year'),
+                    subject_slug,
+                    item.get('page_number'),
+                    crop_box,
+                )
+                if crop_box
+                else None
+            )
+        )
         option_items.append(
             {
                 'key': key,
@@ -625,19 +640,19 @@ def _build_cap_question_item(item, subject_slug):
     page_number = item.get('page_number')
     page_image_href = _build_cap_asset_href(item.get('year'), subject_slug, page_number)
     page_image_note = None
-    question_image_href = None
-    group_image_href = None
+    question_image_href = _build_cap_static_asset_href(item.get('question_image_path'))
+    group_image_href = _build_cap_static_asset_href(item.get('group_image_path'))
     question_crop_box = item.get('question_visual_crop_box') or item.get('question_crop_box') or item.get('crop_box')
     group_crop_box = item.get('group_crop_box')
     if page_number:
-        if question_crop_box:
+        if not question_image_href and question_crop_box:
             question_image_href = _build_cap_asset_href(
                 item.get('year'),
                 subject_slug,
                 page_number,
                 question_crop_box,
             )
-        if group_crop_box:
+        if not group_image_href and group_crop_box:
             group_image_href = _build_cap_asset_href(
                 item.get('year'),
                 subject_slug,
@@ -671,6 +686,24 @@ def _build_cap_question_item(item, subject_slug):
         'has_option_visuals': has_option_visuals,
         'has_any_visuals': bool(has_group_visual or has_question_visual or has_option_visuals),
     }
+
+
+@study.route("/practice/cap/assets/static/<path:asset_path>")
+@login_required
+def practice_cap_static_asset(asset_path):
+    cap_asset_root = (STUDY_DATA_ROOT / 'cap_practice_assets').resolve()
+    requested_path = (STUDY_DATA_ROOT / str(asset_path or '').replace('\\', '/')).resolve()
+    try:
+        requested_path.relative_to(cap_asset_root)
+    except ValueError:
+        abort(404)
+    if not requested_path.is_file():
+        abort(404)
+    return send_file(
+        requested_path,
+        mimetype='image/png',
+        max_age=86400,
+    )
 
 
 def _build_cap_question_groups(question_items):

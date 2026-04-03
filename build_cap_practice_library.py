@@ -35,6 +35,7 @@ CAP_WORD_ROOT = DATA_ROOT / "cap_practice_word"
 CAP_STRUCTURED_ROOT = DATA_ROOT / "cap_practice_structured"
 CAP_LIBRARY_MANIFEST = DATA_ROOT / "cap_review" / "cap_practice_manifest.json"
 CAP_ASSET_ROOT = DATA_ROOT / "cap_practice_assets"
+CAP_RENDER_SCALE = 1.75
 
 OFFICIAL_QUESTION_COUNT_OVERRIDES = {
     "102": {"chinese": 48, "english": 40, "math": 25, "social": 63, "science": 54},
@@ -1372,6 +1373,123 @@ def ensure_cap_page_assets(pdf_path: Path, year: str, subject_slug: str) -> dict
     return asset_map
 
 
+def _fitz_clip_from_normalized_crop(page_rect, crop_box):
+    if not crop_box:
+        return None
+    try:
+        x0 = float(crop_box["x0"])
+        y0 = float(crop_box["y0"])
+        x1 = float(crop_box["x1"])
+        y1 = float(crop_box["y1"])
+    except (TypeError, ValueError, KeyError):
+        return None
+
+    clip = fitz.Rect(
+        max(0.0, min(page_rect.width, page_rect.width * x0)),
+        max(0.0, min(page_rect.height, page_rect.height * y0)),
+        max(0.0, min(page_rect.width, page_rect.width * x1)),
+        max(0.0, min(page_rect.height, page_rect.height * y1)),
+    )
+    if clip.is_empty or clip.width < 8 or clip.height < 8:
+        return None
+    return clip
+
+
+def render_cap_crop_asset(source_document, page_number: int, crop_box: dict | None, target_path: Path) -> str | None:
+    try:
+        page = source_document.load_page(max(0, int(page_number) - 1))
+    except (TypeError, ValueError, IndexError, RuntimeError):
+        return None
+
+    clip = _fitz_clip_from_normalized_crop(page.rect, crop_box)
+    if clip is None:
+        return None
+
+    ensure_dir(target_path.parent)
+    pixmap = page.get_pixmap(matrix=fitz.Matrix(CAP_RENDER_SCALE, CAP_RENDER_SCALE), clip=clip, alpha=False)
+    pixmap.save(target_path)
+    return str(target_path.relative_to(DATA_ROOT)).replace("\\", "/")
+
+
+def build_cap_question_asset_paths(question_payload: dict) -> dict:
+    asset_paths = {
+        "question_image_path": None,
+        "group_image_path": None,
+        "option_image_paths": {},
+    }
+
+    year = str(question_payload.get("year") or "").strip()
+    subject_slug = str(question_payload.get("subject_slug") or "").strip()
+    page_number = question_payload.get("page_number")
+    display_number = int(question_payload.get("display_number") or question_payload.get("number") or 0)
+
+    if not year or not subject_slug or not page_number or display_number <= 0:
+        return asset_paths
+
+    asset_dir = CAP_ASSET_ROOT / year / subject_slug
+    if question_payload.get("question_visual_crop_box") or question_payload.get("question_crop_box"):
+        asset_paths["question_image_path"] = str(
+            (asset_dir / f"q{display_number:03d}_question.png").relative_to(DATA_ROOT)
+        ).replace("\\", "/")
+    if question_payload.get("group_crop_box"):
+        asset_paths["group_image_path"] = str(
+            (asset_dir / f"q{display_number:03d}_group.png").relative_to(DATA_ROOT)
+        ).replace("\\", "/")
+
+    option_paths = {}
+    for key, crop_box in (question_payload.get("option_crop_boxes") or {}).items():
+        if not crop_box:
+            continue
+        option_paths[key] = str(
+            (asset_dir / f"q{display_number:03d}_option_{key}.png").relative_to(DATA_ROOT)
+        ).replace("\\", "/")
+    asset_paths["option_image_paths"] = option_paths
+    return asset_paths
+
+
+def materialize_cap_question_assets(source_document, year: str, subject_slug: str, question_payload: dict) -> None:
+    page_number = question_payload.get("page_number")
+    display_number = int(question_payload.get("display_number") or question_payload.get("number") or 0)
+    if not page_number or display_number <= 0:
+        return
+
+    asset_dir = CAP_ASSET_ROOT / year / subject_slug
+
+    question_crop = question_payload.get("question_visual_crop_box") or question_payload.get("question_crop_box")
+    question_image_path = render_cap_crop_asset(
+        source_document,
+        int(page_number),
+        question_crop,
+        asset_dir / f"q{display_number:03d}_question.png",
+    )
+    if question_image_path:
+        question_payload["question_image_path"] = question_image_path
+
+    if question_payload.get("group_crop_box"):
+        group_image_path = render_cap_crop_asset(
+            source_document,
+            int(page_number),
+            question_payload.get("group_crop_box"),
+            asset_dir / f"q{display_number:03d}_group.png",
+        )
+        if group_image_path:
+            question_payload["group_image_path"] = group_image_path
+
+    option_image_paths = {}
+    for option_key, option_crop in (question_payload.get("option_crop_boxes") or {}).items():
+        if not option_crop:
+            continue
+        option_image_path = render_cap_crop_asset(
+            source_document,
+            int(page_number),
+            option_crop,
+            asset_dir / f"q{display_number:03d}_option_{option_key}.png",
+        )
+        if option_image_path:
+            option_image_paths[option_key] = option_image_path
+    question_payload["option_image_paths"] = option_image_paths
+
+
 def build_cap_structure_for_subject(
     year: str,
     subject_slug: str,
@@ -1540,6 +1658,8 @@ def build_cap_structure_for_subject(
                         crop_box = candidate["crop_box"]
                         break
             question_payload = {
+                "year": year,
+                "subject_slug": subject_slug,
                 "number": best["number"],
                 "source_number": best["source_number"],
                 "display_number": len(questions) + 1,
@@ -1550,6 +1670,9 @@ def build_cap_structure_for_subject(
                 "question_visual_crop_box": None,
                 "group_crop_box": None,
                 "option_crop_boxes": {},
+                "question_image_path": None,
+                "group_image_path": None,
+                "option_image_paths": {},
                 "option_layout": "none",
                 "parse_status": best["parse_status"],
                 "context": best["context"],
@@ -1596,6 +1719,8 @@ def build_cap_structure_for_subject(
                             question_payload["question_visual_crop_box"]
                             or question_payload["question_crop_box"]
                         )
+
+            materialize_cap_question_assets(source_document, year, subject_slug, question_payload)
 
             if best["correct_answer"]:
                 answered_count += 1
@@ -1811,6 +1936,17 @@ def refresh_existing_visual_crops() -> dict:
                         if next_group_crop != question.get("group_crop_box"):
                             question["group_crop_box"] = next_group_crop
                             changed += 1
+
+                    before_question_path = question.get("question_image_path")
+                    before_group_path = question.get("group_image_path")
+                    before_option_paths = dict(question.get("option_image_paths") or {})
+                    materialize_cap_question_assets(source_document, year, subject_slug, question)
+                    if (
+                        question.get("question_image_path") != before_question_path
+                        or question.get("group_image_path") != before_group_path
+                        or dict(question.get("option_image_paths") or {}) != before_option_paths
+                    ):
+                        changed += 1
 
             if changed:
                 write_json(structured_path, payload)
