@@ -131,7 +131,7 @@
         "x0": 0.06,
         "y0": 0.09603,
         "x1": 0.98,
-        "y1": 0.334693
+        "y1": 0.339559
       },
       "question_visual_crop_box": {
         "x0": 0.155526,
@@ -140,7 +140,20 @@
         "y1": 0.292761
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.341992,
+          "x1": 0.98,
+          "y1": 0.357168
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.364467,
+          "x1": 0.98,
+          "y1": 0.425075
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "一、單題：（1 ～ 24題）",
@@ -155,7 +168,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（宣布調漲秋刀魚價格）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/chinese/q001_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 2,
@@ -173,11 +187,30 @@
         "x0": 0.06,
         "y0": 0.425075,
         "x1": 0.98,
-        "y1": 0.469544
+        "y1": 0.47441
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.476843,
+          "x1": 0.98,
+          "y1": 0.492603
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.511578,
+          "x1": 0.173015,
+          "y1": 0.560555
+        },
+        "C": {
+          "x0": 0.173015,
+          "y0": 0.511578,
+          "x1": 0.98,
+          "y1": 0.560555
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -191,8 +224,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（樹欲靜而風不止，為人子女盡孝要及時）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q002_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -210,11 +244,36 @@
         "x0": 0.06,
         "y0": 0.560555,
         "x1": 0.98,
-        "y1": 0.58975
+        "y1": 0.590581
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.604981,
+          "x1": 0.192866,
+          "y1": 0.628038
+        },
+        "A": {
+          "x0": 0.192866,
+          "y0": 0.604981,
+          "x1": 0.98,
+          "y1": 0.628038
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.647012,
+          "x1": 0.168581,
+          "y1": 0.696035
+        },
+        "C": {
+          "x0": 0.168581,
+          "y0": 0.647012,
+          "x1": 0.98,
+          "y1": 0.696035
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -228,8 +287,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（同樂會時，班長自告奮勇：「如果大家不嫌棄，我就獻醜了。」）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q003_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -247,32 +307,37 @@
         "x0": 0.06,
         "y0": 0.696035,
         "x1": 0.98,
-        "y1": 0.772286
+        "y1": 0.777152
       },
-      "question_visual_crop_box": null,
+      "question_visual_crop_box": {
+        "x0": 0.155526,
+        "y0": 0.758499,
+        "x1": 0.890713,
+        "y1": 0.777471
+      },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.774719,
+          "y0": 0.779585,
           "x1": 0.98,
           "y1": 0.79539
         },
         "B": {
           "x0": 0.06,
-          "y0": 0.797823,
+          "y0": 0.802689,
           "x1": 0.98,
           "y1": 0.826908
         },
         "C": {
           "x0": 0.06,
-          "y0": 0.829341,
+          "y0": 0.834207,
           "x1": 0.98,
           "y1": 0.867677
         },
         "D": {
           "x0": 0.06,
-          "y0": 0.87011,
+          "y0": 0.874976,
           "x1": 0.98,
           "y1": 0.985402
         }
@@ -291,11 +356,9 @@
       "explanation": "官方答案：B（您是否同意禁止種植基因改造植物？ 反對基因改造 同意）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/chinese/q004_question.png",
       "option_image_paths": {
-        "A": "cap_practice_assets/113/chinese/q004_option_A.png",
-        "B": "cap_practice_assets/113/chinese/q004_option_B.png",
-        "C": "cap_practice_assets/113/chinese/q004_option_C.png",
         "D": "cap_practice_assets/113/chinese/q004_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -335,11 +398,24 @@
         "x0": 0.06,
         "y0": 0.341772,
         "x1": 0.98,
-        "y1": 0.370967
+        "y1": 0.372834
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.395991,
+          "x1": 0.380996,
+          "y1": 0.435883
+        },
+        "D": {
+          "x0": 0.380996,
+          "y0": 0.395991,
+          "x1": 0.98,
+          "y1": 0.435883
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -353,8 +429,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（點出書店開幕日晚上營業）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q006_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -372,11 +449,36 @@
         "x0": 0.06,
         "y0": 0.435883,
         "x1": 0.98,
-        "y1": 0.503403
+        "y1": 0.508269
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.522085,
+          "x1": 0.168581,
+          "y1": 0.544851
+        },
+        "A": {
+          "x0": 0.168581,
+          "y0": 0.522085,
+          "x1": 0.98,
+          "y1": 0.544851
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.562658,
+          "x1": 0.168581,
+          "y1": 0.612693
+        },
+        "C": {
+          "x0": 0.168581,
+          "y0": 0.562658,
+          "x1": 0.98,
+          "y1": 0.612693
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -390,8 +492,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（草木疏「落」）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q007_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -409,7 +512,7 @@
         "x0": 0.06,
         "y0": 0.612693,
         "x1": 0.98,
-        "y1": 0.679118
+        "y1": 0.683984
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -427,8 +530,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（天下無不散的筵席，朋友總有分離的時候）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q008_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -446,11 +550,24 @@
         "x0": 0.06,
         "y0": 0.748173,
         "x1": 0.98,
-        "y1": 0.856876
+        "y1": 0.861742
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.884899,
+          "x1": 0.352479,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.352479,
+          "y0": 0.884899,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -464,8 +581,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（一望無「垠」的海面上漂流著幾艘小船：ㄍㄣ）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q009_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -508,32 +626,32 @@
         "x0": 0.06,
         "y0": 0.294308,
         "x1": 0.98,
-        "y1": 0.347113
+        "y1": 0.351979
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.349546,
+          "y0": 0.354412,
           "x1": 0.98,
           "y1": 0.370218
         },
         "B": {
           "x0": 0.06,
-          "y0": 0.372651,
+          "y0": 0.377517,
           "x1": 0.98,
           "y1": 0.393322
         },
         "C": {
           "x0": 0.06,
-          "y0": 0.395755,
+          "y0": 0.400621,
           "x1": 0.98,
           "y1": 0.416427
         },
         "D": {
           "x0": 0.06,
-          "y0": 0.41886,
+          "y0": 0.423726,
           "x1": 0.98,
           "y1": 0.471126
         }
@@ -546,13 +664,14 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q011_question.png",
+      "question_image_path": null,
       "option_image_paths": {
         "A": "cap_practice_assets/113/chinese/q011_option_A.png",
         "B": "cap_practice_assets/113/chinese/q011_option_B.png",
         "C": "cap_practice_assets/113/chinese/q011_option_C.png",
         "D": "cap_practice_assets/113/chinese/q011_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 12,
@@ -583,8 +702,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q012_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -620,8 +740,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（就內涵而言，描繪農民於繁重稅賦下艱困的生活）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q013_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -664,11 +785,18 @@
         "x0": 0.06,
         "y0": 0.234726,
         "x1": 0.98,
-        "y1": 0.302294
+        "y1": 0.30716
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.370597,
+          "x1": 0.98,
+          "y1": 0.414012
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -682,8 +810,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（末尾二句暗示「我」滿懷離情別緒，一夜未眠）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q015_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 16,
@@ -701,11 +830,36 @@
         "x0": 0.06,
         "y0": 0.414012,
         "x1": 0.98,
-        "y1": 0.443207
+        "y1": 0.44493
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.460206,
+          "x1": 0.170395,
+          "y1": 0.481512
+        },
+        "A": {
+          "x0": 0.170395,
+          "y0": 0.460206,
+          "x1": 0.98,
+          "y1": 0.481512
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.50107,
+          "x1": 0.170496,
+          "y1": 0.55558
+        },
+        "C": {
+          "x0": 0.170496,
+          "y0": 0.50107,
+          "x1": 0.98,
+          "y1": 0.55558
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -719,8 +873,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（聽廣播時，因看不到主持人的表情、手勢，無法判斷內容的真實性）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q016_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 17,
@@ -738,11 +893,24 @@
         "x0": 0.06,
         "y0": 0.55558,
         "x1": 0.98,
-        "y1": 0.602352
+        "y1": 0.607218
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.609651,
+          "x1": 0.98,
+          "y1": 0.685248
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.692547,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -756,8 +924,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（這房子經歷風災依然堅固，真是不愧屋漏）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q017_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 18,
@@ -841,11 +1010,36 @@
         "x0": 0.06,
         "y0": 0.710047,
         "x1": 0.98,
-        "y1": 0.818931
+        "y1": 0.823797
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.838781,
+          "x1": 0.170697,
+          "y1": 0.860087
+        },
+        "A": {
+          "x0": 0.170697,
+          "y0": 0.838781,
+          "x1": 0.98,
+          "y1": 0.860087
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.879353,
+          "x1": 0.170597,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.170597,
+          "y0": 0.879353,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -859,8 +1053,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（焦尾琴製成後經火烤而音色優美）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/chinese/q021_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 22,

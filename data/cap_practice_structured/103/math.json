@@ -175,25 +175,25 @@
       "option_crop_boxes": {
         "B": {
           "x0": 0.059629,
-          "y0": 0.34236,
+          "y0": 0.347111,
           "x1": 1.0,
           "y1": 0.36393
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.366306,
+          "y0": 0.371057,
           "x1": 1.0,
           "y1": 0.387875
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.390251,
+          "y0": 0.395002,
           "x1": 1.0,
-          "y1": 0.45344
+          "y1": 0.528981
         },
         "A": {
           "x0": 0.059629,
-          "y0": 0.455815,
+          "y0": 0.536108,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -209,13 +209,12 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q001_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "B": "cap_practice_assets/103/math/q001_option_B.png",
         "C": "cap_practice_assets/103/math/q001_option_C.png",
-        "D": "cap_practice_assets/103/math/q001_option_D.png",
-        "A": "cap_practice_assets/103/math/q001_option_A.png"
-      }
+        "D": "cap_practice_assets/103/math/q001_option_D.png"
+      },
+      "group_image_path": null
     },
     {
       "number": 2,
@@ -239,13 +238,13 @@
       "option_crop_boxes": {
         "D": {
           "x0": 0.06,
-          "y0": 0.059863,
+          "y0": 0.064614,
           "x1": 0.98,
-          "y1": 0.106233
+          "y1": 0.842835
         },
         "A": {
           "x0": 0.06,
-          "y0": 0.108609,
+          "y0": 0.849962,
           "x1": 0.98,
           "y1": 0.985747
         }
@@ -262,7 +261,8 @@
       "option_image_paths": {
         "D": "cap_practice_assets/103/math/q002_option_D.png",
         "A": "cap_practice_assets/103/math/q002_option_A.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -297,8 +297,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（24 x 7 x 114）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q003_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -322,19 +323,19 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.125428,
+          "y0": 0.130179,
           "x1": 1.0,
           "y1": 0.154124
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.156499,
+          "y0": 0.16125,
           "x1": 1.0,
           "y1": 0.201444
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.20382,
+          "y0": 0.208571,
           "x1": 1.0,
           "y1": 0.299316
         }
@@ -351,12 +352,9 @@
       "correct_answer": "A",
       "visual_primary": true,
       "explanation": "官方答案：A（2 V4a2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q004_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q004_option_A.png",
-        "B": "cap_practice_assets/103/math/q004_option_B.png",
-        "D": "cap_practice_assets/103/math/q004_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -374,25 +372,25 @@
         "x0": 0.059629,
         "y0": 0.297035,
         "x1": 1.0,
-        "y1": 0.339985
+        "y1": 0.344736
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "B": {
           "x0": 0.059629,
-          "y0": 0.34236,
+          "y0": 0.347111,
           "x1": 1.0,
           "y1": 0.36393
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.366306,
+          "y0": 0.371057,
           "x1": 1.0,
           "y1": 0.387875
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.390251,
+          "y0": 0.395002,
           "x1": 1.0,
           "y1": 0.464082
         }
@@ -413,15 +411,12 @@
       "question_visual_crop_box": {
         "x0": 0.402095,
         "y0": 0.297035,
-        "x1": 0.573328,
-        "y1": 0.340365
+        "x1": 0.576148,
+        "y1": 0.345211
       },
       "question_image_path": "cap_practice_assets/103/math/q005_question.png",
-      "option_image_paths": {
-        "B": "cap_practice_assets/103/math/q005_option_B.png",
-        "C": "cap_practice_assets/103/math/q005_option_C.png",
-        "D": "cap_practice_assets/103/math/q005_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -454,8 +449,9 @@
       "correct_answer": "A",
       "visual_primary": true,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q006_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -473,31 +469,31 @@
         "x0": 0.059629,
         "y0": 0.486317,
         "x1": 1.0,
-        "y1": 0.554922
+        "y1": 0.559673
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.557298,
+          "y0": 0.562049,
           "x1": 1.0,
           "y1": 0.578867
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.581243,
+          "y0": 0.585994,
           "x1": 1.0,
           "y1": 0.602813
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.605188,
+          "y0": 0.609939,
           "x1": 1.0,
           "y1": 0.626188
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.628563,
+          "y0": 0.633314,
           "x1": 1.0,
           "y1": 0.68016
         }
@@ -515,13 +511,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（2.5）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q007_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q007_option_A.png",
-        "B": "cap_practice_assets/103/math/q007_option_B.png",
-        "C": "cap_practice_assets/103/math/q007_option_C.png",
-        "D": "cap_practice_assets/103/math/q007_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -539,7 +531,7 @@
         "x0": 0.059629,
         "y0": 0.677879,
         "x1": 1.0,
-        "y1": 0.744204
+        "y1": 0.748955
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -563,7 +555,8 @@
         "y1": 0.70724
       },
       "question_image_path": "cap_practice_assets/103/math/q008_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -587,19 +580,19 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.085804,
+          "y0": 0.090555,
           "x1": 1.0,
           "y1": 0.107374
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.109749,
+          "y0": 0.1145,
           "x1": 1.0,
           "y1": 0.154694
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.15707,
+          "y0": 0.161821,
           "x1": 1.0,
           "y1": 0.240593
         }
@@ -617,12 +610,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（2.5）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q009_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q009_option_A.png",
-        "B": "cap_practice_assets/103/math/q009_option_B.png",
-        "D": "cap_practice_assets/103/math/q009_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -640,31 +630,31 @@
         "x0": 0.059629,
         "y0": 0.238312,
         "x1": 1.0,
-        "y1": 0.278981
+        "y1": 0.283732
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.281357,
+          "y0": 0.286108,
           "x1": 1.0,
           "y1": 0.31718
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.319555,
+          "y0": 0.324306,
           "x1": 1.0,
           "y1": 0.354808
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.357184,
+          "y0": 0.361935,
           "x1": 1.0,
           "y1": 0.393006
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.395382,
+          "y0": 0.400133,
           "x1": 1.0,
           "y1": 0.490308
         }
@@ -688,7 +678,8 @@
         "B": "cap_practice_assets/103/math/q010_option_B.png",
         "C": "cap_practice_assets/103/math/q010_option_C.png",
         "D": "cap_practice_assets/103/math/q010_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 11,
@@ -706,31 +697,31 @@
         "x0": 0.059629,
         "y0": 0.488027,
         "x1": 1.0,
-        "y1": 0.554922
+        "y1": 0.559673
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.557298,
+          "y0": 0.562049,
           "x1": 1.0,
           "y1": 0.578867
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.581243,
+          "y0": 0.585994,
           "x1": 1.0,
           "y1": 0.602813
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.605188,
+          "y0": 0.609939,
           "x1": 1.0,
           "y1": 0.626188
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.628563,
+          "y0": 0.633314,
           "x1": 1.0,
           "y1": 0.704105
         }
@@ -748,13 +739,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q011_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q011_option_A.png",
-        "B": "cap_practice_assets/103/math/q011_option_B.png",
-        "C": "cap_practice_assets/103/math/q011_option_C.png",
-        "D": "cap_practice_assets/103/math/q011_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 12,
@@ -772,7 +759,7 @@
         "x0": 0.059629,
         "y0": 0.701824,
         "x1": 1.0,
-        "y1": 0.744204
+        "y1": 0.748955
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -789,8 +776,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q012_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -808,7 +796,7 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.20458
+        "y1": 0.209331
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -829,10 +817,11 @@
         "x0": 0.154714,
         "y0": 0.09065,
         "x1": 0.846897,
-        "y1": 0.20496
+        "y1": 0.209806
       },
       "question_image_path": "cap_practice_assets/103/math/q013_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -850,31 +839,31 @@
         "x0": 0.059629,
         "y0": 0.310718,
         "x1": 1.0,
-        "y1": 0.366211
+        "y1": 0.397187
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.368586,
+          "y0": 0.399563,
           "x1": 1.0,
           "y1": 0.416382
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.418757,
+          "y0": 0.423508,
           "x1": 1.0,
           "y1": 0.439757
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.442132,
+          "y0": 0.446883,
           "x1": 1.0,
           "y1": 0.463702
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.466078,
+          "y0": 0.470829,
           "x1": 1.0,
           "y1": 0.526796
         }
@@ -899,12 +888,8 @@
         "y1": 0.350627
       },
       "question_image_path": "cap_practice_assets/103/math/q014_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q014_option_A.png",
-        "B": "cap_practice_assets/103/math/q014_option_B.png",
-        "C": "cap_practice_assets/103/math/q014_option_C.png",
-        "D": "cap_practice_assets/103/math/q014_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 15,
@@ -922,31 +907,31 @@
         "x0": 0.059629,
         "y0": 0.524515,
         "x1": 1.0,
-        "y1": 0.553021
+        "y1": 0.612125
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.537058,
+          "y0": 0.6145,
           "x1": 1.0,
-          "y1": 0.557773
+          "y1": 0.630749
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.560148,
+          "y0": 0.637875,
           "x1": 1.0,
           "y1": 0.654694
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.65707,
+          "y0": 0.661821,
           "x1": 1.0,
           "y1": 0.678639
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.681015,
+          "y0": 0.685766,
           "x1": 1.0,
           "y1": 0.721779
         }
@@ -968,15 +953,11 @@
         "x0": 0.400483,
         "y0": 0.524515,
         "x1": 0.584206,
-        "y1": 0.553306
+        "y1": 0.56927
       },
       "question_image_path": "cap_practice_assets/103/math/q015_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q015_option_A.png",
-        "B": "cap_practice_assets/103/math/q015_option_B.png",
-        "C": "cap_practice_assets/103/math/q015_option_C.png",
-        "D": "cap_practice_assets/103/math/q015_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 16,
@@ -1008,8 +989,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q016_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 17,
@@ -1039,8 +1021,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q017_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 18,
@@ -1058,25 +1041,25 @@
         "x0": 0.059629,
         "y0": 0.7939,
         "x1": 1.0,
-        "y1": 0.828582
+        "y1": 0.833333
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "B": {
           "x0": 0.059629,
-          "y0": 0.830958,
+          "y0": 0.835709,
           "x1": 1.0,
           "y1": 0.851957
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.854333,
+          "y0": 0.859084,
           "x1": 1.0,
           "y1": 0.875903
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.878278,
+          "y0": 0.883029,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -1097,15 +1080,12 @@
       "question_visual_crop_box": {
         "x0": 0.425463,
         "y0": 0.7939,
-        "x1": 0.888799,
-        "y1": 0.828678
+        "x1": 0.496776,
+        "y1": 0.833524
       },
       "question_image_path": "cap_practice_assets/103/math/q018_question.png",
-      "option_image_paths": {
-        "B": "cap_practice_assets/103/math/q018_option_B.png",
-        "C": "cap_practice_assets/103/math/q018_option_C.png",
-        "D": "cap_practice_assets/103/math/q018_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 19,
@@ -1123,31 +1103,31 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.20458
+        "y1": 0.397187
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.206956,
+          "y0": 0.399563,
           "x1": 1.0,
           "y1": 0.416382
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.418757,
+          "y0": 0.423508,
           "x1": 1.0,
           "y1": 0.439757
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.442132,
+          "y0": 0.446883,
           "x1": 1.0,
           "y1": 0.463702
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.466078,
+          "y0": 0.470829,
           "x1": 1.0,
           "y1": 0.542759
         }
@@ -1169,15 +1149,11 @@
         "x0": 0.154714,
         "y0": 0.09065,
         "x1": 0.846897,
-        "y1": 0.20496
+        "y1": 0.350627
       },
       "question_image_path": "cap_practice_assets/103/math/q019_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q019_option_A.png",
-        "B": "cap_practice_assets/103/math/q019_option_B.png",
-        "C": "cap_practice_assets/103/math/q019_option_C.png",
-        "D": "cap_practice_assets/103/math/q019_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 20,
@@ -1195,31 +1171,31 @@
         "x0": 0.059629,
         "y0": 0.540479,
         "x1": 1.0,
-        "y1": 0.568985
+        "y1": 0.612125
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.537058,
+          "y0": 0.6145,
           "x1": 1.0,
-          "y1": 0.557773
+          "y1": 0.630749
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.560148,
+          "y0": 0.637875,
           "x1": 1.0,
           "y1": 0.654694
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.65707,
+          "y0": 0.661821,
           "x1": 1.0,
           "y1": 0.678639
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.681015,
+          "y0": 0.685766,
           "x1": 1.0,
           "y1": 0.756556
         }
@@ -1237,19 +1213,10 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（4.08 x 10”）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_visual_crop_box": {
-        "x0": 0.464947,
-        "y0": 0.540479,
-        "x1": 0.537872,
-        "y1": 0.568985
-      },
-      "question_image_path": "cap_practice_assets/103/math/q020_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q020_option_A.png",
-        "B": "cap_practice_assets/103/math/q020_option_B.png",
-        "C": "cap_practice_assets/103/math/q020_option_C.png",
-        "D": "cap_practice_assets/103/math/q020_option_D.png"
-      }
+      "question_visual_crop_box": null,
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 21,
@@ -1267,31 +1234,31 @@
         "x0": 0.059629,
         "y0": 0.754276,
         "x1": 1.0,
-        "y1": 0.782782
+        "y1": 0.790574
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.74886,
+          "y0": 0.792949,
           "x1": 1.0,
           "y1": 0.81889
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.821266,
+          "y0": 0.826017,
           "x1": 1.0,
           "y1": 0.841125
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.843501,
+          "y0": 0.848252,
           "x1": 1.0,
           "y1": 0.86507
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.867446,
+          "y0": 0.872197,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -1309,13 +1276,11 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（15x -5）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q021_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q021_option_A.png",
-        "B": "cap_practice_assets/103/math/q021_option_B.png",
-        "C": "cap_practice_assets/103/math/q021_option_C.png",
-        "D": "cap_practice_assets/103/math/q021_option_D.png"
-      }
+        "A": "cap_practice_assets/103/math/q021_option_A.png"
+      },
+      "group_image_path": null
     },
     {
       "number": 22,
@@ -1333,30 +1298,30 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.106233
+        "y1": 0.18339
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.108609,
+          "y0": 0.185766,
           "x1": 1.0,
-          "y1": 0.202014
+          "y1": 0.202585
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.20496,
-          "x1": 0.458199,
-          "y1": 0.315849
+          "y0": 0.209711,
+          "x1": 1.0,
+          "y1": 0.22596
         },
         "C": {
-          "x0": 0.458199,
-          "y0": 0.20496,
+          "x0": 0.059629,
+          "y0": 0.233086,
           "x1": 1.0,
           "y1": 0.315849
         }
       },
-      "option_layout": "grid",
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "y ohh > Bl F 83] y bhoyseeer 2 0 x",
@@ -1368,12 +1333,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（4）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q022_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q022_option_A.png",
-        "B": "cap_practice_assets/103/math/q022_option_B.png",
-        "C": "cap_practice_assets/103/math/q022_option_C.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 23,
@@ -1391,31 +1353,31 @@
         "x0": 0.059629,
         "y0": 0.313569,
         "x1": 1.0,
-        "y1": 0.342075
+        "y1": 0.382934
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.308723,
-          "x1": 1.0,
-          "y1": 0.330293
-        },
-        "D": {
-          "x0": 0.059629,
-          "y0": 0.332668,
+          "y0": 0.38531,
           "x1": 1.0,
           "y1": 0.402128
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.404504,
+          "y0": 0.409255,
           "x1": 1.0,
           "y1": 0.425504
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.427879,
+          "y0": 0.43263,
+          "x1": 1.0,
+          "y1": 0.449449
+        },
+        "D": {
+          "x0": 0.059629,
+          "y0": 0.456575,
           "x1": 1.0,
           "y1": 0.492588
         }
@@ -1434,12 +1396,8 @@
       "visual_primary": true,
       "explanation": "官方答案：A（23）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/103/math/q023_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q023_option_A.png",
-        "D": "cap_practice_assets/103/math/q023_option_D.png",
-        "B": "cap_practice_assets/103/math/q023_option_B.png",
-        "C": "cap_practice_assets/103/math/q023_option_C.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 24,
@@ -1463,19 +1421,19 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.486602,
+          "y0": 0.491353,
           "x1": 1.0,
           "y1": 0.605093
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.607469,
+          "y0": 0.61222,
           "x1": 1.0,
           "y1": 0.652414
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.654789,
+          "y0": 0.65954,
           "x1": 1.0,
           "y1": 0.715507
         }
@@ -1492,12 +1450,11 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（30 L (Cys2 BI）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q024_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q024_option_A.png",
-        "B": "cap_practice_assets/103/math/q024_option_B.png",
-        "D": "cap_practice_assets/103/math/q024_option_D.png"
-      }
+        "A": "cap_practice_assets/103/math/q024_option_A.png"
+      },
+      "group_image_path": null
     },
     {
       "number": 25,
@@ -1515,25 +1472,25 @@
         "x0": 0.059629,
         "y0": 0.713227,
         "x1": 1.0,
-        "y1": 0.796085
+        "y1": 0.800836
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.798461,
+          "y0": 0.803212,
           "x1": 1.0,
           "y1": 0.819745
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.822121,
+          "y0": 0.826872,
           "x1": 1.0,
           "y1": 0.867066
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.869441,
+          "y0": 0.874192,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -1551,12 +1508,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（b =34）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/103/math/q025_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q025_option_A.png",
-        "B": "cap_practice_assets/103/math/q025_option_B.png",
-        "D": "cap_practice_assets/103/math/q025_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 26,
@@ -1574,27 +1528,27 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.106233
+        "y1": 0.18339
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.108609,
+          "y0": 0.185766,
           "x1": 1.0,
-          "y1": 0.202014
+          "y1": 0.202585
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.20496,
+          "y0": 0.209711,
+          "x1": 1.0,
+          "y1": 0.22596
+        },
+        "C": {
+          "x0": 0.059629,
+          "y0": 0.233086,
           "x1": 1.0,
           "y1": 0.330293
-        },
-        "D": {
-          "x0": 0.059629,
-          "y0": 0.332668,
-          "x1": 1.0,
-          "y1": 0.351197
         }
       },
       "option_layout": "vertical",
@@ -1611,11 +1565,8 @@
       "visual_primary": true,
       "explanation": "官方答案：D（54）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/103/math/q026_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/103/math/q026_option_A.png",
-        "B": "cap_practice_assets/103/math/q026_option_B.png",
-        "D": "cap_practice_assets/103/math/q026_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 27,
@@ -1651,7 +1602,8 @@
       "visual_primary": true,
       "explanation": "官方答案：B（兩 人 皆 錯誤 圖 (十 三 )）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 103 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/103/math/q027_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     }
   ],
   "issues": [

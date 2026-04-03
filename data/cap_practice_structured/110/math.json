@@ -103,11 +103,36 @@
         "x0": 0.059653,
         "y0": 0.101868,
         "x1": 1.0,
-        "y1": 0.131063
+        "y1": 0.145985
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.148418,
+          "x1": 1.0,
+          "y1": 0.165447
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.172746,
+          "x1": 1.0,
+          "y1": 0.189777
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.197076,
+          "x1": 1.0,
+          "y1": 0.214106
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.221405,
+          "x1": 1.0,
+          "y1": 0.639521
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -121,8 +146,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（-15）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q001_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 2,
@@ -147,25 +173,25 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.31385,
+          "y0": 0.318716,
           "x1": 0.98,
           "y1": 0.335754
         },
         "B": {
           "x0": 0.06,
-          "y0": 0.338187,
+          "y0": 0.343053,
           "x1": 0.98,
           "y1": 0.360084
         },
         "C": {
           "x0": 0.06,
-          "y0": 0.362517,
+          "y0": 0.367383,
           "x1": 0.98,
           "y1": 0.384413
         },
         "D": {
           "x0": 0.06,
-          "y0": 0.386846,
+          "y0": 0.391712,
           "x1": 0.98,
           "y1": 0.457402
         }
@@ -183,13 +209,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（−2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q002_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q002_option_A.png",
-        "B": "cap_practice_assets/110/math/q002_option_B.png",
-        "C": "cap_practice_assets/110/math/q002_option_C.png",
-        "D": "cap_practice_assets/110/math/q002_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -211,7 +233,32 @@
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.489023,
+          "x1": 0.98,
+          "y1": 0.506061
+        },
+        "B": {
+          "x0": 0.06,
+          "y0": 0.51336,
+          "x1": 0.98,
+          "y1": 0.53039
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.537689,
+          "x1": 0.98,
+          "y1": 0.55472
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.562019,
+          "x1": 0.98,
+          "y1": 0.627708
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -225,8 +272,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（25）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q003_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -244,11 +292,36 @@
         "x0": 0.059653,
         "y0": 0.637186,
         "x1": 1.0,
-        "y1": 0.666381
+        "y1": 0.681237
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.68367,
+          "x1": 1.0,
+          "y1": 0.700697
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.707996,
+          "x1": 1.0,
+          "y1": 0.725026
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.732325,
+          "x1": 1.0,
+          "y1": 0.749356
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.756655,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -262,8 +335,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（14 A D）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q004_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -288,25 +362,25 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.081671,
+          "y0": 0.086537,
           "x1": 1.0,
           "y1": 0.102387
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.10482,
+          "y0": 0.109686,
           "x1": 1.0,
           "y1": 0.125535
         },
         "C": {
           "x0": 0.059653,
-          "y0": 0.127968,
+          "y0": 0.132834,
           "x1": 1.0,
           "y1": 0.148684
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.151117,
+          "y0": 0.155983,
           "x1": 1.0,
           "y1": 0.253065
         }
@@ -324,13 +398,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（125）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q005_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q005_option_A.png",
-        "B": "cap_practice_assets/110/math/q005_option_B.png",
-        "C": "cap_practice_assets/110/math/q005_option_C.png",
-        "D": "cap_practice_assets/110/math/q005_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -352,7 +422,32 @@
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.272988,
+          "x1": 1.0,
+          "y1": 0.290024
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.297323,
+          "x1": 1.0,
+          "y1": 0.314354
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.321652,
+          "x1": 1.0,
+          "y1": 0.338683
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.345982,
+          "x1": 1.0,
+          "y1": 0.443082
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -366,8 +461,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（4JV3 x2JV3 =8V3）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q006_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -385,7 +481,7 @@
         "x0": 0.059653,
         "y0": 0.440747,
         "x1": 1.0,
-        "y1": 0.73433
+        "y1": 0.739196
       },
       "question_visual_crop_box": {
         "x0": 0.352277,
@@ -394,7 +490,32 @@
         "y1": 0.640689
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.741629,
+          "x1": 1.0,
+          "y1": 0.757478
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.764777,
+          "x1": 1.0,
+          "y1": 0.780627
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.787926,
+          "x1": 1.0,
+          "y1": 0.803775
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.811074,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -409,7 +530,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（48h 6) ak ey Ero AC BS ey 300 AR > AT ERE LBD HR 4 op SSR ALS）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/math/q007_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -431,7 +553,32 @@
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.088562,
+          "x1": 1.0,
+          "y1": 0.105599
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.112898,
+          "x1": 1.0,
+          "y1": 0.129929
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.137228,
+          "x1": 1.0,
+          "y1": 0.154258
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.161557,
+          "x1": 1.0,
+          "y1": 0.328371
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -445,8 +592,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（248 + 2 x 248 x 52 + 527 = 300°）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q008_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -464,32 +612,32 @@
         "x0": 0.059653,
         "y0": 0.326036,
         "x1": 1.0,
-        "y1": 0.365132
+        "y1": 0.369998
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.367565,
+          "y0": 0.372431,
           "x1": 1.0,
           "y1": 0.389457
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.39189,
+          "y0": 0.396756,
           "x1": 1.0,
           "y1": 0.413787
         },
         "C": {
           "x0": 0.059653,
-          "y0": 0.41622,
+          "y0": 0.421086,
           "x1": 1.0,
           "y1": 0.438116
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.440549,
+          "y0": 0.445415,
           "x1": 1.0,
           "y1": 0.620257
         }
@@ -507,13 +655,11 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（8）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q009_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q009_option_A.png",
-        "B": "cap_practice_assets/110/math/q009_option_B.png",
-        "C": "cap_practice_assets/110/math/q009_option_C.png",
-        "D": "cap_practice_assets/110/math/q009_option_D.png"
-      }
+        "A": "cap_practice_assets/110/math/q009_option_A.png"
+      },
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -531,32 +677,32 @@
         "x0": 0.059653,
         "y0": 0.617922,
         "x1": 1.0,
-        "y1": 0.661941
+        "y1": 0.666807
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.664374,
+          "y0": 0.66924,
           "x1": 1.0,
           "y1": 0.686277
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.68871,
+          "y0": 0.693576,
           "x1": 1.0,
           "y1": 0.710607
         },
         "C": {
           "x0": 0.059653,
-          "y0": 0.71304,
+          "y0": 0.717906,
           "x1": 1.0,
           "y1": 0.734936
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.737369,
+          "y0": 0.742235,
           "x1": 1.0,
           "y1": 0.991243
         }
@@ -574,13 +720,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（210 3 2a BEA）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q010_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q010_option_A.png",
-        "B": "cap_practice_assets/110/math/q010_option_B.png",
-        "C": "cap_practice_assets/110/math/q010_option_C.png",
-        "D": "cap_practice_assets/110/math/q010_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 11,
@@ -598,7 +740,7 @@
         "x0": 0.059653,
         "y0": 0.065382,
         "x1": 1.0,
-        "y1": 0.109358
+        "y1": 0.114223
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -611,8 +753,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q011_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 12,
@@ -630,32 +773,32 @@
         "x0": 0.059653,
         "y0": 0.138062,
         "x1": 1.0,
-        "y1": 0.167257
+        "y1": 0.170264
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.167831,
+          "y0": 0.172697,
           "x1": 1.0,
           "y1": 0.206752
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.209185,
+          "y0": 0.214051,
           "x1": 1.0,
           "y1": 0.248106
         },
         "C": {
           "x0": 0.059653,
-          "y0": 0.250539,
+          "y0": 0.255405,
           "x1": 1.0,
           "y1": 0.28946
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.291893,
+          "y0": 0.296759,
           "x1": 1.0,
           "y1": 0.398424
         }
@@ -670,13 +813,13 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（76 FINS — 18 ; i 5 Lt Ox ve, Wise 18 OFT）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q012_question.png",
+      "question_image_path": null,
       "option_image_paths": {
         "A": "cap_practice_assets/110/math/q012_option_A.png",
-        "B": "cap_practice_assets/110/math/q012_option_B.png",
         "C": "cap_practice_assets/110/math/q012_option_C.png",
         "D": "cap_practice_assets/110/math/q012_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -707,8 +850,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q013_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -726,32 +870,32 @@
         "x0": 0.059653,
         "y0": 0.445709,
         "x1": 1.0,
-        "y1": 0.484133
+        "y1": 0.488999
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.486566,
+          "y0": 0.491432,
           "x1": 1.0,
           "y1": 0.508458
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.510891,
+          "y0": 0.515757,
           "x1": 1.0,
           "y1": 0.532787
         },
         "C": {
           "x0": 0.059653,
-          "y0": 0.53522,
+          "y0": 0.540086,
           "x1": 1.0,
           "y1": 0.557117
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.55955,
+          "y0": 0.564416,
           "x1": 1.0,
           "y1": 0.690893
         }
@@ -769,13 +913,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（70 <x <80）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q014_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q014_option_A.png",
-        "B": "cap_practice_assets/110/math/q014_option_B.png",
-        "C": "cap_practice_assets/110/math/q014_option_C.png",
-        "D": "cap_practice_assets/110/math/q014_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 15,
@@ -793,11 +933,36 @@
         "x0": 0.059653,
         "y0": 0.688558,
         "x1": 1.0,
-        "y1": 0.72792
+        "y1": 0.732786
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.735219,
+          "x1": 1.0,
+          "y1": 0.752248
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.759547,
+          "x1": 1.0,
+          "y1": 0.776578
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.783877,
+          "x1": 1.0,
+          "y1": 0.800907
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.808206,
+          "x1": 1.0,
+          "y1": 0.991243
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -811,8 +976,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（az1 + 22 <0）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q015_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 16,
@@ -834,7 +1000,32 @@
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.093639,
+          "x1": 1.0,
+          "y1": 0.11067
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.117969,
+          "x1": 1.0,
+          "y1": 0.135
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.142299,
+          "x1": 1.0,
+          "y1": 0.159329
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.166628,
+          "x1": 1.0,
+          "y1": 0.292761
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -848,8 +1039,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（|a+ b-e|）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q016_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 17,
@@ -874,25 +1066,25 @@
       "option_crop_boxes": {
         "C": {
           "x0": 0.059653,
-          "y0": 0.282176,
+          "y0": 0.287042,
           "x1": 0.635855,
           "y1": 0.303594
         },
         "A": {
           "x0": 0.635855,
-          "y0": 0.282176,
+          "y0": 0.287042,
           "x1": 1.0,
           "y1": 0.303594
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.306027,
+          "y0": 0.310893,
           "x1": 0.561397,
           "y1": 0.341798
         },
         "D": {
           "x0": 0.561397,
-          "y0": 0.306027,
+          "y0": 0.310893,
           "x1": 1.0,
           "y1": 0.341798
         }
@@ -905,13 +1097,14 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q017_question.png",
+      "question_image_path": null,
       "option_image_paths": {
         "C": "cap_practice_assets/110/math/q017_option_C.png",
         "A": "cap_practice_assets/110/math/q017_option_A.png",
         "B": "cap_practice_assets/110/math/q017_option_B.png",
         "D": "cap_practice_assets/110/math/q017_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 18,
@@ -929,11 +1122,36 @@
         "x0": 0.059653,
         "y0": 0.339463,
         "x1": 1.0,
-        "y1": 0.378292
+        "y1": 0.383158
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.385591,
+          "x1": 1.0,
+          "y1": 0.402625
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.409923,
+          "x1": 1.0,
+          "y1": 0.426954
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.434253,
+          "x1": 1.0,
+          "y1": 0.451284
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.458582,
+          "x1": 1.0,
+          "y1": 0.584647
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -947,8 +1165,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（EF = EC > AE = FC）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q018_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 19,
@@ -981,8 +1200,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q019_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 20,
@@ -1013,8 +1233,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q020_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 21,
@@ -1045,8 +1266,9 @@
       "correct_answer": "A",
       "visual_primary": true,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q021_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 22,
@@ -1076,25 +1298,25 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.697009,
+          "y0": 0.701874,
           "x1": 1.0,
           "y1": 0.718908
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.721341,
+          "y0": 0.726207,
           "x1": 1.0,
           "y1": 0.743238
         },
         "C": {
           "x0": 0.059653,
-          "y0": 0.745671,
+          "y0": 0.750536,
           "x1": 1.0,
           "y1": 0.767567
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.77,
+          "y0": 0.774866,
           "x1": 1.0,
           "y1": 0.991243
         }
@@ -1111,11 +1333,11 @@
       "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/math/q022_question.png",
       "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q022_option_A.png",
         "B": "cap_practice_assets/110/math/q022_option_B.png",
         "C": "cap_practice_assets/110/math/q022_option_C.png",
         "D": "cap_practice_assets/110/math/q022_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 23,
@@ -1133,12 +1355,37 @@
         "x0": 0.059653,
         "y0": 0.065382,
         "x1": 1.0,
-        "y1": 0.094577
+        "y1": 0.133788
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
-      "option_layout": "grid",
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.136221,
+          "x1": 1.0,
+          "y1": 0.153247
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.160546,
+          "x1": 1.0,
+          "y1": 0.177577
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.184875,
+          "x1": 1.0,
+          "y1": 0.201906
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.209205,
+          "x1": 1.0,
+          "y1": 0.360771
+        }
+      },
+      "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
       "stem": "17. +H (+): ##% ABCD ¥ > AD// BC > 4-H O #33 A+B.C=8> HAD RE OMAHA B® # 2B =58°> a] BC HERA?",
@@ -1151,8 +1398,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（116）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q023_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 24,
@@ -1170,11 +1418,36 @@
         "x0": 0.059653,
         "y0": 0.358435,
         "x1": 1.0,
-        "y1": 0.38763
+        "y1": 0.401412
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.059653,
+          "y0": 0.403845,
+          "x1": 1.0,
+          "y1": 0.420872
+        },
+        "B": {
+          "x0": 0.059653,
+          "y0": 0.428171,
+          "x1": 1.0,
+          "y1": 0.445201
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.4525,
+          "x1": 1.0,
+          "y1": 0.469531
+        },
+        "D": {
+          "x0": 0.059653,
+          "y0": 0.47683,
+          "x1": 1.0,
+          "y1": 0.603036
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -1188,8 +1461,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（a=-1> b=-3>c=0）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q024_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 25,
@@ -1222,8 +1496,9 @@
       "correct_answer": "A",
       "visual_primary": true,
       "explanation": "官方答案：A（: AABC#> D> Es F287 314 ABS BC. ACL? 3）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q025_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 26,
@@ -1241,26 +1516,32 @@
         "x0": 0.059653,
         "y0": 0.627554,
         "x1": 1.0,
-        "y1": 0.664171
+        "y1": 0.669037
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059653,
-          "y0": 0.666604,
+          "y0": 0.67147,
           "x1": 1.0,
-          "y1": 0.686587
+          "y1": 0.688496
         },
         "B": {
           "x0": 0.059653,
-          "y0": 0.690929,
+          "y0": 0.695795,
           "x1": 1.0,
-          "y1": 0.70928
+          "y1": 0.712826
+        },
+        "C": {
+          "x0": 0.059653,
+          "y0": 0.720125,
+          "x1": 1.0,
+          "y1": 0.737155
         },
         "D": {
           "x0": 0.059653,
-          "y0": 0.711713,
+          "y0": 0.744454,
           "x1": 1.0,
           "y1": 0.991243
         }
@@ -1278,12 +1559,11 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考數學科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/math/q026_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/110/math/q026_option_A.png",
-        "B": "cap_practice_assets/110/math/q026_option_B.png",
-        "D": "cap_practice_assets/110/math/q026_option_D.png"
-      }
+        "A": "cap_practice_assets/110/math/q026_option_A.png"
+      },
+      "group_image_path": null
     }
   ],
   "issues": [

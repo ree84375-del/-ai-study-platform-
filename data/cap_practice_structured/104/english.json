@@ -136,27 +136,9 @@
         "y1": 0.116298
       },
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.06,
-          "y0": 0.111553,
-          "x1": 0.98,
-          "y1": 0.128773
-        },
-        "B": {
-          "x0": 0.06,
-          "y0": 0.131148,
-          "x1": 0.98,
-          "y1": 0.148368
-        },
-        "C": {
-          "x0": 0.06,
-          "y0": 0.150743,
-          "x1": 0.98,
-          "y1": 0.167963
-        },
         "D": {
           "x0": 0.06,
-          "y0": 0.170339,
+          "y0": 0.17509,
           "x1": 0.98,
           "y1": 0.251702
         }
@@ -176,12 +158,7 @@
       "explanation": "官方答案：D（squares）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/104/english/q001_question.png",
       "group_image_path": "cap_practice_assets/104/english/q001_group.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q001_option_A.png",
-        "B": "cap_practice_assets/104/english/q001_option_B.png",
-        "C": "cap_practice_assets/104/english/q001_option_C.png",
-        "D": "cap_practice_assets/104/english/q001_option_D.png"
-      }
+      "option_image_paths": {}
     },
     {
       "number": 2,
@@ -202,7 +179,32 @@
         "y1": 0.280209
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.280215,
+          "x1": 0.256907,
+          "y1": 0.31407
+        },
+        "B": {
+          "x0": 0.256907,
+          "y0": 0.280215,
+          "x1": 0.437835,
+          "y1": 0.31407
+        },
+        "C": {
+          "x0": 0.437835,
+          "y0": 0.280215,
+          "x1": 0.618625,
+          "y1": 0.31407
+        },
+        "D": {
+          "x0": 0.618625,
+          "y0": 0.280215,
+          "x1": 0.98,
+          "y1": 0.31407
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -216,8 +218,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（but）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q002_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -238,8 +241,33 @@
         "y1": 0.342577
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
-      "option_layout": "vertical",
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.342583,
+          "x1": 0.256907,
+          "y1": 0.376438
+        },
+        "B": {
+          "x0": 0.256907,
+          "y0": 0.342583,
+          "x1": 0.437835,
+          "y1": 0.376438
+        },
+        "C": {
+          "x0": 0.437835,
+          "y0": 0.342583,
+          "x1": 0.618625,
+          "y1": 0.376438
+        },
+        "D": {
+          "x0": 0.618625,
+          "y0": 0.342583,
+          "x1": 0.98,
+          "y1": 0.376438
+        }
+      },
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Getting up early on a cold morning is not easy, ?",
@@ -252,8 +280,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（is it）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q003_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -277,25 +306,25 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.4002,
+          "y0": 0.404951,
           "x1": 0.256907,
           "y1": 0.438806
         },
         "B": {
           "x0": 0.256907,
-          "y0": 0.4002,
+          "y0": 0.404951,
           "x1": 0.437835,
           "y1": 0.438806
         },
         "C": {
           "x0": 0.437835,
-          "y0": 0.4002,
+          "y0": 0.404951,
           "x1": 0.618615,
           "y1": 0.438806
         },
         "D": {
           "x0": 0.618615,
-          "y0": 0.4002,
+          "y0": 0.404951,
           "x1": 0.98,
           "y1": 0.438806
         }
@@ -313,13 +342,9 @@
       "correct_answer": "A",
       "visual_primary": true,
       "explanation": "官方答案：A（finish）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q004_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q004_option_A.png",
-        "B": "cap_practice_assets/104/english/q004_option_B.png",
-        "C": "cap_practice_assets/104/english/q004_option_C.png",
-        "D": "cap_practice_assets/104/english/q004_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -343,18 +368,30 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.441182,
-          "x1": 0.98,
-          "y1": 0.460192
+          "y0": 0.467319,
+          "x1": 0.256929,
+          "y1": 0.501174
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.467319,
+          "x1": 0.437856,
+          "y1": 0.501174
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.467319,
+          "x1": 0.618647,
+          "y1": 0.501174
         },
         "D": {
-          "x0": 0.06,
-          "y0": 0.462568,
+          "x0": 0.618647,
+          "y0": 0.467319,
           "x1": 0.98,
           "y1": 0.501174
         }
       },
-      "option_layout": "vertical",
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "Charles a day in the department store looking for a hat for his wife.",
@@ -367,11 +404,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（spent）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q005_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q005_option_A.png",
-        "D": "cap_practice_assets/104/english/q005_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -392,7 +427,32 @@
         "y1": 0.529681
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.529687,
+          "x1": 0.256929,
+          "y1": 0.563542
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.529687,
+          "x1": 0.437856,
+          "y1": 0.563542
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.529687,
+          "x1": 0.618647,
+          "y1": 0.563542
+        },
+        "D": {
+          "x0": 0.618647,
+          "y0": 0.529687,
+          "x1": 0.98,
+          "y1": 0.563542
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -406,8 +466,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（has lost）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q006_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -431,25 +492,25 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.587304,
+          "y0": 0.592055,
           "x1": 0.256929,
           "y1": 0.62591
         },
         "B": {
           "x0": 0.256929,
-          "y0": 0.587304,
+          "y0": 0.592055,
           "x1": 0.437856,
           "y1": 0.62591
         },
         "C": {
           "x0": 0.437856,
-          "y0": 0.587304,
+          "y0": 0.592055,
           "x1": 0.618647,
           "y1": 0.62591
         },
         "D": {
           "x0": 0.618647,
-          "y0": 0.587304,
+          "y0": 0.592055,
           "x1": 0.98,
           "y1": 0.62591
         }
@@ -468,7 +529,8 @@
         "B": "cap_practice_assets/104/english/q007_option_B.png",
         "C": "cap_practice_assets/104/english/q007_option_C.png",
         "D": "cap_practice_assets/104/english/q007_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -486,31 +548,31 @@
         "x0": 0.06,
         "y0": 0.62591,
         "x1": 0.98,
-        "y1": 0.668683
+        "y1": 0.673434
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.671058,
+          "y0": 0.67581,
           "x1": 0.256929,
           "y1": 0.709664
         },
         "B": {
           "x0": 0.256929,
-          "y0": 0.671058,
+          "y0": 0.67581,
           "x1": 0.437856,
           "y1": 0.709664
         },
         "C": {
           "x0": 0.437856,
-          "y0": 0.671058,
+          "y0": 0.67581,
           "x1": 0.618647,
           "y1": 0.709664
         },
         "D": {
           "x0": 0.618647,
-          "y0": 0.671058,
+          "y0": 0.67581,
           "x1": 0.98,
           "y1": 0.709664
         }
@@ -528,19 +590,10 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（other）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_visual_crop_box": {
-        "x0": 0.396155,
-        "y0": 0.64843,
-        "x1": 0.482007,
-        "y1": 0.668954
-      },
-      "question_image_path": "cap_practice_assets/104/english/q008_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q008_option_A.png",
-        "B": "cap_practice_assets/104/english/q008_option_B.png",
-        "C": "cap_practice_assets/104/english/q008_option_C.png",
-        "D": "cap_practice_assets/104/english/q008_option_D.png"
-      }
+      "question_visual_crop_box": null,
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -558,24 +611,36 @@
         "x0": 0.06,
         "y0": 0.709664,
         "x1": 0.98,
-        "y1": 0.738171
+        "y1": 0.757188
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.71204,
-          "x1": 0.98,
-          "y1": 0.752437
+          "y0": 0.759564,
+          "x1": 0.256929,
+          "y1": 0.793419
+        },
+        "B": {
+          "x0": 0.256929,
+          "y0": 0.759564,
+          "x1": 0.437856,
+          "y1": 0.793419
+        },
+        "C": {
+          "x0": 0.437856,
+          "y0": 0.759564,
+          "x1": 0.618647,
+          "y1": 0.793419
         },
         "D": {
-          "x0": 0.06,
-          "y0": 0.754813,
+          "x0": 0.618647,
+          "y0": 0.759564,
           "x1": 0.98,
           "y1": 0.793419
         }
       },
-      "option_layout": "vertical",
+      "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
       "stem": "The waiters are asked to be ; they should always smile and remember to say “Welcome” and “Please.”",
@@ -588,11 +653,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（strong）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q009_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q009_option_A.png",
-        "D": "cap_practice_assets/104/english/q009_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -610,31 +673,31 @@
         "x0": 0.06,
         "y0": 0.793419,
         "x1": 0.98,
-        "y1": 0.836192
+        "y1": 0.840943
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.838567,
+          "y0": 0.843318,
           "x1": 0.256929,
           "y1": 0.985746
         },
         "B": {
           "x0": 0.256929,
-          "y0": 0.838567,
+          "y0": 0.843318,
           "x1": 0.437856,
           "y1": 0.985746
         },
         "C": {
           "x0": 0.437856,
-          "y0": 0.838567,
+          "y0": 0.843318,
           "x1": 0.618647,
           "y1": 0.985746
         },
         "D": {
           "x0": 0.618647,
-          "y0": 0.838567,
+          "y0": 0.843318,
           "x1": 0.98,
           "y1": 0.985746
         }
@@ -652,13 +715,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（is going to come）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q010_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q010_option_A.png",
-        "B": "cap_practice_assets/104/english/q010_option_B.png",
-        "C": "cap_practice_assets/104/english/q010_option_C.png",
-        "D": "cap_practice_assets/104/english/q010_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 11,
@@ -700,31 +759,19 @@
         "x0": 0.06,
         "y0": 0.140658,
         "x1": 0.98,
-        "y1": 0.183431
+        "y1": 0.188182
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.06,
-          "y0": 0.185806,
-          "x1": 0.34745,
-          "y1": 0.204817
-        },
-        "B": {
-          "x0": 0.34745,
-          "y0": 0.185806,
-          "x1": 0.98,
-          "y1": 0.204817
-        },
         "C": {
           "x0": 0.06,
-          "y0": 0.207193,
+          "y0": 0.211944,
           "x1": 0.347696,
           "y1": 0.695963
         },
         "D": {
           "x0": 0.347696,
-          "y0": 0.207193,
+          "y0": 0.211944,
           "x1": 0.98,
           "y1": 0.695963
         }
@@ -742,13 +789,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（would be）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/104/english/q012_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q012_option_A.png",
-        "B": "cap_practice_assets/104/english/q012_option_B.png",
-        "C": "cap_practice_assets/104/english/q012_option_C.png",
-        "D": "cap_practice_assets/104/english/q012_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -770,27 +813,15 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.06,
-          "y0": 0.698339,
-          "x1": 0.346549,
-          "y1": 0.71735
-        },
-        "B": {
-          "x0": 0.346549,
-          "y0": 0.698339,
-          "x1": 0.98,
-          "y1": 0.71735
-        },
         "C": {
           "x0": 0.06,
-          "y0": 0.719725,
+          "y0": 0.724476,
           "x1": 0.347696,
           "y1": 0.758331
         },
         "D": {
           "x0": 0.347696,
-          "y0": 0.719725,
+          "y0": 0.724476,
           "x1": 0.98,
           "y1": 0.758331
         }
@@ -815,12 +846,8 @@
         "y1": 0.724754
       },
       "question_image_path": "cap_practice_assets/104/english/q013_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q013_option_A.png",
-        "B": "cap_practice_assets/104/english/q013_option_B.png",
-        "C": "cap_practice_assets/104/english/q013_option_C.png",
-        "D": "cap_practice_assets/104/english/q013_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -862,30 +889,24 @@
         "x0": 0.06,
         "y0": 0.553997,
         "x1": 0.98,
-        "y1": 0.582504
+        "y1": 0.700714
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
+        "C": {
           "x0": 0.06,
-          "y0": 0.539788,
-          "x1": 0.98,
-          "y1": 0.695963
-        },
-        "B": {
-          "x0": 0.06,
-          "y0": 0.698339,
-          "x1": 0.98,
-          "y1": 0.71735
+          "y0": 0.724476,
+          "x1": 0.347696,
+          "y1": 0.985746
         },
         "D": {
-          "x0": 0.06,
-          "y0": 0.719725,
+          "x0": 0.347696,
+          "y0": 0.724476,
           "x1": 0.98,
           "y1": 0.985746
         }
       },
-      "option_layout": "vertical",
+      "option_layout": "grid",
       "parse_status": "image_or_layout_fallback",
       "context": "",
       "stem": "",
@@ -899,10 +920,13 @@
       "visual_primary": true,
       "explanation": "官方答案：B（worried about your trip to here）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/104/english/q015_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q015_option_A.png",
-        "B": "cap_practice_assets/104/english/q015_option_B.png",
-        "D": "cap_practice_assets/104/english/q015_option_D.png"
+      "option_image_paths": {},
+      "group_image_path": null,
+      "question_visual_crop_box": {
+        "x0": 0.109577,
+        "y0": 0.553997,
+        "x1": 0.890713,
+        "y1": 0.701089
       }
     },
     {
@@ -945,31 +969,13 @@
         "x0": 0.06,
         "y0": 0.323725,
         "x1": 0.98,
-        "y1": 0.417717
+        "y1": 0.565282
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.06,
-          "y0": 0.420092,
-          "x1": 0.98,
-          "y1": 0.582504
-        },
-        "B": {
-          "x0": 0.06,
-          "y0": 0.58488,
-          "x1": 0.98,
-          "y1": 0.60389
-        },
-        "C": {
-          "x0": 0.06,
-          "y0": 0.606266,
-          "x1": 0.98,
-          "y1": 0.625277
-        },
         "D": {
           "x0": 0.06,
-          "y0": 0.627652,
+          "y0": 0.632404,
           "x1": 0.98,
           "y1": 0.774951
         }
@@ -988,11 +994,13 @@
       "visual_primary": true,
       "explanation": "官方答案：C（we might not be able to stay there for long）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 104 年會考英語科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/104/english/q017_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q017_option_A.png",
-        "B": "cap_practice_assets/104/english/q017_option_B.png",
-        "C": "cap_practice_assets/104/english/q017_option_C.png",
-        "D": "cap_practice_assets/104/english/q017_option_D.png"
+      "option_image_paths": {},
+      "group_image_path": null,
+      "question_visual_crop_box": {
+        "x0": 0.109577,
+        "y0": 0.323725,
+        "x1": 0.890713,
+        "y1": 0.565743
       }
     },
     {
@@ -1015,27 +1023,9 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.06,
-          "y0": 0.777326,
-          "x1": 0.98,
-          "y1": 0.796337
-        },
-        "B": {
-          "x0": 0.06,
-          "y0": 0.798713,
-          "x1": 0.98,
-          "y1": 0.817724
-        },
-        "C": {
-          "x0": 0.06,
-          "y0": 0.820099,
-          "x1": 0.98,
-          "y1": 0.83911
-        },
         "D": {
           "x0": 0.06,
-          "y0": 0.841486,
+          "y0": 0.846237,
           "x1": 0.98,
           "y1": 0.985746
         }
@@ -1060,12 +1050,8 @@
         "y1": 0.803742
       },
       "question_image_path": "cap_practice_assets/104/english/q018_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/104/english/q018_option_A.png",
-        "B": "cap_practice_assets/104/english/q018_option_B.png",
-        "C": "cap_practice_assets/104/english/q018_option_C.png",
-        "D": "cap_practice_assets/104/english/q018_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 19,

@@ -155,11 +155,24 @@
         "x0": 0.06,
         "y0": 0.089925,
         "x1": 0.98,
-        "y1": 0.160729
+        "y1": 0.165595
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.189336,
+          "x1": 0.98,
+          "y1": 0.204804
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.234286,
+          "x1": 0.98,
+          "y1": 0.257034
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "一、單題：(1～43題)",
@@ -173,8 +186,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（善用食品加工，以利農產品的保存與食用）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q001_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 2,
@@ -192,11 +206,18 @@
         "x0": 0.06,
         "y0": 0.257034,
         "x1": 0.98,
-        "y1": 0.350163
+        "y1": 0.355029
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.422844,
+          "x1": 0.98,
+          "y1": 0.446045
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -210,8 +231,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（加速產業創新轉型及尋找新的貿易夥伴）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q002_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -248,7 +270,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（乙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q003_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -266,13 +289,13 @@
         "x0": 0.06,
         "y0": 0.700748,
         "x1": 0.98,
-        "y1": 0.858628
+        "y1": 0.863494
       },
       "question_visual_crop_box": {
         "x0": 0.650891,
         "y0": 0.746574,
         "x1": 0.825014,
-        "y1": 0.85895
+        "y1": 0.861577
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -290,7 +313,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（西亞、北非）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q004_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -308,11 +332,18 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.126871
+        "y1": 0.131737
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.199844,
+          "x1": 0.98,
+          "y1": 0.222559
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -326,8 +357,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（清代民間械鬥頻傳）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q005_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -345,7 +377,7 @@
         "x0": 0.06,
         "y0": 0.222559,
         "x1": 0.98,
-        "y1": 0.293829
+        "y1": 0.298695
       },
       "question_visual_crop_box": {
         "x0": 0.623079,
@@ -354,7 +386,20 @@
         "y1": 0.240072
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.322144,
+          "x1": 0.98,
+          "y1": 0.337612
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.366802,
+          "x1": 0.98,
+          "y1": 0.389667
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -369,7 +414,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（八個國家組成聯軍向中國發動攻擊）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q006_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -387,32 +433,32 @@
         "x0": 0.06,
         "y0": 0.389667,
         "x1": 0.98,
-        "y1": 0.455375
+        "y1": 0.460241
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.06,
-          "y0": 0.457808,
+          "y0": 0.462674,
           "x1": 0.295823,
           "y1": 0.600549
         },
         "B": {
           "x0": 0.295823,
-          "y0": 0.457808,
+          "y0": 0.462674,
           "x1": 0.438075,
           "y1": 0.600549
         },
         "C": {
           "x0": 0.438075,
-          "y0": 0.457808,
+          "y0": 0.462674,
           "x1": 0.553028,
           "y1": 0.600549
         },
         "D": {
           "x0": 0.553028,
-          "y0": 0.457808,
+          "y0": 0.462674,
           "x1": 0.98,
           "y1": 0.600549
         }
@@ -436,7 +482,8 @@
         "B": "cap_practice_assets/113/social/q007_option_B.png",
         "C": "cap_practice_assets/113/social/q007_option_C.png",
         "D": "cap_practice_assets/113/social/q007_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -454,11 +501,24 @@
         "x0": 0.06,
         "y0": 0.600549,
         "x1": 0.98,
-        "y1": 0.693712
+        "y1": 0.698578
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.722903,
+          "x1": 0.339782,
+          "y1": 0.745755
+        },
+        "D": {
+          "x0": 0.339782,
+          "y0": 0.722903,
+          "x1": 0.98,
+          "y1": 0.745755
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -472,8 +532,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（日本）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q008_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -491,11 +552,24 @@
         "x0": 0.06,
         "y0": 0.745755,
         "x1": 0.98,
-        "y1": 0.83878
+        "y1": 0.843645
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.846078,
+          "x1": 0.98,
+          "y1": 0.861255
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.912336,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -510,7 +584,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（荷蘭 聯合東印度公司與漢人）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q009_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -528,11 +603,18 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.126871
+        "y1": 0.131737
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.177952,
+          "x1": 0.98,
+          "y1": 0.222559
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -547,7 +629,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（確保兒童及少年身心發展）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q010_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 11,
@@ -565,16 +648,29 @@
         "x0": 0.06,
         "y0": 0.222559,
         "x1": 0.98,
-        "y1": 0.386941
+        "y1": 0.391807
       },
       "question_visual_crop_box": {
         "x0": 0.157944,
         "y0": 0.276266,
         "x1": 0.89031,
-        "y1": 0.387182
+        "y1": 0.389226
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.416131,
+          "x1": 0.344015,
+          "y1": 0.439118
+        },
+        "D": {
+          "x0": 0.344015,
+          "y0": 0.416131,
+          "x1": 0.98,
+          "y1": 0.439118
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -589,7 +685,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（法定貨幣與儲值卡）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q011_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 12,
@@ -607,11 +704,24 @@
         "x0": 0.06,
         "y0": 0.439118,
         "x1": 0.98,
-        "y1": 0.5323
+        "y1": 0.537166
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.56149,
+          "x1": 0.341798,
+          "y1": 0.584324
+        },
+        "D": {
+          "x0": 0.341798,
+          "y0": 0.56149,
+          "x1": 0.98,
+          "y1": 0.584324
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -625,8 +735,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（法律位階最高）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q012_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -644,11 +755,24 @@
         "x0": 0.06,
         "y0": 0.584324,
         "x1": 0.98,
-        "y1": 0.677367
+        "y1": 0.682233
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.706557,
+          "x1": 0.344015,
+          "y1": 0.72953
+        },
+        "D": {
+          "x0": 0.344015,
+          "y0": 0.706557,
+          "x1": 0.98,
+          "y1": 0.72953
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -662,8 +786,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（保護限制行為能力人的權益）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q013_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -681,11 +806,18 @@
         "x0": 0.06,
         "y0": 0.72953,
         "x1": 0.98,
-        "y1": 0.844617
+        "y1": 0.849483
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.91759,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -700,7 +832,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（產品選擇因而變得更加多元 圖(五) 表(ㄧ) 交易媒介 甲 乙 特色一 可直接支付各項消費 須事先存入足夠金額，並搭配特定 設備才能使用 特色二 由國家發行並賦予價值 多由民間企業發行 特色三 可能會面臨兌換零錢的困擾 免去購物找零錢的困擾 & 山竹：一種水果。）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q014_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 15,
@@ -718,16 +851,23 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.12366
+        "y1": 0.175519
       },
       "question_visual_crop_box": {
         "x0": 0.419936,
         "y0": 0.05545,
-        "x1": 0.903611,
-        "y1": 0.124043
+        "x1": 0.904015,
+        "y1": 0.164615
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.243335,
+          "x1": 0.98,
+          "y1": 0.266364
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -742,7 +882,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（新的市區用地主要是由魚塭填土而來）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q015_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 16,
@@ -760,11 +901,24 @@
         "x0": 0.06,
         "y0": 0.266364,
         "x1": 0.98,
-        "y1": 0.447069
+        "y1": 0.451935
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.454368,
+          "x1": 0.98,
+          "y1": 0.490852
+        },
+        "C": {
+          "x0": 0.06,
+          "y0": 0.498151,
+          "x1": 0.98,
+          "y1": 0.542986
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -779,7 +933,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（丙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q016_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 17,
@@ -797,16 +952,23 @@
         "x0": 0.06,
         "y0": 0.542986,
         "x1": 0.98,
-        "y1": 0.637087
+        "y1": 0.641953
       },
       "question_visual_crop_box": {
         "x0": 0.728279,
         "y0": 0.542986,
         "x1": 0.899581,
-        "y1": 0.637265
+        "y1": 0.642227
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.665401,
+          "x1": 0.98,
+          "y1": 0.688192
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -821,7 +983,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（甲）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q017_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 18,
@@ -839,16 +1002,23 @@
         "x0": 0.06,
         "y0": 0.688192,
         "x1": 0.98,
-        "y1": 0.825061
+        "y1": 0.829927
       },
       "question_visual_crop_box": {
         "x0": 0.633156,
         "y0": 0.707165,
         "x1": 0.899178,
-        "y1": 0.825378
+        "y1": 0.83034
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.876143,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -863,7 +1033,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（種植固沙植物，防止風沙危及列車行駛的安全）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q018_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 19,
@@ -881,7 +1052,7 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.224069
+        "y1": 0.228934
       },
       "question_visual_crop_box": {
         "x0": 0.535615,
@@ -890,7 +1061,14 @@
         "y1": 0.205479
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.253259,
+          "x1": 0.98,
+          "y1": 0.276058
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -905,7 +1083,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（甲：蘇聯、乙：美國）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q019_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 20,
@@ -923,11 +1102,18 @@
         "x0": 0.06,
         "y0": 0.276058,
         "x1": 0.98,
-        "y1": 0.391027
+        "y1": 0.395893
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.464,
+          "x1": 0.98,
+          "y1": 0.486972
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -942,7 +1128,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（圖左，因為太陽繞行地球）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q020_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 21,
@@ -960,11 +1147,18 @@
         "x0": 0.06,
         "y0": 0.486972,
         "x1": 0.98,
-        "y1": 0.60206
+        "y1": 0.606926
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.631251,
+          "x1": 0.98,
+          "y1": 0.65408
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -978,8 +1172,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（瓷器）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/113/social/q021_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 22,
@@ -997,7 +1192,7 @@
         "x0": 0.06,
         "y0": 0.65408,
         "x1": 0.98,
-        "y1": 0.812802
+        "y1": 0.817668
       },
       "question_visual_crop_box": {
         "x0": 0.63235,
@@ -1021,7 +1216,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（丙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q022_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 23,
@@ -1039,21 +1235,23 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.238663
+        "y1": 0.3165
       },
-      "question_visual_crop_box": {
-        "x0": 0.156332,
-        "y0": 0.108865,
-        "x1": 0.833478,
-        "y1": 0.239046
-      },
+      "question_visual_crop_box": null,
       "group_crop_box": {
         "x0": 0.156332,
         "y0": 0.108865,
         "x1": 0.833478,
-        "y1": 0.239046
+        "y1": 0.244008
       },
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.384607,
+          "x1": 0.98,
+          "y1": 0.407458
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "表(二)\n國家\n教徒占全國總\n人口比例(%)\n柬埔寨\n96.9\n泰國\n93.2\n緬甸\n80.1\n不丹\n74.7\n斯里蘭卡\n69.3\n䏰\nᴗ\n᳗\nᲿ\n䏰\nᴗ\n᳗\nᲿ\n圖(十二)",
@@ -1087,7 +1285,7 @@
         "x0": 0.06,
         "y0": 0.407458,
         "x1": 0.98,
-        "y1": 0.609941
+        "y1": 0.614807
       },
       "question_visual_crop_box": {
         "x0": 0.686763,
@@ -1096,7 +1294,14 @@
         "y1": 0.515748
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.683206,
+          "x1": 0.98,
+          "y1": 0.705983
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -1111,7 +1316,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（科技發展使得交通運輸更順暢）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q024_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 25,
@@ -1129,11 +1335,18 @@
         "x0": 0.06,
         "y0": 0.705983,
         "x1": 0.98,
-        "y1": 0.864757
+        "y1": 0.869623
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.893948,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -1148,7 +1361,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（舅舅）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 113 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/113/social/q025_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 26,

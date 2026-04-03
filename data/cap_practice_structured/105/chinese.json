@@ -143,11 +143,24 @@
         "x0": 0.06,
         "y0": 0.100106,
         "x1": 0.98,
-        "y1": 0.167151
+        "y1": 0.172017
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.174742,
+          "x1": 0.483172,
+          "y1": 0.214885
+        },
+        "D": {
+          "x0": 0.483172,
+          "y0": 0.174742,
+          "x1": 0.98,
+          "y1": 0.214885
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "一、單題：（1～35題）",
@@ -161,8 +174,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（沉重）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q001_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 2,
@@ -180,11 +194,24 @@
         "x0": 0.06,
         "y0": 0.214885,
         "x1": 0.98,
-        "y1": 0.30317
+        "y1": 0.308035
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.323311,
+          "x1": 0.170294,
+          "y1": 0.371025
+        },
+        "C": {
+          "x0": 0.170294,
+          "y0": 0.323311,
+          "x1": 0.98,
+          "y1": 0.371025
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -198,8 +225,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（創作必須求新求進，不能一味地模仿）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q002_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -217,16 +245,29 @@
         "x0": 0.06,
         "y0": 0.371025,
         "x1": 0.98,
-        "y1": 0.411167
+        "y1": 0.416033
       },
       "question_visual_crop_box": {
         "x0": 0.157541,
         "y0": 0.387954,
         "x1": 0.819774,
-        "y1": 0.411305
+        "y1": 0.416267
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.418466,
+          "x1": 0.98,
+          "y1": 0.670653
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.677952,
+          "x1": 0.98,
+          "y1": 0.726744
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -241,7 +282,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（詩中的「我」以無私的心態來對待眾鳥，不願以鳥籠圈限鳥的自由）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/105/chinese/q003_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -259,11 +301,18 @@
         "x0": 0.06,
         "y0": 0.726744,
         "x1": 0.98,
-        "y1": 0.817764
+        "y1": 0.82263
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.845495,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -277,8 +326,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（人生方向可由自己掌握）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q004_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -296,7 +346,7 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.094471
+        "y1": 0.099337
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -314,8 +364,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（瞧他「躊」躇滿志的模樣，真令人反感／開放農產品進口，是我方的談判「籌」碼）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q005_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -333,7 +384,7 @@
         "x0": 0.06,
         "y0": 0.187261,
         "x1": 0.98,
-        "y1": 0.267268
+        "y1": 0.272134
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -351,8 +402,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（不分軒輊／望其項背／望塵莫及）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q006_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -370,11 +422,36 @@
         "x0": 0.06,
         "y0": 0.360431,
         "x1": 0.98,
-        "y1": 0.389626
+        "y1": 0.391515
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.406791,
+          "x1": 0.170496,
+          "y1": 0.428097
+        },
+        "A": {
+          "x0": 0.170496,
+          "y0": 0.406791,
+          "x1": 0.98,
+          "y1": 0.428097
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.448238,
+          "x1": 0.170496,
+          "y1": 0.492242
+        },
+        "C": {
+          "x0": 0.170496,
+          "y0": 0.448238,
+          "x1": 0.98,
+          "y1": 0.492242
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -388,8 +465,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（哆啦A夢說：「他要帶大雄去暢遊未來世界。」）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q007_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -407,11 +485,18 @@
         "x0": 0.06,
         "y0": 0.492242,
         "x1": 0.98,
-        "y1": 0.579585
+        "y1": 0.584451
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.649348,
+          "x1": 0.98,
+          "y1": 0.683659
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -425,8 +510,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（時移事易，物難久持）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q008_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -444,11 +530,24 @@
         "x0": 0.06,
         "y0": 0.683659,
         "x1": 0.98,
-        "y1": 0.744209
+        "y1": 0.749075
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.758513,
+          "x1": 0.27499,
+          "y1": 0.798439
+        },
+        "B": {
+          "x0": 0.27499,
+          "y0": 0.758513,
+          "x1": 0.98,
+          "y1": 0.798439
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -462,8 +561,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（休）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q009_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -481,11 +581,36 @@
         "x0": 0.06,
         "y0": 0.798439,
         "x1": 0.98,
-        "y1": 0.837612
+        "y1": 0.842478
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.8525,
+          "x1": 0.268843,
+          "y1": 0.985402
+        },
+        "B": {
+          "x0": 0.268843,
+          "y0": 0.8525,
+          "x1": 0.470879,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.470879,
+          "y0": 0.8525,
+          "x1": 0.675433,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.675433,
+          "y0": 0.8525,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -499,8 +624,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（沉潛含蓄）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q010_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 11,
@@ -538,11 +664,18 @@
         "x0": 0.06,
         "y0": 0.19091,
         "x1": 0.98,
-        "y1": 0.320683
+        "y1": 0.325549
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.347538,
+          "x1": 0.98,
+          "y1": 0.38841
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -556,8 +689,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（這是我自己的人生，任憑誰能決定我的未來）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q012_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -575,11 +709,18 @@
         "x0": 0.06,
         "y0": 0.38841,
         "x1": 0.98,
-        "y1": 0.455826
+        "y1": 0.460692
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.483848,
+          "x1": 0.98,
+          "y1": 0.540901
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -593,8 +734,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（春雨又細又輕，夏雨既急且驟）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q013_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -612,7 +754,7 @@
         "x0": 0.06,
         "y0": 0.540901,
         "x1": 0.98,
-        "y1": 0.570096
+        "y1": 0.5719
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -630,8 +772,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（討論「氣候變遷」這個議題，會使人變得悲觀）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q014_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 15,
@@ -649,11 +792,23 @@
         "x0": 0.06,
         "y0": 0.672711,
         "x1": 0.98,
-        "y1": 0.739247
+        "y1": 0.744112
       },
-      "question_visual_crop_box": null,
+      "question_visual_crop_box": {
+        "x0": 0.411471,
+        "y0": 0.724083,
+        "x1": 0.601314,
+        "y1": 0.743347
+      },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.767561,
+          "x1": 0.98,
+          "y1": 0.804522
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -668,7 +823,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（今天聚會，敬呈拙作一本，請各位不吝「貽笑大方」）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/105/chinese/q015_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 16,
@@ -686,16 +842,29 @@
         "x0": 0.06,
         "y0": 0.804522,
         "x1": 0.98,
-        "y1": 0.833717
+        "y1": 0.835473
       },
       "question_visual_crop_box": {
-        "x0": 0.429206,
+        "x0": 0.504982,
         "y0": 0.804522,
         "x1": 0.573503,
         "y1": 0.834002
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.85104,
+          "x1": 0.98,
+          "y1": 0.872055
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.897742,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -710,7 +879,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（能否出名，端看個人的努力）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/105/chinese/q016_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 17,
@@ -753,11 +923,30 @@
         "x0": 0.06,
         "y0": 0.269981,
         "x1": 0.98,
-        "y1": 0.309007
+        "y1": 0.313873
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.316306,
+          "x1": 0.98,
+          "y1": 0.337612
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.357462,
+          "x1": 0.168581,
+          "y1": 0.405441
+        },
+        "C": {
+          "x0": 0.168581,
+          "y0": 0.357462,
+          "x1": 0.98,
+          "y1": 0.405441
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -771,8 +960,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（丸尾行醫仁心仁術）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q018_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 19,
@@ -790,11 +980,30 @@
         "x0": 0.06,
         "y0": 0.405441,
         "x1": 0.98,
-        "y1": 0.473047
+        "y1": 0.477913
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.480346,
+          "x1": 0.231459,
+          "y1": 0.526754
+        },
+        "B": {
+          "x0": 0.231459,
+          "y0": 0.480346,
+          "x1": 0.98,
+          "y1": 0.526754
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.534053,
+          "x1": 0.98,
+          "y1": 0.582261
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -808,8 +1017,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（老是心存顧忌而不敢拒絕他人，將為自己帶來無謂的困擾）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q019_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 20,
@@ -827,11 +1037,18 @@
         "x0": 0.06,
         "y0": 0.582261,
         "x1": 0.98,
-        "y1": 0.710642
+        "y1": 0.715508
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.739832,
+          "x1": 0.98,
+          "y1": 0.779761
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -845,8 +1062,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（陽和 ―― 轉好的境況）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q020_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 21,
@@ -882,8 +1100,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（曹家得勢的緣由）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q021_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 22,
@@ -966,11 +1185,18 @@
         "x0": 0.06,
         "y0": 0.54455,
         "x1": 0.98,
-        "y1": 0.573745
+        "y1": 0.575695
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.639715,
+          "x1": 0.98,
+          "y1": 0.68001
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -984,8 +1210,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（《大學》的內容遠較《論》、《孟》來得深奧）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q025_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 26,
@@ -1003,7 +1230,7 @@
         "x0": 0.06,
         "y0": 0.68001,
         "x1": 0.98,
-        "y1": 0.845451
+        "y1": 0.850316
       },
       "question_visual_crop_box": {
         "x0": 0.15472,
@@ -1012,7 +1239,32 @@
         "y1": 0.837336
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.852749,
+          "x1": 0.26911,
+          "y1": 0.985402
+        },
+        "B": {
+          "x0": 0.26911,
+          "y0": 0.852749,
+          "x1": 0.469595,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.469595,
+          "y0": 0.852749,
+          "x1": 0.671171,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.671171,
+          "y0": 0.852749,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -1027,7 +1279,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（忽有龐然大物，拔山搗樹而來）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/105/chinese/q026_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 27,
@@ -1120,11 +1373,30 @@
         "x0": 0.06,
         "y0": 0.613535,
         "x1": 0.98,
-        "y1": 0.660437
+        "y1": 0.665303
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.667736,
+          "x1": 0.98,
+          "y1": 0.701593
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.720276,
+          "x1": 0.168581,
+          "y1": 0.763592
+        },
+        "C": {
+          "x0": 0.168581,
+          "y0": 0.720276,
+          "x1": 0.98,
+          "y1": 0.763592
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "因為 小說裡的男俠，幾乎是所有女性的追求對象。此外， 心狠手辣的邪魔\n也不時以尤物姿態出現，遙相呼應傳統的「紅顏禍水」觀。因此， 武俠小說是\n「男權」的文化「幫兇」。也許有人會說， 女俠或女魔頭走出了閨房和廚房，\n是否可視為「女權」的伸張？表面上如此，但實際上，女俠終究要成為男俠的附\n庸，因此不能被視之為對「男權」的挑戰。",
@@ -1138,8 +1410,9 @@
       "correct_answer": "A",
       "visual_primary": false,
       "explanation": "官方答案：A（生於憂患，死於安樂）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/105/chinese/q030_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 31,
@@ -1176,7 +1449,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（甕裡乾坤大）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 105 年會考國文科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/105/chinese/q031_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 32,

@@ -329,7 +329,7 @@
         "x0": 0.06,
         "y0": 0.234797,
         "x1": 0.98,
-        "y1": 0.276701
+        "y1": 0.281452
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -344,13 +344,14 @@
       "visual_primary": true,
       "explanation": "官方答案：C\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_visual_crop_box": {
-        "x0": 0.678453,
+        "x0": 0.665963,
         "y0": 0.243064,
         "x1": 0.890379,
-        "y1": 0.276986
+        "y1": 0.281832
       },
       "question_image_path": "cap_practice_assets/102/social/q002_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -368,31 +369,25 @@
         "x0": 0.059629,
         "y0": 0.234322,
         "x1": 1.0,
-        "y1": 0.276701
+        "y1": 0.508932
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.279076,
-          "x1": 1.0,
-          "y1": 0.504181
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.506556,
+          "y0": 0.511307,
           "x1": 1.0,
-          "y1": 0.54751
+          "y1": 0.526416
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.549886,
+          "y0": 0.554637,
           "x1": 1.0,
           "y1": 0.646712
         },
         "A": {
           "x0": 0.059629,
-          "y0": 0.649088,
+          "y0": 0.653839,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -409,18 +404,17 @@
       "visual_primary": true,
       "explanation": "官方答案：A\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_visual_crop_box": {
-        "x0": 0.678485,
-        "y0": 0.242874,
-        "x1": 0.890411,
-        "y1": 0.276796
+        "x0": 0.669218,
+        "y0": 0.318416,
+        "x1": 0.85979,
+        "y1": 0.385975
       },
       "question_image_path": "cap_practice_assets/102/social/q003_question.png",
       "option_image_paths": {
-        "C": "cap_practice_assets/102/social/q003_option_C.png",
-        "B": "cap_practice_assets/102/social/q003_option_B.png",
         "D": "cap_practice_assets/102/social/q003_option_D.png",
         "A": "cap_practice_assets/102/social/q003_option_A.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -438,31 +432,13 @@
         "x0": 0.059629,
         "y0": 0.097491,
         "x1": 1.0,
-        "y1": 0.13588
+        "y1": 0.140631
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.138255,
-          "x1": 1.0,
-          "y1": 0.156975
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.15935,
-          "x1": 1.0,
-          "y1": 0.178639
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.181015,
-          "x1": 1.0,
-          "y1": 0.199734
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.202109,
+          "y0": 0.206861,
           "x1": 1.0,
           "y1": 0.303592
         }
@@ -481,12 +457,8 @@
       "visual_primary": true,
       "explanation": "官方答案：C（非 洲）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q004_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q004_option_A.png",
-        "B": "cap_practice_assets/102/social/q004_option_B.png",
-        "C": "cap_practice_assets/102/social/q004_option_C.png",
-        "D": "cap_practice_assets/102/social/q004_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -504,25 +476,19 @@
         "x0": 0.059629,
         "y0": 0.301311,
         "x1": 1.0,
-        "y1": 0.504181
+        "y1": 0.508932
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "B": {
           "x0": 0.059629,
-          "y0": 0.506556,
+          "y0": 0.511307,
           "x1": 1.0,
           "y1": 0.526416
         },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.528791,
-          "x1": 1.0,
-          "y1": 0.54751
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.549886,
+          "y0": 0.554637,
           "x1": 1.0,
           "y1": 0.608324
         }
@@ -547,11 +513,8 @@
         "y1": 0.38626
       },
       "question_image_path": "cap_practice_assets/102/social/q005_question.png",
-      "option_image_paths": {
-        "B": "cap_practice_assets/102/social/q005_option_B.png",
-        "C": "cap_practice_assets/102/social/q005_option_C.png",
-        "D": "cap_practice_assets/102/social/q005_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -593,25 +556,19 @@
         "x0": 0.059629,
         "y0": 0.606043,
         "x1": 1.0,
-        "y1": 0.646712
+        "y1": 0.651463
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.649088,
+          "y0": 0.653839,
           "x1": 1.0,
           "y1": 0.689472
         },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.691847,
-          "x1": 1.0,
-          "y1": 0.710566
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.712942,
+          "y0": 0.717693,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -629,11 +586,8 @@
       "visual_primary": true,
       "explanation": "官方答案：A（玉 山 國 家 公園 =] HERE BRR hh (BAT ARAB MEL REN）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q007_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q007_option_A.png",
-        "C": "cap_practice_assets/102/social/q007_option_C.png",
-        "D": "cap_practice_assets/102/social/q007_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -651,31 +605,13 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.13588
+        "y1": 0.140631
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.138255,
-          "x1": 1.0,
-          "y1": 0.156975
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.15935,
-          "x1": 1.0,
-          "y1": 0.178639
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.181015,
-          "x1": 1.0,
-          "y1": 0.199734
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.202109,
+          "y0": 0.206861,
           "x1": 1.0,
           "y1": 0.250285
         }
@@ -694,12 +630,8 @@
       "visual_primary": true,
       "explanation": "官方答案：A（布 農 旅 Fe EA Rie Ro a AEA | _）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q008_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q008_option_A.png",
-        "B": "cap_practice_assets/102/social/q008_option_B.png",
-        "C": "cap_practice_assets/102/social/q008_option_C.png",
-        "D": "cap_practice_assets/102/social/q008_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -734,7 +666,8 @@
       "visual_primary": true,
       "explanation": "官方答案：A（五 四 運動 加 和 van AD ea el BSS ae)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q009_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 10,
@@ -756,27 +689,15 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.348632,
-          "x1": 0.339645,
-          "y1": 0.367351
-        },
-        "B": {
-          "x0": 0.339645,
-          "y0": 0.348632,
-          "x1": 1.0,
-          "y1": 0.367351
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.369726,
+          "y0": 0.374477,
           "x1": 0.339645,
           "y1": 0.496579
         },
         "D": {
           "x0": 0.339645,
-          "y0": 0.369726,
+          "y0": 0.374477,
           "x1": 1.0,
           "y1": 0.496579
         }
@@ -801,11 +722,9 @@
       },
       "question_image_path": "cap_practice_assets/102/social/q010_question.png",
       "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q010_option_A.png",
-        "B": "cap_practice_assets/102/social/q010_option_B.png",
-        "C": "cap_practice_assets/102/social/q010_option_C.png",
-        "D": "cap_practice_assets/102/social/q010_option_D.png"
-      }
+        "C": "cap_practice_assets/102/social/q010_option_C.png"
+      },
+      "group_image_path": null
     },
     {
       "number": 11,
@@ -827,15 +746,9 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.511688,
-          "x1": 1.0,
-          "y1": 0.530407
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.532782,
+          "y0": 0.537533,
           "x1": 1.0,
           "y1": 0.614595
         }
@@ -860,10 +773,8 @@
         "y1": 0.522805
       },
       "question_image_path": "cap_practice_assets/102/social/q011_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q011_option_A.png",
-        "B": "cap_practice_assets/102/social/q011_option_B.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 12,
@@ -885,15 +796,9 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.636545,
-          "x1": 1.0,
-          "y1": 0.655834
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.65821,
+          "y0": 0.662961,
           "x1": 1.0,
           "y1": 0.756556
         }
@@ -911,11 +816,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（落 實 性 別 平等）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n題組提醒：這題有前置材料，作答前要先把題組或題幹補充資訊看完。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q012_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q012_option_A.png",
-        "B": "cap_practice_assets/102/social/q012_option_B.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -933,31 +836,13 @@
         "x0": 0.059629,
         "y0": 0.754276,
         "x1": 1.0,
-        "y1": 0.81889
+        "y1": 0.823641
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.821266,
-          "x1": 1.0,
-          "y1": 0.839985
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.84236,
-          "x1": 1.0,
-          "y1": 0.860794
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.86317,
-          "x1": 1.0,
-          "y1": 0.882174
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.88455,
+          "y0": 0.889301,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -974,13 +859,11 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（人 身 自 由 權 全 二 陸生 ae）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q013_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q013_option_A.png",
-        "B": "cap_practice_assets/102/social/q013_option_B.png",
-        "C": "cap_practice_assets/102/social/q013_option_C.png",
         "D": "cap_practice_assets/102/social/q013_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -998,25 +881,19 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.123337
+        "y1": 0.128088
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.125713,
+          "y0": 0.130464,
           "x1": 1.0,
           "y1": 0.166097
         },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.168472,
-          "x1": 1.0,
-          "y1": 0.187761
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.190137,
+          "y0": 0.194888,
           "x1": 1.0,
           "y1": 0.22919
         }
@@ -1033,12 +910,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（促 進 族群 和 諧 Ge）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q014_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q014_option_A.png",
-        "C": "cap_practice_assets/102/social/q014_option_C.png",
-        "D": "cap_practice_assets/102/social/q014_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 15,
@@ -1056,31 +930,13 @@
         "x0": 0.059629,
         "y0": 0.22691,
         "x1": 1.0,
-        "y1": 0.286393
+        "y1": 0.291144
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.288769,
-          "x1": 1.0,
-          "y1": 0.307773
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.310148,
-          "x1": 1.0,
-          "y1": 0.329152
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.331528,
-          "x1": 1.0,
-          "y1": 0.350817
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.353193,
+          "y0": 0.357944,
           "x1": 1.0,
           "y1": 0.413911
         }
@@ -1102,15 +958,11 @@
         "x0": 0.439162,
         "y0": 0.252851,
         "x1": 0.505237,
-        "y1": 0.286488
+        "y1": 0.291334
       },
       "question_image_path": "cap_practice_assets/102/social/q015_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q015_option_A.png",
-        "B": "cap_practice_assets/102/social/q015_option_B.png",
-        "C": "cap_practice_assets/102/social/q015_option_C.png",
-        "D": "cap_practice_assets/102/social/q015_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 16,
@@ -1128,19 +980,19 @@
         "x0": 0.059629,
         "y0": 0.411631,
         "x1": 1.0,
-        "y1": 0.491923
+        "y1": 0.517769
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "C": {
           "x0": 0.059629,
-          "y0": 0.494299,
+          "y0": 0.520144,
           "x1": 1.0,
           "y1": 0.535538
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.537913,
+          "y0": 0.542664,
           "x1": 1.0,
           "y1": 0.598062
         }
@@ -1158,11 +1010,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（人 身 自 由 權）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q016_question.png",
-      "option_image_paths": {
-        "C": "cap_practice_assets/102/social/q016_option_C.png",
-        "D": "cap_practice_assets/102/social/q016_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 17,
@@ -1180,19 +1030,13 @@
         "x0": 0.059629,
         "y0": 0.595781,
         "x1": 1.0,
-        "y1": 0.63417
+        "y1": 0.638921
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.636545,
-          "x1": 1.0,
-          "y1": 0.655834
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.65821,
+          "y0": 0.662961,
           "x1": 1.0,
           "y1": 0.761117
         }
@@ -1209,11 +1053,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（依 目擊 情形 向 法 官 提出）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q017_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q017_option_A.png",
-        "B": "cap_practice_assets/102/social/q017_option_B.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 18,
@@ -1231,25 +1073,19 @@
         "x0": 0.059629,
         "y0": 0.758837,
         "x1": 1.0,
-        "y1": 0.839985
+        "y1": 0.844736
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.84236,
-          "x1": 1.0,
-          "y1": 0.86165
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.864025,
+          "y0": 0.868776,
           "x1": 0.344782,
           "y1": 0.991448
         },
         "D": {
           "x0": 0.344782,
-          "y0": 0.864025,
+          "y0": 0.868776,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -1267,12 +1103,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（興 國 申 西 部 平原）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q018_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q018_option_A.png",
-        "C": "cap_practice_assets/102/social/q018_option_C.png",
-        "D": "cap_practice_assets/102/social/q018_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 19,
@@ -1314,7 +1147,8 @@
         "y1": 0.109749
       },
       "question_image_path": "cap_practice_assets/102/social/q019_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 20,
@@ -1336,27 +1170,9 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.125713,
-          "x1": 1.0,
-          "y1": 0.145002
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.147377,
-          "x1": 1.0,
-          "y1": 0.166097
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.168472,
-          "x1": 1.0,
-          "y1": 0.187476
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.189852,
+          "y0": 0.194603,
           "x1": 1.0,
           "y1": 0.22919
         }
@@ -1381,12 +1197,8 @@
         "y1": 0.135975
       },
       "question_image_path": "cap_practice_assets/102/social/q020_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q020_option_A.png",
-        "B": "cap_practice_assets/102/social/q020_option_B.png",
-        "C": "cap_practice_assets/102/social/q020_option_C.png",
-        "D": "cap_practice_assets/102/social/q020_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 21,
@@ -1404,25 +1216,19 @@
         "x0": 0.059629,
         "y0": 0.22691,
         "x1": 1.0,
-        "y1": 0.349962
+        "y1": 0.354713
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.352338,
-          "x1": 1.0,
-          "y1": 0.371912
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.374287,
+          "y0": 0.379038,
           "x1": 1.0,
           "y1": 0.491923
         },
         "A": {
           "x0": 0.059629,
-          "y0": 0.495154,
+          "y0": 0.499905,
           "x1": 1.0,
           "y1": 0.555302
         }
@@ -1440,12 +1246,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（巴 西亞 馬 孫 盆地 還 和 5-2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q021_question.png",
-      "option_image_paths": {
-        "C": "cap_practice_assets/102/social/q021_option_C.png",
-        "D": "cap_practice_assets/102/social/q021_option_D.png",
-        "A": "cap_practice_assets/102/social/q021_option_A.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 22,
@@ -1463,31 +1266,13 @@
         "x0": 0.059629,
         "y0": 0.553022,
         "x1": 1.0,
-        "y1": 0.581528
+        "y1": 0.660585
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.543044,
-          "x1": 1.0,
-          "y1": 0.676929
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.679304,
-          "x1": 1.0,
-          "y1": 0.698594
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.700969,
-          "x1": 1.0,
-          "y1": 0.719688
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.722064,
+          "y0": 0.726815,
           "x1": 1.0,
           "y1": 0.761117
         }
@@ -1505,13 +1290,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（農 場 經 營 規 模 小）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q022_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q022_option_A.png",
-        "B": "cap_practice_assets/102/social/q022_option_B.png",
-        "C": "cap_practice_assets/102/social/q022_option_C.png",
-        "D": "cap_practice_assets/102/social/q022_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 23,
@@ -1529,25 +1310,19 @@
         "x0": 0.059629,
         "y0": 0.758837,
         "x1": 1.0,
-        "y1": 0.839985
+        "y1": 0.844736
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.84236,
-          "x1": 1.0,
-          "y1": 0.86165
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.864025,
+          "y0": 0.868776,
           "x1": 0.344782,
           "y1": 0.991448
         },
         "D": {
           "x0": 0.344782,
-          "y0": 0.864025,
+          "y0": 0.868776,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -1564,12 +1339,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q023_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q023_option_A.png",
-        "C": "cap_practice_assets/102/social/q023_option_C.png",
-        "D": "cap_practice_assets/102/social/q023_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 24,
@@ -1587,25 +1359,19 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.123337
+        "y1": 0.128088
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.125713,
-          "x1": 1.0,
-          "y1": 0.145287
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.147662,
+          "y0": 0.152414,
           "x1": 1.0,
           "y1": 0.187761
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.190137,
+          "y0": 0.194888,
           "x1": 1.0,
           "y1": 0.22919
         }
@@ -1623,12 +1389,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（反 對 君主 權力 高 於 教）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q024_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q024_option_A.png",
-        "B": "cap_practice_assets/102/social/q024_option_B.png",
-        "D": "cap_practice_assets/102/social/q024_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 25,
@@ -1646,19 +1409,13 @@
         "x0": 0.059629,
         "y0": 0.22691,
         "x1": 1.0,
-        "y1": 0.308058
+        "y1": 0.312809
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.310433,
-          "x1": 1.0,
-          "y1": 0.329152
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.331528,
+          "y0": 0.336279,
           "x1": 1.0,
           "y1": 0.392246
         }
@@ -1676,11 +1433,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（學 習 西方 科技 軍事 , 以 強化 中 國 起 吃）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q025_question.png",
-      "option_image_paths": {
-        "B": "cap_practice_assets/102/social/q025_option_B.png",
-        "C": "cap_practice_assets/102/social/q025_option_C.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 26,
@@ -1702,27 +1457,15 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.395382,
-          "x1": 1.0,
-          "y1": 0.414101
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.416477,
+          "y0": 0.421228,
           "x1": 1.0,
           "y1": 0.535538
         },
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.537913,
-          "x1": 1.0,
-          "y1": 0.556632
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.559008,
+          "y0": 0.563759,
           "x1": 1.0,
           "y1": 0.640821
         }
@@ -1746,11 +1489,10 @@
       },
       "question_image_path": "cap_practice_assets/102/social/q026_question.png",
       "option_image_paths": {
-        "C": "cap_practice_assets/102/social/q026_option_C.png",
         "D": "cap_practice_assets/102/social/q026_option_D.png",
-        "A": "cap_practice_assets/102/social/q026_option_A.png",
         "B": "cap_practice_assets/102/social/q026_option_B.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 27,
@@ -1785,7 +1527,8 @@
       "visual_primary": true,
       "explanation": "官方答案：C（張 一 偉）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q027_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 28,
@@ -1809,19 +1552,19 @@
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.799601,
+          "y0": 0.804352,
           "x1": 0.254029,
           "y1": 0.991448
         },
         "B": {
           "x0": 0.254029,
-          "y0": 0.799601,
+          "y0": 0.804352,
           "x1": 0.508662,
           "y1": 0.991448
         },
         "D": {
           "x0": 0.508662,
-          "y0": 0.799601,
+          "y0": 0.804352,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -1839,12 +1582,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（向 訴願 管轄 機 關 提 起 訴 有 』）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q028_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q028_option_A.png",
-        "B": "cap_practice_assets/102/social/q028_option_B.png",
-        "D": "cap_practice_assets/102/social/q028_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 29,
@@ -1862,19 +1602,13 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.166097
+        "y1": 0.170848
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.168472,
-          "x1": 1.0,
-          "y1": 0.187476
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.189852,
+          "y0": 0.194603,
           "x1": 1.0,
           "y1": 0.250285
         }
@@ -1891,10 +1625,8 @@
       "visual_primary": true,
       "explanation": "官方答案：A（不 滿 停業 處 分 的 訴訟 BR a 0 #1 #9）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q029_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q029_option_A.png",
-        "C": "cap_practice_assets/102/social/q029_option_C.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 30,
@@ -1934,7 +1666,8 @@
         "y1": 0.301882
       },
       "question_image_path": "cap_practice_assets/102/social/q030_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 31,
@@ -1976,7 +1709,8 @@
         "y1": 0.456671
       },
       "question_image_path": "cap_practice_assets/102/social/q031_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 32,
@@ -1994,31 +1728,13 @@
         "x0": 0.059629,
         "y0": 0.45439,
         "x1": 1.0,
-        "y1": 0.535538
+        "y1": 0.540289
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.537913,
-          "x1": 1.0,
-          "y1": 0.556632
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.559008,
-          "x1": 1.0,
-          "y1": 0.578297
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.580673,
-          "x1": 1.0,
-          "y1": 0.599392
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.601767,
+          "y0": 0.606518,
           "x1": 1.0,
           "y1": 0.640821
         }
@@ -2037,11 +1753,13 @@
       "visual_primary": true,
       "explanation": "官方答案：B（向 調解 委員 會 聲請 調解）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q032_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q032_option_A.png",
-        "B": "cap_practice_assets/102/social/q032_option_B.png",
-        "C": "cap_practice_assets/102/social/q032_option_C.png",
-        "D": "cap_practice_assets/102/social/q032_option_D.png"
+      "option_image_paths": {},
+      "group_image_path": null,
+      "question_visual_crop_box": {
+        "x0": 0.401289,
+        "y0": 0.52081,
+        "x1": 0.584206,
+        "y1": 0.540479
       }
     },
     {
@@ -2084,7 +1802,8 @@
         "y1": 0.740592
       },
       "question_image_path": "cap_practice_assets/102/social/q033_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 34,
@@ -2124,7 +1843,8 @@
         "y1": 0.869726
       },
       "question_image_path": "cap_practice_assets/102/social/q034_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 35,
@@ -2166,7 +1886,8 @@
         "y1": 0.293329
       },
       "question_image_path": "cap_practice_assets/102/social/q035_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 36,
@@ -2208,7 +1929,8 @@
         "y1": 0.45667
       },
       "question_image_path": "cap_practice_assets/102/social/q036_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 37,
@@ -2250,7 +1972,8 @@
         "y1": 0.609464
       },
       "question_image_path": "cap_practice_assets/102/social/q037_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 38,
@@ -2291,7 +2014,8 @@
         "y1": 0.742018
       },
       "question_image_path": "cap_practice_assets/102/social/q038_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 39,
@@ -2333,7 +2057,8 @@
         "y1": 0.869442
       },
       "question_image_path": "cap_practice_assets/102/social/q039_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 40,
@@ -2351,7 +2076,7 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.144432
+        "y1": 0.149183
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -2369,7 +2094,8 @@
       "visual_primary": true,
       "explanation": "官方答案：D（二 十 世紀 前 其）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q040_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 41,
@@ -2402,8 +2128,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（十 四 歲 的 阿 章 , 王后 (CFA RR ERA» SRG RATER AALS）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q041_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 42,
@@ -2445,7 +2172,8 @@
         "y1": 0.255416
       },
       "question_image_path": "cap_practice_assets/102/social/q042_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 43,
@@ -2463,31 +2191,13 @@
         "x0": 0.059629,
         "y0": 0.368871,
         "x1": 1.0,
-        "y1": 0.427499
+        "y1": 0.43225
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.429875,
-          "x1": 1.0,
-          "y1": 0.449164
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.451539,
-          "x1": 1.0,
-          "y1": 0.470829
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.473204,
-          "x1": 1.0,
-          "y1": 0.492493
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.494869,
+          "y0": 0.49962,
           "x1": 1.0,
           "y1": 0.555302
         }
@@ -2505,13 +2215,9 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（英 法 聯軍）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q043_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q043_option_A.png",
-        "B": "cap_practice_assets/102/social/q043_option_B.png",
-        "C": "cap_practice_assets/102/social/q043_option_C.png",
-        "D": "cap_practice_assets/102/social/q043_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 44,
@@ -2552,7 +2258,8 @@
         "y1": 0.627993
       },
       "question_image_path": "cap_practice_assets/102/social/q044_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 45,
@@ -2594,7 +2301,8 @@
         "y1": 0.743159
       },
       "question_image_path": "cap_practice_assets/102/social/q045_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 46,
@@ -2618,19 +2326,13 @@
       "option_crop_boxes": {
         "D": {
           "x0": 0.059629,
-          "y0": 0.756842,
+          "y0": 0.761593,
           "x1": 1.0,
           "y1": 0.832003
         },
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.834379,
-          "x1": 1.0,
-          "y1": 0.853098
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.855473,
+          "y0": 0.860224,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -2648,12 +2350,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（風 俗 習 慣 、 法 律 規範 、 eax. 本 城 領有 許可 證 的 師傅 , 不 得 以 任）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q046_question.png",
-      "option_image_paths": {
-        "D": "cap_practice_assets/102/social/q046_option_D.png",
-        "A": "cap_practice_assets/102/social/q046_option_A.png",
-        "B": "cap_practice_assets/102/social/q046_option_B.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 47,
@@ -2671,25 +2370,19 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.123337
+        "y1": 0.128088
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.125713,
-          "x1": 1.0,
-          "y1": 0.145002
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.147377,
+          "y0": 0.152128,
           "x1": 1.0,
           "y1": 0.187761
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.190137,
+          "y0": 0.194888,
           "x1": 1.0,
           "y1": 0.250285
         }
@@ -2704,12 +2397,11 @@
       "correct_answer": "B",
       "visual_primary": true,
       "explanation": "官方答案：B（-+ 09 aR RT ek 5 A A HA Ae）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q047_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q047_option_A.png",
-        "B": "cap_practice_assets/102/social/q047_option_B.png",
         "D": "cap_practice_assets/102/social/q047_option_D.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 48,
@@ -2751,7 +2443,8 @@
         "y1": 0.479761
       },
       "question_image_path": "cap_practice_assets/102/social/q048_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 49,
@@ -2792,7 +2485,8 @@
         "y1": 0.628278
       },
       "question_image_path": "cap_practice_assets/102/social/q049_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 50,
@@ -2810,31 +2504,19 @@
         "x0": 0.059629,
         "y0": 0.660205,
         "x1": 1.0,
-        "y1": 0.732801
+        "y1": 0.737552
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.735177,
-          "x1": 0.339746,
-          "y1": 0.754466
-        },
-        "B": {
-          "x0": 0.339746,
-          "y0": 0.735177,
-          "x1": 1.0,
-          "y1": 0.754466
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.756842,
+          "y0": 0.761593,
           "x1": 0.339645,
           "y1": 0.782782
         },
         "D": {
           "x0": 0.339645,
-          "y0": 0.756842,
+          "y0": 0.761593,
           "x1": 1.0,
           "y1": 0.782782
         }
@@ -2856,15 +2538,11 @@
         "x0": 0.51531,
         "y0": 0.699544,
         "x1": 0.604351,
-        "y1": 0.733181
+        "y1": 0.738027
       },
       "question_image_path": "cap_practice_assets/102/social/q050_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q050_option_A.png",
-        "B": "cap_practice_assets/102/social/q050_option_B.png",
-        "C": "cap_practice_assets/102/social/q050_option_C.png",
-        "D": "cap_practice_assets/102/social/q050_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 51,
@@ -2906,7 +2584,8 @@
         "y1": 0.869442
       },
       "question_image_path": "cap_practice_assets/102/social/q051_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 52,
@@ -2924,31 +2603,13 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.200874
+        "y1": 0.205625
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.20325,
-          "x1": 1.0,
-          "y1": 0.221969
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.224344,
-          "x1": 1.0,
-          "y1": 0.243634
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.246009,
-          "x1": 1.0,
-          "y1": 0.264728
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.267104,
+          "y0": 0.271855,
           "x1": 1.0,
           "y1": 0.306157
         }
@@ -2966,13 +2627,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（風 俗 習 慣 、 倫 理 道 德 、 宗 教 信和）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q052_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q052_option_A.png",
-        "B": "cap_practice_assets/102/social/q052_option_B.png",
-        "C": "cap_practice_assets/102/social/q052_option_C.png",
-        "D": "cap_practice_assets/102/social/q052_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 53,
@@ -2990,25 +2647,13 @@
         "x0": 0.059629,
         "y0": 0.303877,
         "x1": 1.0,
-        "y1": 0.34198
+        "y1": 0.346731
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.344356,
-          "x1": 1.0,
-          "y1": 0.363075
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.36545,
-          "x1": 1.0,
-          "y1": 0.38417
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.386545,
+          "y0": 0.391296,
           "x1": 1.0,
           "y1": 0.448119
         }
@@ -3026,11 +2671,8 @@
       "visual_primary": true,
       "explanation": "官方答案：B（中 古 西 歐 的 行 會）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q053_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q053_option_A.png",
-        "B": "cap_practice_assets/102/social/q053_option_B.png",
-        "C": "cap_practice_assets/102/social/q053_option_C.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 54,
@@ -3048,7 +2690,7 @@
         "x0": 0.059629,
         "y0": 0.445838,
         "x1": 1.0,
-        "y1": 0.526986
+        "y1": 0.531737
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -3063,8 +2705,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（中 華 民國 總 統）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q054_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 55,
@@ -3082,7 +2725,7 @@
         "x0": 0.059629,
         "y0": 0.587799,
         "x1": 1.0,
-        "y1": 0.624192
+        "y1": 0.628943
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -3099,8 +2742,9 @@
       "correct_answer": "C",
       "visual_primary": true,
       "explanation": "官方答案：C（西 元 十 一 世紀 的 巴黎 附近）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q055_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 56,
@@ -3122,21 +2766,9 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.650798,
-          "x1": 1.0,
-          "y1": 0.670087
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.672463,
-          "x1": 1.0,
-          "y1": 0.691752
-        },
         "C": {
           "x0": 0.059629,
-          "y0": 0.694128,
+          "y0": 0.698879,
           "x1": 1.0,
           "y1": 0.795895
         }
@@ -3161,10 +2793,9 @@
       },
       "question_image_path": "cap_practice_assets/102/social/q056_question.png",
       "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q056_option_A.png",
-        "B": "cap_practice_assets/102/social/q056_option_B.png",
         "C": "cap_practice_assets/102/social/q056_option_C.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 57,
@@ -3182,19 +2813,13 @@
         "x0": 0.059629,
         "y0": 0.793615,
         "x1": 1.0,
-        "y1": 0.832003
+        "y1": 0.836754
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.834379,
-          "x1": 1.0,
-          "y1": 0.853098
-        },
         "B": {
           "x0": 0.059629,
-          "y0": 0.855473,
+          "y0": 0.860224,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -3213,10 +2838,8 @@
       "visual_primary": true,
       "explanation": "官方答案：C（紡 織）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q057_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q057_option_A.png",
-        "B": "cap_practice_assets/102/social/q057_option_B.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 58,
@@ -3250,7 +2873,8 @@
       "visual_primary": true,
       "explanation": "官方答案：B（口 味 獨特 , 僅 此 一 家）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q058_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 59,
@@ -3268,19 +2892,13 @@
         "x0": 0.059629,
         "y0": 0.127708,
         "x1": 1.0,
-        "y1": 0.230521
+        "y1": 0.235272
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.232896,
-          "x1": 1.0,
-          "y1": 0.251615
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.253991,
+          "y0": 0.258742,
           "x1": 1.0,
           "y1": 0.293044
         }
@@ -3299,10 +2917,8 @@
       "visual_primary": true,
       "explanation": "官方答案：A（玄 獎 西行 印度 取經 時 se）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q059_question.png",
-      "option_image_paths": {
-        "C": "cap_practice_assets/102/social/q059_option_C.png",
-        "D": "cap_practice_assets/102/social/q059_option_D.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 60,
@@ -3324,21 +2940,9 @@
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.06,
-          "y0": 0.379989,
-          "x1": 0.337933,
-          "y1": 0.399278
-        },
-        "B": {
-          "x0": 0.337933,
-          "y0": 0.379989,
-          "x1": 0.98,
-          "y1": 0.399278
-        },
         "C": {
           "x0": 0.06,
-          "y0": 0.401653,
+          "y0": 0.406404,
           "x1": 0.98,
           "y1": 0.434341
         }
@@ -3351,12 +2955,11 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q060_question.png",
+      "question_image_path": null,
       "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q060_option_A.png",
-        "B": "cap_practice_assets/102/social/q060_option_B.png",
         "C": "cap_practice_assets/102/social/q060_option_C.png"
-      }
+      },
+      "group_image_path": null
     },
     {
       "number": 61,
@@ -3392,7 +2995,8 @@
       "visual_primary": true,
       "explanation": "官方答案：C（A）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/102/social/q061_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 62,
@@ -3410,31 +3014,13 @@
         "x0": 0.059629,
         "y0": 0.745724,
         "x1": 1.0,
-        "y1": 0.826872
+        "y1": 0.831623
       },
       "group_crop_box": null,
       "option_crop_boxes": {
-        "A": {
-          "x0": 0.059629,
-          "y0": 0.829247,
-          "x1": 1.0,
-          "y1": 0.847967
-        },
-        "B": {
-          "x0": 0.059629,
-          "y0": 0.850342,
-          "x1": 1.0,
-          "y1": 0.869631
-        },
-        "C": {
-          "x0": 0.059629,
-          "y0": 0.872007,
-          "x1": 1.0,
-          "y1": 0.890726
-        },
         "D": {
           "x0": 0.059629,
-          "y0": 0.893101,
+          "y0": 0.897853,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -3452,13 +3038,9 @@
       "correct_answer": "D",
       "visual_primary": true,
       "explanation": "官方答案：D（西 元 十 三 世紀 的 君 士 坦 丁 堡 附近）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 102 年會考社會科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/102/social/q062_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q062_option_A.png",
-        "B": "cap_practice_assets/102/social/q062_option_B.png",
-        "C": "cap_practice_assets/102/social/q062_option_C.png",
-        "D": "cap_practice_assets/102/social/q062_option_D.png"
-      }
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 63,
@@ -3476,31 +3058,31 @@
         "x0": 0.059629,
         "y0": 0.063854,
         "x1": 1.0,
-        "y1": 0.292094
+        "y1": 0.296845
       },
       "group_crop_box": null,
       "option_crop_boxes": {
         "A": {
           "x0": 0.059629,
-          "y0": 0.29447,
+          "y0": 0.299221,
           "x1": 1.0,
           "y1": 0.525846
         },
         "B": {
           "x0": 0.059629,
-          "y0": 0.528221,
+          "y0": 0.532972,
           "x1": 1.0,
           "y1": 0.568605
         },
         "D": {
           "x0": 0.059629,
-          "y0": 0.570981,
+          "y0": 0.575732,
           "x1": 1.0,
           "y1": 0.691752
         },
         "C": {
           "x0": 0.059629,
-          "y0": 0.694128,
+          "y0": 0.698879,
           "x1": 1.0,
           "y1": 0.991448
         }
@@ -3525,12 +3107,8 @@
         "y1": 0.220638
       },
       "question_image_path": "cap_practice_assets/102/social/q063_question.png",
-      "option_image_paths": {
-        "A": "cap_practice_assets/102/social/q063_option_A.png",
-        "B": "cap_practice_assets/102/social/q063_option_B.png",
-        "D": "cap_practice_assets/102/social/q063_option_D.png",
-        "C": "cap_practice_assets/102/social/q063_option_C.png"
-      }
+      "option_image_paths": {},
+      "group_image_path": null
     }
   ],
   "issues": [

@@ -276,10 +276,21 @@
     border-color: rgba(73, 98, 138, 0.18);
   }
 
-  .cap-visual-box img,
-  .cap-option-image {
+  .cap-visual-box img {
     width: 100%;
     display: block;
+    border-radius: 18px;
+    border: 1px solid rgba(73, 98, 138, 0.14);
+    background: #fff;
+    padding: 0.35rem;
+  }
+
+  .cap-option-image {
+    width: auto;
+    max-width: min(100%, 360px);
+    max-height: 220px;
+    display: block;
+    object-fit: contain;
     border-radius: 18px;
     border: 1px solid rgba(73, 98, 138, 0.14);
     background: #fff;

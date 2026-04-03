@@ -939,7 +939,8 @@ def find_option_markers_in_band(
                 continue
             if row["y0"] < y0 - 8 or row["y1"] > y1 + 8:
                 continue
-            marker_key = normalize_option_marker_token(row.get("text", ""))
+            raw_text = normalize_whitespace(row.get("text", ""))
+            marker_key = normalize_option_marker_token(raw_text)
             if not marker_key:
                 continue
             marker_candidates.append(
@@ -950,6 +951,8 @@ def find_option_markers_in_band(
                     "x1": float(row["x1"]),
                     "y1": float(row["y1"]),
                     "source": row.get("source", "pdf"),
+                    "raw_text": raw_text,
+                    "has_affix": normalize_whitespace(raw_text).upper() not in OPTION_KEYS,
                 }
             )
 
@@ -957,19 +960,29 @@ def find_option_markers_in_band(
     if len({item["key"] for item in marker_candidates}) < 4:
         collect(ensure_cap_page_ocr_rows(analysis, subject_slug))
 
-    deduped: list[dict] = []
-    seen: dict[str, dict] = {}
-    for candidate in sorted(marker_candidates, key=lambda item: (item["y0"], item["x0"])):
-        existing = seen.get(candidate["key"])
+    # Prefer canonical markers like "(A)" over bare letters because diagram labels
+    # often contain A/B/C/D and would otherwise steal the option crop anchor.
+    best_by_key: dict[str, dict] = {}
+    for candidate in marker_candidates:
+        existing = best_by_key.get(candidate["key"])
         if existing is None:
-            seen[candidate["key"]] = candidate
-            deduped.append(candidate)
+            best_by_key[candidate["key"]] = candidate
             continue
-        same_line = abs(existing["y0"] - candidate["y0"]) <= 12
-        if same_line and candidate["x0"] < existing["x0"]:
-            seen[candidate["key"]] = candidate
-            deduped = [seen.get(item["key"], item) if item["key"] == candidate["key"] else item for item in deduped]
-    return sorted(deduped, key=lambda item: (item["y0"], item["x0"]))
+
+        candidate_rank = (
+            0 if candidate.get("has_affix") else 1,
+            float(candidate["y0"]),
+            float(candidate["x0"]),
+        )
+        existing_rank = (
+            0 if existing.get("has_affix") else 1,
+            float(existing["y0"]),
+            float(existing["x0"]),
+        )
+        if candidate_rank < existing_rank:
+            best_by_key[candidate["key"]] = candidate
+
+    return sorted(best_by_key.values(), key=lambda item: (item["y0"], item["x0"]))
 
 
 def classify_option_marker_layout(markers: list[dict]) -> str:
@@ -1013,7 +1026,7 @@ def build_question_and_option_crop_boxes(
     question_crop_box = crop_box
     option_crop_boxes: dict[str, dict] = {}
     top_marker = min(markers, key=lambda item: item["y0"])
-    question_bottom = max(band_y0 + 24.0, top_marker["y0"] - 8.0)
+    question_bottom = max(band_y0 + 24.0, top_marker["y0"] - 4.0)
     inferred_question_crop = build_normalized_crop_box(band_x0, band_y0, band_x1, question_bottom, page_rect)
     if inferred_question_crop:
         question_crop_box = inferred_question_crop
@@ -1024,7 +1037,7 @@ def build_question_and_option_crop_boxes(
             next_y = ordered[index + 1]["y0"] - 8.0 if index + 1 < len(ordered) else band_y1
             option_box = build_normalized_crop_box(
                 band_x0,
-                marker["y0"] - 6.0,
+                marker["y0"] - 2.0,
                 band_x1,
                 next_y,
                 page_rect,
@@ -1044,7 +1057,7 @@ def build_question_and_option_crop_boxes(
 
         for row_index, row_group in enumerate(row_groups):
             row_group = sorted(row_group, key=lambda item: item["x0"])
-            row_top = row_group[0]["y0"] - 6.0
+            row_top = row_group[0]["y0"] - 2.0
             row_bottom = row_groups[row_index + 1][0]["y0"] - 8.0 if row_index + 1 < len(row_groups) else band_y1
             boundaries = [band_x0]
             centers = [((marker["x0"] + marker["x1"]) / 2.0) for marker in row_group]
@@ -1395,7 +1408,83 @@ def _fitz_clip_from_normalized_crop(page_rect, crop_box):
     return clip
 
 
-def render_cap_crop_asset(source_document, page_number: int, crop_box: dict | None, target_path: Path) -> str | None:
+def trim_cap_rendered_crop(image: Image.Image, asset_kind: str) -> Image.Image | None:
+    rgb_image = image.convert("RGB")
+    image_array = np.array(rgb_image)
+    if image_array.size == 0:
+        return None
+
+    gray = cv2.cvtColor(image_array, cv2.COLOR_RGB2GRAY)
+    mask = (gray < 246).astype(np.uint8) * 255
+    kernel = np.ones((3, 3), np.uint8)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=1)
+    mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+    component_count, _, stats, _ = cv2.connectedComponentsWithStats(mask, connectivity=8)
+    image_area = float(image_array.shape[0] * image_array.shape[1])
+    min_area = max(18.0, image_area * 0.00015)
+    boxes = []
+    for index in range(1, component_count):
+        area = float(stats[index, cv2.CC_STAT_AREA])
+        width = int(stats[index, cv2.CC_STAT_WIDTH])
+        height = int(stats[index, cv2.CC_STAT_HEIGHT])
+        if area < min_area or width < 2 or height < 2:
+            continue
+        left = int(stats[index, cv2.CC_STAT_LEFT])
+        top = int(stats[index, cv2.CC_STAT_TOP])
+        boxes.append((left, top, left + width, top + height))
+
+    if not boxes:
+        return None
+
+    if asset_kind == "option" and len(boxes) >= 2:
+        ordered_boxes = sorted(boxes, key=lambda box: box[0])
+        large_gap_threshold = max(96, int(rgb_image.width * 0.15))
+        first_large_gap_index = None
+        for index in range(len(ordered_boxes) - 1):
+            gap = ordered_boxes[index + 1][0] - ordered_boxes[index][2]
+            if gap >= large_gap_threshold:
+                first_large_gap_index = index
+                break
+
+        if first_large_gap_index is not None:
+            left_cluster = ordered_boxes[: first_large_gap_index + 1]
+            left_cluster_right = max(box[2] for box in left_cluster)
+            if left_cluster_right <= max(120, int(rgb_image.width * 0.2)):
+                boxes = left_cluster
+
+    pad_x = 10 if asset_kind == "option" else 14
+    pad_y = 8 if asset_kind == "option" else 12
+    left = max(0, min(box[0] for box in boxes) - pad_x)
+    top = max(0, min(box[1] for box in boxes) - pad_y)
+    right = min(rgb_image.width, max(box[2] for box in boxes) + pad_x)
+    bottom = min(rgb_image.height, max(box[3] for box in boxes) + pad_y)
+
+    if right - left < 12 or bottom - top < 12:
+        return None
+
+    trimmed_image = rgb_image.crop((left, top, right, bottom))
+    trimmed_gray = cv2.cvtColor(np.array(trimmed_image), cv2.COLOR_RGB2GRAY)
+    height, width = trimmed_gray.shape[:2]
+    dark_ratio = float(np.mean(trimmed_gray < 150))
+    mid_gray_ratio = float(np.mean((trimmed_gray >= 150) & (trimmed_gray < 245)))
+    gray_std = float(np.std(trimmed_gray))
+
+    # Scan artifacts often appear as a very wide, nearly-flat gray stripe.
+    if asset_kind in {"question", "group"} and width >= height * 8 and height <= 120:
+        if (mid_gray_ratio > 0.75 and dark_ratio < 0.08) or gray_std < 6.0:
+            return None
+
+    return trimmed_image
+
+
+def render_cap_crop_asset(
+    source_document,
+    page_number: int,
+    crop_box: dict | None,
+    target_path: Path,
+    asset_kind: str = "question",
+) -> str | None:
     try:
         page = source_document.load_page(max(0, int(page_number) - 1))
     except (TypeError, ValueError, IndexError, RuntimeError):
@@ -1407,7 +1496,13 @@ def render_cap_crop_asset(source_document, page_number: int, crop_box: dict | No
 
     ensure_dir(target_path.parent)
     pixmap = page.get_pixmap(matrix=fitz.Matrix(CAP_RENDER_SCALE, CAP_RENDER_SCALE), clip=clip, alpha=False)
-    pixmap.save(target_path)
+    output_image = Image.open(io.BytesIO(pixmap.tobytes("png")))
+    trimmed_image = trim_cap_rendered_crop(output_image, asset_kind)
+    if trimmed_image is None:
+        if target_path.exists():
+            target_path.unlink()
+        return None
+    trimmed_image.save(target_path, optimize=True)
     return str(target_path.relative_to(DATA_ROOT)).replace("\\", "/")
 
 
@@ -1454,14 +1549,48 @@ def materialize_cap_question_assets(source_document, year: str, subject_slug: st
         return
 
     asset_dir = CAP_ASSET_ROOT / year / subject_slug
+    stale_prefix = f"q{display_number:03d}_"
+    stale_question_path = asset_dir / f"{stale_prefix}question.png"
+    stale_group_path = asset_dir / f"{stale_prefix}group.png"
+    if stale_question_path.exists():
+        stale_question_path.unlink()
+    if stale_group_path.exists():
+        stale_group_path.unlink()
+    for stale_option_path in asset_dir.glob(f"{stale_prefix}option_*.png"):
+        stale_option_path.unlink()
 
-    question_crop = question_payload.get("question_visual_crop_box") or question_payload.get("question_crop_box")
-    question_image_path = render_cap_crop_asset(
-        source_document,
-        int(page_number),
-        question_crop,
-        asset_dir / f"q{display_number:03d}_question.png",
-    )
+    question_payload["question_image_path"] = None
+    question_payload["group_image_path"] = None
+    question_payload["option_image_paths"] = {}
+
+    has_explicit_visual_reference = question_has_visual_reference(question_payload)
+    stem_text = normalize_whitespace(question_payload.get("stem") or "")
+    question_crop = question_payload.get("question_visual_crop_box")
+    if not question_crop and (has_explicit_visual_reference or not stem_text):
+        question_crop = question_payload.get("question_crop_box")
+
+    question_image_path = None
+    if question_crop:
+        question_image_path = render_cap_crop_asset(
+            source_document,
+            int(page_number),
+            question_crop,
+            asset_dir / f"q{display_number:03d}_question.png",
+            asset_kind="question",
+        )
+    if (
+        not question_image_path
+        and question_payload.get("question_visual_crop_box")
+        and question_payload.get("question_crop_box")
+        and (has_explicit_visual_reference or not stem_text)
+    ):
+        question_image_path = render_cap_crop_asset(
+            source_document,
+            int(page_number),
+            question_payload.get("question_crop_box"),
+            asset_dir / f"q{display_number:03d}_question.png",
+            asset_kind="question",
+        )
     if question_image_path:
         question_payload["question_image_path"] = question_image_path
 
@@ -1471,19 +1600,23 @@ def materialize_cap_question_assets(source_document, year: str, subject_slug: st
             int(page_number),
             question_payload.get("group_crop_box"),
             asset_dir / f"q{display_number:03d}_group.png",
+            asset_kind="group",
         )
         if group_image_path:
             question_payload["group_image_path"] = group_image_path
 
     option_image_paths = {}
+    option_texts = question_payload.get("options") or {}
     for option_key, option_crop in (question_payload.get("option_crop_boxes") or {}).items():
-        if not option_crop:
+        option_text = normalize_whitespace(option_texts.get(option_key) or "")
+        if not option_crop or option_text:
             continue
         option_image_path = render_cap_crop_asset(
             source_document,
             int(page_number),
             option_crop,
             asset_dir / f"q{display_number:03d}_option_{option_key}.png",
+            asset_kind="option",
         )
         if option_image_path:
             option_image_paths[option_key] = option_image_path
@@ -1917,14 +2050,30 @@ def refresh_existing_visual_crops() -> dict:
             with fitz.open(pdf_path) as source_document:
                 for question in payload.get("questions", []):
                     page_number = question.get("page_number")
-                    question_crop_box = question.get("question_crop_box") or question.get("crop_box")
-                    if not page_number or not question_crop_box:
+                    band_crop_box = question.get("crop_box") or question.get("question_crop_box")
+                    if not page_number or not band_crop_box:
                         continue
 
                     analysis = get_cap_page_analysis(source_document, page_cache, int(page_number), subject_slug)
+                    markers = find_option_markers_in_band(analysis, band_crop_box, subject_slug)
+                    question_crop_box, option_crop_boxes, option_layout = build_question_and_option_crop_boxes(
+                        analysis,
+                        band_crop_box,
+                        markers,
+                    )
+                    if question_crop_box and question_crop_box != question.get("question_crop_box"):
+                        question["question_crop_box"] = question_crop_box
+                        changed += 1
+                    if option_crop_boxes != (question.get("option_crop_boxes") or {}):
+                        question["option_crop_boxes"] = option_crop_boxes
+                        changed += 1
+                    if option_layout != question.get("option_layout"):
+                        question["option_layout"] = option_layout
+                        changed += 1
+
                     visual_crop_box = infer_question_visual_crop_box(
                         analysis,
-                        question_crop_box,
+                        question.get("question_crop_box") or band_crop_box,
                         subject_slug,
                     )
                     if visual_crop_box != question.get("question_visual_crop_box"):

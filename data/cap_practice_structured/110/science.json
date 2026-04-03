@@ -155,16 +155,29 @@
         "x0": 0.06,
         "y0": 0.05545,
         "x1": 0.98,
-        "y1": 0.177659
+        "y1": 0.182525
       },
       "question_visual_crop_box": {
         "x0": 0.168424,
         "y0": 0.131632,
         "x1": 0.831866,
-        "y1": 0.178042
+        "y1": 0.183004
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.214438,
+          "x1": 0.393491,
+          "y1": 0.248953
+        },
+        "D": {
+          "x0": 0.393491,
+          "y0": 0.214438,
+          "x1": 0.98,
+          "y1": 0.248953
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -179,7 +192,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（兩者皆合理）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q001_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 2,
@@ -197,11 +211,24 @@
         "x0": 0.06,
         "y0": 0.248953,
         "x1": 0.98,
-        "y1": 0.310992
+        "y1": 0.315858
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.338976,
+          "x1": 0.350157,
+          "y1": 0.378329
+        },
+        "D": {
+          "x0": 0.350157,
+          "y0": 0.338976,
+          "x1": 0.98,
+          "y1": 0.378329
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -215,8 +242,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（5公尺）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/science/q002_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 3,
@@ -234,11 +262,18 @@
         "x0": 0.06,
         "y0": 0.378329,
         "x1": 0.98,
-        "y1": 0.461064
+        "y1": 0.46593
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.530418,
+          "x1": 0.98,
+          "y1": 0.581948
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -253,7 +288,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（X為6.2，Y為2）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q003_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 4,
@@ -271,11 +307,18 @@
         "x0": 0.06,
         "y0": 0.581948,
         "x1": 0.98,
-        "y1": 0.649638
+        "y1": 0.654504
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.718816,
+          "x1": 0.98,
+          "y1": 0.752709
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -289,8 +332,9 @@
       "correct_answer": "D",
       "visual_primary": false,
       "explanation": "官方答案：D（乙環境溫度＞體溫＞甲環境溫度）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/science/q004_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 5,
@@ -308,11 +352,18 @@
         "x0": 0.06,
         "y0": 0.752709,
         "x1": 0.98,
-        "y1": 0.861255
+        "y1": 0.866121
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.888694,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -327,7 +378,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（鹽分的重量百分濃度 Ҙ ݙཀ٣໨ ჹᔈচӢ ෳໆނࠔ߻Ǵᔈ଺ӳᘜ႟୏բӆෳໆ ё෧Ͽෳໆ፦ໆਔޑᇤৡ ё෧Ͽઆዸғឌޑᐒ཮ ৾ڗઆዸਔόёҔЋ৾ڗǴᔈҔઆዸ֨৾ڗ Ό 表(一) Ӧ᎜ೕኳ!6.2 ᎜ࡋ4ભޑ᎜ݢ 13ࣾࡕډၲ N Ӧ᎜ೕኳ!X ᎜ࡋYભޑ᎜ݢ 43ࣾࡕډၲ 圖(一)）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q005_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 6,
@@ -345,7 +397,7 @@
         "x0": 0.06,
         "y0": 0.055363,
         "x1": 0.98,
-        "y1": 0.084558
+        "y1": 0.085619
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -363,8 +415,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（柱頭）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/science/q006_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 7,
@@ -382,7 +435,7 @@
         "x0": 0.06,
         "y0": 0.134877,
         "x1": 0.98,
-        "y1": 0.428972
+        "y1": 0.521112
       },
       "question_visual_crop_box": {
         "x0": 0.255486,
@@ -391,8 +444,33 @@
         "y1": 0.419757
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
-      "option_layout": "vertical",
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.535512,
+          "x1": 0.170597,
+          "y1": 0.557694
+        },
+        "A": {
+          "x0": 0.170597,
+          "y0": 0.535512,
+          "x1": 0.98,
+          "y1": 0.557694
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.577544,
+          "x1": 0.168581,
+          "y1": 0.604857
+        },
+        "C": {
+          "x0": 0.168581,
+          "y0": 0.577544,
+          "x1": 0.98,
+          "y1": 0.604857
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "小蘭看到一則網路新聞說「將銀幣放入牛奶中，可以抑制細菌生長！」她針 對此新聞設計下列實驗。先將甲、乙和丙三個相同的燒杯和銀幣都消毒殺菌 後，再將鮮奶開封立刻檢測細菌數，結果為「未檢測出」，接著在各燒杯中 倒入鮮奶，並以保鮮膜密封，實驗條件與實驗結果如表(二)所示： 僅依據上述實驗內容與結果，下列說明何者合理？",
@@ -406,7 +484,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（實驗結果支持銀幣能夠抑制細菌生長的說法）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q007_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 8,
@@ -424,17 +503,42 @@
         "x0": 0.06,
         "y0": 0.604857,
         "x1": 0.98,
-        "y1": 0.70101
+        "y1": 0.829343
       },
       "question_visual_crop_box": {
         "x0": 0.160363,
         "y0": 0.640175,
         "x1": 0.88628,
-        "y1": 0.701179
+        "y1": 0.791372
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
-      "option_layout": "vertical",
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.844911,
+          "x1": 0.172612,
+          "y1": 0.865925
+        },
+        "A": {
+          "x0": 0.172612,
+          "y0": 0.844911,
+          "x1": 0.98,
+          "y1": 0.865925
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.885775,
+          "x1": 0.17241,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.17241,
+          "y0": 0.885775,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
+      "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
       "stem": "圖(二)為妮妮向小櫻演示共振現象實驗的過程： 面對小櫻的質疑，妮妮增加下列哪一個實驗來說服小櫻最合適？",
@@ -448,7 +552,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（將其中一支音叉更換成頻率為500 Hz的音叉，觀察敲擊後是否會共振）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q008_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 9,
@@ -526,13 +631,13 @@
         "x0": 0.06,
         "y0": 0.544623,
         "x1": 0.98,
-        "y1": 0.612276
+        "y1": 0.617142
       },
       "question_visual_crop_box": {
-        "x0": 0.723845,
+        "x0": 0.722636,
         "y0": 0.573228,
-        "x1": 0.858468,
-        "y1": 0.612632
+        "x1": 0.859678,
+        "y1": 0.617594
       },
       "group_crop_box": null,
       "option_crop_boxes": {},
@@ -550,7 +655,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（反射藍光）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q012_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 13,
@@ -568,11 +674,30 @@
         "x0": 0.06,
         "y0": 0.725126,
         "x1": 0.98,
-        "y1": 0.825061
+        "y1": 0.829927
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.83236,
+          "x1": 0.202842,
+          "y1": 0.87439
+        },
+        "A": {
+          "x0": 0.202842,
+          "y0": 0.83236,
+          "x1": 0.98,
+          "y1": 0.87439
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.881688,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -586,8 +711,9 @@
       "correct_answer": "B",
       "visual_primary": false,
       "explanation": "官方答案：B（《種子的傳播》）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/science/q013_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 14,
@@ -680,16 +806,29 @@
         "x0": 0.06,
         "y0": 0.723252,
         "x1": 0.98,
-        "y1": 0.790618
+        "y1": 0.795484
       },
       "question_visual_crop_box": {
         "x0": 0.642023,
         "y0": 0.731425,
         "x1": 0.8758,
-        "y1": 0.790969
+        "y1": 0.795932
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.797917,
+          "x1": 0.98,
+          "y1": 0.832066
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.860089,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -704,7 +843,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（應朝西方天空尋找，因為地球自轉的關係）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q017_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 18,
@@ -797,11 +937,24 @@
         "x0": 0.06,
         "y0": 0.736884,
         "x1": 0.98,
-        "y1": 0.843742
+        "y1": 0.848608
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.873224,
+          "x1": 0.370214,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.370214,
+          "y0": 0.873224,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -816,7 +969,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（360）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q021_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 22,
@@ -928,7 +1082,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（本實驗是在探討胡蘿蔔接觸面積與反應速率的關係）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q025_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 26,
@@ -1021,7 +1176,7 @@
         "x0": 0.06,
         "y0": 0.559172,
         "x1": 0.98,
-        "y1": 0.804337
+        "y1": 0.809203
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
@@ -1040,7 +1195,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（50或53）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q029_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 30,
@@ -1062,7 +1218,20 @@
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.888032,
+          "x1": 0.350151,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.350151,
+          "y0": 0.888032,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -1077,7 +1246,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（U丙－U甲＝E甲－E丙）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q030_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 31,
@@ -1170,11 +1340,24 @@
         "x0": 0.06,
         "y0": 0.789719,
         "x1": 0.98,
-        "y1": 0.836444
+        "y1": 0.84131
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "B": {
+          "x0": 0.06,
+          "y0": 0.864467,
+          "x1": 0.98,
+          "y1": 0.898616
+        },
+        "D": {
+          "x0": 0.06,
+          "y0": 0.905915,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -1189,7 +1372,8 @@
       "visual_primary": false,
       "explanation": "官方答案：A（甲：是否為卵生動物）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q034_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 35,
@@ -1282,16 +1466,23 @@
         "x0": 0.06,
         "y0": 0.549502,
         "x1": 0.98,
-        "y1": 0.63767
+        "y1": 0.642536
       },
       "question_visual_crop_box": {
         "x0": 0.633559,
         "y0": 0.569058,
         "x1": 0.873382,
-        "y1": 0.637943
+        "y1": 0.642905
       },
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.706557,
+          "x1": 0.98,
+          "y1": 0.744601
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -1306,7 +1497,8 @@
       "visual_primary": false,
       "explanation": "官方答案：C（甲為固態，乙為氣態，丙為液態）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q038_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 39,
@@ -1324,11 +1516,24 @@
         "x0": 0.06,
         "y0": 0.744601,
         "x1": 0.98,
-        "y1": 0.853374
+        "y1": 0.85824
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "C": {
+          "x0": 0.06,
+          "y0": 0.879062,
+          "x1": 0.26048,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.26048,
+          "y0": 0.879062,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "grid",
       "parse_status": "complete",
       "context": "",
@@ -1343,7 +1548,8 @@
       "visual_primary": false,
       "explanation": "官方答案：D（戊和庚同時為捕食和競爭關係）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q039_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 40,
@@ -1436,11 +1642,36 @@
         "x0": 0.06,
         "y0": 0.668659,
         "x1": 0.98,
-        "y1": 0.730681
+        "y1": 0.735547
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "A": {
+          "x0": 0.06,
+          "y0": 0.737979,
+          "x1": 0.223996,
+          "y1": 0.985402
+        },
+        "B": {
+          "x0": 0.223996,
+          "y0": 0.737979,
+          "x1": 0.411049,
+          "y1": 0.985402
+        },
+        "C": {
+          "x0": 0.411049,
+          "y0": 0.737979,
+          "x1": 0.641321,
+          "y1": 0.985402
+        },
+        "D": {
+          "x0": 0.641321,
+          "y0": 0.737979,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "horizontal",
       "parse_status": "complete",
       "context": "",
@@ -1455,7 +1686,8 @@
       "visual_primary": false,
       "explanation": "官方答案：B（甲的質量為50 g，乙的體積為80 cm3）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n圖表提醒：這題含有圖片、圖形或表格資訊，請先看清圖中的標記、座標、欄位或對話框內容。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
       "question_image_path": "cap_practice_assets/110/science/q043_question.png",
-      "option_image_paths": {}
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 44,
@@ -1598,11 +1830,18 @@
         "x0": 0.06,
         "y0": 0.809585,
         "x1": 0.98,
-        "y1": 0.83878
+        "y1": 0.840727
       },
       "question_visual_crop_box": null,
       "group_crop_box": null,
-      "option_crop_boxes": {},
+      "option_crop_boxes": {
+        "D": {
+          "x0": 0.06,
+          "y0": 0.905039,
+          "x1": 0.98,
+          "y1": 0.985402
+        }
+      },
       "option_layout": "vertical",
       "parse_status": "complete",
       "context": "",
@@ -1616,8 +1855,9 @@
       "correct_answer": "C",
       "visual_primary": false,
       "explanation": "官方答案：C（碳水化合物）\n題目重點：先把題幹的限制條件圈出來，再比對最符合條件的選項。\n作答步驟：先讀題幹，再回頭對照四個選項，最後檢查是否有單位、對象或關鍵詞被忽略。\n複習方向：這題來自 110 年會考自然科，可回頭複習同主題的核心觀念與常見判斷方式。",
-      "question_image_path": "cap_practice_assets/110/science/q049_question.png",
-      "option_image_paths": {}
+      "question_image_path": null,
+      "option_image_paths": {},
+      "group_image_path": null
     },
     {
       "number": 50,
