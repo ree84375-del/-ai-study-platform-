@@ -221,8 +221,9 @@ def group_dashboard(group_id):
                 "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
                 # Group type fix
                 "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
-                # Group has_ai auto-enable fix
-                "UPDATE \"group\" SET has_ai = TRUE WHERE has_ai IS FALSE OR has_ai IS NULL"
+                # Keep teacher's AI join choice intact; only backfill legacy NULL values.
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE",
+                "UPDATE \"group\" SET has_ai = TRUE WHERE has_ai IS NULL"
             ]
             for stmt in auto_fixes:
                 try:
@@ -345,7 +346,7 @@ def group_dashboard(group_id):
                         
                         return jsonify({
                             'status': 'success',
-                            'ai_triggered': True, # FORCED for reliability
+                            'ai_triggered': bool(group_obj.has_ai),
                             'user_message': {
                                 'id': new_msg.id,
                                 'content': new_msg.content,
@@ -404,6 +405,7 @@ def group_dashboard(group_id):
                         yukine = get_ai_user_by_personality(personality_key)
                         
                         if not yukine:
+                            ai_email = 'yukine_bot@internal.ai'
                             yukine = User(
                                 username=AI_NAME, 
                                 email=ai_email, 

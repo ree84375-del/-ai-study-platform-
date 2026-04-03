@@ -397,6 +397,30 @@
                     <h3 style="margin-top: 0; color: #7c4dff; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                         <i class="fa-solid fa-users-gear"></i> {{ _t('members_roles') }}
                     </h3>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 16px; border-radius: 16px; border: 1px solid {% if group.has_ai %}rgba(255,141,161,0.35){% else %}#e5e7eb{% endif %}; background: {% if group.has_ai %}linear-gradient(135deg, #fff5f7, #ffffff){% else %}linear-gradient(135deg, #f8fafc, #ffffff){% endif %}; box-shadow: 0 10px 20px rgba(0,0,0,0.04);">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 42px; height: 42px; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: {% if group.has_ai %}#d9467c{% else %}#64748b{% endif %}; background: {% if group.has_ai %}rgba(255,141,161,0.16){% else %}#f1f5f9{% endif %};">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.95rem; font-weight: 800; color: var(--color-text_main);">
+                                    {% if group.has_ai %}AI 已加入群組{% else %}AI 未加入群組{% endif %}
+                                </div>
+                                <div style="font-size: 0.78rem; color: var(--color-text_light); margin-top: 2px;">
+                                    {% if group.has_ai %}開啟後，AI 會回覆每一則新訊息。{% else %}目前是純人工聊天，成員發言不會觸發 AI。{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <form method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" style="margin: 0;">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="hidden" name="action" value="toggle_ai"/>
+                            <button type="submit" style="border: none; border-radius: 999px; padding: 10px 16px; cursor: pointer; font-weight: 800; color: white; background: {% if group.has_ai %}linear-gradient(135deg, #64748b, #475569){% else %}linear-gradient(135deg, #ff8da1, #ff6584){% endif %}; box-shadow: 0 10px 20px rgba(0,0,0,0.08); white-space: nowrap;">
+                                {% if group.has_ai %}<i class="fa-solid fa-user-minus"></i> 移除 AI{% else %}<i class="fa-solid fa-user-plus"></i> 加入 AI{% endif %}
+                            </button>
+                        </form>
+                    </div>
+
                     <div style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
                         {% set teacher_id = group.teacher_id %}
                         {# The teacher is often not in group.members, so we ensure they are included #}
@@ -635,7 +659,11 @@
 
                 <div class="chat-scroll-area">
                 <div class="chat-system-banner">
-                    <i class="fa-solid fa-microchip"></i> AI MODULE v5.0 (CORE SYNC) ONLINE
+                    {% if group.has_ai %}
+                        <i class="fa-solid fa-microchip"></i> AI 已加入群組，自動回覆每一則新訊息
+                    {% else %}
+                        <i class="fa-solid fa-user-group"></i> AI 未加入群組，目前為純人工聊天
+                    {% endif %}
                 </div>
                 
                 <!-- Ephemeral Yukine Welcome (Not in DB) -->
