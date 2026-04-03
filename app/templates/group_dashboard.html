@@ -507,7 +507,7 @@
                         </div>
                         <div class="group-ai-current">
                             <i class="fa-solid fa-user-astronaut"></i>
-                            目前角色：{{ group_ai_role['display_name'] if group_ai_role else '雪音老師' }}
+                            目前角色：{{ group_ai_role['display_name'] if group_ai_role else '雪音' }}
                         </div>
                         <form method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" style="margin: 0;">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -807,7 +807,7 @@
                     </div>
                     <div style="max-width: 85%;">
                         <div style="margin-bottom: 6px; font-size: 0.8rem; font-weight: 700; color: var(--color-text_main);">
-                            {{ ai_user.username if ai_user else _t('nav_label_yukine') if _t('nav_label_yukine') else '雪音老師' }} 
+                            {{ ai_user.username if ai_user else _t('nav_label_yukine') if _t('nav_label_yukine') else '雪音' }} 
                             <span style="background: linear-gradient(135deg, #ff8da1, #ffabbd); color:white; padding: 2px 8px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; margin-left: 5px;">{{ _t('navigator') }}</span>
                         </div>
                         <div style="background: #fff; color: {% if getattr(current_user, 'is_admin', False) %}#d4af37; font-weight: bold;{% else %}#333; font-weight: 600;{% endif %} padding: 12px 18px; border-radius: 12px; border-bottom-left-radius: 4px; border: 1px solid {% if getattr(current_user, 'is_admin', False) %}#f9f3e3{% else %}#ffccce{% endif %}; box-shadow: 0 4px 15px rgba(255,141,161,0.15); line-height: 1.6; position: relative;">
@@ -2391,7 +2391,7 @@ document.addEventListener('DOMContentLoaded', () => {
         aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
         isAdmin: JSON.parse("{{ current_user.is_admin | tojson | safe }}"),
         groupHasAi: JSON.parse("{{ group.has_ai | tojson | safe }}"),
-        groupAiDisplayName: "{{ group_ai_role['display_name'] if group_ai_role else '雪音老師' }}",
+        groupAiDisplayName: "{{ group_ai_role['display_name'] if group_ai_role else '雪音' }}",
         groupAiRoleLabel: "{{ group_ai_role['label'] if group_ai_role else '雪音' }}",
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
@@ -2424,9 +2424,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const GROUP_AI_ROLE_META = {
-        ai_gentle: { label: '雪音', displayName: '雪音老師' },
-        ai_guy: { label: '學長', displayName: '阿哲學長' },
-        ai_coach: { label: '老師', displayName: '雷恩老師' }
+        ai_gentle: { label: '雪音', displayName: '雪音' },
+        ai_guy: { label: '阿哲學長', displayName: '阿哲學長' },
+        ai_coach: { label: '魔鬼教練', displayName: '魔鬼教練' }
     };
 
     if (aiControlCard) {

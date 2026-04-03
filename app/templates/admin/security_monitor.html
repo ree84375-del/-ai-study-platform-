@@ -211,7 +211,7 @@
                         </thead>
                         <tbody>
                         {% for log in access_logs %}
-                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);" data-cat="{{ log.category }}">
+                        <tr style="border-bottom: 1px solid rgba(0,0,0,0.05);" data-cat="{{ 'ai' if log.user and log.user.is_ai_account else log.category }}">
                             <td style="padding: 12px 15px; font-size: 0.8rem; color: #666;">
                                 {{ (log.timestamp + timedelta(hours=8)).strftime('%m/%d %H:%M:%S') }}
                             </td>
@@ -219,7 +219,9 @@
                                 {{ log.ip }}
                             </td>
                             <td style="padding: 12px 15px;">
-                                {% if log.category == 'user' %}
+                                {% if log.user and log.user.is_ai_account %}
+                                    <span style="color: #bb9af7; font-size: 0.85rem;"><i class="fa-solid fa-robot"></i> AI / 爬蟲</span>
+                                {% elif log.category == 'user' %}
                                     <span style="color: #4facfe; font-size: 0.85rem;"><i class="fa-solid fa-circle-user"></i> 帳號用戶</span>
                                 {% elif log.category == 'hacker' %}
                                     <span style="color: #f43f5e; font-weight: bold; font-size: 0.85rem;"><i class="fa-solid fa-user-secret"></i> 駭客攻擊</span>
@@ -231,7 +233,7 @@
                                     <span style="color: #999; font-size: 0.85rem;"><i class="fa-solid fa-question"></i> 未知來源</span>
                                 {% endif %}
                             </td>
-                            <td style="padding: 12px 15px; font-size: 0.85rem;">
+                            <td class="security-user-cell" data-user-label="{{ security_user_label(log.user) if security_user_label is defined else '' }}" style="padding: 12px 15px; font-size: 0.85rem;">
                                 {{ log.user.username if log.user else '匿名訪客' }}
                             </td>
                             <td style="padding: 12px 15px; font-size: 0.8rem; color: #555; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ log.path }}">
@@ -258,6 +260,11 @@
 
 <script>
     let currentFilter = 'all';
+
+    document.querySelectorAll('.security-user-cell').forEach((cell) => {
+        const userLabel = (cell.dataset.userLabel || '').trim();
+        if (userLabel) cell.textContent = userLabel;
+    });
 
     function updateFilters() {
         const rows = document.querySelectorAll('#security-table tbody tr');
@@ -323,7 +330,7 @@
                             <td style="padding: 12px 15px; font-size: 0.8rem; color: #666;">${log.time}</td>
                             <td style="padding: 12px 15px; font-family: 'JetBrains Mono', monospace; font-weight: bold; color: var(--color-primary);">${log.ip}</td>
                             <td style="padding: 12px 15px;">${categoryHtml}</td>
-                            <td style="padding: 12px 15px; font-size: 0.85rem;">${log.user}</td>
+                            <td style="padding: 12px 15px; font-size: 0.85rem;">${log.display_user || log.user || '未登入訪客'}</td>
                             <td style="padding: 12px 15px; font-size: 0.8rem; color: #555; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${log.path}">${log.path}</td>
                             <td style="padding: 12px 15px; font-size: 0.85rem;">${statusHtml}</td>
                         `;

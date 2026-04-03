@@ -12,6 +12,31 @@ from app.utils.i18n import get_text as _t
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
 
+AI_SECURITY_NAME_MAP = {
+    'yukine_bot@internal.ai': '雪音',
+    'coach_bot@internal.ai': '魔鬼教練',
+    'senior_bot@internal.ai': '阿哲學長',
+    'ai_gentle': '雪音',
+    'ai_coach': '魔鬼教練',
+    'ai_guy': '阿哲學長',
+    '雪音-溫柔型': '雪音',
+    '魔鬼教練': '魔鬼教練',
+    '阿哲學長': '阿哲學長',
+}
+
+
+def _security_log_user_label(user):
+    if not user:
+        return '未登入訪客'
+    if user.is_ai_account:
+        return (
+            AI_SECURITY_NAME_MAP.get(user.email)
+            or AI_SECURITY_NAME_MAP.get(getattr(user, 'ai_personality', None))
+            or user.username
+            or 'AI'
+        )
+    return user.username or '未命名用戶'
+
 @admin.route('/ai_write_announcement', methods=['POST'])
 @login_required
 def ai_write_announcement():
@@ -241,6 +266,7 @@ def security_monitor():
     return render_template('admin/security_monitor.html', 
                             title="全站安全監控中心", 
                             access_logs=access_logs,
+                            security_user_label=_security_log_user_label,
                             timedelta=timedelta,
                             current_time=datetime.now())
 
@@ -337,7 +363,8 @@ def api_security_logs():
             'user': log.user.username if log.user else '匿名訪客',
             'path': log.path,
             'threat_level': log.threat_level,
-            'category': log.category or 'unknown',
+            'category': 'ai' if log.user and log.user.is_ai_account else (log.category or 'unknown'),
+            'display_user': _security_log_user_label(log.user),
             'threat_reason': log.threat_reason or (
                 '分析完成（安全）' if log.threat_level == 'safe' else '等待系統觸發分析...'
             )

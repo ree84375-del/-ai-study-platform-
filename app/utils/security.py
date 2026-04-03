@@ -50,7 +50,7 @@ def log_ip_access(ip, user_id=None, path=None, user_agent=None):
     """
     Logs an IP access attempt to the database with early categorization if possible.
     """
-    from app.models import IPAccessLog
+    from app.models import IPAccessLog, User
     from app import db
     
     try:
@@ -58,6 +58,11 @@ def log_ip_access(ip, user_id=None, path=None, user_agent=None):
         ua = (user_agent or '').lower()
         path_lower = (path or '').lower()
         category = 'user' if user_id else 'unknown'
+
+        if user_id:
+            user = db.session.get(User, user_id)
+            if user and user.is_ai_account:
+                category = 'ai'
         
         # 2. Malicious Path Detection (Immediate Hacker categorization)
         hacker_paths = [
