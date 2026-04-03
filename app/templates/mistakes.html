@@ -2,157 +2,331 @@
 {% block title %}錯題本{% endblock %}
 {% block content %}
 <style>
-.mistake-shell{--paper:rgba(255,249,246,.98);--paper-soft:rgba(248,238,233,.97);--line:rgba(169,101,84,.18);--ink:#3d2924;--muted:#7a645b;display:grid;gap:1.2rem}
-.mistake-shell section,.mistake-shell aside{border-radius:28px;border:1px solid var(--line);background:linear-gradient(180deg,var(--paper),var(--paper-soft));box-shadow:0 24px 54px rgba(112,73,62,.12)}
-.mistake-hero,.mistake-card,.mistake-summary{padding:1.35rem;display:grid;gap:1rem}.mistake-hero{background:radial-gradient(circle at top right,rgba(255,198,162,.28),transparent 28%),linear-gradient(145deg,rgba(255,252,249,.99),rgba(247,238,233,.97))}
-.mistake-badge,.mistake-pill{display:inline-flex;align-items:center;gap:.45rem;width:fit-content;border-radius:999px;font-weight:800}.mistake-badge{padding:.48rem .95rem;background:#5a372f;color:#fff7f3}.mistake-pill{padding:.38rem .72rem;background:rgba(255,240,233,.95);color:#9a5d4e;font-size:.84rem}
-.mistake-copy h1,.mistake-card h2,.mistake-summary h2,.mistake-item h3{margin:0;color:var(--ink);font-family:"Kaisei Tokumin",serif}.mistake-copy h1{font-size:clamp(2rem,3vw,3rem);line-height:1.15}.mistake-copy p,.mistake-card p,.mistake-summary p,.mistake-empty{margin:0;color:var(--muted);line-height:1.82}
-.mistake-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.85rem}.mistake-stat{display:grid;gap:.25rem;padding:1rem;border-radius:20px;border:1px solid rgba(169,101,84,.12);background:rgba(255,255,255,.78)}.mistake-stat span{font-size:.88rem;color:#8b7067}.mistake-stat strong{font-size:1.7rem;color:var(--ink)}
-.mistake-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.92fr);gap:1rem;align-items:start}.mistake-stack{display:grid;gap:1rem}.mistake-summary{position:sticky;top:92px}
-.mistake-head,.mistake-top,.mistake-item-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.85rem;flex-wrap:wrap}
-.mistake-filter-grid,.mistake-subject-grid,.mistake-card-grid,.mistake-summary-grid{display:grid;gap:.85rem}.mistake-filter-grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.mistake-subject-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.mistake-card-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.mistake-filter,.mistake-subject,.mistake-item,.mistake-link{border-radius:22px;border:1px solid rgba(0,0,0,.06);background:rgba(255,255,255,.84);transition:.16s ease}.mistake-filter,.mistake-subject,.mistake-link{padding:1rem;display:grid;gap:.55rem;text-decoration:none;color:inherit}.mistake-item{padding:1.05rem;display:grid;gap:.95rem}
-.mistake-filter:hover,.mistake-subject:hover,.mistake-item:hover,.mistake-link:hover{transform:translateY(-2px);box-shadow:0 18px 32px rgba(112,73,62,.1)}.is-active{border-color:rgba(145,77,63,.24);background:linear-gradient(180deg,rgba(255,245,240,.99),rgba(255,255,255,.94));box-shadow:0 18px 32px rgba(112,73,62,.1)}
-.mistake-icon{display:inline-flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:18px;background:rgba(255,242,236,.95);color:#914d3f;font-size:1.15rem}
-.mistake-image{overflow:hidden;border-radius:20px;border:1px solid rgba(169,101,84,.12);background:rgba(255,250,247,.94)}.mistake-image img{width:100%;display:block}
-.mistake-item-copy{display:grid;gap:.6rem}.mistake-item-copy p{color:#59453f}
-.mistake-actions,.mistake-summary-actions{display:flex;flex-wrap:wrap;gap:.7rem}.mistake-btn,.mistake-link-btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:46px;padding:.78rem 1rem;border-radius:999px;font-weight:900;text-decoration:none}.mistake-btn{border:none;background:linear-gradient(135deg,#bc5e45,#8d4133);color:#fffaf6}.mistake-link-btn{border:1px solid rgba(169,101,84,.16);background:rgba(255,255,255,.84);color:#7c5548}
-.mistake-summary-item{padding:.88rem 1rem;border-radius:18px;border:1px solid rgba(169,101,84,.13);background:rgba(255,255,255,.82);display:grid;gap:.22rem}.mistake-summary-item span{font-size:.86rem;color:#8b7067}.mistake-summary-item strong{color:var(--ink)}
-.mistake-empty{padding:1rem;border-radius:20px;border:1px dashed rgba(169,101,84,.2);background:rgba(255,255,255,.72)}
-@media (max-width:980px){.mistake-layout{grid-template-columns:1fr}.mistake-summary{position:static}}
+  .mistake-center {
+    --ink: #2f1f24;
+    --muted: #766168;
+    --accent: #8f253a;
+    --soft: #fff0f3;
+    --line: rgba(143, 37, 58, 0.15);
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .mistake-center section {
+    border-radius: 30px;
+    border: 1px solid var(--line);
+    background: linear-gradient(145deg, #fffdfc, #fbf0f2);
+    box-shadow: 0 26px 64px rgba(92, 42, 53, 0.12);
+  }
+
+  .mistake-hero,
+  .mistake-panel {
+    padding: 1.35rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .mistake-badge,
+  .mistake-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    font-weight: 900;
+    width: fit-content;
+  }
+
+  .mistake-badge {
+    padding: 0.48rem 0.95rem;
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .mistake-pill {
+    padding: 0.4rem 0.8rem;
+    background: #ffdce3;
+    color: #8f253a;
+    font-size: 0.84rem;
+  }
+
+  .mistake-hero h1,
+  .mistake-panel h2,
+  .mistake-card h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .mistake-hero h1 {
+    margin-top: 0.85rem;
+    font-size: clamp(2rem, 4.6vw, 3.8rem);
+    line-height: 1.04;
+  }
+
+  .mistake-hero p,
+  .mistake-panel p,
+  .mistake-card p,
+  .mistake-card small,
+  .mistake-empty {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .mistake-stats,
+  .mistake-filter-grid,
+  .mistake-subject-grid,
+  .mistake-list {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .mistake-stats {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  }
+
+  .mistake-filter-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .mistake-subject-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .mistake-list {
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  }
+
+  .mistake-stat,
+  .mistake-filter,
+  .mistake-subject,
+  .mistake-card {
+    border-radius: 24px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.88);
+  }
+
+  .mistake-stat {
+    padding: 1rem 1.1rem;
+  }
+
+  .mistake-stat span {
+    display: block;
+    color: #92737b;
+    font-size: 0.84rem;
+  }
+
+  .mistake-stat strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 1.9rem;
+    color: var(--ink);
+  }
+
+  .mistake-head,
+  .mistake-top,
+  .mistake-actions {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .mistake-filter,
+  .mistake-subject {
+    display: grid;
+    gap: 0.6rem;
+    padding: 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.16s ease;
+  }
+
+  .mistake-filter:hover,
+  .mistake-filter.is-active,
+  .mistake-subject:hover,
+  .mistake-subject.is-active,
+  .mistake-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(143, 37, 58, 0.22);
+    background: linear-gradient(180deg, #fff0f3, #ffffff);
+  }
+
+  .mistake-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--soft);
+    color: var(--accent);
+    font-size: 1.2rem;
+  }
+
+  .mistake-card {
+    padding: 1rem;
+    display: grid;
+    gap: 0.85rem;
+    transition: 0.16s ease;
+  }
+
+  .mistake-image {
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(143, 37, 58, 0.1);
+    background: #fff;
+  }
+
+  .mistake-image img {
+    width: 100%;
+    display: block;
+  }
+
+  .mistake-btn,
+  .mistake-link {
+    min-height: 52px;
+    padding: 0.8rem 1.25rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-weight: 900;
+    text-decoration: none;
+  }
+
+  .mistake-btn {
+    background: linear-gradient(135deg, #9f2d44, #7e1f30);
+    color: #fff;
+  }
+
+  .mistake-link {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid rgba(143, 37, 58, 0.12);
+  }
+
+  .mistake-empty {
+    padding: 1rem;
+    border-radius: 22px;
+    border: 1px dashed rgba(143, 37, 58, 0.18);
+    background: rgba(255, 255, 255, 0.74);
+  }
 </style>
 
-<div class="mistake-shell">
+<div class="mistake-center">
   <section class="mistake-hero">
     <span class="mistake-badge"><i class="fa-solid fa-book-journal-whills"></i> 錯題本</span>
-    <div class="mistake-copy">
-      <h1>把錯題整理成真正能回來複習的清單，而不是一堆找不到重點的紀錄。</h1>
-      <p>先決定你要看待處理、今天到期、還是已掌握的題目，再往下挑科目和題目，最後直接回練或串進模擬考。</p>
+    <div>
+      <h1>先看哪些題還沒解決，再挑科目集中回補。</h1>
+      <p>這裡是錯題複習中心，不只是列表。你可以先依狀態縮小範圍，再直接進弱點模擬考。</p>
     </div>
     <div class="mistake-stats">
-      <div class="mistake-stat"><span>待處理</span><strong>{{ mistake_overview.unresolved_count }}</strong></div>
-      <div class="mistake-stat"><span>今天到期</span><strong>{{ mistake_overview.due_count }}</strong></div>
+      <div class="mistake-stat"><span>未解決</span><strong>{{ mistake_overview.unresolved_count }}</strong></div>
+      <div class="mistake-stat"><span>今日到期</span><strong>{{ mistake_overview.due_count }}</strong></div>
       <div class="mistake-stat"><span>已掌握</span><strong>{{ mistake_overview.resolved_count }}</strong></div>
-      <div class="mistake-stat"><span>最近 7 天回看</span><strong>{{ mistake_overview.recent_attempt_count }}</strong></div>
+      <div class="mistake-stat"><span>近 7 天作答</span><strong>{{ mistake_overview.recent_attempt_count }}</strong></div>
     </div>
   </section>
 
-  <div class="mistake-layout">
-    <div class="mistake-stack">
-      <section class="mistake-card">
-        <div class="mistake-head">
-          <div>
-            <h2>STEP 1. 先篩狀態</h2>
-            <p>把待處理、今天到期、已掌握分開看，才不會整頁什麼都有。</p>
-          </div>
-          <span class="mistake-pill">先分狀態</span>
+  <section class="mistake-panel">
+    <div class="mistake-head">
+      <div>
+        <h2>STEP 1 選錯題狀態</h2>
+        <p>先決定要看未解決、今日到期、已掌握，還是一次看全部。</p>
+      </div>
+      <span class="mistake-pill"><i class="fa-solid fa-filter"></i> {{ mistake_cards|length }} 題</span>
+    </div>
+    {% set status_items = [
+      ('unresolved', '未解決', '還沒真正補起來的錯題，建議優先處理。', mistake_overview.unresolved_count, 'fa-circle-exclamation'),
+      ('due', '今日到期', 'SRS 週期已到，適合今天立刻回來再做一次。', mistake_overview.due_count, 'fa-clock'),
+      ('resolved', '已掌握', '已被標記為掌握，可當作回顧庫。', mistake_overview.resolved_count, 'fa-circle-check'),
+      ('all', '全部錯題', '把所有歷史錯題一次攤開看。', mistake_overview.unresolved_count + mistake_overview.resolved_count, 'fa-layer-group')
+    ] %}
+    <div class="mistake-filter-grid">
+      {% for value, label, desc, count, icon_name in status_items %}
+      <a class="mistake-filter{% if selected_status == value %} is-active{% endif %}"
+         href="{{ url_for('study.mistakes', status=value, subject=selected_subject_slug or '') }}">
+        <div class="mistake-top">
+          <span class="mistake-icon"><i class="fa-solid {{ icon_name }}"></i></span>
+          <span class="mistake-pill">{{ count }} 題</span>
         </div>
-        <div class="mistake-filter-grid">
-          {% set status_items = [
-            ('unresolved', '待處理', '先看還沒真正掌握的題目。', mistake_overview.unresolved_count, 'fa-circle-exclamation'),
-            ('due', '今天到期', '今天該複習的題目優先回來。', mistake_overview.due_count, 'fa-clock'),
-            ('resolved', '已掌握', '已完成複習的題目可快速複查。', mistake_overview.resolved_count, 'fa-circle-check'),
-            ('all', '全部題目', '把錯題本裡的所有題目一次展開。', mistake_overview.unresolved_count + mistake_overview.resolved_count, 'fa-layer-group')
-          ] %}
-          {% for value, label, desc, count, icon_name in status_items %}
-          <a class="mistake-filter{% if selected_status == value %} is-active{% endif %}" href="{{ url_for('study.mistakes', status=value, subject=selected_subject_slug or '') }}">
-            <div class="mistake-top">
-              <span class="mistake-icon"><i class="fa-solid {{ icon_name }}"></i></span>
-              <span class="mistake-pill">{{ count }} 題</span>
-            </div>
-            <strong>{{ label }}</strong>
-            <small>{{ desc }}</small>
-          </a>
-          {% endfor %}
-        </div>
-      </section>
+        <h3>{{ label }}</h3>
+        <p>{{ desc }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
 
-      <section class="mistake-card">
-        <div class="mistake-head">
-          <div>
-            <h2>STEP 2. 再縮到科目</h2>
-            <p>如果今天只想補某一科，這裡可以快速往下收斂。</p>
-          </div>
-          <span class="mistake-pill">可全科 / 單科</span>
+  <section class="mistake-panel">
+    <div class="mistake-head">
+      <div>
+        <h2>STEP 2 選科目</h2>
+        <p>想集中補一科就指定科目；想總覽就保留全部科目。</p>
+      </div>
+      <span class="mistake-pill"><i class="fa-solid fa-book"></i> 科目篩選</span>
+    </div>
+    <div class="mistake-subject-grid">
+      <a class="mistake-subject{% if not selected_subject_slug %} is-active{% endif %}"
+         href="{{ url_for('study.mistakes', status=selected_status) }}">
+        <div class="mistake-top">
+          <span class="mistake-icon"><i class="fa-solid fa-layer-group"></i></span>
+          <span class="mistake-pill">{{ mistake_overview.unresolved_count }} 題</span>
         </div>
-        <div class="mistake-subject-grid">
-          <a class="mistake-subject{% if not selected_subject_slug %} is-active{% endif %}" href="{{ url_for('study.mistakes', status=selected_status) }}">
-            <div class="mistake-top">
-              <span class="mistake-icon"><i class="fa-solid fa-layer-group"></i></span>
-              <span class="mistake-pill">{{ mistake_overview.unresolved_count }} 題</span>
-            </div>
-            <strong>全部科目</strong>
-            <small>先總覽所有錯題，再決定是否要縮到單科。</small>
-          </a>
-          {% for subject in mistake_overview.subject_cards %}
-          <a class="mistake-subject{% if selected_subject_slug == subject.slug %} is-active{% endif %}" href="{{ url_for('study.mistakes', status=selected_status, subject=subject.slug) }}">
-            <div class="mistake-top">
-              <span class="mistake-icon"><i class="fa-solid fa-book"></i></span>
-              <span class="mistake-pill">{{ subject.total - subject.resolved }} 題</span>
-            </div>
-            <strong>{{ subject.label }}</strong>
-            <small>今天到期 {{ subject.due }} 題，已掌握 {{ subject.resolved }} 題。</small>
-          </a>
-          {% endfor %}
+        <h3>全部科目</h3>
+        <p>先看整體錯題分布，不急著切到單科。</p>
+      </a>
+      {% for subject in mistake_overview.subject_cards %}
+      <a class="mistake-subject{% if selected_subject_slug == subject.slug %} is-active{% endif %}"
+         href="{{ url_for('study.mistakes', status=selected_status, subject=subject.slug) }}">
+        <div class="mistake-top">
+          <span class="mistake-icon"><i class="fa-solid fa-book"></i></span>
+          <span class="mistake-pill">{{ subject.total - subject.resolved }} 題</span>
         </div>
-      </section>
+        <h3>{{ subject.label }}</h3>
+        <p>今日到期 {{ subject.due }} 題，已掌握 {{ subject.resolved }} 題。</p>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
 
-      <section class="mistake-card">
-        <div class="mistake-head">
-          <div>
-            <h2>STEP 3. 開始複習</h2>
-            <p>每張卡都只保留回看時真的需要的資訊，不再讓題目和狀態混在一起。</p>
-          </div>
-          <span class="mistake-pill">{{ mistake_cards|length }} 題</span>
-        </div>
-        {% if mistake_cards %}
-        <div class="mistake-card-grid">
-          {% for card in mistake_cards %}
-          <article class="mistake-item">
-            <div class="mistake-item-head">
-              <div class="mistake-top">
-                <span class="mistake-icon"><i class="fa-solid fa-circle-question"></i></span>
-                <span class="mistake-pill">{{ card.subject_label }}</span>
-              </div>
-              <span class="mistake-pill">{% if card.is_due %}今天到期{% elif card.is_resolved %}已掌握{% else %}待複習{% endif %}</span>
-            </div>
-            <div class="mistake-item-copy">
-              <h3>{{ loop.index }}. {{ card.content_text[:72] }}{% if card.content_text|length > 72 %}...{% endif %}</h3>
-              <p>錯誤次數 {{ card.mistake_count }} 次，SRS 等級 {{ card.srs_level or 0 }}，下次複習 {{ card.next_review_label }}</p>
-            </div>
-            {% if card.content_image_href %}
-            <div class="mistake-image"><img src="{{ card.content_image_href }}" alt="題目圖片"></div>
-            {% endif %}
-          </article>
-          {% endfor %}
-        </div>
-        {% else %}
-        <div class="mistake-empty">目前這個篩選條件下沒有題目。你可以切換狀態或科目看看其他待複習內容。</div>
+  <section class="mistake-panel">
+    <div class="mistake-head">
+      <div>
+        <h2>STEP 3 回看錯題</h2>
+        <p>每張卡只保留題幹、圖片、狀態和複習資訊，不再把版面塞滿。</p>
+      </div>
+      <div class="mistake-actions">
+        {% if quick_exam_href %}
+        <a class="mistake-btn" href="{{ quick_exam_href }}"><i class="fa-solid fa-wand-magic-sparkles"></i> 用這批錯題組模擬考</a>
         {% endif %}
-      </section>
+        <a class="mistake-link" href="{{ practice_href }}"><i class="fa-solid fa-arrow-left"></i> 回刷題首頁</a>
+      </div>
     </div>
 
-    <aside class="mistake-summary">
-      <div class="mistake-head">
-        <div>
-          <h2>複習摘要</h2>
-          <p>右側保留今天最需要的行動，避免你在錯題本裡只看不動手。</p>
+    {% if mistake_cards %}
+    <div class="mistake-list">
+      {% for card in mistake_cards %}
+      <article class="mistake-card">
+        <div class="mistake-top">
+          <span class="mistake-pill"><i class="fa-solid fa-book"></i> {{ card.subject_label }}</span>
+          <span class="mistake-pill">
+            {% if card.is_due %}今日到期{% elif card.is_resolved %}已掌握{% else %}未解決{% endif %}
+          </span>
         </div>
-        <span class="mistake-pill"><i class="fa-solid fa-bolt"></i> 立即行動</span>
-      </div>
-      <div class="mistake-summary-grid">
-        <div class="mistake-summary-item"><span>目前狀態</span><strong>{% if selected_status == 'due' %}今天到期{% elif selected_status == 'resolved' %}已掌握{% elif selected_status == 'all' %}全部題目{% else %}待處理{% endif %}</strong></div>
-        <div class="mistake-summary-item"><span>目前科目</span><strong>{% if selected_subject_slug %}{{ mistake_overview.subject_cards|selectattr('slug', 'equalto', selected_subject_slug)|map(attribute='label')|first or '尚未選擇' }}{% else %}全部科目{% endif %}</strong></div>
-        <div class="mistake-summary-item"><span>畫面題數</span><strong>{{ mistake_cards|length }} 題</strong></div>
-        <div class="mistake-summary-item"><span>推薦模擬考</span><strong>{{ mistake_overview.recommended_exam_count }} 題</strong></div>
-      </div>
-      <div class="mistake-summary-actions">
-        {% if quick_exam_href %}
-        <a class="mistake-btn" href="{{ quick_exam_href }}"><i class="fa-solid fa-wand-magic-sparkles"></i> 用這批題出模擬考</a>
+        <h3>{{ loop.index }}. {{ card.content_text[:80] }}{% if card.content_text|length > 80 %}...{% endif %}</h3>
+        <p>錯過 {{ card.mistake_count }} 次｜SRS 等級 {{ card.srs_level or 0 }}｜下次複習 {{ card.next_review_label }}</p>
+        {% if card.content_image_href %}
+        <div class="mistake-image"><img src="{{ card.content_image_href }}" alt="錯題圖片"></div>
         {% endif %}
-        <a class="mistake-link-btn" href="{{ practice_href }}"><i class="fa-solid fa-house"></i> 回刷題入口</a>
-      </div>
-    </aside>
-  </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="mistake-empty">目前這個篩選條件下沒有錯題。可以切換狀態或科目，再重新查看。</div>
+    {% endif %}
+  </section>
 </div>
 {% endblock %}
