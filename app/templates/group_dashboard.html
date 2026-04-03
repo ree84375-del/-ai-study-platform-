@@ -431,6 +431,64 @@
                             width: 100% !important;
                             background: {% if group.has_ai %}linear-gradient(135deg, #94a3b8, #64748b){% else %}linear-gradient(135deg, #ff8da1, #ff6584){% endif %} !important;
                         }
+
+                        .group-ai-current {
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 8px;
+                            margin-top: 8px;
+                            padding: 6px 10px;
+                            border-radius: 999px;
+                            background: rgba(255, 141, 161, 0.12);
+                            color: #c53d6d;
+                            font-size: 0.76rem;
+                            font-weight: 800;
+                        }
+
+                        .group-ai-picker {
+                            display: grid;
+                            grid-template-columns: repeat(3, minmax(0, 1fr));
+                            gap: 10px;
+                            margin: 12px 0;
+                        }
+
+                        .group-ai-choice {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 8px;
+                            padding: 10px 8px;
+                            border-radius: 16px;
+                            border: 1px solid #e5e7eb;
+                            background: #f8fafc;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                        }
+
+                        .group-ai-choice input {
+                            display: none;
+                        }
+
+                        .group-ai-choice img {
+                            width: 42px;
+                            height: 42px;
+                            border-radius: 50%;
+                            object-fit: cover;
+                            border: 2px solid white;
+                            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+                        }
+
+                        .group-ai-choice span {
+                            font-size: 0.76rem;
+                            font-weight: 800;
+                            color: var(--color-text_main);
+                        }
+
+                        .group-ai-choice:has(input:checked) {
+                            border-color: rgba(255, 101, 132, 0.7);
+                            background: linear-gradient(135deg, #fff5f8, #ffffff);
+                            box-shadow: 0 10px 20px rgba(255, 141, 161, 0.16);
+                        }
                     </style>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 16px; border-radius: 16px; border: 1px solid {% if group.has_ai %}rgba(255,141,161,0.35){% else %}#e5e7eb{% endif %}; background: {% if group.has_ai %}linear-gradient(135deg, #fff5f7, #ffffff){% else %}linear-gradient(135deg, #f8fafc, #ffffff){% endif %}; box-shadow: 0 10px 20px rgba(0,0,0,0.04);">
@@ -447,9 +505,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="group-ai-current">
+                            <i class="fa-solid fa-user-astronaut"></i>
+                            目前角色：{{ group_ai_role['display_name'] if group_ai_role else '雪音老師' }}
+                        </div>
                         <form method="POST" action="{{ url_for('group.group_dashboard', group_id=group.id) }}" style="margin: 0;">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             <input type="hidden" name="action" value="toggle_ai"/>
+                            {% if not group.has_ai %}
+                                <div class="group-ai-picker">
+                                    {% set selected_ai_key = group.ai_personality or 'ai_gentle' %}
+                                    {% for role_key in ['ai_gentle', 'ai_guy', 'ai_coach'] %}
+                                        {% set role_option = ai_role_options[role_key] %}
+                                        <label class="group-ai-choice">
+                                            <input type="radio" name="ai_personality" value="{{ role_key }}" {% if selected_ai_key == role_key %}checked{% endif %}>
+                                            <img src="{{ url_for('static', filename=role_option['avatar']) }}" alt="{{ role_option['label'] }}">
+                                            <span>{{ role_option['label'] }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <input type="hidden" name="ai_personality" value="{{ group.ai_personality or 'ai_gentle' }}"/>
+                            {% endif %}
                             <button type="submit" style="border: none; border-radius: 999px; padding: 10px 16px; cursor: pointer; font-weight: 800; color: white; background: {% if group.has_ai %}linear-gradient(135deg, #64748b, #475569){% else %}linear-gradient(135deg, #ff8da1, #ff6584){% endif %}; box-shadow: 0 10px 20px rgba(0,0,0,0.08); white-space: nowrap;">
                                 {% if group.has_ai %}<i class="fa-solid fa-user-minus"></i> 移除 AI{% else %}<i class="fa-solid fa-user-plus"></i> 加入 AI{% endif %}
                             </button>
@@ -750,7 +827,7 @@
                 {% if messages %}
                     {% for msg in messages %}
                         {% if not msg.is_deleted %}
-                        {% set is_ai_message = msg.author and msg.author.email and 'yukine' in msg.author.email %}
+                        {% set is_ai_message = msg.author and msg.author.is_ai_account %}
                         {% set is_teacher_message = msg.user_id == group.teacher_id %}
                         {% set is_announcement_message = group.group_type == 'class' and is_teacher_message and not msg.parent_id %}
                         {% set is_self_message = msg.user_id == current_user.id %}
@@ -839,8 +916,8 @@
                                                onclick="event.stopPropagation(); startEdit(this.dataset.id, this.dataset.content)"></i>
                                             <i class="fa-solid fa-rotate-left message-more-btn" data-id="{{ msg.id }}" style="opacity: 1;" title="{{ _t('recall') }}" onclick="event.stopPropagation(); recallMessage(this.dataset.id)"></i>
                                         {% endif %}
-                                        {% set is_ai_reply_to_me = (msg.author and 'yukine_bot_ag' in msg.author.email and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
-                                        {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and (msg.author and 'yukine_bot_ag' not in msg.author.email) %}
+                                        {% set is_ai_reply_to_me = (msg.author and msg.author.is_ai_account and msg.parent_id and msg.parent and msg.parent.user_id == current_user.id) %}
+                                        {% if (msg.user_id == current_user.id or current_user.id == group.teacher_id or current_user.is_admin or is_ai_reply_to_me) and not (msg.author and msg.author.is_ai_account) %}
                                             <i class="fa-solid fa-trash-can message-more-btn" data-id="{{ msg.id }}" style="opacity: 1; color: #ff4444;" title="{{ _t('delete') }}" onclick="event.stopPropagation(); deleteMessage(this.dataset.id)"></i>
                                         {% endif %}
                                     </div>
@@ -2310,10 +2387,12 @@ document.addEventListener('DOMContentLoaded', () => {
         userId: parseInt("{{ current_user.id }}"),
         csrfToken: "{{ csrf_token() }}",
         groupTypeLabel: "{{ group.group_type }}",
-        yukineAvatar: "{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}",
+        yukineAvatar: "{% if ai_user and ai_user.avatar_url %}{{ ai_user.avatar_url }}{% elif ai_user and ai_user.image_file and ai_user.image_file != 'default.jpg' %}{{ url_for('static', filename='profile_pics/' + ai_user.image_file) }}{% else %}{{ url_for('static', filename=(group_ai_role['avatar'] if group_ai_role else 'img/yukine_avatar.png')) }}{% endif %}",
         aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
         isAdmin: JSON.parse("{{ current_user.is_admin | tojson | safe }}"),
         groupHasAi: JSON.parse("{{ group.has_ai | tojson | safe }}"),
+        groupAiDisplayName: "{{ group_ai_role['display_name'] if group_ai_role else '雪音老師' }}",
+        groupAiRoleLabel: "{{ group_ai_role['label'] if group_ai_role else '雪音' }}",
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
         yukineCheckingNote: "{{ _t('yukine_checking_note') }}",
@@ -2342,6 +2421,45 @@ document.addEventListener('DOMContentLoaded', () => {
         if (aiToggleBtn) aiToggleBtn.innerHTML = CONFIG.groupHasAi
             ? '<i class="fa-solid fa-user-minus"></i> 移除 AI'
             : '<i class="fa-solid fa-user-plus"></i> 加入 AI';
+    }
+
+    const GROUP_AI_ROLE_META = {
+        ai_gentle: { label: '雪音', displayName: '雪音老師' },
+        ai_guy: { label: '學長', displayName: '阿哲學長' },
+        ai_coach: { label: '老師', displayName: '雷恩老師' }
+    };
+
+    if (aiControlCard) {
+        const aiCopy = aiControlCard.firstElementChild ? aiControlCard.firstElementChild.lastElementChild : null;
+        const aiTitle = aiCopy ? aiCopy.firstElementChild : null;
+        const aiDesc = aiCopy ? aiCopy.children[1] : null;
+        const aiToggleBtn = aiControlCard.querySelector('button[type="submit"]');
+        const aiCurrentRole = aiControlCard.querySelector('.group-ai-current');
+        const roleInputs = aiControlCard.querySelectorAll('input[name="ai_personality"][type="radio"]');
+
+        const syncInviteCard = () => {
+            const selectedRole = aiControlCard.querySelector('input[name="ai_personality"][type="radio"]:checked');
+            const roleKey = selectedRole ? selectedRole.value : 'ai_gentle';
+            const roleMeta = GROUP_AI_ROLE_META[roleKey] || GROUP_AI_ROLE_META.ai_gentle;
+            const displayName = CONFIG.groupHasAi ? CONFIG.groupAiDisplayName : roleMeta.displayName;
+            const roleLabel = CONFIG.groupHasAi ? CONFIG.groupAiRoleLabel : roleMeta.label;
+
+            if (aiTitle) aiTitle.textContent = CONFIG.groupHasAi ? `AI 已加入群組：${displayName}` : '選擇要邀請的 AI';
+            if (aiDesc) {
+                aiDesc.textContent = CONFIG.groupHasAi
+                    ? `${displayName} 會自動回覆每一則新訊息。`
+                    : `先選 ${roleLabel}，再按下方按鈕邀請加入群組。`;
+            }
+            if (aiCurrentRole) aiCurrentRole.innerHTML = `<i class="fa-solid fa-user-astronaut"></i> 目前角色：${displayName}`;
+            if (aiToggleBtn) {
+                aiToggleBtn.innerHTML = CONFIG.groupHasAi
+                    ? '<i class="fa-solid fa-user-minus"></i> 移除 AI'
+                    : `<i class="fa-solid fa-user-plus"></i> 邀請 ${roleLabel}`;
+            }
+        };
+
+        roleInputs.forEach((input) => input.addEventListener('change', syncInviteCard));
+        syncInviteCard();
     }
 
     const scrollToBottom = () => { if (messageContainer) messageContainer.scrollTop = messageContainer.scrollHeight; };
@@ -3792,7 +3910,7 @@ function cancelAiDraft() {
                     <img src="${CONFIG.yukineAvatar}" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div style="background: #f0f0f0; padding: 10px 15px; border-radius: 18px; font-size: 0.9rem; color: #666; border: 1px solid #ddd;">
-                    <i class="fa-solid fa-spinner fa-spin"></i> 雪音老師連線中...
+                    <i class="fa-solid fa-spinner fa-spin"></i> ${CONFIG.groupAiDisplayName}連線中...
                 </div>
             </div>
         `;

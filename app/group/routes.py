@@ -5,11 +5,91 @@ import string
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.exc import ProgrammingError
 from sqlalchemy import text
-from app.utils.ai_helpers import get_ai_tutor_response
+from app.utils.ai_helpers import (
+    get_ai_tutor_response,
+    get_ai_user_by_personality,
+    normalize_ai_personality_key,
+)
 from app.utils.i18n import get_text as _t
 
 group = Blueprint('group', __name__)
 AI_NAME = '雪音 (Antigravity 核心)'
+DEFAULT_GROUP_AI_PERSONALITY = 'ai_gentle'
+GROUP_AI_ROLES = {
+    'ai_gentle': {
+        'key': 'ai_gentle',
+        'label': '雪音',
+        'display_name': '雪音老師',
+        'email': 'yukine_bot@internal.ai',
+        'avatar': 'img/yukine_avatar.png',
+        'intro': '溫柔陪讀、整理重點，適合一般學習陪伴。',
+        'welcome': '雪音已加入群組，之後會溫柔回覆每一則新訊息。',
+    },
+    'ai_guy': {
+        'key': 'ai_guy',
+        'label': '學長',
+        'display_name': '阿哲學長',
+        'email': 'senior_bot@internal.ai',
+        'avatar': 'img/senior_avatar.png',
+        'intro': '像學長一樣用輕鬆口吻陪聊與帶讀。',
+        'welcome': '阿哲學長已加入群組，之後會用學長風格回覆每一則新訊息。',
+    },
+    'ai_coach': {
+        'key': 'ai_coach',
+        'label': '老師',
+        'display_name': '雷恩老師',
+        'email': 'coach_bot@internal.ai',
+        'avatar': 'img/coach_avatar.png',
+        'intro': '偏教練式提醒與督促，適合需要明確指令感的群組。',
+        'welcome': '雷恩老師已加入群組，之後會以老師風格回覆每一則新訊息。',
+    },
+}
+
+
+def _resolve_group_ai_personality(group_obj=None, requested_personality=None):
+    source_key = requested_personality
+    if not source_key and group_obj is not None:
+        source_key = getattr(group_obj, 'ai_personality', None)
+    return normalize_ai_personality_key(source_key or DEFAULT_GROUP_AI_PERSONALITY)
+
+
+def _get_group_ai_role_config(personality_key=None):
+    canonical_key = _resolve_group_ai_personality(requested_personality=personality_key)
+    return GROUP_AI_ROLES.get(canonical_key, GROUP_AI_ROLES[DEFAULT_GROUP_AI_PERSONALITY])
+
+
+def _get_or_create_group_ai_user(personality_key=None):
+    from app import db, bcrypt
+    from app.models import User
+
+    ai_role = _get_group_ai_role_config(personality_key)
+    ai_user = User.query.filter_by(email=ai_role['email']).first()
+    if ai_user:
+        if normalize_ai_personality_key(getattr(ai_user, 'ai_personality', None)) != ai_role['key']:
+            ai_user.ai_personality = ai_role['key']
+            db.session.commit()
+        return ai_user
+
+    for candidate in User.query.filter(User.email.like('%@internal.ai')).all():
+        if normalize_ai_personality_key(getattr(candidate, 'ai_personality', None)) == ai_role['key']:
+            return candidate
+
+    username = ai_role['display_name']
+    suffix = 2
+    while User.query.filter_by(username=username).first():
+        username = f"{ai_role['display_name']}{suffix}"
+        suffix += 1
+
+    ai_user = User(
+        username=username,
+        email=ai_role['email'],
+        password=bcrypt.generate_password_hash('antigravity_core_v1').decode('utf-8'),
+        role='teacher',
+        ai_personality=ai_role['key'],
+    )
+    db.session.add(ai_user)
+    db.session.commit()
+    return ai_user
 
 @group.route("/groups", methods=['GET', 'POST'], strict_slashes=False)
 @login_required
@@ -20,10 +100,13 @@ def groups():
     # --- DATABASE HEALTH CHECK (Auto-Migration) ---
     try:
         db.session.execute(text("SELECT group_type FROM \"group\" LIMIT 1"))
+        db.session.execute(text("SELECT ai_personality FROM \"group\" LIMIT 1"))
     except ProgrammingError:
         db.session.rollback()
         auto_fixes = [
-            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'"
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT 'ai_gentle'",
+            "UPDATE \"group\" SET ai_personality = 'ai_gentle' WHERE ai_personality IS NULL"
         ]
         for stmt in auto_fixes:
             try:
@@ -37,11 +120,21 @@ def groups():
         if action == 'create':
             name = request.form.get('group_name')
             has_ai = 'has_ai' in request.form
+            ai_personality = _resolve_group_ai_personality(
+                requested_personality=request.form.get('ai_personality') or current_user.ai_personality
+            )
             if name:
                 # Generate unique invite code
                 invite_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
                 group_type = request.form.get('group_type', 'class')
-                new_group = Group(name=name, invite_code=invite_code, teacher_id=current_user.id, has_ai=has_ai, group_type=group_type)
+                new_group = Group(
+                    name=name,
+                    invite_code=invite_code,
+                    teacher_id=current_user.id,
+                    has_ai=has_ai,
+                    ai_personality=ai_personality,
+                    group_type=group_type
+                )
                 db.session.add(new_group)
                 db.session.commit()
                 flash(_t('msg_group_created_with_code', lang=current_user.language, name=name, code=invite_code), 'success')
@@ -80,7 +173,7 @@ def groups():
             unique_groups.append(g)
             seen_ids.add(g.id)
     
-    return render_template('groups.html', groups=unique_groups)
+    return render_template('groups.html', groups=unique_groups, ai_role_options=GROUP_AI_ROLES)
 
 @group.route("/api/online_members/<int:group_id>", strict_slashes=False)
 @login_required
@@ -201,6 +294,7 @@ def group_dashboard(group_id):
         try:
             # Check for a column added in the latest update
             db.session.execute(text("SELECT question_image FROM assignment LIMIT 1"))
+            db.session.execute(text("SELECT ai_personality FROM \"group\" LIMIT 1"))
         except ProgrammingError:
             db.session.rollback()
             current_app.logger.warning("Detected missing DB columns. Attempting auto-fix...")
@@ -223,7 +317,9 @@ def group_dashboard(group_id):
                 "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
                 # Keep teacher's AI join choice intact; only backfill legacy NULL values.
                 "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE",
-                "UPDATE \"group\" SET has_ai = TRUE WHERE has_ai IS NULL"
+                "UPDATE \"group\" SET has_ai = TRUE WHERE has_ai IS NULL",
+                "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT 'ai_gentle'",
+                "UPDATE \"group\" SET ai_personality = 'ai_gentle' WHERE ai_personality IS NULL"
             ]
             for stmt in auto_fixes:
                 try:
@@ -244,6 +340,17 @@ def group_dashboard(group_id):
             flash('您沒有權限進入此討論板', 'danger')
             return redirect(url_for('group.groups'))
             
+        group_ai_personality = _resolve_group_ai_personality(group_obj=group_obj)
+        if getattr(group_obj, 'ai_personality', None) != group_ai_personality:
+            group_obj.ai_personality = group_ai_personality
+            db.session.commit()
+        ai_role_config = _get_group_ai_role_config(group_ai_personality)
+        yukine_user = (
+            _get_or_create_group_ai_user(group_ai_personality)
+            if group_obj.has_ai
+            else get_ai_user_by_personality(group_ai_personality)
+        )
+
         # --- BACKEND PERSISTENT WELCOME (User Request) ---
         # 只要有群組的人點入就發送一條歡迎語
         if group_obj.has_ai:
@@ -271,7 +378,8 @@ def group_dashboard(group_id):
                     db.session.add(yukine_user)
                     db.session.commit()
                 # DO NOT overwrite username here to avoid "maliciously changing" user-provided names
-                
+                yukine_user = _get_or_create_group_ai_user(group_ai_personality)
+                 
                 # Use session to ensure we only greet ONCE per "entry" (session-based)
                 from flask import session
                 session_greet_key = f'yukine_greeted_{group_id}'
@@ -298,12 +406,18 @@ def group_dashboard(group_id):
                     if msg_count == 0:
                         welcome_text = f"【Antigravity 核心已接入】{welcome_text} 我是雪音老師（目前由 Antigravity 支援修復中），讓我們開始學習吧！🚀"
                     
+                    if msg_count == 0:
+                        welcome_text = (
+                            f"{ai_role_config['display_name']} 已就位，{welcome_text} "
+                            f"之後會以「{ai_role_config['label']}」模式陪大家討論與學習。"
+                        )
+
                     welcome_msg = GroupMessage(
                         group_id=group_id,
                         user_id=yukine_user.id,
                         content=welcome_text
                     )
-                    db.session.add(welcome_msg)
+                    db.session.add(welcome_msg)  # session-greet
                     db.session.commit()
                     current_app.logger.info(f"Generated BACKEND welcome for {current_user.username}")
             except Exception as e:
@@ -401,6 +515,10 @@ def group_dashboard(group_id):
             elif action == 'toggle_ai':
                 current_app.logger.info("Toggling AI...")
                 if group_obj.teacher_id == current_user.id:
+                    group_obj.ai_personality = _resolve_group_ai_personality(
+                        group_obj=group_obj,
+                        requested_personality=request.form.get('ai_personality')
+                    )
                     group_obj.has_ai = not group_obj.has_ai
                     db.session.commit()
                     
@@ -412,6 +530,7 @@ def group_dashboard(group_id):
                         from app.utils.ai_helpers import get_ai_user_by_personality
                         personality_key = group_obj.teacher.ai_personality if group_obj.teacher else '雪音-溫柔型'
                         yukine = get_ai_user_by_personality(personality_key)
+                        yukine = _get_or_create_group_ai_user(group_obj.ai_personality)
                         
                         if not yukine:
                             ai_email = 'yukine_bot@internal.ai'
@@ -430,8 +549,14 @@ def group_dashboard(group_id):
                             user_id=yukine.id,
                             content="呀吼～雪音老師來啦！(๑•̀ㅂ•́)و✧ 大家有什麼學習上的問題，或是想跟我聊天，都可以隨時告訴我唷！"
                         )
+                        welcome_msg.content = _get_group_ai_role_config(group_obj.ai_personality)['welcome']
                         db.session.add(welcome_msg)
                         db.session.commit()
+
+                    ai_label = _get_group_ai_role_config(group_obj.ai_personality)['label']
+                    status_text = '已加入群組' if group_obj.has_ai else '已移除群組'
+                    flash(f'{ai_label} {status_text}', 'info')
+                    return redirect(url_for('group.group_dashboard', group_id=group_id))
                         
                     status = "開啟" if group_obj.has_ai else "關閉"
                     flash(f'雪音老師討論功能已{status}', 'info')
@@ -479,7 +604,7 @@ def group_dashboard(group_id):
                         # Yukine Public Announcement
                         if group_obj.has_ai:
                             try:
-                                yukine = User.query.filter_by(username='雪音老師').first()
+                                yukine = _get_or_create_group_ai_user(group_obj.ai_personality)
                                 if yukine:
                                     due_hint = _t('yukine_assignment_no_deadline', lang)
                                     if due_date:
@@ -596,12 +721,14 @@ def group_dashboard(group_id):
                     flash(_t('msg_assignment_overdue', lang).format(title=assignment.title, students=', '.join(missing_names)), 'warning')
 
         return render_template('group_dashboard.html', 
-                                   group=group_obj, 
-                                   messages=messages, 
-                                   announcements=announcements,
-                                   assignments=sorted_assignments,
-                                   yukine_reminders=yukine_reminders,
-                                   ai_user=yukine_user)
+                                    group=group_obj, 
+                                    messages=messages, 
+                                    announcements=announcements,
+                                    assignments=sorted_assignments,
+                                    yukine_reminders=yukine_reminders,
+                                    ai_user=yukine_user,
+                                    ai_role_options=GROUP_AI_ROLES,
+                                    group_ai_role=ai_role_config)
 
     except Exception as e:
         err_msg = traceback.format_exc()
@@ -754,7 +881,9 @@ def ai_reply(group_id):
             personality_key = p_map.get(teacher.ai_personality, teacher.ai_personality)
             
         yukine = get_ai_user_by_personality(personality_key)
-            
+        personality_key = _resolve_group_ai_personality(group_obj=group_obj)
+        yukine = _get_or_create_group_ai_user(personality_key)
+             
         last_msg = None
         if msg_id:
             last_msg = GroupMessage.query.get(msg_id)
@@ -790,6 +919,9 @@ def ai_reply(group_id):
             personality_key = p_map.get(teacher.ai_personality, teacher.ai_personality)
 
         current_app.logger.info(f"[AI] Calling Gemini with personality: {personality_key}")
+        personality_key = _resolve_group_ai_personality(group_obj=group_obj)
+        yukine = _get_or_create_group_ai_user(personality_key)
+        current_app.logger.info(f"[AI] Group AI role resolved: {personality_key}")
         
         # Vision handling
         image_bytes = None
@@ -850,7 +982,7 @@ def ai_reply(group_id):
             'ai_message': {
                 'id': ai_msg.id,
                 'content': ai_msg.content,
-                'username': AI_NAME,
+                'username': yukine.username if yukine else _get_group_ai_role_config(personality_key)['display_name'],
                 'user_id': yukine.id,
                 'is_mine': False,
                 'is_ai': True,

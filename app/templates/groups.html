@@ -23,6 +23,63 @@
             <div class="washi-card">
                 <h4 style="margin-top: 0; color: var(--color-primary);"><i class="fa-solid fa-plus-circle"></i> {{ _t('create_group') }}</h4>
                 <p style="font-size: 0.85rem; color: var(--color-text_light); margin-bottom: 10px;">{{ _t('creation_demo_note') }}</p>
+                <style>
+                    .create-ai-role-picker {
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 10px;
+                        margin-bottom: 16px;
+                    }
+
+                    .create-ai-role-card {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 10px 8px;
+                        border-radius: 16px;
+                        border: 1px solid #e5e7eb;
+                        background: #f8fafc;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        text-align: center;
+                    }
+
+                    .create-ai-role-card input {
+                        display: none;
+                    }
+
+                    .create-ai-role-card img {
+                        width: 44px;
+                        height: 44px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 2px solid white;
+                        box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+                    }
+
+                    .create-ai-role-card strong {
+                        font-size: 0.78rem;
+                        color: var(--color-text_main);
+                    }
+
+                    .create-ai-role-card small {
+                        font-size: 0.68rem;
+                        color: var(--color-text_light);
+                        line-height: 1.4;
+                    }
+
+                    .create-ai-role-card:has(input:checked) {
+                        border-color: rgba(255, 101, 132, 0.7);
+                        background: linear-gradient(135deg, #fff5f8, #ffffff);
+                        box-shadow: 0 10px 20px rgba(255,141,161,0.16);
+                    }
+
+                    .create-ai-role-picker.is-disabled {
+                        opacity: 0.45;
+                        pointer-events: none;
+                    }
+                </style>
                 <form method="POST" action="">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <input type="hidden" name="action" value="create">
@@ -46,6 +103,17 @@
                             <input type="checkbox" name="has_ai" id="has_ai" checked style="cursor: pointer;">
                             <label for="has_ai" style="cursor: pointer;">{{ _t('add_yukine_ai') }}</label>
                         </div>
+                    </div>
+                    <div id="create-ai-role-picker" class="create-ai-role-picker">
+                        {% for role_key in ['ai_gentle', 'ai_guy', 'ai_coach'] %}
+                            {% set role_option = ai_role_options[role_key] %}
+                            <label class="create-ai-role-card">
+                                <input type="radio" name="ai_personality" value="{{ role_key }}" {% if role_key == 'ai_gentle' %}checked{% endif %}>
+                                <img src="{{ url_for('static', filename=role_option['avatar']) }}" alt="{{ role_option['label'] }}">
+                                <strong>{{ role_option['label'] }}</strong>
+                                <small>{{ role_option['intro'] }}</small>
+                            </label>
+                        {% endfor %}
                     </div>
                     <button type="submit" style="width: 100%; padding: 12px; background-color: var(--color-primary); border: none; color: white; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                         <i class="fa-solid fa-plus-circle"></i> {{ _t('create_btn') }}
@@ -116,4 +184,24 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const hasAiCheckbox = document.getElementById('has_ai');
+        const rolePicker = document.getElementById('create-ai-role-picker');
+        const roleInputs = rolePicker ? rolePicker.querySelectorAll('input[name="ai_personality"]') : [];
+
+        const syncRolePickerState = () => {
+            if (!hasAiCheckbox || !rolePicker) return;
+            rolePicker.classList.toggle('is-disabled', !hasAiCheckbox.checked);
+            roleInputs.forEach((input) => {
+                input.disabled = !hasAiCheckbox.checked;
+            });
+        };
+
+        if (hasAiCheckbox) {
+            hasAiCheckbox.addEventListener('change', syncRolePickerState);
+        }
+        syncRolePickerState();
+    });
+</script>
 {% endblock %}

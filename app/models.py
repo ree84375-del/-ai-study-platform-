@@ -159,6 +159,7 @@ class Group(db.Model):
     invite_code = db.Column(db.String(20), unique=True, nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     has_ai = db.Column(db.Boolean, default=True)
+    ai_personality = db.Column(db.String(50), nullable=False, default='ai_gentle')
     group_type = db.Column(db.String(20), nullable=False, default='class') # 'class', 'discussion'
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     
