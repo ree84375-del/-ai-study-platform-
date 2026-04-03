@@ -1131,27 +1131,89 @@ def practice_cap_hub():
     selected_years = _parse_selected_years(request.args, available_years)
     selected_subject_slug = (request.args.get('subject') or '').strip() or None
 
+    if selected_subject_slug:
+        return redirect(url_for('study.practice_cap_mode', years=','.join(selected_years), subject=selected_subject_slug))
+
+    next_step_href = url_for('study.practice_cap_subject', years=','.join(selected_years))
+    total_question_count = sum(
+        int(subject.get('question_count') or 0)
+        for year_entry in get_cap_year_entries(manifest, selected_years)
+        for subject in year_entry.get('subjects', [])
+    )
+
+    return render_template(
+        'practice_cap_hub.html',
+        title='會考歷屆練習',
+        available_years=available_years,
+        selected_years=selected_years,
+        available_subject_count=sum(1 for card in build_cap_subject_cards(manifest, selected_years) if card.get('available')),
+        total_question_count=total_question_count,
+        next_step_href=next_step_href,
+    )
+
+
+@study.route("/practice/cap/subject")
+@login_required
+def practice_cap_subject():
+    manifest = load_cap_library_manifest()
+    available_years = get_cap_years(manifest)
+    selected_years = _parse_selected_years(request.args, available_years)
+    selected_subject_slug = (request.args.get('subject') or '').strip() or None
+
     cap_subject_cards = []
-    raw_cards = build_cap_subject_cards(manifest, selected_years, selected_subject_slug)
-    for raw in raw_cards:
+    for raw in build_cap_subject_cards(manifest, selected_years, selected_subject_slug):
         meta = _cap_subject_meta(raw['slug'])
         cap_subject_cards.append({
             'slug': raw['slug'],
             'label': meta['label'],
             'icon': meta['icon'],
             'description': meta['description'],
-            'year_count': raw.get('year_count', 0),
             'ready_year_count': raw.get('ready_year_count', 0),
             'question_count': raw.get('question_count', 0),
             'available': raw.get('available', False),
             'is_active': raw['slug'] == selected_subject_slug,
-            'href': url_for('study.practice_cap_hub', years=','.join(selected_years), subject=raw['slug']) if raw.get('available') else None,
-            'accent': meta['accent'],
+            'href': url_for('study.practice_cap_subject', years=','.join(selected_years), subject=raw['slug']) if raw.get('available') else None,
         })
 
-    selected_subject = next((card for card in cap_subject_cards if card['slug'] == selected_subject_slug and card['available']), None)
+    selected_subject = next(
+        (card for card in cap_subject_cards if card['slug'] == selected_subject_slug and card['available']),
+        None,
+    )
     documents = load_cap_documents(manifest, selected_years, selected_subject_slug) if selected_subject else []
     question_bank_count = count_available_cap_questions(documents) if documents else 0
+
+    return render_template(
+        'practice_cap_subject.html',
+        title='會考歷屆練習｜選科目',
+        selected_years=selected_years,
+        cap_subject_cards=cap_subject_cards,
+        selected_subject=selected_subject,
+        question_bank_count=question_bank_count,
+        year_step_href=url_for('study.practice_cap_hub', years=','.join(selected_years)),
+        next_step_href=url_for('study.practice_cap_mode', years=','.join(selected_years), subject=selected_subject['slug']) if selected_subject else None,
+    )
+
+
+@study.route("/practice/cap/mode")
+@login_required
+def practice_cap_mode():
+    manifest = load_cap_library_manifest()
+    available_years = get_cap_years(manifest)
+    selected_years = _parse_selected_years(request.args, available_years)
+    selected_subject_slug = (request.args.get('subject') or '').strip()
+    if not selected_subject_slug:
+        flash('請先選擇科目，再選擇預覽或練習模式。', 'info')
+        return redirect(url_for('study.practice_cap_subject', years=','.join(selected_years)))
+
+    selected_subject = {
+        'slug': selected_subject_slug,
+        **_cap_subject_meta(selected_subject_slug),
+    }
+    documents = load_cap_documents(manifest, selected_years, selected_subject_slug)
+    if not documents:
+        flash('這個年份範圍目前沒有可用題目，請重新選擇年份或科目。', 'info')
+        return redirect(url_for('study.practice_cap_subject', years=','.join(selected_years)))
+
     preview_only_count = 0
     for year_entry in get_cap_year_entries(manifest, selected_years):
         for subject in year_entry.get('subjects', []):
@@ -1159,22 +1221,18 @@ def practice_cap_hub():
                 preview_only_count += 1
 
     selected_years_query = ','.join(selected_years)
-    preview_href = url_for('study.practice_cap_preview', years=selected_years_query, subject=selected_subject_slug) if selected_subject else None
-    practice_href = url_for('study.practice_cap_session', years=selected_years_query, subject=selected_subject_slug) if selected_subject else None
 
     return render_template(
-        'practice_cap_hub.html',
-        title='會考歷屆練習',
-        available_years=available_years,
-        selected_years=selected_years,
-        available_subject_count=sum(1 for card in cap_subject_cards if card['available']),
-        total_question_count=sum(card['question_count'] for card in cap_subject_cards),
-        cap_subject_cards=cap_subject_cards,
+        'practice_cap_mode.html',
+        title='會考歷屆練習｜選模式',
         selected_subject=selected_subject,
-        question_bank_count=question_bank_count,
+        selected_years=selected_years,
+        question_bank_count=count_available_cap_questions(documents),
         preview_only_count=preview_only_count,
-        preview_href=preview_href,
-        practice_href=practice_href,
+        year_step_href=url_for('study.practice_cap_hub', years=selected_years_query),
+        subject_step_href=url_for('study.practice_cap_subject', years=selected_years_query, subject=selected_subject_slug),
+        preview_href=url_for('study.practice_cap_preview', years=selected_years_query, subject=selected_subject_slug),
+        practice_href=url_for('study.practice_cap_session', years=selected_years_query, subject=selected_subject_slug),
     )
 
 
@@ -1246,7 +1304,7 @@ def practice_cap_preview():
     documents = load_cap_documents(manifest, selected_years, selected_subject_slug)
     if not documents:
         flash('這個年份範圍目前沒有可預覽的會考題目。', 'info')
-        return redirect(url_for('study.practice_cap_hub', years=','.join(selected_years)))
+        return redirect(url_for('study.practice_cap_subject', years=','.join(selected_years)))
 
     flattened_questions = [
         _build_cap_question_item(item, selected_subject_slug)
@@ -1284,7 +1342,7 @@ def practice_cap_preview():
         selected_years=selected_years,
         question_bank_count=question_bank_count,
         visible_question_count=len(visible_questions),
-        hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject_slug),
+        hub_href=url_for('study.practice_cap_mode', years=','.join(selected_years), subject=selected_subject_slug),
         practice_href=url_for('study.practice_cap_session', years=','.join(selected_years), subject=selected_subject_slug),
         per_page_options=CAP_PREVIEW_PER_PAGE_OPTIONS,
         per_page=per_page,
@@ -1313,7 +1371,7 @@ def practice_cap_session():
     documents = load_cap_documents(manifest, selected_years, selected_subject_slug)
     if not documents:
         flash('這個年份範圍目前沒有可練習的會考題目。', 'info')
-        return redirect(url_for('study.practice_cap_hub', years=','.join(selected_years)))
+        return redirect(url_for('study.practice_cap_subject', years=','.join(selected_years)))
 
     all_questions = [
         _build_cap_question_item(item, selected_subject_slug)
@@ -1352,7 +1410,7 @@ def practice_cap_session():
             selected_question_keys_csv=','.join(item['question_key'] for item in question_items),
             initial_question_index=initial_question_index,
             preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject_slug),
-            hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject_slug),
+            hub_href=url_for('study.practice_cap_mode', years=','.join(selected_years), subject=selected_subject_slug),
         )
 
     return render_template(
@@ -1369,7 +1427,7 @@ def practice_cap_session():
         practice_duration_options=[{'value': value, 'label': f'{value} 分鐘'} for value in CAP_PRACTICE_DURATION_OPTIONS],
         question_pool_size=question_pool_size,
         preview_href=url_for('study.practice_cap_preview', years=','.join(selected_years), subject=selected_subject_slug),
-        hub_href=url_for('study.practice_cap_hub', years=','.join(selected_years), subject=selected_subject_slug),
+        hub_href=url_for('study.practice_cap_mode', years=','.join(selected_years), subject=selected_subject_slug),
     )
 
 

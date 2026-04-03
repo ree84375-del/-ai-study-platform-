@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}會考歷屆練習｜選科目{% endblock %}
+{% block content %}
+<style>
+  .cap-subject-page {
+    --navy: #15395f;
+    --navy-soft: #edf4ff;
+    --gold: #c58e3e;
+    --ink: #1d2531;
+    --muted: #6b7687;
+    --line: rgba(21, 57, 95, 0.14);
+    display: grid;
+    gap: 1.2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .cap-card {
+    border-radius: 32px;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(circle at top right, rgba(197, 142, 62, 0.16), transparent 30%),
+      linear-gradient(135deg, #ffffff, #f3f7fd);
+    box-shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
+    padding: 1.5rem;
+  }
+
+  .cap-badge,
+  .cap-pill,
+  .cap-action,
+  .cap-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .cap-badge {
+    padding: 0.5rem 1rem;
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .cap-card h1,
+  .cap-card h2,
+  .cap-subject-item h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-card h1 {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .cap-card p,
+  .cap-subject-item p,
+  .cap-summary span {
+    margin: 0.8rem 0 0;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .cap-progress {
+    display: flex;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    margin-top: 1.4rem;
+  }
+
+  .cap-pill {
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(21, 57, 95, 0.12);
+    background: rgba(255, 255, 255, 0.78);
+    color: #6f7a88;
+  }
+
+  .cap-pill.is-active {
+    color: var(--navy);
+    background: var(--navy-soft);
+    border-color: rgba(21, 57, 95, 0.2);
+  }
+
+  .cap-subject-grid {
+    margin-top: 1.35rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .cap-subject-item {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1.1rem;
+    border-radius: 28px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .cap-subject-item:hover,
+  .cap-subject-item.is-active {
+    transform: translateY(-3px);
+    background: linear-gradient(145deg, #edf4ff, #ffffff);
+    box-shadow: 0 18px 34px rgba(21, 57, 95, 0.1);
+  }
+
+  .cap-subject-item.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .cap-top-row,
+  .cap-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .cap-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 20px;
+    background: var(--navy-soft);
+    color: var(--navy);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+  }
+
+  .cap-summary {
+    margin-top: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .cap-summary div {
+    padding: 1rem;
+    border-radius: 22px;
+    border: 1px solid rgba(21, 57, 95, 0.08);
+    background: rgba(255, 255, 255, 0.84);
+  }
+
+  .cap-summary strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+
+  .cap-action-row {
+    margin-top: 1.2rem;
+  }
+
+  .cap-action,
+  .cap-ghost {
+    min-height: 54px;
+    padding: 0.85rem 1.35rem;
+  }
+
+  .cap-action {
+    background: linear-gradient(135deg, var(--navy), #2563eb);
+    color: #fff;
+    box-shadow: 0 18px 30px rgba(21, 57, 95, 0.18);
+  }
+
+  .cap-action.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .cap-ghost {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid rgba(21, 57, 95, 0.12);
+  }
+</style>
+
+<div class="cap-subject-page">
+  <section class="cap-card">
+    <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
+    <h1>第二步：只選科目。</h1>
+    <p>年份已經選好了，這一頁只決定要做哪一科。下一頁才選預覽模式或練習模式。</p>
+    <div class="cap-progress">
+      <a class="cap-pill" href="{{ year_step_href }}">1 選年份</a>
+      <span class="cap-pill is-active">2 選科目</span>
+      <span class="cap-pill">3 選模式</span>
+    </div>
+    <div class="cap-summary">
+      <div><span>已選年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
+      <div><span>目前科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></div>
+      <div><span>目前科目題數</span><strong>{{ question_bank_count }}</strong></div>
+    </div>
+  </section>
+
+  <section class="cap-card">
+    <h2>選科目</h2>
+    <p>只選一科，不混科。已檢查完成的科目才可進下一步。</p>
+    <div class="cap-subject-grid">
+      {% for card in cap_subject_cards %}
+      <a class="cap-subject-item{% if card.is_active %} is-active{% endif %}{% if not card.available %} is-disabled{% endif %}" href="{{ card.href or '#' }}">
+        <div class="cap-top-row">
+          <span class="cap-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+          <span class="cap-pill">{{ card.question_count }} 題</span>
+        </div>
+        <div>
+          <h3>{{ card.label }}</h3>
+          <p>{{ card.description }}</p>
+        </div>
+        <span class="cap-pill"><i class="fa-solid fa-check"></i> 已整理 {{ card.ready_year_count }} 年</span>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="cap-action-row">
+      <a class="cap-ghost" href="{{ year_step_href }}"><i class="fa-solid fa-arrow-left"></i> 上一步：年份</a>
+      <a class="cap-action{% if not selected_subject %} is-disabled{% endif %}" href="{{ next_step_href or '#' }}"><i class="fa-solid fa-arrow-right-long"></i> 下一步：選模式</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

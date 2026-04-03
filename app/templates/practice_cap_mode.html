@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% block title %}會考歷屆練習｜選模式{% endblock %}
+{% block content %}
+<style>
+  .cap-mode-page {
+    --navy: #15395f;
+    --navy-soft: #edf4ff;
+    --gold: #c58e3e;
+    --paper: rgba(255, 255, 255, 0.92);
+    --ink: #1d2531;
+    --muted: #6b7687;
+    --line: rgba(21, 57, 95, 0.14);
+    display: grid;
+    gap: 1.2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .cap-block,
+  .mode-card {
+    border-radius: 32px;
+    border: 1px solid var(--line);
+    box-shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
+  }
+
+  .cap-block {
+    padding: 1.5rem;
+    background:
+      radial-gradient(circle at top right, rgba(197, 142, 62, 0.2), transparent 30%),
+      linear-gradient(135deg, #fffdf8, #f3f7fd);
+  }
+
+  .cap-badge,
+  .cap-pill,
+  .mode-link,
+  .cap-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 999px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .cap-badge {
+    padding: 0.5rem 1rem;
+    background: var(--navy);
+    color: #fff;
+    width: fit-content;
+  }
+
+  .cap-block h1,
+  .cap-block h2,
+  .mode-card h3 {
+    margin: 0;
+    color: var(--ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-block h1 {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .cap-block p,
+  .mode-card p,
+  .cap-summary span {
+    margin: 0.8rem 0 0;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .cap-progress {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .cap-pill {
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(21, 57, 95, 0.12);
+    background: rgba(255, 255, 255, 0.8);
+    color: #6f7a88;
+  }
+
+  .cap-pill.is-active {
+    color: var(--navy);
+    background: var(--navy-soft);
+    border-color: rgba(21, 57, 95, 0.2);
+  }
+
+  .cap-summary {
+    margin-top: 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .cap-summary div {
+    padding: 1rem;
+    border-radius: 22px;
+    border: 1px solid rgba(21, 57, 95, 0.08);
+    background: rgba(255, 255, 255, 0.84);
+  }
+
+  .cap-summary strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 1.45rem;
+    color: var(--ink);
+  }
+
+  .mode-grid {
+    margin-top: 1.35rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .mode-card {
+    padding: 1.25rem;
+    background: var(--paper);
+    display: grid;
+    gap: 0.9rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .mode-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 78px rgba(21, 57, 95, 0.14);
+  }
+
+  .mode-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--navy-soft);
+    color: var(--navy);
+    font-size: 1.35rem;
+  }
+
+  .mode-foot,
+  .cap-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .mode-link,
+  .cap-ghost {
+    min-height: 52px;
+    padding: 0.8rem 1.3rem;
+  }
+
+  .mode-link {
+    color: #fff;
+    background: linear-gradient(135deg, var(--navy), #2563eb);
+  }
+
+  .cap-ghost {
+    border: 1px solid rgba(21, 57, 95, 0.12);
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .cap-action-row {
+    margin-top: 1.2rem;
+  }
+</style>
+
+<div class="cap-mode-page">
+  <section class="cap-block">
+    <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
+    <h1>第三步：只選模式。</h1>
+    <p>年份和科目都已經選完了，這一頁只決定要先預覽，還是直接開始練習。</p>
+    <div class="cap-progress">
+      <a class="cap-pill" href="{{ year_step_href }}">1 選年份</a>
+      <a class="cap-pill" href="{{ subject_step_href }}">2 選科目</a>
+      <span class="cap-pill is-active">3 選模式</span>
+    </div>
+    <div class="cap-summary">
+      <div><span>年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
+      <div><span>科目</span><strong>{{ selected_subject.label }}</strong></div>
+      <div><span>題數</span><strong>{{ question_bank_count }}</strong></div>
+      <div><span>僅預覽年份</span><strong>{{ preview_only_count }}</strong></div>
+    </div>
+  </section>
+
+  <section class="cap-block">
+    <h2>選模式</h2>
+    <p>預覽模式適合先看題目、答案與詳解；練習模式會先作答，再交卷看結果。</p>
+    <div class="mode-grid">
+      <a class="mode-card" href="{{ preview_href }}">
+        <span class="mode-icon"><i class="fa-solid fa-book-open"></i></span>
+        <div>
+          <h3>預覽模式</h3>
+          <p>先翻題目、題組圖片、選項圖片與詳解，適合先熟悉歷屆題型。</p>
+        </div>
+        <div class="mode-foot">
+          <span class="cap-pill">可分頁查看</span>
+          <span class="mode-link">開始預覽 <i class="fa-solid fa-arrow-right-long"></i></span>
+        </div>
+      </a>
+
+      <a class="mode-card" href="{{ practice_href }}">
+        <span class="mode-icon"><i class="fa-solid fa-pen-ruler"></i></span>
+        <div>
+          <h3>練習模式</h3>
+          <p>先設定題數與時間，再進入一題一頁作答流程，交卷後看成績與詳解。</p>
+        </div>
+        <div class="mode-foot">
+          <span class="cap-pill">正式作答節奏</span>
+          <span class="mode-link">開始練習 <i class="fa-solid fa-arrow-right-long"></i></span>
+        </div>
+      </a>
+    </div>
+    <div class="cap-action-row">
+      <a class="cap-ghost" href="{{ subject_step_href }}"><i class="fa-solid fa-arrow-left"></i> 上一步：科目</a>
+      <a class="cap-ghost" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-house"></i> 回刷題首頁</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

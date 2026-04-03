@@ -1,1005 +1,280 @@
 {% extends "base.html" %}
-{% block title %}開始刷題{% endblock %}
+{% block title %}刷題中心{% endblock %}
 {% block content %}
 <style>
-  .practice-portal {
-    --ink: #211a18;
-    --muted: #6d625c;
-    --paper: #fff9f0;
-    --line: rgba(91, 67, 49, 0.12);
-    --shadow: 0 30px 70px rgba(80, 58, 39, 0.12);
+  .study-gateway {
+    --ink: #201a18;
+    --muted: #6b625d;
+    --surface: rgba(255, 255, 255, 0.9);
+    --line: rgba(89, 66, 49, 0.12);
     display: grid;
     gap: 1.4rem;
-    padding-bottom: 5rem;
+    padding-bottom: 3rem;
   }
 
-  .portal-hero,
-  .portal-card,
-  .portal-builder,
-  .portal-summary-bar {
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-  }
-
-  .portal-hero {
+  .gateway-hero,
+  .gateway-card,
+  .gateway-note {
     border-radius: 32px;
+    border: 1px solid var(--line);
+    box-shadow: 0 28px 70px rgba(76, 53, 35, 0.11);
+  }
+
+  .gateway-hero {
     padding: 1.6rem;
     background:
-      radial-gradient(circle at top right, rgba(240, 196, 130, 0.28), transparent 28%),
-      linear-gradient(135deg, #fffdf8, #f8f0e2);
+      radial-gradient(circle at top right, rgba(239, 187, 107, 0.24), transparent 28%),
+      linear-gradient(135deg, #fffdf8, #f7efdf);
   }
 
-  .portal-eyebrow,
-  .portal-tag,
-  .portal-pill {
+  .gateway-badge,
+  .gateway-tag,
+  .gateway-action {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     border-radius: 999px;
     font-weight: 800;
+    text-decoration: none;
     width: fit-content;
   }
 
-  .portal-eyebrow {
-    padding: 0.5rem 0.95rem;
-    background: #211a18;
-    color: #fffaf2;
+  .gateway-badge {
+    padding: 0.5rem 1rem;
+    background: #2d221c;
+    color: #fff8ee;
   }
 
-  .portal-copy {
-    display: grid;
-    gap: 0.8rem;
-    margin-top: 1.2rem;
-    max-width: 780px;
-  }
-
-  .portal-copy h1,
-  .portal-card h2,
-  .portal-builder h2,
-  .portal-mini h3,
-  .portal-summary-bar strong {
+  .gateway-hero h1,
+  .gateway-card h2,
+  .gateway-note h2 {
     margin: 0;
     color: var(--ink);
     font-family: "Kaisei Tokumin", serif;
   }
 
-  .portal-copy h1 {
-    font-size: clamp(2.1rem, 5vw, 4rem);
-    line-height: 1.04;
-    letter-spacing: 0.02em;
+  .gateway-hero h1 {
+    margin-top: 1rem;
+    max-width: 780px;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
   }
 
-  .portal-copy p,
-  .portal-card p,
-  .portal-mini p,
-  .portal-builder p,
-  .portal-summary-bar span {
-    margin: 0;
+  .gateway-hero p,
+  .gateway-card p,
+  .gateway-note p {
+    margin: 0.8rem 0 0;
     color: var(--muted);
     line-height: 1.8;
   }
 
-  .portal-stats {
+  .gateway-stats {
+    margin-top: 1.35rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.85rem;
-    margin-top: 1.3rem;
-  }
-
-  .portal-stat {
-    padding: 1rem 1.15rem;
-    border-radius: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-  }
-
-  .portal-stat span {
-    display: block;
-    font-size: 0.86rem;
-    color: #8d7b6f;
-  }
-
-  .portal-stat strong {
-    display: block;
-    margin-top: 0.3rem;
-    font-size: 2rem;
-    color: var(--ink);
-  }
-
-  .portal-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .portal-card {
-    position: relative;
-    display: grid;
-    gap: 1rem;
-    min-height: 280px;
-    padding: 1.35rem;
-    border-radius: 32px;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(250, 245, 237, 0.92));
-    text-align: left;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-  }
-
-  .portal-card:not(.is-disabled):hover,
-  .portal-card.is-active {
-    transform: translateY(-4px);
-    box-shadow: 0 30px 72px rgba(52, 44, 36, 0.18);
-  }
-
-  .portal-card.is-active {
-    border-color: var(--accent-border);
-    background: linear-gradient(160deg, var(--accent-soft), rgba(255, 255, 255, 0.97));
-  }
-
-  .portal-card.is-disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  .portal-card.cap {
-    --accent: #17395f;
-    --accent-soft: #edf4ff;
-    --accent-border: rgba(23, 57, 95, 0.2);
-    --chip: #d8e8ff;
-  }
-
-  .portal-card.exam {
-    --accent: #8f3b23;
-    --accent-soft: #fff0e6;
-    --accent-border: rgba(143, 59, 35, 0.2);
-    --chip: #ffe0d2;
-  }
-
-  .portal-card.mistakes {
-    --accent: #8a2435;
-    --accent-soft: #fff0f2;
-    --accent-border: rgba(138, 36, 53, 0.2);
-    --chip: #ffdbe4;
-  }
-
-  .portal-card.guides {
-    --accent: #2f6c4d;
-    --accent-soft: #edf8f0;
-    --accent-border: rgba(47, 108, 77, 0.2);
-    --chip: #d9f2e2;
-  }
-
-  .portal-card.general {
-    --accent: #6b655f;
-    --accent-soft: #f5f1ec;
-    --accent-border: rgba(107, 101, 95, 0.18);
-    --chip: #ebe5dd;
-  }
-
-  .portal-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.8rem;
-  }
-
-  .portal-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 22px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 1.35rem;
-  }
-
-  .portal-tag,
-  .portal-pill {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.84rem;
-    background: var(--chip);
-    color: var(--accent);
-  }
-
-  .portal-card h2 {
-    font-size: 1.7rem;
-    line-height: 1.15;
-  }
-
-  .portal-bottom {
-    margin-top: auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.7rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    font-weight: 800;
-    color: var(--accent);
-  }
-
-  .portal-builder {
-    --accent: #17395f;
-    --accent-soft: #edf4ff;
-    --accent-border: rgba(23, 57, 95, 0.2);
-    border-radius: 34px;
-    padding: 1.35rem;
-    background: linear-gradient(180deg, #fffdf9, #f8efe2);
-    display: grid;
-    gap: 1rem;
-  }
-
-  .portal-builder[data-theme="cap"] {
-    --accent: #17395f;
-    --accent-soft: #edf4ff;
-    --accent-border: rgba(23, 57, 95, 0.2);
-  }
-
-  .portal-builder[data-theme="exam"] {
-    --accent: #8f3b23;
-    --accent-soft: #fff0e6;
-    --accent-border: rgba(143, 59, 35, 0.2);
-  }
-
-  .portal-builder[data-theme="mistakes"] {
-    --accent: #8a2435;
-    --accent-soft: #fff0f2;
-    --accent-border: rgba(138, 36, 53, 0.2);
-  }
-
-  .portal-builder[data-theme="guides"] {
-    --accent: #2f6c4d;
-    --accent-soft: #edf8f0;
-    --accent-border: rgba(47, 108, 77, 0.2);
-  }
-
-  .portal-builder[data-theme="general"] {
-    --accent: #6b655f;
-    --accent-soft: #f5f1ec;
-    --accent-border: rgba(107, 101, 95, 0.18);
-  }
-
-  .portal-builder-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .portal-flow {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 1rem;
-    align-items: start;
-  }
-
-  .portal-step-grid,
-  .portal-summary-grid,
-  .portal-mini-grid {
-    display: grid;
-    gap: 0.85rem;
-  }
-
-  .portal-step-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
-  .portal-mini {
-    border-radius: 24px;
-    padding: 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.86);
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .portal-mini h3 {
-    font-size: 1.15rem;
-  }
-
-  .portal-chip-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
-  }
-
-  .portal-chip-btn {
-    min-height: 48px;
-    padding: 0.7rem 1rem;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    background: #fff;
-    color: var(--ink);
-    font-weight: 900;
-    transition: 0.16s ease;
-  }
-
-  .portal-chip-btn:hover,
-  .portal-chip-btn.is-active {
-    transform: translateY(-2px);
-    border-color: var(--accent-border);
-    background: var(--accent-soft);
-    color: var(--accent);
-  }
-
-  .portal-action-card {
-    position: sticky;
-    top: 92px;
-    border-radius: 28px;
-    padding: 1.1rem;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.9);
-    display: grid;
     gap: 0.9rem;
   }
 
-  .portal-summary-item {
-    padding: 0.9rem 1rem;
-    border-radius: 20px;
-    background: #f8f5f0;
+  .gateway-stat {
+    padding: 1rem 1.1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .gateway-stat span {
+    color: #8c7e74;
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  .gateway-stat strong {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--ink);
+    font-size: 1.9rem;
+  }
+
+  .gateway-grid {
     display: grid;
-    gap: 0.15rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
   }
 
-  .portal-summary-item span {
-    font-size: 0.82rem;
-  }
-
-  .portal-summary-item strong {
-    font-size: 1rem;
-  }
-
-  .portal-cta,
-  .portal-ghost {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    min-height: 52px;
-    border-radius: 999px;
-    font-weight: 900;
+  .gateway-card {
+    --accent: #17395f;
+    --accent-soft: #edf4ff;
+    min-height: 310px;
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+      radial-gradient(circle at top right, var(--accent-soft), transparent 44%),
+      var(--surface);
+    color: inherit;
     text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
   }
 
-  .portal-cta {
-    border: none;
-    color: #fff;
-    background: linear-gradient(135deg, var(--accent), #111827);
+  .gateway-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 34px 78px rgba(61, 46, 33, 0.15);
   }
 
-  .portal-cta[aria-disabled="true"] {
-    opacity: 0.45;
+  .gateway-card.exam {
+    --accent: #93422b;
+    --accent-soft: #fff0e7;
+  }
+
+  .gateway-card.mistakes {
+    --accent: #8a2638;
+    --accent-soft: #fff0f2;
+  }
+
+  .gateway-card.guides {
+    --accent: #2f6b4e;
+    --accent-soft: #ecf7ef;
+  }
+
+  .gateway-card.general {
+    --accent: #7a736c;
+    --accent-soft: #f4efea;
+    opacity: 0.72;
     pointer-events: none;
   }
 
-  .portal-ghost {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    background: #fff;
-    color: var(--ink);
+  .gateway-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: flex-start;
   }
 
-  .portal-note {
-    padding: 1rem;
-    border-radius: 22px;
+  .gateway-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 20px;
     background: var(--accent-soft);
     color: var(--accent);
-    line-height: 1.75;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
   }
 
-  .portal-empty {
-    padding: 1rem;
-    border-radius: 20px;
-    border: 1px dashed rgba(0, 0, 0, 0.14);
-    color: var(--muted);
+  .gateway-tag {
+    padding: 0.45rem 0.85rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.82rem;
   }
 
-  @media (max-width: 1180px) {
-    .portal-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .portal-flow {
-      grid-template-columns: 1fr;
-    }
-
-    .portal-action-card {
-      position: static;
-    }
+  .gateway-card h2 {
+    margin-top: 1.2rem;
+    font-size: 1.95rem;
   }
 
-  @media (max-width: 680px) {
-    .portal-grid {
-      grid-template-columns: 1fr;
-    }
+  .gateway-footer {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    color: var(--accent);
+    font-weight: 900;
+  }
 
-    .portal-card {
-      min-height: auto;
-    }
+  .gateway-note {
+    padding: 1.35rem;
+    background: linear-gradient(135deg, #fff, #f8f4ed);
+  }
+
+  .gateway-note p {
+    max-width: 780px;
   }
 </style>
 
-<div class="practice-portal" id="practice-portal">
-  <section class="portal-hero">
-    <span class="portal-eyebrow"><i class="fa-solid fa-layer-group"></i> 學習入口總覽</span>
-    <div class="portal-copy">
-      <h1>先選一條路，再用一步一步的方式進入練習、模擬考或講義閱讀。</h1>
-      <p>我把刷題專區重新收成四個主入口，首頁只做決策，不再把所有年份、科目和模式混在同一個畫面。</p>
-    </div>
-    <div class="portal-stats">
-      <div class="portal-stat"><span>會考可練題數</span><strong>{{ cap_material_count }}</strong></div>
-      <div class="portal-stat"><span>待複習錯題</span><strong>{{ exam_unresolved_count }}</strong></div>
-      <div class="portal-stat"><span>今天到期複習</span><strong>{{ exam_due_count }}</strong></div>
-      <div class="portal-stat"><span>可讀講義</span><strong>{{ guide_download_count }}</strong></div>
+<div class="study-gateway">
+  <section class="gateway-hero">
+    <span class="gateway-badge"><i class="fa-solid fa-layer-group"></i> 刷題中心</span>
+    <h1>先選你要做哪一件事，下一頁再一步一步設定。</h1>
+    <p>這裡只保留四個主入口，不在同一頁塞年份、科目、模式與說明，讓流程先變清楚，再往下走。</p>
+    <div class="gateway-stats">
+      <div class="gateway-stat"><span>會考可用題數</span><strong>{{ cap_material_count }}</strong></div>
+      <div class="gateway-stat"><span>待複習錯題</span><strong>{{ exam_unresolved_count }}</strong></div>
+      <div class="gateway-stat"><span>今日到期複習</span><strong>{{ exam_due_count }}</strong></div>
+      <div class="gateway-stat"><span>可讀講義</span><strong>{{ guide_download_count }}</strong></div>
     </div>
   </section>
 
-  <section class="portal-grid" id="portal-grid"></section>
-
-  <section class="portal-builder" id="portal-builder">
-    <div class="portal-builder-head">
+  <section class="gateway-grid">
+    <a class="gateway-card cap" href="{{ url_for('study.practice_cap_hub') }}">
       <div>
-        <span class="portal-pill" id="builder-pill">會考歷屆練習</span>
-        <h2 id="builder-title">先鎖定年份、科目和模式</h2>
-        <p id="builder-copy">選完入口後，這裡只顯示當前功能需要的下一步，不再一次攤開全部設定。</p>
+        <div class="gateway-top">
+          <span class="gateway-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+          <span class="gateway-tag">年份可混 / 科目不混</span>
+        </div>
+        <h2>會考歷屆練習</h2>
+        <p>先選年份，再選科目，最後選預覽或練習模式。這一條路專門做歷屆會考。</p>
       </div>
-    </div>
+      <div class="gateway-footer"><span>{{ cap_material_count }} 題</span><i class="fa-solid fa-arrow-right-long"></i></div>
+    </a>
 
-    <div class="portal-flow">
-      <div class="portal-step-grid" id="portal-stage"></div>
-      <aside class="portal-action-card" id="portal-summary"></aside>
-    </div>
+    <a class="gateway-card exam" href="{{ url_for('study.generate_exam') }}">
+      <div>
+        <div class="gateway-top">
+          <span class="gateway-icon"><i class="fa-solid fa-file-signature"></i></span>
+          <span class="gateway-tag">{{ exam_unresolved_count }} 題待補</span>
+        </div>
+        <h2>弱點模擬考</h2>
+        <p>從錯題本抽題組卷，先決定策略和題數，再進入模擬測驗。</p>
+      </div>
+      <div class="gateway-footer"><span>開始組卷</span><i class="fa-solid fa-arrow-right-long"></i></div>
+    </a>
+
+    <a class="gateway-card mistakes" href="{{ url_for('study.mistakes') }}">
+      <div>
+        <div class="gateway-top">
+          <span class="gateway-icon"><i class="fa-solid fa-book-journal-whills"></i></span>
+          <span class="gateway-tag">{{ exam_due_count }} 題到期</span>
+        </div>
+        <h2>錯題本</h2>
+        <p>集中看未掌握、已到期和已完成的題目，適合回頭補弱點。</p>
+      </div>
+      <div class="gateway-footer"><span>進入複習中心</span><i class="fa-solid fa-arrow-right-long"></i></div>
+    </a>
+
+    <a class="gateway-card guides" href="{{ url_for('study.practice_guides') }}">
+      <div>
+        <div class="gateway-top">
+          <span class="gateway-icon"><i class="fa-solid fa-book-open-reader"></i></span>
+          <span class="gateway-tag">{{ guide_download_count }} 份講義</span>
+        </div>
+        <h2>AI 學習講義</h2>
+        <p>先選科目、再選系列與章節，直接進閱讀器看重點和原始頁圖。</p>
+      </div>
+      <div class="gateway-footer"><span>開始閱讀</span><i class="fa-solid fa-arrow-right-long"></i></div>
+    </a>
+
+    <article class="gateway-card general">
+      <div>
+        <div class="gateway-top">
+          <span class="gateway-icon"><i class="fa-solid fa-school"></i></span>
+          <span class="gateway-tag">整理中</span>
+        </div>
+        <h2>一般國中練習</h2>
+        <p>這批題庫正在全面重建，先暫時不開放，避免用到舊的錯誤資料。</p>
+      </div>
+      <div class="gateway-footer"><span>暫停開放</span><i class="fa-solid fa-arrow-right-long"></i></div>
+    </article>
+  </section>
+
+  <section class="gateway-note">
+    <h2>目前流程整理原則</h2>
+    <p>首頁只做一件事：選入口。進到會考、模擬考、錯題本或講義後，再各自用一步一頁的方式往下選，不把全部條件攤在同一個畫面。</p>
   </section>
 </div>
-
-<script>
-(() => {
-  const payload = {{ entry_payload|tojson }};
-  const shell = document.getElementById('practice-portal');
-  const grid = document.getElementById('portal-grid');
-  const stage = document.getElementById('portal-stage');
-  const summary = document.getElementById('portal-summary');
-  const builderPill = document.getElementById('builder-pill');
-  const builderTitle = document.getElementById('builder-title');
-  const builderCopy = document.getElementById('builder-copy');
-
-  const years = (payload.cap?.years || []).map(String);
-  const capSubjects = payload.cap?.subjects || [];
-  const examSubjects = payload.exam?.subjects || [];
-  const mistakeSubjects = payload.mistakes?.subjects || [];
-  const guideSubjects = payload.guides?.subjects || [];
-  const firstGuideSubject = guideSubjects.find((item) => item.guideCount > 0) || guideSubjects[0] || null;
-
-  const cardMeta = {
-    cap: {
-      title: '會考歷屆練習',
-      description: '依年份和科目進入預覽或正式練習，適合直接刷歷屆題。',
-      icon: 'fa-graduation-cap',
-      status: '年份可混｜科目不混',
-      count: `${payload.cap?.questionCount || 0} 題`,
-      disabled: false,
-    },
-    exam: {
-      title: '弱點模擬考',
-      description: '從錯題與到期複習中組卷，快速打一場弱點回補測驗。',
-      icon: 'fa-file-signature',
-      status: `${payload.exam?.unresolvedCount || 0} 題待補`,
-      count: `${payload.exam?.recommendedCount || 5} 題起`,
-      disabled: false,
-    },
-    mistakes: {
-      title: '錯題本',
-      description: '依狀態和科目整理錯題，直接回頭看題目與安排再練習。',
-      icon: 'fa-book-journal-whills',
-      status: `${payload.mistakes?.dueCount || 0} 題到期`,
-      count: `${payload.mistakes?.unresolvedCount || 0} 題未解`,
-      disabled: false,
-    },
-    guides: {
-      title: 'AI 學習講義',
-      description: '按科目、系列和講義進入閱讀，不用在下載清單裡慢慢翻。',
-      icon: 'fa-book-open-reader',
-      status: `${guideSubjects.length} 科可讀`,
-      count: `${guideSubjects.reduce((sum, subject) => sum + (subject.guideCount || 0), 0)} 份`,
-      disabled: false,
-    },
-    general: {
-      title: '一般國中練習',
-      description: '這批題庫還在重新整理中，先暫時不開放進入，避免用到錯題。',
-      icon: 'fa-school',
-      status: '整理中',
-      count: '暫停開放',
-      disabled: true,
-    },
-  };
-
-  const state = {
-    track: 'cap',
-    cap: {
-      years: years.length ? [years[years.length - 1]] : [],
-      subject: capSubjects.find((subject) => subject.available)?.slug || '',
-      mode: 'preview',
-    },
-    exam: {
-      strategy: payload.exam?.strategies?.[0]?.value || 'mixed',
-      count: payload.exam?.recommendedCount || payload.exam?.countOptions?.[0] || 5,
-      subject: '',
-    },
-    mistakes: {
-      status: 'unresolved',
-      subject: '',
-    },
-    guides: {
-      subject: firstGuideSubject?.slug || '',
-      series: '',
-      guide: '',
-    },
-  };
-
-  const escapeHtml = (value) => String(value ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-
-  const buildUrl = (base, params = {}) => {
-    const url = new URL(base, window.location.origin);
-    Object.entries(params).forEach(([key, value]) => {
-      if (Array.isArray(value)) {
-        if (value.length) url.searchParams.set(key, value.join(','));
-        return;
-      }
-      if (value !== undefined && value !== null && value !== '') {
-        url.searchParams.set(key, value);
-      }
-    });
-    return `${url.pathname}${url.search}`;
-  };
-
-  const getGuideSubject = () => guideSubjects.find((item) => item.slug === state.guides.subject) || firstGuideSubject || null;
-  const getGuideSeries = (subject) => subject?.series?.find((item) => item.value === state.guides.series) || subject?.series?.[0] || null;
-  const getGuideDoc = (series) => series?.guides?.find((item) => item.value === state.guides.guide) || series?.guides?.[0] || null;
-
-  function renderCards() {
-    const cards = Object.entries(cardMeta).map(([slug, item]) => `
-      <button type="button" class="portal-card ${slug} ${state.track === slug ? 'is-active' : ''} ${item.disabled ? 'is-disabled' : ''}" data-track="${slug}" ${item.disabled ? 'disabled' : ''}>
-        <div class="portal-top">
-          <span class="portal-icon"><i class="fa-solid ${escapeHtml(item.icon)}"></i></span>
-          <span class="portal-tag">${escapeHtml(item.status)}</span>
-        </div>
-        <div>
-          <h2>${escapeHtml(item.title)}</h2>
-          <p>${escapeHtml(item.description)}</p>
-        </div>
-        <div class="portal-bottom">
-          <span>${escapeHtml(item.count)}</span>
-          <i class="fa-solid fa-arrow-right-long"></i>
-        </div>
-      </button>
-    `).join('');
-
-    grid.innerHTML = cards;
-    grid.querySelectorAll('[data-track]').forEach((button) => {
-      button.addEventListener('click', () => {
-        if (button.disabled) return;
-        state.track = button.dataset.track;
-        renderAll();
-        document.getElementById('portal-builder').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-  }
-
-  function miniCard(title, body, chipsHtml = '') {
-    return `
-      <div class="portal-mini">
-        <h3>${escapeHtml(title)}</h3>
-        <p>${escapeHtml(body)}</p>
-        ${chipsHtml ? `<div class="portal-chip-grid">${chipsHtml}</div>` : ''}
-      </div>
-    `;
-  }
-
-  function chipButton({ label, active = false, disabled = false, attr = '' }) {
-    return `<button type="button" class="portal-chip-btn ${active ? 'is-active' : ''}" ${attr} ${disabled ? 'disabled' : ''}>${escapeHtml(label)}</button>`;
-  }
-
-  function renderCapStage() {
-    const activeSubject = capSubjects.find((subject) => subject.slug === state.cap.subject) || null;
-    shell.dataset.theme = 'cap';
-    builderPill.textContent = '會考歷屆練習';
-    builderTitle.textContent = '先選年份，再選科目，最後決定預覽或練習';
-    builderCopy.textContent = '這裡只保留會考流程需要的三個決策，選完就能直接開始。';
-
-    stage.innerHTML = [
-      miniCard(
-        'STEP 1 選年份',
-        '可單選一年，也可以混合多個年份一起練。',
-        years.map((year) => chipButton({
-          label: `${year} 年`,
-          active: state.cap.years.includes(year),
-          attr: `data-cap-year="${escapeHtml(year)}"`,
-        })).join(''),
-      ),
-      miniCard(
-        'STEP 2 選科目',
-        '科目不混，先決定這一輪要專心做哪一科。',
-        capSubjects.map((subject) => chipButton({
-          label: `${subject.label} ${subject.question_count || 0}題`,
-          active: state.cap.subject === subject.slug,
-          disabled: !subject.available,
-          attr: `data-cap-subject="${escapeHtml(subject.slug)}"`,
-        })).join(''),
-      ),
-      miniCard(
-        'STEP 3 選模式',
-        '預覽模式先看題與詳解；練習模式直接進入作答。',
-        [
-          chipButton({ label: '預覽模式', active: state.cap.mode === 'preview', attr: 'data-cap-mode="preview"' }),
-          chipButton({ label: '練習模式', active: state.cap.mode === 'practice', attr: 'data-cap-mode="practice"' }),
-        ].join(''),
-      ),
-    ].join('');
-
-    stage.querySelectorAll('[data-cap-year]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const year = button.dataset.capYear;
-        const exists = state.cap.years.includes(year);
-        if (exists && state.cap.years.length > 1) {
-          state.cap.years = state.cap.years.filter((item) => item !== year);
-        } else if (!exists) {
-          state.cap.years = [...state.cap.years, year].sort();
-        }
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-cap-subject]').forEach((button) => {
-      button.addEventListener('click', () => {
-        if (button.disabled) return;
-        state.cap.subject = button.dataset.capSubject || '';
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-cap-mode]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.cap.mode = button.dataset.capMode || 'preview';
-        renderAll();
-      });
-    });
-
-    const primaryHref = activeSubject
-      ? (state.cap.mode === 'practice'
-        ? buildUrl(payload.routes.capSession, { years: state.cap.years, subject: state.cap.subject })
-        : buildUrl(payload.routes.capPreview, { years: state.cap.years, subject: state.cap.subject, per_page: 5, page: 1 }))
-      : '#';
-
-    summary.innerHTML = `
-      <div>
-        <span class="portal-pill">目前選擇</span>
-        <h2>會考歷屆練習</h2>
-      </div>
-      <div class="portal-summary-grid">
-        <div class="portal-summary-item"><span>年份</span><strong>${escapeHtml(state.cap.years.join('、') || '尚未選擇')}</strong></div>
-        <div class="portal-summary-item"><span>科目</span><strong>${escapeHtml(activeSubject?.label || '尚未選擇')}</strong></div>
-        <div class="portal-summary-item"><span>模式</span><strong>${state.cap.mode === 'practice' ? '練習模式' : '預覽模式'}</strong></div>
-      </div>
-      <div class="portal-note">${activeSubject ? '可以開始進入會考題庫。若要一次混多年，直接保留多個年份高亮即可。' : '先選一個科目，系統才會開啟開始按鈕。'}</div>
-      <a class="portal-cta" href="${escapeHtml(primaryHref)}" aria-disabled="${activeSubject ? 'false' : 'true'}">
-        <i class="fa-solid ${state.cap.mode === 'practice' ? 'fa-pen-ruler' : 'fa-book-open'}"></i>
-        ${state.cap.mode === 'practice' ? '開始練習' : '開始預覽'}
-      </a>
-      <a class="portal-ghost" href="${escapeHtml(buildUrl(payload.routes.capHub, { years: state.cap.years, subject: state.cap.subject }))}">
-        <i class="fa-solid fa-up-right-from-square"></i>
-        進入完整會考頁
-      </a>
-    `;
-  }
-
-  function renderExamStage() {
-    const activeSubject = examSubjects.find((subject) => subject.slug === state.exam.subject) || null;
-    const strategy = (payload.exam?.strategies || []).find((item) => item.value === state.exam.strategy) || payload.exam?.strategies?.[0];
-    shell.dataset.theme = 'exam';
-    builderPill.textContent = '弱點模擬考';
-    builderTitle.textContent = '先選組卷策略，再決定題數和科目範圍';
-    builderCopy.textContent = '這裡會從錯題資料中組卷，適合快速補弱點。';
-
-    stage.innerHTML = [
-      miniCard(
-        'STEP 1 選策略',
-        '決定這場模擬考要混合抽題、優先到期題，還是集中最常錯的題。',
-        (payload.exam?.strategies || []).map((item) => chipButton({
-          label: item.label,
-          active: state.exam.strategy === item.value,
-          attr: `data-exam-strategy="${escapeHtml(item.value)}"`,
-        })).join(''),
-      ),
-      miniCard(
-        'STEP 2 選題數',
-        '先用短卷快速暖身，也可以直接打一份完整弱點卷。',
-        (payload.exam?.countOptions || []).map((count) => chipButton({
-          label: `${count} 題`,
-          active: Number(state.exam.count) === Number(count),
-          attr: `data-exam-count="${count}"`,
-        })).join(''),
-      ),
-      miniCard(
-        'STEP 3 選科目',
-        '可指定一科集中補弱，也可以保留全部科目混合組卷。',
-        [
-          chipButton({
-            label: `全部科目 ${payload.exam?.unresolvedCount || 0}題`,
-            active: state.exam.subject === '',
-            attr: 'data-exam-subject=""',
-          }),
-          ...examSubjects.map((subject) => chipButton({
-            label: `${subject.label} ${subject.questionCount || 0}題`,
-            active: state.exam.subject === subject.slug,
-            attr: `data-exam-subject="${escapeHtml(subject.slug)}"`,
-          })),
-        ].join(''),
-      ),
-    ].join('');
-
-    stage.querySelectorAll('[data-exam-strategy]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.exam.strategy = button.dataset.examStrategy || state.exam.strategy;
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-exam-count]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.exam.count = Number(button.dataset.examCount || state.exam.count);
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-exam-subject]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.exam.subject = button.dataset.examSubject || '';
-        renderAll();
-      });
-    });
-
-    summary.innerHTML = `
-      <div>
-        <span class="portal-pill">目前選擇</span>
-        <h2>弱點模擬考</h2>
-      </div>
-      <div class="portal-summary-grid">
-        <div class="portal-summary-item"><span>策略</span><strong>${escapeHtml(strategy?.label || '混合組卷')}</strong></div>
-        <div class="portal-summary-item"><span>題數</span><strong>${state.exam.count} 題</strong></div>
-        <div class="portal-summary-item"><span>科目</span><strong>${escapeHtml(activeSubject?.label || '全部科目')}</strong></div>
-      </div>
-      <div class="portal-note">會優先從目前錯題本裡還沒解決或到期複習的題目組卷。</div>
-      <a class="portal-cta" href="${escapeHtml(buildUrl(payload.routes.exam, { mode: state.exam.strategy, count: state.exam.count, subject: state.exam.subject }))}">
-        <i class="fa-solid fa-file-signature"></i>
-        開始模擬考
-      </a>
-      <a class="portal-ghost" href="${escapeHtml(buildUrl(payload.routes.mistakes, { status: 'unresolved', subject: state.exam.subject }))}">
-        <i class="fa-solid fa-book-journal-whills"></i>
-        先看錯題本
-      </a>
-    `;
-  }
-
-  function renderMistakesStage() {
-    const activeSubject = mistakeSubjects.find((subject) => subject.slug === state.mistakes.subject) || null;
-    const statusMeta = {
-      unresolved: '未解決',
-      due: '今日到期',
-      resolved: '已掌握',
-      all: '全部錯題',
-    };
-    shell.dataset.theme = 'mistakes';
-    builderPill.textContent = '錯題本';
-    builderTitle.textContent = '先選複習狀態，再縮小科目範圍';
-    builderCopy.textContent = '把錯題本當成補弱中心，先看目前最該處理的那一批題目。';
-
-    stage.innerHTML = [
-      miniCard(
-        'STEP 1 選狀態',
-        '建議先從未解決或今日到期開始，不用一次看全部錯題。',
-        [
-          chipButton({ label: `未解決 ${payload.mistakes?.unresolvedCount || 0}`, active: state.mistakes.status === 'unresolved', attr: 'data-mistake-status="unresolved"' }),
-          chipButton({ label: `今日到期 ${payload.mistakes?.dueCount || 0}`, active: state.mistakes.status === 'due', attr: 'data-mistake-status="due"' }),
-          chipButton({ label: `已掌握 ${payload.mistakes?.resolvedCount || 0}`, active: state.mistakes.status === 'resolved', attr: 'data-mistake-status="resolved"' }),
-          chipButton({ label: '全部錯題', active: state.mistakes.status === 'all', attr: 'data-mistake-status="all"' }),
-        ].join(''),
-      ),
-      miniCard(
-        'STEP 2 選科目',
-        '想集中補一科就直接指定科目；想先總覽就保留全部科目。',
-        [
-          chipButton({ label: '全部科目', active: state.mistakes.subject === '', attr: 'data-mistake-subject=""' }),
-          ...mistakeSubjects.map((subject) => chipButton({
-            label: subject.label,
-            active: state.mistakes.subject === subject.slug,
-            attr: `data-mistake-subject="${escapeHtml(subject.slug)}"`,
-          })),
-        ].join(''),
-      ),
-    ].join('');
-
-    stage.querySelectorAll('[data-mistake-status]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.mistakes.status = button.dataset.mistakeStatus || 'unresolved';
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-mistake-subject]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.mistakes.subject = button.dataset.mistakeSubject || '';
-        renderAll();
-      });
-    });
-
-    summary.innerHTML = `
-      <div>
-        <span class="portal-pill">目前選擇</span>
-        <h2>錯題本</h2>
-      </div>
-      <div class="portal-summary-grid">
-        <div class="portal-summary-item"><span>狀態</span><strong>${escapeHtml(statusMeta[state.mistakes.status] || '未解決')}</strong></div>
-        <div class="portal-summary-item"><span>科目</span><strong>${escapeHtml(activeSubject?.label || '全部科目')}</strong></div>
-        <div class="portal-summary-item"><span>未解決</span><strong>${payload.mistakes?.unresolvedCount || 0} 題</strong></div>
-      </div>
-      <div class="portal-note">進入錯題本後可以直接看題目、圖片與複習狀態，也可以一鍵跳去弱點模擬考。</div>
-      <a class="portal-cta" href="${escapeHtml(buildUrl(payload.routes.mistakes, { status: state.mistakes.status, subject: state.mistakes.subject }))}">
-        <i class="fa-solid fa-book-journal-whills"></i>
-        進入錯題本
-      </a>
-      <a class="portal-ghost" href="${escapeHtml(buildUrl(payload.routes.exam, { mode: 'due', count: payload.exam?.recommendedCount || 5, subject: state.mistakes.subject }))}">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        用到期錯題組卷
-      </a>
-    `;
-  }
-
-  function renderGuidesStage() {
-    const subject = getGuideSubject();
-    if (subject && state.guides.subject !== subject.slug) state.guides.subject = subject.slug;
-    const series = getGuideSeries(subject);
-    if (series && state.guides.series !== series.value) state.guides.series = series.value;
-    const guide = getGuideDoc(series);
-    if (guide && state.guides.guide !== guide.value) state.guides.guide = guide.value;
-
-    shell.dataset.theme = 'guides';
-    builderPill.textContent = 'AI 學習講義';
-    builderTitle.textContent = '先選科目，再選講義系列和閱讀內容';
-    builderCopy.textContent = '把講義整理成閱讀入口，不用在一堆檔案連結裡慢慢找。';
-
-    stage.innerHTML = [
-      miniCard(
-        'STEP 1 選科目',
-        '先決定要讀哪一科，再往下展開系列。',
-        guideSubjects.map((item) => chipButton({
-          label: `${item.label} ${item.guideCount || 0}份`,
-          active: state.guides.subject === item.slug,
-          attr: `data-guide-subject="${escapeHtml(item.slug)}"`,
-        })).join(''),
-      ),
-      miniCard(
-        'STEP 2 選系列',
-        '同一科底下可能有不同講義系列，挑一套先讀。',
-        (subject?.series || []).length
-          ? (subject.series || []).map((item) => chipButton({
-            label: `${item.label} ${item.guideCount || 0}份`,
-            active: state.guides.series === item.value,
-            attr: `data-guide-series="${escapeHtml(item.value)}"`,
-          })).join('')
-          : '<span class="portal-empty">這個科目目前沒有可讀系列。</span>',
-      ),
-      miniCard(
-        'STEP 3 選講義',
-        '選一份講義後就能進入章節式閱讀頁。',
-        (series?.guides || []).length
-          ? (series.guides || []).map((item) => chipButton({
-            label: item.title,
-            active: state.guides.guide === item.value,
-            attr: `data-guide-doc="${escapeHtml(item.value)}"`,
-          })).join('')
-          : '<span class="portal-empty">先選系列，這裡才會展開講義。</span>',
-      ),
-    ].join('');
-
-    stage.querySelectorAll('[data-guide-subject]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.guides.subject = button.dataset.guideSubject || '';
-        state.guides.series = '';
-        state.guides.guide = '';
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-guide-series]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.guides.series = button.dataset.guideSeries || '';
-        state.guides.guide = '';
-        renderAll();
-      });
-    });
-
-    stage.querySelectorAll('[data-guide-doc]').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.guides.guide = button.dataset.guideDoc || '';
-        renderAll();
-      });
-    });
-
-    const readerHref = subject && series && guide
-      ? buildUrl(payload.routes.guideReader, {
-        subject: subject.slug,
-        series: series.value,
-        guide: guide.value,
-      })
-      : '#';
-
-    summary.innerHTML = `
-      <div>
-        <span class="portal-pill">目前選擇</span>
-        <h2>AI 學習講義</h2>
-      </div>
-      <div class="portal-summary-grid">
-        <div class="portal-summary-item"><span>科目</span><strong>${escapeHtml(subject?.label || '尚未選擇')}</strong></div>
-        <div class="portal-summary-item"><span>系列</span><strong>${escapeHtml(series?.label || '尚未選擇')}</strong></div>
-        <div class="portal-summary-item"><span>講義</span><strong>${escapeHtml(guide?.title || '尚未選擇')}</strong></div>
-      </div>
-      <div class="portal-note">進入講義頁後會依章節閱讀，適合先讀觀念再回來做會考題。</div>
-      <a class="portal-cta" href="${escapeHtml(readerHref)}" aria-disabled="${subject && series && guide ? 'false' : 'true'}">
-        <i class="fa-solid fa-book-open-reader"></i>
-        開始閱讀
-      </a>
-      <a class="portal-ghost" href="${escapeHtml(buildUrl(payload.routes.guides, { subject: subject?.slug || '', series: series?.value || '' }))}">
-        <i class="fa-solid fa-layer-group"></i>
-        開啟講義列表
-      </a>
-    `;
-  }
-
-  function renderGeneralStage() {
-    shell.dataset.theme = 'general';
-    builderPill.textContent = '一般國中練習';
-    builderTitle.textContent = '一般國中題庫整理中';
-    builderCopy.textContent = '這批題庫正在全面重建，先暫時不開放入口，避免用到品質不穩定的題目。';
-    stage.innerHTML = `
-      <div class="portal-mini">
-        <h3>目前狀態</h3>
-        <p>一般國中題庫已先停用，之後等題目、圖片和詳解都整理完，再重新接回這個入口。</p>
-      </div>
-    `;
-    summary.innerHTML = `
-      <div>
-        <span class="portal-pill">目前選擇</span>
-        <h2>一般國中練習</h2>
-      </div>
-      <div class="portal-summary-grid">
-        <div class="portal-summary-item"><span>狀態</span><strong>整理中</strong></div>
-        <div class="portal-summary-item"><span>題庫</span><strong>暫停開放</strong></div>
-      </div>
-      <div class="portal-note">等重建完成後，這裡會再接回冊別、章節和主題練習。</div>
-      <a class="portal-cta" href="#" aria-disabled="true">
-        <i class="fa-solid fa-hourglass-half"></i>
-        整理中
-      </a>
-    `;
-  }
-
-  function renderAll() {
-    renderCards();
-    if (state.track === 'cap') renderCapStage();
-    else if (state.track === 'exam') renderExamStage();
-    else if (state.track === 'mistakes') renderMistakesStage();
-    else if (state.track === 'guides') renderGuidesStage();
-    else renderGeneralStage();
-  }
-
-  renderAll();
-})();
-</script>
 {% endblock %}
