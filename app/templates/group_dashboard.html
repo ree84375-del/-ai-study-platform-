@@ -397,6 +397,36 @@
                     <h3 style="margin-top: 0; color: #7c4dff; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                         <i class="fa-solid fa-users-gear"></i> {{ _t('members_roles') }}
                     </h3>
+                    <style>
+                        #member-management-tool > div:first-of-type {
+                            display: flex !important;
+                            flex-direction: column !important;
+                            align-items: stretch !important;
+                            gap: 12px !important;
+                            padding: 14px !important;
+                            border-radius: 18px !important;
+                        }
+
+                        #member-management-tool > div:first-of-type > div:first-child {
+                            display: flex !important;
+                            align-items: center !important;
+                            gap: 12px !important;
+                        }
+
+                        #member-management-tool > div:first-of-type > div:first-child > div:first-child {
+                            flex-shrink: 0 !important;
+                        }
+
+                        #member-management-tool > div:first-of-type > div:first-child > div:last-child {
+                            flex: 1 !important;
+                            min-width: 0 !important;
+                        }
+
+                        #member-management-tool > div:first-of-type form button {
+                            width: 100% !important;
+                            background: {% if group.has_ai %}linear-gradient(135deg, #94a3b8, #64748b){% else %}linear-gradient(135deg, #ff8da1, #ff6584){% endif %} !important;
+                        }
+                    </style>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 16px; margin-bottom: 16px; border-radius: 16px; border: 1px solid {% if group.has_ai %}rgba(255,141,161,0.35){% else %}#e5e7eb{% endif %}; background: {% if group.has_ai %}linear-gradient(135deg, #fff5f7, #ffffff){% else %}linear-gradient(135deg, #f8fafc, #ffffff){% endif %}; box-shadow: 0 10px 20px rgba(0,0,0,0.04);">
                         <div style="display: flex; align-items: center; gap: 12px;">
@@ -2263,6 +2293,7 @@ document.addEventListener('DOMContentLoaded', () => {
         yukineAvatar: "{{ url_for('static', filename=current_user.ai_avatar_filename if current_user.is_authenticated else 'img/yukine_avatar.png') }}",
         aiReplyUrl: `/api/groups/{{ group.id }}/ai_reply`,
         isAdmin: JSON.parse("{{ current_user.is_admin | tojson | safe }}"),
+        groupHasAi: JSON.parse("{{ group.has_ai | tojson | safe }}"),
         confirmRecallMsg: "{{ _t('confirm_recall') }}",
         yukineCheckInProgress: "{{ _t('yukine_checking') }}",
         yukineCheckingNote: "{{ _t('yukine_checking_note') }}",
@@ -2278,6 +2309,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const imagePreviewContainer = document.getElementById('image-preview-container');
     const imagePreview = document.getElementById('image-preview');
     const fileInput = document.getElementById('file-input');
+    const aiControlCard = document.querySelector('#member-management-tool > div:first-of-type');
+
+    if (aiControlCard) {
+        const aiCopy = aiControlCard.firstElementChild ? aiControlCard.firstElementChild.lastElementChild : null;
+        const aiTitle = aiCopy ? aiCopy.firstElementChild : null;
+        const aiDesc = aiCopy ? aiCopy.lastElementChild : null;
+        const aiToggleBtn = aiControlCard.querySelector('button[type="submit"]');
+
+        if (aiTitle) aiTitle.textContent = CONFIG.groupHasAi ? 'AI 已加入群組' : 'AI 未加入群組';
+        if (aiDesc) aiDesc.textContent = CONFIG.groupHasAi ? 'AI 會自動回覆每一則新訊息。' : '目前是純人工聊天，不會觸發 AI 回覆。';
+        if (aiToggleBtn) aiToggleBtn.innerHTML = CONFIG.groupHasAi
+            ? '<i class="fa-solid fa-user-minus"></i> 移除 AI'
+            : '<i class="fa-solid fa-user-plus"></i> 加入 AI';
+    }
 
     const scrollToBottom = () => { if (messageContainer) messageContainer.scrollTop = messageContainer.scrollHeight; };
     scrollToBottom();
@@ -2372,7 +2417,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.startEdit = (msgId, content) => {
         const editIdInput = document.getElementById('edit-id-input');
-        const formActionInput = document.querySelector('[name="action"]');
+        const formActionInput = chatForm.querySelector('input[name="action"]');
         const submitText = document.getElementById('chat-submit-text');
         
         editIdInput.value = msgId;
@@ -2411,7 +2456,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.cancelEdit = () => {
         document.getElementById('edit-id-input').value = '';
-        document.querySelector('[name="action"]').value = 'post_message';
+        chatForm.querySelector('input[name="action"]').value = 'post_message';
         document.getElementById('chat-submit-text').innerText = "{{ _t('send_reinforced') if _t('send_reinforced') else '發送(已強化)' }}";
         chatInput.value = '';
         chatInput.style.height = 'auto';
@@ -3639,7 +3684,8 @@ function cancelAiDraft() {
                 const imageData = imageDataInput.value;
                 if (!content && !imageData) return;
 
-                const action = document.querySelector('[name="action"]').value;
+                const actionInput = this.querySelector('input[name="action"]');
+                const action = actionInput ? actionInput.value : 'post_message';
                 if (action === 'edit_message') {
                      // Edit handled via standard refresh for safety in this version
                      this.submit();
@@ -3670,7 +3716,7 @@ function cancelAiDraft() {
                 window.disableInputUI();
 
                 try {
-                    const submitUrl = this.action || window.location.href;
+                    const submitUrl = this.getAttribute('action') || window.location.href;
                     console.log("Submitting message to:", submitUrl);
                     
                     const res = await fetch(submitUrl, { 
