@@ -366,8 +366,17 @@ def group_dashboard(group_id):
             elif action == 'post_announcement':
                 current_app.logger.info("Posting announcement...")
                 if group_obj.teacher_id == current_user.id and content:
-                    new_ann = GroupAnnouncement(group_id=group_id, content=content)
+                    announcement_text = content.strip()
+                    new_ann = GroupAnnouncement(group_id=group_id, content=announcement_text)
                     db.session.add(new_ann)
+
+                    pinned_message = GroupMessage(
+                        group_id=group_id,
+                        user_id=current_user.id,
+                        content=f"【群組公告】\n{announcement_text}"
+                    )
+                    db.session.add(pinned_message)
+
                     db.session.commit()
                     flash('公告已發布', 'success')
 

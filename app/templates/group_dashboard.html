@@ -50,6 +50,11 @@
             </div>
         </div>
 
+        <div style="margin-bottom: 12px; padding: 10px 12px; border-radius: 14px; background: rgba(255, 247, 232, 0.9); color: #9a6b22; font-size: 0.8rem; line-height: 1.6; font-weight: 700;">
+            <i class="fa-solid fa-thumbtack"></i>
+            公告會同步推送到聊天室，最新公告也會固定顯示在聊天區上方。
+        </div>
+
         {% if announcements %}
             <div class="announcement-list">
                 {% for ann in announcements %}
@@ -686,6 +691,21 @@
                         {% if group.group_type == 'class' %}班級模式{% else %}討論模式{% endif %}
                     </span>
                 </div>
+
+                {% if group.group_type == 'class' and announcements %}
+                    {% set latest_announcement = announcements[0] %}
+                    <div style="margin: 0 1.1rem 1rem; padding: 14px 16px; border-radius: 18px; border: 1px solid rgba(255, 181, 94, 0.35); background: linear-gradient(135deg, #fff7e8, #fffdf8); box-shadow: 0 12px 24px rgba(180, 120, 50, 0.08);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <div style="display: inline-flex; align-items: center; gap: 8px; color: #c56a14; font-size: 0.82rem; font-weight: 800;">
+                                <i class="fa-solid fa-thumbtack"></i> 最新群組公告
+                            </div>
+                            <div style="color: var(--color-text_light); font-size: 0.74rem;">
+                                <span class="utc-time" data-utc="{{ latest_announcement.created_at.isoformat() if latest_announcement.created_at else '' }}Z"></span>
+                            </div>
+                        </div>
+                        <div style="white-space: pre-wrap; color: #5f4325; font-size: 0.92rem; line-height: 1.7; font-weight: 700;">{{ latest_announcement.content }}</div>
+                    </div>
+                {% endif %}
 
                 <div class="chat-scroll-area">
                 <div class="chat-system-banner">
