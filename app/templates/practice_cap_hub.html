@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆練習{% endblock %}
+{% block title %}會考歷屆練習｜選年份{% endblock %}
 {% block content %}
 <style>
   .cap-step-page {
@@ -40,10 +40,10 @@
   }
 
   .cap-badge {
+    width: fit-content;
     padding: 0.5rem 1rem;
     background: var(--navy);
     color: #fff;
-    width: fit-content;
   }
 
   .cap-hero h1,
@@ -174,8 +174,8 @@
 <div class="cap-step-page">
   <section class="cap-hero">
     <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
-    <h1>第一步：只選年份。</h1>
-    <p>可單選一年，也可多選年份混合練習。下一頁才選科目，這頁不再把所有設定一次塞滿。</p>
+    <h1>第一步：只選一個年份。</h1>
+    <p>一次只保留一個年份，下一頁再選科目，避免年份混在一起讓題目範圍變亂。</p>
     <div class="cap-progress">
       <span class="cap-node is-active">1 選年份</span>
       <span class="cap-node">2 選科目</span>
@@ -190,12 +190,12 @@
 
   <section class="cap-board">
     <h2>選年份</h2>
-    <p>至少保留一個年份。選完直接按下一步進科目選擇頁。</p>
+    <p>只能單選一個年份。選好後直接下一步選科目。</p>
     <form id="cap-year-form" method="get" action="{{ url_for('study.practice_cap_subject') }}">
       <div class="cap-year-grid">
         {% for year in available_years %}
         <label class="cap-year-chip{% if year in selected_years %} is-active{% endif %}">
-          <input type="checkbox" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %}>
+          <input type="radio" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %}>
           {{ year }} 年
         </label>
         {% endfor %}
@@ -209,22 +209,22 @@
 </div>
 
 <script>
-document.getElementById('cap-year-form').addEventListener('submit', (event) => {
-  const checkedYears = document.querySelectorAll('.cap-year-chip input[type="checkbox"]:checked');
-  if (!checkedYears.length) {
+const capYearForm = document.getElementById('cap-year-form');
+const capYearInputs = document.querySelectorAll('.cap-year-chip input[type="radio"]');
+
+capYearForm.addEventListener('submit', (event) => {
+  const pickedYear = document.querySelector('.cap-year-chip input[type="radio"]:checked');
+  if (!pickedYear) {
     event.preventDefault();
-    alert('請至少選擇一個年份。');
+    alert('請先選擇一個年份。');
   }
 });
 
-document.querySelectorAll('.cap-year-chip input[type="checkbox"]').forEach((input) => {
+capYearInputs.forEach((input) => {
   input.addEventListener('change', () => {
-    const checkedYears = document.querySelectorAll('.cap-year-chip input[type="checkbox"]:checked');
-    if (!checkedYears.length) {
-      input.checked = true;
-      return;
-    }
-    input.closest('.cap-year-chip').classList.toggle('is-active', input.checked);
+    document.querySelectorAll('.cap-year-chip').forEach((chip) => {
+      chip.classList.toggle('is-active', chip.contains(input));
+    });
   });
 });
 </script>

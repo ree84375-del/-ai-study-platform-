@@ -434,9 +434,9 @@ def _parse_selected_years(args, available_years):
 
     parsed = _dedupe_keep_order(parsed)
     if parsed:
-        return parsed
+        return parsed[:1]
     if available_years:
-        return [available_years[-1]]
+        return [available_years[0]]
     return []
 
 
