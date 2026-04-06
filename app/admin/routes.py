@@ -161,7 +161,7 @@ def require_admin():
 def dashboard():
     # --- DATABASE HEALTH CHECK (Auto-Migration) ---
     try:
-        db.session.execute(text("SELECT group_type FROM \"group\" LIMIT 1"))
+        db.session.execute(text("SELECT group_type, ai_personality FROM \"group\" LIMIT 1"))
     except ProgrammingError:
         db.session.rollback()
         auto_fixes = [
@@ -178,6 +178,8 @@ def dashboard():
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS feedback TEXT",
             "ALTER TABLE assignment_status ADD COLUMN IF NOT EXISTS score INTEGER",
             "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS group_type VARCHAR(20) DEFAULT 'class'",
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS has_ai BOOLEAN DEFAULT TRUE",
+            "ALTER TABLE \"group\" ADD COLUMN IF NOT EXISTS ai_personality VARCHAR(50) DEFAULT 'ai_gentle'",
             "ALTER TABLE \"user\" ADD COLUMN IF NOT EXISTS last_ip VARCHAR(45)",
             "CREATE TABLE IF NOT EXISTS ip_ban (id SERIAL PRIMARY KEY, ip VARCHAR(45) NOT NULL, reason TEXT, banned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, expires_at TIMESTAMP, is_permanent BOOLEAN DEFAULT FALSE, admin_notes TEXT, banned_by_id INTEGER REFERENCES \"user\"(id))",
             "CREATE INDEX IF NOT EXISTS ix_ip_ban_ip ON ip_ban (ip)",
