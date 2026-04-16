@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="achievement-stage">
+    <section class="achievement-hero">
+        <div class="achievement-hero-copy">
+            <span class="achievement-badge"><i class="fa-solid fa-stamp"></i> 日式成就系統</span>
+            <h1>把每天的學習，收進一本自己的朱印帳。</h1>
+            <p>這裡會把抽籤、繪馬、達磨、錯題與 AI 對話整理成可收集的成就。不是為了壓力，是讓進步看得見。</p>
+        </div>
+        <div class="achievement-hero-seal" aria-hidden="true">
+            <span>學</span>
+            <small>朱印帳</small>
+        </div>
+    </section>
+
+    <section class="achievement-overview">
+        <div class="achievement-stat">
+            <span>已解鎖</span>
+            <strong>{{ summary.unlocked }}</strong>
+            <small>/ {{ summary.total }} 枚成就</small>
+        </div>
+        <div class="achievement-stat">
+            <span>修行點數</span>
+            <strong>{{ summary.total_points }}</strong>
+            <small>由已解鎖成就累積</small>
+        </div>
+        <div class="achievement-stat">
+            <span>完成度</span>
+            <strong>{{ summary.completion_percent }}</strong>
+            <small>%</small>
+        </div>
+        <div class="achievement-stat achievement-next">
+            <span>下一枚推薦</span>
+            {% if summary.next_card %}
+                <strong>{{ summary.next_card.title }}</strong>
+                <small>{{ summary.next_card.current }} / {{ summary.next_card.target }}</small>
+            {% else %}
+                <strong>全部完成</strong>
+                <small>可以準備下一批成就</small>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="achievement-focus">
+        <div>
+            <span class="achievement-section-kicker">今日建議</span>
+            {% if summary.next_card %}
+                <h2>先把「{{ summary.next_card.title }}」推進到下一格。</h2>
+                <p>{{ summary.next_card.detail }}</p>
+                <a class="achievement-primary" href="{{ summary.next_card.cta_url }}">
+                    {{ summary.next_card.cta_text }} <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            {% else %}
+                <h2>今天的朱印帳已經很漂亮了。</h2>
+                <p>你目前已經把第一批成就全數解鎖，接下來可以加上會考專屬徽章與日式段位。</p>
+                <a class="achievement-primary" href="{{ url_for('study.practice') }}">
+                    繼續練習 <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="achievement-paper-note">
+            <span>目前狀態</span>
+            {% if summary.active_daruma %}
+                <strong>{{ summary.active_daruma.goal }}</strong>
+                <small>達磨目標進行中</small>
+            {% elif summary.open_mistakes %}
+                <strong>{{ summary.open_mistakes }} 題錯題待收服</strong>
+                <small>適合安排一輪錯題複習</small>
+            {% else %}
+                <strong>狀態乾淨</strong>
+                <small>可以從會考練習或 AI 講義開始</small>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="achievement-book">
+        <div class="achievement-book-head">
+            <div>
+                <span class="achievement-section-kicker">朱印收藏</span>
+                <h2>成就一覽</h2>
+                <p>點篩選可以只看日課、神社儀式、學習任務或 AI 助教成就。</p>
+            </div>
+            <div class="achievement-filters" role="tablist" aria-label="成就篩選">
+                {% for item in filters %}
+                <button class="achievement-filter{% if item.key == 'all' %} is-active{% endif %}" type="button" data-achievement-filter="{{ item.key }}">
+                    {{ item.label }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="achievement-grid">
+            {% for card in cards %}
+            <article class="achievement-card achievement-tone-{{ card.tone }}{% if card.unlocked %} is-unlocked{% else %} is-locked{% endif %}" data-achievement-card data-category="{{ card.category }}">
+                <div class="achievement-card-top">
+                    <div class="achievement-icon">
+                        <i class="fa-solid {{ card.icon }}"></i>
+                    </div>
+                    <span class="achievement-status">
+                        {% if card.unlocked %}
+                            已解鎖
+                        {% else %}
+                            {{ card.current }} / {{ card.target }}
+                        {% endif %}
+                    </span>
+                </div>
+                <h3>{{ card.title }}</h3>
+                <p class="achievement-subtitle">{{ card.subtitle }}</p>
+                <p class="achievement-detail">{{ card.detail }}</p>
+                <div class="achievement-progress" aria-label="{{ card.title }} 進度 {{ card.progress }}%">
+                    <span style="width: {{ card.progress }}%;"></span>
+                </div>
+                <div class="achievement-card-bottom">
+                    <small>{{ card.progress }}%</small>
+                    <a href="{{ card.cta_url }}">{{ card.cta_text }}</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

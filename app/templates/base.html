@@ -125,6 +125,7 @@
             <a href="{{ url_for('main.home') }}" class="nav-link"><i class="fa-solid fa-house"></i> {{ _t('nav_home') }}</a>
             {% if current_user.is_authenticated %}
             <a href="{{ url_for('study.practice') }}" class="nav-link"><i class="fa-solid fa-pen-clip"></i> {{ _t('nav_practice') }}</a>
+            <a href="{{ url_for('main.achievements') }}" class="nav-link"><i class="fa-solid fa-stamp"></i> 成就</a>
             <a href="{{ url_for('group.groups') }}" class="nav-link"><i class="fa-solid fa-users"></i> {{ _t('nav_groups') }}</a>
             <a href="{{ url_for('main.chat') }}" class="nav-link"><i class="fa-solid fa-comments"></i> {{ _t('nav_chat') }}</a>
             <a href="{{ url_for('study.lofi_room') }}" class="nav-link" id="nav-lofi-room"><i class="fa-solid fa-moon"></i> {{ _t('nav_lofi') }}</a>
@@ -161,6 +162,9 @@
         </a>
         <a href="{{ url_for('study.practice') }}" class="mob-nav-item">
             <i class="fa-solid fa-pen-clip"></i><span>{{ _t('nav_practice') }}</span>
+        </a>
+        <a href="{{ url_for('main.achievements') }}" class="mob-nav-item">
+            <i class="fa-solid fa-stamp"></i><span>成就</span>
         </a>
         <a href="{{ url_for('group.groups') }}" class="mob-nav-item">
             <i class="fa-solid fa-users"></i><span>{{ _t('nav_groups') }}</span>

@@ -14,6 +14,7 @@
     initInkRipple();
     initPointerGlow();
     initStepFocus();
+    initAchievementFilters();
   });
 
   function mountAmbience() {
@@ -65,6 +66,9 @@
       ".reader-stat",
       ".reader-card",
       ".reader-panel",
+      ".achievement-stat",
+      ".achievement-focus",
+      ".achievement-card",
       ".washi-card",
       ".glass-panel"
     ];
@@ -102,6 +106,7 @@
     const candidates = Array.from(
       document.querySelectorAll(
         ".entry-stat strong, .cap-stat strong, .mockroom-stat strong, .mistake-stat strong, .guide-stat strong, .reader-stat strong, .guide-summary-item strong"
+          + ", .achievement-stat strong"
       )
     );
 
@@ -161,7 +166,7 @@
   function initInkRipple() {
     document.addEventListener("click", (event) => {
       const target = event.target.closest(
-        ".entry-cta, .entry-ghost, .cap-primary, .cap-ghost, .mockroom-btn, .mockroom-link, .mistake-btn, .mistake-link, .guide-action, .guide-link, .reader-action, .btn, button"
+        ".entry-cta, .entry-ghost, .cap-primary, .cap-ghost, .mockroom-btn, .mockroom-link, .mistake-btn, .mistake-link, .guide-action, .guide-link, .reader-action, .achievement-primary, .achievement-filter, .btn, button"
       );
       if (!target || target.disabled || reduceMotion) return;
 
@@ -177,7 +182,7 @@
 
   function initPointerGlow() {
     const glowTargets = document.querySelectorAll(
-      ".entry-lane, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .guide-card"
+      ".entry-lane, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .guide-card, .achievement-card"
     );
 
     glowTargets.forEach((target) => {
@@ -201,5 +206,32 @@
       ],
       { duration: 1100, easing: "ease-in-out" }
     );
+  }
+
+  function initAchievementFilters() {
+    const filters = Array.from(document.querySelectorAll("[data-achievement-filter]"));
+    const cards = Array.from(document.querySelectorAll("[data-achievement-card]"));
+    if (!filters.length || !cards.length) return;
+
+    filters.forEach((filter) => {
+      filter.addEventListener("click", () => {
+        const key = filter.dataset.achievementFilter;
+        filters.forEach((item) => item.classList.toggle("is-active", item === filter));
+
+        cards.forEach((card, index) => {
+          const shouldShow = key === "all" || card.dataset.category === key;
+          card.classList.toggle("is-hidden", !shouldShow);
+          if (shouldShow && !reduceMotion) {
+            card.animate(
+              [
+                { opacity: 0, transform: "translateY(8px) scale(0.985)" },
+                { opacity: 1, transform: "translateY(0) scale(1)" }
+              ],
+              { duration: 260, delay: Math.min(index, 8) * 22, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+            );
+          }
+        });
+      });
+    });
   }
 })();

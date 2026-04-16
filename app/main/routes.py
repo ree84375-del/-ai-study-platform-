@@ -145,9 +145,10 @@ def before_request():
             recent_count = IPAccessLog.query.filter(IPAccessLog.ip == client_ip, IPAccessLog.timestamp > ten_mins_ago).count()
             
             # TRIGGER AI ANALYSIS:
-            # 1. On the very first entry (recent_count == 1)
-            # 2. Or if they hit a suspicious frequency threshold (intervals of 30)
-            if recent_count == 1 or (recent_count > 0 and recent_count % 30 == 0):
+            # Only analyze suspicious frequency thresholds. Calling AI on a
+            # normal first visit burns API quota and can make the assistant
+            # feel unreliable for regular learners.
+            if recent_count >= 30 and recent_count % 30 == 0:
                 # Check if we already have a VERY recent analysis to avoid spamming the AI
                 # We re-analyze if the previous analysis is older than 6 hours OR if they hit a new frequency threshold
                 from datetime import timedelta
@@ -158,8 +159,7 @@ def before_request():
                     IPAccessLog.timestamp > re_analyze_cutoff
                 ).first()
                 
-                # If first hit, or hit 30/60/90... requests and haven't analyzed recently
-                if recent_count == 1 or not last_flagged or recent_count % 30 == 0:
+                if not last_flagged:
                     analyze_ip_threat(client_ip)
         except Exception as e:
             print(f"Logging fail: {str(e)}")
@@ -191,10 +191,9 @@ def before_request():
                 current_user.last_active_at = now_utc
                 needs_commit = True
 
-            # Force admin username to always be 管理員
-            if current_user.is_admin and current_user.username != '管理員':
-                current_user.username = '管理員'
-                needs_commit = True
+            # Admin display names are handled by User.display_name and the
+            # auth login flow. Do not rename on every request, because a
+            # duplicate username can break Google OAuth for the real admin.
             
             # AI Account Role Enforcement: @internal.ai MUST be 'teacher'
             if current_user.is_ai_account and current_user.role != 'teacher':
@@ -440,6 +439,222 @@ def profile():
     current_app.logger.info(f"User {current_user.id} accessing profile page")
     mistake_count = Mistake.query.filter_by(user_id=current_user.id, is_resolved=False).count()
     return render_template('profile.html', title=_t('profile_title', current_user.language), mistake_count=mistake_count)
+
+@main.route("/achievements")
+@login_required
+def achievements():
+    from app import db
+    from app.models import AssignmentStatus, ChatSession, Daruma, Ema, Mistake, Omikuji
+
+    def safe_count(query):
+        try:
+            return query.count()
+        except Exception:
+            db.session.rollback()
+            return 0
+
+    def safe_latest(query):
+        try:
+            return query.first()
+        except Exception:
+            db.session.rollback()
+            return None
+
+    omikuji_count = safe_count(Omikuji.query.filter_by(user_id=current_user.id))
+    ema_count = safe_count(Ema.query.filter_by(user_id=current_user.id))
+    daruma_count = safe_count(Daruma.query.filter_by(user_id=current_user.id))
+    completed_daruma_count = safe_count(Daruma.query.filter_by(user_id=current_user.id, is_completed=True))
+    open_mistake_count = safe_count(Mistake.query.filter_by(user_id=current_user.id, is_resolved=False))
+    resolved_mistake_count = safe_count(Mistake.query.filter_by(user_id=current_user.id, is_resolved=True))
+    assignment_done_count = safe_count(AssignmentStatus.query.filter_by(user_id=current_user.id, is_completed=True))
+    chat_session_count = safe_count(ChatSession.query.filter_by(user_id=current_user.id))
+    active_daruma = safe_latest(Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()))
+
+    def make_card(key, title, subtitle, icon, tone, current, target, category, detail, cta_text, cta_url):
+        target = max(1, int(target))
+        current = max(0, int(current))
+        unlocked = current >= target
+        progress = 100 if unlocked else round((current / target) * 100)
+        return {
+            "key": key,
+            "title": title,
+            "subtitle": subtitle,
+            "icon": icon,
+            "tone": tone,
+            "current": current,
+            "target": target,
+            "progress": progress,
+            "unlocked": unlocked,
+            "category": category,
+            "detail": detail,
+            "cta_text": cta_text,
+            "cta_url": cta_url,
+        }
+
+    cards = [
+        make_card(
+            "first_step",
+            "入門朱印",
+            "第一次踏進學習內所",
+            "fa-torii-gate",
+            "indigo",
+            1,
+            1,
+            "daily",
+            "帳號已建立，這枚朱印代表你正式開始自己的學習旅程。",
+            "回首頁",
+            url_for("main.home"),
+        ),
+        make_card(
+            "daily_omikuji",
+            "今日御神籤",
+            "抽一次今日學習籤",
+            "fa-scroll",
+            "gold",
+            omikuji_count,
+            1,
+            "daily",
+            "每天抽籤可以把學習狀態變成一個小儀式，讓開局更有節奏。",
+            "去抽籤",
+            url_for("main.home"),
+        ),
+        make_card(
+            "seven_fortunes",
+            "七日籤巡禮",
+            "累積 7 張學習籤",
+            "fa-fan",
+            "plum",
+            omikuji_count,
+            7,
+            "daily",
+            "連續建立微小儀式，比一次爆衝更容易留下長期節奏。",
+            "查看首頁",
+            url_for("main.home"),
+        ),
+        make_card(
+            "first_ema",
+            "第一塊繪馬",
+            "寫下第一個願望或目標",
+            "fa-tags",
+            "sage",
+            ema_count,
+            1,
+            "shrine",
+            "把目標掛起來，會比只放在腦袋裡更容易被自己看見。",
+            "寫繪馬",
+            url_for("main.home"),
+        ),
+        make_card(
+            "daruma_start",
+            "達磨開眼",
+            "立下一個達磨目標",
+            "fa-bullseye",
+            "vermilion",
+            daruma_count,
+            1,
+            "shrine",
+            "達磨適合放長期目標，例如會考衝刺、每天複習、完成一份講義。",
+            "設定目標",
+            url_for("main.home"),
+        ),
+        make_card(
+            "daruma_complete",
+            "雙眼達磨",
+            "完成 1 個達磨目標",
+            "fa-circle-check",
+            "gold",
+            completed_daruma_count,
+            1,
+            "shrine",
+            "完成目標後幫達磨補上另一隻眼睛，這會是一個很有感的收束。",
+            "看達磨",
+            url_for("main.home"),
+        ),
+        make_card(
+            "mistake_yokai",
+            "錯題妖怪圖鑑",
+            "收集第一題錯題",
+            "fa-ghost",
+            "plum",
+            open_mistake_count + resolved_mistake_count,
+            1,
+            "study",
+            "錯題不是失敗，是妖怪現形。看見牠，才有機會把牠收服。",
+            "去刷題",
+            url_for("study.practice"),
+        ),
+        make_card(
+            "mistake_cleanse",
+            "弱點淨化",
+            "完成 3 題錯題複習",
+            "fa-water",
+            "indigo",
+            resolved_mistake_count,
+            3,
+            "study",
+            "把錯題重新做對，會比單純看詳解更能真的補上破洞。",
+            "開錯題本",
+            url_for("study.mistakes"),
+        ),
+        make_card(
+            "homework_seal",
+            "作業奉納印",
+            "完成 1 份老師作業",
+            "fa-book-open-reader",
+            "sage",
+            assignment_done_count,
+            1,
+            "study",
+            "老師派出的任務完成後，會成為你的學習紀錄之一。",
+            "開始刷題",
+            url_for("study.practice"),
+        ),
+        make_card(
+            "ai_companion",
+            "雪音相談室",
+            "建立 1 次 AI 對話紀錄",
+            "fa-comments",
+            "indigo",
+            chat_session_count,
+            1,
+            "companion",
+            "遇到卡住的地方，可以把它丟給 AI 助教拆解，不要讓問題卡在心裡。",
+            "找雪音",
+            url_for("main.chat"),
+        ),
+    ]
+
+    unlocked_cards = [card for card in cards if card["unlocked"]]
+    locked_cards = [card for card in cards if not card["unlocked"]]
+    next_card = sorted(locked_cards, key=lambda card: card["progress"], reverse=True)[0] if locked_cards else None
+    total_points = sum(30 + (card["target"] * 3) for card in unlocked_cards)
+    completion_percent = round((len(unlocked_cards) / len(cards)) * 100) if cards else 0
+
+    summary = {
+        "unlocked": len(unlocked_cards),
+        "total": len(cards),
+        "total_points": total_points,
+        "completion_percent": completion_percent,
+        "next_card": next_card,
+        "active_daruma": active_daruma,
+        "open_mistakes": open_mistake_count,
+    }
+
+    filters = [
+        {"key": "all", "label": "全部"},
+        {"key": "daily", "label": "日課"},
+        {"key": "shrine", "label": "神社"},
+        {"key": "study", "label": "學習"},
+        {"key": "companion", "label": "AI 助教"},
+    ]
+
+    return render_template(
+        "achievements.html",
+        title="日式成就朱印帳",
+        cards=cards,
+        summary=summary,
+        filters=filters,
+    )
 
 @main.route("/chat")
 @login_required
