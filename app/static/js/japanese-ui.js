@@ -15,6 +15,9 @@
     initPointerGlow();
     initStepFocus();
     initAchievementFilters();
+    initScrollProgress();
+    initQuestionTransitions();
+    initAchievementTrophies();
   });
 
   function mountAmbience() {
@@ -69,6 +72,17 @@
       ".achievement-stat",
       ".achievement-focus",
       ".achievement-card",
+      ".achievement-rank-card",
+      ".achievement-sakura-card",
+      ".achievement-event-card",
+      ".achievement-collection-panel",
+      ".omamori-card",
+      ".seal-card",
+      ".yokai-card",
+      ".achievement-home-card",
+      ".admin-achievement-stat",
+      ".admin-achievement-card",
+      ".admin-achievement-panel",
       ".washi-card",
       ".glass-panel"
     ];
@@ -106,7 +120,7 @@
     const candidates = Array.from(
       document.querySelectorAll(
         ".entry-stat strong, .cap-stat strong, .mockroom-stat strong, .mistake-stat strong, .guide-stat strong, .reader-stat strong, .guide-summary-item strong"
-          + ", .achievement-stat strong"
+          + ", .achievement-stat strong, .admin-achievement-stat strong"
       )
     );
 
@@ -166,7 +180,7 @@
   function initInkRipple() {
     document.addEventListener("click", (event) => {
       const target = event.target.closest(
-        ".entry-cta, .entry-ghost, .cap-primary, .cap-ghost, .mockroom-btn, .mockroom-link, .mistake-btn, .mistake-link, .guide-action, .guide-link, .reader-action, .achievement-primary, .achievement-filter, .btn, button"
+        ".entry-cta, .entry-ghost, .cap-primary, .cap-ghost, .mockroom-btn, .mockroom-link, .mistake-btn, .mistake-link, .guide-action, .guide-link, .reader-action, .achievement-primary, .achievement-filter, .admin-action-btn, .btn, button"
       );
       if (!target || target.disabled || reduceMotion) return;
 
@@ -182,7 +196,7 @@
 
   function initPointerGlow() {
     const glowTargets = document.querySelectorAll(
-      ".entry-lane, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .guide-card, .achievement-card"
+      ".entry-lane, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .guide-card, .achievement-card, .achievement-home-card, .admin-achievement-card"
     );
 
     glowTargets.forEach((target) => {
@@ -232,6 +246,56 @@
           }
         });
       });
+    });
+  }
+
+  function initScrollProgress() {
+    const needsProgress = document.querySelector(
+      ".practice-question-card, .cap-question-card, .mockroom-question, .cap-preview, .achievement-stage"
+    );
+    if (!needsProgress) return;
+
+    const progress = document.createElement("div");
+    progress.className = "jp-scroll-progress";
+    progress.setAttribute("aria-hidden", "true");
+    progress.innerHTML = "<span></span>";
+    document.body.appendChild(progress);
+
+    const bar = progress.querySelector("span");
+    const update = () => {
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const value = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+      bar.style.width = `${value}%`;
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+  }
+
+  function initQuestionTransitions() {
+    const question = document.querySelector(".practice-question-card, .cap-question-card, .mockroom-question");
+    if (!question || reduceMotion) return;
+
+    question.classList.add("jp-question-transition");
+    document.addEventListener("click", (event) => {
+      const control = event.target.closest("a, button");
+      if (!control) return;
+      const text = (control.textContent || "").trim();
+      if (!/(下一題|上一題|交卷|開始|預覽|練習)/.test(text)) return;
+      question.classList.remove("jp-question-transition");
+      void question.offsetWidth;
+      question.classList.add("jp-question-transition");
+    });
+  }
+
+  function initAchievementTrophies() {
+    const trophies = Array.from(document.querySelectorAll(".achievement-trophy"));
+    if (!trophies.length || reduceMotion) return;
+
+    trophies.forEach((trophy, index) => {
+      trophy.style.animationDelay = `${(index % 8) * -180}ms`;
+      trophy.classList.add("is-trophy-ready");
     });
   }
 })();

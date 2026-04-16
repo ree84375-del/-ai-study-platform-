@@ -250,6 +250,7 @@ def home():
     active_daruma = None
     mistakes_to_review = 0
     study_plan = []
+    achievement_preview = None
     
     if current_user.is_authenticated:
         # Taiwan is UTC+8
@@ -385,6 +386,13 @@ def home():
                 study_plan = json.loads(unquote(current_user.study_roadmap))
             except Exception:
                 pass
+        try:
+            from app.utils.achievement_engine import build_user_achievement_payload
+
+            achievement_preview = build_user_achievement_payload(current_user, url_for)
+        except Exception as exc:
+            current_app.logger.warning(f"Achievement preview skipped: {exc}")
+            achievement_preview = None
 
     # If NOT authenticated or fallback
     if 'garden_stats' not in locals():
@@ -398,7 +406,8 @@ def home():
                            active_daruma=active_daruma,
                            mistakes_to_review=mistakes_to_review,
                            study_plan=study_plan,
-                           garden_stats=garden_stats)
+                           garden_stats=garden_stats,
+                           achievement_preview=achievement_preview)
 
 @main.route('/about')
 def about():
@@ -443,217 +452,14 @@ def profile():
 @main.route("/achievements")
 @login_required
 def achievements():
-    from app import db
-    from app.models import AssignmentStatus, ChatSession, Daruma, Ema, Mistake, Omikuji
+    from app.utils.achievement_engine import build_user_achievement_payload
 
-    def safe_count(query):
-        try:
-            return query.count()
-        except Exception:
-            db.session.rollback()
-            return 0
-
-    def safe_latest(query):
-        try:
-            return query.first()
-        except Exception:
-            db.session.rollback()
-            return None
-
-    omikuji_count = safe_count(Omikuji.query.filter_by(user_id=current_user.id))
-    ema_count = safe_count(Ema.query.filter_by(user_id=current_user.id))
-    daruma_count = safe_count(Daruma.query.filter_by(user_id=current_user.id))
-    completed_daruma_count = safe_count(Daruma.query.filter_by(user_id=current_user.id, is_completed=True))
-    open_mistake_count = safe_count(Mistake.query.filter_by(user_id=current_user.id, is_resolved=False))
-    resolved_mistake_count = safe_count(Mistake.query.filter_by(user_id=current_user.id, is_resolved=True))
-    assignment_done_count = safe_count(AssignmentStatus.query.filter_by(user_id=current_user.id, is_completed=True))
-    chat_session_count = safe_count(ChatSession.query.filter_by(user_id=current_user.id))
-    active_daruma = safe_latest(Daruma.query.filter_by(user_id=current_user.id, is_completed=False).order_by(Daruma.created_at.desc()))
-
-    def make_card(key, title, subtitle, icon, tone, current, target, category, detail, cta_text, cta_url):
-        target = max(1, int(target))
-        current = max(0, int(current))
-        unlocked = current >= target
-        progress = 100 if unlocked else round((current / target) * 100)
-        return {
-            "key": key,
-            "title": title,
-            "subtitle": subtitle,
-            "icon": icon,
-            "tone": tone,
-            "current": current,
-            "target": target,
-            "progress": progress,
-            "unlocked": unlocked,
-            "category": category,
-            "detail": detail,
-            "cta_text": cta_text,
-            "cta_url": cta_url,
-        }
-
-    cards = [
-        make_card(
-            "first_step",
-            "入門朱印",
-            "第一次踏進學習內所",
-            "fa-torii-gate",
-            "indigo",
-            1,
-            1,
-            "daily",
-            "帳號已建立，這枚朱印代表你正式開始自己的學習旅程。",
-            "回首頁",
-            url_for("main.home"),
-        ),
-        make_card(
-            "daily_omikuji",
-            "今日御神籤",
-            "抽一次今日學習籤",
-            "fa-scroll",
-            "gold",
-            omikuji_count,
-            1,
-            "daily",
-            "每天抽籤可以把學習狀態變成一個小儀式，讓開局更有節奏。",
-            "去抽籤",
-            url_for("main.home"),
-        ),
-        make_card(
-            "seven_fortunes",
-            "七日籤巡禮",
-            "累積 7 張學習籤",
-            "fa-fan",
-            "plum",
-            omikuji_count,
-            7,
-            "daily",
-            "連續建立微小儀式，比一次爆衝更容易留下長期節奏。",
-            "查看首頁",
-            url_for("main.home"),
-        ),
-        make_card(
-            "first_ema",
-            "第一塊繪馬",
-            "寫下第一個願望或目標",
-            "fa-tags",
-            "sage",
-            ema_count,
-            1,
-            "shrine",
-            "把目標掛起來，會比只放在腦袋裡更容易被自己看見。",
-            "寫繪馬",
-            url_for("main.home"),
-        ),
-        make_card(
-            "daruma_start",
-            "達磨開眼",
-            "立下一個達磨目標",
-            "fa-bullseye",
-            "vermilion",
-            daruma_count,
-            1,
-            "shrine",
-            "達磨適合放長期目標，例如會考衝刺、每天複習、完成一份講義。",
-            "設定目標",
-            url_for("main.home"),
-        ),
-        make_card(
-            "daruma_complete",
-            "雙眼達磨",
-            "完成 1 個達磨目標",
-            "fa-circle-check",
-            "gold",
-            completed_daruma_count,
-            1,
-            "shrine",
-            "完成目標後幫達磨補上另一隻眼睛，這會是一個很有感的收束。",
-            "看達磨",
-            url_for("main.home"),
-        ),
-        make_card(
-            "mistake_yokai",
-            "錯題妖怪圖鑑",
-            "收集第一題錯題",
-            "fa-ghost",
-            "plum",
-            open_mistake_count + resolved_mistake_count,
-            1,
-            "study",
-            "錯題不是失敗，是妖怪現形。看見牠，才有機會把牠收服。",
-            "去刷題",
-            url_for("study.practice"),
-        ),
-        make_card(
-            "mistake_cleanse",
-            "弱點淨化",
-            "完成 3 題錯題複習",
-            "fa-water",
-            "indigo",
-            resolved_mistake_count,
-            3,
-            "study",
-            "把錯題重新做對，會比單純看詳解更能真的補上破洞。",
-            "開錯題本",
-            url_for("study.mistakes"),
-        ),
-        make_card(
-            "homework_seal",
-            "作業奉納印",
-            "完成 1 份老師作業",
-            "fa-book-open-reader",
-            "sage",
-            assignment_done_count,
-            1,
-            "study",
-            "老師派出的任務完成後，會成為你的學習紀錄之一。",
-            "開始刷題",
-            url_for("study.practice"),
-        ),
-        make_card(
-            "ai_companion",
-            "雪音相談室",
-            "建立 1 次 AI 對話紀錄",
-            "fa-comments",
-            "indigo",
-            chat_session_count,
-            1,
-            "companion",
-            "遇到卡住的地方，可以把它丟給 AI 助教拆解，不要讓問題卡在心裡。",
-            "找雪音",
-            url_for("main.chat"),
-        ),
-    ]
-
-    unlocked_cards = [card for card in cards if card["unlocked"]]
-    locked_cards = [card for card in cards if not card["unlocked"]]
-    next_card = sorted(locked_cards, key=lambda card: card["progress"], reverse=True)[0] if locked_cards else None
-    total_points = sum(30 + (card["target"] * 3) for card in unlocked_cards)
-    completion_percent = round((len(unlocked_cards) / len(cards)) * 100) if cards else 0
-
-    summary = {
-        "unlocked": len(unlocked_cards),
-        "total": len(cards),
-        "total_points": total_points,
-        "completion_percent": completion_percent,
-        "next_card": next_card,
-        "active_daruma": active_daruma,
-        "open_mistakes": open_mistake_count,
-    }
-
-    filters = [
-        {"key": "all", "label": "全部"},
-        {"key": "daily", "label": "日課"},
-        {"key": "shrine", "label": "神社"},
-        {"key": "study", "label": "學習"},
-        {"key": "companion", "label": "AI 助教"},
-    ]
+    payload = build_user_achievement_payload(current_user, url_for)
 
     return render_template(
         "achievements.html",
         title="日式成就朱印帳",
-        cards=cards,
-        summary=summary,
-        filters=filters,
+        **payload,
     )
 
 @main.route("/chat")

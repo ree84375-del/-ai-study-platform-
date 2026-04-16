@@ -50,7 +50,34 @@
             </div>
         </div>
     </div>
-    
+
+    {% if achievement_preview %}
+    <section class="achievement-home-card">
+        <div>
+            <span class="achievement-badge"><i class="fa-solid fa-stamp"></i> 日式成就系統</span>
+            <h2 style="margin: 1rem 0 .45rem; font-size: clamp(1.8rem, 4vw, 3rem);">今天也替自己的朱印帳蓋一格。</h2>
+            <p style="color: var(--jp-muted); line-height: 1.8; margin: 0;">段位、御守、達磨、櫻花樹和錯題妖怪會依照你的學習紀錄自動更新。不是為了壓力，是讓進步比較容易被看見。</p>
+            <a class="achievement-primary" href="{{ url_for('main.achievements') }}">
+                打開朱印帳 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+        <div class="achievement-home-mini">
+            <div>
+                <span>目前段位</span>
+                <strong>{{ achievement_preview.rank.current.name }}</strong>
+            </div>
+            <div>
+                <span>已解鎖</span>
+                <strong>{{ achievement_preview.summary.unlocked }}</strong>
+            </div>
+            <div>
+                <span>櫻花狀態</span>
+                <strong>{{ achievement_preview.sakura.state }}</strong>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+     
     <!-- Row 1: Hero & Zen Bonsai + Omikuji -->
     <div class="res-grid res-grid-home" style="margin-bottom: 3rem;">
         

@@ -207,24 +207,8 @@ def dashboard():
         'total_groups': Group.query.count()
     }
     
-    # --- PRIMARY ADMIN RENAME PATCH ---
-    # Ensure ree84375@gmail.com is always named "管理員"
-    if current_user.email == 'ree84375@gmail.com' and current_user.username != '管理員':
-        # Check if anyone else is using the name "管理員"
-        conflicting_user = User.query.filter(User.username == '管理員', User.id != current_user.id).first()
-        if conflicting_user:
-            # Rename the conflicting user to something else
-            suffix = conflicting_user.id
-            conflicting_user.username = f"管理員_備份_{suffix}"
-            db.session.commit()
-            
-        # Now it's safe to rename the current user
-        try:
-            current_user.username = '管理員'
-            db.session.commit()
-        except:
-            db.session.rollback()
-    # --- END PATCH ---
+    # Admin names are presentation-only through User.display_name. Never rename
+    # usernames here, because OAuth users must keep unique stable usernames.
 
     # --- ACTIVE BANS ---
     from app.models import IPBan, IPAccessLog
@@ -283,6 +267,23 @@ def ai_governance():
     return render_template('admin/ai_governance.html', 
                              title="AI 治理與最佳實踐指南", 
                              keys=keys)
+
+
+@admin.route('/achievements')
+@login_required
+def achievement_console():
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+
+    from app.utils.achievement_engine import build_admin_achievement_payload
+
+    payload = build_admin_achievement_payload()
+    return render_template(
+        'admin/achievement_console.html',
+        title="成就與系統管理",
+        payload=payload,
+        current_time=datetime.now(timezone.utc),
+    )
 
 @admin.route('/sync_ai_keys', methods=['POST'])
 @login_required

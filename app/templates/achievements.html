@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="achievement-stage">
-    <section class="achievement-hero">
+    <section class="achievement-hero shrine-hero">
         <div class="achievement-hero-copy">
-            <span class="achievement-badge"><i class="fa-solid fa-stamp"></i> 日式成就系統</span>
-            <h1>把每天的學習，收進一本自己的朱印帳。</h1>
-            <p>這裡會把抽籤、繪馬、達磨、錯題與 AI 對話整理成可收集的成就。不是為了壓力，是讓進步看得見。</p>
+            <span class="achievement-badge"><i class="fa-solid fa-torii-gate"></i> 學習神社</span>
+            <h1>把刷題、錯題與 AI 學習，變成自己的修行收藏。</h1>
+            <p>段位、御守、達磨、朱印帳、櫻花樹與錯題妖怪會依照你的實際學習紀錄解鎖。不是單純好看，是讓進步變得可見、可期待。</p>
         </div>
         <div class="achievement-hero-seal" aria-hidden="true">
             <span>學</span>
@@ -17,6 +17,15 @@
 
     <section class="achievement-overview">
         <div class="achievement-stat">
+            <span>目前段位</span>
+            <strong>{{ rank.current.name }}</strong>
+            {% if rank.next %}
+                <small>距離 {{ rank.next.name }} 還差 {{ rank.remaining }} 點</small>
+            {% else %}
+                <small>已達最高段位</small>
+            {% endif %}
+        </div>
+        <div class="achievement-stat">
             <span>已解鎖</span>
             <strong>{{ summary.unlocked }}</strong>
             <small>/ {{ summary.total }} 枚成就</small>
@@ -24,12 +33,7 @@
         <div class="achievement-stat">
             <span>修行點數</span>
             <strong>{{ summary.total_points }}</strong>
-            <small>由已解鎖成就累積</small>
-        </div>
-        <div class="achievement-stat">
-            <span>完成度</span>
-            <strong>{{ summary.completion_percent }}</strong>
-            <small>%</small>
+            <small>由學習紀錄累積</small>
         </div>
         <div class="achievement-stat achievement-next">
             <span>下一枚推薦</span>
@@ -43,6 +47,42 @@
         </div>
     </section>
 
+    <section class="achievement-shrine-grid">
+        <article class="achievement-rank-card">
+            <div class="achievement-card-top">
+                <div class="achievement-icon achievement-tone-indigo"><i class="fa-solid {{ rank.current.icon }}"></i></div>
+                <span class="achievement-status">{{ rank.progress }}%</span>
+            </div>
+            <span class="achievement-section-kicker">段位系統</span>
+            <h2>{{ rank.current.name }}</h2>
+            <p>段位會把日常練習、錯題複習、作業與 AI 對話整合成長期成長線。</p>
+            <div class="achievement-progress"><span style="width: {{ rank.progress }}%;"></span></div>
+        </article>
+
+        <article class="achievement-sakura-card">
+            <span class="achievement-section-kicker">櫻花樹成長</span>
+            <div class="sakura-tree" style="--petals: {{ sakura.petals }};">
+                <div class="sakura-trunk"></div>
+                <div class="sakura-crown">
+                    {% for _ in range(sakura.petals) %}
+                    <span style="--i: {{ loop.index }}; --x: {{ [-58, -36, -14, 12, 34, 56][loop.index0 % 6] }}px; --y: {{ [-42, -24, -8, 10, 30][loop.index0 % 5] }}px; --r: {{ loop.index * 23 }}deg;"></span>
+                    {% endfor %}
+                </div>
+            </div>
+            <h2>第 {{ sakura.level }} 階 · {{ sakura.state }}</h2>
+            <p>每日學習會讓樹成長。中斷不會重罰，只是提醒你回來澆水。</p>
+            <div class="achievement-progress"><span style="width: {{ sakura.growth }}%;"></span></div>
+        </article>
+
+        <article class="achievement-event-card achievement-tone-{{ seasonal_event.tone }}">
+            <div class="achievement-icon"><i class="fa-solid {{ seasonal_event.icon }}"></i></div>
+            <span class="achievement-section-kicker">季節活動</span>
+            <h2>{{ seasonal_event.name }}</h2>
+            <p>{{ seasonal_event.theme }}</p>
+            <a class="achievement-primary" href="{{ url_for('study.practice') }}">開始今日任務 <i class="fa-solid fa-arrow-right"></i></a>
+        </article>
+    </section>
+
     <section class="achievement-focus">
         <div>
             <span class="achievement-section-kicker">今日建議</span>
@@ -54,10 +94,8 @@
                 </a>
             {% else %}
                 <h2>今天的朱印帳已經很漂亮了。</h2>
-                <p>你目前已經把第一批成就全數解鎖，接下來可以加上會考專屬徽章與日式段位。</p>
-                <a class="achievement-primary" href="{{ url_for('study.practice') }}">
-                    繼續練習 <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                <p>你目前已經把第一批成就全數解鎖，接下來可以加上會考專屬徽章與日式段位挑戰。</p>
+                <a class="achievement-primary" href="{{ url_for('study.practice') }}">繼續練習 <i class="fa-solid fa-arrow-right"></i></a>
             {% endif %}
         </div>
         <div class="achievement-paper-note">
@@ -75,12 +113,72 @@
         </div>
     </section>
 
+    <section class="achievement-collection-panel">
+        <div class="achievement-book-head">
+            <div>
+                <span class="achievement-section-kicker">御守收藏</span>
+                <h2>你的學習御守</h2>
+                <p>御守會依照行為解鎖，例如抽籤、清錯題、設定達磨願望或使用 AI 助教。</p>
+            </div>
+        </div>
+        <div class="omamori-grid">
+            {% for item in omamori %}
+            <article class="omamori-card achievement-tone-{{ item.tone }}{% if item.unlocked %} is-unlocked{% else %} is-locked{% endif %}">
+                <div class="omamori-knot"></div>
+                <i class="fa-solid {{ item.icon }}"></i>
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.condition }}</p>
+                <small>{{ item.effect }}</small>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="achievement-collection-panel">
+        <div class="achievement-book-head">
+            <div>
+                <span class="achievement-section-kicker">朱印帳</span>
+                <h2>蓋章收藏</h2>
+                <p>完成科目、年份、錯題與達磨目標後，會在這裡留下朱印。</p>
+            </div>
+        </div>
+        <div class="seal-grid">
+            {% for seal in seals %}
+            <article class="seal-card{% if seal.unlocked %} is-unlocked{% else %} is-locked{% endif %}">
+                <div class="seal-stamp">{{ seal.subject[:1] }}</div>
+                <h3>{{ seal.name }}</h3>
+                <p>{{ seal.hint }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="achievement-collection-panel">
+        <div class="achievement-book-head">
+            <div>
+                <span class="achievement-section-kicker">錯題妖怪圖鑑</span>
+                <h2>把弱點變成可以收服的怪物</h2>
+                <p>常錯類型會化成妖怪。牠不是來嘲笑你，是提醒你下一次要怎麼打。</p>
+            </div>
+        </div>
+        <div class="yokai-grid">
+            {% for item in yokai %}
+            <article class="yokai-card{% if item.unlocked %} is-unlocked{% else %} is-locked{% endif %}">
+                <i class="fa-solid {{ item.icon }}"></i>
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.weakness }}</p>
+                <div class="achievement-progress"><span style="width: {{ item.progress }}%;"></span></div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
     <section class="achievement-book">
         <div class="achievement-book-head">
             <div>
-                <span class="achievement-section-kicker">朱印收藏</span>
-                <h2>成就一覽</h2>
-                <p>點篩選可以只看日課、神社儀式、學習任務或 AI 助教成就。</p>
+                <span class="achievement-section-kicker">成就一覽</span>
+                <h2>修行任務</h2>
+                <p>點篩選可以只看日課、神社儀式、學習任務、段位或 AI 助教成就。</p>
             </div>
             <div class="achievement-filters" role="tablist" aria-label="成就篩選">
                 {% for item in filters %}
@@ -99,12 +197,13 @@
                         <i class="fa-solid {{ card.icon }}"></i>
                     </div>
                     <span class="achievement-status">
-                        {% if card.unlocked %}
-                            已解鎖
-                        {% else %}
-                            {{ card.current }} / {{ card.target }}
-                        {% endif %}
+                        {% if card.unlocked %}已解鎖{% else %}{{ card.current }} / {{ card.target }}{% endif %}
                     </span>
+                </div>
+                <div class="achievement-trophy" aria-hidden="true">
+                    <span class="achievement-trophy-shine"></span>
+                    <i class="fa-solid fa-trophy"></i>
+                    <b></b>
                 </div>
                 <h3>{{ card.title }}</h3>
                 <p class="achievement-subtitle">{{ card.subtitle }}</p>

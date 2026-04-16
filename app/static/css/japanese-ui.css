@@ -269,7 +269,8 @@ body.jp-site .mockroom-stat,
 body.jp-site .mistake-stat,
 body.jp-site .guide-stat,
 body.jp-site .reader-stat,
-body.jp-site .guide-summary-item {
+body.jp-site .guide-summary-item,
+.admin-achievement-stat {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 240, 0.82)) !important;
   border: 1px solid rgba(65, 51, 39, 0.1) !important;
@@ -288,6 +289,13 @@ body.jp-site .mistake-filter,
 body.jp-site .mistake-subject,
 body.jp-site .guide-card,
 body.jp-site .reader-card,
+body.jp-site .achievement-home-card,
+body.jp-site .achievement-rank-card,
+body.jp-site .achievement-sakura-card,
+body.jp-site .achievement-event-card,
+body.jp-site .achievement-collection-panel,
+body.jp-site .admin-achievement-card,
+body.jp-site .admin-achievement-panel,
 body.jp-site .washi-card,
 body.jp-site .glass-panel,
 body.jp-site .card,
@@ -317,7 +325,10 @@ body.jp-site .cap-subject-card::before,
 body.jp-site .cap-mode-option::before,
 body.jp-site .mockroom-card::before,
 body.jp-site .mistake-card::before,
-body.jp-site .guide-card::before {
+body.jp-site .guide-card::before,
+body.jp-site .achievement-home-card::before,
+body.jp-site .achievement-card::before,
+body.jp-site .admin-achievement-card::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -342,7 +353,10 @@ body.jp-site .mistake-filter.is-active,
 body.jp-site .mistake-subject:hover,
 body.jp-site .mistake-subject.is-active,
 body.jp-site .guide-card:hover,
-body.jp-site .guide-card.is-selected {
+body.jp-site .guide-card.is-selected,
+body.jp-site .achievement-home-card:hover,
+body.jp-site .achievement-card:hover,
+body.jp-site .admin-achievement-card:hover {
   transform: translateY(-5px) !important;
   border-color: rgba(201, 154, 62, 0.36) !important;
   box-shadow: 0 24px 50px rgba(70, 54, 38, 0.16) !important;
@@ -359,7 +373,10 @@ body.jp-site .mockroom-card:hover::before,
 body.jp-site .mockroom-card.is-active::before,
 body.jp-site .mistake-card:hover::before,
 body.jp-site .guide-card:hover::before,
-body.jp-site .guide-card.is-selected::before {
+body.jp-site .guide-card.is-selected::before,
+body.jp-site .achievement-home-card:hover::before,
+body.jp-site .achievement-card:hover::before,
+body.jp-site .admin-achievement-card:hover::before {
   opacity: 1;
 }
 
@@ -851,6 +868,273 @@ body.jp-site .option-image img {
   gap: 1rem;
 }
 
+.achievement-shrine-grid,
+.omamori-grid,
+.seal-grid,
+.yokai-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.achievement-shrine-grid {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.1fr) minmax(0, 0.95fr);
+}
+
+.achievement-rank-card,
+.achievement-sakura-card,
+.achievement-event-card,
+.achievement-collection-panel {
+  border: 1px solid var(--jp-line);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.62), transparent 34%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.96), rgba(247, 238, 220, 0.9));
+  box-shadow: var(--jp-shadow-soft);
+}
+
+.achievement-rank-card,
+.achievement-sakura-card,
+.achievement-event-card {
+  min-height: 360px;
+  padding: 1.25rem;
+}
+
+.achievement-rank-card h2,
+.achievement-sakura-card h2,
+.achievement-event-card h2 {
+  margin: 0.8rem 0 0.55rem;
+  font-size: clamp(1.7rem, 3vw, 2.45rem);
+}
+
+.achievement-rank-card p,
+.achievement-sakura-card p,
+.achievement-event-card p {
+  color: var(--jp-muted);
+  line-height: 1.7;
+}
+
+.achievement-collection-panel {
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.omamori-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.omamori-card {
+  position: relative;
+  min-height: 230px;
+  padding: 1.4rem 1rem 1.1rem;
+  border: 1px solid rgba(65, 51, 39, 0.12);
+  border-radius: 22px 22px 30px 30px;
+  text-align: center;
+  color: var(--achievement-accent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), var(--achievement-accent-soft)),
+    repeating-linear-gradient(90deg, transparent 0 14px, rgba(65, 51, 39, 0.03) 14px 15px);
+  box-shadow: 0 18px 36px rgba(65, 51, 39, 0.08);
+  overflow: hidden;
+  transform-origin: top center;
+  animation: omamoriSway 5s ease-in-out infinite;
+}
+
+.omamori-card:nth-child(2n) {
+  animation-delay: -1.2s;
+}
+
+.omamori-card.is-locked {
+  filter: grayscale(0.45);
+  opacity: 0.68;
+}
+
+.omamori-knot {
+  width: 38px;
+  height: 18px;
+  margin: 0 auto 0.8rem;
+  border: 3px solid currentColor;
+  border-radius: 999px;
+}
+
+.omamori-card i {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 0.8rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 1.55rem;
+}
+
+.omamori-card h3,
+.seal-card h3,
+.yokai-card h3 {
+  margin: 0.4rem 0;
+  font-size: 1.18rem;
+}
+
+.omamori-card p,
+.seal-card p,
+.yokai-card p,
+.omamori-card small {
+  color: var(--jp-muted);
+  line-height: 1.65;
+}
+
+.seal-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.seal-card {
+  min-height: 210px;
+  padding: 1rem;
+  border: 1px dashed rgba(185, 79, 53, 0.28);
+  border-radius: 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.92), rgba(255, 244, 207, 0.54));
+}
+
+.seal-card.is-locked {
+  opacity: 0.6;
+  filter: grayscale(0.42);
+}
+
+.seal-stamp {
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 0.8rem;
+  border: 5px double rgba(185, 79, 53, 0.75);
+  border-radius: 42% 58% 50% 50%;
+  color: var(--jp-vermilion);
+  font-family: "Kaisei Tokumin", serif;
+  font-size: 2.25rem;
+  font-weight: 900;
+  transform: rotate(-7deg);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.seal-card.is-unlocked .seal-stamp {
+  animation: stampPop 0.72s cubic-bezier(0.2, 1.5, 0.3, 1) both;
+}
+
+.yokai-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.yokai-card {
+  min-height: 230px;
+  padding: 1.15rem;
+  border: 1px solid rgba(43, 36, 32, 0.11);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(138, 49, 68, 0.13), transparent 42%),
+    rgba(255, 255, 255, 0.75);
+  box-shadow: 0 16px 34px rgba(65, 51, 39, 0.08);
+  transition: transform 0.2s ease;
+}
+
+.yokai-card:hover {
+  transform: translateY(-4px) rotate(-0.4deg);
+}
+
+.yokai-card.is-locked {
+  opacity: 0.58;
+  filter: grayscale(0.6);
+}
+
+.yokai-card > i {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 0.9rem;
+  border-radius: 20px;
+  color: var(--jp-plum);
+  background: rgba(138, 49, 68, 0.1);
+  font-size: 1.65rem;
+}
+
+.sakura-tree {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  min-height: 170px;
+  margin: 0.5rem 0 1rem;
+}
+
+.sakura-trunk {
+  width: 20px;
+  height: 95px;
+  border-radius: 999px 999px 6px 6px;
+  background: linear-gradient(90deg, #6d4a36, #9a6b4f);
+}
+
+.sakura-crown {
+  position: absolute;
+  bottom: 56px;
+  left: 50%;
+  width: 168px;
+  height: 128px;
+  transform: translateX(-50%);
+}
+
+.sakura-crown span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 70% 30% 70% 30%;
+  background: rgba(235, 145, 168, 0.82);
+  box-shadow: 0 0 18px rgba(235, 145, 168, 0.25);
+  transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg));
+  animation: petalPulse 3.8s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -80ms);
+}
+
+.achievement-home-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--jp-line);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.7), transparent 40%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.96), rgba(247, 238, 220, 0.88));
+  box-shadow: var(--jp-shadow-soft);
+}
+
+.achievement-home-mini {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.achievement-home-mini div {
+  padding: 0.9rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.achievement-home-mini span {
+  display: block;
+  color: var(--jp-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.achievement-home-mini strong {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 1.35rem;
+}
+
 .achievement-card {
   position: relative;
   min-height: 310px;
@@ -912,6 +1196,61 @@ body.jp-site .option-image img {
   color: var(--achievement-accent);
   background: var(--achievement-accent-soft);
   font-size: 0.8rem;
+}
+
+.achievement-trophy {
+  position: absolute;
+  right: 1rem;
+  bottom: 4.2rem;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  color: var(--achievement-accent);
+  background:
+    radial-gradient(circle at 35% 24%, rgba(255, 255, 255, 0.95), transparent 28%),
+    radial-gradient(circle, var(--achievement-accent-soft), rgba(255, 255, 255, 0.46));
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  opacity: 0.82;
+  transform: rotate(-7deg) scale(0.95);
+  animation: trophyFloat 4.8s ease-in-out infinite;
+}
+
+.achievement-trophy i {
+  position: relative;
+  z-index: 2;
+  font-size: 2.65rem;
+  filter: drop-shadow(0 10px 14px rgba(65, 51, 39, 0.12));
+}
+
+.achievement-trophy b {
+  position: absolute;
+  bottom: 14px;
+  width: 48px;
+  height: 9px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.22;
+}
+
+.achievement-trophy-shine {
+  position: absolute;
+  inset: 9px;
+  border-radius: inherit;
+  background: conic-gradient(from 20deg, transparent, rgba(255, 255, 255, 0.9), transparent 32%);
+  animation: trophyShine 3.2s linear infinite;
+}
+
+.achievement-card.is-locked .achievement-trophy {
+  opacity: 0.36;
+  filter: grayscale(0.65);
+  animation-duration: 7s;
+}
+
+.achievement-card.is-unlocked .achievement-trophy {
+  box-shadow: 0 0 0 0 rgba(201, 154, 62, 0.25);
 }
 
 .achievement-card h3 {
@@ -1016,6 +1355,140 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   box-shadow: inset 0 0 0 2px rgba(201, 154, 62, 0.24);
 }
 
+.jp-scroll-progress {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 999;
+  width: min(420px, calc(100% - 40px));
+  height: 12px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 253, 247, 0.86);
+  border: 1px solid rgba(65, 51, 39, 0.12);
+  box-shadow: 0 16px 34px rgba(65, 51, 39, 0.16);
+  transform: translateX(-50%);
+  backdrop-filter: blur(12px);
+}
+
+.jp-scroll-progress span {
+  display: block;
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--jp-indigo), var(--jp-gold), var(--jp-vermilion));
+  transition: width 0.18s ease;
+}
+
+.jp-question-transition {
+  animation: questionPaperSlide 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.score-reveal,
+.mockroom-score,
+.cap-score,
+.result-score {
+  animation: scoreReveal 0.75s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+}
+
+body.jp-site .mistake-pill,
+body.jp-site .mistake-filter,
+body.jp-site .mistake-subject {
+  animation: stickyNoteSettle 0.46s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+body.jp-site .guide-card details,
+body.jp-site .reader-panel details,
+body.jp-site .guide-accordion,
+body.jp-site .lecture-section {
+  transform-origin: top;
+  animation: paperUnfold 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.admin-achievement-shell {
+  display: grid;
+  gap: 1.2rem;
+  padding: clamp(1rem, 3vw, 2rem) 0 3rem;
+}
+
+.admin-achievement-hero,
+.admin-achievement-panel {
+  border: 1px solid var(--jp-line);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.68), transparent 36%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.96), rgba(247, 238, 220, 0.9));
+  box-shadow: var(--jp-shadow-soft);
+}
+
+.admin-achievement-hero {
+  padding: clamp(1.6rem, 4vw, 3rem);
+}
+
+.admin-achievement-hero h1 {
+  margin: 0.7rem 0 0.5rem;
+  font-size: clamp(2rem, 4vw, 4rem);
+}
+
+.admin-achievement-hero p {
+  max-width: 780px;
+  color: var(--jp-muted);
+  line-height: 1.8;
+}
+
+.admin-achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.admin-achievement-stat,
+.admin-achievement-card {
+  border-radius: 24px;
+  padding: 1.1rem;
+}
+
+.admin-achievement-stat strong {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+}
+
+.admin-achievement-panel {
+  padding: clamp(1.2rem, 3vw, 2rem);
+}
+
+.admin-achievement-card {
+  min-height: 170px;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.admin-achievement-card i {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 0.8rem;
+  border-radius: 16px;
+  color: var(--jp-indigo);
+  background: var(--jp-gold-soft);
+}
+
+.admin-health-meter {
+  height: 13px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(43, 36, 32, 0.08);
+}
+
+.admin-health-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--jp-vermilion), var(--jp-gold), var(--jp-sage));
+}
+
 @keyframes jpWashiBreath {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -1039,6 +1512,52 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
     opacity: 0;
     transform: translate(-50%, -50%) scale(18);
   }
+}
+
+@keyframes omamoriSway {
+  0%, 100% { transform: rotate(-0.4deg); }
+  50% { transform: rotate(0.8deg); }
+}
+
+@keyframes stampPop {
+  0% { opacity: 0; transform: translateY(-12px) scale(1.35) rotate(-12deg); }
+  55% { opacity: 1; transform: translateY(2px) scale(0.94) rotate(-7deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotate(-7deg); }
+}
+
+@keyframes petalPulse {
+  0%, 100% { transform: translate(var(--x, 0), var(--y, 0)) rotate(var(--r, 0deg)) scale(1); opacity: 0.82; }
+  50% { transform: translate(var(--x, 0), var(--y, 0)) rotate(calc(var(--r, 0deg) + 8deg)) scale(1.12); opacity: 1; }
+}
+
+@keyframes trophyFloat {
+  0%, 100% { transform: translateY(0) rotate(-7deg) scale(0.95); }
+  50% { transform: translateY(-8px) rotate(-2deg) scale(1); }
+}
+
+@keyframes trophyShine {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes questionPaperSlide {
+  0% { opacity: 0; transform: translateX(18px) rotate(0.4deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0); }
+}
+
+@keyframes scoreReveal {
+  0% { opacity: 0; transform: translateY(12px) scale(0.82); filter: blur(6px); }
+  65% { opacity: 1; transform: translateY(-2px) scale(1.06); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes stickyNoteSettle {
+  0% { opacity: 0; transform: translateY(-8px) rotate(-1deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+@keyframes paperUnfold {
+  0% { opacity: 0; transform: scaleY(0.92) translateY(-8px); }
+  100% { opacity: 1; transform: scaleY(1) translateY(0); }
 }
 
 @media (max-width: 767px) {
@@ -1083,7 +1602,13 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   }
 
   .achievement-overview,
-  .achievement-grid {
+  .achievement-grid,
+  .achievement-shrine-grid,
+  .omamori-grid,
+  .seal-grid,
+  .yokai-grid,
+  .achievement-home-card,
+  .admin-achievement-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1095,11 +1620,27 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   .achievement-filters {
     justify-content: flex-start;
   }
+
+  .achievement-home-mini {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-trophy {
+    right: 0.75rem;
+    bottom: 4.6rem;
+    width: 72px;
+    height: 72px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1080px) {
   .achievement-overview,
-  .achievement-grid {
+  .achievement-grid,
+  .achievement-shrine-grid,
+  .omamori-grid,
+  .seal-grid,
+  .yokai-grid,
+  .admin-achievement-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1108,7 +1649,14 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   body.jp-site,
   .jp-ambience span,
   .jp-reveal,
-  .jp-ink-ripple {
+  .jp-ink-ripple,
+  .achievement-trophy,
+  .achievement-trophy-shine,
+  .jp-question-transition,
+  .score-reveal,
+  .mockroom-score,
+  .cap-score,
+  .result-score {
     animation: none !important;
     transition: none !important;
   }

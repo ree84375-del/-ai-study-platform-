@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="admin-achievement-shell">
+        <section class="admin-achievement-hero">
+            <span class="achievement-badge"><i class="fa-solid fa-trophy"></i> 管理員後台</span>
+            <h1>成就、題庫、AI 狀態整理成一張可操作的儀表板。</h1>
+            <p>這裡先把你要求的管理功能做成正式入口：成就管理、學生進度、題庫健康、AI 使用量監控、錯題分析、活動管理與備份還原。後續每一塊都可以再接成可編輯工具。</p>
+            <div style="display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1rem;">
+                <a class="achievement-primary" href="{{ url_for('admin.dashboard') }}"><i class="fa-solid fa-arrow-left"></i> 回後台首頁</a>
+                <a class="achievement-primary" href="{{ url_for('main.achievements') }}"><i class="fa-solid fa-stamp"></i> 查看前台成就</a>
+            </div>
+        </section>
+
+        <section class="admin-achievement-grid">
+            <article class="admin-achievement-stat">
+                <span>題庫健康分</span>
+                <strong>{{ payload.overview.health_score }}</strong>
+                <small>分</small>
+            </article>
+            <article class="admin-achievement-stat">
+                <span>總用戶</span>
+                <strong>{{ payload.overview.total_users }}</strong>
+                <small>目前資料庫帳號</small>
+            </article>
+            <article class="admin-achievement-stat">
+                <span>活躍用戶</span>
+                <strong>{{ payload.overview.active_users }}</strong>
+                <small>有活動紀錄者</small>
+            </article>
+            <article class="admin-achievement-stat">
+                <span>待收服錯題</span>
+                <strong>{{ payload.overview.unresolved_mistakes }}</strong>
+                <small>學生尚未複習</small>
+            </article>
+        </section>
+
+        <section class="admin-achievement-panel">
+            <div class="achievement-book-head">
+                <div>
+                    <span class="achievement-section-kicker">題庫健康檢查</span>
+                    <h2>先抓最會破壞學生體驗的問題</h2>
+                    <p>缺答案、缺詳解、疑似重複題和缺圖會先在這裡標出，避免錯誤題目直接進正式練習。</p>
+                </div>
+                <div style="min-width: min(280px, 100%);">
+                    <div class="admin-health-meter"><span style="width: {{ payload.overview.health_score }}%;"></span></div>
+                </div>
+            </div>
+            <div class="admin-achievement-grid">
+                {% for item in payload.question_health %}
+                <article class="admin-achievement-card achievement-tone-{{ item.tone }}">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h3>{{ item.label }}</h3>
+                    <strong style="font-size: 2rem;">{{ item.count }}</strong>
+                    <p>需要題庫整理流程優先確認。</p>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="admin-achievement-panel">
+            <div class="achievement-book-head">
+                <div>
+                    <span class="achievement-section-kicker">成就管理</span>
+                    <h2>目前已上架的日式成就模組</h2>
+                    <p>這些是學生前台會看見的核心系統，之後可以在這裡做上架、下架、條件調整。</p>
+                </div>
+            </div>
+            <div class="admin-achievement-grid">
+                {% for item in payload.achievement_templates %}
+                <article class="admin-achievement-card">
+                    <i class="fa-solid fa-medal"></i>
+                    <h3>{{ item.name }}</h3>
+                    <span class="achievement-status">{{ item.status }}</span>
+                    <p>{{ item.detail }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="admin-achievement-panel">
+            <div class="achievement-book-head">
+                <div>
+                    <span class="achievement-section-kicker">AI 監控</span>
+                    <h2>API key 狀態與慢回覆風險</h2>
+                    <p>後續可把每日 token、錯誤率、重試與 fallback 接進這張面板，避免 AI 要回不回。</p>
+                </div>
+                <a class="achievement-primary" href="{{ url_for('admin.ai_governance') }}">進 AI 治理 <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="admin-achievement-grid">
+                {% if payload.api_status %}
+                    {% for row in payload.api_status %}
+                    <article class="admin-achievement-card">
+                        <i class="fa-solid fa-key"></i>
+                        <h3>{{ row.status }}</h3>
+                        <strong style="font-size: 2rem;">{{ row.count }}</strong>
+                        <p>目前 key 狀態統計。</p>
+                    </article>
+                    {% endfor %}
+                {% else %}
+                    <article class="admin-achievement-card">
+                        <i class="fa-solid fa-key"></i>
+                        <h3>尚未偵測到 key</h3>
+                        <p>請到 AI 治理頁檢查設定，或先使用備援模型策略。</p>
+                    </article>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="admin-achievement-panel">
+            <div class="achievement-book-head">
+                <div>
+                    <span class="achievement-section-kicker">學生進度與弱點</span>
+                    <h2>錯題熱點總覽</h2>
+                    <p>這裡會顯示全站最常出錯的科目，之後可以再細分到章節、小節與妖怪類型。</p>
+                </div>
+            </div>
+            <div class="admin-achievement-grid">
+                {% if payload.hotspots %}
+                    {% for row in payload.hotspots %}
+                    <article class="admin-achievement-card">
+                        <i class="fa-solid fa-ghost"></i>
+                        <h3>{{ row.subject }}</h3>
+                        <strong style="font-size: 2rem;">{{ row.count }}</strong>
+                        <p>目前累積錯題數。</p>
+                    </article>
+                    {% endfor %}
+                {% else %}
+                    <article class="admin-achievement-card">
+                        <i class="fa-solid fa-seedling"></i>
+                        <h3>尚無錯題熱點</h3>
+                        <p>等學生開始練習後，這裡會自動長出弱點地圖。</p>
+                    </article>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="admin-achievement-panel">
+            <div class="achievement-book-head">
+                <div>
+                    <span class="achievement-section-kicker">下一批可接功能</span>
+                    <h2>把後台從展示變成真正控制台</h2>
+                    <p>這些功能先做成清楚入口，後續可以逐一接上資料表、表單和任務佇列。</p>
+                </div>
+            </div>
+            <div class="admin-achievement-grid">
+                {% for item in payload.admin_actions %}
+                <article class="admin-achievement-card">
+                    <i class="fa-solid {{ item.icon }}"></i>
+                    <h3>{{ item.title }}</h3>
+                    <p>{{ item.detail }}</p>
+                    <button class="achievement-filter" type="button" disabled>規劃中</button>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
