@@ -212,11 +212,11 @@
                     <i class="fa-solid fa-triangle-exclamation"></i> 訪客隨機帳號
                 </h4>
                 <p style="color: #744210; font-size: 0.9rem; margin-bottom: 1rem;">
-                    這是您專屬的訪客密碼。為避免伺服器刷新導致遺失，請妥善保管，或直接將此帳號「轉正」升級！
+                    訪客帳號現在採用安全臨時登入，不會在頁面、原始碼或 F12 中顯示密碼。若要永久保存進度，請直接將此帳號「轉正」升級。
                 </p>
                 <div style="background: rgba(255,255,255,0.7); padding: 10px; border-radius: 8px; margin-bottom: 1rem; font-family: monospace; font-size: 1.05rem; color: #2d3748;">
                     帳號：<strong>{{ current_user.username }}</strong><br>
-                    密碼：<strong>{{ session.get('guest_pw', '********* (僅建立時可見)') }}</strong>
+                    密碼：<strong>已由伺服器安全保管，不顯示</strong>
                 </div>
                 
                 <button type="button" onclick="document.getElementById('upgrade-guest-form').style.display='block'; this.style.display='none';" class="btn" style="background: #dd6b20; color: white; border: none; padding: 0.7rem 1.2rem; border-radius: 8px; font-weight: bold; cursor: pointer; display: block; width: 100%;">
