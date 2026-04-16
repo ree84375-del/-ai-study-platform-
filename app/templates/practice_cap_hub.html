@@ -1,231 +1,499 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆練習｜選年份{% endblock %}
+{% block title %}會考歷屆練習{% endblock %}
 {% block content %}
 <style>
-  .cap-step-page {
-    --navy: #15395f;
-    --navy-soft: #edf4ff;
-    --gold: #c58e3e;
-    --paper: rgba(255, 255, 255, 0.93);
-    --ink: #1d2531;
+  .cap-stage {
+    --ink: #1f2835;
     --muted: #6b7687;
-    --line: rgba(21, 57, 95, 0.14);
+    --navy: #18436d;
+    --navy-soft: #edf4ff;
+    --gold: #c78a39;
+    --line: rgba(24, 67, 109, 0.12);
+    --shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
     display: grid;
     gap: 1.2rem;
-    padding-bottom: 2.5rem;
+    padding-bottom: 3rem;
   }
 
-  .cap-hero,
-  .cap-board {
-    border-radius: 32px;
+  .cap-stage-hero,
+  .cap-stage-shell,
+  .cap-stage-note {
+    border-radius: 34px;
     border: 1px solid var(--line);
-    background:
-      radial-gradient(circle at top right, rgba(197, 142, 62, 0.2), transparent 30%),
-      linear-gradient(135deg, #fffdf8, #f3f7fd);
-    box-shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
+    box-shadow: var(--shadow);
+  }
+
+  .cap-stage-hero {
     padding: 1.6rem;
+    background:
+      radial-gradient(circle at top right, rgba(199, 138, 57, 0.2), transparent 28%),
+      radial-gradient(circle at left bottom, rgba(88, 130, 184, 0.12), transparent 30%),
+      linear-gradient(135deg, #fffdf8, #f3f7fd);
   }
 
   .cap-badge,
-  .cap-node,
-  .cap-year-chip,
-  .cap-action,
-  .cap-ghost {
+  .cap-progress-pill,
+  .cap-year-card,
+  .cap-primary,
+  .cap-ghost,
+  .cap-preview-tag {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     border-radius: 999px;
-    font-weight: 800;
     text-decoration: none;
+    font-weight: 800;
+    width: fit-content;
   }
 
   .cap-badge {
-    width: fit-content;
-    padding: 0.5rem 1rem;
+    padding: 0.52rem 1rem;
     background: var(--navy);
     color: #fff;
   }
 
-  .cap-hero h1,
-  .cap-board h2 {
-    margin: 1rem 0 0;
+  .cap-stage-hero h1,
+  .cap-card h2,
+  .cap-preview h2 {
+    margin: 0;
     color: var(--ink);
     font-family: "Kaisei Tokumin", serif;
   }
 
-  .cap-hero h1 {
-    font-size: clamp(2rem, 4.8vw, 3.7rem);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+  .cap-stage-hero h1 {
+    margin-top: 1rem;
+    font-size: clamp(2.15rem, 4.8vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
   }
 
-  .cap-hero p,
-  .cap-board p,
-  .cap-meta span {
-    margin: 0.8rem 0 0;
+  .cap-stage-hero p,
+  .cap-card p,
+  .cap-preview p {
+    margin: 0.85rem 0 0;
     color: var(--muted);
-    line-height: 1.8;
+    line-height: 1.82;
   }
 
   .cap-progress {
     display: flex;
     flex-wrap: wrap;
     gap: 0.65rem;
-    margin-top: 1.4rem;
+    margin-top: 1.35rem;
   }
 
-  .cap-node {
-    padding: 0.65rem 1rem;
-    background: rgba(255, 255, 255, 0.78);
-    color: #6f7a88;
-    border: 1px solid rgba(21, 57, 95, 0.12);
+  .cap-progress-pill {
+    padding: 0.6rem 1rem;
+    border: 1px solid rgba(24, 67, 109, 0.12);
+    background: rgba(255, 255, 255, 0.8);
+    color: #728093;
   }
 
-  .cap-node.is-active {
+  .cap-progress-pill.is-active {
     background: var(--navy-soft);
     color: var(--navy);
-    border-color: rgba(21, 57, 95, 0.2);
+    border-color: rgba(24, 67, 109, 0.2);
   }
 
-  .cap-stat-grid {
-    margin-top: 1.3rem;
+  .cap-stage-stats {
+    margin-top: 1.35rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.8rem;
+    gap: 0.85rem;
   }
 
-  .cap-meta {
-    padding: 1rem 1.1rem;
+  .cap-stat {
+    padding: 1rem 1.05rem;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(21, 57, 95, 0.08);
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(24, 67, 109, 0.08);
   }
 
-  .cap-meta strong {
+  .cap-stat span {
+    display: block;
+    color: #8791a0;
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  .cap-stat strong {
     display: block;
     margin-top: 0.25rem;
-    font-size: 1.85rem;
+    font-size: 1.95rem;
     color: var(--ink);
   }
 
-  .cap-board h2 {
-    font-size: 2rem;
+  .cap-stage-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.74fr);
+    gap: 1rem;
+    padding: 1rem;
+    background:
+      radial-gradient(circle at top right, rgba(247, 221, 171, 0.16), transparent 28%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 243, 234, 0.98));
+  }
+
+  .cap-card,
+  .cap-preview,
+  .cap-stage-note {
+    border-radius: 30px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: rgba(255, 255, 255, 0.88);
+  }
+
+  .cap-card,
+  .cap-preview {
+    padding: 1.2rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-card-head,
+  .cap-preview-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cap-preview {
+    position: sticky;
+    top: 92px;
+  }
+
+  .cap-preview-tag {
+    padding: 0.46rem 0.85rem;
+    background: #f5ede4;
+    color: #7a6248;
+    font-size: 0.82rem;
   }
 
   .cap-year-grid {
-    margin-top: 1.4rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
     gap: 0.8rem;
   }
 
-  .cap-year-chip {
+  .cap-year-card {
     position: relative;
     justify-content: center;
-    min-height: 72px;
-    border: 1px solid rgba(21, 57, 95, 0.12);
-    background: var(--paper);
+    min-height: 74px;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(24, 67, 109, 0.1);
+    background: rgba(255, 255, 255, 0.92);
     color: var(--ink);
     cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
 
-  .cap-year-chip.is-active,
-  .cap-year-chip:hover {
+  .cap-year-card:hover,
+  .cap-year-card.is-active {
     transform: translateY(-3px);
-    background: linear-gradient(180deg, #f5f9ff, #e8f1ff);
+    background: linear-gradient(180deg, #f5f9ff, #ebf2ff);
     color: var(--navy);
-    box-shadow: 0 16px 34px rgba(21, 57, 95, 0.1);
+    border-color: rgba(24, 67, 109, 0.2);
+    box-shadow: 0 20px 34px rgba(24, 67, 109, 0.1);
   }
 
-  .cap-year-chip input {
+  .cap-year-card input {
     position: absolute;
     opacity: 0;
     pointer-events: none;
   }
 
+  .cap-year-card strong {
+    font-size: 1.2rem;
+  }
+
+  .cap-preview-card {
+    padding: 1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.94));
+  }
+
+  .cap-preview-card strong {
+    display: block;
+    color: var(--ink);
+    font-size: 1.55rem;
+  }
+
+  .cap-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.8rem;
+  }
+
+  .cap-chip-list span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    color: #5e6e85;
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .cap-step-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .cap-step-line {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .cap-step-line strong {
+    display: inline-flex;
+    justify-content: center;
+    min-width: 62px;
+    padding: 0.42rem 0.75rem;
+    border-radius: 999px;
+    background: #f5ede2;
+    color: #87694a;
+    font-size: 0.8rem;
+  }
+
+  .cap-step-line span {
+    display: block;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
   .cap-actions {
-    margin-top: 1.5rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
   }
 
-  .cap-action,
+  .cap-primary,
   .cap-ghost {
-    min-height: 54px;
-    padding: 0.85rem 1.35rem;
+    min-height: 52px;
+    padding: 0.82rem 1.2rem;
   }
 
-  .cap-action {
-    border: 0;
-    background: linear-gradient(135deg, var(--navy), #2563eb);
+  .cap-primary {
     color: #fff;
-    box-shadow: 0 18px 30px rgba(21, 57, 95, 0.18);
+    background: linear-gradient(135deg, var(--navy), #2d67af);
+    box-shadow: 0 18px 34px rgba(24, 67, 109, 0.16);
+    border: 0;
+    cursor: pointer;
   }
 
   .cap-ghost {
-    border: 1px solid rgba(21, 57, 95, 0.12);
     background: #fff;
     color: var(--ink);
+    border: 1px solid rgba(24, 67, 109, 0.12);
+  }
+
+  .cap-stage-note {
+    padding: 1rem;
+  }
+
+  .cap-stage-note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .cap-stage-note-grid article {
+    padding: 1rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(24, 67, 109, 0.08);
+  }
+
+  .cap-stage-note-grid h3 {
+    margin: 0 0 0.45rem;
+    color: var(--ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-stage-note-grid p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 1040px) {
+    .cap-stage-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .cap-preview {
+      position: static;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .cap-stage-hero,
+    .cap-stage-shell,
+    .cap-stage-note {
+      border-radius: 26px;
+    }
+
+    .cap-stage-hero,
+    .cap-card,
+    .cap-preview,
+    .cap-stage-note {
+      padding: 1rem;
+    }
   }
 </style>
 
-<div class="cap-step-page">
-  <section class="cap-hero">
+<div class="cap-stage">
+  <section class="cap-stage-hero">
     <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
-    <h1>第一步：只選一個年份。</h1>
-    <p>一次只保留一個年份，下一頁再選科目，避免年份混在一起讓題目範圍變亂。</p>
+    <h1>第一步，只選年份。</h1>
+    <p>這一頁只做年份選擇，不把科目和模式一起塞進來。你先定好年份，下一頁再專心選科目，整個流程會清楚很多。</p>
     <div class="cap-progress">
-      <span class="cap-node is-active">1 選年份</span>
-      <span class="cap-node">2 選科目</span>
-      <span class="cap-node">3 選模式</span>
+      <span class="cap-progress-pill is-active">1 選年份</span>
+      <span class="cap-progress-pill">2 選科目</span>
+      <span class="cap-progress-pill">3 選模式</span>
     </div>
-    <div class="cap-stat-grid">
-      <div class="cap-meta"><span>可選年份</span><strong>{{ available_years|length }}</strong></div>
-      <div class="cap-meta"><span>目前年份可練科目</span><strong>{{ available_subject_count }}</strong></div>
-      <div class="cap-meta"><span>目前年份題數</span><strong>{{ total_question_count }}</strong></div>
+    <div class="cap-stage-stats">
+      <div class="cap-stat">
+        <span>可選年份</span>
+        <strong>{{ available_years|length }}</strong>
+      </div>
+      <div class="cap-stat">
+        <span>該年份可練科目</span>
+        <strong>{{ available_subject_count }}</strong>
+      </div>
+      <div class="cap-stat">
+        <span>目前年份題數</span>
+        <strong>{{ total_question_count }}</strong>
+      </div>
     </div>
   </section>
 
-  <section class="cap-board">
-    <h2>選年份</h2>
-    <p>只能單選一個年份。選好後直接下一步選科目。</p>
-    <form id="cap-year-form" method="get" action="{{ url_for('study.practice_cap_subject') }}">
-      <div class="cap-year-grid">
-        {% for year in available_years %}
-        <label class="cap-year-chip{% if year in selected_years %} is-active{% endif %}">
-          <input type="radio" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %}>
-          {{ year }} 年
-        </label>
-        {% endfor %}
+  <section class="cap-stage-shell">
+    <div class="cap-card">
+      <div class="cap-card-head">
+        <div>
+          <h2>選年份</h2>
+          <p>一次只能選一個年份，避免你在首頁就混年份。選好之後，直接進下一頁挑科目。</p>
+        </div>
+        <span class="cap-preview-tag"><i class="fa-solid fa-filter"></i> 單一年份流程</span>
       </div>
-      <div class="cap-actions">
-        <button type="submit" class="cap-action"><i class="fa-solid fa-arrow-right-long"></i> 下一步：選科目</button>
-        <a class="cap-ghost" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-arrow-left"></i> 回刷題首頁</a>
+
+      <form id="cap-year-form" method="get" action="{{ url_for('study.practice_cap_subject') }}">
+        <div class="cap-year-grid">
+          {% for year in available_years %}
+          <label class="cap-year-card{% if year in selected_years %} is-active{% endif %}">
+            <input type="radio" name="years" value="{{ year }}" {% if year in selected_years %}checked{% endif %}>
+            <strong>{{ year }} 年</strong>
+          </label>
+          {% endfor %}
+        </div>
+
+        <div class="cap-actions" style="margin-top: 1.2rem;">
+          <button type="submit" class="cap-primary">
+            <i class="fa-solid fa-arrow-right-long"></i>
+            前往選科目
+          </button>
+          <a class="cap-ghost" href="{{ url_for('study.practice') }}">
+            <i class="fa-solid fa-arrow-left"></i>
+            回刷題首頁
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <aside class="cap-preview">
+      <div class="cap-preview-head">
+        <div>
+          <h2>你現在會怎麼走</h2>
+          <p>右側只顯示這一步的必要資訊，不再把後面科目與模式通通提前顯示。</p>
+        </div>
+        <span class="cap-preview-tag"><i class="fa-solid fa-map"></i> 流程預覽</span>
       </div>
-    </form>
+
+      <div class="cap-preview-card">
+        <strong id="cap-selected-year-label">{% if selected_years %}{{ selected_years[0] }} 年{% else %}尚未選年份{% endif %}</strong>
+        <p id="cap-selected-year-copy">{% if selected_years %}下一頁會只顯示 {{ selected_years[0] }} 年有資料的科目。{% else %}先選一個年份，下一頁才會開放科目卡。{% endif %}</p>
+        <div class="cap-chip-list">
+          <span><i class="fa-solid fa-layer-group"></i> 不混年份</span>
+          <span><i class="fa-solid fa-book-open"></i> 先選科目再選模式</span>
+          <span><i class="fa-solid fa-mobile-screen-button"></i> 手機版也保持清楚</span>
+        </div>
+      </div>
+
+      <div class="cap-step-list">
+        <div class="cap-step-line">
+          <strong>STEP 1</strong>
+          <span>只選一個年份，先把資料範圍鎖住。</span>
+        </div>
+        <div class="cap-step-line">
+          <strong>STEP 2</strong>
+          <span>下一頁才顯示該年份的科目，避免首頁資訊過量。</span>
+        </div>
+        <div class="cap-step-line">
+          <strong>STEP 3</strong>
+          <span>最後再選預覽模式或練習模式，不會一開始就同時看到全部設定。</span>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="cap-stage-note">
+    <div class="cap-stage-note-grid">
+      <article>
+        <h3>入口乾淨</h3>
+        <p>首頁只先決定年份，不把後面資訊全部灌進第一步。</p>
+      </article>
+      <article>
+        <h3>一步一步走</h3>
+        <p>選年份後才會進科目，再進模式，視覺上更像正式產品。</p>
+      </article>
+      <article>
+        <h3>不刪專區</h3>
+        <p>只是把流程拆乾淨，不會把你原本的會考專區亂刪掉。</p>
+      </article>
+    </div>
   </section>
 </div>
 
 <script>
-const capYearForm = document.getElementById('cap-year-form');
-const capYearInputs = document.querySelectorAll('.cap-year-chip input[type="radio"]');
+  const capYearForm = document.getElementById('cap-year-form');
+  const capYearInputs = Array.from(document.querySelectorAll('.cap-year-card input[type="radio"]'));
+  const selectedYearLabel = document.getElementById('cap-selected-year-label');
+  const selectedYearCopy = document.getElementById('cap-selected-year-copy');
 
-capYearForm.addEventListener('submit', (event) => {
-  const pickedYear = document.querySelector('.cap-year-chip input[type="radio"]:checked');
-  if (!pickedYear) {
-    event.preventDefault();
-    alert('請先選擇一個年份。');
-  }
-});
-
-capYearInputs.forEach((input) => {
-  input.addEventListener('change', () => {
-    document.querySelectorAll('.cap-year-chip').forEach((chip) => {
-      chip.classList.toggle('is-active', chip.contains(input));
+  function renderYearState() {
+    const picked = document.querySelector('.cap-year-card input[type="radio"]:checked');
+    document.querySelectorAll('.cap-year-card').forEach((card) => {
+      card.classList.toggle('is-active', card.contains(picked));
     });
+    if (picked) {
+      selectedYearLabel.textContent = `${picked.value} 年`;
+      selectedYearCopy.textContent = `下一頁會只顯示 ${picked.value} 年有資料的科目。`;
+    } else {
+      selectedYearLabel.textContent = '尚未選年份';
+      selectedYearCopy.textContent = '先選一個年份，下一頁才會開放科目卡。';
+    }
+  }
+
+  capYearInputs.forEach((input) => {
+    input.addEventListener('change', renderYearState);
   });
-});
+
+  capYearForm.addEventListener('submit', (event) => {
+    const picked = document.querySelector('.cap-year-card input[type="radio"]:checked');
+    if (!picked) {
+      event.preventDefault();
+      alert('請先選一個年份。');
+    }
+  });
+
+  renderYearState();
 </script>
 {% endblock %}

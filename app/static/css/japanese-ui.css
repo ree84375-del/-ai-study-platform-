@@ -1,0 +1,689 @@
+/*
+  Japanese learning hall design layer.
+  This file is intentionally additive: it styles shared shells without removing
+  or rewriting the existing feature templates.
+*/
+
+:root {
+  --jp-ink: #2b2420;
+  --jp-muted: #75685f;
+  --jp-paper: #fffaf0;
+  --jp-paper-strong: #fffefd;
+  --jp-washi: #f5eddd;
+  --jp-line: rgba(72, 58, 45, 0.12);
+  --jp-shadow: 0 28px 70px rgba(70, 54, 38, 0.14);
+  --jp-shadow-soft: 0 18px 44px rgba(70, 54, 38, 0.1);
+  --jp-indigo: #173a5e;
+  --jp-gold: #c99a3e;
+  --jp-vermilion: #b94f35;
+  --jp-sage: #557866;
+  --jp-plum: #8a3144;
+  --jp-blue-soft: #edf5ff;
+  --jp-gold-soft: #fff4cf;
+  --jp-sage-soft: #eef6eb;
+  --jp-plum-soft: #fff0f3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.jp-site {
+  font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif !important;
+  color: var(--jp-ink) !important;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.9), transparent 24%),
+    radial-gradient(circle at 82% 6%, rgba(244, 204, 106, 0.22), transparent 28%),
+    radial-gradient(circle at 90% 78%, rgba(85, 120, 102, 0.12), transparent 24%),
+    linear-gradient(135deg, #f9f2e2 0%, #fffaf0 42%, #f3ead7 100%) !important;
+  animation: jpWashiBreath 24s ease-in-out infinite !important;
+}
+
+body.jp-site::before {
+  background-image:
+    linear-gradient(rgba(90, 72, 54, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90, 72, 54, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at 20px 20px, rgba(120, 94, 68, 0.055) 1px, transparent 1.4px) !important;
+  background-size: 44px 44px, 44px 44px, 22px 22px !important;
+  opacity: 0.9 !important;
+  z-index: -2 !important;
+}
+
+body.jp-site::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    linear-gradient(115deg, transparent 0 64%, rgba(255, 255, 255, 0.32) 64% 65%, transparent 65%),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.24), transparent 42%);
+  mix-blend-mode: soft-light;
+}
+
+body.jp-site .container {
+  width: min(1280px, calc(100% - 32px)) !important;
+  max-width: 1280px !important;
+}
+
+body.jp-site h1,
+body.jp-site h2,
+body.jp-site h3,
+body.jp-site .brand {
+  font-family: "Kaisei Tokumin", "Zen Antique Soft", "Noto Sans TC", serif !important;
+  letter-spacing: -0.035em;
+}
+
+body.jp-site .navbar {
+  width: min(1380px, calc(100% - 28px));
+  left: 50% !important;
+  transform: translateX(-50%);
+  top: 10px !important;
+  border: 1px solid rgba(65, 51, 39, 0.14) !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 247, 0.88), rgba(248, 239, 222, 0.82)) !important;
+  box-shadow: 0 18px 42px rgba(80, 62, 43, 0.12) !important;
+  backdrop-filter: blur(18px) saturate(1.1) !important;
+}
+
+body.jp-site .navbar .brand {
+  color: var(--jp-indigo) !important;
+  font-weight: 900 !important;
+}
+
+body.jp-site .nav-link,
+body.jp-site .mob-nav-item {
+  border-radius: 999px !important;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+body.jp-site .nav-link:hover,
+body.jp-site .mob-nav-item:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 244, 207, 0.92) !important;
+  box-shadow: inset 0 0 0 1px rgba(201, 154, 62, 0.18);
+}
+
+body.jp-site footer {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.78), rgba(245, 237, 221, 0.92)) !important;
+  border-top: 1px solid rgba(65, 51, 39, 0.12) !important;
+}
+
+#antigravity-preloader {
+  background:
+    radial-gradient(circle at center, rgba(255, 244, 207, 0.96), #1d2528 72%) !important;
+}
+
+#antigravity-preloader .pulse-core {
+  background: #f2c15e !important;
+  box-shadow: 0 0 22px rgba(242, 193, 94, 0.95), 0 0 52px rgba(185, 79, 53, 0.32) !important;
+}
+
+#antigravity-preloader .loader-text {
+  color: #fff7df !important;
+  text-transform: none !important;
+}
+
+.leaf-decorator,
+.moon-decorator {
+  color: rgba(185, 79, 53, 0.18) !important;
+  font-family: "Kaisei Tokumin", serif !important;
+  filter: blur(0.1px);
+}
+
+.leaf-top-left {
+  transform: rotate(-16deg);
+}
+
+.leaf-bottom-right {
+  transform: rotate(12deg);
+}
+
+.moon-decorator {
+  color: rgba(23, 58, 94, 0.13) !important;
+}
+
+.jp-ambience {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.jp-ambience span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 64% 36% 68% 32%;
+  background: rgba(185, 79, 53, 0.13);
+  transform: rotate(35deg);
+  animation: jpPetalFloat var(--jp-float-speed, 15s) linear infinite;
+  animation-delay: var(--jp-float-delay, 0s);
+}
+
+main.container {
+  position: relative;
+  z-index: 1;
+}
+
+body.jp-site .entry-studio,
+body.jp-site .cap-stage,
+body.jp-site .cap-subject-stage,
+body.jp-site .cap-mode-stage,
+body.jp-site .mockroom,
+body.jp-site .mistake-center,
+body.jp-site .guide-workspace,
+body.jp-site .reader-workspace,
+body.jp-site .practice-shell,
+body.jp-site .practice-page {
+  position: relative;
+  isolation: isolate;
+}
+
+body.jp-site .entry-studio::before,
+body.jp-site .cap-stage::before,
+body.jp-site .cap-subject-stage::before,
+body.jp-site .cap-mode-stage::before,
+body.jp-site .mockroom::before,
+body.jp-site .mistake-center::before,
+body.jp-site .guide-workspace::before,
+body.jp-site .reader-workspace::before {
+  content: "";
+  position: absolute;
+  right: clamp(0.5rem, 4vw, 3rem);
+  top: clamp(0.6rem, 4vw, 2rem);
+  width: clamp(78px, 10vw, 140px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(185, 79, 53, 0.12);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 52%, rgba(185, 79, 53, 0.05) 53% 55%, transparent 56%),
+    linear-gradient(135deg, rgba(185, 79, 53, 0.06), transparent);
+  z-index: -1;
+}
+
+body.jp-site section.entry-hero,
+body.jp-site section.entry-shell,
+body.jp-site section.entry-notes,
+body.jp-site section.cap-stage-hero,
+body.jp-site section.cap-stage-shell,
+body.jp-site section.cap-stage-note,
+body.jp-site section.cap-subject-hero,
+body.jp-site section.cap-subject-shell,
+body.jp-site section.cap-subject-note,
+body.jp-site section.cap-mode-hero,
+body.jp-site section.cap-mode-shell,
+body.jp-site section.cap-mode-note,
+body.jp-site .mockroom section,
+body.jp-site .mistake-center section,
+body.jp-site .guide-hero,
+body.jp-site .guide-panel,
+body.jp-site .guide-summary,
+body.jp-site .reader-hero,
+body.jp-site .reader-panel,
+body.jp-site .reader-content {
+  border: 1px solid var(--jp-line) !important;
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.62), transparent 32%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.94), rgba(247, 238, 220, 0.88)) !important;
+  box-shadow: var(--jp-shadow-soft) !important;
+  backdrop-filter: blur(12px) saturate(1.05);
+}
+
+body.jp-site .entry-hero,
+body.jp-site .cap-stage-hero,
+body.jp-site .cap-subject-hero,
+body.jp-site .cap-mode-hero,
+body.jp-site .mockroom-hero,
+body.jp-site .mistake-hero,
+body.jp-site .guide-hero,
+body.jp-site .reader-hero {
+  background:
+    radial-gradient(circle at top right, rgba(201, 154, 62, 0.28), transparent 28%),
+    radial-gradient(circle at left bottom, rgba(23, 58, 94, 0.1), transparent 30%),
+    linear-gradient(135deg, rgba(255, 253, 247, 0.98), rgba(255, 244, 207, 0.76)) !important;
+  box-shadow: var(--jp-shadow) !important;
+}
+
+body.jp-site .entry-hero-badge,
+body.jp-site .cap-badge,
+body.jp-site .mockroom-badge,
+body.jp-site .mistake-badge,
+body.jp-site .guide-badge,
+body.jp-site .reader-badge {
+  color: #fff !important;
+  background:
+    linear-gradient(135deg, var(--jp-indigo), #315f7a) !important;
+  box-shadow: 0 12px 28px rgba(23, 58, 94, 0.22) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+
+body.jp-site .entry-stat,
+body.jp-site .cap-stat,
+body.jp-site .cap-subject-summary > div,
+body.jp-site .cap-mode-summary > div,
+body.jp-site .mockroom-stat,
+body.jp-site .mistake-stat,
+body.jp-site .guide-stat,
+body.jp-site .reader-stat,
+body.jp-site .guide-summary-item {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 250, 240, 0.82)) !important;
+  border: 1px solid rgba(65, 51, 39, 0.1) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 12px 30px rgba(65, 51, 39, 0.08) !important;
+}
+
+body.jp-site .entry-lane,
+body.jp-site .entry-step-card,
+body.jp-site .cap-year-card,
+body.jp-site .cap-subject-card,
+body.jp-site .cap-mode-option,
+body.jp-site .mockroom-card,
+body.jp-site .mockroom-question,
+body.jp-site .mistake-card,
+body.jp-site .mistake-filter,
+body.jp-site .mistake-subject,
+body.jp-site .guide-card,
+body.jp-site .reader-card,
+body.jp-site .washi-card,
+body.jp-site .glass-panel,
+body.jp-site .card,
+body.jp-site .stat-card,
+body.jp-site .chat-sidebar,
+body.jp-site .chat-main,
+body.jp-site .profile-card,
+body.jp-site .ai-profile-section,
+body.jp-site .system-info-section,
+body.jp-site .create-ai-role-card {
+  position: relative !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 250, 240, 0.88)) !important;
+  border: 1px solid rgba(65, 51, 39, 0.11) !important;
+  box-shadow: 0 16px 34px rgba(70, 54, 38, 0.09) !important;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease !important;
+}
+
+body.jp-site .entry-lane::before,
+body.jp-site .cap-year-card::before,
+body.jp-site .cap-subject-card::before,
+body.jp-site .cap-mode-option::before,
+body.jp-site .mockroom-card::before,
+body.jp-site .mistake-card::before,
+body.jp-site .guide-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--jp-ripple-x, 50%) var(--jp-ripple-y, 50%), rgba(201, 154, 62, 0.18), transparent 26%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  pointer-events: none;
+}
+
+body.jp-site .entry-lane:hover,
+body.jp-site .entry-lane.is-active,
+body.jp-site .cap-year-card:hover,
+body.jp-site .cap-year-card.is-active,
+body.jp-site .cap-subject-card:hover,
+body.jp-site .cap-subject-card.is-active,
+body.jp-site .cap-mode-option:hover,
+body.jp-site .mockroom-card:hover,
+body.jp-site .mockroom-card.is-active,
+body.jp-site .mistake-card:hover,
+body.jp-site .mistake-filter:hover,
+body.jp-site .mistake-filter.is-active,
+body.jp-site .mistake-subject:hover,
+body.jp-site .mistake-subject.is-active,
+body.jp-site .guide-card:hover,
+body.jp-site .guide-card.is-selected {
+  transform: translateY(-5px) !important;
+  border-color: rgba(201, 154, 62, 0.36) !important;
+  box-shadow: 0 24px 50px rgba(70, 54, 38, 0.16) !important;
+}
+
+body.jp-site .entry-lane:hover::before,
+body.jp-site .entry-lane.is-active::before,
+body.jp-site .cap-year-card:hover::before,
+body.jp-site .cap-year-card.is-active::before,
+body.jp-site .cap-subject-card:hover::before,
+body.jp-site .cap-subject-card.is-active::before,
+body.jp-site .cap-mode-option:hover::before,
+body.jp-site .mockroom-card:hover::before,
+body.jp-site .mockroom-card.is-active::before,
+body.jp-site .mistake-card:hover::before,
+body.jp-site .guide-card:hover::before,
+body.jp-site .guide-card.is-selected::before {
+  opacity: 1;
+}
+
+body.jp-site .section-title {
+  color: var(--jp-indigo) !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+body.jp-site .section-title::after {
+  content: "";
+  width: 46px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--jp-gold), transparent);
+}
+
+body.jp-site .chat-container,
+body.jp-site .lofi-container {
+  position: relative;
+  z-index: 1;
+}
+
+body.jp-site .chat-sidebar,
+body.jp-site .chat-main {
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.46), transparent 28%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.92), rgba(247, 238, 220, 0.84)) !important;
+  border-color: rgba(65, 51, 39, 0.12) !important;
+}
+
+body.jp-site .message.ai {
+  background:
+    linear-gradient(180deg, rgba(255, 253, 247, 0.95), rgba(255, 250, 240, 0.95)) !important;
+  border: 1px solid rgba(65, 51, 39, 0.08);
+  box-shadow: 0 14px 30px rgba(65, 51, 39, 0.08);
+}
+
+body.jp-site .message.user {
+  background: linear-gradient(135deg, #284f78, #476ea0) !important;
+  box-shadow: 0 14px 30px rgba(23, 58, 94, 0.18);
+}
+
+body.jp-site .admin-tool-btn,
+body.jp-site .command-item,
+body.jp-site .session-item {
+  border-radius: 18px !important;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+body.jp-site .admin-tool-btn:hover,
+body.jp-site .command-item:hover,
+body.jp-site .session-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 244, 207, 0.82) !important;
+}
+
+body.jp-site input,
+body.jp-site select,
+body.jp-site textarea,
+body.jp-site .form-control {
+  background: rgba(255, 254, 251, 0.94) !important;
+  border: 1px solid rgba(65, 51, 39, 0.14) !important;
+  border-radius: 18px !important;
+  color: var(--jp-ink) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+body.jp-site input:focus,
+body.jp-site select:focus,
+body.jp-site textarea:focus,
+body.jp-site .form-control:focus {
+  outline: none !important;
+  border-color: rgba(201, 154, 62, 0.52) !important;
+  box-shadow: 0 0 0 4px rgba(201, 154, 62, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+body.jp-site .badge,
+body.jp-site .streak-badge {
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, var(--jp-gold), #d9b562) !important;
+  color: #352513 !important;
+}
+
+body.jp-site table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+}
+
+body.jp-site th {
+  background: rgba(255, 244, 207, 0.78) !important;
+  color: var(--jp-indigo) !important;
+}
+
+body.jp-site td,
+body.jp-site th {
+  border-color: rgba(65, 51, 39, 0.08) !important;
+}
+
+body.jp-site .entry-lane-mark,
+body.jp-site .cap-subject-icon,
+body.jp-site .cap-mode-icon,
+body.jp-site .mockroom-icon,
+body.jp-site .mistake-icon,
+body.jp-site .guide-icon,
+body.jp-site .reader-icon {
+  background:
+    radial-gradient(circle at 35% 25%, #fff8e5, var(--jp-gold-soft)) !important;
+  color: var(--jp-indigo) !important;
+  box-shadow: inset 0 0 0 1px rgba(201, 154, 62, 0.18), 0 10px 24px rgba(201, 154, 62, 0.12) !important;
+}
+
+body.jp-site .entry-lane-tag,
+body.jp-site .entry-preview-tag,
+body.jp-site .cap-preview-tag,
+body.jp-site .cap-chip,
+body.jp-site .cap-mode-tag,
+body.jp-site .mockroom-pill,
+body.jp-site .mistake-pill,
+body.jp-site .guide-pill,
+body.jp-site .reader-pill {
+  background: rgba(255, 244, 207, 0.82) !important;
+  color: #775421 !important;
+  border: 1px solid rgba(201, 154, 62, 0.18) !important;
+}
+
+body.jp-site .cap-progress-pill {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(23, 58, 94, 0.15) !important;
+  color: var(--jp-indigo) !important;
+  box-shadow: 0 10px 22px rgba(23, 58, 94, 0.06);
+}
+
+body.jp-site .cap-progress-pill.is-active {
+  background: linear-gradient(135deg, var(--jp-indigo), #315f7a) !important;
+  color: #fff !important;
+}
+
+body.jp-site .entry-cta,
+body.jp-site .entry-ghost,
+body.jp-site .cap-primary,
+body.jp-site .cap-ghost,
+body.jp-site .mockroom-btn,
+body.jp-site .mockroom-link,
+body.jp-site .mistake-btn,
+body.jp-site .mistake-link,
+body.jp-site .guide-action,
+body.jp-site .guide-link,
+body.jp-site .reader-action,
+body.jp-site .btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px !important;
+  font-weight: 900 !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease !important;
+}
+
+body.jp-site .entry-cta,
+body.jp-site .cap-primary,
+body.jp-site .mockroom-btn,
+body.jp-site .mistake-btn,
+body.jp-site .guide-action,
+body.jp-site .reader-action,
+body.jp-site .btn {
+  background: linear-gradient(135deg, var(--jp-indigo), #244f77) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.24) !important;
+  box-shadow: 0 16px 34px rgba(23, 58, 94, 0.22) !important;
+}
+
+body.jp-site .entry-ghost,
+body.jp-site .cap-ghost,
+body.jp-site .mockroom-link,
+body.jp-site .mistake-link,
+body.jp-site .guide-link,
+body.jp-site .reader-link {
+  background: rgba(255, 255, 255, 0.76) !important;
+  color: var(--jp-indigo) !important;
+  border: 1px solid rgba(23, 58, 94, 0.16) !important;
+}
+
+body.jp-site .entry-cta:hover,
+body.jp-site .entry-ghost:hover,
+body.jp-site .cap-primary:hover,
+body.jp-site .cap-ghost:hover,
+body.jp-site .mockroom-btn:hover,
+body.jp-site .mistake-btn:hover,
+body.jp-site .guide-action:hover,
+body.jp-site .guide-link:hover,
+body.jp-site .btn:hover {
+  transform: translateY(-2px) !important;
+  filter: saturate(1.08);
+}
+
+.jp-ink-ripple {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(201, 154, 62, 0.32);
+  transform: translate(-50%, -50%) scale(1);
+  animation: jpInkRipple 0.62s ease-out forwards;
+}
+
+body.jp-site .mockroom-question,
+body.jp-site .practice-question-card,
+body.jp-site .cap-question-card,
+body.jp-site .reader-page-card {
+  border-left: 5px solid rgba(201, 154, 62, 0.72) !important;
+}
+
+body.jp-site img {
+  image-rendering: auto;
+}
+
+body.jp-site .mockroom-image,
+body.jp-site .mistake-image,
+body.jp-site .guide-cover,
+body.jp-site .reader-image,
+body.jp-site .cap-question-asset,
+body.jp-site .question-image,
+body.jp-site .option-image {
+  background: #fff !important;
+  border: 1px solid rgba(65, 51, 39, 0.12) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 24px rgba(65, 51, 39, 0.08) !important;
+}
+
+body.jp-site .mockroom-image img,
+body.jp-site .mistake-image img,
+body.jp-site .cap-question-asset img,
+body.jp-site .question-image img,
+body.jp-site .option-image img {
+  max-height: 520px;
+  object-fit: contain;
+}
+
+.jp-reveal {
+  opacity: 0;
+  transform: translateY(18px) scale(0.992);
+  transition: opacity 0.58s ease, transform 0.58s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--jp-delay, 0ms);
+}
+
+.jp-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+body.jp-site .is-active {
+  outline: none;
+}
+
+body.jp-site .is-active:not(.cap-progress-pill)::after {
+  box-shadow: inset 0 0 0 2px rgba(201, 154, 62, 0.24);
+}
+
+@keyframes jpWashiBreath {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes jpPetalFloat {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.8; }
+  85% { opacity: 0.46; }
+  100% {
+    transform: translate3d(var(--jp-drift, 40px), 112vh, 0) rotate(420deg);
+    opacity: 0;
+  }
+}
+
+@keyframes jpInkRipple {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(18);
+  }
+}
+
+@media (max-width: 767px) {
+  body.jp-site .container {
+    width: min(100% - 20px, 1280px) !important;
+  }
+
+  body.jp-site .navbar {
+    width: calc(100% - 18px);
+    border-radius: 22px !important;
+  }
+
+  .jp-ambience span:nth-child(n + 9) {
+    display: none;
+  }
+
+  body.jp-site .entry-hero,
+  body.jp-site .cap-stage-hero,
+  body.jp-site .cap-subject-hero,
+  body.jp-site .cap-mode-hero,
+  body.jp-site .mockroom-hero,
+  body.jp-site .mistake-hero,
+  body.jp-site .guide-hero,
+  body.jp-site .reader-hero {
+    border-radius: 28px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.jp-site,
+  .jp-ambience span,
+  .jp-reveal,
+  .jp-ink-ripple {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .jp-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

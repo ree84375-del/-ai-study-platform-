@@ -1,231 +1,409 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆練習｜選模式{% endblock %}
+{% block title %}會考歷屆選模式{% endblock %}
 {% block content %}
 <style>
-  .cap-mode-page {
-    --navy: #15395f;
-    --navy-soft: #edf4ff;
-    --gold: #c58e3e;
-    --paper: rgba(255, 255, 255, 0.92);
-    --ink: #1d2531;
+  .cap-mode-stage {
+    --ink: #1f2835;
     --muted: #6b7687;
-    --line: rgba(21, 57, 95, 0.14);
+    --navy: #18436d;
+    --line: rgba(24, 67, 109, 0.12);
+    --shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
     display: grid;
     gap: 1.2rem;
-    padding-bottom: 2.5rem;
+    padding-bottom: 3rem;
   }
 
-  .cap-block,
-  .mode-card {
-    border-radius: 32px;
+  .cap-mode-hero,
+  .cap-mode-shell,
+  .cap-mode-note {
+    border-radius: 34px;
     border: 1px solid var(--line);
-    box-shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
+    box-shadow: var(--shadow);
   }
 
-  .cap-block {
-    padding: 1.5rem;
+  .cap-mode-hero {
+    padding: 1.6rem;
     background:
-      radial-gradient(circle at top right, rgba(197, 142, 62, 0.2), transparent 30%),
+      radial-gradient(circle at top right, rgba(199, 138, 57, 0.18), transparent 28%),
       linear-gradient(135deg, #fffdf8, #f3f7fd);
   }
 
   .cap-badge,
-  .cap-pill,
-  .mode-link,
+  .cap-progress-pill,
+  .cap-mode-tag,
+  .cap-mode-link,
   .cap-ghost {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     border-radius: 999px;
-    font-weight: 800;
     text-decoration: none;
-  }
-
-  .cap-badge {
-    padding: 0.5rem 1rem;
-    background: var(--navy);
-    color: #fff;
+    font-weight: 800;
     width: fit-content;
   }
 
-  .cap-block h1,
-  .cap-block h2,
-  .mode-card h3 {
+  .cap-badge {
+    padding: 0.52rem 1rem;
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .cap-mode-hero h1,
+  .cap-mode-card h2,
+  .cap-mode-option h3 {
     margin: 0;
     color: var(--ink);
     font-family: "Kaisei Tokumin", serif;
   }
 
-  .cap-block h1 {
+  .cap-mode-hero h1 {
     margin-top: 1rem;
-    font-size: clamp(2rem, 4.4vw, 3.5rem);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+    font-size: clamp(2rem, 4.6vw, 3.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
   }
 
-  .cap-block p,
-  .mode-card p,
-  .cap-summary span {
-    margin: 0.8rem 0 0;
+  .cap-mode-hero p,
+  .cap-mode-card p,
+  .cap-mode-option p {
+    margin: 0.85rem 0 0;
     color: var(--muted);
     line-height: 1.8;
   }
 
   .cap-progress {
-    margin-top: 1.4rem;
     display: flex;
-    flex-wrap: wrap;
     gap: 0.65rem;
+    flex-wrap: wrap;
+    margin-top: 1.35rem;
   }
 
-  .cap-pill {
+  .cap-progress-pill {
     padding: 0.6rem 1rem;
-    border: 1px solid rgba(21, 57, 95, 0.12);
+    border: 1px solid rgba(24, 67, 109, 0.12);
     background: rgba(255, 255, 255, 0.8);
-    color: #6f7a88;
+    color: #728093;
   }
 
-  .cap-pill.is-active {
+  .cap-progress-pill.is-active {
+    background: #edf4ff;
     color: var(--navy);
-    background: var(--navy-soft);
-    border-color: rgba(21, 57, 95, 0.2);
+    border-color: rgba(24, 67, 109, 0.2);
   }
 
-  .cap-summary {
-    margin-top: 1.2rem;
+  .cap-mode-summary {
+    margin-top: 1.3rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.8rem;
+    gap: 0.85rem;
   }
 
-  .cap-summary div {
-    padding: 1rem;
-    border-radius: 22px;
-    border: 1px solid rgba(21, 57, 95, 0.08);
+  .cap-mode-summary div {
+    padding: 1rem 1.05rem;
+    border-radius: 24px;
     background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(24, 67, 109, 0.08);
   }
 
-  .cap-summary strong {
+  .cap-mode-summary span {
+    display: block;
+    color: #8591a4;
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  .cap-mode-summary strong {
     display: block;
     margin-top: 0.25rem;
-    font-size: 1.45rem;
+    font-size: 1.55rem;
     color: var(--ink);
   }
 
-  .mode-grid {
-    margin-top: 1.35rem;
+  .cap-mode-shell {
+    padding: 1rem;
+    background:
+      radial-gradient(circle at top right, rgba(247, 221, 171, 0.16), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 243, 234, 0.98));
+  }
+
+  .cap-mode-card,
+  .cap-mode-note {
+    border-radius: 30px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .cap-mode-card {
+    padding: 1.2rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cap-mode-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1rem;
   }
 
-  .mode-card {
-    padding: 1.25rem;
-    background: var(--paper);
+  .cap-mode-option {
+    --accent: #1f4f84;
+    --soft: #edf4ff;
     display: grid;
     gap: 0.9rem;
+    padding: 1.15rem;
+    border-radius: 28px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     color: inherit;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
 
-  .mode-card:hover {
+  .cap-mode-option.practice {
+    --accent: #8d4e1f;
+    --soft: #fff1e6;
+  }
+
+  .cap-mode-option:hover {
     transform: translateY(-4px);
-    box-shadow: 0 34px 78px rgba(21, 57, 95, 0.14);
+    border-color: color-mix(in srgb, var(--accent) 24%, white);
+    box-shadow: 0 24px 40px color-mix(in srgb, var(--accent) 14%, transparent);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--soft) 92%, white), #ffffff);
   }
 
-  .mode-icon {
+  .cap-mode-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.8rem;
+  }
+
+  .cap-mode-icon {
     width: 58px;
     height: 58px;
     border-radius: 20px;
+    background: var(--soft);
+    color: var(--accent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--navy-soft);
-    color: var(--navy);
     font-size: 1.35rem;
   }
 
-  .mode-foot,
-  .cap-action-row {
+  .cap-mode-tag {
+    padding: 0.42rem 0.8rem;
+    background: var(--soft);
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+
+  .cap-step-list {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .cap-step-list div {
+    padding: 0.85rem 0.95rem;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .cap-step-list strong {
+    display: block;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .cap-mode-foot,
+  .cap-actions {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 0.8rem;
     flex-wrap: wrap;
   }
 
-  .mode-link,
+  .cap-mode-link,
   .cap-ghost {
     min-height: 52px;
-    padding: 0.8rem 1.3rem;
+    padding: 0.82rem 1.2rem;
   }
 
-  .mode-link {
+  .cap-mode-link {
     color: #fff;
-    background: linear-gradient(135deg, var(--navy), #2563eb);
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 72%, white));
+    box-shadow: 0 18px 34px color-mix(in srgb, var(--accent) 16%, transparent);
   }
 
   .cap-ghost {
-    border: 1px solid rgba(21, 57, 95, 0.12);
     background: #fff;
     color: var(--ink);
+    border: 1px solid rgba(24, 67, 109, 0.12);
   }
 
-  .cap-action-row {
-    margin-top: 1.2rem;
+  .cap-mode-note {
+    padding: 1rem;
+  }
+
+  .cap-mode-note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .cap-mode-note-grid article {
+    padding: 1rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(24, 67, 109, 0.08);
+  }
+
+  .cap-mode-note-grid h3 {
+    margin: 0 0 0.45rem;
+    color: var(--ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-mode-note-grid p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 720px) {
+    .cap-mode-hero,
+    .cap-mode-shell,
+    .cap-mode-note {
+      border-radius: 26px;
+    }
+
+    .cap-mode-hero,
+    .cap-mode-card,
+    .cap-mode-note {
+      padding: 1rem;
+    }
   }
 </style>
 
-<div class="cap-mode-page">
-  <section class="cap-block">
+<div class="cap-mode-stage">
+  <section class="cap-mode-hero">
     <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
-    <h1>第三步：只選模式。</h1>
-    <p>年份和科目都已經選完了，這一頁只決定要先預覽，還是直接開始練習。</p>
+    <h1>第三步，選模式。</h1>
+    <p>年份和科目都已經選好了，現在只要決定這次要先看完整答案，還是直接進入正式練習。這一步只做模式分流，不把其他設定混進來。</p>
     <div class="cap-progress">
-      <a class="cap-pill" href="{{ year_step_href }}">1 選年份</a>
-      <a class="cap-pill" href="{{ subject_step_href }}">2 選科目</a>
-      <span class="cap-pill is-active">3 選模式</span>
+      <a class="cap-progress-pill" href="{{ year_step_href }}">1 選年份</a>
+      <a class="cap-progress-pill" href="{{ subject_step_href }}">2 選科目</a>
+      <span class="cap-progress-pill is-active">3 選模式</span>
     </div>
-    <div class="cap-summary">
-      <div><span>年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
-      <div><span>科目</span><strong>{{ selected_subject.label }}</strong></div>
-      <div><span>題數</span><strong>{{ question_bank_count }}</strong></div>
-      <div><span>僅預覽年份</span><strong>{{ preview_only_count }}</strong></div>
+    <div class="cap-mode-summary">
+      <div>
+        <span>年份</span>
+        <strong>{{ selected_years|join('、') }} 年</strong>
+      </div>
+      <div>
+        <span>科目</span>
+        <strong>{{ selected_subject.label }}</strong>
+      </div>
+      <div>
+        <span>題數</span>
+        <strong>{{ question_bank_count }}</strong>
+      </div>
+      <div>
+        <span>預覽可先看題數</span>
+        <strong>{{ preview_only_count }}</strong>
+      </div>
     </div>
   </section>
 
-  <section class="cap-block">
-    <h2>選模式</h2>
-    <p>預覽模式適合先看題目、答案與詳解；練習模式會先作答，再交卷看結果。</p>
-    <div class="mode-grid">
-      <a class="mode-card" href="{{ preview_href }}">
-        <span class="mode-icon"><i class="fa-solid fa-book-open"></i></span>
-        <div>
-          <h3>預覽模式</h3>
-          <p>先翻題目、題組圖片、選項圖片與詳解，適合先熟悉歷屆題型。</p>
-        </div>
-        <div class="mode-foot">
-          <span class="cap-pill">可分頁查看</span>
-          <span class="mode-link">開始預覽 <i class="fa-solid fa-arrow-right-long"></i></span>
-        </div>
-      </a>
+  <section class="cap-mode-shell">
+    <div class="cap-mode-card">
+      <div>
+        <h2>選模式</h2>
+        <p>這一頁只讓你決定預覽模式或練習模式。兩種模式各有自己的頁面與節奏，不會在這裡同時展開全部內容。</p>
+      </div>
 
-      <a class="mode-card" href="{{ practice_href }}">
-        <span class="mode-icon"><i class="fa-solid fa-pen-ruler"></i></span>
-        <div>
-          <h3>練習模式</h3>
-          <p>先設定題數與時間，再進入一題一頁作答流程，交卷後看成績與詳解。</p>
-        </div>
-        <div class="mode-foot">
-          <span class="cap-pill">正式作答節奏</span>
-          <span class="mode-link">開始練習 <i class="fa-solid fa-arrow-right-long"></i></span>
-        </div>
-      </a>
+      <div class="cap-mode-grid">
+        <a class="cap-mode-option preview" href="{{ preview_href }}">
+          <div class="cap-mode-top">
+            <span class="cap-mode-icon"><i class="fa-solid fa-book-open"></i></span>
+            <span class="cap-mode-tag">先看完整內容</span>
+          </div>
+          <div>
+            <h3>預覽模式</h3>
+            <p>直接查看這一科該年份的題目、正確答案與詳解，不計分，也不交卷，適合先熟悉題型。</p>
+          </div>
+          <div class="cap-step-list">
+            <div>
+              <strong>看什麼</strong>
+              題目、題圖、答案、詳解一次看完。
+            </div>
+            <div>
+              <strong>適合誰</strong>
+              想先預習、想先確認內容、或老師帶看講解時使用。
+            </div>
+          </div>
+          <div class="cap-mode-foot">
+            <span class="cap-mode-tag">不計分</span>
+            <span class="cap-mode-link">進入預覽 <i class="fa-solid fa-arrow-right-long"></i></span>
+          </div>
+        </a>
+
+        <a class="cap-mode-option practice" href="{{ practice_href }}">
+          <div class="cap-mode-top">
+            <span class="cap-mode-icon"><i class="fa-solid fa-pen-ruler"></i></span>
+            <span class="cap-mode-tag">正式作答流程</span>
+          </div>
+          <div>
+            <h3>練習模式</h3>
+            <p>一題一頁正式作答，可往前往後切換，最後交卷後再看成績、答案與解析，節奏更像真正產品。</p>
+          </div>
+          <div class="cap-step-list">
+            <div>
+              <strong>怎麼做</strong>
+              逐題作答、保留狀態、最後交卷統一批改。
+            </div>
+            <div>
+              <strong>看什麼</strong>
+              交卷後才看 100 分制成績、答錯題數和完整詳解。
+            </div>
+          </div>
+          <div class="cap-mode-foot">
+            <span class="cap-mode-tag">有作答流程</span>
+            <span class="cap-mode-link">開始練習 <i class="fa-solid fa-arrow-right-long"></i></span>
+          </div>
+        </a>
+      </div>
+
+      <div class="cap-actions">
+        <a class="cap-ghost" href="{{ subject_step_href }}">
+          <i class="fa-solid fa-arrow-left"></i>
+          回科目
+        </a>
+        <a class="cap-ghost" href="{{ url_for('study.practice') }}">
+          <i class="fa-solid fa-house"></i>
+          回刷題首頁
+        </a>
+      </div>
     </div>
-    <div class="cap-action-row">
-      <a class="cap-ghost" href="{{ subject_step_href }}"><i class="fa-solid fa-arrow-left"></i> 上一步：科目</a>
-      <a class="cap-ghost" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-house"></i> 回刷題首頁</a>
+  </section>
+
+  <section class="cap-mode-note">
+    <div class="cap-mode-note-grid">
+      <article>
+        <h3>模式獨立</h3>
+        <p>預覽模式和練習模式分開，避免同頁把答案和作答流程混在一起。</p>
+      </article>
+      <article>
+        <h3>閱讀順序清楚</h3>
+        <p>你現在只要決定這次是先看，還是先做，不會被其他設定干擾。</p>
+      </article>
+      <article>
+        <h3>下一頁才開始內容</h3>
+        <p>這裡不直接灌題目，真正的題目內容留到下一頁完整呈現。</p>
+      </article>
     </div>
   </section>
 </div>

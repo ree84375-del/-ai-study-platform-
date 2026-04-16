@@ -1,280 +1,783 @@
 {% extends "base.html" %}
-{% block title %}刷題中心{% endblock %}
+{% block title %}開始刷題{% endblock %}
 {% block content %}
+{% set cap_subject_total = entry_payload.cap.subjects | selectattr('available') | list | length %}
 <style>
-  .study-gateway {
-    --ink: #201a18;
-    --muted: #6b625d;
-    --surface: rgba(255, 255, 255, 0.9);
-    --line: rgba(89, 66, 49, 0.12);
+  .entry-studio {
+    --ink: #231c1a;
+    --muted: #6f655f;
+    --panel: rgba(255, 255, 255, 0.92);
+    --line: rgba(77, 57, 40, 0.1);
+    --shadow: 0 30px 70px rgba(61, 44, 30, 0.12);
     display: grid;
-    gap: 1.4rem;
+    gap: 1.25rem;
     padding-bottom: 3rem;
   }
 
-  .gateway-hero,
-  .gateway-card,
-  .gateway-note {
-    border-radius: 32px;
+  .entry-hero,
+  .entry-shell,
+  .entry-notes {
+    border-radius: 34px;
     border: 1px solid var(--line);
-    box-shadow: 0 28px 70px rgba(76, 53, 35, 0.11);
+    box-shadow: var(--shadow);
   }
 
-  .gateway-hero {
+  .entry-hero {
+    overflow: hidden;
     padding: 1.6rem;
     background:
-      radial-gradient(circle at top right, rgba(239, 187, 107, 0.24), transparent 28%),
-      linear-gradient(135deg, #fffdf8, #f7efdf);
+      radial-gradient(circle at top right, rgba(245, 194, 104, 0.26), transparent 24%),
+      radial-gradient(circle at left bottom, rgba(57, 96, 148, 0.12), transparent 28%),
+      linear-gradient(135deg, #fffdf8, #f6efe1);
   }
 
-  .gateway-badge,
-  .gateway-tag,
-  .gateway-action {
+  .entry-hero-badge,
+  .entry-stat,
+  .entry-lane-tag,
+  .entry-preview-tag,
+  .entry-step-dot,
+  .entry-cta,
+  .entry-ghost {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     border-radius: 999px;
-    font-weight: 800;
     text-decoration: none;
+    font-weight: 800;
     width: fit-content;
   }
 
-  .gateway-badge {
-    padding: 0.5rem 1rem;
-    background: #2d221c;
-    color: #fff8ee;
+  .entry-hero-badge {
+    padding: 0.52rem 1rem;
+    background: #2f241f;
+    color: #fff9ef;
   }
 
-  .gateway-hero h1,
-  .gateway-card h2,
-  .gateway-note h2 {
+  .entry-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+    gap: 1.25rem;
+    align-items: end;
+  }
+
+  .entry-hero-copy h1,
+  .entry-panel h2,
+  .entry-preview h2,
+  .entry-lane-head h3,
+  .entry-step-card h3 {
     margin: 0;
     color: var(--ink);
     font-family: "Kaisei Tokumin", serif;
   }
 
-  .gateway-hero h1 {
+  .entry-hero-copy h1 {
     margin-top: 1rem;
-    max-width: 780px;
-    font-size: clamp(2.2rem, 5vw, 4rem);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+    font-size: clamp(2.2rem, 5vw, 4.3rem);
+    line-height: 1.04;
+    letter-spacing: -0.05em;
+    max-width: 860px;
   }
 
-  .gateway-hero p,
-  .gateway-card p,
-  .gateway-note p {
-    margin: 0.8rem 0 0;
+  .entry-hero-copy p,
+  .entry-panel p,
+  .entry-preview p,
+  .entry-lane-head p,
+  .entry-step-card p,
+  .entry-chip-list span {
     color: var(--muted);
-    line-height: 1.8;
+    line-height: 1.82;
   }
 
-  .gateway-stats {
-    margin-top: 1.35rem;
+  .entry-hero-copy p {
+    margin: 0.9rem 0 0;
+    max-width: 840px;
+  }
+
+  .entry-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.9rem;
   }
 
-  .gateway-stat {
-    padding: 1rem 1.1rem;
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.78);
-    background: rgba(255, 255, 255, 0.8);
-  }
-
-  .gateway-stat span {
-    color: #8c7e74;
-    font-size: 0.84rem;
-    font-weight: 700;
-  }
-
-  .gateway-stat strong {
-    display: block;
-    margin-top: 0.25rem;
-    color: var(--ink);
-    font-size: 1.9rem;
-  }
-
-  .gateway-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
-  }
-
-  .gateway-card {
-    --accent: #17395f;
-    --accent-soft: #edf4ff;
-    min-height: 310px;
-    padding: 1.35rem;
-    display: flex;
+  .entry-stat {
+    padding: 1rem 1.05rem;
+    min-height: 120px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.84);
     flex-direction: column;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .entry-stat small {
+    color: #8d7e73;
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  .entry-stat strong {
+    margin-top: 0.3rem;
+    font-size: clamp(1.8rem, 3vw, 2.55rem);
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .entry-stat em {
+    margin-top: 0.45rem;
+    color: #7a6f68;
+    font-size: 0.86rem;
+    font-style: normal;
+  }
+
+  .entry-shell {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.18fr);
+    gap: 1rem;
+    padding: 1rem;
     background:
-      radial-gradient(circle at top right, var(--accent-soft), transparent 44%),
-      var(--surface);
-    color: inherit;
-    text-decoration: none;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+      radial-gradient(circle at top right, rgba(247, 221, 171, 0.18), transparent 28%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(250, 245, 236, 0.96));
   }
 
-  .gateway-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 34px 78px rgba(61, 46, 33, 0.15);
+  .entry-panel,
+  .entry-preview,
+  .entry-step-card {
+    border-radius: 30px;
+    border: 1px solid rgba(77, 57, 40, 0.08);
+    background: rgba(255, 255, 255, 0.88);
   }
 
-  .gateway-card.exam {
-    --accent: #93422b;
-    --accent-soft: #fff0e7;
+  .entry-panel,
+  .entry-preview {
+    padding: 1.25rem;
+    display: grid;
+    gap: 1rem;
+    align-content: start;
   }
 
-  .gateway-card.mistakes {
-    --accent: #8a2638;
-    --accent-soft: #fff0f2;
-  }
-
-  .gateway-card.guides {
-    --accent: #2f6b4e;
-    --accent-soft: #ecf7ef;
-  }
-
-  .gateway-card.general {
-    --accent: #7a736c;
-    --accent-soft: #f4efea;
-    opacity: 0.72;
-    pointer-events: none;
-  }
-
-  .gateway-top {
+  .entry-panel-head,
+  .entry-preview-head {
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .entry-panel-head p,
+  .entry-preview-head p {
+    margin: 0.65rem 0 0;
+  }
+
+  .entry-lane-list {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .entry-lane {
+    --lane-accent: #264f83;
+    --lane-soft: #edf4ff;
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+    border-radius: 26px;
+    border: 1px solid rgba(77, 57, 40, 0.08);
+    background: rgba(255, 255, 255, 0.86);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+
+  .entry-lane:hover,
+  .entry-lane.is-active {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--lane-accent) 26%, white);
+    box-shadow: 0 22px 38px color-mix(in srgb, var(--lane-accent) 16%, transparent);
+    background:
+      radial-gradient(circle at top right, color-mix(in srgb, var(--lane-soft) 92%, white), transparent 40%),
+      rgba(255, 255, 255, 0.98);
+  }
+
+  .entry-lane[data-lane="cap"] {
+    --lane-accent: #214e82;
+    --lane-soft: #edf3ff;
+  }
+
+  .entry-lane[data-lane="exam"] {
+    --lane-accent: #9b4a25;
+    --lane-soft: #fff1e7;
+  }
+
+  .entry-lane[data-lane="mistakes"] {
+    --lane-accent: #92283d;
+    --lane-soft: #fff0f3;
+  }
+
+  .entry-lane[data-lane="guides"] {
+    --lane-accent: #2f6a4c;
+    --lane-soft: #edf7ef;
+  }
+
+  .entry-lane[data-lane="general"] {
+    --lane-accent: #7d746c;
+    --lane-soft: #f4efe9;
+    opacity: 0.6;
+  }
+
+  .entry-lane-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
     align-items: flex-start;
   }
 
-  .gateway-icon {
+  .entry-lane-mark {
     width: 58px;
     height: 58px;
     border-radius: 20px;
-    background: var(--accent-soft);
-    color: var(--accent);
+    background: var(--lane-soft);
+    color: var(--lane-accent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.35rem;
+    font-size: 1.3rem;
+    flex-shrink: 0;
   }
 
-  .gateway-tag {
-    padding: 0.45rem 0.85rem;
-    background: var(--accent-soft);
-    color: var(--accent);
+  .entry-lane-head h3 {
+    font-size: 1.5rem;
+  }
+
+  .entry-lane-head p {
+    margin: 0.45rem 0 0;
+  }
+
+  .entry-lane-tag {
+    padding: 0.42rem 0.82rem;
+    background: var(--lane-soft);
+    color: var(--lane-accent);
     font-size: 0.82rem;
   }
 
-  .gateway-card h2 {
-    margin-top: 1.2rem;
-    font-size: 1.95rem;
-  }
-
-  .gateway-footer {
-    padding-top: 1rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  .entry-mini-stats {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .entry-mini-stats span,
+  .entry-chip-list span {
+    display: inline-flex;
     align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(77, 57, 40, 0.08);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .entry-preview {
+    position: sticky;
+    top: 92px;
+  }
+
+  .entry-preview-tag {
+    padding: 0.5rem 0.92rem;
+    background: #f4ede5;
+    color: #7a614b;
+    font-size: 0.82rem;
+  }
+
+  .entry-preview-display {
+    display: grid;
     gap: 1rem;
-    color: var(--accent);
-    font-weight: 900;
   }
 
-  .gateway-note {
-    padding: 1.35rem;
-    background: linear-gradient(135deg, #fff, #f8f4ed);
+  .entry-preview-card {
+    padding: 1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(77, 57, 40, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 246, 240, 0.96));
   }
 
-  .gateway-note p {
-    max-width: 780px;
+  .entry-preview-card strong {
+    display: block;
+    font-size: 1.65rem;
+    color: var(--ink);
+    line-height: 1.15;
+  }
+
+  .entry-preview-card p {
+    margin: 0.55rem 0 0;
+  }
+
+  .entry-preview-steps {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .entry-step-line {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    align-items: start;
+  }
+
+  .entry-step-dot {
+    min-width: 42px;
+    justify-content: center;
+    padding: 0.45rem 0.75rem;
+    background: #f5ede2;
+    color: #8a6948;
+  }
+
+  .entry-step-line strong {
+    display: block;
+    color: var(--ink);
+    font-size: 1rem;
+  }
+
+  .entry-step-line span {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .entry-preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .entry-cta,
+  .entry-ghost {
+    min-height: 52px;
+    padding: 0.82rem 1.2rem;
+  }
+
+  .entry-cta {
+    color: #fff;
+    background: linear-gradient(135deg, #2e456d, #4268a3);
+    box-shadow: 0 18px 34px rgba(46, 69, 109, 0.16);
+  }
+
+  .entry-ghost {
+    border: 1px solid rgba(77, 57, 40, 0.12);
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .entry-notes {
+    padding: 1rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 243, 234, 0.98));
+  }
+
+  .entry-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .entry-step-card {
+    padding: 1rem;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .entry-step-card h3 {
+    font-size: 1.15rem;
+  }
+
+  .entry-step-card p {
+    margin: 0;
+  }
+
+  @media (max-width: 1080px) {
+    .entry-hero-grid,
+    .entry-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .entry-preview {
+      position: static;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .entry-hero,
+    .entry-shell,
+    .entry-notes {
+      border-radius: 26px;
+    }
+
+    .entry-hero,
+    .entry-panel,
+    .entry-preview,
+    .entry-notes {
+      padding: 1rem;
+    }
+
+    .entry-stats {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>
 
-<div class="study-gateway">
-  <section class="gateway-hero">
-    <span class="gateway-badge"><i class="fa-solid fa-layer-group"></i> 刷題中心</span>
-    <h1>先選你要做哪一件事，下一頁再一步一步設定。</h1>
-    <p>這裡只保留四個主入口，不在同一頁塞年份、科目、模式與說明，讓流程先變清楚，再往下走。</p>
-    <div class="gateway-stats">
-      <div class="gateway-stat"><span>會考可用題數</span><strong>{{ cap_material_count }}</strong></div>
-      <div class="gateway-stat"><span>待複習錯題</span><strong>{{ exam_unresolved_count }}</strong></div>
-      <div class="gateway-stat"><span>今日到期複習</span><strong>{{ exam_due_count }}</strong></div>
-      <div class="gateway-stat"><span>可讀講義</span><strong>{{ guide_download_count }}</strong></div>
+<div class="entry-studio">
+  <section class="entry-hero">
+    <span class="entry-hero-badge"><i class="fa-solid fa-compass"></i> 刷題控制台</span>
+    <div class="entry-hero-grid">
+      <div class="entry-hero-copy">
+        <h1>先選專區，再一步一步往下走，讓刷題、模擬考、錯題本和講義都變得好找又好用。</h1>
+        <p>這一頁只做入口分流，不把所有功能一次擠滿。你會先決定現在要做什麼，再進入各自的專屬流程，畫面會乾淨很多，也更像正式產品。</p>
+      </div>
+      <div class="entry-stats">
+        <div class="entry-stat">
+          <small>會考歷屆題數</small>
+          <strong>{{ cap_material_count }}</strong>
+          <em>{{ cap_year_count }} 個年份可練</em>
+        </div>
+        <div class="entry-stat">
+          <small>錯題待補</small>
+          <strong>{{ exam_unresolved_count }}</strong>
+          <em>{{ exam_due_count }} 題到期該回來</em>
+        </div>
+        <div class="entry-stat">
+          <small>可讀講義</small>
+          <strong>{{ guide_download_count }}</strong>
+          <em>{{ guide_subject_count }} 科已整理</em>
+        </div>
+        <div class="entry-stat">
+          <small>已整理專區</small>
+          <strong>4</strong>
+          <em>會考、模考、錯題、講義</em>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="gateway-grid">
-    <a class="gateway-card cap" href="{{ url_for('study.practice_cap_hub') }}">
-      <div>
-        <div class="gateway-top">
-          <span class="gateway-icon"><i class="fa-solid fa-graduation-cap"></i></span>
-          <span class="gateway-tag">年份可混 / 科目不混</span>
+  <section class="entry-shell">
+    <div class="entry-panel">
+      <div class="entry-panel-head">
+        <div>
+          <h2>第一步：選現在要進哪個專區</h2>
+          <p>這裡只保留清楚的入口，不把年份、科目、模式全部塞在首頁。先選方向，細節留到下一頁處理。</p>
         </div>
-        <h2>會考歷屆練習</h2>
-        <p>先選年份，再選科目，最後選預覽或練習模式。這一條路專門做歷屆會考。</p>
+        <span class="entry-preview-tag"><i class="fa-solid fa-hand-pointer"></i> 點一下就切換右側說明</span>
       </div>
-      <div class="gateway-footer"><span>{{ cap_material_count }} 題</span><i class="fa-solid fa-arrow-right-long"></i></div>
-    </a>
 
-    <a class="gateway-card exam" href="{{ url_for('study.generate_exam') }}">
-      <div>
-        <div class="gateway-top">
-          <span class="gateway-icon"><i class="fa-solid fa-file-signature"></i></span>
-          <span class="gateway-tag">{{ exam_unresolved_count }} 題待補</span>
-        </div>
-        <h2>弱點模擬考</h2>
-        <p>從錯題本抽題組卷，先決定策略和題數，再進入模擬測驗。</p>
-      </div>
-      <div class="gateway-footer"><span>開始組卷</span><i class="fa-solid fa-arrow-right-long"></i></div>
-    </a>
+      <div class="entry-lane-list">
+        <button type="button" class="entry-lane is-active" data-lane="cap">
+          <div class="entry-lane-head">
+            <div>
+              <span class="entry-lane-mark"><i class="fa-solid fa-graduation-cap"></i></span>
+            </div>
+            <span class="entry-lane-tag">年份可選 / 科目不混</span>
+          </div>
+          <div class="entry-lane-head">
+            <div>
+              <h3>會考歷屆練習</h3>
+              <p>依年份與科目走正式三步流程，先選年份，再選科目，最後才進預覽或作答。</p>
+            </div>
+          </div>
+          <div class="entry-mini-stats">
+            <span><i class="fa-solid fa-calendar-days"></i> {{ cap_year_count }} 年份</span>
+            <span><i class="fa-solid fa-book"></i> {{ cap_subject_total }} 科目</span>
+            <span><i class="fa-solid fa-list-check"></i> {{ cap_material_count }} 題</span>
+          </div>
+        </button>
 
-    <a class="gateway-card mistakes" href="{{ url_for('study.mistakes') }}">
-      <div>
-        <div class="gateway-top">
-          <span class="gateway-icon"><i class="fa-solid fa-book-journal-whills"></i></span>
-          <span class="gateway-tag">{{ exam_due_count }} 題到期</span>
-        </div>
-        <h2>錯題本</h2>
-        <p>集中看未掌握、已到期和已完成的題目，適合回頭補弱點。</p>
-      </div>
-      <div class="gateway-footer"><span>進入複習中心</span><i class="fa-solid fa-arrow-right-long"></i></div>
-    </a>
+        <button type="button" class="entry-lane" data-lane="exam">
+          <div class="entry-lane-head">
+            <div>
+              <span class="entry-lane-mark"><i class="fa-solid fa-file-signature"></i></span>
+            </div>
+            <span class="entry-lane-tag">依弱點組卷</span>
+          </div>
+          <div class="entry-lane-head">
+            <div>
+              <h3>模擬考</h3>
+              <p>根據錯題與補救需求選策略、題數與科目，集中做一場完整模考，不跟其他功能混在一起。</p>
+            </div>
+          </div>
+          <div class="entry-mini-stats">
+            <span><i class="fa-solid fa-bolt"></i> {{ exam_due_count }} 題到期</span>
+            <span><i class="fa-solid fa-triangle-exclamation"></i> {{ exam_unresolved_count }} 題待補</span>
+            <span><i class="fa-solid fa-layer-group"></i> {{ entry_payload.exam.recommendedCount }} 題建議量</span>
+          </div>
+        </button>
 
-    <a class="gateway-card guides" href="{{ url_for('study.practice_guides') }}">
-      <div>
-        <div class="gateway-top">
-          <span class="gateway-icon"><i class="fa-solid fa-book-open-reader"></i></span>
-          <span class="gateway-tag">{{ guide_download_count }} 份講義</span>
-        </div>
-        <h2>AI 學習講義</h2>
-        <p>先選科目、再選系列與章節，直接進閱讀器看重點和原始頁圖。</p>
-      </div>
-      <div class="gateway-footer"><span>開始閱讀</span><i class="fa-solid fa-arrow-right-long"></i></div>
-    </a>
+        <button type="button" class="entry-lane" data-lane="mistakes">
+          <div class="entry-lane-head">
+            <div>
+              <span class="entry-lane-mark"><i class="fa-solid fa-book-journal-whills"></i></span>
+            </div>
+            <span class="entry-lane-tag">補弱中心</span>
+          </div>
+          <div class="entry-lane-head">
+            <div>
+              <h3>錯題本</h3>
+              <p>先篩出未解、到期、已完成，再往下看題目與解析，回來補強時不需要在大頁面裡東找西找。</p>
+            </div>
+          </div>
+          <div class="entry-mini-stats">
+            <span><i class="fa-solid fa-rotate-left"></i> {{ exam_unresolved_count }} 未解</span>
+            <span><i class="fa-solid fa-clock"></i> {{ exam_due_count }} 到期</span>
+            <span><i class="fa-solid fa-circle-check"></i> {{ resolved_mistake_count }} 已完成</span>
+          </div>
+        </button>
 
-    <article class="gateway-card general">
-      <div>
-        <div class="gateway-top">
-          <span class="gateway-icon"><i class="fa-solid fa-school"></i></span>
-          <span class="gateway-tag">整理中</span>
-        </div>
-        <h2>一般國中練習</h2>
-        <p>這批題庫正在全面重建，先暫時不開放，避免用到舊的錯誤資料。</p>
+        <button type="button" class="entry-lane" data-lane="guides">
+          <div class="entry-lane-head">
+            <div>
+              <span class="entry-lane-mark"><i class="fa-solid fa-book-bookmark"></i></span>
+            </div>
+            <span class="entry-lane-tag">章節閱讀</span>
+          </div>
+          <div class="entry-lane-head">
+            <div>
+              <h3>AI 學習講義</h3>
+              <p>按科目、系列與講義進入閱讀，不再把所有講義展開成一大串。先選層級，再看內容。</p>
+            </div>
+          </div>
+          <div class="entry-mini-stats">
+            <span><i class="fa-solid fa-book-open"></i> {{ guide_download_count }} 份講義</span>
+            <span><i class="fa-solid fa-shapes"></i> {{ guide_subject_count }} 科可讀</span>
+          </div>
+        </button>
+
+        <button type="button" class="entry-lane" data-lane="general" aria-disabled="true">
+          <div class="entry-lane-head">
+            <div>
+              <span class="entry-lane-mark"><i class="fa-solid fa-school"></i></span>
+            </div>
+            <span class="entry-lane-tag">整理中</span>
+          </div>
+          <div class="entry-lane-head">
+            <div>
+              <h3>一般國中練習</h3>
+              <p>這個入口保留位置，但目前不開放。等題庫重建完成後再接進相同的步驟式流程。</p>
+            </div>
+          </div>
+          <div class="entry-mini-stats">
+            <span><i class="fa-solid fa-hourglass-half"></i> 暫停開放</span>
+          </div>
+        </button>
       </div>
-      <div class="gateway-footer"><span>暫停開放</span><i class="fa-solid fa-arrow-right-long"></i></div>
-    </article>
+    </div>
+
+    <aside class="entry-preview">
+      <div class="entry-preview-head">
+        <div>
+          <h2>第二步：確認你會走的流程</h2>
+          <p>右邊只顯示你目前選到的那一條路，不再把四種專區的規則全部堆在首頁。</p>
+        </div>
+        <span class="entry-preview-tag" id="entry-preview-badge"><i class="fa-solid fa-route"></i> 目前選擇</span>
+      </div>
+
+      <div class="entry-preview-display">
+        <div class="entry-preview-card">
+          <strong id="entry-preview-title">會考歷屆練習</strong>
+          <p id="entry-preview-description">從年份開始，依序選科目與模式，最後才進入預覽或正式作答。</p>
+          <div class="entry-chip-list" id="entry-preview-chips"></div>
+        </div>
+
+        <div class="entry-preview-steps" id="entry-preview-steps"></div>
+
+        <div class="entry-preview-actions">
+          <a class="entry-cta" id="entry-primary-action" href="{{ entry_payload.routes.capHub }}">
+            <i class="fa-solid fa-arrow-right-long"></i>
+            <span>進入會考專區</span>
+          </a>
+          <a class="entry-ghost" id="entry-secondary-action" href="{{ entry_payload.routes.capHub }}">
+            <i class="fa-solid fa-compass-drafting"></i>
+            <span>先看流程</span>
+          </a>
+        </div>
+      </div>
+    </aside>
   </section>
 
-  <section class="gateway-note">
-    <h2>目前流程整理原則</h2>
-    <p>首頁只做一件事：選入口。進到會考、模擬考、錯題本或講義後，再各自用一步一頁的方式往下選，不把全部條件攤在同一個畫面。</p>
+  <section class="entry-notes">
+    <div class="entry-notes-grid">
+      <article class="entry-step-card">
+        <h3>1. 首頁只做分流</h3>
+        <p>首頁不再堆條件、年份、科目、模式。先選專區，才進下一頁。</p>
+      </article>
+      <article class="entry-step-card">
+        <h3>2. 每個專區各走各的</h3>
+        <p>會考、模擬考、錯題本、講義各自有自己的流程，不互相干擾。</p>
+      </article>
+      <article class="entry-step-card">
+        <h3>3. 一眼知道下一步</h3>
+        <p>不會再出現一頁一堆卡片卻不知道先按哪裡的情況。</p>
+      </article>
+    </div>
   </section>
 </div>
+
+<script>
+  const entryData = {{ entry_payload|tojson }};
+  const laneMeta = {
+    cap: {
+      title: '會考歷屆練習',
+      badge: '會考三步流程',
+      description: '從年份開始，依序選科目與模式，最後才進入預覽或正式作答。',
+      chips: [
+        `${entryData.cap.years.length} 個年份`,
+        `${entryData.cap.subjects.filter((item) => item.available).length} 科可選`,
+        `${entryData.cap.subjects.reduce((sum, item) => sum + (item.question_count || 0), 0)} 題已整理`
+      ],
+      steps: [
+        ['選年份', '一次只選一個年份，畫面會保持乾淨，不再同頁塞滿條件。'],
+        ['選科目', '只顯示該年份真的有資料的科目卡，避免點進空頁。'],
+        ['選模式', '最後才決定預覽模式或練習模式，流程清楚很多。']
+      ],
+      primaryHref: entryData.routes.capHub,
+      primaryLabel: '進入會考專區',
+      secondaryHref: entryData.routes.capHub,
+      secondaryLabel: '先看三步流程'
+    },
+    exam: {
+      title: '模擬考',
+      badge: '弱點集中組卷',
+      description: '把需要補回來的題目集中成一次模擬考，從策略與題數開始，不在首頁直接展開題目。',
+      chips: [
+        `${entryData.exam.unresolvedCount} 題待補`,
+        `${entryData.exam.dueCount} 題到期`,
+        `建議先做 ${entryData.exam.recommendedCount} 題`
+      ],
+      steps: [
+        ['選策略', '先決定是弱點補強、期限優先，還是一般練習。'],
+        ['選題數', '再決定這次要做幾題，避免一進去就被整頁題目壓住。'],
+        ['正式開始', '組卷後直接進入作答，做完再看成績與解析。']
+      ],
+      primaryHref: entryData.routes.exam,
+      primaryLabel: '進入模擬考',
+      secondaryHref: entryData.routes.exam,
+      secondaryLabel: '看組卷入口'
+    },
+    mistakes: {
+      title: '錯題本',
+      badge: '補弱中心',
+      description: '先篩出你現在最該回來看的題，再往下展開，不再把不同狀態混在一起。',
+      chips: [
+        `${entryData.mistakes.unresolvedCount} 題未解`,
+        `${entryData.mistakes.dueCount} 題到期`,
+        `${entryData.mistakes.resolvedCount} 題已完成`
+      ],
+      steps: [
+        ['先篩狀態', '先看未解、到期或已完成，避免列表一次塞滿。'],
+        ['打開題目', '從主題與科目切進去，再看題目、答案與解析。'],
+        ['回補練習', '看完後可以直接回刷，不用切很多頁。']
+      ],
+      primaryHref: entryData.routes.mistakes,
+      primaryLabel: '進入錯題本',
+      secondaryHref: entryData.routes.mistakes,
+      secondaryLabel: '先看待補題'
+    },
+    guides: {
+      title: 'AI 學習講義',
+      badge: '章節閱讀',
+      description: '先選科目，再選系列與講義，講義閱讀不再變成一大串展開清單。',
+      chips: [
+        `${entryData.guides.subjects.length} 科入口`,
+        `${entryData.guides.subjects.reduce((sum, subject) => sum + (subject.guideCount || 0), 0)} 份講義`,
+        '適合先讀再刷題'
+      ],
+      steps: [
+        ['選科目', '先決定要讀哪一科，不在首頁直接暴露全部講義。'],
+        ['選系列', '再從系列進去，讓整個講義樹狀結構更好找。'],
+        ['進入閱讀', '打開講義後再看章節，不會在同一頁迷路。']
+      ],
+      primaryHref: entryData.routes.guides,
+      primaryLabel: '進入講義專區',
+      secondaryHref: entryData.routes.guides,
+      secondaryLabel: '先看講義分類'
+    },
+    general: {
+      title: '一般國中練習',
+      badge: '整理中',
+      description: '這條路先保留，但目前不開放。之後會接到跟會考一樣乾淨的步驟式入口。',
+      chips: ['暫停開放', '不刪除位置', '後續再接題庫'],
+      steps: [
+        ['先保留位置', '不把這個專區亂刪，只是暫時不讓人誤闖。'],
+        ['題庫重建後', '會接上冊別、章節與模式分流。'],
+        ['完成後上線', '之後會跟其他專區一樣走清楚流程。']
+      ],
+      primaryHref: '#',
+      primaryLabel: '整理中',
+      secondaryHref: '#',
+      secondaryLabel: '暫不開放'
+    }
+  };
+
+  const laneButtons = Array.from(document.querySelectorAll('.entry-lane[data-lane]'));
+  const previewBadge = document.getElementById('entry-preview-badge');
+  const previewTitle = document.getElementById('entry-preview-title');
+  const previewDescription = document.getElementById('entry-preview-description');
+  const previewChips = document.getElementById('entry-preview-chips');
+  const previewSteps = document.getElementById('entry-preview-steps');
+  const primaryAction = document.getElementById('entry-primary-action');
+  const secondaryAction = document.getElementById('entry-secondary-action');
+
+  function renderLane(lane) {
+    const meta = laneMeta[lane];
+    if (!meta) return;
+
+    laneButtons.forEach((button) => {
+      button.classList.toggle('is-active', button.dataset.lane === lane);
+    });
+
+    previewBadge.innerHTML = `<i class="fa-solid fa-route"></i> ${meta.badge}`;
+    previewTitle.textContent = meta.title;
+    previewDescription.textContent = meta.description;
+    previewChips.innerHTML = meta.chips.map((chip) => `<span>${chip}</span>`).join('');
+    previewSteps.innerHTML = meta.steps.map((step, index) => `
+      <div class="entry-step-line">
+        <span class="entry-step-dot">STEP ${index + 1}</span>
+        <div>
+          <strong>${step[0]}</strong>
+          <span>${step[1]}</span>
+        </div>
+      </div>
+    `).join('');
+
+    primaryAction.href = meta.primaryHref;
+    primaryAction.querySelector('span').textContent = meta.primaryLabel;
+    secondaryAction.href = meta.secondaryHref;
+    secondaryAction.querySelector('span').textContent = meta.secondaryLabel;
+
+    if (lane === 'general') {
+      primaryAction.setAttribute('aria-disabled', 'true');
+      primaryAction.style.pointerEvents = 'none';
+      primaryAction.style.opacity = '0.45';
+      secondaryAction.setAttribute('aria-disabled', 'true');
+      secondaryAction.style.pointerEvents = 'none';
+      secondaryAction.style.opacity = '0.45';
+    } else {
+      primaryAction.removeAttribute('aria-disabled');
+      primaryAction.style.pointerEvents = '';
+      primaryAction.style.opacity = '';
+      secondaryAction.removeAttribute('aria-disabled');
+      secondaryAction.style.pointerEvents = '';
+      secondaryAction.style.opacity = '';
+    }
+  }
+
+  laneButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button.dataset.lane === 'general') {
+        renderLane('general');
+        return;
+      }
+      renderLane(button.dataset.lane);
+    });
+  });
+
+  renderLane('cap');
+</script>
 {% endblock %}

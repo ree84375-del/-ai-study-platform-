@@ -101,9 +101,10 @@
             50% { opacity: 1; filter: blur(0px); }
         }
     </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/japanese-ui.css') }}">
 </head>
 
-<body>
+<body class="jp-site">
     <!-- Antigravity Premium Preloader -->
     <div id="antigravity-preloader">
         <div style="position: relative; display: flex; align-items: center; justify-content: center;">
@@ -114,9 +115,9 @@
         </div>
         <div class="loader-text">ANTIGRAVITY CORE INITIALIZING</div>
     </div>
-    <div class="leaf-decorator leaf-top-left desktop-only">🌿</div>
-    <div class="leaf-decorator leaf-bottom-right desktop-only">🌿</div>
-    <div class="moon-decorator desktop-only">🌙</div>
+    <div class="leaf-decorator leaf-top-left desktop-only">櫻</div>
+    <div class="leaf-decorator leaf-bottom-right desktop-only">櫻</div>
+    <div class="moon-decorator desktop-only">月</div>
 
     <nav class="navbar">
         <a href="{{ url_for('main.home') }}" class="brand"><i class="fa-solid fa-leaf"></i> {{ _t('brand_name') }}</a>
@@ -245,6 +246,7 @@
 
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/japanese-ui.js') }}"></script>
     <script>
         // Dynamic Room Name and Icon Update
         function updateNavbarRoomName() {

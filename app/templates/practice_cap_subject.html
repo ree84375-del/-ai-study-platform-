@@ -1,67 +1,75 @@
 {% extends "base.html" %}
-{% block title %}會考歷屆練習｜選科目{% endblock %}
+{% block title %}會考歷屆選科目{% endblock %}
 {% block content %}
 <style>
-  .cap-subject-page {
-    --navy: #15395f;
-    --navy-soft: #edf4ff;
-    --gold: #c58e3e;
-    --ink: #1d2531;
+  .cap-subject-stage {
+    --ink: #1f2835;
     --muted: #6b7687;
-    --line: rgba(21, 57, 95, 0.14);
+    --navy: #18436d;
+    --line: rgba(24, 67, 109, 0.12);
+    --shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
     display: grid;
     gap: 1.2rem;
-    padding-bottom: 2.5rem;
+    padding-bottom: 3rem;
   }
 
-  .cap-card {
-    border-radius: 32px;
+  .cap-subject-hero,
+  .cap-subject-shell,
+  .cap-subject-note {
+    border-radius: 34px;
     border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .cap-subject-hero {
+    padding: 1.6rem;
     background:
-      radial-gradient(circle at top right, rgba(197, 142, 62, 0.16), transparent 30%),
-      linear-gradient(135deg, #ffffff, #f3f7fd);
-    box-shadow: 0 28px 70px rgba(24, 42, 63, 0.12);
-    padding: 1.5rem;
+      radial-gradient(circle at top right, rgba(199, 138, 57, 0.18), transparent 28%),
+      linear-gradient(135deg, #fffdf8, #f3f7fd);
   }
 
   .cap-badge,
-  .cap-pill,
-  .cap-action,
-  .cap-ghost {
+  .cap-progress-pill,
+  .cap-subject-card .cap-chip,
+  .cap-primary,
+  .cap-ghost,
+  .cap-subject-tag {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
     border-radius: 999px;
-    font-weight: 800;
     text-decoration: none;
+    font-weight: 800;
     width: fit-content;
   }
 
   .cap-badge {
-    padding: 0.5rem 1rem;
+    padding: 0.52rem 1rem;
     background: var(--navy);
     color: #fff;
   }
 
-  .cap-card h1,
-  .cap-card h2,
-  .cap-subject-item h3 {
+  .cap-subject-hero h1,
+  .cap-subject-main h2,
+  .cap-subject-preview h2,
+  .cap-subject-card h3 {
     margin: 0;
     color: var(--ink);
     font-family: "Kaisei Tokumin", serif;
   }
 
-  .cap-card h1 {
+  .cap-subject-hero h1 {
     margin-top: 1rem;
-    font-size: clamp(2rem, 4.4vw, 3.5rem);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
+    font-size: clamp(2rem, 4.6vw, 3.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
   }
 
-  .cap-card p,
-  .cap-subject-item p,
-  .cap-summary span {
-    margin: 0.8rem 0 0;
+  .cap-subject-hero p,
+  .cap-subject-main p,
+  .cap-subject-preview p,
+  .cap-subject-card p {
+    margin: 0.85rem 0 0;
     color: var(--muted);
     line-height: 1.8;
   }
@@ -70,67 +78,118 @@
     display: flex;
     gap: 0.65rem;
     flex-wrap: wrap;
-    margin-top: 1.4rem;
+    margin-top: 1.35rem;
   }
 
-  .cap-pill {
+  .cap-progress-pill {
     padding: 0.6rem 1rem;
-    border: 1px solid rgba(21, 57, 95, 0.12);
-    background: rgba(255, 255, 255, 0.78);
-    color: #6f7a88;
+    border: 1px solid rgba(24, 67, 109, 0.12);
+    background: rgba(255, 255, 255, 0.8);
+    color: #728093;
   }
 
-  .cap-pill.is-active {
+  .cap-progress-pill.is-active {
+    background: #edf4ff;
     color: var(--navy);
-    background: var(--navy-soft);
-    border-color: rgba(21, 57, 95, 0.2);
+    border-color: rgba(24, 67, 109, 0.2);
+  }
+
+  .cap-subject-summary {
+    margin-top: 1.3rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .cap-subject-summary div {
+    padding: 1rem 1.05rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(24, 67, 109, 0.08);
+  }
+
+  .cap-subject-summary span {
+    display: block;
+    color: #8591a4;
+    font-size: 0.84rem;
+    font-weight: 800;
+  }
+
+  .cap-subject-summary strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 1.6rem;
+    color: var(--ink);
+  }
+
+  .cap-subject-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.72fr);
+    gap: 1rem;
+    padding: 1rem;
+    background:
+      radial-gradient(circle at top right, rgba(247, 221, 171, 0.16), transparent 30%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 243, 234, 0.98));
+  }
+
+  .cap-subject-main,
+  .cap-subject-preview,
+  .cap-subject-note {
+    border-radius: 30px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .cap-subject-main,
+  .cap-subject-preview {
+    padding: 1.2rem;
+    display: grid;
+    gap: 1rem;
   }
 
   .cap-subject-grid {
-    margin-top: 1.35rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 0.9rem;
   }
 
-  .cap-subject-item {
+  .cap-subject-card {
     display: grid;
-    gap: 0.85rem;
-    padding: 1.1rem;
-    border-radius: 28px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.9);
+    gap: 0.9rem;
+    padding: 1rem;
+    border-radius: 26px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: rgba(255, 255, 255, 0.88);
     text-decoration: none;
     color: inherit;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
   }
 
-  .cap-subject-item:hover,
-  .cap-subject-item.is-active {
+  .cap-subject-card:hover,
+  .cap-subject-card.is-active {
     transform: translateY(-3px);
-    background: linear-gradient(145deg, #edf4ff, #ffffff);
-    box-shadow: 0 18px 34px rgba(21, 57, 95, 0.1);
+    border-color: rgba(24, 67, 109, 0.18);
+    box-shadow: 0 20px 34px rgba(24, 67, 109, 0.1);
+    background: linear-gradient(180deg, #f5f9ff, #ffffff);
   }
 
-  .cap-subject-item.is-disabled {
-    opacity: 0.45;
+  .cap-subject-card.is-disabled {
+    opacity: 0.5;
     pointer-events: none;
   }
 
-  .cap-top-row,
-  .cap-action-row {
+  .cap-subject-top {
     display: flex;
+    align-items: flex-start;
     justify-content: space-between;
-    align-items: center;
     gap: 0.8rem;
-    flex-wrap: wrap;
   }
 
-  .cap-icon {
+  .cap-subject-icon {
     width: 56px;
     height: 56px;
     border-radius: 20px;
-    background: var(--navy-soft);
+    background: #edf4ff;
     color: var(--navy);
     display: inline-flex;
     align-items: center;
@@ -138,93 +197,266 @@
     font-size: 1.25rem;
   }
 
-  .cap-summary {
-    margin-top: 1.2rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.8rem;
+  .cap-subject-card h3 {
+    font-size: 1.35rem;
   }
 
-  .cap-summary div {
+  .cap-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .cap-subject-card .cap-chip,
+  .cap-subject-tag {
+    padding: 0.42rem 0.8rem;
+    background: #eef3fb;
+    color: #55708f;
+    font-size: 0.8rem;
+  }
+
+  .cap-subject-preview {
+    position: sticky;
+    top: 92px;
+  }
+
+  .cap-preview-card {
     padding: 1rem;
-    border-radius: 22px;
-    border: 1px solid rgba(21, 57, 95, 0.08);
-    background: rgba(255, 255, 255, 0.84);
+    border-radius: 24px;
+    border: 1px solid rgba(24, 67, 109, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 255, 0.94));
   }
 
-  .cap-summary strong {
+  .cap-preview-card strong {
     display: block;
-    margin-top: 0.25rem;
-    font-size: 1.5rem;
+    font-size: 1.55rem;
     color: var(--ink);
   }
 
-  .cap-action-row {
-    margin-top: 1.2rem;
+  .cap-step-list {
+    display: grid;
+    gap: 0.75rem;
   }
 
-  .cap-action,
+  .cap-step-line {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  .cap-step-line strong {
+    display: inline-flex;
+    justify-content: center;
+    min-width: 62px;
+    padding: 0.42rem 0.75rem;
+    border-radius: 999px;
+    background: #f5ede2;
+    color: #87694a;
+    font-size: 0.8rem;
+  }
+
+  .cap-step-line span {
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .cap-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .cap-primary,
   .cap-ghost {
-    min-height: 54px;
-    padding: 0.85rem 1.35rem;
+    min-height: 52px;
+    padding: 0.82rem 1.2rem;
   }
 
-  .cap-action {
-    background: linear-gradient(135deg, var(--navy), #2563eb);
+  .cap-primary {
     color: #fff;
-    box-shadow: 0 18px 30px rgba(21, 57, 95, 0.18);
+    background: linear-gradient(135deg, var(--navy), #2d67af);
+    box-shadow: 0 18px 34px rgba(24, 67, 109, 0.16);
   }
 
-  .cap-action.is-disabled {
-    opacity: 0.45;
+  .cap-primary.is-disabled {
     pointer-events: none;
+    opacity: 0.45;
   }
 
   .cap-ghost {
     background: #fff;
     color: var(--ink);
-    border: 1px solid rgba(21, 57, 95, 0.12);
+    border: 1px solid rgba(24, 67, 109, 0.12);
+  }
+
+  .cap-subject-note {
+    padding: 1rem;
+  }
+
+  .cap-subject-note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .cap-subject-note-grid article {
+    padding: 1rem;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(24, 67, 109, 0.08);
+  }
+
+  .cap-subject-note-grid h3 {
+    margin: 0 0 0.45rem;
+    color: var(--ink);
+    font-family: "Kaisei Tokumin", serif;
+  }
+
+  .cap-subject-note-grid p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 1040px) {
+    .cap-subject-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .cap-subject-preview {
+      position: static;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .cap-subject-hero,
+    .cap-subject-shell,
+    .cap-subject-note {
+      border-radius: 26px;
+    }
+
+    .cap-subject-hero,
+    .cap-subject-main,
+    .cap-subject-preview,
+    .cap-subject-note {
+      padding: 1rem;
+    }
   }
 </style>
 
-<div class="cap-subject-page">
-  <section class="cap-card">
+<div class="cap-subject-stage">
+  <section class="cap-subject-hero">
     <span class="cap-badge"><i class="fa-solid fa-graduation-cap"></i> 會考歷屆練習</span>
-    <h1>第二步：只選科目。</h1>
-    <p>年份已經選好了，這一頁只決定要做哪一科。下一頁才選預覽模式或練習模式。</p>
+    <h1>第二步，選科目。</h1>
+    <p>年份已經先鎖住了，現在只要選該年份要做哪一科。這一頁不顯示模式選項，先把科目定好，畫面會乾淨很多。</p>
     <div class="cap-progress">
-      <a class="cap-pill" href="{{ year_step_href }}">1 選年份</a>
-      <span class="cap-pill is-active">2 選科目</span>
-      <span class="cap-pill">3 選模式</span>
+      <a class="cap-progress-pill" href="{{ year_step_href }}">1 選年份</a>
+      <span class="cap-progress-pill is-active">2 選科目</span>
+      <span class="cap-progress-pill">3 選模式</span>
     </div>
-    <div class="cap-summary">
-      <div><span>已選年份</span><strong>{{ selected_years|join('、') }} 年</strong></div>
-      <div><span>目前科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></div>
-      <div><span>目前科目題數</span><strong>{{ question_bank_count }}</strong></div>
+    <div class="cap-subject-summary">
+      <div>
+        <span>目前年份</span>
+        <strong>{{ selected_years|join('、') }} 年</strong>
+      </div>
+      <div>
+        <span>可選科目</span>
+        <strong>{{ cap_subject_cards | selectattr('available') | list | length }}</strong>
+      </div>
+      <div>
+        <span>已選科目</span>
+        <strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong>
+      </div>
     </div>
   </section>
 
-  <section class="cap-card">
-    <h2>選科目</h2>
-    <p>只選一科，不混科。已檢查完成的科目才可進下一步。</p>
-    <div class="cap-subject-grid">
-      {% for card in cap_subject_cards %}
-      <a class="cap-subject-item{% if card.is_active %} is-active{% endif %}{% if not card.available %} is-disabled{% endif %}" href="{{ card.href or '#' }}">
-        <div class="cap-top-row">
-          <span class="cap-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-          <span class="cap-pill">{{ card.question_count }} 題</span>
-        </div>
-        <div>
-          <h3>{{ card.label }}</h3>
-          <p>{{ card.description }}</p>
-        </div>
-        <span class="cap-pill"><i class="fa-solid fa-check"></i> 已整理 {{ card.ready_year_count }} 年</span>
-      </a>
-      {% endfor %}
+  <section class="cap-subject-shell">
+    <div class="cap-subject-main">
+      <div>
+        <h2>選科目</h2>
+        <p>只顯示現在這個年份真的有資料的科目。先選科目，下一頁才開放模式，不再全部擠在一起。</p>
+      </div>
+
+      <div class="cap-subject-grid">
+        {% for card in cap_subject_cards %}
+        <a class="cap-subject-card{% if card.is_active %} is-active{% endif %}{% if not card.available %} is-disabled{% endif %}" href="{{ card.href or '#' }}">
+          <div class="cap-subject-top">
+            <span class="cap-subject-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+            <span class="cap-subject-tag">{{ card.question_count }} 題</span>
+          </div>
+          <div>
+            <h3>{{ card.label }}</h3>
+            <p>{{ card.description }}</p>
+          </div>
+          <div class="cap-chip-row">
+            <span class="cap-chip"><i class="fa-solid fa-check"></i> 已整理 {{ card.ready_year_count }} 年</span>
+            {% if not card.available %}
+            <span class="cap-chip"><i class="fa-solid fa-lock"></i> 此年份暫無資料</span>
+            {% endif %}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
     </div>
-    <div class="cap-action-row">
-      <a class="cap-ghost" href="{{ year_step_href }}"><i class="fa-solid fa-arrow-left"></i> 上一步：年份</a>
-      <a class="cap-action{% if not selected_subject %} is-disabled{% endif %}" href="{{ next_step_href or '#' }}"><i class="fa-solid fa-arrow-right-long"></i> 下一步：選模式</a>
+
+    <aside class="cap-subject-preview">
+      <div>
+        <h2>下一頁會做什麼</h2>
+        <p>右邊只顯示現在這一步和下一步，不把模式、題目、年份設定全塞回同一頁。</p>
+      </div>
+
+      <div class="cap-preview-card">
+        <strong>{% if selected_subject %}{{ selected_subject.label }}{% else %}尚未選科目{% endif %}</strong>
+        <p>{% if selected_subject %}選好後，下一頁只會讓你決定預覽模式或練習模式。{% else %}先從左邊選一科，下一頁才會開放模式選擇。{% endif %}</p>
+        <div class="cap-chip-row" style="margin-top: 0.8rem;">
+          <span class="cap-chip"><i class="fa-solid fa-calendar-days"></i> {{ selected_years|join('、') }} 年</span>
+          <span class="cap-chip"><i class="fa-solid fa-forward-step"></i> 下一步選模式</span>
+        </div>
+      </div>
+
+      <div class="cap-step-list">
+        <div class="cap-step-line">
+          <strong>STEP 1</strong>
+          <span>先把年份鎖定，所以現在不需要再看年份相關資訊。</span>
+        </div>
+        <div class="cap-step-line">
+          <strong>STEP 2</strong>
+          <span>從這個年份真的有內容的科目中挑一科。</span>
+        </div>
+        <div class="cap-step-line">
+          <strong>STEP 3</strong>
+          <span>最後再決定預覽模式或練習模式，流程才不會混亂。</span>
+        </div>
+      </div>
+
+      <div class="cap-actions">
+        <a class="cap-ghost" href="{{ year_step_href }}">
+          <i class="fa-solid fa-arrow-left"></i>
+          回年份
+        </a>
+        <a class="cap-primary{% if not selected_subject %} is-disabled{% endif %}" href="{{ next_step_href or '#' }}">
+          <i class="fa-solid fa-arrow-right-long"></i>
+          前往選模式
+        </a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="cap-subject-note">
+    <div class="cap-subject-note-grid">
+      <article>
+        <h3>年份先鎖住</h3>
+        <p>不用再回頭看一堆年份按鈕，這一頁只專心選科目。</p>
+      </article>
+      <article>
+        <h3>只看有資料的科目</h3>
+        <p>沒有資料的科目會停用，不會誤導你點進去。</p>
+      </article>
+      <article>
+        <h3>下一步才選模式</h3>
+        <p>科目和模式分開，閱讀節奏清楚很多。</p>
+      </article>
     </div>
   </section>
 </div>
