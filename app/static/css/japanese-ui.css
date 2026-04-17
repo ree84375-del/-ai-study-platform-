@@ -874,6 +874,821 @@ body.jp-site .option-image img {
   object-fit: contain;
 }
 
+/* Guide shelf, reader room, and mistake dojo */
+body.jp-site .guide-library,
+body.jp-site .reader-book,
+body.jp-site .mistake-dojo {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.45rem);
+  padding-bottom: 3rem;
+}
+
+body.jp-site .guide-shelf-hero,
+body.jp-site .reader-book-hero,
+body.jp-site .mistake-dojo-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(170px, 0.28fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: center;
+  border: 1px solid var(--jp-line);
+  border-radius: clamp(30px, 4vw, 44px);
+  padding: clamp(1.45rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 84% 16%, rgba(201, 154, 62, 0.3), transparent 27%),
+    radial-gradient(circle at 12% 72%, rgba(85, 120, 102, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(255, 254, 250, 0.96), rgba(255, 244, 207, 0.72));
+  box-shadow: var(--jp-shadow);
+  backdrop-filter: blur(12px) saturate(1.08);
+}
+
+body.jp-site .mistake-dojo-hero {
+  background:
+    radial-gradient(circle at 86% 16%, rgba(138, 49, 68, 0.23), transparent 26%),
+    radial-gradient(circle at 13% 74%, rgba(23, 58, 94, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(255, 252, 250, 0.97), rgba(255, 235, 240, 0.76));
+}
+
+body.jp-site .guide-shelf-hero::before,
+body.jp-site .reader-book-hero::before,
+body.jp-site .mistake-dojo-hero::before,
+body.jp-site .guide-panel::before,
+body.jp-site .reader-book-chapter::before,
+body.jp-site .mistake-yokai-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(65, 51, 39, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(65, 51, 39, 0.025) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.38;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body.jp-site .guide-hero-copy h1,
+body.jp-site .reader-book-copy h1,
+body.jp-site .mistake-hero-copy h1,
+body.jp-site .guide-panel h2,
+body.jp-site .reader-outline-card h2,
+body.jp-site .reader-book-chapter h2,
+body.jp-site .reader-book-section h3,
+body.jp-site .mistake-filter-panel h2,
+body.jp-site .mistake-action-panel h2,
+body.jp-site .mistake-yokai-panel h2,
+body.jp-site .mistake-yokai-card h3 {
+  margin: 0;
+  color: var(--jp-ink);
+  font-family: "Kaisei Tokumin", "Noto Serif TC", serif;
+  letter-spacing: -0.035em;
+}
+
+body.jp-site .guide-hero-copy h1,
+body.jp-site .reader-book-copy h1,
+body.jp-site .mistake-hero-copy h1 {
+  margin-top: 0.8rem;
+  font-size: clamp(2.2rem, 5.2vw, 4.65rem);
+  line-height: 1.02;
+}
+
+body.jp-site .guide-hero-copy p,
+body.jp-site .reader-book-copy p,
+body.jp-site .mistake-hero-copy p,
+body.jp-site .guide-panel p,
+body.jp-site .guide-aside-card p,
+body.jp-site .reader-outline-card p,
+body.jp-site .reader-book-chapter p,
+body.jp-site .reader-book-section p,
+body.jp-site .reader-content-block,
+body.jp-site .reader-note,
+body.jp-site .mistake-filter-panel p,
+body.jp-site .mistake-action-panel p,
+body.jp-site .mistake-yokai-panel p,
+body.jp-site .mistake-question-snippet {
+  color: var(--jp-muted);
+  line-height: 1.85;
+}
+
+body.jp-site .guide-badge,
+body.jp-site .reader-badge,
+body.jp-site .mistake-badge,
+body.jp-site .guide-pill,
+body.jp-site .reader-chip,
+body.jp-site .reader-kicker,
+body.jp-site .guide-kicker,
+body.jp-site .mistake-kicker,
+body.jp-site .mistake-pill,
+body.jp-site .mistake-state-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  border-radius: 999px;
+  font-weight: 900;
+}
+
+body.jp-site .guide-badge,
+body.jp-site .reader-badge,
+body.jp-site .mistake-badge {
+  padding: 0.58rem 1.05rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--jp-page-accent, var(--jp-indigo)), var(--jp-page-accent-2, var(--jp-gold)));
+  box-shadow: 0 16px 30px rgba(23, 58, 94, 0.18);
+}
+
+body.jp-site .guide-kicker,
+body.jp-site .reader-kicker,
+body.jp-site .mistake-kicker {
+  color: var(--jp-page-accent, var(--jp-indigo));
+  background: rgba(255, 244, 207, 0.76);
+  border: 1px solid rgba(201, 154, 62, 0.2);
+  padding: 0.42rem 0.72rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+body.jp-site .guide-pill,
+body.jp-site .reader-chip,
+body.jp-site .mistake-pill,
+body.jp-site .mistake-state-pill {
+  padding: 0.42rem 0.78rem;
+  color: #74531e;
+  background: rgba(255, 244, 207, 0.82);
+  border: 1px solid rgba(201, 154, 62, 0.18);
+  font-size: 0.82rem;
+}
+
+body.jp-site .mistake-state-pill {
+  color: #8a3144;
+  background: rgba(255, 226, 235, 0.9);
+  border-color: rgba(138, 49, 68, 0.18);
+}
+
+body.jp-site .guide-hero-orb,
+body.jp-site .reader-book-mark,
+body.jp-site .mistake-dojo-mask {
+  justify-self: end;
+  display: grid;
+  place-items: center;
+  width: clamp(150px, 18vw, 230px);
+  aspect-ratio: 1;
+  border-radius: 44% 56% 48% 52%;
+  color: var(--jp-page-accent, var(--jp-indigo));
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(145deg, rgba(255, 244, 207, 0.82), rgba(255, 255, 255, 0.32));
+  border: 2px solid rgba(201, 154, 62, 0.26);
+  box-shadow: inset 0 0 0 10px rgba(255, 255, 255, 0.28), 0 28px 56px rgba(70, 54, 38, 0.12);
+  animation: shrineOrbBreath 7s ease-in-out infinite;
+}
+
+body.jp-site .mistake-dojo-mask {
+  color: #8a3144;
+  border-color: rgba(138, 49, 68, 0.2);
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(145deg, rgba(255, 226, 235, 0.9), rgba(255, 255, 255, 0.35));
+}
+
+body.jp-site .guide-hero-orb span,
+body.jp-site .reader-book-mark span,
+body.jp-site .mistake-dojo-mask span {
+  font-family: "Kaisei Tokumin", "Noto Serif TC", serif;
+  font-size: clamp(3.2rem, 7vw, 6rem);
+  line-height: 1;
+}
+
+body.jp-site .guide-hero-orb small,
+body.jp-site .reader-book-mark small,
+body.jp-site .mistake-dojo-mask small {
+  margin-top: -2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: var(--jp-muted);
+}
+
+body.jp-site .guide-library-stats,
+body.jp-site .reader-book-stats,
+body.jp-site .mistake-dojo-stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+body.jp-site .guide-library-stat,
+body.jp-site .reader-book-stat,
+body.jp-site .mistake-dojo-stat {
+  padding: 1rem 1.1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 12px 28px rgba(70, 54, 38, 0.08);
+}
+
+body.jp-site .guide-library-stat span,
+body.jp-site .reader-book-stat span,
+body.jp-site .mistake-dojo-stat span {
+  display: block;
+  color: var(--jp-muted);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+body.jp-site .guide-library-stat strong,
+body.jp-site .reader-book-stat strong,
+body.jp-site .mistake-dojo-stat strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--jp-ink);
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+}
+
+body.jp-site .guide-flow-map {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+body.jp-site .guide-flow-step {
+  position: relative;
+  overflow: hidden;
+  min-height: 116px;
+  padding: 1rem;
+  border-radius: 26px;
+  border: 1px dashed rgba(85, 120, 102, 0.18);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--jp-muted);
+}
+
+body.jp-site .guide-flow-step.is-active {
+  border-style: solid;
+  border-color: rgba(85, 120, 102, 0.28);
+  background:
+    radial-gradient(circle at top right, rgba(85, 120, 102, 0.16), transparent 38%),
+    rgba(255, 255, 255, 0.86);
+  color: var(--jp-ink);
+}
+
+body.jp-site .guide-flow-step span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0.7rem;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, #557866, #243f32);
+}
+
+body.jp-site .guide-flow-step strong,
+body.jp-site .guide-flow-step small {
+  display: block;
+}
+
+body.jp-site .guide-flow-step small {
+  margin-top: 0.28rem;
+  line-height: 1.5;
+}
+
+body.jp-site .guide-library-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.55fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+body.jp-site .guide-library-main,
+body.jp-site .reader-chapter-list,
+body.jp-site .mistake-dojo-main,
+body.jp-site .mistake-dojo-sidebar {
+  display: grid;
+  gap: 1rem;
+}
+
+body.jp-site .guide-panel,
+body.jp-site .guide-aside-card,
+body.jp-site .reader-outline-card,
+body.jp-site .reader-book-chapter,
+body.jp-site .reader-summary-strip,
+body.jp-site .mistake-filter-panel,
+body.jp-site .mistake-action-panel,
+body.jp-site .mistake-yokai-panel {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--jp-line);
+  border-radius: 32px;
+  padding: clamp(1.1rem, 2.4vw, 1.55rem);
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.52), transparent 34%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.91), rgba(255, 250, 240, 0.78));
+  box-shadow: var(--jp-shadow-soft);
+  backdrop-filter: blur(10px) saturate(1.05);
+}
+
+body.jp-site .guide-panel-head,
+body.jp-site .reader-chapter-head,
+body.jp-site .reader-section-head,
+body.jp-site .mistake-panel-head,
+body.jp-site .mistake-action-panel,
+body.jp-site .mistake-yokai-card header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.9rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+body.jp-site .guide-shelf-grid,
+body.jp-site .guide-series-grid,
+body.jp-site .guide-book-grid,
+body.jp-site .reader-page-grid,
+body.jp-site .mistake-yokai-grid {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+body.jp-site .guide-shelf-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+body.jp-site .guide-series-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+body.jp-site .guide-book-grid,
+body.jp-site .mistake-yokai-grid {
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+}
+
+body.jp-site .guide-shelf-card,
+body.jp-site .guide-series-card,
+body.jp-site .guide-book-card,
+body.jp-site .reader-page-card,
+body.jp-site .mistake-filter-card,
+body.jp-site .mistake-subject-card,
+body.jp-site .mistake-yokai-card {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  border-radius: 26px;
+  color: inherit;
+  text-decoration: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.93), rgba(255, 250, 240, 0.84));
+  box-shadow: 0 16px 34px rgba(70, 54, 38, 0.08);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+}
+
+body.jp-site .guide-shelf-card::before,
+body.jp-site .guide-series-card::before,
+body.jp-site .guide-book-card::before,
+body.jp-site .reader-page-card::before,
+body.jp-site .mistake-filter-card::before,
+body.jp-site .mistake-subject-card::before,
+body.jp-site .mistake-yokai-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--jp-ripple-x, 50%) var(--jp-ripple-y, 50%), rgba(201, 154, 62, 0.2), transparent 28%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+body.jp-site .guide-shelf-card:hover,
+body.jp-site .guide-shelf-card.is-selected,
+body.jp-site .guide-series-card:hover,
+body.jp-site .guide-series-card.is-selected,
+body.jp-site .guide-book-card:hover,
+body.jp-site .reader-page-card:hover,
+body.jp-site .mistake-filter-card:hover,
+body.jp-site .mistake-filter-card.is-active,
+body.jp-site .mistake-subject-card:hover,
+body.jp-site .mistake-subject-card.is-active,
+body.jp-site .mistake-yokai-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(201, 154, 62, 0.35);
+  box-shadow: 0 24px 52px rgba(70, 54, 38, 0.14);
+}
+
+body.jp-site .guide-shelf-card:hover::before,
+body.jp-site .guide-shelf-card.is-selected::before,
+body.jp-site .guide-series-card:hover::before,
+body.jp-site .guide-series-card.is-selected::before,
+body.jp-site .guide-book-card:hover::before,
+body.jp-site .reader-page-card:hover::before,
+body.jp-site .mistake-filter-card:hover::before,
+body.jp-site .mistake-filter-card.is-active::before,
+body.jp-site .mistake-subject-card:hover::before,
+body.jp-site .mistake-subject-card.is-active::before,
+body.jp-site .mistake-yokai-card:hover::before {
+  opacity: 1;
+}
+
+body.jp-site .guide-shelf-card.is-selected,
+body.jp-site .guide-series-card.is-selected,
+body.jp-site .mistake-filter-card.is-active,
+body.jp-site .mistake-subject-card.is-active {
+  background:
+    radial-gradient(circle at top right, rgba(201, 154, 62, 0.18), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 246, 235, 0.88));
+}
+
+body.jp-site .guide-card-icon,
+body.jp-site .mistake-filter-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  color: var(--jp-page-accent, var(--jp-indigo));
+  background: radial-gradient(circle at 35% 25%, #fff8e5, var(--jp-gold-soft));
+  box-shadow: inset 0 0 0 1px rgba(201, 154, 62, 0.16), 0 10px 24px rgba(201, 154, 62, 0.1);
+}
+
+body.jp-site .guide-card-count {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.36rem 0.72rem;
+  border-radius: 999px;
+  color: #74531e;
+  background: rgba(255, 244, 207, 0.9);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+body.jp-site .guide-card-meta,
+body.jp-site .guide-card-actions,
+body.jp-site .reader-actions,
+body.jp-site .reader-chapter-tags,
+body.jp-site .mistake-action-row,
+body.jp-site .mistake-yokai-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+body.jp-site .guide-card-meta span,
+body.jp-site .mistake-yokai-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.42rem 0.72rem;
+  border-radius: 999px;
+  color: var(--jp-muted);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(65, 51, 39, 0.08);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+body.jp-site .guide-series-card {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+body.jp-site .guide-arrow {
+  color: var(--jp-page-accent, var(--jp-indigo));
+}
+
+body.jp-site .guide-book-card {
+  grid-template-columns: minmax(118px, 0.55fr) minmax(0, 1fr);
+  align-items: stretch;
+  padding: 0.85rem;
+}
+
+body.jp-site .guide-book-cover,
+body.jp-site .guide-book-cover img,
+body.jp-site .reader-page-card img,
+body.jp-site .mistake-image img {
+  display: block;
+  width: 100%;
+}
+
+body.jp-site .guide-book-cover {
+  overflow: hidden;
+  min-height: 180px;
+  border-radius: 22px;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  background: #fff;
+}
+
+body.jp-site .guide-book-cover img {
+  height: 100%;
+  object-fit: cover;
+}
+
+body.jp-site .guide-book-body {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  padding: 0.2rem;
+}
+
+body.jp-site .guide-link,
+body.jp-site .guide-action,
+body.jp-site .reader-link,
+body.jp-site .reader-action,
+body.jp-site .mistake-link,
+body.jp-site .mistake-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0.78rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+body.jp-site .guide-action,
+body.jp-site .reader-action,
+body.jp-site .mistake-btn {
+  color: #fff;
+  background: linear-gradient(135deg, var(--jp-page-accent, var(--jp-indigo)), #244f77);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  box-shadow: 0 16px 32px rgba(23, 58, 94, 0.2);
+}
+
+body.jp-site .guide-link,
+body.jp-site .reader-link,
+body.jp-site .mistake-link {
+  color: var(--jp-page-accent, var(--jp-indigo));
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(23, 58, 94, 0.14);
+}
+
+body.jp-site .guide-empty-state,
+body.jp-site .mistake-empty-state,
+body.jp-site .reader-note {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
+  border-radius: 24px;
+  border: 1px dashed rgba(65, 51, 39, 0.16);
+  background: rgba(255, 255, 255, 0.66);
+}
+
+body.jp-site .guide-empty-state i,
+body.jp-site .mistake-empty-state i {
+  color: var(--jp-page-accent, var(--jp-indigo));
+  font-size: 1.6rem;
+}
+
+body.jp-site .guide-library-aside,
+body.jp-site .reader-book-sidebar {
+  position: sticky;
+  top: 92px;
+  display: grid;
+  gap: 1rem;
+}
+
+body.jp-site .guide-selection-list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1rem 0;
+}
+
+body.jp-site .guide-selection-list div {
+  padding: 0.92rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(65, 51, 39, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+body.jp-site .guide-selection-list span {
+  display: block;
+  color: var(--jp-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+body.jp-site .guide-selection-list strong {
+  display: block;
+  margin-top: 0.22rem;
+}
+
+body.jp-site .reader-summary-strip {
+  display: grid;
+  gap: 0.75rem;
+}
+
+body.jp-site .reader-summary-strip > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+body.jp-site .reader-book-layout {
+  display: grid;
+  grid-template-columns: minmax(270px, 0.52fr) minmax(0, 1.4fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+body.jp-site .reader-outline {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+body.jp-site .reader-outline a {
+  display: block;
+  padding: 0.9rem 1rem;
+  border-radius: 20px;
+  color: inherit;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(65, 51, 39, 0.09);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+body.jp-site .reader-outline a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(70, 54, 38, 0.1);
+}
+
+body.jp-site .reader-outline strong,
+body.jp-site .reader-outline small {
+  display: block;
+}
+
+body.jp-site .reader-outline small {
+  margin-top: 0.25rem;
+  color: var(--jp-muted);
+  line-height: 1.5;
+}
+
+body.jp-site .reader-section-list {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+body.jp-site .reader-book-section {
+  padding: 1rem;
+  border-radius: 26px;
+  border: 1px solid rgba(65, 51, 39, 0.09);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+body.jp-site .reader-content-block {
+  margin-top: 0.9rem;
+  white-space: pre-line;
+  color: #4f443a;
+}
+
+body.jp-site .reader-points {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0.85rem 0 0;
+  padding-left: 1.2rem;
+  color: #44594c;
+  line-height: 1.75;
+}
+
+body.jp-site details.reader-gallery {
+  margin-top: 0.95rem;
+  padding: 1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  background: rgba(255, 255, 255, 0.76);
+}
+
+body.jp-site details.reader-gallery summary {
+  cursor: pointer;
+  color: var(--jp-page-accent, var(--jp-indigo));
+  font-weight: 900;
+}
+
+body.jp-site .reader-page-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+body.jp-site .reader-page-card img {
+  margin-top: 0.65rem;
+  max-height: 360px;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  background: #fff;
+}
+
+body.jp-site .mistake-dojo-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1.35fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+body.jp-site .mistake-dojo-sidebar {
+  position: sticky;
+  top: 92px;
+}
+
+body.jp-site .mistake-filter-list,
+body.jp-site .mistake-subject-list {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+body.jp-site .mistake-filter-card,
+body.jp-site .mistake-subject-card {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+body.jp-site .mistake-filter-card small,
+body.jp-site .mistake-subject-card small {
+  grid-column: 2 / -1;
+  color: var(--jp-muted);
+  line-height: 1.5;
+}
+
+body.jp-site .mistake-filter-card em {
+  color: #8a3144;
+  font-style: normal;
+  font-weight: 900;
+}
+
+body.jp-site .mistake-action-panel {
+  align-items: center;
+}
+
+body.jp-site .mistake-yokai-grid {
+  margin-top: 1rem;
+}
+
+body.jp-site .mistake-yokai-card {
+  border-color: rgba(138, 49, 68, 0.13);
+}
+
+body.jp-site .mistake-yokai-card.is-due {
+  border-color: rgba(185, 79, 53, 0.24);
+  background:
+    radial-gradient(circle at top right, rgba(185, 79, 53, 0.15), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 243, 236, 0.86));
+}
+
+body.jp-site .mistake-yokai-card.is-resolved {
+  border-color: rgba(85, 120, 102, 0.22);
+  background:
+    radial-gradient(circle at top right, rgba(85, 120, 102, 0.15), transparent 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(239, 248, 235, 0.86));
+}
+
+body.jp-site .mistake-yokai-avatar {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 40% 60% 44% 56%;
+  color: #fff;
+  font-family: "Kaisei Tokumin", "Noto Serif TC", serif;
+  font-size: 1.6rem;
+  background:
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.44), transparent 24%),
+    linear-gradient(145deg, #8a3144, #173a5e);
+  box-shadow: 0 14px 28px rgba(138, 49, 68, 0.18);
+  animation: yokaiFloat 5.2s ease-in-out infinite;
+}
+
+body.jp-site .mistake-question-snippet {
+  min-height: 3.4em;
+  padding: 0.9rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(65, 51, 39, 0.08);
+}
+
+body.jp-site .mistake-image {
+  overflow: hidden;
+  display: block;
+  border-radius: 20px;
+  border: 1px solid rgba(138, 49, 68, 0.12);
+  background: #fff;
+}
+
+body.jp-site .mistake-image img {
+  max-height: 300px;
+  object-fit: contain;
+}
+
 .achievement-stage {
   display: grid;
   gap: 1.4rem;
@@ -2701,6 +3516,11 @@ body.jp-site .reader-panel summary:hover {
   50% { transform: translateY(-8px) rotate(2deg); border-radius: 54% 46% 44% 56% / 50% 54% 46% 50%; }
 }
 
+@keyframes yokaiFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); filter: saturate(1); }
+  50% { transform: translateY(-5px) rotate(2deg); filter: saturate(1.16); }
+}
+
 @keyframes jpPetalFloat {
   0% {
     transform: translate3d(0, -12vh, 0) rotate(0deg);
@@ -2895,7 +3715,18 @@ body.jp-site .reader-panel summary:hover {
   .practice-gate-stats,
   .practice-flow-rail,
   .practice-lane-grid,
-  .practice-next-strip {
+  .practice-next-strip,
+  .guide-shelf-hero,
+  .reader-book-hero,
+  .mistake-dojo-hero,
+  .guide-library-stats,
+  .reader-book-stats,
+  .mistake-dojo-stats,
+  .guide-flow-map,
+  .guide-library-grid,
+  .reader-book-layout,
+  .mistake-dojo-grid,
+  .guide-book-card {
     grid-template-columns: 1fr;
   }
 
@@ -2903,9 +3734,18 @@ body.jp-site .reader-panel summary:hover {
     position: static;
   }
 
-  .home-shrine-orb {
+  .home-shrine-orb,
+  .guide-hero-orb,
+  .reader-book-mark,
+  .mistake-dojo-mask {
     justify-self: start;
     width: min(210px, 72vw);
+  }
+
+  .guide-library-aside,
+  .reader-book-sidebar,
+  .mistake-dojo-sidebar {
+    position: static;
   }
 
   .achievement-trophy {
@@ -2939,7 +3779,13 @@ body.jp-site .reader-panel summary:hover {
   .home-command-hero,
   .practice-gate-hero,
   .practice-stepper,
-  .practice-gate-layout {
+  .practice-gate-layout,
+  .guide-shelf-hero,
+  .reader-book-hero,
+  .mistake-dojo-hero,
+  .guide-library-grid,
+  .reader-book-layout,
+  .mistake-dojo-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2948,11 +3794,21 @@ body.jp-site .reader-panel summary:hover {
   .practice-next-strip,
   .home-mission-strip,
   .practice-gate-stats,
-  .practice-flow-rail {
+  .practice-flow-rail,
+  .guide-library-stats,
+  .reader-book-stats,
+  .mistake-dojo-stats,
+  .guide-flow-map {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .practice-choice-panel {
+    position: static;
+  }
+
+  .guide-library-aside,
+  .reader-book-sidebar,
+  .mistake-dojo-sidebar {
     position: static;
   }
 }
@@ -2976,6 +3832,10 @@ body.jp-site .reader-panel summary:hover {
   .trophy-orbit,
   .trophy-stars em,
   .home-shrine-orb,
+  .guide-hero-orb,
+  .reader-book-mark,
+  .mistake-dojo-mask,
+  .mistake-yokai-avatar,
   .practice-choice-steps article,
   .jp-question-transition,
   .score-reveal,

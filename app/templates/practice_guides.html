@@ -1,351 +1,67 @@
 {% extends "base.html" %}
 {% block title %}AI 學習講義{% endblock %}
 {% block content %}
-<style>
-  .guide-workspace {
-    --paper: #f8f8f1;
-    --paper-strong: #ffffff;
-    --ink: #1f3b31;
-    --muted: #6d7f75;
-    --sage: #6f9a77;
-    --sage-deep: #3d6a55;
-    --sage-soft: #e6f1e6;
-    --line: rgba(101, 146, 115, 0.18);
-    --shadow: 0 30px 70px rgba(41, 74, 54, 0.14);
-    display: grid;
-    gap: 1.2rem;
-  }
-
-  .guide-hero,
-  .guide-panel,
-  .guide-summary {
-    border-radius: 32px;
-    border: 1px solid var(--line);
-    background:
-      radial-gradient(circle at top right, rgba(140, 191, 143, 0.22), transparent 28%),
-      linear-gradient(180deg, var(--paper-strong), var(--paper));
-    box-shadow: var(--shadow);
-    padding: 1.5rem;
-  }
-
-  .guide-badge,
-  .guide-pill,
-  .guide-action,
-  .guide-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 800;
-    width: fit-content;
-  }
-
-  .guide-badge {
-    padding: 0.5rem 1rem;
-    background: linear-gradient(135deg, #335f4a, #6d9c6f);
-    color: #fff;
-  }
-
-  .guide-hero-copy h1,
-  .guide-panel h2,
-  .guide-summary h2,
-  .guide-card h3 {
-    margin: 0;
-    font-family: "Kaisei Tokumin", serif;
-    color: var(--ink);
-  }
-
-  .guide-hero-copy h1 {
-    margin-top: 0.9rem;
-    font-size: clamp(2rem, 4vw, 3.35rem);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
-  }
-
-  .guide-hero-copy p,
-  .guide-panel p,
-  .guide-summary p,
-  .guide-card p,
-  .guide-empty,
-  .guide-note {
-    margin: 0.8rem 0 0;
-    color: var(--muted);
-    line-height: 1.85;
-  }
-
-  .guide-stats {
-    margin-top: 1.4rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 0.9rem;
-  }
-
-  .guide-stat {
-    padding: 1rem 1.1rem;
-    border-radius: 24px;
-    border: 1px solid rgba(101, 146, 115, 0.14);
-    background: rgba(255, 255, 255, 0.86);
-  }
-
-  .guide-stat span {
-    color: #8a9d91;
-    font-size: 0.86rem;
-    font-weight: 700;
-  }
-
-  .guide-stat strong {
-    display: block;
-    margin-top: 0.2rem;
-    font-size: 1.8rem;
-    color: var(--ink);
-  }
-
-  .guide-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.8fr);
-    gap: 1rem;
-    align-items: start;
-  }
-
-  .guide-flow {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .guide-head {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.8rem;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .guide-pill {
-    padding: 0.45rem 0.8rem;
-    background: var(--sage-soft);
-    color: var(--sage-deep);
-    font-size: 0.82rem;
-  }
-
-  .guide-subject-grid,
-  .guide-series-grid,
-  .guide-book-grid {
-    display: grid;
-    gap: 0.95rem;
-    margin-top: 1rem;
-  }
-
-  .guide-subject-grid {
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
-  .guide-series-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  }
-
-  .guide-book-grid {
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  }
-
-  .guide-card {
-    display: grid;
-    gap: 0.85rem;
-    padding: 1rem;
-    border-radius: 26px;
-    border: 1px solid rgba(101, 146, 115, 0.14);
-    background: rgba(255, 255, 255, 0.88);
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .guide-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 40px rgba(47, 82, 60, 0.15);
-  }
-
-  .guide-card.is-selected {
-    border-color: rgba(74, 131, 86, 0.45);
-    background: linear-gradient(180deg, #ffffff, #edf6ee);
-    box-shadow: 0 18px 34px rgba(69, 120, 88, 0.14);
-  }
-
-  .guide-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.7rem;
-  }
-
-  .guide-icon {
-    width: 54px;
-    height: 54px;
-    border-radius: 18px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(180deg, #eff8ee, #f7fbf3);
-    color: var(--sage-deep);
-    font-size: 1.25rem;
-  }
-
-  .guide-card h3 {
-    font-size: 1.3rem;
-  }
-
-  .guide-meta-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
-  }
-
-  .guide-meta-row span {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.42rem 0.75rem;
-    border-radius: 999px;
-    background: #f2f8f0;
-    color: #56735d;
-    font-size: 0.8rem;
-    font-weight: 800;
-  }
-
-  .guide-cover {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: 22px;
-    border: 1px solid rgba(101, 146, 115, 0.12);
-    background: #f6faf4;
-  }
-
-  .guide-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .guide-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-  }
-
-  .guide-link,
-  .guide-action {
-    min-height: 48px;
-    padding: 0.8rem 1.15rem;
-    border: 0;
-    cursor: pointer;
-  }
-
-  .guide-link {
-    border: 1px solid rgba(101, 146, 115, 0.18);
-    background: #fff;
-    color: var(--sage-deep);
-  }
-
-  .guide-action {
-    background: linear-gradient(135deg, #6f9a77, #315f4a);
-    color: #fff;
-    box-shadow: 0 16px 26px rgba(67, 117, 82, 0.18);
-  }
-
-  .guide-summary {
-    position: sticky;
-    top: 94px;
-  }
-
-  .guide-summary-grid {
-    margin-top: 1rem;
-    display: grid;
-    gap: 0.7rem;
-  }
-
-  .guide-summary-item {
-    padding: 0.95rem 1rem;
-    border-radius: 22px;
-    border: 1px solid rgba(101, 146, 115, 0.13);
-    background: rgba(255, 255, 255, 0.84);
-  }
-
-  .guide-summary-item span {
-    display: block;
-    color: #85978d;
-    font-size: 0.85rem;
-    margin-bottom: 0.28rem;
-  }
-
-  .guide-summary-item strong {
-    color: var(--ink);
-    font-size: 1rem;
-  }
-
-  .guide-note {
-    padding: 1rem;
-    border-radius: 22px;
-    background: #eef6ed;
-    border: 1px solid rgba(101, 146, 115, 0.14);
-  }
-
-  .guide-empty {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 22px;
-    border: 1px dashed rgba(101, 146, 115, 0.2);
-    background: rgba(255, 255, 255, 0.72);
-  }
-
-  @media (max-width: 980px) {
-    .guide-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .guide-summary {
-      position: static;
-    }
-  }
-</style>
-
-<div class="guide-workspace">
-  <section class="guide-hero">
-    <span class="guide-badge"><i class="fa-solid fa-book-open-reader"></i> AI 學習講義</span>
+<div class="guide-library jp-focus-flow">
+  <section class="guide-shelf-hero">
     <div class="guide-hero-copy">
-      <h1>先挑科目，再選講義系列，最後進章節閱讀。</h1>
-      <p>把講義整理成科目、系列與章節三層，先快速找方向，再進閱讀器看重點、翻原始頁圖，必要時一鍵回到刷題入口。</p>
+      <span class="guide-badge"><i class="fa-solid fa-book-open-reader"></i> AI 講義書架</span>
+      <h1>先像逛書架一樣選科目，再進章節閱讀。</h1>
+      <p>把講義整理成科目、系列、講義三層，學生不用在一排資料夾裡找路。選到一本後，可以直接閱讀、看原頁圖片，也能回到刷題入口練同一段。</p>
     </div>
-    <div class="guide-stats">
-      <div class="guide-stat"><span>已整理講義</span><strong>{{ guide_download_count }}</strong></div>
-      <div class="guide-stat"><span>可閱讀科目</span><strong>{{ guide_subject_cards|length }}</strong></div>
-      <div class="guide-stat"><span>目前科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></div>
-      <div class="guide-stat"><span>目前系列</span><strong>{{ selected_series.label if selected_series else '尚未選擇' }}</strong></div>
+    <div class="guide-hero-orb" aria-hidden="true">
+      <span>書</span>
+      <small>reading shelf</small>
+    </div>
+    <div class="guide-library-stats">
+      <article class="guide-library-stat"><span>已整理講義</span><strong>{{ guide_download_count }}</strong></article>
+      <article class="guide-library-stat"><span>可讀科目</span><strong>{{ guide_subject_cards|length }}</strong></article>
+      <article class="guide-library-stat"><span>目前科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></article>
+      <article class="guide-library-stat"><span>目前系列</span><strong>{{ selected_series.label if selected_series else '尚未選擇' }}</strong></article>
     </div>
   </section>
 
-  <div class="guide-grid">
-    <div class="guide-flow">
-      <section class="guide-panel">
-        <div class="guide-head">
+  <section class="guide-flow-map" aria-label="講義閱讀流程">
+    <article class="guide-flow-step is-active">
+      <span>1</span>
+      <strong>選科目</strong>
+      <small>先決定要讀哪一科</small>
+    </article>
+    <article class="guide-flow-step{% if selected_subject %} is-active{% endif %}">
+      <span>2</span>
+      <strong>選系列</strong>
+      <small>複習講義、主題講義</small>
+    </article>
+    <article class="guide-flow-step{% if selected_series %} is-active{% endif %}">
+      <span>3</span>
+      <strong>選講義</strong>
+      <small>章節與小節會整理好</small>
+    </article>
+    <article class="guide-flow-step{% if guide_cards %} is-active{% endif %}">
+      <span>4</span>
+      <strong>閱讀與回刷</strong>
+      <small>讀完可回題庫練習</small>
+    </article>
+  </section>
+
+  <div class="guide-library-grid">
+    <main class="guide-library-main">
+      <section class="guide-panel guide-panel-subjects">
+        <div class="guide-panel-head">
           <div>
-            <h2>STEP 1. 選科目</h2>
-            <p>先從國文、英文、數學、自然或社會分科開始，系統會自動切到該科講義系列。</p>
+            <span class="guide-kicker">STEP 1</span>
+            <h2>選科目</h2>
+            <p>每一科用不同卡片呈現，先把入口變清楚。社會和自然之後仍可在科目內細分地理、歷史、公民、生物、理化、地科。</p>
           </div>
-          <span class="guide-pill"><i class="fa-solid fa-layer-group"></i> 科目入口</span>
+          <span class="guide-pill"><i class="fa-solid fa-layer-group"></i> {{ guide_subject_cards|length }} 科</span>
         </div>
-        <div class="guide-subject-grid">
+        <div class="guide-shelf-grid">
           {% for card in guide_subject_cards %}
-          <a class="guide-card{% if card.is_selected %} is-selected{% endif %}" href="{{ card.href }}">
-            <div class="guide-card-top">
-              <span class="guide-icon"><i class="fa-solid {{ card.icon }}"></i></span>
-              <span class="guide-pill">{{ card.guide_count }} 份</span>
-            </div>
-            <div>
-              <h3>{{ card.label }}</h3>
-              <p>{{ card.description }}</p>
-            </div>
-            <div class="guide-meta-row">
+          <a class="guide-shelf-card{% if card.is_selected %} is-selected{% endif %}" href="{{ card.href }}">
+            <span class="guide-card-icon"><i class="fa-solid {{ card.icon }}"></i></span>
+            <span class="guide-card-count">{{ card.guide_count }} 份</span>
+            <h3>{{ card.label }}</h3>
+            <p>{{ card.description }}</p>
+            <div class="guide-card-meta">
               <span><i class="fa-solid fa-book-bookmark"></i> {{ card.series_count }} 系列</span>
               <span><i class="fa-solid fa-file-lines"></i> {{ card.guide_count }} 講義</span>
             </div>
@@ -354,97 +70,97 @@
         </div>
       </section>
 
-      <section class="guide-panel">
-        <div class="guide-head">
+      <section class="guide-panel guide-panel-series">
+        <div class="guide-panel-head">
           <div>
-            <h2>STEP 2. 選講義系列</h2>
-            <p>同一科可能有不同系列講義，先選你要讀的整理法，再往下挑單本內容。</p>
+            <span class="guide-kicker">STEP 2</span>
+            <h2>選系列</h2>
+            <p>選完科目後，只顯示該科可用的講義系列，避免所有資料一次塞滿畫面。</p>
           </div>
-          <span class="guide-pill"><i class="fa-solid fa-book"></i> 系列分類</span>
+          <span class="guide-pill"><i class="fa-solid fa-book"></i> {{ series_cards|length if series_cards else 0 }} 系列</span>
         </div>
         {% if selected_subject and series_cards %}
         <div class="guide-series-grid">
           {% for card in series_cards %}
-          <a class="guide-card{% if card.is_selected %} is-selected{% endif %}" href="{{ card.href }}">
-            <div class="guide-card-top">
-              <span class="guide-icon"><i class="fa-solid fa-book-bookmark"></i></span>
-              <span class="guide-pill">{{ card.guide_count }} 本</span>
-            </div>
+          <a class="guide-series-card{% if card.is_selected %} is-selected{% endif %}" href="{{ card.href }}">
+            <span class="guide-card-icon"><i class="fa-solid fa-book-bookmark"></i></span>
             <div>
               <h3>{{ card.label }}</h3>
-              <p>點入後會列出這一系列的所有講義，並可直接進閱讀器逐章查看。</p>
+              <p>這個系列目前有 {{ card.guide_count }} 份講義。點進去後，下一步只會顯示這一系列的書本。</p>
             </div>
+            <span class="guide-arrow"><i class="fa-solid fa-arrow-right"></i></span>
           </a>
           {% endfor %}
         </div>
         {% else %}
-        <div class="guide-empty">先選上方科目，這裡就會展開對應的講義系列。</div>
+        <div class="guide-empty-state">
+          <i class="fa-solid fa-hand-point-up"></i>
+          <strong>先選一個科目</strong>
+          <p>選好科目後，這裡才會展開該科的講義系列。</p>
+        </div>
         {% endif %}
       </section>
 
-      <section class="guide-panel">
-        <div class="guide-head">
+      <section class="guide-panel guide-panel-books">
+        <div class="guide-panel-head">
           <div>
-            <h2>STEP 3. 選講義</h2>
-            <p>挑一本講義進閱讀器，系統會保留章節、小節和原始頁圖，閱讀時比較不會迷路。</p>
+            <span class="guide-kicker">STEP 3</span>
+            <h2>選講義</h2>
+            <p>講義卡會顯示章節、小節與頁數。這裡開始就是正式閱讀入口，不再像普通下載清單。</p>
           </div>
-          <span class="guide-pill"><i class="fa-solid fa-compass"></i> 閱讀入口</span>
+          <span class="guide-pill"><i class="fa-solid fa-compass"></i> {{ guide_cards|length if guide_cards else 0 }} 本</span>
         </div>
         {% if selected_subject and selected_series and guide_cards %}
         <div class="guide-book-grid">
           {% for card in guide_cards %}
-          <article class="guide-card">
-            <div class="guide-cover">
-              <img src="{{ card.cover_href }}" alt="{{ card.title }} 封面預覽">
-            </div>
-            <div class="guide-card-top">
-              <div>
-                <h3>{{ card.title }}</h3>
-                <p>已整理成可閱讀章節，進去後可看重點摘要、章節清單和原始頁面圖。</p>
+          <article class="guide-book-card">
+            <a class="guide-book-cover" href="{{ card.reader_href }}">
+              <img src="{{ card.cover_href }}" alt="{{ card.title }} 封面">
+            </a>
+            <div class="guide-book-body">
+              <span class="guide-pill"><i class="fa-solid fa-file-lines"></i> {{ card.page_count }} 頁</span>
+              <h3>{{ card.title }}</h3>
+              <p>已整理成章節閱讀，保留原始頁面圖片輔助檢查。適合先看重點，再回到題目練習。</p>
+              <div class="guide-card-meta">
+                <span><i class="fa-solid fa-layer-group"></i> {{ card.chapter_count }} 章</span>
+                <span><i class="fa-solid fa-list-ul"></i> {{ card.section_count }} 小節</span>
               </div>
-              <span class="guide-pill">{{ card.page_count }} 頁</span>
-            </div>
-            <div class="guide-meta-row">
-              <span><i class="fa-solid fa-layer-group"></i> {{ card.chapter_count }} 章</span>
-              <span><i class="fa-solid fa-list-ul"></i> {{ card.section_count }} 小節</span>
-              <span><i class="fa-solid fa-file-lines"></i> {{ card.page_count }} 頁</span>
-            </div>
-            <div class="guide-actions">
-              <a class="guide-link" href="{{ card.cover_href }}"><i class="fa-solid fa-image"></i> 看封面</a>
-              <a class="guide-action" href="{{ card.reader_href }}"><i class="fa-solid fa-arrow-right"></i> 開始閱讀</a>
+              <div class="guide-card-actions">
+                <a class="guide-link" href="{{ card.cover_href }}"><i class="fa-solid fa-image"></i> 看封面</a>
+                <a class="guide-action" href="{{ card.reader_href }}"><i class="fa-solid fa-arrow-right"></i> 開始閱讀</a>
+              </div>
             </div>
           </article>
           {% endfor %}
         </div>
         {% else %}
-        <div class="guide-empty">先選科目與系列，這裡就會列出可閱讀的講義。</div>
+        <div class="guide-empty-state">
+          <i class="fa-solid fa-book-open"></i>
+          <strong>講義會在這裡出現</strong>
+          <p>請先完成上面的科目與系列選擇，系統會把可讀講義縮到最小範圍。</p>
+        </div>
         {% endif %}
       </section>
-    </div>
+    </main>
 
-    <aside class="guide-summary">
-      <div class="guide-head">
-        <div>
-          <h2>目前選擇</h2>
-          <p>右側只保留當下範圍和下一步動作，不再把一堆說明文字堆滿版面。</p>
+    <aside class="guide-library-aside">
+      <section class="guide-aside-card">
+        <span class="guide-kicker">目前選擇</span>
+        <h2>閱讀路線</h2>
+        <div class="guide-selection-list">
+          <div><span>科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></div>
+          <div><span>系列</span><strong>{{ selected_series.label if selected_series else '尚未選擇' }}</strong></div>
+          <div><span>可讀講義</span><strong>{{ guide_cards|length if guide_cards else 0 }} 本</strong></div>
+          <div><span>總講義數</span><strong>{{ guide_download_count }} 份</strong></div>
         </div>
-        <span class="guide-pill"><i class="fa-solid fa-bolt"></i> 即時摘要</span>
-      </div>
-      <div class="guide-summary-grid">
-        <div class="guide-summary-item"><span>科目</span><strong>{{ selected_subject.label if selected_subject else '尚未選擇' }}</strong></div>
-        <div class="guide-summary-item"><span>講義系列</span><strong>{{ selected_series.label if selected_series else '尚未選擇' }}</strong></div>
-        <div class="guide-summary-item"><span>目前可讀</span><strong>{{ guide_cards|length if guide_cards else 0 }} 本</strong></div>
-        <div class="guide-summary-item"><span>已整理總量</span><strong>{{ guide_download_count }} 本</strong></div>
-      </div>
-      <div class="guide-note">
-        建議先從科目與系列開始篩選，再進一本講義看章節。若想直接做題，可回到刷題入口切會考練習。
-      </div>
-      <div class="guide-actions" style="margin-top:1rem;">
-        {% if guide_cards %}
-        <a class="guide-action" href="{{ guide_cards[0].reader_href }}"><i class="fa-solid fa-book-open-reader"></i> 先讀第一本</a>
-        {% endif %}
-        <a class="guide-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-arrow-left"></i> 回刷題首頁</a>
-      </div>
+        <p>右側只保留摘要與下一步，主畫面專心處理當下步驟，整體會比原本全部攤開更好找。</p>
+        <div class="guide-card-actions">
+          {% if guide_cards %}
+          <a class="guide-action" href="{{ guide_cards[0].reader_href }}"><i class="fa-solid fa-book-open-reader"></i> 讀第一本</a>
+          {% endif %}
+          <a class="guide-link" href="{{ url_for('study.practice') }}"><i class="fa-solid fa-arrow-left"></i> 回刷題區</a>
+        </div>
+      </section>
     </aside>
   </div>
 </div>

@@ -36,10 +36,10 @@
     const theme = document.documentElement.getAttribute("data-theme") || localStorage.getItem("app-theme") || "sakura";
     const themes = [
       { test: /^\/$/, name: "jp-page-home" },
-      { test: /^\/study\/practice\/cap/, name: "jp-page-cap" },
-      { test: /^\/study\/practice/, name: "jp-page-practice" },
+      { test: /^\/(?:study\/)?practice\/cap/, name: "jp-page-cap" },
       { test: /mistakes|wrong/i, name: "jp-page-mistakes" },
       { test: /guide|lecture|library/i, name: "jp-page-guides" },
+      { test: /^\/(?:study\/)?practice/, name: "jp-page-practice" },
       { test: /chat/i, name: "jp-page-chat" },
       { test: /admin/i, name: "jp-page-admin" },
       { test: /achievements/i, name: "jp-page-achievements" }
@@ -415,15 +415,31 @@
       ".mistake-filter",
       ".mistake-subject",
       ".mistake-card",
+      ".mistake-dojo-stat",
+      ".mistake-filter-card",
+      ".mistake-subject-card",
+      ".mistake-yokai-card",
+      ".mistake-action-panel",
       ".guide-stat",
       ".guide-card",
       ".guide-summary",
+      ".guide-library-stat",
+      ".guide-flow-step",
+      ".guide-shelf-card",
+      ".guide-series-card",
+      ".guide-book-card",
+      ".guide-library-aside",
       ".reader-stat",
       ".reader-card",
       ".reader-panel",
       ".reader-section",
       ".reader-page-card",
       ".reader-outline a",
+      ".reader-book-stat",
+      ".reader-summary-strip",
+      ".reader-outline-card",
+      ".reader-book-chapter",
+      ".reader-book-section",
       ".chat-bubble",
       ".session-item",
       ".command-item",
@@ -482,6 +498,7 @@
     const candidates = Array.from(
       document.querySelectorAll(
         ".entry-stat strong, .cap-stat strong, .mockroom-stat strong, .mistake-stat strong, .guide-stat strong, .reader-stat strong, .guide-summary-item strong"
+          + ", .guide-library-stat strong, .reader-book-stat strong, .mistake-dojo-stat strong"
           + ", .achievement-stat strong, .admin-achievement-stat strong, .cap-score-card strong, .jp-dashboard-card strong, .jp-radar-card strong, .cap-sidebar-item strong"
           + ", [data-count-up], .practice-gate-stats strong, .home-mission-strip strong"
       )
@@ -545,7 +562,7 @@
   function initInkRipple() {
     document.addEventListener("click", (event) => {
       const target = event.target.closest(
-        ".entry-cta, .entry-ghost, .home-primary-action, .home-secondary-action, .home-action-card, .practice-primary-action, .practice-secondary-action, .practice-lane-card, .cap-primary, .cap-ghost, .mockroom-btn, .mockroom-link, .mistake-btn, .mistake-link, .guide-action, .guide-link, .reader-action, .reader-outline a, .achievement-primary, .achievement-filter, .admin-action-btn, .btn, button, .session-item, .command-item, .cap-jump-chip"
+        ".entry-cta, .entry-ghost, .home-primary-action, .home-secondary-action, .home-action-card, .practice-primary-action, .practice-secondary-action, .practice-lane-card, .cap-primary, .cap-ghost, .mockroom-btn, .mockroom-link, .mistake-btn, .mistake-link, .mistake-filter-card, .mistake-subject-card, .guide-action, .guide-link, .guide-shelf-card, .guide-series-card, .guide-book-card, .reader-action, .reader-outline a, .reader-page-card, .achievement-primary, .achievement-filter, .admin-action-btn, .btn, button, .session-item, .command-item, .cap-jump-chip"
       );
       if (!target || target.disabled || reduceMotion) return;
 
@@ -561,7 +578,7 @@
 
   function initPointerGlow() {
     const glowTargets = document.querySelectorAll(
-      ".entry-lane, .home-action-card, .practice-lane-card, .practice-choice-panel, .cap-year-card, .cap-subject-card, .cap-mode-option, .cap-run-card, .mockroom-card, .mistake-card, .guide-card, .reader-card, .reader-chapter, .reader-page-card, .chat-bubble, .achievement-card, .achievement-home-card, .admin-achievement-card, .jp-dashboard-card"
+      ".entry-lane, .home-action-card, .practice-lane-card, .practice-choice-panel, .cap-year-card, .cap-subject-card, .cap-mode-option, .cap-run-card, .mockroom-card, .mistake-card, .mistake-filter-card, .mistake-subject-card, .mistake-yokai-card, .guide-card, .guide-shelf-card, .guide-series-card, .guide-book-card, .reader-card, .reader-chapter, .reader-book-chapter, .reader-book-section, .reader-page-card, .chat-bubble, .achievement-card, .achievement-home-card, .admin-achievement-card, .jp-dashboard-card"
     );
 
     glowTargets.forEach((target) => {
@@ -578,7 +595,7 @@
 
     const cards = Array.from(
       document.querySelectorAll(
-        ".entry-lane, .home-action-card, .practice-lane-card, .practice-choice-panel, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .guide-card, .reader-card, .achievement-card, .achievement-home-card, .admin-achievement-card, .jp-dashboard-card, .jp-radar-card"
+        ".entry-lane, .home-action-card, .practice-lane-card, .practice-choice-panel, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .mistake-filter-card, .mistake-subject-card, .mistake-yokai-card, .guide-card, .guide-shelf-card, .guide-series-card, .guide-book-card, .reader-card, .reader-book-chapter, .reader-book-section, .reader-page-card, .achievement-card, .achievement-home-card, .admin-achievement-card, .jp-dashboard-card, .jp-radar-card"
       )
     );
     if (!cards.length) return;
@@ -620,11 +637,11 @@
 
     document.addEventListener("click", (event) => {
       const target = event.target.closest(
-        ".entry-lane, .practice-lane-card, .home-action-card, .cap-year-card, .cap-subject-card, .cap-mode-option, .mistake-filter, .mistake-subject, .reader-outline a, details > summary, .achievement-filter"
+        ".entry-lane, .practice-lane-card, .home-action-card, .cap-year-card, .cap-subject-card, .cap-mode-option, .mistake-filter, .mistake-subject, .mistake-filter-card, .mistake-subject-card, .guide-shelf-card, .guide-series-card, .guide-book-card, .reader-outline a, .reader-page-card, details > summary, .achievement-filter"
       );
       if (!target) return;
 
-      const card = target.closest("details, .entry-lane, .practice-lane-card, .home-action-card, .cap-year-card, .cap-subject-card, .cap-mode-option, .mistake-filter, .mistake-subject, .reader-panel, .achievement-card") || target;
+      const card = target.closest("details, .entry-lane, .practice-lane-card, .home-action-card, .cap-year-card, .cap-subject-card, .cap-mode-option, .mistake-filter, .mistake-subject, .mistake-filter-card, .mistake-subject-card, .guide-shelf-card, .guide-series-card, .guide-book-card, .reader-panel, .reader-book-section, .achievement-card") || target;
       card.classList.remove("is-paper-opening");
       void card.offsetWidth;
       card.classList.add("is-paper-opening");
