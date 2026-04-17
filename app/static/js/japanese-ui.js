@@ -33,6 +33,7 @@
 
   function initPageTheme() {
     const path = window.location.pathname;
+    const theme = document.documentElement.getAttribute("data-theme") || localStorage.getItem("app-theme") || "sakura";
     const themes = [
       { test: /^\/$/, name: "jp-page-home" },
       { test: /^\/study\/practice\/cap/, name: "jp-page-cap" },
@@ -46,6 +47,7 @@
 
     const matched = themes.find((theme) => theme.test.test(path));
     document.body.classList.add(matched ? matched.name : "jp-page-default");
+    document.body.classList.add(`jp-theme-${theme}`);
   }
 
   function initPerformanceBudget() {
@@ -356,6 +358,17 @@
   }
 
   function getParticlePalette() {
+    const theme = document.documentElement.getAttribute("data-theme") || "sakura";
+    const themePalettes = {
+      sakura: ["rgba(232,92,124,0.48)", "rgba(255,190,204,0.5)", "rgba(201,154,62,0.42)"],
+      matcha: ["rgba(76,126,84,0.56)", "rgba(179,194,118,0.5)", "rgba(201,154,62,0.36)"],
+      leaf: ["rgba(55,119,88,0.54)", "rgba(145,184,94,0.46)", "rgba(255,245,199,0.42)"],
+      moon: ["rgba(45,76,128,0.52)", "rgba(229,192,105,0.5)", "rgba(226,235,255,0.42)"],
+      midnight: ["rgba(92,112,180,0.48)", "rgba(185,150,230,0.38)", "rgba(255,255,255,0.28)"],
+      sunset: ["rgba(224,96,64,0.5)", "rgba(242,165,78,0.5)", "rgba(57,72,110,0.34)"]
+    };
+    if (themePalettes[theme]) return themePalettes[theme];
+
     if (document.body.classList.contains("jp-page-cap")) {
       return ["rgba(23,58,94,0.72)", "rgba(201,154,62,0.64)", "rgba(80,125,168,0.52)"];
     }
@@ -743,9 +756,43 @@
     if (!trophies.length || reduceMotion) return;
 
     trophies.forEach((trophy, index) => {
+      const card = trophy.closest(".achievement-card");
+      const category = card ? card.dataset.category || "daily" : "daily";
+      const unlocked = card ? card.classList.contains("is-unlocked") : false;
+      const rarity = pickAchievementRarity(category, unlocked, index);
+
+      trophy.dataset.rarity = rarity;
+      trophy.classList.add(`achievement-rarity-${rarity}`);
+      if (card) card.classList.add(`achievement-rarity-${rarity}`);
+
+      if (!trophy.querySelector(".trophy-orbit")) {
+        const orbit = document.createElement("span");
+        orbit.className = "trophy-orbit";
+        trophy.appendChild(orbit);
+      }
+
+      if (!trophy.querySelector(".trophy-stars")) {
+        const stars = document.createElement("span");
+        stars.className = "trophy-stars";
+        for (let i = 0; i < 5; i += 1) {
+          const star = document.createElement("em");
+          star.style.setProperty("--star-i", i);
+          stars.appendChild(star);
+        }
+        trophy.appendChild(stars);
+      }
+
       trophy.style.animationDelay = `${(index % 8) * -180}ms`;
       trophy.classList.add("is-trophy-ready");
     });
+  }
+
+  function pickAchievementRarity(category, unlocked, index) {
+    if (!unlocked) return "dormant";
+    if (category === "rank" || index % 17 === 0) return "legendary";
+    if (category === "seasonal" || category === "companion") return "epic";
+    if (category === "shrine" || category === "study") return "rare";
+    return "common";
   }
 
   function initLearningDashboard() {
