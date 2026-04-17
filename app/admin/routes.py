@@ -227,6 +227,7 @@ def dashboard():
                             current_time=datetime.now())
 
 @admin.route('/question-staging')
+@login_required
 def question_staging():
     """Safe review room for future question-bank imports.
 
@@ -234,6 +235,9 @@ def question_staging():
     intentionally read-only: it never publishes staged data to the student
     practice routes.
     """
+    if not current_user.is_admin:
+        return redirect(url_for('main.home'))
+
     from app.utils.question_staging import build_question_staging_payload
 
     try:
