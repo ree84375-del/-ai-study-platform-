@@ -265,14 +265,22 @@
 
   .review-image {
     width: auto;
-    max-width: 100%;
-    max-height: 420px;
+    max-width: min(100%, 760px);
+    max-height: 520px;
     display: block;
+    margin: 0 auto;
     object-fit: contain;
     border-radius: 16px;
     border: 1px solid rgba(74, 99, 140, 0.16);
     background: #fff;
     padding: 0.35rem;
+  }
+
+  .review-option-grid .review-image,
+  .review-answer-grid .review-image {
+    max-width: min(100%, 320px);
+    max-height: 190px;
+    margin: 0.45rem 0 0;
   }
 
   .review-empty {
@@ -294,8 +302,8 @@
   }
 </style>
 
-<div class="cap-review-shell">
-  <section class="cap-review-hero">
+<div class="cap-review-shell" data-vfx="petals" data-vfx-petals="5" data-vfx-interval="13000">
+  <section class="cap-review-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="12" data-vfx-interval="10000" data-vfx-reveal>
     <span class="cap-badge"><i class="fa-solid fa-chart-column"></i> 會考練習結果</span>
     <div>
       <h1>{{ selected_subject.label }} / {{ selected_years|join('、') }} 年</h1>
@@ -328,7 +336,7 @@
 
   <div class="cap-layout">
     <div class="cap-stack">
-      <section class="cap-review-panel">
+    <section class="cap-review-panel" data-vfx-reveal>
         <div class="cap-head">
           <div>
             <h2>本次作答摘要</h2>

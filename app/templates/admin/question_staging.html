@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="question-staging-stage" data-vfx="petals" data-vfx-petals="6" data-vfx-interval="13000">
+    <section class="question-staging-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="10" data-vfx-interval="10000" data-vfx-reveal>
+        <div>
+            <span class="question-staging-badge"><i class="fa-solid fa-clipboard-check"></i> 題庫審核室</span>
+            <h1>新題庫先在這裡慢慢審，不會直接出現在網站。</h1>
+            <p>
+                這個頁面是題庫大更新的安全閘。匯入後的題目應該先放在 staging / needs_review，
+                經過人工檢查後只能變成 approved；只有你明確說「可以上架」時，才會進 published 流程。
+            </p>
+        </div>
+        <div class="question-staging-lock">
+            <div>
+                <i class="fa-solid fa-lock"></i>
+                <h2 style="margin:0.75rem 0 0;">前台鎖定中</h2>
+                <p style="margin:0.35rem 0 0; color:rgba(255,248,220,0.82);">{{ payload.front_gate.publish_state }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="question-staging-grid" aria-label="題庫審核統計" data-vfx-reveal>
+        <article>
+            <span>正式題庫</span>
+            <strong>{{ payload.stats.formal_question_count }}</strong>
+            <small>目前正式資料表題數</small>
+        </article>
+        <article>
+            <span>暫存批次</span>
+            <strong>{{ payload.stats.staged_batch_count }}</strong>
+            <small>data/question_staging</small>
+        </article>
+        <article>
+            <span>待審題目</span>
+            <strong>{{ payload.stats.pending_count }}</strong>
+            <small>draft / needs_review</small>
+        </article>
+        <article>
+            <span>審核報告</span>
+            <strong>{{ payload.stats.audit_file_count }}</strong>
+            <small>最近 audit JSON</small>
+        </article>
+    </section>
+
+    <section class="question-staging-panel jp-vfx-stamp-ready" data-vfx-reveal>
+        <span class="question-staging-badge"><i class="fa-solid fa-shield-halved"></i> 發布規則</span>
+        <h2>沒有你說可以之前，新題庫不顯示在網站前台。</h2>
+        <p>{{ payload.front_gate.rule }}</p>
+        <div class="question-staging-phase-list">
+            {% for item in payload.phase_status %}
+            <article class="question-staging-phase">
+                <small>{{ item.phase }} · {{ item.status }}</small>
+                <strong>{{ item.title }}</strong>
+                <p>{{ item.detail }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="question-staging-table-wrap" data-vfx-reveal>
+        <div class="question-staging-table-head">
+            <span class="question-staging-badge"><i class="fa-solid fa-box-archive"></i> 暫存批次</span>
+            <p>未來題庫大更新匯入後，批次 JSON 會列在這裡給你慢慢審核。目前沒有批次也代表前台是安全鎖住的。</p>
+        </div>
+        <table class="question-staging-table">
+            <thead>
+                <tr>
+                    <th>檔案</th>
+                    <th>題數</th>
+                    <th>狀態統計</th>
+                    <th>更新時間</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if payload.staging_files %}
+                    {% for file in payload.staging_files %}
+                    <tr>
+                        <td><strong>{{ file.name }}</strong></td>
+                        <td>{{ file.item_count }}</td>
+                        <td>
+                            {% if file.status_counts %}
+                                {% for key, value in file.status_counts.items() %}
+                                    <span class="question-staging-badge">{{ key }}：{{ value }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="question-staging-badge">needs_review：{{ file.item_count }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ file.modified_label }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="4">目前沒有待審暫存題庫。可以先完成網站大更新，再匯入題庫到審核室。</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="question-staging-table-wrap" data-vfx-reveal>
+        <div class="question-staging-table-head">
+            <span class="question-staging-badge"><i class="fa-solid fa-magnifying-glass-chart"></i> 最近題庫檢查報告</span>
+            <p>這裡讀取既有 audit / rebuild JSON，方便你追蹤題庫圖片、缺題、缺詳解或重建狀態；它不會發布任何題目。</p>
+        </div>
+        <table class="question-staging-table">
+            <thead>
+                <tr>
+                    <th>報告</th>
+                    <th>項目數</th>
+                    <th>疑似問題數</th>
+                    <th>更新時間</th>
+                    <th>大小</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if payload.review_files %}
+                    {% for file in payload.review_files %}
+                    <tr>
+                        <td><strong>{{ file.name }}</strong></td>
+                        <td>{{ file.item_count }}</td>
+                        <td>{{ file.issue_count }}</td>
+                        <td>{{ file.modified_label }}</td>
+                        <td>{{ file.size_kb }} KB</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">目前沒有可讀取的審核報告。</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </section>
+
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <a class="btn" href="{{ url_for('admin.dashboard') }}" style="padding: 10px 18px;"><i class="fa-solid fa-arrow-left"></i> 回後台</a>
+        <a class="btn" href="{{ url_for('admin.announcements') }}" style="padding: 10px 18px; background: var(--color-primary); color: white;"><i class="fa-solid fa-bullhorn"></i> 公告管理</a>
+    </div>
+</div>
+{% endblock %}

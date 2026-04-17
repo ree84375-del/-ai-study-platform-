@@ -32,8 +32,8 @@
 
     {% if current_user.is_authenticated %}
 
-    <section class="home-command-center">
-        <div class="home-command-hero">
+    <section class="home-command-center" data-vfx="petals" data-vfx-petals="8" data-vfx-interval="12000">
+        <div class="home-command-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="8" data-vfx-interval="10000" data-vfx-reveal>
             <div class="home-command-copy">
                 <span class="home-kicker"><i class="fa-solid fa-torii-gate"></i> 學習主城</span>
                 <h1>今天從哪裡開始修行？</h1>
@@ -59,25 +59,25 @@
         </div>
 
         <div class="home-action-grid" aria-label="主要功能入口">
-            <a class="home-action-card home-action-practice" href="{{ url_for('study.practice') }}">
+            <a class="home-action-card jp-vfx-hover-lift home-action-practice" href="{{ url_for('study.practice') }}">
                 <span class="home-action-icon"><i class="fa-solid fa-pen-nib"></i></span>
                 <small>一步一步</small>
                 <strong>刷題控制台</strong>
                 <p>先選會考、模考、錯題或講義，再進入對應流程。</p>
             </a>
-            <a class="home-action-card home-action-guides" href="{{ url_for('study.practice_guides') }}">
+            <a class="home-action-card jp-vfx-hover-lift home-action-guides" href="{{ url_for('study.practice_guides') }}">
                 <span class="home-action-icon"><i class="fa-solid fa-book-open-reader"></i></span>
                 <small>章節書架</small>
                 <strong>AI 學習講義</strong>
                 <p>依科目與章節閱讀，讀完再回到題目練習。</p>
             </a>
-            <a class="home-action-card home-action-mistakes" href="{{ url_for('study.mistakes') }}">
+            <a class="home-action-card jp-vfx-hover-lift home-action-mistakes" href="{{ url_for('study.mistakes') }}">
                 <span class="home-action-icon"><i class="fa-solid fa-ghost"></i></span>
                 <small>{{ mistakes_to_review }} 題待回收</small>
                 <strong>錯題妖怪圖鑑</strong>
                 <p>把粗心、觀念和閱讀陷阱整理成可以重練的弱點。</p>
             </a>
-            <a class="home-action-card home-action-ai" href="{{ url_for('main.chat') }}">
+            <a class="home-action-card jp-vfx-hover-lift home-action-ai" href="{{ url_for('main.chat') }}">
                 <span class="home-action-icon"><i class="fa-solid fa-comments"></i></span>
                 <small>AI 助教</small>
                 <strong>學習相談室</strong>
@@ -124,7 +124,7 @@
     </div>
 
     {% if achievement_preview %}
-    <section class="achievement-home-card">
+    <section class="achievement-home-card jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="6" data-vfx-interval="12000" data-vfx-reveal>
         <div>
             <span class="achievement-badge"><i class="fa-solid fa-stamp"></i> 日式成就系統</span>
             <h2 style="margin: 1rem 0 .45rem; font-size: clamp(1.8rem, 4vw, 3rem);">今天也替自己的朱印帳蓋一格。</h2>

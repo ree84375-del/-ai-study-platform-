@@ -128,6 +128,12 @@ PRACTICE_TRACKS = [
     },
 ]
 
+# Safety gate for the general school question bank while the large question-bank
+# rebuild is under review. CAP practice and explicit AI-generated one-off
+# questions still work; bulk/general subject browsing stays hidden until the
+# owner explicitly approves publishing.
+GENERAL_PRACTICE_PUBLIC_ENABLED = False
+
 CAP_SUBJECT_UI = {
     'chinese': {
         'label': '國文',
@@ -594,19 +600,16 @@ def _build_cap_option_items(item, subject_slug):
     for key in ('A', 'B', 'C', 'D'):
         text = options.get(key, '')
         crop_box = option_crop_boxes.get(key)
-        image_href = (
-            _build_cap_static_asset_href(option_image_paths.get(key))
-            or (
+        image_href = _build_cap_static_asset_href(option_image_paths.get(key))
+        if not image_href and crop_box and not str(text or '').strip():
+            image_href = (
                 _build_cap_asset_href(
                     item.get('year'),
                     subject_slug,
                     item.get('page_number'),
                     crop_box,
                 )
-                if crop_box
-                else None
             )
-        )
         option_items.append(
             {
                 'key': key,
@@ -642,7 +645,7 @@ def _build_cap_question_item(item, subject_slug):
     page_image_note = None
     question_image_href = _build_cap_static_asset_href(item.get('question_image_path'))
     group_image_href = _build_cap_static_asset_href(item.get('group_image_path'))
-    question_crop_box = item.get('question_visual_crop_box') or item.get('question_crop_box') or item.get('crop_box')
+    question_crop_box = item.get('question_visual_crop_box')
     group_crop_box = item.get('group_crop_box')
     if page_number:
         if not question_image_href and question_crop_box:
@@ -1712,6 +1715,9 @@ def practice_session():
     subject_filter = request.args.get('subject')
     question_id = request.args.get('question_id', type=int)
     if not subject_filter and not question_id:
+        return redirect(url_for('study.practice_hub'))
+    if not GENERAL_PRACTICE_PUBLIC_ENABLED and subject_filter and not question_id:
+        flash('一般國中題庫正在審核室重建中；你說可以發布前，不會顯示在前台刷題。', 'info')
         return redirect(url_for('study.practice_hub'))
 
     current_subject, query = build_practice_question_query(subject_filter or 'all')

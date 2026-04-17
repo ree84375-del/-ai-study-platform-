@@ -49,11 +49,24 @@ def _safe_all(query):
         return []
 
 
+def _achievement_rarity(key, tone, target, category):
+    if key in {"points_1200", "season_900", "sakura_1080", "resolved_50", "daily_omikuji_30", "streak_30"}:
+        return "ssr", "SSR 伝説"
+    if target >= 900 or key.endswith("_50") or key.endswith("_30"):
+        return "legendary", "傳說級"
+    if target >= 300 or key.endswith("_25") or tone in {"plum", "vermilion"}:
+        return "epic", "史詩級"
+    if target >= 7 or category in {"rank", "seasonal"} or tone in {"indigo", "sage"}:
+        return "rare", "稀有"
+    return "common", "普通"
+
+
 def _make_card(key, title, subtitle, icon, tone, current, target, category, detail, cta_text, cta_url):
     target = max(1, int(target))
     current = max(0, int(current))
     unlocked = current >= target
     progress = 100 if unlocked else round((current / target) * 100)
+    rarity, rarity_label = _achievement_rarity(key, tone, target, category)
     return {
         "key": key,
         "title": title,
@@ -68,6 +81,8 @@ def _make_card(key, title, subtitle, icon, tone, current, target, category, deta
         "detail": detail,
         "cta_text": cta_text,
         "cta_url": cta_url,
+        "rarity": rarity,
+        "rarity_label": rarity_label,
     }
 
 

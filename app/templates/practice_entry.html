@@ -3,8 +3,8 @@
 {% block content %}
 {% set cap_subject_count = entry_payload.cap.subjects | length %}
 
-<div class="practice-gate" data-practice-gate>
-  <section class="practice-gate-hero">
+<div class="practice-gate" data-practice-gate data-vfx="petals" data-vfx-petals="7" data-vfx-interval="12000">
+  <section class="practice-gate-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="9" data-vfx-interval="10000" data-vfx-reveal>
     <div class="practice-gate-copy">
       <span class="home-kicker"><i class="fa-solid fa-map-location-dot"></i> 刷題主城</span>
       <h1>先選一條路，系統再帶你一步一步開始。</h1>
@@ -33,7 +33,7 @@
     </div>
   </section>
 
-  <section class="practice-stepper">
+  <section class="practice-stepper jp-vfx-stamp-ready" data-vfx-reveal>
     <div>
       <span class="home-kicker"><i class="fa-solid fa-shoe-prints"></i> 操作順序</span>
       <h2>只看當下需要選的東西。</h2>
@@ -47,7 +47,7 @@
     </ol>
   </section>
 
-  <section class="practice-gate-layout">
+  <section class="practice-gate-layout" data-vfx-reveal>
     <div class="practice-lane-grid" aria-label="刷題入口選擇">
       <button type="button" class="practice-lane-card is-active" data-lane="cap">
         <span class="practice-lane-icon"><i class="fa-solid fa-graduation-cap"></i></span>
@@ -112,7 +112,21 @@
     </aside>
   </section>
 
-  <section class="practice-next-strip">
+  <section class="practice-stepper jp-vfx-stamp-ready" data-vfx-reveal>
+    <div>
+      <span class="home-kicker"><i class="fa-solid fa-lock"></i> 題庫安全鎖</span>
+      <h2>新題庫只進審核室，不會偷偷出現在前台。</h2>
+      <p>一般國中題庫與新匯入題目會先放在 staging / needs_review / approved 狀態；在你說可以發布前，刷題入口只保留正式允許的內容。</p>
+    </div>
+    <ol class="practice-flow-rail">
+      <li class="is-active"><span>鎖</span>暫存</li>
+      <li><span>審</span>人工審核</li>
+      <li><span>准</span>核准</li>
+      <li><span>發</span>你同意後上架</li>
+    </ol>
+  </section>
+
+  <section class="practice-next-strip" data-vfx-reveal>
     <article>
       <span>會考歷屆</span>
       <strong>選年份 -> 選科目 -> 預覽 / 練習</strong>
@@ -127,6 +141,11 @@
       <span>AI 講義</span>
       <strong>科目 -> 章節 -> 小節 -> 讀完再刷</strong>
       <p>講義會做成書架式，不再像一大串資料夾。</p>
+    </article>
+    <article>
+      <span>題庫更新</span>
+      <strong>審核室 -> 核准 -> 等你同意發布</strong>
+      <p>{% if current_user.is_admin %}<a href="{{ url_for('admin.question_staging') }}">前往題庫審核室</a>{% else %}新題庫審核中不會顯示在學生刷題入口。{% endif %}</p>
     </article>
   </section>
 </div>

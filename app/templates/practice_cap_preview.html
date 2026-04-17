@@ -229,19 +229,24 @@
 
   .cap-group-context img,
   .cap-visual-box img {
-    width: 100%;
+    width: auto;
+    max-width: min(100%, 760px);
+    max-height: 520px;
     display: block;
+    margin: 0 auto;
     border-radius: 16px;
     border: 1px solid rgba(74, 99, 140, 0.16);
     background: #fff;
     padding: 0.35rem;
+    object-fit: contain;
   }
 
   .cap-option-image {
     width: auto;
-    max-width: min(100%, 360px);
-    max-height: 220px;
+    max-width: min(100%, 320px);
+    max-height: 190px;
     display: block;
+    margin-top: 0.45rem;
     object-fit: contain;
     border-radius: 16px;
     border: 1px solid rgba(74, 99, 140, 0.16);
@@ -361,7 +366,7 @@
   }
 </style>
 
-<div class="cap-preview-shell">
+<div class="cap-preview-shell" data-vfx="petals" data-vfx-petals="4" data-vfx-interval="14000">
   <section class="cap-preview-hero">
     <span class="cap-badge"><i class="fa-solid fa-book-open"></i> 會考題目預覽</span>
     <div>

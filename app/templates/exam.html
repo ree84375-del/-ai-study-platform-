@@ -293,8 +293,8 @@
   }
 </style>
 
-<div class="mockroom">
-  <section class="mockroom-hero">
+<div class="mockroom" data-vfx="petals" data-vfx-petals="5" data-vfx-interval="13000">
+  <section class="mockroom-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="8" data-vfx-interval="10000" data-vfx-reveal>
     <span class="mockroom-badge"><i class="fa-solid fa-file-signature"></i> 弱點模擬考</span>
     <div>
       <h1>把錯題本直接變成一場限時測驗，寫完後立刻看分數和詳解。</h1>
@@ -308,7 +308,7 @@
     </div>
   </section>
 
-  <section class="mockroom-panel">
+  <section class="mockroom-panel" data-vfx-reveal>
     <div class="mockroom-head">
       <div>
         <h2>STEP 1 選組卷策略</h2>
@@ -330,7 +330,7 @@
     </div>
   </section>
 
-  <section class="mockroom-panel">
+  <section class="mockroom-panel" data-vfx-reveal>
     <div class="mockroom-head">
       <div>
         <h2>STEP 2 選題數與科目</h2>
@@ -369,7 +369,7 @@
   </section>
 
   {% if mistakes %}
-  <section class="mockroom-panel">
+  <section class="mockroom-panel" data-vfx-reveal>
     <div class="mockroom-head">
       <div>
         <h2>STEP 3 開始作答</h2>
@@ -410,7 +410,7 @@
     </form>
   </section>
 
-  <section class="mockroom-panel mockroom-result" id="exam-result" hidden>
+  <section class="mockroom-panel mockroom-result jp-vfx-scene" id="exam-result" data-vfx="sparks" data-vfx-sparks="18" data-vfx-interval="9000" hidden>
     <div class="mockroom-head">
       <div>
         <h2>模擬考結果</h2>

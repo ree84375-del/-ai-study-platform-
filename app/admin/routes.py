@@ -226,6 +226,38 @@ def dashboard():
                             timedelta=timedelta,
                             current_time=datetime.now())
 
+@admin.route('/question-staging')
+def question_staging():
+    """Safe review room for future question-bank imports.
+
+    New imported question banks must be inspected here first. This route is
+    intentionally read-only: it never publishes staged data to the student
+    practice routes.
+    """
+    from app.utils.question_staging import build_question_staging_payload
+
+    try:
+        formal_question_count = Question.query.count()
+    except Exception:
+        db.session.rollback()
+        formal_question_count = 0
+
+    payload = build_question_staging_payload(formal_question_count=formal_question_count)
+    for collection_name in ('staging_files', 'review_files'):
+        for item in payload.get(collection_name, []):
+            try:
+                item['modified_label'] = datetime.fromtimestamp(item['modified']).strftime('%Y-%m-%d %H:%M')
+            except Exception:
+                item['modified_label'] = '未知'
+
+    return render_template(
+        'admin/question_staging.html',
+        title='題庫審核室',
+        payload=payload,
+        current_time=datetime.now(timezone.utc),
+    )
+
+
 @admin.route('/security_monitor')
 @login_required
 def security_monitor():

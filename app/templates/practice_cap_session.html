@@ -277,19 +277,24 @@
   }
 
   .cap-visual-box img {
-    width: 100%;
+    width: auto;
+    max-width: min(100%, 760px);
+    max-height: 520px;
     display: block;
+    margin: 0 auto;
     border-radius: 18px;
     border: 1px solid rgba(73, 98, 138, 0.14);
     background: #fff;
     padding: 0.35rem;
+    object-fit: contain;
   }
 
   .cap-option-image {
     width: auto;
-    max-width: min(100%, 360px);
-    max-height: 220px;
+    max-width: min(100%, 320px);
+    max-height: 190px;
     display: block;
+    margin-top: 0.45rem;
     object-fit: contain;
     border-radius: 18px;
     border: 1px solid rgba(73, 98, 138, 0.14);
@@ -379,7 +384,7 @@
   }
 </style>
 
-<div class="cap-session-shell">
+<div class="cap-session-shell" data-vfx="petals" data-vfx-petals="4" data-vfx-interval="14000">
   {% if view_state == 'setup' %}
   <section class="cap-session-hero">
     <span class="cap-badge"><i class="fa-solid fa-sliders"></i> 會考練習設定</span>

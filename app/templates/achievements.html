@@ -2,7 +2,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="achievement-stage">
+<div class="achievement-stage" data-vfx="petals" data-vfx-petals="9" data-vfx-interval="11000">
     <section class="achievement-hero shrine-hero">
         <div class="achievement-hero-copy">
             <span class="achievement-badge"><i class="fa-solid fa-torii-gate"></i> 學習神社</span>
@@ -15,7 +15,7 @@
         </div>
     </section>
 
-    <section class="achievement-overview">
+    <section class="achievement-overview" data-vfx-reveal>
         <div class="achievement-stat">
             <span>目前段位</span>
             <strong>{{ rank.current.name }}</strong>
@@ -47,8 +47,24 @@
         </div>
     </section>
 
+    {% set unlocked_cards = cards|selectattr('unlocked')|list %}
+    {% set trophy_card = summary.next_card if summary.next_card else (unlocked_cards[-1] if unlocked_cards else cards[0]) %}
+    <section class="achievement-collection-panel achievement-trophy-cabinet jp-vfx-scene" data-vfx="petals sparks" data-vfx-petals="6" data-vfx-sparks="16" data-vfx-interval="12000" data-vfx-reveal>
+        <div class="achievement-trophy-copy">
+            <span class="achievement-section-kicker">SSR 成就獎盃櫃</span>
+            <h2>獎盃只在成就系統發光，其他頁面保持日式學習節奏。</h2>
+            <p>這裡使用你給的 3D / VFX 參考：金屬質感、emission 邊光、bloom 光暈、aura 光環、粒子與慢速浮動旋轉；但它只服務「解鎖、段位、重大完成」這些值得慶祝的時刻。</p>
+            <div class="achievement-rarity-strip" aria-label="成就稀有度">
+                <span>普通</span><span>稀有</span><span>史詩</span><span>傳說</span><span>SSR</span>
+            </div>
+        </div>
+        {% set trophy_stage_size = '280px' %}
+        {% set trophy_size = '150px' %}
+        {% include "_achievement_trophy.html" %}
+    </section>
+
     <section class="achievement-shrine-grid">
-        <article class="achievement-rank-card">
+        <article class="achievement-rank-card" data-vfx-reveal>
             <div class="achievement-card-top">
                 <div class="achievement-icon achievement-tone-indigo"><i class="fa-solid {{ rank.current.icon }}"></i></div>
                 <span class="achievement-status">{{ rank.progress }}%</span>
@@ -59,7 +75,7 @@
             <div class="achievement-progress"><span style="width: {{ rank.progress }}%;"></span></div>
         </article>
 
-        <article class="achievement-sakura-card">
+        <article class="achievement-sakura-card" data-vfx-reveal>
             <span class="achievement-section-kicker">櫻花樹成長</span>
             <div class="sakura-tree" style="--petals: {{ sakura.petals }};">
                 <div class="sakura-trunk"></div>
@@ -74,7 +90,7 @@
             <div class="achievement-progress"><span style="width: {{ sakura.growth }}%;"></span></div>
         </article>
 
-        <article class="achievement-event-card achievement-tone-{{ seasonal_event.tone }}">
+        <article class="achievement-event-card achievement-tone-{{ seasonal_event.tone }}" data-vfx-reveal>
             <div class="achievement-icon"><i class="fa-solid {{ seasonal_event.icon }}"></i></div>
             <span class="achievement-section-kicker">季節活動</span>
             <h2>{{ seasonal_event.name }}</h2>
@@ -83,7 +99,7 @@
         </article>
     </section>
 
-    <section class="achievement-focus">
+    <section class="achievement-focus jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="8" data-vfx-interval="10000" data-vfx-reveal>
         <div>
             <span class="achievement-section-kicker">今日建議</span>
             {% if summary.next_card %}
@@ -113,7 +129,7 @@
         </div>
     </section>
 
-    <section class="achievement-collection-panel">
+    <section class="achievement-collection-panel" data-vfx-reveal>
         <div class="achievement-book-head">
             <div>
                 <span class="achievement-section-kicker">御守收藏</span>
@@ -191,7 +207,7 @@
 
         <div class="achievement-grid">
             {% for card in cards %}
-            <article class="achievement-card achievement-tone-{{ card.tone }}{% if card.unlocked %} is-unlocked{% else %} is-locked{% endif %}" data-achievement-card data-category="{{ card.category }}">
+            <article class="achievement-card achievement-tone-{{ card.tone }} achievement-rarity-{{ card.rarity }}{% if card.unlocked %} is-unlocked{% else %} is-locked{% endif %}" data-achievement-card data-category="{{ card.category }}" data-vfx-reveal>
                 <div class="achievement-card-top">
                     <div class="achievement-icon">
                         <i class="fa-solid {{ card.icon }}"></i>
@@ -202,6 +218,7 @@
                 </div>
                 <div class="achievement-trophy" aria-hidden="true">
                     <span class="achievement-trophy-shine"></span>
+                    <span class="ssr-trophy-mini-ring"></span>
                     <i class="fa-solid fa-trophy"></i>
                     <b></b>
                 </div>
