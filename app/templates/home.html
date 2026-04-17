@@ -31,6 +31,78 @@
     {% endif %}
 
     {% if current_user.is_authenticated %}
+
+    <section class="home-command-center">
+        <div class="home-command-hero">
+            <div class="home-command-copy">
+                <span class="home-kicker"><i class="fa-solid fa-torii-gate"></i> 學習主城</span>
+                <h1>今天從哪裡開始修行？</h1>
+                <p>
+                    把刷題、會考、錯題本、AI 講義和成就系統拆成清楚入口。
+                    你不用在一堆卡片裡迷路，先選今天要做的事，系統再帶你往下一步走。
+                </p>
+                <div class="home-command-actions">
+                    <a class="home-primary-action" href="{{ url_for('study.practice') }}">
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                        開始刷題
+                    </a>
+                    <a class="home-secondary-action" href="{{ url_for('main.achievements') }}">
+                        <i class="fa-solid fa-stamp"></i>
+                        打開學習神社
+                    </a>
+                </div>
+            </div>
+            <div class="home-shrine-orb" aria-hidden="true">
+                <span>學</span>
+                <small>今日修行</small>
+            </div>
+        </div>
+
+        <div class="home-action-grid" aria-label="主要功能入口">
+            <a class="home-action-card home-action-practice" href="{{ url_for('study.practice') }}">
+                <span class="home-action-icon"><i class="fa-solid fa-pen-nib"></i></span>
+                <small>一步一步</small>
+                <strong>刷題控制台</strong>
+                <p>先選會考、模考、錯題或講義，再進入對應流程。</p>
+            </a>
+            <a class="home-action-card home-action-guides" href="{{ url_for('study.practice_guides') }}">
+                <span class="home-action-icon"><i class="fa-solid fa-book-open-reader"></i></span>
+                <small>章節書架</small>
+                <strong>AI 學習講義</strong>
+                <p>依科目與章節閱讀，讀完再回到題目練習。</p>
+            </a>
+            <a class="home-action-card home-action-mistakes" href="{{ url_for('study.mistakes') }}">
+                <span class="home-action-icon"><i class="fa-solid fa-ghost"></i></span>
+                <small>{{ mistakes_to_review }} 題待回收</small>
+                <strong>錯題妖怪圖鑑</strong>
+                <p>把粗心、觀念和閱讀陷阱整理成可以重練的弱點。</p>
+            </a>
+            <a class="home-action-card home-action-ai" href="{{ url_for('main.chat') }}">
+                <span class="home-action-icon"><i class="fa-solid fa-comments"></i></span>
+                <small>AI 助教</small>
+                <strong>學習相談室</strong>
+                <p>遇到卡住的題目，請 AI 用重點、步驟和易錯點說明。</p>
+            </a>
+        </div>
+
+        <div class="home-mission-strip">
+            <article>
+                <span>連續修行</span>
+                <strong data-count-up>{{ current_user.current_streak }}</strong>
+                <small>天</small>
+            </article>
+            <article>
+                <span>今日建議</span>
+                <strong>先刷 5 題</strong>
+                <small>暖身後再看錯題</small>
+            </article>
+            <article>
+                <span>下一個成就</span>
+                <strong>{% if achievement_preview %}{{ achievement_preview.rank.current.name }}{% else %}見習生{% endif %}</strong>
+                <small>完成練習會更新朱印帳</small>
+            </article>
+        </div>
+    </section>
     
     <!-- Countdown Card -->
     <div class="washi-card" style="padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(253, 242, 242, 0.7) 100%); border-left: 5px solid var(--color-accent);">

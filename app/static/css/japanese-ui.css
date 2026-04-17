@@ -2157,9 +2157,548 @@ body.jp-site .reader-panel summary:hover {
   background: linear-gradient(90deg, var(--jp-vermilion), var(--jp-gold), var(--jp-sage));
 }
 
+.home-command-center,
+.practice-gate {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.home-command-hero,
+.practice-gate-hero,
+.practice-stepper,
+.practice-gate-layout,
+.practice-next-strip {
+  border: 1px solid color-mix(in srgb, var(--jp-theme-line, var(--jp-line)) 82%, transparent);
+  box-shadow: var(--jp-shadow-soft);
+  backdrop-filter: blur(18px);
+}
+
+.home-command-hero,
+.practice-gate-hero {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(240px, 0.88fr);
+  gap: 1.1rem;
+  align-items: center;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 86% 10%, color-mix(in srgb, var(--jp-theme-accent-2, var(--jp-gold)) 26%, transparent), transparent 30%),
+    radial-gradient(circle at 18% 88%, color-mix(in srgb, var(--jp-theme-accent, var(--jp-vermilion)) 14%, transparent), transparent 26%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), color-mix(in srgb, var(--jp-theme-card, #fffaf0) 84%, white));
+}
+
+.home-command-hero::before,
+.practice-gate-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, rgba(80, 60, 40, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(80, 60, 40, 0.025) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, black, transparent 78%);
+}
+
+.home-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  padding: 0.48rem 0.9rem;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--jp-theme-accent, var(--jp-indigo)), var(--jp-theme-accent-2, var(--jp-gold)));
+  font-size: 0.86rem;
+  font-weight: 900;
+  box-shadow: 0 14px 28px color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 18%, transparent);
+}
+
+.home-command-copy h1,
+.practice-gate-copy h1,
+.practice-stepper h2,
+.practice-choice-panel h2 {
+  margin: 0;
+  color: var(--jp-theme-ink, var(--jp-ink));
+  font-family: "Kaisei Tokumin", serif;
+  letter-spacing: -0.045em;
+}
+
+.home-command-copy h1,
+.practice-gate-copy h1 {
+  margin-top: 1rem;
+  font-size: clamp(2.35rem, 5.6vw, 4.8rem);
+  line-height: 1.02;
+  max-width: 820px;
+}
+
+.home-command-copy p,
+.practice-gate-copy p,
+.practice-stepper p,
+.practice-lane-card p,
+.practice-choice-panel p,
+.practice-next-strip p {
+  color: var(--jp-muted);
+  line-height: 1.86;
+}
+
+.home-command-copy p,
+.practice-gate-copy p {
+  max-width: 790px;
+  margin: 0.9rem 0 0;
+}
+
+.home-command-actions,
+.practice-choice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.home-primary-action,
+.home-secondary-action,
+.practice-primary-action,
+.practice-secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 50px;
+  padding: 0.78rem 1.18rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+.home-primary-action,
+.practice-primary-action {
+  color: #fff;
+  background: linear-gradient(135deg, var(--jp-theme-accent, var(--jp-indigo)), color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 72%, #111));
+  box-shadow: 0 18px 34px color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 22%, transparent);
+}
+
+.home-secondary-action,
+.practice-secondary-action {
+  color: var(--jp-theme-ink, var(--jp-ink));
+  border: 1px solid var(--jp-line);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.home-shrine-orb {
+  justify-self: center;
+  position: relative;
+  width: min(280px, 54vw);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 42% 58% 53% 47% / 44% 42% 58% 56%;
+  border: 2px solid color-mix(in srgb, var(--jp-theme-accent, var(--jp-vermilion)) 54%, transparent);
+  color: var(--jp-theme-accent, var(--jp-vermilion));
+  background:
+    radial-gradient(circle at 50% 48%, rgba(255, 255, 255, 0.86), transparent 44%),
+    radial-gradient(circle, color-mix(in srgb, var(--jp-theme-accent-2, var(--jp-gold)) 22%, transparent), transparent 72%);
+  animation: shrineOrbBreath 7s ease-in-out infinite;
+}
+
+.home-shrine-orb span {
+  font-family: "Kaisei Tokumin", serif;
+  font-size: clamp(4.5rem, 10vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 14px 28px color-mix(in srgb, var(--jp-theme-accent, var(--jp-vermilion)) 18%, transparent);
+}
+
+.home-shrine-orb small {
+  position: absolute;
+  bottom: 20%;
+  font-weight: 900;
+}
+
+.home-action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.95rem;
+}
+
+.home-action-card,
+.practice-lane-card,
+.practice-choice-panel,
+.practice-next-strip article,
+.home-mission-strip article,
+.practice-gate-stats article {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--jp-line);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 18px 42px rgba(64, 46, 30, 0.08);
+}
+
+.home-action-card {
+  display: grid;
+  gap: 0.75rem;
+  min-height: 230px;
+  padding: 1.2rem;
+  text-decoration: none;
+  color: var(--jp-theme-ink, var(--jp-ink));
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.home-action-card::before,
+.practice-lane-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 82% 16%, var(--card-glow, rgba(201, 154, 62, 0.2)), transparent 38%);
+  opacity: 0.86;
+}
+
+.home-action-card:hover,
+.practice-lane-card:hover,
+.practice-lane-card.is-active {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--card-accent, var(--jp-theme-accent, var(--jp-indigo))) 34%, white);
+  box-shadow: 0 26px 52px color-mix(in srgb, var(--card-accent, var(--jp-theme-accent, var(--jp-indigo))) 16%, transparent);
+}
+
+.home-action-practice,
+.practice-lane-card[data-lane="cap"] {
+  --card-accent: #214e82;
+  --card-glow: rgba(68, 112, 176, 0.2);
+}
+
+.home-action-guides,
+.practice-lane-card[data-lane="guides"] {
+  --card-accent: #557866;
+  --card-glow: rgba(85, 120, 102, 0.2);
+}
+
+.home-action-mistakes,
+.practice-lane-card[data-lane="mistakes"] {
+  --card-accent: #8a3144;
+  --card-glow: rgba(196, 76, 104, 0.2);
+}
+
+.home-action-ai,
+.practice-lane-card[data-lane="mock"] {
+  --card-accent: #9b5a25;
+  --card-glow: rgba(229, 157, 77, 0.22);
+}
+
+.practice-lane-card[data-lane="general"] {
+  --card-accent: #7d746c;
+  --card-glow: rgba(125, 116, 108, 0.16);
+}
+
+.home-action-icon,
+.practice-lane-icon {
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  color: var(--card-accent, var(--jp-theme-accent, var(--jp-indigo)));
+  background: color-mix(in srgb, var(--card-accent, var(--jp-theme-accent, var(--jp-indigo))) 12%, white);
+  font-size: 1.35rem;
+}
+
+.home-action-card small,
+.practice-lane-card small,
+.practice-next-strip span,
+.home-mission-strip span,
+.practice-gate-stats span {
+  color: color-mix(in srgb, var(--card-accent, var(--jp-theme-accent, var(--jp-indigo))) 78%, #57483d);
+  font-weight: 900;
+}
+
+.home-action-card strong,
+.practice-lane-card strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  color: var(--jp-theme-ink, var(--jp-ink));
+  font-family: "Kaisei Tokumin", serif;
+  font-size: 1.45rem;
+}
+
+.home-action-card p,
+.practice-lane-card p {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+}
+
+.home-mission-strip,
+.practice-gate-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.home-mission-strip article,
+.practice-gate-stats article {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem 1.1rem;
+}
+
+.home-mission-strip strong,
+.practice-gate-stats strong {
+  color: var(--jp-theme-ink, var(--jp-ink));
+  font-size: clamp(1.65rem, 3vw, 2.45rem);
+  line-height: 1;
+}
+
+.home-mission-strip small,
+.practice-gate-stats small {
+  color: var(--jp-muted);
+  font-weight: 800;
+}
+
+.practice-gate {
+  max-width: 1180px;
+  margin: 0 auto 3rem;
+  padding: 0 1rem 2rem;
+}
+
+.practice-gate-stats {
+  align-self: stretch;
+}
+
+.practice-stepper {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.practice-stepper h2 {
+  margin-top: 0.8rem;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.practice-stepper p {
+  margin: 0.45rem 0 0;
+}
+
+.practice-flow-rail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.practice-flow-rail li {
+  display: grid;
+  gap: 0.4rem;
+  min-height: 92px;
+  padding: 0.85rem;
+  border-radius: 22px;
+  border: 1px solid var(--jp-line);
+  background: color-mix(in srgb, var(--jp-theme-card, #fffaf0) 82%, white);
+  color: var(--jp-muted);
+  font-weight: 900;
+}
+
+.practice-flow-rail span {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #fff;
+  background: var(--jp-theme-accent, var(--jp-indigo));
+}
+
+.practice-flow-rail .is-active {
+  border-color: color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 34%, white);
+  color: var(--jp-theme-ink, var(--jp-ink));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 10%, white));
+}
+
+.practice-gate-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 6% 14%, color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 10%, transparent), transparent 28%),
+    rgba(255, 255, 255, 0.72);
+}
+
+.practice-lane-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.practice-lane-card {
+  appearance: none;
+  border: 1px solid var(--jp-line);
+  cursor: pointer;
+  min-height: 236px;
+  padding: 1.15rem;
+  text-align: left;
+  display: grid;
+  gap: 0.7rem;
+  color: var(--jp-theme-ink, var(--jp-ink));
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, opacity 0.22s ease;
+}
+
+.practice-lane-card em {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  color: var(--card-accent, var(--jp-theme-accent, var(--jp-indigo)));
+  background: rgba(255, 255, 255, 0.72);
+  font-style: normal;
+  font-weight: 900;
+}
+
+.practice-lane-card.is-disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+  filter: grayscale(0.22);
+}
+
+.practice-choice-panel {
+  position: sticky;
+  top: 92px;
+  align-self: start;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--jp-theme-accent-2, var(--jp-gold)) 20%, transparent), transparent 36%),
+    rgba(255, 255, 255, 0.86);
+}
+
+.practice-choice-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.practice-choice-head span {
+  padding: 0.45rem 0.78rem;
+  border-radius: 999px;
+  color: var(--jp-theme-accent, var(--jp-indigo));
+  background: color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 12%, white);
+  font-weight: 900;
+}
+
+.practice-choice-head i {
+  width: 54px;
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--jp-theme-accent, var(--jp-indigo)), var(--jp-theme-accent-2, var(--jp-gold)));
+  box-shadow: 0 16px 32px color-mix(in srgb, var(--jp-theme-accent, var(--jp-indigo)) 16%, transparent);
+}
+
+.practice-choice-panel h2 {
+  font-size: clamp(1.8rem, 3vw, 2.55rem);
+}
+
+.practice-choice-panel p {
+  margin: 0;
+}
+
+.practice-choice-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.practice-choice-chips span {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  color: var(--jp-theme-ink, var(--jp-ink));
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid var(--jp-line);
+  font-size: 0.84rem;
+  font-weight: 900;
+}
+
+.practice-choice-steps {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.practice-choice-steps article {
+  padding: 0.8rem 0.9rem;
+  border-radius: 18px;
+  border: 1px solid var(--jp-line);
+  background: rgba(255, 255, 255, 0.7);
+  animation: paperUnfold 0.32s ease both;
+}
+
+.practice-choice-steps strong {
+  display: block;
+  color: var(--jp-theme-accent, var(--jp-indigo));
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+.practice-choice-steps span {
+  display: block;
+  margin-top: 0.22rem;
+  color: var(--jp-muted);
+  line-height: 1.72;
+}
+
+.practice-next-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  padding: 1rem;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.practice-next-strip article {
+  padding: 1rem;
+}
+
+.practice-next-strip strong {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--jp-theme-ink, var(--jp-ink));
+  font-family: "Kaisei Tokumin", serif;
+  font-size: 1.2rem;
+}
+
+.practice-next-strip p {
+  margin: 0.45rem 0 0;
+}
+
 @keyframes jpWashiBreath {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@keyframes shrineOrbBreath {
+  0%, 100% { transform: translateY(0) rotate(-2deg); border-radius: 42% 58% 53% 47% / 44% 42% 58% 56%; }
+  50% { transform: translateY(-8px) rotate(2deg); border-radius: 54% 46% 44% 56% / 50% 54% 46% 50%; }
 }
 
 @keyframes jpPetalFloat {
@@ -2291,6 +2830,10 @@ body.jp-site .reader-panel summary:hover {
   }
 
   body.jp-site .entry-hero,
+  body.jp-site .home-command-hero,
+  body.jp-site .practice-gate-hero,
+  body.jp-site .practice-stepper,
+  body.jp-site .practice-gate-layout,
   body.jp-site .cap-stage-hero,
   body.jp-site .cap-subject-hero,
   body.jp-site .cap-mode-hero,
@@ -2343,6 +2886,28 @@ body.jp-site .reader-panel summary:hover {
     grid-template-columns: 1fr;
   }
 
+  .home-command-hero,
+  .practice-gate-hero,
+  .practice-stepper,
+  .practice-gate-layout,
+  .home-action-grid,
+  .home-mission-strip,
+  .practice-gate-stats,
+  .practice-flow-rail,
+  .practice-lane-grid,
+  .practice-next-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-choice-panel {
+    position: static;
+  }
+
+  .home-shrine-orb {
+    justify-self: start;
+    width: min(210px, 72vw);
+  }
+
   .achievement-trophy {
     right: 0.75rem;
     bottom: 4.6rem;
@@ -2370,6 +2935,26 @@ body.jp-site .reader-panel summary:hover {
   .jp-dashboard-grid {
     grid-template-columns: 1fr;
   }
+
+  .home-command-hero,
+  .practice-gate-hero,
+  .practice-stepper,
+  .practice-gate-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .home-action-grid,
+  .practice-lane-grid,
+  .practice-next-strip,
+  .home-mission-strip,
+  .practice-gate-stats,
+  .practice-flow-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .practice-choice-panel {
+    position: static;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2390,6 +2975,8 @@ body.jp-site .reader-panel summary:hover {
   .achievement-trophy::after,
   .trophy-orbit,
   .trophy-stars em,
+  .home-shrine-orb,
+  .practice-choice-steps article,
   .jp-question-transition,
   .score-reveal,
   .mockroom-score,
