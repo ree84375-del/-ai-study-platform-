@@ -225,6 +225,68 @@ body.jp-site footer {
   z-index: 0;
 }
 
+.jp-webgl-glow,
+.jp-particle-canvas,
+.jp-svg-constellation {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.jp-webgl-glow {
+  opacity: 0.78;
+  mix-blend-mode: multiply;
+}
+
+.jp-particle-canvas {
+  opacity: 0.72;
+  mix-blend-mode: soft-light;
+}
+
+.jp-svg-constellation {
+  height: 46vh;
+  overflow: hidden;
+  opacity: 0.42;
+  transform: translateZ(0);
+}
+
+.jp-svg-constellation svg {
+  width: 100%;
+  height: 100%;
+}
+
+.jp-svg-constellation .jp-line {
+  fill: none;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-dasharray: 10 18;
+  animation: jpSvgFlow 18s linear infinite;
+  filter: drop-shadow(0 8px 14px rgba(23, 58, 94, 0.08));
+}
+
+.jp-line-a {
+  stroke: rgba(201, 154, 62, 0.5);
+}
+
+.jp-line-b {
+  stroke: rgba(85, 120, 102, 0.42);
+  animation-duration: 23s !important;
+  animation-direction: reverse !important;
+}
+
+.jp-line-c {
+  stroke: rgba(185, 79, 53, 0.32);
+  animation-duration: 29s !important;
+}
+
+body.jp-low-power .jp-webgl-glow,
+body.jp-low-power .jp-svg-constellation {
+  display: none;
+}
+
 .jp-ambience span {
   position: absolute;
   width: 9px;
@@ -250,7 +312,7 @@ body.jp-page-mistakes .jp-ambience span {
 
 main.container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 body.jp-site .entry-studio,
@@ -1480,6 +1542,27 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   animation: paperUnfold 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.jp-tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.jp-tilt-card.is-tilting {
+  transform:
+    perspective(920px)
+    rotateX(var(--jp-tilt-x, 0deg))
+    rotateY(var(--jp-tilt-y, 0deg))
+    translateY(-4px) !important;
+  transition: transform 0.12s ease-out, box-shadow 0.2s ease !important;
+  box-shadow: 0 26px 68px rgba(45, 36, 27, 0.16) !important;
+}
+
+.jp-tilt-card.is-tilting::after {
+  background:
+    radial-gradient(circle at var(--jp-tilt-glow-x, 50%) var(--jp-tilt-glow-y, 50%), rgba(255, 255, 255, 0.52), transparent 22%),
+    radial-gradient(circle at var(--jp-ripple-x, 50%) var(--jp-ripple-y, 50%), rgba(255, 244, 207, 0.4), transparent 28%);
+}
+
 .jp-question-transition {
   animation: questionPaperSlide 0.42s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1865,6 +1948,11 @@ body.jp-site .reader-panel summary:hover {
   }
 }
 
+@keyframes jpSvgFlow {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -280; }
+}
+
 @keyframes jpInkRipple {
   to {
     opacity: 0;
@@ -1940,6 +2028,10 @@ body.jp-site .reader-panel summary:hover {
 
   .jp-ambience span:nth-child(n + 9) {
     display: none;
+  }
+
+  .jp-particle-canvas {
+    opacity: 0.42;
   }
 
   body.jp-site .entry-hero,
@@ -2027,6 +2119,9 @@ body.jp-site .reader-panel summary:hover {
 @media (prefers-reduced-motion: reduce) {
   body.jp-site,
   .jp-ambience span,
+  .jp-webgl-glow,
+  .jp-particle-canvas,
+  .jp-svg-constellation,
   .jp-reveal,
   .jp-ink-ripple,
   .is-paper-opening,
@@ -2042,6 +2137,12 @@ body.jp-site .reader-panel summary:hover {
   .result-score {
     animation: none !important;
     transition: none !important;
+  }
+
+  .jp-webgl-glow,
+  .jp-particle-canvas,
+  .jp-svg-constellation {
+    display: none !important;
   }
 
   .jp-reveal {

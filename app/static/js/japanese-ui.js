@@ -9,11 +9,16 @@
   document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("jp-loaded");
     initPageTheme();
+    initPerformanceBudget();
     mountAmbience();
+    mountWebglGlow();
+    mountParticleField();
+    mountSvgConstellation();
     initReveal();
     initCountUp();
     initInkRipple();
     initPointerGlow();
+    init3DTiltCards();
     initPaperUnfold();
     initStepFocus();
     initAchievementFilters();
@@ -43,6 +48,18 @@
     document.body.classList.add(matched ? matched.name : "jp-page-default");
   }
 
+  function initPerformanceBudget() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const saveData = Boolean(connection && connection.saveData);
+    const smallScreen = window.innerWidth < 760;
+    const lowMemory = Number(navigator.deviceMemory || 8) <= 4;
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const lowPower = reduceMotion || saveData || (smallScreen && (lowMemory || coarsePointer));
+
+    document.body.classList.toggle("jp-low-power", lowPower);
+    document.body.classList.toggle("jp-fx-ready", !lowPower);
+  }
+
   function mountAmbience() {
     if (reduceMotion || document.querySelector(".jp-ambience")) return;
 
@@ -66,6 +83,292 @@
     }
 
     document.body.prepend(ambience);
+  }
+
+  function mountWebglGlow() {
+    if (reduceMotion || document.body.classList.contains("jp-low-power") || document.querySelector(".jp-webgl-glow")) return;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "jp-webgl-glow";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.prepend(canvas);
+
+    const gl = canvas.getContext("webgl", {
+      alpha: true,
+      antialias: false,
+      depth: false,
+      stencil: false,
+      powerPreference: "low-power"
+    });
+    if (!gl) {
+      canvas.remove();
+      return;
+    }
+
+    const vertexSource = `
+      attribute vec2 a_position;
+      void main() {
+        gl_Position = vec4(a_position, 0.0, 1.0);
+      }
+    `;
+    const fragmentSource = `
+      precision mediump float;
+      uniform vec2 u_resolution;
+      uniform float u_time;
+      void main() {
+        vec2 uv = gl_FragCoord.xy / max(u_resolution.xy, vec2(1.0));
+        vec2 p = uv - 0.5;
+        float wave = sin((p.x * 4.0 + p.y * 2.0 + u_time * 0.18) * 3.14159) * 0.5 + 0.5;
+        float orbA = smoothstep(0.62, 0.02, distance(uv, vec2(0.18 + sin(u_time * 0.11) * 0.035, 0.22)));
+        float orbB = smoothstep(0.56, 0.02, distance(uv, vec2(0.84, 0.16 + cos(u_time * 0.09) * 0.04)));
+        float orbC = smoothstep(0.72, 0.03, distance(uv, vec2(0.74 + sin(u_time * 0.07) * 0.04, 0.82)));
+        vec3 gold = vec3(0.95, 0.68, 0.25);
+        vec3 indigo = vec3(0.08, 0.23, 0.38);
+        vec3 sage = vec3(0.30, 0.48, 0.40);
+        vec3 color = gold * orbA + indigo * orbB + sage * orbC;
+        float alpha = (orbA + orbB + orbC) * 0.105 + wave * 0.014;
+        gl_FragColor = vec4(color, min(alpha, 0.18));
+      }
+    `;
+
+    const makeShader = (type, source) => {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        gl.deleteShader(shader);
+        return null;
+      }
+      return shader;
+    };
+
+    const vertexShader = makeShader(gl.VERTEX_SHADER, vertexSource);
+    const fragmentShader = makeShader(gl.FRAGMENT_SHADER, fragmentSource);
+    if (!vertexShader || !fragmentShader) {
+      canvas.remove();
+      return;
+    }
+
+    const program = gl.createProgram();
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentShader);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      canvas.remove();
+      return;
+    }
+
+    const positions = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positions);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+
+    const positionLocation = gl.getAttribLocation(program, "a_position");
+    const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+    const timeLocation = gl.getUniformLocation(program, "u_time");
+
+    let width = 0;
+    let height = 0;
+    let rafId = 0;
+    let last = 0;
+
+    const resize = () => {
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.35);
+      width = Math.max(1, Math.floor(window.innerWidth * ratio));
+      height = Math.max(1, Math.floor(window.innerHeight * ratio));
+      canvas.width = width;
+      canvas.height = height;
+      gl.viewport(0, 0, width, height);
+    };
+
+    const render = (time) => {
+      if (document.hidden) {
+        rafId = requestAnimationFrame(render);
+        return;
+      }
+      if (time - last < 33) {
+        rafId = requestAnimationFrame(render);
+        return;
+      }
+      last = time;
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(program);
+      gl.enableVertexAttribArray(positionLocation);
+      gl.bindBuffer(gl.ARRAY_BUFFER, positions);
+      gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+      gl.uniform2f(resolutionLocation, width, height);
+      gl.uniform1f(timeLocation, time * 0.001);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      rafId = requestAnimationFrame(render);
+    };
+
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+    rafId = requestAnimationFrame(render);
+
+    window.addEventListener("beforeunload", () => cancelAnimationFrame(rafId), { once: true });
+  }
+
+  function mountParticleField() {
+    if (reduceMotion || document.querySelector(".jp-particle-canvas")) return;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "jp-particle-canvas";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.prepend(canvas);
+
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) {
+      canvas.remove();
+      return;
+    }
+
+    const lowPower = document.body.classList.contains("jp-low-power");
+    const palette = getParticlePalette();
+    const pointer = { x: -9999, y: -9999, active: false };
+    const particles = [];
+    let width = 0;
+    let height = 0;
+    let ratio = 1;
+    let rafId = 0;
+    let last = 0;
+
+    const resize = () => {
+      ratio = Math.min(window.devicePixelRatio || 1, lowPower ? 1 : 1.4);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.max(1, Math.floor(width * ratio));
+      canvas.height = Math.max(1, Math.floor(height * ratio));
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      seedParticles();
+    };
+
+    const seedParticles = () => {
+      const base = lowPower ? 12 : Math.min(54, Math.max(24, Math.round(width / 34)));
+      particles.length = 0;
+      for (let i = 0; i < base; i += 1) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: 1.2 + Math.random() * (lowPower ? 1.6 : 2.8),
+          vx: -0.08 + Math.random() * 0.16,
+          vy: 0.05 + Math.random() * 0.18,
+          color: palette[i % palette.length],
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    };
+
+    const draw = (time) => {
+      if (document.hidden) {
+        rafId = requestAnimationFrame(draw);
+        return;
+      }
+      if (time - last < (lowPower ? 66 : 33)) {
+        rafId = requestAnimationFrame(draw);
+        return;
+      }
+      last = time;
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalCompositeOperation = "source-over";
+
+      particles.forEach((particle, index) => {
+        particle.phase += 0.012;
+        particle.x += particle.vx + Math.sin(particle.phase) * 0.045;
+        particle.y += particle.vy;
+
+        if (pointer.active) {
+          const dx = particle.x - pointer.x;
+          const dy = particle.y - pointer.y;
+          const dist = Math.max(1, Math.hypot(dx, dy));
+          if (dist < 120) {
+            const force = (120 - dist) / 120;
+            particle.x += (dx / dist) * force * 1.2;
+            particle.y += (dy / dist) * force * 1.2;
+          }
+        }
+
+        if (particle.y > height + 18) {
+          particle.y = -18;
+          particle.x = Math.random() * width;
+        }
+        if (particle.x < -18) particle.x = width + 18;
+        if (particle.x > width + 18) particle.x = -18;
+
+        ctx.beginPath();
+        ctx.fillStyle = particle.color;
+        ctx.globalAlpha = lowPower ? 0.22 : 0.34;
+        ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        const next = particles[index + 1];
+        if (next && index % 3 === 0) {
+          const lineDistance = Math.hypot(particle.x - next.x, particle.y - next.y);
+          if (lineDistance < 170) {
+            ctx.beginPath();
+            ctx.globalAlpha = (1 - lineDistance / 170) * 0.11;
+            ctx.strokeStyle = particle.color;
+            ctx.lineWidth = 1;
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(next.x, next.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      ctx.globalAlpha = 1;
+      rafId = requestAnimationFrame(draw);
+    };
+
+    const onPointerMove = (event) => {
+      pointer.x = event.clientX;
+      pointer.y = event.clientY;
+      pointer.active = true;
+    };
+
+    const onPointerLeave = () => {
+      pointer.active = false;
+    };
+
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerleave", onPointerLeave, { passive: true });
+    rafId = requestAnimationFrame(draw);
+
+    window.addEventListener("beforeunload", () => cancelAnimationFrame(rafId), { once: true });
+  }
+
+  function mountSvgConstellation() {
+    if (reduceMotion || document.body.classList.contains("jp-low-power") || document.querySelector(".jp-svg-constellation")) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "jp-svg-constellation";
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.innerHTML = `
+      <svg viewBox="0 0 1000 420" preserveAspectRatio="none">
+        <path class="jp-line jp-line-a" d="M12 108 C 160 20, 252 196, 388 112 S 650 34, 812 118 S 946 122, 1000 74"></path>
+        <path class="jp-line jp-line-b" d="M0 330 C 142 272, 224 404, 386 318 S 638 246, 796 310 S 934 358, 1000 294"></path>
+        <path class="jp-line jp-line-c" d="M104 22 C 232 86, 194 204, 328 246 S 568 222, 642 326 S 812 408, 936 342"></path>
+      </svg>
+    `;
+    document.body.prepend(wrap);
+  }
+
+  function getParticlePalette() {
+    if (document.body.classList.contains("jp-page-cap")) {
+      return ["rgba(23,58,94,0.72)", "rgba(201,154,62,0.64)", "rgba(80,125,168,0.52)"];
+    }
+    if (document.body.classList.contains("jp-page-mistakes")) {
+      return ["rgba(138,49,68,0.62)", "rgba(185,79,53,0.46)", "rgba(23,58,94,0.38)"];
+    }
+    if (document.body.classList.contains("jp-page-guides")) {
+      return ["rgba(85,120,102,0.62)", "rgba(201,154,62,0.48)", "rgba(64,112,92,0.42)"];
+    }
+    if (document.body.classList.contains("jp-page-chat")) {
+      return ["rgba(61,108,154,0.58)", "rgba(201,154,62,0.45)", "rgba(255,255,255,0.5)"];
+    }
+    return ["rgba(185,79,53,0.45)", "rgba(201,154,62,0.58)", "rgba(85,120,102,0.42)"];
   }
 
   function initReveal() {
@@ -245,6 +548,48 @@
         target.style.setProperty("--jp-ripple-x", `${event.clientX - rect.left}px`);
         target.style.setProperty("--jp-ripple-y", `${event.clientY - rect.top}px`);
       });
+    });
+  }
+
+  function init3DTiltCards() {
+    if (reduceMotion || document.body.classList.contains("jp-low-power")) return;
+
+    const cards = Array.from(
+      document.querySelectorAll(
+        ".entry-lane, .cap-year-card, .cap-subject-card, .cap-mode-option, .mockroom-card, .mistake-card, .guide-card, .reader-card, .achievement-card, .achievement-home-card, .admin-achievement-card, .jp-dashboard-card, .jp-radar-card"
+      )
+    );
+    if (!cards.length) return;
+
+    cards.forEach((card) => {
+      card.classList.add("jp-tilt-card");
+      let raf = 0;
+
+      const update = (event) => {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const px = (event.clientX - rect.left) / Math.max(1, rect.width);
+          const py = (event.clientY - rect.top) / Math.max(1, rect.height);
+          const rotateY = (px - 0.5) * 8;
+          const rotateX = (0.5 - py) * 7;
+          card.style.setProperty("--jp-tilt-x", `${rotateX.toFixed(2)}deg`);
+          card.style.setProperty("--jp-tilt-y", `${rotateY.toFixed(2)}deg`);
+          card.style.setProperty("--jp-tilt-glow-x", `${Math.round(px * 100)}%`);
+          card.style.setProperty("--jp-tilt-glow-y", `${Math.round(py * 100)}%`);
+          card.classList.add("is-tilting");
+        });
+      };
+
+      const reset = () => {
+        if (raf) cancelAnimationFrame(raf);
+        card.classList.remove("is-tilting");
+        card.style.setProperty("--jp-tilt-x", "0deg");
+        card.style.setProperty("--jp-tilt-y", "0deg");
+      };
+
+      card.addEventListener("pointermove", update, { passive: true });
+      card.addEventListener("pointerleave", reset, { passive: true });
     });
   }
 
