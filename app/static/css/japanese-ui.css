@@ -39,6 +39,78 @@ body.jp-site {
   animation: jpWashiBreath 24s ease-in-out infinite !important;
 }
 
+body.jp-site.jp-page-home {
+  background:
+    radial-gradient(circle at 12% 9%, rgba(255, 255, 255, 0.92), transparent 23%),
+    radial-gradient(circle at 86% 8%, rgba(255, 201, 103, 0.28), transparent 30%),
+    radial-gradient(circle at 78% 82%, rgba(85, 120, 102, 0.17), transparent 27%),
+    linear-gradient(135deg, #fbf1dc 0%, #fffaf0 44%, #f5ead3 100%) !important;
+}
+
+body.jp-site.jp-page-cap {
+  --jp-page-accent: #173a5e;
+  --jp-page-accent-2: #d6a142;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(64, 112, 166, 0.18), transparent 26%),
+    radial-gradient(circle at 82% 4%, rgba(230, 181, 76, 0.28), transparent 28%),
+    radial-gradient(circle at 90% 78%, rgba(36, 71, 106, 0.16), transparent 24%),
+    linear-gradient(135deg, #edf4fb 0%, #fff9e7 46%, #efe6d2 100%) !important;
+}
+
+body.jp-site.jp-page-practice {
+  --jp-page-accent: #8a4b25;
+  --jp-page-accent-2: #557866;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 148, 91, 0.16), transparent 24%),
+    radial-gradient(circle at 84% 14%, rgba(85, 120, 102, 0.22), transparent 28%),
+    linear-gradient(135deg, #fff4df 0%, #f9f6ea 47%, #edf5e8 100%) !important;
+}
+
+body.jp-site.jp-page-mistakes {
+  --jp-page-accent: #8a3144;
+  --jp-page-accent-2: #173a5e;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(138, 49, 68, 0.16), transparent 27%),
+    radial-gradient(circle at 88% 10%, rgba(23, 58, 94, 0.18), transparent 28%),
+    linear-gradient(135deg, #fff0f3 0%, #fffaf0 45%, #eef4ff 100%) !important;
+}
+
+body.jp-site.jp-page-guides {
+  --jp-page-accent: #557866;
+  --jp-page-accent-2: #c99a3e;
+  background:
+    radial-gradient(circle at 16% 10%, rgba(85, 120, 102, 0.2), transparent 27%),
+    radial-gradient(circle at 84% 12%, rgba(201, 154, 62, 0.2), transparent 28%),
+    linear-gradient(135deg, #edf6ec 0%, #fffdf3 47%, #f2ead8 100%) !important;
+}
+
+body.jp-site.jp-page-chat {
+  --jp-page-accent: #3d6c9a;
+  --jp-page-accent-2: #c99a3e;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(61, 108, 154, 0.17), transparent 28%),
+    radial-gradient(circle at 86% 12%, rgba(255, 220, 146, 0.3), transparent 30%),
+    linear-gradient(135deg, #edf6ff 0%, #fffaf0 46%, #f5ecd9 100%) !important;
+}
+
+body.jp-site.jp-page-admin {
+  --jp-page-accent: #2f3a47;
+  --jp-page-accent-2: #b94f35;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(185, 79, 53, 0.15), transparent 28%),
+    radial-gradient(circle at 84% 10%, rgba(47, 58, 71, 0.16), transparent 30%),
+    linear-gradient(135deg, #f7eee3 0%, #fffaf0 46%, #edf1f4 100%) !important;
+}
+
+body.jp-site.jp-page-achievements {
+  --jp-page-accent: #b94f35;
+  --jp-page-accent-2: #173a5e;
+  background:
+    radial-gradient(circle at 14% 11%, rgba(185, 79, 53, 0.18), transparent 28%),
+    radial-gradient(circle at 86% 14%, rgba(23, 58, 94, 0.15), transparent 30%),
+    linear-gradient(135deg, #fff4e6 0%, #fffaf0 42%, #f2e7d1 100%) !important;
+}
+
 body.jp-site::before {
   background-image:
     linear-gradient(rgba(90, 72, 54, 0.025) 1px, transparent 1px),
@@ -162,6 +234,18 @@ body.jp-site footer {
   transform: rotate(35deg);
   animation: jpPetalFloat var(--jp-float-speed, 15s) linear infinite;
   animation-delay: var(--jp-float-delay, 0s);
+}
+
+body.jp-page-cap .jp-ambience span {
+  background: rgba(23, 58, 94, 0.12);
+}
+
+body.jp-page-guides .jp-ambience span {
+  background: rgba(85, 120, 102, 0.13);
+}
+
+body.jp-page-mistakes .jp-ambience span {
+  background: rgba(138, 49, 68, 0.12);
 }
 
 main.container {
@@ -1360,10 +1444,12 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   left: 50%;
   bottom: 18px;
   z-index: 999;
-  width: min(420px, calc(100% - 40px));
-  height: 12px;
-  padding: 3px;
-  border-radius: 999px;
+  display: grid;
+  gap: 5px;
+  width: min(520px, calc(100% - 40px));
+  min-height: 38px;
+  padding: 7px 10px 8px;
+  border-radius: 18px;
   background: rgba(255, 253, 247, 0.86);
   border: 1px solid rgba(65, 51, 39, 0.12);
   box-shadow: 0 16px 34px rgba(65, 51, 39, 0.16);
@@ -1371,13 +1457,27 @@ body.jp-site .is-active:not(.cap-progress-pill)::after {
   backdrop-filter: blur(12px);
 }
 
+.jp-scroll-label {
+  display: block;
+  color: var(--jp-ink);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
 .jp-scroll-progress span {
   display: block;
   width: 0%;
-  height: 100%;
+  height: 8px;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--jp-indigo), var(--jp-gold), var(--jp-vermilion));
   transition: width 0.18s ease;
+}
+
+.is-paper-opening {
+  transform-origin: top;
+  animation: paperUnfold 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .jp-question-transition {
@@ -1403,6 +1503,264 @@ body.jp-site .guide-accordion,
 body.jp-site .lecture-section {
   transform-origin: top;
   animation: paperUnfold 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+body.jp-site .cap-run-card,
+body.jp-site .cap-score-card,
+body.jp-site .review-card,
+body.jp-site .review-question {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(65, 51, 39, 0.12) !important;
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at var(--jp-ripple-x, 82%) var(--jp-ripple-y, 16%), rgba(255, 244, 207, 0.58), transparent 24%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.95), rgba(244, 238, 227, 0.9)) !important;
+  box-shadow: var(--jp-shadow-soft) !important;
+}
+
+body.jp-site .cap-run-card.is-active {
+  border-color: rgba(23, 58, 94, 0.26) !important;
+  box-shadow: 0 24px 60px rgba(23, 58, 94, 0.16) !important;
+}
+
+body.jp-site .cap-run-card::before,
+body.jp-site .cap-score-card::before,
+body.jp-site .review-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--jp-indigo), var(--jp-gold));
+  opacity: 0.82;
+}
+
+body.jp-site .mistake-card:nth-of-type(3n + 1) {
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.62), transparent 32%),
+    linear-gradient(145deg, rgba(255, 251, 229, 0.95), rgba(255, 244, 207, 0.78)) !important;
+}
+
+body.jp-site .mistake-card:nth-of-type(3n + 2) {
+  background:
+    radial-gradient(circle at top right, rgba(255, 240, 243, 0.72), transparent 34%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.95), rgba(255, 238, 243, 0.8)) !important;
+}
+
+body.jp-site .mistake-card:nth-of-type(3n + 3) {
+  background:
+    radial-gradient(circle at top right, rgba(237, 245, 255, 0.75), transparent 34%),
+    linear-gradient(145deg, rgba(255, 254, 251, 0.95), rgba(237, 245, 255, 0.82)) !important;
+}
+
+body.jp-site .reader-outline a,
+body.jp-site .reader-panel summary,
+body.jp-site .reader-section,
+body.jp-site .guide-card details {
+  border-radius: 18px;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+body.jp-site .reader-outline a:hover,
+body.jp-site .reader-panel summary:hover {
+  transform: translateX(4px);
+  background: rgba(255, 244, 207, 0.72) !important;
+  box-shadow: inset 4px 0 0 rgba(201, 154, 62, 0.62);
+}
+
+.jp-learning-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  gap: clamp(1rem, 3vw, 1.6rem);
+  align-items: stretch;
+  margin: clamp(1rem, 3vw, 2rem) 0;
+  padding: clamp(1.1rem, 3vw, 2rem);
+  border: 1px solid rgba(65, 51, 39, 0.12);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 244, 207, 0.82), transparent 30%),
+    radial-gradient(circle at 90% 10%, rgba(85, 120, 102, 0.14), transparent 30%),
+    linear-gradient(135deg, rgba(255, 254, 251, 0.94), rgba(247, 238, 220, 0.88));
+  box-shadow: var(--jp-shadow-soft);
+}
+
+.jp-learning-dashboard h2 {
+  margin: 0.45rem 0 0.6rem;
+  font-size: clamp(1.65rem, 3vw, 2.9rem);
+}
+
+.jp-learning-dashboard p {
+  color: var(--jp-muted);
+  line-height: 1.8;
+}
+
+.jp-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.jp-dashboard-card,
+.jp-radar-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(65, 51, 39, 0.1);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at var(--jp-ripple-x, 84%) var(--jp-ripple-y, 16%), rgba(255, 244, 207, 0.78), transparent 28%),
+    rgba(255, 255, 255, 0.74);
+  box-shadow: 0 18px 36px rgba(65, 51, 39, 0.08);
+}
+
+.jp-dashboard-card {
+  padding: 1rem;
+}
+
+.jp-dashboard-card span,
+.jp-radar-card strong {
+  color: var(--jp-muted);
+  font-weight: 900;
+}
+
+.jp-dashboard-card strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+}
+
+.jp-dashboard-card small {
+  color: var(--jp-muted);
+}
+
+.jp-radar-card {
+  display: grid;
+  place-items: center;
+  padding: 1.2rem;
+}
+
+.jp-radar-card svg {
+  width: min(100%, 280px);
+  height: auto;
+  overflow: visible;
+}
+
+.jp-radar-card text {
+  fill: var(--jp-muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-anchor: middle;
+}
+
+.radar-grid {
+  fill: rgba(255, 250, 240, 0.62);
+  stroke: rgba(23, 58, 94, 0.16);
+  stroke-width: 2;
+}
+
+.radar-grid-inner {
+  fill: transparent;
+  stroke-dasharray: 5 5;
+}
+
+.radar-fill {
+  fill: rgba(23, 58, 94, 0.2);
+  stroke: rgba(185, 79, 53, 0.78);
+  stroke-width: 3;
+  filter: drop-shadow(0 10px 16px rgba(23, 58, 94, 0.12));
+  animation: radarBloom 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center;
+}
+
+.jp-ai-status-panel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(65, 51, 39, 0.12);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 254, 251, 0.9), rgba(237, 245, 255, 0.78));
+  box-shadow: 0 12px 28px rgba(23, 58, 94, 0.08);
+}
+
+.jp-ai-status-dot {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--jp-sage);
+  box-shadow: 0 0 0 7px rgba(85, 120, 102, 0.12);
+  animation: aiPulse 1.6s ease-in-out infinite;
+}
+
+.jp-ai-status-panel strong {
+  display: block;
+  color: var(--jp-ink);
+  font-weight: 900;
+}
+
+.jp-ai-status-panel small {
+  display: block;
+  color: var(--jp-muted);
+  line-height: 1.5;
+}
+
+.jp-ai-status-panel[data-state="thinking"] .jp-ai-status-dot {
+  background: var(--jp-indigo);
+  box-shadow: 0 0 0 7px rgba(23, 58, 94, 0.13);
+}
+
+.jp-ai-status-panel[data-state="slow"] {
+  background: linear-gradient(135deg, rgba(255, 244, 207, 0.88), rgba(255, 254, 251, 0.9));
+}
+
+.jp-ai-status-panel[data-state="fallback"] {
+  background: linear-gradient(135deg, rgba(255, 240, 243, 0.9), rgba(255, 254, 251, 0.92));
+}
+
+.jp-ai-status-panel[data-state="fallback"] .jp-ai-status-dot {
+  background: var(--jp-vermilion);
+  box-shadow: 0 0 0 7px rgba(185, 79, 53, 0.12);
+}
+
+.jp-achievement-toast {
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: 88px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: min(420px, calc(100% - 32px));
+  padding: 0.95rem 1.1rem;
+  border: 1px solid rgba(201, 154, 62, 0.28);
+  border-radius: 22px;
+  color: var(--jp-ink);
+  background:
+    radial-gradient(circle at top right, rgba(255, 244, 207, 0.88), transparent 42%),
+    rgba(255, 254, 251, 0.92);
+  box-shadow: 0 22px 48px rgba(65, 51, 39, 0.18);
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(14px);
+}
+
+.jp-achievement-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.jp-achievement-toast i {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--jp-gold), var(--jp-vermilion));
 }
 
 .admin-achievement-shell {
@@ -1560,6 +1918,16 @@ body.jp-site .lecture-section {
   100% { opacity: 1; transform: scaleY(1) translateY(0); }
 }
 
+@keyframes radarBloom {
+  0% { opacity: 0; transform: scale(0.72) rotate(-4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes aiPulse {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.18); filter: brightness(1.18); }
+}
+
 @media (max-width: 767px) {
   body.jp-site .container {
     width: min(100% - 20px, 1280px) !important;
@@ -1608,7 +1976,9 @@ body.jp-site .lecture-section {
   .seal-grid,
   .yokai-grid,
   .achievement-home-card,
-  .admin-achievement-grid {
+  .admin-achievement-grid,
+  .jp-learning-dashboard,
+  .jp-dashboard-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1631,6 +2001,10 @@ body.jp-site .lecture-section {
     width: 72px;
     height: 72px;
   }
+
+  .jp-scroll-progress {
+    bottom: 74px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1080px) {
@@ -1640,8 +2014,13 @@ body.jp-site .lecture-section {
   .omamori-grid,
   .seal-grid,
   .yokai-grid,
-  .admin-achievement-grid {
+  .admin-achievement-grid,
+  .jp-learning-dashboard {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .jp-dashboard-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1650,6 +2029,10 @@ body.jp-site .lecture-section {
   .jp-ambience span,
   .jp-reveal,
   .jp-ink-ripple,
+  .is-paper-opening,
+  .jp-ai-status-dot,
+  .radar-fill,
+  .jp-achievement-toast,
   .achievement-trophy,
   .achievement-trophy-shine,
   .jp-question-transition,

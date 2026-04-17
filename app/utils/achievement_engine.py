@@ -392,8 +392,18 @@ def build_admin_achievement_payload():
         ],
         "admin_actions": [
             {"title": "題庫健康檢查", "detail": "檢查缺圖、缺答案、缺詳解與疑似重複題。", "icon": "fa-heart-pulse"},
+            {"title": "題目審核系統", "detail": "問題題目先進待審，不直接上架到正式刷題流程。", "icon": "fa-clipboard-check"},
             {"title": "AI 使用量監控", "detail": "查看 API key 狀態、錯誤率與慢回覆風險。", "icon": "fa-gauge-high"},
+            {"title": "AI 三層回答架構", "detail": "固定規則、RAG 查資料、模型生成分層處理，減少要回不回。", "icon": "fa-layer-group"},
+            {"title": "RAG 與來源標記", "detail": "AI 回答前先查講義、題庫與詳解，並標示參考來源。", "icon": "fa-database"},
+            {"title": "任務佇列", "detail": "大量 OCR、詳解生成與圖片修復改成背景任務，不卡住網站。", "icon": "fa-list-check"},
+            {"title": "AI 快取與降級", "detail": "同題詳解不重複燒 API，主模型失敗時改走備援模板。", "icon": "fa-rotate"},
+            {"title": "公告管理", "detail": "發布首頁公告、維護通知與課程公告。", "icon": "fa-bullhorn"},
+            {"title": "講義管理", "detail": "依科目、章節、小節上架講義，並連動同章節刷題。", "icon": "fa-book-open"},
+            {"title": "模擬考管理", "detail": "設定題數、時間、科目、開放期間與交卷規則。", "icon": "fa-file-pen"},
+            {"title": "錯題分析總覽", "detail": "查看全站最常錯題、最弱章節與需要補強的題型。", "icon": "fa-chart-simple"},
             {"title": "活動管理", "detail": "建立限時任務、班級挑戰與排行榜。", "icon": "fa-calendar-days"},
+            {"title": "角色氣泡設定", "detail": "管理員金色、一般用戶藍色、訪客紅色，只用在歡迎語。", "icon": "fa-comments"},
             {"title": "備份還原", "detail": "題庫與模板正式刪改前先保留可回復版本。", "icon": "fa-box-archive"},
         ],
     }
