@@ -76,14 +76,15 @@ function initThreeRedesign() {
   setupTiltCards();
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const webglReady = !reduceMotion && canRunWebGL();
+  const webglReady = canRunWebGL();
   if (!webglReady) {
     document.body.classList.add('three-webgl-fallback');
     return;
   }
+  if (reduceMotion) document.body.classList.add('three-reduced-motion');
 
   try {
-    const localStages = initLocalThreeStages();
+    const localStages = initLocalThreeStages({ reducedMotion: reduceMotion });
     window.__threeLocalStages = localStages;
   } catch (error) {
     console.error('[three-vfx] Local Three.js scenes failed.', error);
@@ -91,7 +92,7 @@ function initThreeRedesign() {
 
   const stage = document.querySelector('[data-three-stage]');
   const canvas = document.querySelector('[data-three-canvas]');
-  if (!stage || !canvas) {
+  if (!stage || !canvas || reduceMotion) {
     if (!window.__threeLocalStages?.length) document.body.classList.add('three-webgl-fallback');
     return;
   }
