@@ -39,6 +39,10 @@ def debug_ai_reply():
         import traceback
         return "ERROR:\n" + traceback.format_exc(), 500
 
+@main.route("/three-demo")
+def three_demo():
+    return render_template("three_demo.html")
+
 @main.before_app_request
 def before_request():
     from app import db

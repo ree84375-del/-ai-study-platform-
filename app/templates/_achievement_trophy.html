@@ -1,7 +1,7 @@
 {% set trophy = trophy_card if trophy_card is defined else card %}
 {% set rarity = trophy.rarity if trophy.rarity is defined else 'common' %}
 {% set rarity_label = trophy.rarity_label if trophy.rarity_label is defined else '普通' %}
-<div class="ssr-trophy-stage"
+<div class="ssr-trophy-stage" data-three-local="trophy"
      data-vfx="sparks"
      data-vfx-sparks="18"
      data-vfx-interval="6800"
@@ -9,6 +9,7 @@
      data-three-click-burst
      data-rarity="{{ rarity }}"
      style="--trophy-stage-size: {{ trophy_stage_size|default('220px') }}; --trophy-size: {{ trophy_size|default('126px') }};">
+    <canvas class="three-local-canvas three-trophy-canvas" data-three-local-canvas></canvas>
     <span class="three-webgl-badge"><i class="fa-solid fa-cube"></i> Three.js PBR Trophy</span>
     <span class="ssr-trophy-aura"></span>
     <span class="ssr-trophy-orbit"></span>

@@ -5,6 +5,39 @@
 <div class="container" style="max-width: 1180px; margin: 0 auto; padding: 2rem 1rem;">
     <div class="three-page-signal" data-three-scene="home"></div>
 
+    {% if not current_user.is_authenticated %}
+    <section class="home-command-center" data-vfx="petals" data-vfx-petals="8" data-vfx-interval="12000">
+        <div class="home-command-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="8" data-vfx-interval="10000" data-vfx-reveal>
+            <div class="home-command-copy">
+                <span class="home-kicker"><i class="fa-solid fa-cube"></i> WebGL 3D 學習主城</span>
+                <h1>真正會動的 3D 學習平台。</h1>
+                <p>
+                    這裡不是 CSS 卡片假裝 3D。首頁直接載入 Three.js / WebGL 場景：
+                    能量核心會旋轉、漂浮、發光，滑鼠拖曳與點擊都會觸發反應。
+                </p>
+                <div class="home-command-actions">
+                    <a class="home-primary-action" data-three-click-burst href="{{ url_for('auth.register') }}">
+                        <i class="fa-solid fa-arrow-right-long"></i>
+                        立即開始
+                    </a>
+                    <a class="home-secondary-action" data-three-click-burst href="{{ url_for('main.three_demo') }}">
+                        <i class="fa-solid fa-cube"></i>
+                        查看 3D Demo
+                    </a>
+                </div>
+            </div>
+            <div class="home-shrine-orb three-hero-3d-stage" data-three-local="home" data-three-click-burst data-three-reveal aria-label="3D 學習主城">
+                <canvas class="three-local-canvas" data-three-local-canvas></canvas>
+                <div class="three-local-caption">
+                    <strong>3D 學習主城</strong>
+                    <span>拖曳旋轉、滑鼠視差、點擊爆發能量粒子</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if not current_user.is_authenticated %}
     <!-- Announcements -->
     {% if announcements %}
     <div style="margin-bottom: 3rem;">
@@ -32,6 +65,8 @@
     </div>
     {% endif %}
 
+    {% endif %}
+
     {% if current_user.is_authenticated %}
 
     <section class="home-command-center" data-vfx="petals" data-vfx-petals="8" data-vfx-interval="12000">
@@ -54,9 +89,12 @@
                     </a>
                 </div>
             </div>
-            <div class="home-shrine-orb three-hero-3d-placeholder" aria-hidden="true" data-three-reveal>
-                <strong>?</strong>
-                <span>WEBGL 3D ??</span>
+            <div class="home-shrine-orb three-hero-3d-stage" data-three-local="home" data-three-click-burst data-three-reveal aria-label="3D 學習主城">
+                <canvas class="three-local-canvas" data-three-local-canvas></canvas>
+                <div class="three-local-caption">
+                    <strong>3D 學習主城</strong>
+                    <span>拖曳旋轉、滑鼠視差、點擊爆發能量粒子</span>
+                </div>
             </div>
         </div>
 
@@ -106,6 +144,33 @@
         </div>
     </section>
     
+    <!-- Announcements -->
+    {% if announcements %}
+    <div style="margin-bottom: 3rem;">
+        <h3 class="section-title">
+            <i class="fa-solid fa-scroll"></i> {{ _t('news_board') }}
+        </h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            {% for a in announcements %}
+            <div class="washi-card" style="padding: 1.2rem; border-left: 4px solid var(--color-primary);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                    <h4 style="margin: 0; color: var(--color-text_main); font-size: 1.1rem;">
+                        {% if a.is_ai_generated %}
+                        <i class="fa-solid fa-wand-magic-sparkles" title="{{ _t('ai_organized') }}" style="color: var(--color-primary); margin-right: 5px;"></i>
+                        {% endif %}
+                        {{ a.title }}
+                    </h4>
+                    <span style="font-size: 0.8rem; color: var(--color-text_light);">
+                        {{ a.created_at.strftime('%Y-%m-%d') }}
+                    </span>
+                </div>
+                <div style="color: var(--color-text); font-size: 0.95rem; line-height: 1.5; white-space: pre-wrap;">{{ a.content }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Countdown Card -->
     <div class="washi-card" style="padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(253, 242, 242, 0.7) 100%); border-left: 5px solid var(--color-accent);">
         <div>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Three.js WebGL 3D Demo{% endblock %}
+{% block body_class %}three-demo-page{% endblock %}
+{% block content %}
+<div data-three-scene="home" class="three-demo-shell">
+    <section class="three-demo-stage" data-three-local="home" data-three-click-burst data-three-reveal aria-label="Three.js WebGL 3D demo">
+        <canvas class="three-local-canvas" data-three-local-canvas></canvas>
+        <div class="three-local-caption">
+            <strong>真正 Three.js / WebGL 3D Demo</strong>
+            <span>拖曳旋轉、滑鼠視差、點擊爆發粒子；場景使用 PerspectiveCamera、PBR、Lights、Shadow、Bloom。</span>
+        </div>
+    </section>
+
+    <aside class="three-demo-panel" data-three-reveal>
+        <span class="three-webgl-badge"><i class="fa-solid fa-cube"></i> Real WebGL Scene</span>
+        <h1>3D 先完成，再整合網站。</h1>
+        <p>此頁是最小可運行驗收版：中間不是圖片、不是 div、不是 CSS transform，是正在運算的 Three.js 場景。</p>
+        <ul>
+            <li>Scene / PerspectiveCamera / WebGLRenderer</li>
+            <li>Mesh geometry + PBR metallic / roughness material</li>
+            <li>HDR-like RoomEnvironment, lights, shadow</li>
+            <li>rotation / floating / shader time animation loop</li>
+            <li>particle system, emission/glow, bloom, color grading</li>
+            <li>mouse drag, parallax, click burst interaction</li>
+        </ul>
+    </aside>
+</div>
+{% endblock %}

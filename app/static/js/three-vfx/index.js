@@ -1,7 +1,8 @@
-﻿import { ThreeVfxRuntime, canRunWebGL } from './core.js';
+import { ThreeVfxRuntime, canRunWebGL } from './core.js';
 import { createHomeScene } from './scenes/home-scene.js';
 import { createAchievementScene } from './scenes/achievement-scene.js';
 import { createPracticeScene } from './scenes/practice-scene.js';
+import { initLocalThreeStages } from './local-scenes.js';
 
 const sceneFactories = {
   home: createHomeScene,
@@ -75,10 +76,23 @@ function initThreeRedesign() {
   setupTiltCards();
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const webglReady = !reduceMotion && canRunWebGL();
+  if (!webglReady) {
+    document.body.classList.add('three-webgl-fallback');
+    return;
+  }
+
+  try {
+    const localStages = initLocalThreeStages();
+    window.__threeLocalStages = localStages;
+  } catch (error) {
+    console.error('[three-vfx] Local Three.js scenes failed.', error);
+  }
+
   const stage = document.querySelector('[data-three-stage]');
   const canvas = document.querySelector('[data-three-canvas]');
-  if (reduceMotion || !stage || !canvas || !canRunWebGL()) {
-    document.body.classList.add('three-webgl-fallback');
+  if (!stage || !canvas) {
+    if (!window.__threeLocalStages?.length) document.body.classList.add('three-webgl-fallback');
     return;
   }
 
