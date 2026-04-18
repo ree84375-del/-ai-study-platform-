@@ -98,7 +98,7 @@ class LocalStage {
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     // VFX: real post-processing bloom + color grading on the WebGL output.
-    this.composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), this.kind === 'trophy' ? 1.05 : (this.kind === 'home' ? 0.46 : 0.68), 0.72, this.kind === 'home' ? 0.54 : 0.38));
+    this.composer.addPass(new UnrealBloomPass(new THREE.Vector2(1, 1), this.kind === 'trophy' ? 1.05 : (this.kind === 'home' ? 0.38 : 0.68), 0.72, this.kind === 'home' ? 0.54 : 0.38));
     this.composer.addPass(new ShaderPass(ColorGradeShader));
 
     this.resizeObserver = new ResizeObserver(() => this.resize());
@@ -310,8 +310,10 @@ class LocalStage {
 
   // VFX: click-triggered particle burst in real 3D space.
   spawnBurst() {
-    const color = this.kind === 'practice' ? 0x67d8ff : 0xffd66b;
-    const burst = createBurst({ count: this.isMobile ? 82 : (this.kind === 'trophy' ? 220 : 150), color, size: 0.08, origin: new THREE.Vector3(0, -0.05, 0.45) });
+    const color = this.kind === 'practice' ? 0x67d8ff : (this.kind === 'home' ? 0xc69b62 : 0xffd66b);
+    const count = this.isMobile ? 72 : (this.kind === 'trophy' ? 190 : (this.kind === 'home' ? 95 : 130));
+    const size = this.kind === 'home' ? 0.052 : 0.074;
+    const burst = createBurst({ count, color, size, origin: new THREE.Vector3(0, -0.05, 0.45) });
     this.scene.add(burst);
     this.bursts.push(burst);
   }
