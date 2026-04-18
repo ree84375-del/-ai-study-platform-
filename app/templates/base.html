@@ -103,9 +103,18 @@
     </style>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/japanese-ui.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/japanese-vfx.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/three-redesign.css') }}">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
 </head>
 
-<body class="jp-site">
+<body class="jp-site {% block body_class %}{% endblock %}">
     <!-- Antigravity Premium Preloader -->
     <div id="antigravity-preloader">
         <div style="position: relative; display: flex; align-items: center; justify-content: center;">
@@ -116,6 +125,7 @@
         </div>
         <div class="loader-text">ANTIGRAVITY CORE INITIALIZING</div>
     </div>
+    {% include "_three_stage.html" %}
     <div class="leaf-decorator leaf-top-left desktop-only">櫻</div>
     <div class="leaf-decorator leaf-bottom-right desktop-only">櫻</div>
     <div class="moon-decorator desktop-only">月</div>
@@ -253,6 +263,7 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/japanese-ui.js') }}"></script>
     <script src="{{ url_for('static', filename='js/japanese-vfx.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/three-vfx/index.js') }}"></script>
     <script>
         // Dynamic Room Name and Icon Update
         function updateNavbarRoomName() {

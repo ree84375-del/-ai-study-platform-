@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}模擬考{% endblock %}
+{% block body_class %}three-redesign-page three-scene-practice{% endblock %}
 {% block content %}
 <style>
   .mockroom {
@@ -293,6 +294,7 @@
   }
 </style>
 
+<div class="three-page-signal" data-three-scene="practice"></div>
 <div class="mockroom" data-vfx="petals" data-vfx-petals="5" data-vfx-interval="13000">
   <section class="mockroom-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="8" data-vfx-interval="10000" data-vfx-reveal>
     <span class="mockroom-badge"><i class="fa-solid fa-file-signature"></i> 弱點模擬考</span>
@@ -394,7 +396,7 @@
         {% endif %}
         <div class="mockroom-question-list">
           {% for label, text in [('A', mistake.question.option_a), ('B', mistake.question.option_b), ('C', mistake.question.option_c), ('D', mistake.question.option_d)] %}
-          <label class="mockroom-option">
+          <label class="mockroom-option" data-three-click-burst>
             <input type="radio" name="q_{{ mistake.question.id }}" value="{{ label }}">
             <span class="mockroom-letter">{{ label }}</span>
             <span>{{ text or '' }}</span>

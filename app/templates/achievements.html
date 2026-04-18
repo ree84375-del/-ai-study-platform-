@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ title }}{% endblock %}
+{% block body_class %}three-redesign-page three-scene-achievement{% endblock %}
 
 {% block content %}
 <div class="achievement-stage" data-vfx="petals" data-vfx-petals="9" data-vfx-interval="11000">
+    <div class="three-page-signal" data-three-scene="achievement"></div>
     <section class="achievement-hero shrine-hero">
         <div class="achievement-hero-copy">
             <span class="achievement-badge"><i class="fa-solid fa-torii-gate"></i> 學習神社</span>
@@ -58,9 +60,11 @@
                 <span>普通</span><span>稀有</span><span>史詩</span><span>傳說</span><span>SSR</span>
             </div>
         </div>
-        {% set trophy_stage_size = '280px' %}
-        {% set trophy_size = '150px' %}
-        {% include "_achievement_trophy.html" %}
+        <div class="three-trophy-mount" data-three-click-burst data-three-reveal>
+            {% set trophy_stage_size = '280px' %}
+            {% set trophy_size = '150px' %}
+            {% include "_achievement_trophy.html" %}
+        </div>
     </section>
 
     <section class="achievement-shrine-grid">

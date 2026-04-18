@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block title %}開始刷題{% endblock %}
+{% block body_class %}three-redesign-page three-scene-practice{% endblock %}
 {% block content %}
 {% set cap_subject_count = entry_payload.cap.subjects | length %}
 
 <div class="practice-gate" data-practice-gate data-vfx="petals" data-vfx-petals="7" data-vfx-interval="12000">
+  <div class="three-page-signal" data-three-scene="practice"></div>
   <section class="practice-gate-hero jp-vfx-scene" data-vfx="sparks" data-vfx-sparks="9" data-vfx-interval="10000" data-vfx-reveal>
     <div class="practice-gate-copy">
       <span class="home-kicker"><i class="fa-solid fa-map-location-dot"></i> 刷題主城</span>
@@ -14,6 +16,7 @@
         下一頁才展開細節。
       </p>
     </div>
+    <div class="three-practice-mount" data-three-click-burst data-three-reveal aria-hidden="true"></div>
     <div class="practice-gate-stats">
       <article>
         <span>會考題庫</span>
@@ -49,7 +52,7 @@
 
   <section class="practice-gate-layout" data-vfx-reveal>
     <div class="practice-lane-grid" aria-label="刷題入口選擇">
-      <button type="button" class="practice-lane-card is-active" data-lane="cap">
+      <button type="button" class="practice-lane-card is-active" data-three-click-burst data-lane="cap">
         <span class="practice-lane-icon"><i class="fa-solid fa-graduation-cap"></i></span>
         <small>年份與科目</small>
         <strong>會考歷屆練習</strong>
@@ -57,7 +60,7 @@
         <em>{{ cap_material_count }} 題</em>
       </button>
 
-      <button type="button" class="practice-lane-card" data-lane="mock">
+      <button type="button" class="practice-lane-card" data-three-click-burst data-lane="mock">
         <span class="practice-lane-icon"><i class="fa-solid fa-file-pen"></i></span>
         <small>弱點集合</small>
         <strong>弱點模擬考</strong>
@@ -65,7 +68,7 @@
         <em>{{ exam_due_count }} 題到期</em>
       </button>
 
-      <button type="button" class="practice-lane-card" data-lane="mistakes">
+      <button type="button" class="practice-lane-card" data-three-click-burst data-lane="mistakes">
         <span class="practice-lane-icon"><i class="fa-solid fa-book-journal-whills"></i></span>
         <small>妖怪圖鑑</small>
         <strong>錯題本</strong>
@@ -73,7 +76,7 @@
         <em>{{ exam_unresolved_count }} 題未解</em>
       </button>
 
-      <button type="button" class="practice-lane-card" data-lane="guides">
+      <button type="button" class="practice-lane-card" data-three-click-burst data-lane="guides">
         <span class="practice-lane-icon"><i class="fa-solid fa-book-open-reader"></i></span>
         <small>章節書架</small>
         <strong>AI 學習講義</strong>

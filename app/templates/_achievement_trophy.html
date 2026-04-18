@@ -1,8 +1,15 @@
-
 {% set trophy = trophy_card if trophy_card is defined else card %}
 {% set rarity = trophy.rarity if trophy.rarity is defined else 'common' %}
-{% set rarity_label = trophy.rarity_label if trophy.rarity_label is defined else '成就' %}
-<div class="ssr-trophy-stage" data-vfx="sparks" data-vfx-sparks="10" data-vfx-interval="9000" data-trophy-burst="{{ 'auto' if trophy.unlocked else 'hover' }}" style="--trophy-stage-size: {{ trophy_stage_size|default('220px') }}; --trophy-size: {{ trophy_size|default('126px') }};">
+{% set rarity_label = trophy.rarity_label if trophy.rarity_label is defined else '普通' %}
+<div class="ssr-trophy-stage"
+     data-vfx="sparks"
+     data-vfx-sparks="18"
+     data-vfx-interval="6800"
+     data-trophy-burst="{{ 'auto' if trophy.unlocked else 'hover' }}"
+     data-three-click-burst
+     data-rarity="{{ rarity }}"
+     style="--trophy-stage-size: {{ trophy_stage_size|default('220px') }}; --trophy-size: {{ trophy_size|default('126px') }};">
+    <span class="three-webgl-badge"><i class="fa-solid fa-cube"></i> Three.js PBR Trophy</span>
     <span class="ssr-trophy-aura"></span>
     <span class="ssr-trophy-orbit"></span>
     <div class="ssr-trophy" data-rarity="{{ rarity }}" aria-hidden="true">
@@ -12,7 +19,7 @@
         <span class="ssr-trophy-stem"></span>
         <span class="ssr-trophy-base"></span>
     </div>
-    <span class="ssr-trophy-stamp">{{ '極' if rarity in ['ssr', 'legendary'] else '賞' }}</span>
+    <span class="ssr-trophy-stamp">{{ 'SSR' if rarity in ['ssr', 'legendary'] else '朱印' }}</span>
     <div class="ssr-trophy-label">
         <span>{{ trophy.title if trophy.title is defined else '成就獎盃' }}</span>
         <small>{{ rarity_label }}</small>

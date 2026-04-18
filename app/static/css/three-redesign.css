@@ -1,0 +1,712 @@
+﻿/* Three.js full redesign layer: Neo Japanese x futuristic sci-fi. */
+:root {
+  --three-bg-a: #050814;
+  --three-bg-b: #0b1228;
+  --three-panel: rgba(9, 14, 30, 0.66);
+  --three-panel-strong: rgba(9, 14, 30, 0.82);
+  --three-border: rgba(143, 219, 255, 0.22);
+  --three-gold: #ffd66b;
+  --three-cyan: #67d8ff;
+  --three-violet: #b088ff;
+  --three-sakura: #ff8eb3;
+  --three-red: #e14d3d;
+  --three-text: #f6fbff;
+  --three-muted: rgba(232, 242, 255, 0.72);
+  --three-shadow: 0 28px 90px rgba(0, 0, 0, 0.36);
+}
+
+body.three-redesign-page {
+  color: var(--three-text);
+  background:
+    radial-gradient(circle at 72% 16%, rgba(103, 216, 255, 0.16), transparent 32%),
+    radial-gradient(circle at 22% 26%, rgba(255, 142, 179, 0.11), transparent 28%),
+    linear-gradient(135deg, var(--three-bg-a), var(--three-bg-b) 56%, #120b1f);
+  overflow-x: hidden;
+}
+
+body.three-redesign-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 12%, black 0, transparent 82%);
+}
+
+.three-redesign-page .navbar,
+.three-redesign-page main.container,
+.three-redesign-page footer,
+.three-redesign-page .mobile-bottom-nav,
+.three-redesign-page .mobile-nav {
+  position: relative;
+  z-index: 3;
+}
+
+.three-redesign-page .navbar {
+  background: rgba(6, 10, 22, 0.78) !important;
+  border: 1px solid rgba(143, 219, 255, 0.14) !important;
+  box-shadow: 0 16px 42px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  backdrop-filter: blur(18px) saturate(1.2);
+}
+
+.three-redesign-page .navbar a,
+.three-redesign-page .navbar .nav-link,
+.three-redesign-page .brand {
+  color: rgba(244, 250, 255, 0.92) !important;
+}
+
+.three-redesign-page main.container {
+  width: min(1180px, calc(100% - 2rem));
+  max-width: 1180px !important;
+}
+
+.three-redesign-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+body.three-redesign-page .three-redesign-stage {
+  opacity: 1;
+}
+
+.three-redesign-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+body.three-webgl-ready .three-redesign-canvas {
+  opacity: 1;
+}
+
+.three-redesign-fallback {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 400ms ease;
+}
+
+body.three-webgl-ready .three-redesign-fallback {
+  opacity: 0;
+}
+
+.three-fallback-orb,
+.three-fallback-ring,
+.three-fallback-line {
+  position: absolute;
+  pointer-events: none;
+}
+
+.three-fallback-orb {
+  right: 8vw;
+  top: 14vh;
+  width: min(460px, 44vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(103,216,255,.34), rgba(255,214,107,.12) 42%, transparent 68%);
+  filter: blur(4px);
+  animation: threeFallbackFloat 7s ease-in-out infinite;
+}
+
+.three-fallback-ring {
+  right: 13vw;
+  top: 22vh;
+  width: min(340px, 34vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(255,214,107,.38);
+  box-shadow: 0 0 34px rgba(255,214,107,.18);
+  animation: threeFallbackSpin 16s linear infinite;
+}
+
+.three-fallback-line {
+  width: 46vw;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(103,216,255,.65), rgba(255,214,107,.78), transparent);
+  box-shadow: 0 0 18px rgba(103,216,255,.25);
+  animation: threeFallbackSweep 5.8s ease-in-out infinite;
+}
+.three-fallback-line-a { left: -10vw; top: 34vh; transform: rotate(-11deg); }
+.three-fallback-line-b { right: -12vw; bottom: 22vh; transform: rotate(10deg); animation-delay: -2.8s; }
+
+.three-page-signal { display: none !important; }
+
+.three-redesign-page .washi-card,
+.three-redesign-page .glass-panel,
+.three-redesign-page .home-command-hero,
+.three-redesign-page .achievement-home-card,
+.three-redesign-page .practice-lane-card,
+.three-redesign-page .achievement-card,
+.three-redesign-page .question-staging-panel {
+  background: linear-gradient(135deg, rgba(12, 18, 38, 0.74), rgba(13, 18, 38, 0.54)) !important;
+  border: 1px solid var(--three-border) !important;
+  box-shadow: var(--three-shadow), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  backdrop-filter: blur(18px) saturate(1.18);
+  color: var(--three-text) !important;
+}
+
+.three-redesign-page .washi-card h1,
+.three-redesign-page .washi-card h2,
+.three-redesign-page .washi-card h3,
+.three-redesign-page .washi-card h4,
+.three-redesign-page .home-command-hero h1,
+.three-redesign-page .achievement-card h3,
+.three-redesign-page .section-title {
+  color: var(--three-text) !important;
+  text-shadow: 0 0 24px rgba(103,216,255,0.12);
+}
+
+.three-redesign-page p,
+.three-redesign-page small,
+.three-redesign-page .washi-card div,
+.three-redesign-page .home-command-hero p {
+  color: var(--three-muted);
+}
+
+.three-scene-home .home-command-center {
+  display: grid;
+  gap: 1.15rem;
+  margin: 2rem 0 3rem;
+}
+
+.three-scene-home .home-command-hero {
+  min-height: clamp(540px, 66vh, 760px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 0.8fr);
+  align-items: center;
+  gap: 2rem;
+  padding: clamp(1.4rem, 4vw, 4rem) !important;
+  overflow: hidden;
+  border-radius: 34px !important;
+}
+
+.three-scene-home .home-command-hero::before {
+  content: "";
+  position: absolute;
+  inset: -20% -12% auto auto;
+  width: min(620px, 52vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,214,107,.32), transparent 62%);
+  filter: blur(8px);
+  animation: threeGlowPulse 5s ease-in-out infinite;
+}
+
+.three-scene-home .home-command-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+}
+
+.three-scene-home .home-command-copy h1 {
+  font-size: clamp(3.2rem, 8vw, 6.9rem) !important;
+  line-height: .92;
+  letter-spacing: -0.075em;
+  margin: .8rem 0 1.2rem;
+  background: linear-gradient(100deg, #fff, #eaf8ff 35%, #ffd66b 72%, #ff8eb3);
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+.three-scene-home .home-kicker,
+.three-redesign-kicker,
+.three-scene-achievement .achievement-section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .52rem .86rem;
+  border-radius: 999px;
+  background: rgba(103,216,255,.10);
+  border: 1px solid rgba(103,216,255,.26);
+  color: #dff8ff !important;
+  box-shadow: 0 0 24px rgba(103,216,255,.12);
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+.three-scene-home .home-primary-action,
+.three-scene-home .home-secondary-action,
+.three-redesign-page .achievement-primary,
+.three-redesign-page .btn {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(103,216,255,.22) !important;
+  box-shadow: 0 12px 34px rgba(0,0,0,.22), 0 0 24px rgba(103,216,255,.12) !important;
+  transform: translateZ(0);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.three-scene-home .home-primary-action::after,
+.three-scene-home .home-secondary-action::after,
+.three-redesign-page .achievement-primary::after,
+.three-redesign-page .btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.34), transparent);
+  transition: transform .6s ease;
+}
+
+.three-scene-home .home-primary-action:hover,
+.three-scene-home .home-secondary-action:hover,
+.three-redesign-page .achievement-primary:hover,
+.three-redesign-page .btn:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,214,107,.45) !important;
+  box-shadow: 0 18px 42px rgba(0,0,0,.30), 0 0 36px rgba(255,214,107,.18) !important;
+}
+
+.three-scene-home .home-primary-action:hover::after,
+.three-scene-home .home-secondary-action:hover::after,
+.three-redesign-page .achievement-primary:hover::after,
+.three-redesign-page .btn:hover::after {
+  transform: translateX(120%) skewX(-18deg);
+}
+
+.three-scene-home .home-shrine-orb,
+.three-hero-3d-placeholder {
+  position: relative;
+  z-index: 2;
+  min-height: 380px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255,214,107,.30) !important;
+  background: radial-gradient(circle, rgba(103,216,255,.08), rgba(255,214,107,.08) 46%, transparent 70%) !important;
+  box-shadow: inset 0 0 60px rgba(103,216,255,.08), 0 0 70px rgba(255,214,107,.12);
+}
+
+.three-hero-3d-placeholder strong {
+  font-family: "Kaisei Tokumin", serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  color: #f9fcff;
+  text-shadow: 0 0 32px rgba(103,216,255,.42), 0 0 72px rgba(255,214,107,.24);
+  animation: threeFloatText 3.5s ease-in-out infinite;
+}
+
+.three-hero-3d-placeholder span {
+  position: absolute;
+  bottom: 23%;
+  color: var(--three-gold);
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.three-scene-home .home-action-grid,
+.three-scene-home .home-mission-strip,
+.three-scene-practice .practice-next-strip,
+.three-scene-achievement .achievement-trophy-cabinet {
+  position: relative;
+  z-index: 3;
+}
+
+.three-redesign-page .home-action-card,
+.three-redesign-page .practice-lane-card,
+.three-redesign-page .achievement-card {
+  transform-style: preserve-3d;
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+}
+
+.three-redesign-page .home-action-card:hover,
+.three-redesign-page .practice-lane-card:hover,
+.three-redesign-page .achievement-card:hover {
+  transform: translateY(-7px) rotateX(3deg) rotateY(-3deg);
+  border-color: rgba(255,214,107,.36) !important;
+  box-shadow: 0 22px 62px rgba(0,0,0,.32), 0 0 34px rgba(103,216,255,.15) !important;
+}
+
+.three-scene-achievement .achievement-hero,
+.three-scene-achievement .achievement-page-hero,
+.three-scene-practice .practice-hero,
+.three-scene-practice .practice-entry-hero {
+  position: relative;
+  min-height: 460px;
+  overflow: hidden;
+  border-radius: 34px;
+}
+
+.three-trophy-mount,
+.three-practice-mount {
+  position: relative;
+  min-height: 420px;
+  border-radius: 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255,214,107,.20), transparent 36%),
+    linear-gradient(135deg, rgba(10, 13, 30, .82), rgba(28, 17, 36, .68));
+  border: 1px solid rgba(255,214,107,.24);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 72px rgba(0,0,0,.34);
+}
+
+.three-trophy-mount::before,
+.three-practice-mount::before {
+  content: "3D WEBGL";
+  position: absolute;
+  right: 1.1rem;
+  top: 1rem;
+  color: rgba(255,214,107,.78);
+  font-weight: 900;
+  letter-spacing: .16em;
+  font-size: .74rem;
+}
+
+.three-trophy-mount::after,
+.three-practice-mount::after {
+  content: "拖曳旋轉 / 點擊觸發特效";
+  position: absolute;
+  left: 1.1rem;
+  bottom: 1rem;
+  color: var(--three-muted);
+  font-weight: 700;
+  letter-spacing: .05em;
+  font-size: .82rem;
+}
+
+.three-redesign-page .ssr-trophy-stage {
+  min-height: 300px !important;
+  border: 1px solid rgba(255,214,107,.28) !important;
+  box-shadow: 0 22px 70px rgba(0,0,0,.28), inset 0 0 62px rgba(255,214,107,.10) !important;
+}
+
+.three-webgl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .55rem .8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,214,107,.26);
+  background: rgba(255,214,107,.10);
+  color: #fff2bd;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+[data-three-click-burst] {
+  cursor: pointer;
+}
+
+.three-scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px) scale(.985);
+  filter: blur(5px);
+  transition: opacity .7s ease, transform .7s ease, filter .7s ease;
+}
+
+.three-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.three-ink-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,214,107,.22), rgba(8,10,18,.88) 26%, transparent 58%);
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity .32s ease, transform .55s ease;
+}
+
+.three-ink-transition.is-active {
+  opacity: 1;
+  transform: scale(1.12);
+}
+
+@keyframes threeFallbackFloat {
+  0%, 100% { transform: translateY(0) scale(.96); opacity: .62; }
+  50% { transform: translateY(-18px) scale(1.04); opacity: .92; }
+}
+
+@keyframes threeFallbackSpin { to { transform: rotate(360deg); } }
+
+@keyframes threeFallbackSweep {
+  0%, 20% { opacity: 0; translate: -18vw 0; }
+  42% { opacity: .9; }
+  78%, 100% { opacity: 0; translate: 44vw 0; }
+}
+
+@keyframes threeGlowPulse {
+  0%, 100% { opacity: .42; transform: scale(.92); }
+  50% { opacity: .9; transform: scale(1.08); }
+}
+
+@keyframes threeFloatText {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(103,216,255,.2)); }
+  50% { transform: translateY(-12px); filter: drop-shadow(0 0 26px rgba(255,214,107,.36)); }
+}
+
+@media (max-width: 900px) {
+  .three-scene-home .home-command-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .three-scene-home .home-shrine-orb,
+  .three-hero-3d-placeholder {
+    min-height: 260px;
+  }
+  .three-trophy-mount,
+  .three-practice-mount {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  body.three-redesign-page main.container {
+    width: min(100% - 1rem, 100%);
+  }
+  .three-redesign-stage {
+    opacity: .82;
+  }
+  .three-scene-home .home-command-copy h1 {
+    font-size: clamp(2.5rem, 16vw, 4rem) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .three-redesign-canvas,
+  .three-redesign-stage {
+    display: none !important;
+  }
+  .three-redesign-page *,
+  .three-redesign-page *::before,
+  .three-redesign-page *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* Page-specific 3D layout refinements. */
+.three-scene-practice .practice-gate-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  align-items: center;
+  gap: 1.4rem;
+  min-height: 520px;
+  padding: clamp(1.3rem, 3vw, 3rem) !important;
+  border-radius: 34px !important;
+  overflow: hidden;
+}
+
+.three-scene-practice .practice-gate-copy,
+.three-scene-practice .practice-gate-stats {
+  position: relative;
+  z-index: 2;
+}
+
+.three-scene-practice .practice-gate-copy h1,
+.three-scene-practice .mockroom-hero h1,
+.three-scene-practice .cap-session-hero h1,
+.three-scene-practice .cap-review-hero h1 {
+  font-size: clamp(2.5rem, 6vw, 5.4rem) !important;
+  line-height: .98;
+  background: linear-gradient(105deg, #ffffff, #dff8ff 46%, #ffd66b 82%);
+  -webkit-background-clip: text;
+  color: transparent !important;
+}
+
+.three-scene-practice .practice-gate-stats {
+  grid-column: 1 / -1;
+}
+
+.three-scene-practice .three-practice-mount {
+  min-height: 330px;
+}
+
+.three-scene-practice .mockroom,
+.three-scene-practice .cap-session-shell,
+.three-scene-practice .cap-review-shell,
+.three-scene-practice .cap-preview-shell,
+.three-scene-practice .cap-stage-shell,
+.three-scene-practice .cap-mode-shell,
+.three-scene-practice .cap-subject-shell,
+.three-scene-practice .practice-gate {
+  position: relative;
+  z-index: 3;
+}
+
+.three-scene-practice .mockroom-panel,
+.three-scene-practice .mockroom-hero,
+.three-scene-practice .cap-session-hero,
+.three-scene-practice .cap-panel,
+.three-scene-practice .cap-review-hero,
+.three-scene-practice .cap-preview-hero,
+.three-scene-practice .cap-preview-panel,
+.three-scene-practice .cap-review-panel,
+.three-scene-practice .cap-stage-shell section,
+.three-scene-practice .cap-stage-shell article,
+.three-scene-practice .cap-mode-shell section,
+.three-scene-practice .cap-mode-shell article,
+.three-scene-practice .cap-subject-shell section,
+.three-scene-practice .cap-subject-shell article,
+.three-scene-practice .practice-choice-panel,
+.three-scene-practice .practice-stepper {
+  background: linear-gradient(135deg, rgba(12,18,38,.78), rgba(14,20,42,.58)) !important;
+  border: 1px solid var(--three-border) !important;
+  color: var(--three-text) !important;
+  box-shadow: var(--three-shadow), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.three-scene-practice .mockroom-card,
+.three-scene-practice .mockroom-chip,
+.three-scene-practice .mockroom-option,
+.three-scene-practice .cap-choice-card,
+.three-scene-practice .cap-chip-btn,
+.three-scene-practice .cap-option,
+.three-scene-practice .cap-sidebar-item {
+  background: rgba(10, 16, 34, .64) !important;
+  border-color: rgba(143,219,255,.22) !important;
+  color: var(--three-text) !important;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.three-scene-practice .cap-mode-card,
+.three-scene-practice .cap-subject-card,
+.three-scene-practice .cap-year-card,
+.three-scene-practice .cap-action-card {
+  background: rgba(10, 16, 34, .64) !important;
+  border-color: rgba(143,219,255,.22) !important;
+  color: var(--three-text) !important;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.three-scene-practice .cap-mode-card:hover,
+.three-scene-practice .cap-subject-card:hover,
+.three-scene-practice .cap-year-card:hover,
+.three-scene-practice .cap-action-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255,214,107,.42) !important;
+  box-shadow: 0 18px 42px rgba(0,0,0,.24), 0 0 24px rgba(103,216,255,.16) !important;
+}
+
+.three-scene-practice .mockroom-option:hover,
+.three-scene-practice .cap-option:hover,
+.three-scene-practice .mockroom-card:hover,
+.three-scene-practice .cap-choice-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,214,107,.42) !important;
+  box-shadow: 0 18px 42px rgba(0,0,0,.24), 0 0 24px rgba(103,216,255,.16) !important;
+}
+
+.three-scene-practice .mockroom-option.is-active,
+.three-scene-practice .cap-option.is-selected,
+.three-scene-practice .mockroom-card.is-active,
+.three-scene-practice .cap-choice-card.is-active {
+  border-color: rgba(255,214,107,.62) !important;
+  box-shadow: 0 0 0 1px rgba(255,214,107,.24), 0 0 30px rgba(255,214,107,.14) !important;
+}
+
+@media (max-width: 900px) {
+  .three-scene-practice .practice-gate-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+}
+
+/* High-specificity readability pass for existing inline/light cards under the 3D redesign. */
+body.three-redesign-page.jp-site .washi-card,
+body.three-redesign-page.jp-site .glass-panel,
+body.three-redesign-page.jp-site .luxury-alert,
+body.three-redesign-page.jp-site .res-grid > *,
+body.three-redesign-page.jp-site [class*="card"]:not(.ssr-trophy-card):not(.achievement-card) {
+  background: linear-gradient(135deg, rgba(10, 16, 34, 0.84), rgba(12, 18, 38, 0.68)) !important;
+  border-color: rgba(143, 219, 255, 0.24) !important;
+  color: var(--three-text) !important;
+  box-shadow: var(--three-shadow), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  backdrop-filter: blur(18px) saturate(1.16);
+}
+
+body.three-redesign-page.jp-site .washi-card *,
+body.three-redesign-page.jp-site .glass-panel *,
+body.three-redesign-page.jp-site .luxury-alert *,
+body.three-redesign-page.jp-site [class*="card"]:not(.ssr-trophy-card):not(.achievement-card) * {
+  color: inherit;
+}
+
+body.three-redesign-page.jp-site .washi-card h1,
+body.three-redesign-page.jp-site .washi-card h2,
+body.three-redesign-page.jp-site .washi-card h3,
+body.three-redesign-page.jp-site .washi-card h4,
+body.three-redesign-page.jp-site .glass-panel h1,
+body.three-redesign-page.jp-site .glass-panel h2,
+body.three-redesign-page.jp-site .glass-panel h3,
+body.three-redesign-page.jp-site .section-title {
+  color: #f8fbff !important;
+}
+
+body.three-redesign-page.jp-site .washi-card p,
+body.three-redesign-page.jp-site .washi-card div,
+body.three-redesign-page.jp-site .washi-card span,
+body.three-redesign-page.jp-site .glass-panel p,
+body.three-redesign-page.jp-site .glass-panel div,
+body.three-redesign-page.jp-site .glass-panel span {
+  color: rgba(236, 245, 255, 0.78) !important;
+}
+
+body.three-redesign-page.jp-site .navbar,
+body.three-redesign-page.jp-site footer {
+  background: rgba(6, 10, 22, 0.82) !important;
+  border-color: rgba(143, 219, 255, 0.18) !important;
+  color: var(--three-text) !important;
+  backdrop-filter: blur(18px) saturate(1.18);
+}
+
+body.three-redesign-page.jp-site footer *,
+body.three-redesign-page.jp-site .navbar * {
+  color: rgba(246, 251, 255, 0.9) !important;
+}
+
+body.three-scene-achievement .achievement-hero h1,
+body.three-scene-achievement .achievement-trophy-copy h2,
+body.three-scene-achievement .achievement-focus h2 {
+  background: linear-gradient(105deg, #ffffff, #dff8ff 45%, #ffd66b 78%, #ff8eb3) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none !important;
+}
+
+body.three-scene-achievement .achievement-hero p,
+body.three-scene-achievement .achievement-trophy-copy p,
+body.three-scene-achievement .achievement-focus p {
+  color: rgba(246, 251, 255, 0.88) !important;
+}
+
+body.three-scene-achievement .achievement-stat,
+body.three-scene-achievement .achievement-rank-card,
+body.three-scene-achievement .achievement-sakura-card,
+body.three-scene-achievement .achievement-event-card,
+body.three-scene-achievement .achievement-focus,
+body.three-scene-achievement .achievement-collection-panel {
+  background: linear-gradient(135deg, rgba(10,16,34,.82), rgba(14,20,42,.62)) !important;
+  border: 1px solid rgba(143,219,255,.22) !important;
+  color: var(--three-text) !important;
+  box-shadow: var(--three-shadow), inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+body.three-scene-achievement .achievement-stat *,
+body.three-scene-achievement .achievement-rank-card *,
+body.three-scene-achievement .achievement-sakura-card *,
+body.three-scene-achievement .achievement-event-card *,
+body.three-scene-achievement .achievement-focus * {
+  color: rgba(246,251,255,.88) !important;
+}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{% if view_state == 'run' %}會考正式練習{% else %}會考練習設定{% endif %}{% endblock %}
+{% block body_class %}three-redesign-page three-scene-practice{% endblock %}
 {% block content %}
 <style>
   .cap-session-shell {
@@ -384,6 +385,7 @@
   }
 </style>
 
+<div class="three-page-signal" data-three-scene="practice"></div>
 <div class="cap-session-shell" data-vfx="petals" data-vfx-petals="4" data-vfx-interval="14000">
   {% if view_state == 'setup' %}
   <section class="cap-session-hero">
@@ -551,7 +553,7 @@
 
           <div class="cap-option-grid">
             {% for option in item.option_items %}
-            <label class="cap-option">
+            <label class="cap-option" data-three-click-burst>
               <input type="radio" name="{{ item.answer_field_name }}" value="{{ option.key }}" {% if option.key == item.correct_answer and false %}checked{% endif %}>
               <div class="cap-option-content">
                 <strong>{{ option.key }}</strong>
